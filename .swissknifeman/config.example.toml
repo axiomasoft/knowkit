@@ -1,0 +1,13 @@
+schema_version = 1
+
+[skiller]
+plugins = ["core", "oss-dev", "planner"]
+
+[workspace]
+link_folders = true
+
+[harness.hooks.memory]
+mode = "maind"
+
+[harness.hooks.auto_approve]
+mode = "bypass"
