@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "architecture-fixture-manifest:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial approved-architecture corpus: separate four immutable axes and model local revoke versus bounded external-owner freshness. Expected digests are computed from these deliberate synthetic UTF-8 bytes, not captured runtime snapshots.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic architecture contract examples; no donor document or provider data.",
+    "redistributionAllowed": false
+  },
+  "entries": [
+    {
+      "id": "core-independent",
+      "path": "tests/contract/architecture/fixtures/v1/core-independent.json",
+      "sha256": "1f2de0d97f067238149021b1f4ac99e0f2737838a9dd9999be5ef01594876622",
+      "schemaId": "architecture-fixture:1",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic architecture contract examples; no donor document or provider data.",
+        "redistributionAllowed": false
+      },
+      "expected": {
+        "outcome": "valid",
+        "scenarioOutcomes": {
+          "independent-core": "valid"
+        }
+      }
+    },
+    {
+      "id": "version-axes",
+      "path": "tests/contract/architecture/fixtures/v1/version-axes.json",
+      "sha256": "a0ce63fb4ce15dbd0b8738a673113436008133bb6d07be88d005a9e6f620d18c",
+      "schemaId": "architecture-fixture:1",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic architecture contract examples; no donor document or provider data.",
+        "redistributionAllowed": false
+      },
+      "expected": {
+        "outcome": "valid",
+        "scenarioOutcomes": {
+          "changed-immutable-bytes": "immutable_conflict"
+        }
+      }
+    },
+    {
+      "id": "lifecycle-window",
+      "path": "tests/contract/architecture/fixtures/v1/lifecycle-window.json",
+      "sha256": "5ea957b5376fe983a46963b892c9738cea6073fd9fc196ffdb109e2edc8cbaed",
+      "schemaId": "architecture-fixture:1",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic architecture contract examples; no donor document or provider data.",
+        "redistributionAllowed": false
+      },
+      "expected": {
+        "outcome": "valid",
+        "scenarioOutcomes": {
+          "local-revoke": "denied",
+          "disclosure-before-revoke": "success",
+          "unseen-source-revoke": "denied",
+          "external-owner-window": "success",
+          "owner-unknown": "unknown",
+          "owner-expired": "unknown",
+          "owner-no-contract": "unknown",
+          "owner-denied": "denied",
+          "uncertain-commit": "unknown",
+          "attempt-replay": "success"
+        }
+      }
+    }
+  ]
+}

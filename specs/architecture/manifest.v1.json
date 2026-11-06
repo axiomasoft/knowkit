@@ -1,0 +1,637 @@
+{
+  "schemaVersion": "knowkit-architecture:1",
+  "version": "1.0.0",
+  "authority": {
+    "decisions": [
+      {
+        "id": "D1",
+        "status": "accepted"
+      },
+      {
+        "id": "D2",
+        "status": "accepted"
+      }
+    ],
+    "blockingDecisions": [],
+    "provenance": "docs/architecture/README.md"
+  },
+  "scope": "Architecture contracts and executable design assertions only; wire schemas P1.4 and runtime qualification are separate.",
+  "packages": {
+    "core": {
+      "path": "packages/core",
+      "name": "knowkit/core",
+      "namespace": "KnowKit\\",
+      "minPhp": "8.3",
+      "dependsOn": [],
+      "externalRuntime": [],
+      "extensions": [
+        "ext-pdo",
+        "ext-json",
+        "ext-mbstring"
+      ],
+      "adapterExtensions": {
+        "Postgres": [
+          "ext-pdo_pgsql"
+        ]
+      }
+    },
+    "answer": {
+      "path": "packages/answer",
+      "name": "knowkit/answer",
+      "namespace": "KnowKit\\Answer\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core"
+      ],
+      "externalRuntime": [
+        "psr/http-client:^1",
+        "psr/http-factory:^1"
+      ]
+    },
+    "pgvector": {
+      "path": "packages/pgvector",
+      "name": "knowkit/pgvector",
+      "namespace": "KnowKit\\PgVector\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core"
+      ],
+      "externalRuntime": []
+    },
+    "http": {
+      "path": "packages/http",
+      "name": "knowkit/http",
+      "namespace": "KnowKit\\Http\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core"
+      ],
+      "externalRuntime": [
+        "PSR-7 interfaces",
+        "PSR-15 interfaces"
+      ]
+    },
+    "laravel": {
+      "path": "packages/laravel",
+      "name": "knowkit/laravel",
+      "namespace": "KnowKit\\Laravel\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core"
+      ],
+      "suggests": [
+        "http",
+        "answer"
+      ],
+      "externalRuntime": [
+        "explicit Laravel host"
+      ]
+    },
+    "chatom": {
+      "path": "packages/chatom",
+      "name": "knowkit/chatom",
+      "namespace": "KnowKit\\Chatom\\",
+      "minPhp": "8.4",
+      "dependsOn": [
+        "core",
+        "answer"
+      ],
+      "externalRuntime": [
+        "explicit Chatom contracts",
+        "Laravel/PHP>=8.4 host"
+      ]
+    },
+    "agentools-bridge": {
+      "path": "packages/agentools-bridge",
+      "name": "knowkit/agentools-bridge",
+      "namespace": "KnowKit\\Bridge\\AgenTools\\",
+      "minPhp": "8.4",
+      "dependsOn": [
+        "core"
+      ],
+      "externalRuntime": [
+        "Agentools core",
+        "Agentools platform-chatom seam"
+      ]
+    }
+  },
+  "coreLayers": {
+    "Domain": [],
+    "Port": [
+      "Domain"
+    ],
+    "Registry": [
+      "Domain",
+      "Port"
+    ],
+    "Application": [
+      "Domain",
+      "Port",
+      "Registry"
+    ],
+    "Adapter": [
+      "Domain",
+      "Port"
+    ]
+  },
+  "coreLayout": [
+    "src/Domain",
+    "src/Application",
+    "src/Port",
+    "src/Registry",
+    "src/Adapter",
+    "migrations/postgres",
+    "bin/knowkit"
+  ],
+  "worker": {
+    "path": "python/knowkit-worker",
+    "dependsOn": [
+      "schemas"
+    ],
+    "transport": "subprocess-staged-files",
+    "milestone": "v0.4",
+    "supervisor": "KnowKit\\Adapter\\ProcessWorker\\ProcessWorkerSupervisor",
+    "authority": "IR result only; independent PHP acceptance"
+  },
+  "artifacts": {
+    "schemas": {
+      "owner": "P1.4",
+      "kind": "wire-schema-contract"
+    }
+  },
+  "milestones": {
+    "v0.1": [
+      "core",
+      "hostScopeHash",
+      "registry",
+      "navigation",
+      "connectors-port"
+    ],
+    "v0.2": [
+      "answer",
+      "edufy-example"
+    ],
+    "v0.3": [
+      "pgvector"
+    ],
+    "v0.4": [
+      "python-worker",
+      "process-worker-supervisor"
+    ],
+    "v0.5": [
+      "http",
+      "laravel",
+      "chatom-direct"
+    ],
+    "v0.6": [
+      "agentools-bridge"
+    ],
+    "v1.0": [
+      "contract-freeze"
+    ]
+  },
+  "operations": [
+    "retrieve",
+    "disclose",
+    "publish",
+    "model_egress_context",
+    "navigate",
+    "catalog_create",
+    "collection_create",
+    "membership_mutate",
+    "source_register",
+    "source_version_add",
+    "ingest",
+    "reprocess",
+    "job_cancel",
+    "lifecycle_correct",
+    "lifecycle_revoke",
+    "lifecycle_delete",
+    "legal_hold_set",
+    "purge_status",
+    "provider_acceptance",
+    "diagnostics"
+  ],
+  "outcomes": [
+    "success",
+    "empty",
+    "denied",
+    "unknown",
+    "unavailable",
+    "incompatible"
+  ],
+  "documents": [
+    "specs/architecture/architecture.md",
+    "docs/architecture/README.md",
+    "docs/architecture/threat-model.md",
+    "docs/architecture/reuse.md",
+    "docs/adr/0001-independent-core-and-delivery.md",
+    "docs/adr/0002-immutable-identity-and-authority.md",
+    "docs/adr/0003-access-publication-and-disclosure.md",
+    "docs/adr/0004-optional-answer-and-host-seams.md"
+  ],
+  "anchors": [
+    {
+      "id": "ARCH-AUTHORITY",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-authority",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-CORE",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-core",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-LAYERS",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-layers",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-PACKAGE-DAG",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-package-dag",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-DELIVERY",
+      "kind": "delivery",
+      "ref": "specs/architecture/architecture.md#arch-delivery",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-MILESTONES",
+      "kind": "delivery",
+      "ref": "specs/architecture/architecture.md#arch-milestones",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-INSTALL",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-install",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-REGISTRY",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-registry",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-PROFILE",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-profile",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-WORKER",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-worker",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-CONNECTORS",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-connectors",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-NAVIGATION",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-navigation",
+      "adr": "docs/adr/0001-independent-core-and-delivery.md"
+    },
+    {
+      "id": "ARCH-TENANT",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-tenant",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-VERSION-SOURCE",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-version-source",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-VERSION-DOCUMENT",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-version-document",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-VERSION-CHUNKSET",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-version-chunkset",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-VERSION-GENERATION",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-version-generation",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-CITATION",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-citation",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-CANONICAL",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-canonical",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-SNAPSHOT",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-snapshot",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-LINEAGE",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-lineage",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-IR",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-ir",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-PROCESSING",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-processing",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-INGESTION-REGISTER",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-ingestion-register",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-INGESTION-VERSION",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-ingestion-version",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-BUILD-GENERATION",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-build-generation",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-SEAL",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-seal",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-PUBLISH",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-publish",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-RETRIEVE",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-retrieve",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-SELECTION",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-selection",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-DISCLOSE",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-disclose",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-DISCLOSURE-COMMIT",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-disclosure-commit",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-DISCLOSURE-REPLAY",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-disclosure-replay",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-SCOPE",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-scope",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-OPERATIONS",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-operations",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-POLICY",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-policy",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-POLICY-EPOCHS",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-policy-epochs",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-EXTERNAL-WINDOW",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-external-window",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-EGRESS",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-egress",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-LOCKS",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-locks",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-TENANT-BARRIER",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-tenant-barrier",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-NO-IO-IN-TX",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-no-io-in-tx",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-LIFECYCLE",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-lifecycle",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-PURGE",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-purge",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-RESTORE",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-restore",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-JOBS",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-jobs",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-OUTBOX",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-outbox",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-CATALOG",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-catalog",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-INGEST-JOBS",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-ingest-jobs",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-READING",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-reading",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-USAGE",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-usage",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-DIAGNOSTICS",
+      "kind": "operation",
+      "ref": "specs/architecture/architecture.md#arch-diagnostics",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-OUTCOMES",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-outcomes",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-RETRIEVAL-INTEGRITY",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-retrieval-integrity",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-BUDGETS",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-budgets",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-MUTATIONS",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-mutations",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-UNTRUSTED",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-untrusted",
+      "adr": "docs/adr/0003-access-publication-and-disclosure.md"
+    },
+    {
+      "id": "ARCH-ANSWER",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-answer",
+      "adr": "docs/adr/0004-optional-answer-and-host-seams.md"
+    },
+    {
+      "id": "ARCH-MODEL-BINDING",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-model-binding",
+      "adr": "docs/adr/0004-optional-answer-and-host-seams.md"
+    },
+    {
+      "id": "ARCH-ANSWER-REPLAY",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-answer-replay",
+      "adr": "docs/adr/0004-optional-answer-and-host-seams.md"
+    },
+    {
+      "id": "ARCH-CHATOM",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-chatom",
+      "adr": "docs/adr/0004-optional-answer-and-host-seams.md"
+    },
+    {
+      "id": "ARCH-ROUTES",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-routes",
+      "adr": "docs/adr/0004-optional-answer-and-host-seams.md"
+    },
+    {
+      "id": "ARCH-BRIDGE",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-bridge",
+      "adr": "docs/adr/0004-optional-answer-and-host-seams.md"
+    },
+    {
+      "id": "ARCH-BRIDGE-USAGE",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-bridge-usage",
+      "adr": "docs/adr/0004-optional-answer-and-host-seams.md"
+    },
+    {
+      "id": "ARCH-EDUFY",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-edufy",
+      "adr": "docs/adr/0004-optional-answer-and-host-seams.md"
+    },
+    {
+      "id": "ARCH-MIGRATION",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-migration",
+      "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    }
+  ],
+  "deferredContracts": [
+    {
+      "owner": "P1.4",
+      "contract": "Detailed immutable DTO/wire schemas, JSON Schema and cross-language hash vectors; architecture anchors here remain normative."
+    }
+  ]
+}

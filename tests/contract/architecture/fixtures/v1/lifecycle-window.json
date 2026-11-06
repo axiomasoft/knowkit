@@ -1,0 +1,289 @@
+{
+  "schemaVersion": "architecture-fixture:1",
+  "modelOnly": true,
+  "description": "Sequential contract model. Does not execute PostgreSQL or establish distributed atomicity.",
+  "lockOrder": [
+    "tenant",
+    "kb",
+    "source",
+    "generation",
+    "job"
+  ],
+  "transactionIsolation": "READ COMMITTED",
+  "traces": [
+    {
+      "id": "local-revoke",
+      "events": [
+        {
+          "action": "owner_check",
+          "at": 0,
+          "decision": "allow",
+          "ownerRevision": "owner-r1",
+          "expiresAt": 5,
+          "maxAge": 5
+        },
+        {
+          "action": "revoke",
+          "at": 1
+        },
+        {
+          "action": "commit_disclosure",
+          "at": 2
+        },
+        {
+          "action": "release",
+          "at": 2
+        }
+      ],
+      "expected": {
+        "outcome": "denied",
+        "textReleased": false,
+        "usageCommitted": false,
+        "externalWindow": false
+      }
+    },
+    {
+      "id": "disclosure-before-revoke",
+      "events": [
+        {
+          "action": "owner_check",
+          "at": 0,
+          "decision": "allow",
+          "ownerRevision": "owner-r1",
+          "expiresAt": 5,
+          "maxAge": 5
+        },
+        {
+          "action": "commit_disclosure",
+          "at": 1
+        },
+        {
+          "action": "revoke",
+          "at": 2
+        },
+        {
+          "action": "release",
+          "at": 3
+        }
+      ],
+      "expected": {
+        "outcome": "success",
+        "textReleased": true,
+        "usageCommitted": true,
+        "externalWindow": false
+      }
+    },
+    {
+      "id": "unseen-source-revoke",
+      "events": [
+        {
+          "action": "revoke",
+          "at": 0
+        },
+        {
+          "action": "register",
+          "at": 1
+        }
+      ],
+      "expected": {
+        "outcome": "denied",
+        "textReleased": false,
+        "usageCommitted": false,
+        "externalWindow": false
+      }
+    },
+    {
+      "id": "external-owner-window",
+      "events": [
+        {
+          "action": "owner_check",
+          "at": 0,
+          "decision": "allow",
+          "ownerRevision": "owner-r1",
+          "expiresAt": 5,
+          "maxAge": 5
+        },
+        {
+          "action": "owner_change",
+          "at": 1,
+          "decision": "deny",
+          "ownerRevision": "owner-r2"
+        },
+        {
+          "action": "commit_disclosure",
+          "at": 2
+        },
+        {
+          "action": "release",
+          "at": 2
+        }
+      ],
+      "expected": {
+        "outcome": "success",
+        "textReleased": true,
+        "usageCommitted": true,
+        "externalWindow": true
+      },
+      "guarantee": "bounded owner-contract check-to-commit window; no distributed atomicity"
+    },
+    {
+      "id": "owner-unknown",
+      "events": [
+        {
+          "action": "owner_check",
+          "at": 0,
+          "decision": "unknown",
+          "ownerRevision": "owner-r1",
+          "expiresAt": 5,
+          "maxAge": 5
+        },
+        {
+          "action": "commit_disclosure",
+          "at": 1
+        },
+        {
+          "action": "release",
+          "at": 1
+        }
+      ],
+      "expected": {
+        "outcome": "unknown",
+        "textReleased": false,
+        "usageCommitted": false,
+        "externalWindow": false
+      }
+    },
+    {
+      "id": "owner-expired",
+      "events": [
+        {
+          "action": "owner_check",
+          "at": 0,
+          "decision": "allow",
+          "ownerRevision": "owner-r1",
+          "expiresAt": 5,
+          "maxAge": 5
+        },
+        {
+          "action": "commit_disclosure",
+          "at": 6
+        },
+        {
+          "action": "release",
+          "at": 6
+        }
+      ],
+      "expected": {
+        "outcome": "unknown",
+        "textReleased": false,
+        "usageCommitted": false,
+        "externalWindow": false
+      }
+    },
+    {
+      "id": "owner-no-contract",
+      "events": [
+        {
+          "action": "owner_check",
+          "at": 0,
+          "decision": "allow",
+          "ownerRevision": "owner-r1",
+          "expiresAt": 5,
+          "maxAge": null
+        },
+        {
+          "action": "commit_disclosure",
+          "at": 1
+        }
+      ],
+      "expected": {
+        "outcome": "unknown",
+        "textReleased": false,
+        "usageCommitted": false,
+        "externalWindow": false
+      }
+    },
+    {
+      "id": "owner-denied",
+      "events": [
+        {
+          "action": "owner_check",
+          "at": 0,
+          "decision": "deny",
+          "ownerRevision": "owner-r1",
+          "expiresAt": 5,
+          "maxAge": 5
+        },
+        {
+          "action": "commit_disclosure",
+          "at": 1
+        }
+      ],
+      "expected": {
+        "outcome": "denied",
+        "textReleased": false,
+        "usageCommitted": false,
+        "externalWindow": false
+      }
+    },
+    {
+      "id": "uncertain-commit",
+      "events": [
+        {
+          "action": "owner_check",
+          "at": 0,
+          "decision": "allow",
+          "ownerRevision": "owner-r1",
+          "expiresAt": 5,
+          "maxAge": 5
+        },
+        {
+          "action": "uncertain_commit",
+          "at": 1
+        },
+        {
+          "action": "release",
+          "at": 1
+        }
+      ],
+      "expected": {
+        "outcome": "unknown",
+        "textReleased": false,
+        "usageCommitted": false,
+        "externalWindow": false
+      }
+    },
+    {
+      "id": "attempt-replay",
+      "events": [
+        {
+          "action": "owner_check",
+          "at": 0,
+          "decision": "allow",
+          "ownerRevision": "owner-r1",
+          "expiresAt": 5,
+          "maxAge": 5
+        },
+        {
+          "action": "commit_disclosure",
+          "at": 1
+        },
+        {
+          "action": "release",
+          "at": 1
+        },
+        {
+          "action": "replay",
+          "at": 2
+        }
+      ],
+      "expected": {
+        "outcome": "success",
+        "textReleased": false,
+        "usageCommitted": true,
+        "externalWindow": false,
+        "metadataOnly": true
+      }
+    }
+  ]
+}

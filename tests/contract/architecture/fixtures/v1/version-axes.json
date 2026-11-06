@@ -1,0 +1,125 @@
+{
+  "schemaVersion": "architecture-fixture:1",
+  "modelOnly": true,
+  "description": "Restricted string-only IR payloads illustrate identity/digest relationships, not the P1.4 wire schema or general JCS implementation.",
+  "sourceId": "01J00000000000000000000001",
+  "sources": [
+    {
+      "sourceVersionId": "01J00000000000000000000002",
+      "text": "Привет, документ.\n",
+      "sourceDigest": "0b4c37f76d343a0eefad92352202722e095d1068cf836e585edffde93f117fd1"
+    },
+    {
+      "sourceVersionId": "01J00000000000000000000003",
+      "text": "Привет, документ v2.\n",
+      "sourceDigest": "ae787bc3aed736f9ce4ae121e081c9c1a05604b52aa94227af171a3dc423abe6"
+    }
+  ],
+  "revisions": [
+    {
+      "documentRevisionId": "01J00000000000000000000010",
+      "sourceVersionId": "01J00000000000000000000002",
+      "irPayload": {
+        "canonicalText": "Привет, документ.\n"
+      },
+      "irDigest": "6774888c129c4bfc7c121b72d685aafdef81bc2a5b85faf65b9dbad3de35a013"
+    },
+    {
+      "documentRevisionId": "01J00000000000000000000011",
+      "sourceVersionId": "01J00000000000000000000002",
+      "irPayload": {
+        "canonicalText": "Привет, документ!\n"
+      },
+      "irDigest": "e15fe630f70488bdf76e7d54a61253e823d8db19e7281c021e1b994e1c92ac6e"
+    },
+    {
+      "documentRevisionId": "01J00000000000000000000012",
+      "sourceVersionId": "01J00000000000000000000003",
+      "irPayload": {
+        "canonicalText": "Привет, документ v2.\n"
+      },
+      "irDigest": "c12e05d2237743516523baa8e418d25aed8318b3e658af80dc25232e64a380b8"
+    }
+  ],
+  "states": [
+    {
+      "scenario": "baseline",
+      "sourceVersionId": "01J00000000000000000000002",
+      "documentRevisionId": "01J00000000000000000000010",
+      "chunkSetId": "01J00000000000000000000020",
+      "generationId": "01J00000000000000000000030"
+    },
+    {
+      "scenario": "re-ocr",
+      "sourceVersionId": "01J00000000000000000000002",
+      "documentRevisionId": "01J00000000000000000000011",
+      "chunkSetId": "01J00000000000000000000021",
+      "generationId": "01J00000000000000000000031"
+    },
+    {
+      "scenario": "re-chunk",
+      "sourceVersionId": "01J00000000000000000000002",
+      "documentRevisionId": "01J00000000000000000000010",
+      "chunkSetId": "01J00000000000000000000022",
+      "generationId": "01J00000000000000000000032"
+    },
+    {
+      "scenario": "re-embed",
+      "sourceVersionId": "01J00000000000000000000002",
+      "documentRevisionId": "01J00000000000000000000010",
+      "chunkSetId": "01J00000000000000000000020",
+      "generationId": "01J00000000000000000000033"
+    },
+    {
+      "scenario": "changed-original",
+      "sourceVersionId": "01J00000000000000000000003",
+      "documentRevisionId": "01J00000000000000000000012",
+      "chunkSetId": "01J00000000000000000000023",
+      "generationId": "01J00000000000000000000034"
+    }
+  ],
+  "expectedChangedAxes": {
+    "re-ocr": [
+      "documentRevisionId",
+      "chunkSetId",
+      "generationId"
+    ],
+    "re-chunk": [
+      "chunkSetId",
+      "generationId"
+    ],
+    "re-embed": [
+      "generationId"
+    ],
+    "changed-original": [
+      "sourceVersionId",
+      "documentRevisionId",
+      "chunkSetId",
+      "generationId"
+    ]
+  },
+  "negative": {
+    "sourceVersionId": "01J00000000000000000000002",
+    "changedText": "Changed immutable bytes",
+    "expectedOutcome": "immutable_conflict"
+  },
+  "citation": {
+    "tenantId": "01J00000000000000000000040",
+    "sourceId": "01J00000000000000000000001",
+    "sourceVersionId": "01J00000000000000000000002",
+    "documentRevisionId": "01J00000000000000000000010",
+    "documentId": "01J00000000000000000000041",
+    "segmentId": "01J00000000000000000000042",
+    "blockId": "01J00000000000000000000043",
+    "byteStart": 0,
+    "byteEnd": 12,
+    "expectedText": "Привет",
+    "sourceDigest": "0b4c37f76d343a0eefad92352202722e095d1068cf836e585edffde93f117fd1",
+    "irDigest": "6774888c129c4bfc7c121b72d685aafdef81bc2a5b85faf65b9dbad3de35a013",
+    "contentDigest": "0b4c37f76d343a0eefad92352202722e095d1068cf836e585edffde93f117fd1"
+  },
+  "latest": {
+    "sourceVersionId": "01J00000000000000000000003",
+    "documentRevisionId": "01J00000000000000000000012"
+  }
+}

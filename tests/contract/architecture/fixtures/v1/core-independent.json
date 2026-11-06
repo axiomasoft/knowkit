@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "architecture-fixture:1",
+  "modelOnly": true,
+  "description": "Declared package dependency graph; no claim of PHP clean-install/runtime execution.",
+  "packages": {
+    "core": {
+      "path": "packages/core",
+      "name": "knowkit/core",
+      "namespace": "KnowKit\\",
+      "minPhp": "8.3",
+      "dependsOn": [],
+      "externalRuntime": [],
+      "extensions": [
+        "ext-pdo",
+        "ext-json",
+        "ext-mbstring"
+      ],
+      "adapterExtensions": {
+        "Postgres": [
+          "ext-pdo_pgsql"
+        ]
+      }
+    },
+    "answer": {
+      "path": "packages/answer",
+      "name": "knowkit/answer",
+      "namespace": "KnowKit\\Answer\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core"
+      ],
+      "externalRuntime": [
+        "psr/http-client:^1",
+        "psr/http-factory:^1"
+      ]
+    },
+    "pgvector": {
+      "path": "packages/pgvector",
+      "name": "knowkit/pgvector",
+      "namespace": "KnowKit\\PgVector\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core"
+      ],
+      "externalRuntime": []
+    },
+    "http": {
+      "path": "packages/http",
+      "name": "knowkit/http",
+      "namespace": "KnowKit\\Http\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core"
+      ],
+      "externalRuntime": [
+        "PSR-7 interfaces",
+        "PSR-15 interfaces"
+      ]
+    },
+    "laravel": {
+      "path": "packages/laravel",
+      "name": "knowkit/laravel",
+      "namespace": "KnowKit\\Laravel\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core"
+      ],
+      "suggests": [
+        "http",
+        "answer"
+      ],
+      "externalRuntime": [
+        "explicit Laravel host"
+      ]
+    },
+    "chatom": {
+      "path": "packages/chatom",
+      "name": "knowkit/chatom",
+      "namespace": "KnowKit\\Chatom\\",
+      "minPhp": "8.4",
+      "dependsOn": [
+        "core",
+        "answer"
+      ],
+      "externalRuntime": [
+        "explicit Chatom contracts",
+        "Laravel/PHP>=8.4 host"
+      ]
+    },
+    "agentools-bridge": {
+      "path": "packages/agentools-bridge",
+      "name": "knowkit/agentools-bridge",
+      "namespace": "KnowKit\\Bridge\\AgenTools\\",
+      "minPhp": "8.4",
+      "dependsOn": [
+        "core"
+      ],
+      "externalRuntime": [
+        "Agentools core",
+        "Agentools platform-chatom seam"
+      ]
+    }
+  },
+  "layers": {
+    "Domain": [],
+    "Port": [
+      "Domain"
+    ],
+    "Registry": [
+      "Domain",
+      "Port"
+    ],
+    "Application": [
+      "Domain",
+      "Port",
+      "Registry"
+    ],
+    "Adapter": [
+      "Domain",
+      "Port"
+    ]
+  },
+  "optionalAbsent": [
+    "Laravel",
+    "Agentools",
+    "Python",
+    "Redis",
+    "GPU",
+    "vector database",
+    "model credentials"
+  ],
+  "expected": {
+    "outcome": "valid",
+    "coreRuntimeDependencies": [],
+    "minPhp": "8.3",
+    "corePath": "packages/core",
+    "adapterPath": "src/Adapter"
+  }
+}
