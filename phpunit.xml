@@ -5,7 +5,7 @@
          cacheResult="false" failOnEmptyTestSuite="true" failOnSkipped="true"
          failOnRisky="true" failOnWarning="true">
   <testsuites>
-    <testsuite name="Core"><directory>tests/tooling/baseline</directory><directory>tests/core</directory></testsuite>
+    <testsuite name="Core"><directory>tests/tooling/baseline</directory><directory>tests/core</directory><directory>tests/contract/licensing</directory></testsuite>
     <testsuite name="Answer"><directory>packages/answer/tests</directory><directory>tests/adoption/edufy</directory></testsuite>
     <testsuite name="Chatom"><directory>packages/chatom/tests</directory></testsuite>
     <testsuite name="Bridge"><directory>packages/agentools-bridge/tests/unit</directory></testsuite>

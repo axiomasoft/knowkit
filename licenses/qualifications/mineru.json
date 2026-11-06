@@ -1,0 +1,68 @@
+{
+  "id": "mineru",
+  "version": "source-evidence@8cd08422055858f55a64dff79f942318b51b96cc",
+  "sourceUrl": "https://github.com/opendatalab/MinerU",
+  "sourceRevision": "8cd08422055858f55a64dff79f942318b51b96cc",
+  "codeLicense": "LicenseRef-MinerU-Open-Source-License",
+  "licenseFileDigest": "2d9aeb5d15159329a20dd804f251c64860ba954fbd26ec02f802220e6d71cf5c",
+  "notices": [
+    {
+      "path": "licenses/notices/mineru-LICENSE-md.txt",
+      "sha256": "2d9aeb5d15159329a20dd804f251c64860ba954fbd26ec02f802220e6d71cf5c"
+    }
+  ],
+  "transitiveComponents": [],
+  "modelAssets": [
+    {
+      "id": "unselected-layout-ocr-models",
+      "version": null,
+      "sha256": null,
+      "license": "unknown",
+      "source": null,
+      "sourceRevision": null
+    }
+  ],
+  "datasets": [
+    {
+      "id": "unqualified-model-training-data",
+      "version": null,
+      "sha256": null,
+      "license": "unknown",
+      "source": null,
+      "sourceRevision": null
+    }
+  ],
+  "networkAtBuild": {
+    "required": null,
+    "destinations": [],
+    "reason": "Unqualified dependency/model inventory; no download authorized by this record."
+  },
+  "networkAtRuntime": {
+    "required": null,
+    "destinations": [],
+    "reason": "Unqualified effective profile; do not infer offline operation from code licensing."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": false,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "exact-profile-assets-dependencies-and-rights",
+        "fulfilled": false,
+        "evidence": []
+      }
+    ],
+    "notes": [
+      "KnowKit redistribution license remains unselected; no publication approval."
+    ]
+  },
+  "enabledProfiles": [],
+  "verdict": "blocked",
+  "reason": "Apache-2.0 plus commercial threshold and service attribution terms; no selected exact dependency/weights profile or evidence of fulfilled additional terms.",
+  "checkedAt": "2026-11-06",
+  "qualificationGaps": [
+    "Exact transitive lock and notices",
+    "Exact selected asset/dataset identity, separate licenses and processing/egress/disclosure restrictions",
+    "Offline runtime and capability conformance"
+  ]
+}

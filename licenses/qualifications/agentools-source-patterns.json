@@ -1,0 +1,66 @@
+{
+  "id": "agentools-source-patterns",
+  "version": "2054acda51eb69eca1579c78900858c5ff3de01e",
+  "sourceUrl": "https://github.com/axiomasoft/agentools",
+  "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+  "codeLicense": "proprietary",
+  "licenseFileDigest": "8c63b2e3e661dc0461d4dca06df370db52e46536b779ae95f167c2f93476d75d",
+  "notices": [
+    {
+      "path": "licenses/notices/agentools-LICENSE.txt",
+      "sha256": "8c63b2e3e661dc0461d4dca06df370db52e46536b779ae95f167c2f93476d75d"
+    }
+  ],
+  "transitiveComponents": [],
+  "modelAssets": [],
+  "datasets": [],
+  "networkAtBuild": {
+    "required": false,
+    "destinations": [],
+    "reason": "Local source adaptation; no donor installation."
+  },
+  "networkAtRuntime": {
+    "required": false,
+    "destinations": [],
+    "reason": "No donor runtime or network calls are imported."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": true,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "owner-local-adaptation",
+        "fulfilled": true,
+        "evidence": [
+          {
+            "path": "licenses/local-reuse-authorization.md",
+            "sha256": "0f262e8a44a8132b045cbffa70dba5e82eae758c22652460870c426f413b5064"
+          }
+        ]
+      }
+    ],
+    "notes": [
+      "KnowKit redistribution license remains unselected; no publication approval."
+    ]
+  },
+  "enabledProfiles": [
+    "reuse-tooling"
+  ],
+  "verdict": "restricted",
+  "reason": "Owner-authorized private local adaptation of suite/metadata patterns only; not the product/runtime or weights.",
+  "checkedAt": "2026-11-06",
+  "selectedFiles": [
+    {
+      "path": "extensions/knowledge/composer.json",
+      "sha256": "ab8f8389b198aeb63ed535bc052e297359afd9704605ece0895a7e86deb3d3ee",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/composer.json",
+      "span": "L1-L45"
+    },
+    {
+      "path": "extensions/knowledge/tests/suite.py",
+      "sha256": "a05e5d99b95e6dc2ee2468885b97f7dcc6598b8f95e53a530c4a59abe274ce12",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/suite.py",
+      "span": "L1-L47"
+    }
+  ]
+}

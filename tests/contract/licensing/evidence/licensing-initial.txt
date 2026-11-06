@@ -1,0 +1,19 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+.........F                                                        10 / 10 (100%)
+
+Time: 00:00.407, Memory: 10.00 MB
+
+There was 1 failure:
+
+1) KnowKit\Tests\Licensing\LicenseAuditTest::testRequiredFieldsAndEvidenceShapesCannotBeBypassed
+Failed asserting that 'duplicate/missing component' [ASCII](length: 27) contains "incomplete qualification: id" [ASCII](length: 28).
+
+<repository>/tests/tooling/baseline/Support.php:52
+<repository>/tests/contract/licensing/LicenseAuditTest.php:195
+
+FAILURES!
+Tests: 10, Assertions: 126, Failures: 1.

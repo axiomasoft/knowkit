@@ -1,0 +1,65 @@
+{
+  "id": "sebastian/diff",
+  "version": "6.0.2",
+  "sourceUrl": "https://github.com/sebastianbergmann/diff.git",
+  "sourceRevision": "b4ccd857127db5d41a5b676f24b51371d76d8544",
+  "codeLicense": "BSD-3-Clause",
+  "licenseFileDigest": "dc5746cd2037c14e4d128465c52403e388d582b9a5b29182c0ff24e1e26d890b",
+  "notices": [
+    {
+      "path": "licenses/notices/composer/sebastian/diff.txt",
+      "sha256": "dc5746cd2037c14e4d128465c52403e388d582b9a5b29182c0ff24e1e26d890b"
+    }
+  ],
+  "transitiveComponents": [],
+  "modelAssets": [],
+  "datasets": [],
+  "networkAtBuild": {
+    "required": true,
+    "destinations": [
+      "Configured Composer repository and pinned source/dist hosts"
+    ],
+    "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+  },
+  "networkAtRuntime": {
+    "required": false,
+    "destinations": [],
+    "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": true,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "retain-license-and-copyright",
+        "fulfilled": true,
+        "evidence": [
+          {
+            "path": "licenses/notices/composer/sebastian/diff.txt",
+            "sha256": "dc5746cd2037c14e4d128465c52403e388d582b9a5b29182c0ff24e1e26d890b"
+          }
+        ]
+      }
+    ],
+    "notes": [
+      "KnowKit redistribution license remains unselected; no publication approval."
+    ]
+  },
+  "enabledProfiles": [
+    "development"
+  ],
+  "verdict": "restricted",
+  "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+  "checkedAt": "2026-11-06",
+  "platformRequirements": {
+    "php": ">=8.2"
+  },
+  "licenseEvidence": {
+    "kind": "composer-lock-and-installed-license",
+    "lock": {
+      "path": "composer.lock",
+      "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+    },
+    "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+  }
+}

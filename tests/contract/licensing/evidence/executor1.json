@@ -1,0 +1,61 @@
+{
+  "item": "P1.3",
+  "evidenceKind": "offline-component-qualification-and-contract-tests",
+  "checks": [
+    {
+      "cmd": "php tools/license-audit.php --output licenses/generated",
+      "exit": 0,
+      "components": 33,
+      "outputPaths": [
+        "licenses/generated/sbom.json",
+        "licenses/generated/THIRD_PARTY_NOTICES.txt"
+      ]
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/licensing/LicenseAuditTest.php",
+      "exit": 0,
+      "tests": 10,
+      "assertions": 152,
+      "outputPath": "tests/contract/licensing/evidence/licensing.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/DiscoveryTest.php",
+      "exit": 0,
+      "tests": 2,
+      "assertions": 49,
+      "outputPath": "tests/contract/licensing/evidence/discovery.txt"
+    },
+    {
+      "cmd": "php -l tools/license-audit.php",
+      "exit": 0,
+      "stdout": "No syntax errors detected in tools/license-audit.php\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "php -l tests/contract/licensing/LicenseAuditTest.php",
+      "exit": 0,
+      "stdout": "No syntax errors detected in tests/contract/licensing/LicenseAuditTest.php\n",
+      "stderr": ""
+    },
+    {
+      "cmd": "git diff --check",
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "initialFailure": {
+    "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/licensing/LicenseAuditTest.php",
+    "exit": 1,
+    "cause": "Missing id is rejected at catalog indexing before detailed record validation; test now expects that earlier diagnostic.",
+    "outputPath": "tests/contract/licensing/evidence/licensing-initial.txt"
+  },
+  "notRun": [
+    "V1: withheld, reserved for conductor; no acceptance group or whole suites run."
+  ],
+  "limitations": [
+    "PHP runtime 8.4.1 only; source/tool syntax targets PHP8.3.",
+    "Original TXT/Markdown policy independence is tested; parser runtime does not yet exist.",
+    "No optional parser/weights/datasets, archive/binary supply-chain qualification or publication approval."
+  ]
+}

@@ -1,0 +1,2 @@
+Synthetic weights rights: LicenseRef-Synthetic-Weights-Local-Only.
+Private processing allowed. Redistribution forbidden. This is test data only.

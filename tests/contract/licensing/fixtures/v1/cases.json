@@ -1,0 +1,491 @@
+{
+  "schemaVersion": "licensing-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial deliberately authored positive/negative qualification matrix; separate code/assets, private owner authority, notices, incomplete profile, graph and local independence. Digests bind authored evidence bytes; no snapshot of inferred runtime behavior.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic licensing corpus. example.invalid URLs, invented pins/asset hashes; no third-party model bytes or document data. Adapted harness patterns: licenses/P1.3-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "evidencePaths": [
+    "tests/contract/licensing/fixtures/v1/code-NOTICE.txt",
+    "tests/contract/licensing/fixtures/v1/weights-NOTICE.txt",
+    "tests/contract/licensing/fixtures/v1/authority.txt"
+  ],
+  "record": {
+    "id": "fixture-parser",
+    "version": "test-1",
+    "sourceUrl": "https://example.invalid/parser",
+    "sourceRevision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "codeLicense": "Apache-2.0",
+    "licenseFileDigest": "c32d92495fb27b3d671cc739f2d9e971c1d46f67a56b627b0110ab5cfa2e0dc4",
+    "notices": [
+      {
+        "path": "tests/contract/licensing/fixtures/v1/code-NOTICE.txt",
+        "sha256": "c32d92495fb27b3d671cc739f2d9e971c1d46f67a56b627b0110ab5cfa2e0dc4"
+      }
+    ],
+    "transitiveComponents": [],
+    "modelAssets": [
+      {
+        "id": "synthetic-weights",
+        "version": "test-1",
+        "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "license": "LicenseRef-Synthetic-Weights-Local-Only",
+        "source": "https://example.invalid/models/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/weights",
+        "sourceRevision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "notice": {
+          "path": "tests/contract/licensing/fixtures/v1/weights-NOTICE.txt",
+          "sha256": "9e69e07c62a0cec886892019371b7e243e43283ee2d90a86c3f9742d5764b422"
+        },
+        "localUseAllowed": true,
+        "redistributionAllowed": false
+      }
+    ],
+    "datasets": [],
+    "networkAtBuild": {
+      "required": false,
+      "destinations": [],
+      "reason": "Synthetic local fixture; never fetch a remote artifact."
+    },
+    "networkAtRuntime": {
+      "required": false,
+      "destinations": [],
+      "reason": "Synthetic local fixture; never fetch a remote artifact."
+    },
+    "distributionConstraints": {
+      "localUseAllowed": true,
+      "redistributionAllowed": false,
+      "requirements": [],
+      "notes": [
+        "Private fixture only."
+      ]
+    },
+    "enabledProfiles": [
+      "fixture-parser"
+    ],
+    "verdict": "restricted",
+    "reason": "Synthetic root-code versus separate asset-rights regression.",
+    "checkedAt": "2026-11-06"
+  },
+  "catalog": {
+    "schemaVersion": "license-catalog:1",
+    "qualificationFiles": [
+      "licenses/qualifications/parser.json"
+    ],
+    "profiles": [
+      {
+        "id": "fixture-parser",
+        "enabled": true,
+        "components": [
+          "fixture-parser"
+        ]
+      }
+    ]
+  },
+  "cases": {
+    "apache-known-separate-weights": {
+      "recordOverrides": {},
+      "expected": {
+        "exit": 0
+      }
+    },
+    "apache-unknown-weights": {
+      "recordOverrides": {
+        "modelAssets": [
+          {
+            "id": "synthetic-weights",
+            "version": "test-1",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "license": "unknown",
+            "source": "https://example.invalid/models/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/weights",
+            "sourceRevision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "notice": {
+              "path": "tests/contract/licensing/fixtures/v1/weights-NOTICE.txt",
+              "sha256": "9e69e07c62a0cec886892019371b7e243e43283ee2d90a86c3f9742d5764b422"
+            },
+            "localUseAllowed": true,
+            "redistributionAllowed": false
+          }
+        ]
+      },
+      "expected": {
+        "exit": 1,
+        "error": "unqualified modelAssets"
+      }
+    },
+    "apache-denied-weights": {
+      "recordOverrides": {
+        "modelAssets": [
+          {
+            "id": "synthetic-weights",
+            "version": "test-1",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "license": "LicenseRef-Synthetic-Weights-Local-Only",
+            "source": "https://example.invalid/models/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/weights",
+            "sourceRevision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "notice": {
+              "path": "tests/contract/licensing/fixtures/v1/weights-NOTICE.txt",
+              "sha256": "9e69e07c62a0cec886892019371b7e243e43283ee2d90a86c3f9742d5764b422"
+            },
+            "localUseAllowed": false,
+            "redistributionAllowed": false
+          }
+        ]
+      },
+      "expected": {
+        "exit": 1,
+        "error": "asset rights denied: modelAssets"
+      }
+    },
+    "apache-unknown-dataset": {
+      "recordOverrides": {
+        "datasets": [
+          {
+            "id": "synthetic-corpus",
+            "version": "test-1",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "license": "unknown",
+            "source": "https://example.invalid/models/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/weights",
+            "sourceRevision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "notice": {
+              "path": "tests/contract/licensing/fixtures/v1/weights-NOTICE.txt",
+              "sha256": "9e69e07c62a0cec886892019371b7e243e43283ee2d90a86c3f9742d5764b422"
+            },
+            "localUseAllowed": true,
+            "redistributionAllowed": false
+          }
+        ]
+      },
+      "expected": {
+        "exit": 1,
+        "error": "unqualified datasets"
+      }
+    },
+    "apache-unpinned-weights": {
+      "recordOverrides": {
+        "modelAssets": [
+          {
+            "id": "synthetic-weights",
+            "version": "test-1",
+            "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "license": "LicenseRef-Synthetic-Weights-Local-Only",
+            "source": "https://example.invalid/models/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/weights",
+            "sourceRevision": null,
+            "notice": {
+              "path": "tests/contract/licensing/fixtures/v1/weights-NOTICE.txt",
+              "sha256": "9e69e07c62a0cec886892019371b7e243e43283ee2d90a86c3f9742d5764b422"
+            },
+            "localUseAllowed": true,
+            "redistributionAllowed": false
+          }
+        ]
+      },
+      "expected": {
+        "exit": 1,
+        "error": "unqualified modelAssets"
+      }
+    },
+    "proprietary-local-adaptation": {
+      "recordOverrides": {
+        "codeLicense": "proprietary",
+        "distributionConstraints": {
+          "localUseAllowed": true,
+          "redistributionAllowed": false,
+          "requirements": [
+            {
+              "id": "owner-local-adaptation",
+              "fulfilled": true,
+              "evidence": [
+                {
+                  "path": "tests/contract/licensing/fixtures/v1/authority.txt",
+                  "sha256": "bc4ed3557736a0028386e183da3f0f88f196bb71e567979e9522e00d9fa9b876"
+                }
+              ]
+            }
+          ],
+          "notes": [
+            "Private fixture only."
+          ]
+        }
+      },
+      "expected": {
+        "exit": 0
+      }
+    },
+    "proprietary-no-permission": {
+      "recordOverrides": {
+        "codeLicense": "proprietary"
+      },
+      "expected": {
+        "exit": 1,
+        "error": "proprietary permission missing"
+      }
+    },
+    "proprietary-redistribution": {
+      "recordOverrides": {
+        "codeLicense": "proprietary",
+        "distributionConstraints": {
+          "localUseAllowed": true,
+          "redistributionAllowed": true,
+          "requirements": [
+            {
+              "id": "owner-local-adaptation",
+              "fulfilled": true,
+              "evidence": [
+                {
+                  "path": "tests/contract/licensing/fixtures/v1/authority.txt",
+                  "sha256": "bc4ed3557736a0028386e183da3f0f88f196bb71e567979e9522e00d9fa9b876"
+                }
+              ]
+            }
+          ],
+          "notes": [
+            "Private fixture only."
+          ]
+        }
+      },
+      "expected": {
+        "exit": 1,
+        "error": "proprietary permission missing"
+      }
+    },
+    "missing-notice": {
+      "recordOverrides": {
+        "notices": []
+      },
+      "expected": {
+        "exit": 1,
+        "error": "missing notice"
+      }
+    },
+    "missing-license-notice": {
+      "recordOverrides": {
+        "notices": [
+          {
+            "path": "tests/contract/licensing/fixtures/v1/weights-NOTICE.txt",
+            "sha256": "9e69e07c62a0cec886892019371b7e243e43283ee2d90a86c3f9742d5764b422"
+          }
+        ]
+      },
+      "expected": {
+        "exit": 1,
+        "error": "code license notice missing"
+      }
+    },
+    "missing-notice-file": {
+      "recordOverrides": {
+        "notices": [
+          {
+            "path": "licenses/missing-NOTICE",
+            "sha256": "c32d92495fb27b3d671cc739f2d9e971c1d46f67a56b627b0110ab5cfa2e0dc4"
+          }
+        ]
+      },
+      "expected": {
+        "exit": 1,
+        "error": "missing/escaping evidence"
+      }
+    },
+    "corrupt-notice-digest": {
+      "recordOverrides": {
+        "notices": [
+          {
+            "path": "tests/contract/licensing/fixtures/v1/code-NOTICE.txt",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        ]
+      },
+      "expected": {
+        "exit": 1,
+        "error": "evidence digest mismatch"
+      }
+    },
+    "missing-parser-record": {
+      "recordOverrides": {},
+      "expected": {
+        "exit": 1,
+        "error": "missing qualification: fixture-parser"
+      },
+      "catalogOverrides": {
+        "qualificationFiles": []
+      }
+    },
+    "incomplete-parser-record": {
+      "recordOverrides": {
+        "checkedAt": null
+      },
+      "expected": {
+        "exit": 1,
+        "error": "unknown qualification: checkedAt"
+      }
+    },
+    "unknown-parser-license": {
+      "recordOverrides": {
+        "codeLicense": "unknown"
+      },
+      "expected": {
+        "exit": 1,
+        "error": "unknown qualification: codeLicense"
+      }
+    },
+    "unpinned-parser-source": {
+      "recordOverrides": {
+        "sourceRevision": "latest"
+      },
+      "expected": {
+        "exit": 1,
+        "error": "unpinned source"
+      }
+    },
+    "blocked-parser": {
+      "recordOverrides": {
+        "verdict": "blocked"
+      },
+      "expected": {
+        "exit": 1,
+        "error": "blocked qualification"
+      }
+    },
+    "unfulfilled-requirement": {
+      "recordOverrides": {
+        "distributionConstraints": {
+          "localUseAllowed": true,
+          "redistributionAllowed": false,
+          "requirements": [
+            {
+              "id": "not-met",
+              "fulfilled": false,
+              "evidence": []
+            }
+          ],
+          "notes": [
+            "Private fixture only."
+          ]
+        }
+      },
+      "expected": {
+        "exit": 1,
+        "error": "unfulfilled requirement"
+      }
+    },
+    "unknown-network": {
+      "recordOverrides": {
+        "networkAtRuntime": {
+          "required": null,
+          "destinations": [],
+          "reason": "Unqualified"
+        }
+      },
+      "expected": {
+        "exit": 1,
+        "error": "unknown network requirements"
+      }
+    },
+    "profile-not-qualified": {
+      "recordOverrides": {
+        "enabledProfiles": []
+      },
+      "expected": {
+        "exit": 1,
+        "error": "profile not qualified"
+      }
+    },
+    "empty-enabled-parser": {
+      "recordOverrides": {},
+      "expected": {
+        "exit": 1,
+        "error": "missing enabled profile qualification"
+      },
+      "catalogOverrides": {
+        "profiles": [
+          {
+            "id": "unqualified-parser",
+            "enabled": true,
+            "components": []
+          }
+        ]
+      }
+    },
+    "unknown-catalog-schema": {
+      "recordOverrides": {},
+      "expected": {
+        "exit": 1,
+        "error": "unknown catalog schema"
+      },
+      "catalogOverrides": {
+        "schemaVersion": "license-catalog:999"
+      }
+    },
+    "local-text-markdown": {
+      "recordOverrides": {},
+      "expected": {
+        "exit": 0
+      },
+      "catalogOverrides": {
+        "qualificationFiles": [],
+        "profiles": [
+          {
+            "id": "local-text",
+            "enabled": true,
+            "components": [],
+            "implementation": "original-core"
+          },
+          {
+            "id": "local-markdown",
+            "enabled": true,
+            "components": [],
+            "implementation": "original-core"
+          }
+        ]
+      }
+    },
+    "local-external-dependency": {
+      "recordOverrides": {},
+      "expected": {
+        "exit": 1,
+        "error": "local baseline depends on external component"
+      },
+      "catalogOverrides": {
+        "profiles": [
+          {
+            "id": "local-text",
+            "enabled": true,
+            "components": [
+              "fixture-parser"
+            ],
+            "implementation": "original-core"
+          },
+          {
+            "id": "local-markdown",
+            "enabled": true,
+            "components": [],
+            "implementation": "original-core"
+          }
+        ]
+      }
+    },
+    "missing-transitive-component": {
+      "recordOverrides": {
+        "transitiveComponents": [
+          "missing-dependency"
+        ]
+      },
+      "expected": {
+        "exit": 1,
+        "error": "missing qualification: missing-dependency"
+      }
+    },
+    "cyclic-transitive-component": {
+      "recordOverrides": {
+        "transitiveComponents": [
+          "fixture-parser"
+        ]
+      },
+      "expected": {
+        "exit": 1,
+        "error": "cyclic qualification"
+      }
+    }
+  }
+}

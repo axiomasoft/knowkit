@@ -1,0 +1,65 @@
+{
+  "id": "sebastian/code-unit-reverse-lookup",
+  "version": "4.0.1",
+  "sourceUrl": "https://github.com/sebastianbergmann/code-unit-reverse-lookup.git",
+  "sourceRevision": "183a9b2632194febd219bb9246eee421dad8d45e",
+  "codeLicense": "BSD-3-Clause",
+  "licenseFileDigest": "20f3189ff047e04dc96a45e311ee3b6f3dd9b17d0d8396c4a10243d93643dd5e",
+  "notices": [
+    {
+      "path": "licenses/notices/composer/sebastian/code-unit-reverse-lookup.txt",
+      "sha256": "20f3189ff047e04dc96a45e311ee3b6f3dd9b17d0d8396c4a10243d93643dd5e"
+    }
+  ],
+  "transitiveComponents": [],
+  "modelAssets": [],
+  "datasets": [],
+  "networkAtBuild": {
+    "required": true,
+    "destinations": [
+      "Configured Composer repository and pinned source/dist hosts"
+    ],
+    "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+  },
+  "networkAtRuntime": {
+    "required": false,
+    "destinations": [],
+    "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": true,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "retain-license-and-copyright",
+        "fulfilled": true,
+        "evidence": [
+          {
+            "path": "licenses/notices/composer/sebastian/code-unit-reverse-lookup.txt",
+            "sha256": "20f3189ff047e04dc96a45e311ee3b6f3dd9b17d0d8396c4a10243d93643dd5e"
+          }
+        ]
+      }
+    ],
+    "notes": [
+      "KnowKit redistribution license remains unselected; no publication approval."
+    ]
+  },
+  "enabledProfiles": [
+    "development"
+  ],
+  "verdict": "restricted",
+  "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+  "checkedAt": "2026-11-06",
+  "platformRequirements": {
+    "php": ">=8.2"
+  },
+  "licenseEvidence": {
+    "kind": "composer-lock-and-installed-license",
+    "lock": {
+      "path": "composer.lock",
+      "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+    },
+    "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "id": "symfony/polyfill-ctype",
+  "version": "v1.37.0",
+  "sourceUrl": "https://github.com/symfony/polyfill-ctype.git",
+  "sourceRevision": "141046a8f9477948ff284fa65be2095baafb94f2",
+  "codeLicense": "MIT",
+  "licenseFileDigest": "375396ec5755e9c27dd9c513c0eb4c2923881aba98b941f156e92ed6ec1cfa19",
+  "notices": [
+    {
+      "path": "licenses/notices/composer/symfony/polyfill-ctype.txt",
+      "sha256": "375396ec5755e9c27dd9c513c0eb4c2923881aba98b941f156e92ed6ec1cfa19"
+    }
+  ],
+  "transitiveComponents": [],
+  "modelAssets": [],
+  "datasets": [],
+  "networkAtBuild": {
+    "required": true,
+    "destinations": [
+      "Configured Composer repository and pinned source/dist hosts"
+    ],
+    "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+  },
+  "networkAtRuntime": {
+    "required": false,
+    "destinations": [],
+    "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": true,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "retain-license-and-copyright",
+        "fulfilled": true,
+        "evidence": [
+          {
+            "path": "licenses/notices/composer/symfony/polyfill-ctype.txt",
+            "sha256": "375396ec5755e9c27dd9c513c0eb4c2923881aba98b941f156e92ed6ec1cfa19"
+          }
+        ]
+      }
+    ],
+    "notes": [
+      "KnowKit redistribution license remains unselected; no publication approval."
+    ]
+  },
+  "enabledProfiles": [
+    "development"
+  ],
+  "verdict": "restricted",
+  "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+  "checkedAt": "2026-11-06",
+  "platformRequirements": {
+    "php": ">=7.2"
+  },
+  "licenseEvidence": {
+    "kind": "composer-lock-and-installed-license",
+    "lock": {
+      "path": "composer.lock",
+      "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+    },
+    "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+  }
+}

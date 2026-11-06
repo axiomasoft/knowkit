@@ -1,0 +1,65 @@
+{
+  "id": "phpstan/phpstan",
+  "version": "2.3.5",
+  "sourceUrl": "https://api.github.com/repos/phpstan/phpstan/zipball/645a1bd6bead15fc1b8474137467961d0fa30a79",
+  "sourceRevision": "645a1bd6bead15fc1b8474137467961d0fa30a79",
+  "codeLicense": "MIT",
+  "licenseFileDigest": "f9e4f43eb1c32f7c4f5bcdb0860de5ba71712c3c1547eeb0d1e4b3c43313ec81",
+  "notices": [
+    {
+      "path": "licenses/notices/composer/phpstan/phpstan.txt",
+      "sha256": "f9e4f43eb1c32f7c4f5bcdb0860de5ba71712c3c1547eeb0d1e4b3c43313ec81"
+    }
+  ],
+  "transitiveComponents": [],
+  "modelAssets": [],
+  "datasets": [],
+  "networkAtBuild": {
+    "required": true,
+    "destinations": [
+      "Configured Composer repository and pinned source/dist hosts"
+    ],
+    "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+  },
+  "networkAtRuntime": {
+    "required": false,
+    "destinations": [],
+    "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": true,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "retain-license-and-copyright",
+        "fulfilled": true,
+        "evidence": [
+          {
+            "path": "licenses/notices/composer/phpstan/phpstan.txt",
+            "sha256": "f9e4f43eb1c32f7c4f5bcdb0860de5ba71712c3c1547eeb0d1e4b3c43313ec81"
+          }
+        ]
+      }
+    ],
+    "notes": [
+      "KnowKit redistribution license remains unselected; no publication approval."
+    ]
+  },
+  "enabledProfiles": [
+    "development"
+  ],
+  "verdict": "restricted",
+  "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+  "checkedAt": "2026-11-06",
+  "platformRequirements": {
+    "php": "^7.4|^8.0"
+  },
+  "licenseEvidence": {
+    "kind": "composer-lock-and-installed-license",
+    "lock": {
+      "path": "composer.lock",
+      "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+    },
+    "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+  }
+}

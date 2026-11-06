@@ -1,0 +1,90 @@
+{
+  "id": "deeptutor-source-patterns",
+  "version": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+  "sourceUrl": "https://github.com/HKUDS/DeepTutor",
+  "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+  "codeLicense": "Apache-2.0",
+  "licenseFileDigest": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4",
+  "notices": [
+    {
+      "path": "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+      "sha256": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4"
+    },
+    {
+      "path": "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md",
+      "sha256": "d59dc01b43d1916db9418bc1ebcc213a4859047dc07e2766c4234391f9db033c"
+    }
+  ],
+  "transitiveComponents": [],
+  "modelAssets": [],
+  "datasets": [],
+  "networkAtBuild": {
+    "required": false,
+    "destinations": [],
+    "reason": "Local source adaptation; no donor installation."
+  },
+  "networkAtRuntime": {
+    "required": false,
+    "destinations": [],
+    "reason": "No donor runtime or network calls are imported."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": true,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "retain-license-notices-and-change-attribution",
+        "fulfilled": true,
+        "evidence": [
+          {
+            "path": "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+            "sha256": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4"
+          },
+          {
+            "path": "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md",
+            "sha256": "d59dc01b43d1916db9418bc1ebcc213a4859047dc07e2766c4234391f9db033c"
+          },
+          {
+            "path": "tools/license-audit.php",
+            "sha256": "97159c12f5077585dba5f96dc8840747e064600a5daf777cd3a9304954317fde"
+          }
+        ]
+      }
+    ],
+    "notes": [
+      "KnowKit redistribution license remains unselected; no publication approval."
+    ]
+  },
+  "enabledProfiles": [
+    "reuse-tooling"
+  ],
+  "verdict": "restricted",
+  "reason": "Only selected dependency-graph and fresh-process patterns adapted to offline PHP tooling; root license is not dependency, model or dataset clearance.",
+  "checkedAt": "2026-11-06",
+  "selectedFiles": [
+    {
+      "path": ".importlinter",
+      "sha256": "caeb0d1ba1a51e8ffff48c88c6fc99c0dc2fe8967b2134a6b896ccfa8767f3b3",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/.importlinter",
+      "span": "L1-L37"
+    },
+    {
+      "path": "tests/runtime/test_import_layering.py",
+      "sha256": "f50d98ac585c4f8426acc7a8e709ca4bcd34176ca64e5b42862191481b9ebbe1",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_import_layering.py",
+      "span": "L1-L35"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/LICENSE",
+      "span": "L1-L202"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "sha256": "d59dc01b43d1916db9418bc1ebcc213a4859047dc07e2766c4234391f9db033c",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/THIRD_PARTY_NOTICES.md",
+      "span": "L1-L113"
+    }
+  ]
+}

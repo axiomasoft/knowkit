@@ -1,0 +1,2 @@
+Synthetic Apache-2.0 code attribution for qualification regression fixtures only.
+No upstream code or model bytes are included.

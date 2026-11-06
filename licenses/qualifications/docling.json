@@ -1,0 +1,68 @@
+{
+  "id": "docling",
+  "version": "source-evidence@0fa0918d16de7769d942f9b06ca18cb673cbbc2e",
+  "sourceUrl": "https://github.com/docling-project/docling",
+  "sourceRevision": "0fa0918d16de7769d942f9b06ca18cb673cbbc2e",
+  "codeLicense": "MIT",
+  "licenseFileDigest": "edb765d1e3e60d0c7a7d5fba5f2bb2c3c29f7465cecb5c22cf1185c884954e4c",
+  "notices": [
+    {
+      "path": "licenses/notices/docling-LICENSE.txt",
+      "sha256": "edb765d1e3e60d0c7a7d5fba5f2bb2c3c29f7465cecb5c22cf1185c884954e4c"
+    }
+  ],
+  "transitiveComponents": [],
+  "modelAssets": [
+    {
+      "id": "unselected-layout-ocr-models",
+      "version": null,
+      "sha256": null,
+      "license": "unknown",
+      "source": null,
+      "sourceRevision": null
+    }
+  ],
+  "datasets": [
+    {
+      "id": "unqualified-model-training-data",
+      "version": null,
+      "sha256": null,
+      "license": "unknown",
+      "source": null,
+      "sourceRevision": null
+    }
+  ],
+  "networkAtBuild": {
+    "required": null,
+    "destinations": [],
+    "reason": "Unqualified dependency/model inventory; no download authorized by this record."
+  },
+  "networkAtRuntime": {
+    "required": null,
+    "destinations": [],
+    "reason": "Unqualified effective profile; do not infer offline operation from code licensing."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": false,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "exact-profile-assets-dependencies-and-rights",
+        "fulfilled": false,
+        "evidence": []
+      }
+    ],
+    "notes": [
+      "KnowKit redistribution license remains unselected; no publication approval."
+    ]
+  },
+  "enabledProfiles": [],
+  "verdict": "blocked",
+  "reason": "Individual layout/OCR/table/formula model licenses, asset SHA256/revisions and the complete dependency lock are not qualified. Automatic model downloads require explicit offline build/runtime network controls.",
+  "checkedAt": "2026-11-06",
+  "qualificationGaps": [
+    "Exact transitive lock and notices",
+    "Exact selected asset/dataset identity, separate licenses and processing/egress/disclosure restrictions",
+    "Offline runtime and capability conformance"
+  ]
+}

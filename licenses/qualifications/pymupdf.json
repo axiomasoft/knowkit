@@ -1,0 +1,50 @@
+{
+  "id": "pymupdf",
+  "version": "source-evidence@463b9fc1e72d2c75dc457b09a8bca2a431bf6452",
+  "sourceUrl": "https://github.com/pymupdf/PyMuPDF",
+  "sourceRevision": "463b9fc1e72d2c75dc457b09a8bca2a431bf6452",
+  "codeLicense": "LicenseRef-PyMuPDF-AGPL-Commercial-Choice-Unqualified",
+  "licenseFileDigest": "57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6",
+  "notices": [
+    {
+      "path": "licenses/notices/pymupdf-COPYING.txt",
+      "sha256": "57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6"
+    }
+  ],
+  "transitiveComponents": [],
+  "modelAssets": [],
+  "datasets": [],
+  "networkAtBuild": {
+    "required": null,
+    "destinations": [],
+    "reason": "Unqualified dependency/model inventory; no download authorized by this record."
+  },
+  "networkAtRuntime": {
+    "required": null,
+    "destinations": [],
+    "reason": "Unqualified effective profile; do not infer offline operation from code licensing."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": false,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "exact-profile-assets-dependencies-and-rights",
+        "fulfilled": false,
+        "evidence": []
+      }
+    ],
+    "notes": [
+      "KnowKit redistribution license remains unselected; no publication approval."
+    ]
+  },
+  "enabledProfiles": [],
+  "verdict": "blocked",
+  "reason": "AGPL/commercial selection and compliance not established. Worker isolation does not itself satisfy distribution terms; dependency/native MuPDF inventory is not qualified. The retained COPYING is AGPL v3 text; this record does not infer an SPDX only/or-later grant or a commercial license from that text.",
+  "checkedAt": "2026-11-06",
+  "qualificationGaps": [
+    "Exact transitive lock and notices",
+    "Exact selected asset/dataset identity, separate licenses and processing/egress/disclosure restrictions",
+    "Offline runtime and capability conformance"
+  ]
+}

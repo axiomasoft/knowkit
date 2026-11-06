@@ -1,0 +1,193 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "contract:licensing",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial version: all five required licensing scenarios plus transitive/lock, offline generated inventory and required-case integrity. Expected digests/outcomes authored intentionally; any expectation change requires a version and substantive rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic licensing corpus. example.invalid URLs, invented pins/asset hashes; no third-party model bytes or document data. Adapted harness patterns: licenses/P1.3-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "licensing.apache-root-separate-weights-datasets",
+    "licensing.proprietary-agentools",
+    "licensing.missing-notice",
+    "licensing.incomplete-enabled-parser",
+    "licensing.local-text-markdown",
+    "licensing.transitive-graph",
+    "licensing.pinned-local-sbom",
+    "licensing.lock-drift",
+    "licensing.required-case-integrity",
+    "licensing.qualification-shape"
+  ],
+  "testCaseMap": {
+    "licensing.apache-root-separate-weights-datasets": [
+      "KnowKit\\Tests\\Licensing\\LicenseAuditTest::testApacheRootDoesNotQualifySeparateWeightsOrDatasets"
+    ],
+    "licensing.proprietary-agentools": [
+      "KnowKit\\Tests\\Licensing\\LicenseAuditTest::testProprietaryAgentoolsRequiresLocalPermissionAndNoRedistribution"
+    ],
+    "licensing.missing-notice": [
+      "KnowKit\\Tests\\Licensing\\LicenseAuditTest::testMissingOrCorruptedNoticeRejectsInclusion"
+    ],
+    "licensing.incomplete-enabled-parser": [
+      "KnowKit\\Tests\\Licensing\\LicenseAuditTest::testEnabledParserCannotHaveIncompleteOrUnknownQualification"
+    ],
+    "licensing.local-text-markdown": [
+      "KnowKit\\Tests\\Licensing\\LicenseAuditTest::testOriginalLocalTxtAndMarkdownDoNotRequireExternalQualification"
+    ],
+    "licensing.transitive-graph": [
+      "KnowKit\\Tests\\Licensing\\LicenseAuditTest::testTransitiveMissingAndCyclicComponentsAreRejected"
+    ],
+    "licensing.pinned-local-sbom": [
+      "KnowKit\\Tests\\Licensing\\LicenseAuditTest::testRepositoryInventoryAndGeneratedSbomAreExactAndOffline"
+    ],
+    "licensing.lock-drift": [
+      "KnowKit\\Tests\\Licensing\\LicenseAuditTest::testLockDriftAndDependencyGraphMismatchFailClosed"
+    ],
+    "licensing.required-case-integrity": [
+      "KnowKit\\Tests\\Licensing\\LicenseAuditTest::testVersionedFixtureManifestAndRequiredCasesCannotBeSkipped"
+    ],
+    "licensing.qualification-shape": [
+      "KnowKit\\Tests\\Licensing\\LicenseAuditTest::testRequiredFieldsAndEvidenceShapesCannotBeBypassed"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/contract/licensing/fixtures/v1/authority.txt",
+      "sha256": "bc4ed3557736a0028386e183da3f0f88f196bb71e567979e9522e00d9fa9b876",
+      "expected": {
+        "outcome": "retained-digest-bound-synthetic-evidence"
+      }
+    },
+    {
+      "path": "tests/contract/licensing/fixtures/v1/cases.json",
+      "sha256": "f0d6c725c6d1afd03ef62e2119db9640d28b3053baa17139d54ec6f9f3390edf",
+      "expected": {
+        "scenarioOutcomes": {
+          "apache-known-separate-weights": {
+            "exit": 0
+          },
+          "apache-unknown-weights": {
+            "exit": 1,
+            "error": "unqualified modelAssets"
+          },
+          "apache-denied-weights": {
+            "exit": 1,
+            "error": "asset rights denied: modelAssets"
+          },
+          "apache-unknown-dataset": {
+            "exit": 1,
+            "error": "unqualified datasets"
+          },
+          "apache-unpinned-weights": {
+            "exit": 1,
+            "error": "unqualified modelAssets"
+          },
+          "proprietary-local-adaptation": {
+            "exit": 0
+          },
+          "proprietary-no-permission": {
+            "exit": 1,
+            "error": "proprietary permission missing"
+          },
+          "proprietary-redistribution": {
+            "exit": 1,
+            "error": "proprietary permission missing"
+          },
+          "missing-notice": {
+            "exit": 1,
+            "error": "missing notice"
+          },
+          "missing-license-notice": {
+            "exit": 1,
+            "error": "code license notice missing"
+          },
+          "missing-notice-file": {
+            "exit": 1,
+            "error": "missing/escaping evidence"
+          },
+          "corrupt-notice-digest": {
+            "exit": 1,
+            "error": "evidence digest mismatch"
+          },
+          "missing-parser-record": {
+            "exit": 1,
+            "error": "missing qualification: fixture-parser"
+          },
+          "incomplete-parser-record": {
+            "exit": 1,
+            "error": "unknown qualification: checkedAt"
+          },
+          "unknown-parser-license": {
+            "exit": 1,
+            "error": "unknown qualification: codeLicense"
+          },
+          "unpinned-parser-source": {
+            "exit": 1,
+            "error": "unpinned source"
+          },
+          "blocked-parser": {
+            "exit": 1,
+            "error": "blocked qualification"
+          },
+          "unfulfilled-requirement": {
+            "exit": 1,
+            "error": "unfulfilled requirement"
+          },
+          "unknown-network": {
+            "exit": 1,
+            "error": "unknown network requirements"
+          },
+          "profile-not-qualified": {
+            "exit": 1,
+            "error": "profile not qualified"
+          },
+          "empty-enabled-parser": {
+            "exit": 1,
+            "error": "missing enabled profile qualification"
+          },
+          "unknown-catalog-schema": {
+            "exit": 1,
+            "error": "unknown catalog schema"
+          },
+          "local-text-markdown": {
+            "exit": 0
+          },
+          "local-external-dependency": {
+            "exit": 1,
+            "error": "local baseline depends on external component"
+          },
+          "missing-transitive-component": {
+            "exit": 1,
+            "error": "missing qualification: missing-dependency"
+          },
+          "cyclic-transitive-component": {
+            "exit": 1,
+            "error": "cyclic qualification"
+          }
+        }
+      }
+    },
+    {
+      "path": "tests/contract/licensing/fixtures/v1/code-NOTICE.txt",
+      "sha256": "c32d92495fb27b3d671cc739f2d9e971c1d46f67a56b627b0110ab5cfa2e0dc4",
+      "expected": {
+        "outcome": "retained-digest-bound-synthetic-evidence"
+      }
+    },
+    {
+      "path": "tests/contract/licensing/fixtures/v1/weights-NOTICE.txt",
+      "sha256": "9e69e07c62a0cec886892019371b7e243e43283ee2d90a86c3f9742d5764b422",
+      "expected": {
+        "outcome": "retained-digest-bound-synthetic-evidence"
+      }
+    }
+  ],
+  "components": {
+    "composerLock": {
+      "path": "composer.lock",
+      "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+    }
+  }
+}

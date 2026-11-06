@@ -1,0 +1,2285 @@
+{
+    "schemaVersion": "license-audit:1",
+    "status": "passed",
+    "publicationAllowed": false,
+    "profiles": [
+        {
+            "id": "local-text",
+            "status": "allowed"
+        },
+        {
+            "id": "local-markdown",
+            "status": "allowed"
+        },
+        {
+            "id": "reuse-tooling",
+            "status": "restricted"
+        },
+        {
+            "id": "development",
+            "status": "restricted"
+        },
+        {
+            "id": "docling-parser",
+            "status": "disabled"
+        },
+        {
+            "id": "mineru-parser",
+            "status": "disabled"
+        },
+        {
+            "id": "pymupdf-parser",
+            "status": "disabled"
+        }
+    ],
+    "components": [
+        {
+            "id": "agentools-source-patterns",
+            "version": "2054acda51eb69eca1579c78900858c5ff3de01e",
+            "sourceUrl": "https://github.com/axiomasoft/agentools",
+            "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+            "codeLicense": "proprietary",
+            "licenseFileDigest": "8c63b2e3e661dc0461d4dca06df370db52e46536b779ae95f167c2f93476d75d",
+            "notices": [
+                {
+                    "path": "licenses/notices/agentools-LICENSE.txt",
+                    "sha256": "8c63b2e3e661dc0461d4dca06df370db52e46536b779ae95f167c2f93476d75d"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": false,
+                "destinations": [],
+                "reason": "Local source adaptation; no donor installation."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No donor runtime or network calls are imported."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "owner-local-adaptation",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/local-reuse-authorization.md",
+                                "sha256": "0f262e8a44a8132b045cbffa70dba5e82eae758c22652460870c426f413b5064"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "reuse-tooling"
+            ],
+            "verdict": "restricted",
+            "reason": "Owner-authorized private local adaptation of suite/metadata patterns only; not the product/runtime or weights.",
+            "checkedAt": "2026-11-06",
+            "selectedFiles": [
+                {
+                    "path": "extensions/knowledge/composer.json",
+                    "sha256": "ab8f8389b198aeb63ed535bc052e297359afd9704605ece0895a7e86deb3d3ee",
+                    "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/composer.json",
+                    "span": "L1-L45"
+                },
+                {
+                    "path": "extensions/knowledge/tests/suite.py",
+                    "sha256": "a05e5d99b95e6dc2ee2468885b97f7dcc6598b8f95e53a530c4a59abe274ce12",
+                    "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/suite.py",
+                    "span": "L1-L47"
+                }
+            ]
+        },
+        {
+            "id": "deeptutor-source-patterns",
+            "version": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+            "sourceUrl": "https://github.com/HKUDS/DeepTutor",
+            "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+            "codeLicense": "Apache-2.0",
+            "licenseFileDigest": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4",
+            "notices": [
+                {
+                    "path": "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+                    "sha256": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4"
+                },
+                {
+                    "path": "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md",
+                    "sha256": "d59dc01b43d1916db9418bc1ebcc213a4859047dc07e2766c4234391f9db033c"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": false,
+                "destinations": [],
+                "reason": "Local source adaptation; no donor installation."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No donor runtime or network calls are imported."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-notices-and-change-attribution",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+                                "sha256": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4"
+                            },
+                            {
+                                "path": "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md",
+                                "sha256": "d59dc01b43d1916db9418bc1ebcc213a4859047dc07e2766c4234391f9db033c"
+                            },
+                            {
+                                "path": "tools/license-audit.php",
+                                "sha256": "97159c12f5077585dba5f96dc8840747e064600a5daf777cd3a9304954317fde"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "reuse-tooling"
+            ],
+            "verdict": "restricted",
+            "reason": "Only selected dependency-graph and fresh-process patterns adapted to offline PHP tooling; root license is not dependency, model or dataset clearance.",
+            "checkedAt": "2026-11-06",
+            "selectedFiles": [
+                {
+                    "path": ".importlinter",
+                    "sha256": "caeb0d1ba1a51e8ffff48c88c6fc99c0dc2fe8967b2134a6b896ccfa8767f3b3",
+                    "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/.importlinter",
+                    "span": "L1-L37"
+                },
+                {
+                    "path": "tests/runtime/test_import_layering.py",
+                    "sha256": "f50d98ac585c4f8426acc7a8e709ca4bcd34176ca64e5b42862191481b9ebbe1",
+                    "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_import_layering.py",
+                    "span": "L1-L35"
+                },
+                {
+                    "path": "LICENSE",
+                    "sha256": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4",
+                    "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/LICENSE",
+                    "span": "L1-L202"
+                },
+                {
+                    "path": "THIRD_PARTY_NOTICES.md",
+                    "sha256": "d59dc01b43d1916db9418bc1ebcc213a4859047dc07e2766c4234391f9db033c",
+                    "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/THIRD_PARTY_NOTICES.md",
+                    "span": "L1-L113"
+                }
+            ]
+        },
+        {
+            "id": "myclabs/deep-copy",
+            "version": "1.14.0",
+            "sourceUrl": "https://github.com/myclabs/DeepCopy.git",
+            "sourceRevision": "8680aa248f8e07bc8fb43f56f0f5fc77a0c96aae",
+            "codeLicense": "MIT",
+            "licenseFileDigest": "90007d13610253dfbbe382190c336b50718f8344d5bff230d0580282fb16a7d6",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/myclabs/deep-copy.txt",
+                    "sha256": "90007d13610253dfbbe382190c336b50718f8344d5bff230d0580282fb16a7d6"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/myclabs/deep-copy.txt",
+                                "sha256": "90007d13610253dfbbe382190c336b50718f8344d5bff230d0580282fb16a7d6"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": "^8.0"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "nikic/php-parser",
+            "version": "v5.9.0",
+            "sourceUrl": "https://github.com/nikic/PHP-Parser.git",
+            "sourceRevision": "9e33da9553fe7786f0962b35f4e4ecf01be89def",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "dd859e107fac9f87a4413ab8c3c96f0f1611a17f596a2db562a5a4f4904c1e97",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/nikic/php-parser.txt",
+                    "sha256": "dd859e107fac9f87a4413ab8c3c96f0f1611a17f596a2db562a5a4f4904c1e97"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/nikic/php-parser.txt",
+                                "sha256": "dd859e107fac9f87a4413ab8c3c96f0f1611a17f596a2db562a5a4f4904c1e97"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "ext-json": "*",
+                "ext-tokenizer": "*",
+                "php": ">=7.4"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "phar-io/manifest",
+            "version": "2.0.4",
+            "sourceUrl": "https://github.com/phar-io/manifest.git",
+            "sourceRevision": "54750ef60c58e43759730615a392c31c80e23176",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "c882c8ea59ec1a1fdaa12ba56e5464be82c09f6924ed8a04883cec3b5c0126a1",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/phar-io/manifest.txt",
+                    "sha256": "c882c8ea59ec1a1fdaa12ba56e5464be82c09f6924ed8a04883cec3b5c0126a1"
+                }
+            ],
+            "transitiveComponents": [
+                "phar-io/version"
+            ],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/phar-io/manifest.txt",
+                                "sha256": "c882c8ea59ec1a1fdaa12ba56e5464be82c09f6924ed8a04883cec3b5c0126a1"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "ext-phar": "*",
+                "ext-xmlwriter": "*",
+                "php": "^7.2 || ^8.0"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "phar-io/version",
+            "version": "3.2.1",
+            "sourceUrl": "https://github.com/phar-io/version.git",
+            "sourceRevision": "4f7fd7836c6f332bb2933569e566a0d6c4cbed74",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "f24078e519642d911ca010cd683f68ba4cb6ceeef35ce40b479da1ab9ab73427",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/phar-io/version.txt",
+                    "sha256": "f24078e519642d911ca010cd683f68ba4cb6ceeef35ce40b479da1ab9ab73427"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/phar-io/version.txt",
+                                "sha256": "f24078e519642d911ca010cd683f68ba4cb6ceeef35ce40b479da1ab9ab73427"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": "^7.2 || ^8.0"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "phpstan/phpstan",
+            "version": "2.3.5",
+            "sourceUrl": "https://api.github.com/repos/phpstan/phpstan/zipball/645a1bd6bead15fc1b8474137467961d0fa30a79",
+            "sourceRevision": "645a1bd6bead15fc1b8474137467961d0fa30a79",
+            "codeLicense": "MIT",
+            "licenseFileDigest": "f9e4f43eb1c32f7c4f5bcdb0860de5ba71712c3c1547eeb0d1e4b3c43313ec81",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/phpstan/phpstan.txt",
+                    "sha256": "f9e4f43eb1c32f7c4f5bcdb0860de5ba71712c3c1547eeb0d1e4b3c43313ec81"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/phpstan/phpstan.txt",
+                                "sha256": "f9e4f43eb1c32f7c4f5bcdb0860de5ba71712c3c1547eeb0d1e4b3c43313ec81"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": "^7.4|^8.0"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "phpunit/php-code-coverage",
+            "version": "11.0.12",
+            "sourceUrl": "https://github.com/sebastianbergmann/php-code-coverage.git",
+            "sourceRevision": "2c1ed04922802c15e1de5d7447b4856de949cf56",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "631a3d6ce2693df7aa75dc32320afd3e57313f779b34f270276d99cea82f5ebe",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/phpunit/php-code-coverage.txt",
+                    "sha256": "631a3d6ce2693df7aa75dc32320afd3e57313f779b34f270276d99cea82f5ebe"
+                }
+            ],
+            "transitiveComponents": [
+                "nikic/php-parser",
+                "phpunit/php-file-iterator",
+                "phpunit/php-text-template",
+                "sebastian/code-unit-reverse-lookup",
+                "sebastian/complexity",
+                "sebastian/environment",
+                "sebastian/lines-of-code",
+                "sebastian/version",
+                "theseer/tokenizer"
+            ],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/phpunit/php-code-coverage.txt",
+                                "sha256": "631a3d6ce2693df7aa75dc32320afd3e57313f779b34f270276d99cea82f5ebe"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "ext-dom": "*",
+                "ext-libxml": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "phpunit/php-file-iterator",
+            "version": "5.1.1",
+            "sourceUrl": "https://github.com/sebastianbergmann/php-file-iterator.git",
+            "sourceRevision": "2f3a64888c814fc235386b7387dd5b5ed92ad903",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "631a3d6ce2693df7aa75dc32320afd3e57313f779b34f270276d99cea82f5ebe",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/phpunit/php-file-iterator.txt",
+                    "sha256": "631a3d6ce2693df7aa75dc32320afd3e57313f779b34f270276d99cea82f5ebe"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/phpunit/php-file-iterator.txt",
+                                "sha256": "631a3d6ce2693df7aa75dc32320afd3e57313f779b34f270276d99cea82f5ebe"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "phpunit/php-invoker",
+            "version": "5.0.1",
+            "sourceUrl": "https://github.com/sebastianbergmann/php-invoker.git",
+            "sourceRevision": "c1ca3814734c07492b3d4c5f794f4b0995333da2",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "28ce904b03186e212aa1d99f44b05410e7a63fb810f93bb0868494235ba13619",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/phpunit/php-invoker.txt",
+                    "sha256": "28ce904b03186e212aa1d99f44b05410e7a63fb810f93bb0868494235ba13619"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/phpunit/php-invoker.txt",
+                                "sha256": "28ce904b03186e212aa1d99f44b05410e7a63fb810f93bb0868494235ba13619"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "phpunit/php-text-template",
+            "version": "4.0.1",
+            "sourceUrl": "https://github.com/sebastianbergmann/php-text-template.git",
+            "sourceRevision": "3e0404dc6b300e6bf56415467ebcb3fe4f33e964",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "f606112d20c8f5eb21ff6eb25f29471c85c15302c047d9eccec41b23f51dad98",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/phpunit/php-text-template.txt",
+                    "sha256": "f606112d20c8f5eb21ff6eb25f29471c85c15302c047d9eccec41b23f51dad98"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/phpunit/php-text-template.txt",
+                                "sha256": "f606112d20c8f5eb21ff6eb25f29471c85c15302c047d9eccec41b23f51dad98"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "phpunit/php-timer",
+            "version": "7.0.1",
+            "sourceUrl": "https://github.com/sebastianbergmann/php-timer.git",
+            "sourceRevision": "3b415def83fbcb41f991d9ebf16ae4ad8b7837b3",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "9e0f5c26ef795d022b9e6a246cc02d6dc86a51a6338c2fc8a4c4653a003f0b01",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/phpunit/php-timer.txt",
+                    "sha256": "9e0f5c26ef795d022b9e6a246cc02d6dc86a51a6338c2fc8a4c4653a003f0b01"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/phpunit/php-timer.txt",
+                                "sha256": "9e0f5c26ef795d022b9e6a246cc02d6dc86a51a6338c2fc8a4c4653a003f0b01"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "phpunit/phpunit",
+            "version": "11.5.57",
+            "sourceUrl": "https://github.com/sebastianbergmann/phpunit.git",
+            "sourceRevision": "36b75bf56a8535623f5b3e24b27ea1823759da1a",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "5aa383bf44a3951bb4a2214c740a96e7795e473e1a0abc8d5812e6a3c1dbfc1e",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/phpunit/phpunit.txt",
+                    "sha256": "5aa383bf44a3951bb4a2214c740a96e7795e473e1a0abc8d5812e6a3c1dbfc1e"
+                }
+            ],
+            "transitiveComponents": [
+                "myclabs/deep-copy",
+                "phar-io/manifest",
+                "phar-io/version",
+                "phpunit/php-code-coverage",
+                "phpunit/php-file-iterator",
+                "phpunit/php-invoker",
+                "phpunit/php-text-template",
+                "phpunit/php-timer",
+                "sebastian/cli-parser",
+                "sebastian/code-unit",
+                "sebastian/comparator",
+                "sebastian/diff",
+                "sebastian/environment",
+                "sebastian/exporter",
+                "sebastian/global-state",
+                "sebastian/object-enumerator",
+                "sebastian/recursion-context",
+                "sebastian/type",
+                "sebastian/version",
+                "staabm/side-effects-detector"
+            ],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/phpunit/phpunit.txt",
+                                "sha256": "5aa383bf44a3951bb4a2214c740a96e7795e473e1a0abc8d5812e6a3c1dbfc1e"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "ext-dom": "*",
+                "ext-filter": "*",
+                "ext-json": "*",
+                "ext-libxml": "*",
+                "ext-mbstring": "*",
+                "ext-xmlwriter": "*",
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/cli-parser",
+            "version": "3.0.2",
+            "sourceUrl": "https://github.com/sebastianbergmann/cli-parser.git",
+            "sourceRevision": "15c5dd40dc4f38794d383bb95465193f5e0ae180",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "6eff0b15f6322d21c2590c3400cb8aac5361f7d36e519af4fd8ebaee27ef5d41",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/cli-parser.txt",
+                    "sha256": "6eff0b15f6322d21c2590c3400cb8aac5361f7d36e519af4fd8ebaee27ef5d41"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/cli-parser.txt",
+                                "sha256": "6eff0b15f6322d21c2590c3400cb8aac5361f7d36e519af4fd8ebaee27ef5d41"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/code-unit",
+            "version": "3.0.3",
+            "sourceUrl": "https://github.com/sebastianbergmann/code-unit.git",
+            "sourceRevision": "54391c61e4af8078e5b276ab082b6d3c54c9ad64",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "f3b7f57c47d30a716d39846c5cd5482d01437d30b2eb1a97dc7df0d926af5c5f",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/code-unit.txt",
+                    "sha256": "f3b7f57c47d30a716d39846c5cd5482d01437d30b2eb1a97dc7df0d926af5c5f"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/code-unit.txt",
+                                "sha256": "f3b7f57c47d30a716d39846c5cd5482d01437d30b2eb1a97dc7df0d926af5c5f"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/code-unit-reverse-lookup",
+            "version": "4.0.1",
+            "sourceUrl": "https://github.com/sebastianbergmann/code-unit-reverse-lookup.git",
+            "sourceRevision": "183a9b2632194febd219bb9246eee421dad8d45e",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "20f3189ff047e04dc96a45e311ee3b6f3dd9b17d0d8396c4a10243d93643dd5e",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/code-unit-reverse-lookup.txt",
+                    "sha256": "20f3189ff047e04dc96a45e311ee3b6f3dd9b17d0d8396c4a10243d93643dd5e"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/code-unit-reverse-lookup.txt",
+                                "sha256": "20f3189ff047e04dc96a45e311ee3b6f3dd9b17d0d8396c4a10243d93643dd5e"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/comparator",
+            "version": "6.3.3",
+            "sourceUrl": "https://github.com/sebastianbergmann/comparator.git",
+            "sourceRevision": "2c95e1e86cb8dd41beb8d502057d1081ccc8eca9",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "bd6164746a2e92bf9fb581f8c691901019004e8c40d558eb01de1a535ccb5508",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/comparator.txt",
+                    "sha256": "bd6164746a2e92bf9fb581f8c691901019004e8c40d558eb01de1a535ccb5508"
+                }
+            ],
+            "transitiveComponents": [
+                "sebastian/diff",
+                "sebastian/exporter"
+            ],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/comparator.txt",
+                                "sha256": "bd6164746a2e92bf9fb581f8c691901019004e8c40d558eb01de1a535ccb5508"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "ext-dom": "*",
+                "ext-mbstring": "*",
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/complexity",
+            "version": "4.0.1",
+            "sourceUrl": "https://github.com/sebastianbergmann/complexity.git",
+            "sourceRevision": "ee41d384ab1906c68852636b6de493846e13e5a0",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "6eff0b15f6322d21c2590c3400cb8aac5361f7d36e519af4fd8ebaee27ef5d41",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/complexity.txt",
+                    "sha256": "6eff0b15f6322d21c2590c3400cb8aac5361f7d36e519af4fd8ebaee27ef5d41"
+                }
+            ],
+            "transitiveComponents": [
+                "nikic/php-parser"
+            ],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/complexity.txt",
+                                "sha256": "6eff0b15f6322d21c2590c3400cb8aac5361f7d36e519af4fd8ebaee27ef5d41"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/diff",
+            "version": "6.0.2",
+            "sourceUrl": "https://github.com/sebastianbergmann/diff.git",
+            "sourceRevision": "b4ccd857127db5d41a5b676f24b51371d76d8544",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "dc5746cd2037c14e4d128465c52403e388d582b9a5b29182c0ff24e1e26d890b",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/diff.txt",
+                    "sha256": "dc5746cd2037c14e4d128465c52403e388d582b9a5b29182c0ff24e1e26d890b"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/diff.txt",
+                                "sha256": "dc5746cd2037c14e4d128465c52403e388d582b9a5b29182c0ff24e1e26d890b"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/environment",
+            "version": "7.2.1",
+            "sourceUrl": "https://github.com/sebastianbergmann/environment.git",
+            "sourceRevision": "a5c75038693ad2e8d4b6c15ba2403532647830c4",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "c740a7d5add568ffff0b76091e5406e1820fa648cdf51a5c1f4b206c8378856f",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/environment.txt",
+                    "sha256": "c740a7d5add568ffff0b76091e5406e1820fa648cdf51a5c1f4b206c8378856f"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/environment.txt",
+                                "sha256": "c740a7d5add568ffff0b76091e5406e1820fa648cdf51a5c1f4b206c8378856f"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/exporter",
+            "version": "6.3.2",
+            "sourceUrl": "https://github.com/sebastianbergmann/exporter.git",
+            "sourceRevision": "70a298763b40b213ec087c51c739efcaa90bcd74",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "bd6164746a2e92bf9fb581f8c691901019004e8c40d558eb01de1a535ccb5508",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/exporter.txt",
+                    "sha256": "bd6164746a2e92bf9fb581f8c691901019004e8c40d558eb01de1a535ccb5508"
+                }
+            ],
+            "transitiveComponents": [
+                "sebastian/recursion-context"
+            ],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/exporter.txt",
+                                "sha256": "bd6164746a2e92bf9fb581f8c691901019004e8c40d558eb01de1a535ccb5508"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "ext-mbstring": "*",
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/global-state",
+            "version": "7.0.2",
+            "sourceUrl": "https://github.com/sebastianbergmann/global-state.git",
+            "sourceRevision": "3be331570a721f9a4b5917f4209773de17f747d7",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "c998a7945b12ef5a76c6dd14ac0c87841c54b78d45468981329e1a6831365a19",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/global-state.txt",
+                    "sha256": "c998a7945b12ef5a76c6dd14ac0c87841c54b78d45468981329e1a6831365a19"
+                }
+            ],
+            "transitiveComponents": [
+                "sebastian/object-reflector",
+                "sebastian/recursion-context"
+            ],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/global-state.txt",
+                                "sha256": "c998a7945b12ef5a76c6dd14ac0c87841c54b78d45468981329e1a6831365a19"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/lines-of-code",
+            "version": "3.0.1",
+            "sourceUrl": "https://github.com/sebastianbergmann/lines-of-code.git",
+            "sourceRevision": "d36ad0d782e5756913e42ad87cb2890f4ffe467a",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "6eff0b15f6322d21c2590c3400cb8aac5361f7d36e519af4fd8ebaee27ef5d41",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/lines-of-code.txt",
+                    "sha256": "6eff0b15f6322d21c2590c3400cb8aac5361f7d36e519af4fd8ebaee27ef5d41"
+                }
+            ],
+            "transitiveComponents": [
+                "nikic/php-parser"
+            ],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/lines-of-code.txt",
+                                "sha256": "6eff0b15f6322d21c2590c3400cb8aac5361f7d36e519af4fd8ebaee27ef5d41"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/object-enumerator",
+            "version": "6.0.1",
+            "sourceUrl": "https://github.com/sebastianbergmann/object-enumerator.git",
+            "sourceRevision": "f5b498e631a74204185071eb41f33f38d64608aa",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "20f3189ff047e04dc96a45e311ee3b6f3dd9b17d0d8396c4a10243d93643dd5e",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/object-enumerator.txt",
+                    "sha256": "20f3189ff047e04dc96a45e311ee3b6f3dd9b17d0d8396c4a10243d93643dd5e"
+                }
+            ],
+            "transitiveComponents": [
+                "sebastian/object-reflector",
+                "sebastian/recursion-context"
+            ],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/object-enumerator.txt",
+                                "sha256": "20f3189ff047e04dc96a45e311ee3b6f3dd9b17d0d8396c4a10243d93643dd5e"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/object-reflector",
+            "version": "4.0.1",
+            "sourceUrl": "https://github.com/sebastianbergmann/object-reflector.git",
+            "sourceRevision": "6e1a43b411b2ad34146dee7524cb13a068bb35f9",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "2c2f94408954d0b1b6a01bc7aa16c1c5ccc3514fb13b0c91e2d8ae25d062a528",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/object-reflector.txt",
+                    "sha256": "2c2f94408954d0b1b6a01bc7aa16c1c5ccc3514fb13b0c91e2d8ae25d062a528"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/object-reflector.txt",
+                                "sha256": "2c2f94408954d0b1b6a01bc7aa16c1c5ccc3514fb13b0c91e2d8ae25d062a528"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/recursion-context",
+            "version": "6.0.3",
+            "sourceUrl": "https://github.com/sebastianbergmann/recursion-context.git",
+            "sourceRevision": "f6458abbf32a6c8174f8f26261475dc133b3d9dc",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "bd6164746a2e92bf9fb581f8c691901019004e8c40d558eb01de1a535ccb5508",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/recursion-context.txt",
+                    "sha256": "bd6164746a2e92bf9fb581f8c691901019004e8c40d558eb01de1a535ccb5508"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/recursion-context.txt",
+                                "sha256": "bd6164746a2e92bf9fb581f8c691901019004e8c40d558eb01de1a535ccb5508"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/type",
+            "version": "5.1.3",
+            "sourceUrl": "https://github.com/sebastianbergmann/type.git",
+            "sourceRevision": "f77d2d4e78738c98d9a68d2596fe5e8fa380f449",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "b4e4722f44c385e5c4cc844cabe823720b46d048908eb20d9058bba36e201212",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/type.txt",
+                    "sha256": "b4e4722f44c385e5c4cc844cabe823720b46d048908eb20d9058bba36e201212"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/type.txt",
+                                "sha256": "b4e4722f44c385e5c4cc844cabe823720b46d048908eb20d9058bba36e201212"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "sebastian/version",
+            "version": "5.0.2",
+            "sourceUrl": "https://github.com/sebastianbergmann/version.git",
+            "sourceRevision": "c687e3387b99f5b03b6caa64c74b63e2936ff874",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "4c55e9fecaf5fc631de1139ab2f312f652f2eb7b99c4b99ae2ac4fd31d02bf70",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/sebastian/version.txt",
+                    "sha256": "4c55e9fecaf5fc631de1139ab2f312f652f2eb7b99c4b99ae2ac4fd31d02bf70"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/sebastian/version.txt",
+                                "sha256": "4c55e9fecaf5fc631de1139ab2f312f652f2eb7b99c4b99ae2ac4fd31d02bf70"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "staabm/side-effects-detector",
+            "version": "1.0.5",
+            "sourceUrl": "https://github.com/staabm/side-effects-detector.git",
+            "sourceRevision": "d8334211a140ce329c13726d4a715adbddd0a163",
+            "codeLicense": "MIT",
+            "licenseFileDigest": "23d428232751fbfd032b47195b3d2a60342d0cf0cdb6e2f474a6b19733e63d75",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/staabm/side-effects-detector.txt",
+                    "sha256": "23d428232751fbfd032b47195b3d2a60342d0cf0cdb6e2f474a6b19733e63d75"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/staabm/side-effects-detector.txt",
+                                "sha256": "23d428232751fbfd032b47195b3d2a60342d0cf0cdb6e2f474a6b19733e63d75"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "ext-tokenizer": "*",
+                "php": "^7.4 || ^8.0"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "symfony/deprecation-contracts",
+            "version": "v3.8.1",
+            "sourceUrl": "https://github.com/symfony/deprecation-contracts.git",
+            "sourceRevision": "feb1edf4e546af3b85c5caebe8359a20db230ca3",
+            "codeLicense": "MIT",
+            "licenseFileDigest": "b92809182501f0fa422167ea44484b41877e1736e8283d0377fdc9664bb9a02d",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/symfony/deprecation-contracts.txt",
+                    "sha256": "b92809182501f0fa422167ea44484b41877e1736e8283d0377fdc9664bb9a02d"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/symfony/deprecation-contracts.txt",
+                                "sha256": "b92809182501f0fa422167ea44484b41877e1736e8283d0377fdc9664bb9a02d"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.1"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "symfony/polyfill-ctype",
+            "version": "v1.37.0",
+            "sourceUrl": "https://github.com/symfony/polyfill-ctype.git",
+            "sourceRevision": "141046a8f9477948ff284fa65be2095baafb94f2",
+            "codeLicense": "MIT",
+            "licenseFileDigest": "375396ec5755e9c27dd9c513c0eb4c2923881aba98b941f156e92ed6ec1cfa19",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/symfony/polyfill-ctype.txt",
+                    "sha256": "375396ec5755e9c27dd9c513c0eb4c2923881aba98b941f156e92ed6ec1cfa19"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/symfony/polyfill-ctype.txt",
+                                "sha256": "375396ec5755e9c27dd9c513c0eb4c2923881aba98b941f156e92ed6ec1cfa19"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=7.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "symfony/yaml",
+            "version": "v7.4.23",
+            "sourceUrl": "https://github.com/symfony/yaml.git",
+            "sourceRevision": "1e601207ffe627a2e621faa9d661f1d32dcf1cec",
+            "codeLicense": "MIT",
+            "licenseFileDigest": "18da7e490d2aa77197a0619b25bcc771a0110132a9d76071665718d3295e73cb",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/symfony/yaml.txt",
+                    "sha256": "18da7e490d2aa77197a0619b25bcc771a0110132a9d76071665718d3295e73cb"
+                }
+            ],
+            "transitiveComponents": [
+                "symfony/deprecation-contracts",
+                "symfony/polyfill-ctype"
+            ],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/symfony/yaml.txt",
+                                "sha256": "18da7e490d2aa77197a0619b25bcc771a0110132a9d76071665718d3295e73cb"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "php": ">=8.2"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        },
+        {
+            "id": "theseer/tokenizer",
+            "version": "1.3.1",
+            "sourceUrl": "https://github.com/theseer/tokenizer.git",
+            "sourceRevision": "b7489ce515e168639d17feec34b8847c326b0b3c",
+            "codeLicense": "BSD-3-Clause",
+            "licenseFileDigest": "2820584a513c2547c81656abe330f414b4b395994d552f4c5e13c3d6e9279a90",
+            "notices": [
+                {
+                    "path": "licenses/notices/composer/theseer/tokenizer.txt",
+                    "sha256": "2820584a513c2547c81656abe330f414b4b395994d552f4c5e13c3d6e9279a90"
+                }
+            ],
+            "transitiveComponents": [],
+            "modelAssets": [],
+            "datasets": [],
+            "networkAtBuild": {
+                "required": true,
+                "destinations": [
+                    "Configured Composer repository and pinned source/dist hosts"
+                ],
+                "reason": "Composer installation downloads pinned archives; audit and installed tests are offline."
+            },
+            "networkAtRuntime": {
+                "required": false,
+                "destinations": [],
+                "reason": "No network is needed for local lint/unit execution; integration backends are separately declared by their tests."
+            },
+            "distributionConstraints": {
+                "localUseAllowed": true,
+                "redistributionAllowed": false,
+                "requirements": [
+                    {
+                        "id": "retain-license-and-copyright",
+                        "fulfilled": true,
+                        "evidence": [
+                            {
+                                "path": "licenses/notices/composer/theseer/tokenizer.txt",
+                                "sha256": "2820584a513c2547c81656abe330f414b4b395994d552f4c5e13c3d6e9279a90"
+                            }
+                        ]
+                    }
+                ],
+                "notes": [
+                    "KnowKit redistribution license remains unselected; no publication approval."
+                ]
+            },
+            "enabledProfiles": [
+                "development"
+            ],
+            "verdict": "restricted",
+            "reason": "Locked development tooling only; license metadata and retained installed LICENSE inspected; no vendor dependency is added to core.",
+            "checkedAt": "2026-11-06",
+            "platformRequirements": {
+                "ext-dom": "*",
+                "ext-tokenizer": "*",
+                "ext-xmlwriter": "*",
+                "php": "^7.2 || ^8.0"
+            },
+            "licenseEvidence": {
+                "kind": "composer-lock-and-installed-license",
+                "lock": {
+                    "path": "composer.lock",
+                    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+                },
+                "scope": "Installed package license bytes matched to installed/locked version and revision; not an independent supply-chain or binary audit."
+            }
+        }
+    ],
+    "catalogDigest": "5046e97af97cb87a5e632e3892d4ccd25cb24f26cc5ddeccba89766bdc84ce8f",
+    "limitations": [
+        "Local qualification only; no runtime parser/provider conformance or publication approval."
+    ]
+}
