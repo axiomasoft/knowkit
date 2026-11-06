@@ -1,0 +1,10 @@
+{
+  "procedure": "php -l each candidate PHP file; json.loads authored JSON; ast.parse Python; check candidate text for trailing whitespace",
+  "exit": 0,
+  "files": {
+    "php": 29,
+    "json": 12,
+    "python": 1
+  },
+  "failures": []
+}

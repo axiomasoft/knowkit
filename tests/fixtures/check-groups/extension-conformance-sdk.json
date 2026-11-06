@@ -1,0 +1,270 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "extension:conformance-sdk",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Initial P1.6 complete mapping: all SDK corpus IDs, required audit regressions, every deliberately broken adapter, profile/runner/CLI negatives and independently authored golden digests. Expected digest updates require a fixture version change and rationale. Revision 1.0.1 pins the complete tokenizer identity in static descriptors/profile exports, binds semantic parser profiles, and tests schema-valid isolation artifacts. The independently authored profile preimages document the resulting digest changes; source/IR/count expectations are unchanged.",
+  "rights": {
+    "license": "proprietary",
+    "origin": "KnowKit authored synthetic data; qualified pinned donor metadata/readiness patterns; no upstream dataset or weights",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "R36-A01",
+    "R36-A02",
+    "DT-R02",
+    "DT-R03",
+    "DT-R05",
+    "DT-R06",
+    "SDK-POLICY",
+    "SDK-BLOB",
+    "SDK-PARSER",
+    "SDK-SEARCH",
+    "SDK-SPACE",
+    "SDK-TOKENIZER",
+    "SDK-BUDGET",
+    "SDK-JOBS",
+    "SDK-OUTBOX",
+    "SDK-DELETION",
+    "SDK-EGRESS",
+    "SDK-ISOLATION",
+    "R41-A01",
+    "R41-A02",
+    "SDK-REJECT-UNKNOWN-ALLOW",
+    "SDK-REJECT-POSTFILTER",
+    "SDK-REJECT-MUTABLE",
+    "SDK-REJECT-STALE-FENCE",
+    "SDK-REJECT-MISLEADING-DELETE",
+    "SDK-REJECT-LEAKY-ARTIFACTS",
+    "SDK-REJECT-SPACE-MISMATCH",
+    "SDK-REJECT-UNGUARDED-EGRESS",
+    "SDK-REJECT-DUPLICATE-OUTBOX",
+    "SDK-REJECT-INEXACT-TOKENIZER",
+    "SDK-REJECT-RETARGET-PARSER",
+    "SDK-REJECT-REVOKED-PARENT",
+    "SDK-PROFILE-AXES",
+    "SDK-CREDENTIAL-REDACTION",
+    "SDK-PROFILE-NEGATIVES",
+    "SDK-READINESS",
+    "SDK-LAZY-DISCOVERY",
+    "SDK-TOKENIZER-IDENTITY",
+    "SDK-INDEPENDENT-GOLDENS",
+    "SDK-ZERO-MISSING-SKIPPED",
+    "SDK-CORPUS-VALIDATION",
+    "SDK-CLI",
+    "SDK-MANIFEST-COVERAGE",
+    "SDK-DESCRIPTOR-SCHEMA"
+  ],
+  "testCaseMap": {
+    "R36-A01": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testR36A01"
+    ],
+    "R36-A02": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testR36A02"
+    ],
+    "DT-R02": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testDTR02"
+    ],
+    "DT-R03": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testDTR03"
+    ],
+    "DT-R05": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testDTR05"
+    ],
+    "DT-R06": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testDTR06"
+    ],
+    "SDK-POLICY": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKPOLICY"
+    ],
+    "SDK-BLOB": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKBLOB"
+    ],
+    "SDK-PARSER": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKPARSER"
+    ],
+    "SDK-SEARCH": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKSEARCH"
+    ],
+    "SDK-SPACE": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKSPACE"
+    ],
+    "SDK-TOKENIZER": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKTOKENIZER"
+    ],
+    "SDK-BUDGET": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKBUDGET"
+    ],
+    "SDK-JOBS": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKJOBS"
+    ],
+    "SDK-OUTBOX": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKOUTBOX"
+    ],
+    "SDK-DELETION": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKDELETION"
+    ],
+    "SDK-EGRESS": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKEGRESS"
+    ],
+    "SDK-ISOLATION": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testSDKISOLATION"
+    ],
+    "R41-A01": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testR41A01"
+    ],
+    "R41-A02": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\CorpusTest::testR41A02"
+    ],
+    "SDK-REJECT-UNKNOWN-ALLOW": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsUnknownAllow"
+    ],
+    "SDK-REJECT-POSTFILTER": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsPostfilter"
+    ],
+    "SDK-REJECT-MUTABLE": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsMutable"
+    ],
+    "SDK-REJECT-STALE-FENCE": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsStaleFence"
+    ],
+    "SDK-REJECT-MISLEADING-DELETE": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsMisleadingDelete"
+    ],
+    "SDK-REJECT-LEAKY-ARTIFACTS": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsLeakyArtifacts"
+    ],
+    "SDK-REJECT-SPACE-MISMATCH": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsSpaceMismatch"
+    ],
+    "SDK-REJECT-UNGUARDED-EGRESS": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsUnguardedEgress"
+    ],
+    "SDK-REJECT-DUPLICATE-OUTBOX": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsDuplicateOutbox"
+    ],
+    "SDK-REJECT-INEXACT-TOKENIZER": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsInexactTokenizer"
+    ],
+    "SDK-REJECT-RETARGET-PARSER": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsRetargetParser"
+    ],
+    "SDK-REJECT-REVOKED-PARENT": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\BrokenAdaptersTest::testRejectsRevokedParent"
+    ],
+    "SDK-PROFILE-AXES": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\HostProfileTest::testEverySemanticAxisChangesFullAndFactoryIdentity"
+    ],
+    "SDK-CREDENTIAL-REDACTION": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\HostProfileTest::testCredentialRefsExportOnlyPresenceAndCannotGrantEgress"
+    ],
+    "SDK-PROFILE-NEGATIVES": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\HostProfileTest::testClosedSchemaUnknownIdsClaimsAndPinnedTokenizerReject"
+    ],
+    "SDK-READINESS": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\HostProfileTest::testReadinessHasIndependentInstalledEnabledConfiguredVerifiedReady"
+    ],
+    "SDK-LAZY-DISCOVERY": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\HostProfileTest::testDiscoveryInFreshProcessNeverLoadsHeavyImplementations"
+    ],
+    "SDK-TOKENIZER-IDENTITY": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\HostProfileTest::testTokenizerIdentityBindsEveryAxisAndFalseExactRejects"
+    ],
+    "SDK-INDEPENDENT-GOLDENS": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\HostProfileTest::testIndependentGoldenSourceIrAndProfileDigests"
+    ],
+    "SDK-ZERO-MISSING-SKIPPED": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\RunnerTest::testZeroMissingSkippedDuplicateAndUnexpectedExecutedCasesFail"
+    ],
+    "SDK-CORPUS-VALIDATION": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\RunnerTest::testCorpusManifestRejectsEmptyMissingDuplicateCorruptAndNoRationale"
+    ],
+    "SDK-CLI": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\RunnerTest::testCliRunsCorrectAndRejectsBrokenHostAndUnknownContract"
+    ],
+    "SDK-MANIFEST-COVERAGE": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\RunnerTest::testVersionedGroupManifestMatchesEveryCorpusIdAndFixtureDigest"
+    ],
+    "SDK-DESCRIPTOR-SCHEMA": [
+      "KnowKit\\Tests\\Conformance\\AdapterSdk\\HostProfileTest::testDescriptorSchemaMatchesStaticDiscoveryAndRejectsUnknownKinds"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "packages/core/conformance/fixtures/corpus.v1.json",
+      "sha256": "defee39b0717dc6805e0d6c66c133e180ce75a13965b3a495849c5a2b1e79416",
+      "expected": {
+        "outcome": "versioned-authored-contract"
+      }
+    },
+    {
+      "path": "packages/core/conformance/manifest.v1.json",
+      "sha256": "b9930b20dd11907096f688ad55e66635a7eecdbd484b6ea6b498da3b4570bc16",
+      "expected": {
+        "outcome": "versioned-authored-contract"
+      }
+    },
+    {
+      "path": "packages/core/src/Registry/host-profile.schema.json",
+      "sha256": "00fadc712060ea7faf3213837f72ba169b81b0dbe61d1bfd5f892db556e6c5b0",
+      "expected": {
+        "outcome": "versioned-authored-contract"
+      }
+    },
+    {
+      "path": "tests/fixtures/host-profiles/project-a.json",
+      "sha256": "65dc379c702da5dd1087bc6457b393fa9706a4f2b1b72733fe57a7a9e5fc480a",
+      "expected": {
+        "outcome": "versioned-authored-contract"
+      }
+    },
+    {
+      "path": "tests/fixtures/host-profiles/project-b.json",
+      "sha256": "e76140c578737cf9c8c8d74ba025b4b697ca0778c698ae17836d9d3b89851878",
+      "expected": {
+        "outcome": "versioned-authored-contract"
+      }
+    },
+    {
+      "path": "tests/fixtures/host-profiles/unknown-parser.json",
+      "sha256": "43973b9bcd4855906a32825707ade100630b18bc404eab2dc045617fa0400de8",
+      "expected": {
+        "outcome": "unknown_adapter"
+      }
+    },
+    {
+      "path": "tests/fixtures/host-profiles/false-capability.json",
+      "sha256": "4021d9bff3a640a4c426bf9e90647c66734f1ed86fa63952d8b10f88b18c761f",
+      "expected": {
+        "outcome": "unsupported_capability"
+      }
+    },
+    {
+      "path": "tests/fixtures/host-profiles/tokenizer-mismatch.json",
+      "sha256": "c3a379168a3ea27f00d0ac559574bc29848998cd330884fd2c245b65cd31c281",
+      "expected": {
+        "outcome": "tokenizer_mismatch"
+      }
+    },
+    {
+      "path": "tests/fixtures/host-profiles/fingerprints.v1.json",
+      "sha256": "2a2190b8b59be5eaa543aba0b38c6c6382c3ffc53afb47b40bab51ed7c3fa8ec",
+      "expected": {
+        "outcome": "versioned-authored-contract"
+      }
+    },
+    {
+      "path": "examples/custom-adapter/profile.json",
+      "sha256": "65dc379c702da5dd1087bc6457b393fa9706a4f2b1b72733fe57a7a9e5fc480a",
+      "expected": {
+        "outcome": "versioned-authored-contract"
+      }
+    },
+    {
+      "path": "packages/core/src/Registry/adapter-descriptor.schema.json",
+      "sha256": "8674401054f093ccdddea1f8ffd234ae8b5937fe59f0e55336ad8e8e04d87b8c",
+      "expected": {
+        "outcome": "closed-static-descriptor-schema"
+      }
+    }
+  ]
+}

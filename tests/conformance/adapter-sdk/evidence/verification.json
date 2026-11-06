@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "executor-verification:1",
+  "item": "P1.6",
+  "phpRuntime": "8.4.1",
+  "acceptance": {
+    "V1": "Not run; withheld coordinator-owned acceptance."
+  },
+  "checks": [
+    {
+      "id": "profile-final2",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/conformance/adapter-sdk/HostProfileTest.php",
+      "exit": 0,
+      "evidence": "tests/conformance/adapter-sdk/evidence/profile-final2.txt",
+      "phase": "scoped-proof"
+    },
+    {
+      "id": "corpus-final",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/conformance/adapter-sdk/CorpusTest.php",
+      "exit": 0,
+      "evidence": "tests/conformance/adapter-sdk/evidence/corpus-final.txt",
+      "phase": "scoped-proof"
+    },
+    {
+      "id": "broken-final",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/conformance/adapter-sdk/BrokenAdaptersTest.php",
+      "exit": 0,
+      "evidence": "tests/conformance/adapter-sdk/evidence/broken-final.txt",
+      "phase": "scoped-proof"
+    },
+    {
+      "id": "runner-final2",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/conformance/adapter-sdk/RunnerTest.php",
+      "exit": 0,
+      "evidence": "tests/conformance/adapter-sdk/evidence/runner-final2.txt",
+      "phase": "scoped-proof"
+    },
+    {
+      "id": "registry-compatibility",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/RegistryTest.php",
+      "exit": 0,
+      "evidence": "tests/conformance/adapter-sdk/evidence/registry-compatibility.txt",
+      "phase": "scoped-proof"
+    },
+    {
+      "id": "port-compatibility-final2",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/PortContractsTest.php",
+      "exit": 0,
+      "evidence": "tests/conformance/adapter-sdk/evidence/port-compatibility-final2.txt",
+      "phase": "scoped-proof"
+    },
+    {
+      "id": "goldens",
+      "cmd": "python3 tests/conformance/adapter-sdk/verify-goldens.py",
+      "exit": 0,
+      "evidence": "tests/conformance/adapter-sdk/evidence/goldens.txt",
+      "phase": "scoped-proof"
+    },
+    {
+      "id": "static-final",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --error-format=raw --autoload-file=packages/core/conformance/autoload.php packages/core/src/Registry packages/core/src/Domain/TokenizerIdentity.php packages/core/src/Domain/TokenizerCapabilities.php packages/core/src/Port/Tokenizer.php",
+      "exit": 0,
+      "evidence": "tests/conformance/adapter-sdk/evidence/static-final.txt",
+      "phase": "scoped-proof"
+    },
+    {
+      "id": "port-compatibility",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/PortContractsTest.php",
+      "exit": 2,
+      "evidence": "tests/conformance/adapter-sdk/evidence/port-compatibility.txt",
+      "phase": "development-failure-repaired"
+    },
+    {
+      "id": "static",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --error-format=raw --autoload-file=packages/core/conformance/autoload.php packages/core/src/Registry packages/core/src/Domain/TokenizerIdentity.php packages/core/src/Domain/TokenizerCapabilities.php packages/core/src/Port/Tokenizer.php",
+      "exit": 1,
+      "evidence": "tests/conformance/adapter-sdk/evidence/static.txt",
+      "phase": "development-failure-repaired"
+    },
+    {
+      "id": "whitespace",
+      "cmd": "git diff --check",
+      "exit": 0
+    }
+  ],
+  "syntax": "tests/conformance/adapter-sdk/evidence/syntax.json",
+  "scope": "Single test files and targeted runtime static analysis only. No full acceptance suites, review, commit or publication.",
+  "limitations": [
+    "Only PHP 8.4.1 executed; no PHP 8.3/8.5 matrix claim.",
+    "Correct contract doubles do not qualify external adapters or production persistence/disclosure.",
+    "PHPStan final exit is 0; optional turbo-extension startup warning persists."
+  ]
+}

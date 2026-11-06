@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "adapter-fixture:1",
+  "now": "2026-11-06T12:00:01Z",
+  "text": "Привет, 世界 é 😀",
+  "query": "same logical query",
+  "sourceDigest": "ff149207724d42330486bc6e9a007e2238f504687af848907f25c046a6bbe7a7",
+  "irDigest": "3db87d1e0ce55dbd254e1b1432dfb67613a0a8a09fad293371cb29dacae0949e",
+  "vocabularyDigest": "da456b70411695444a11b673b39dce5e8b52df7312d5a2bc069b6b3de4addea6",
+  "tokenVectors": [
+    {
+      "text": "",
+      "count": 0
+    },
+    {
+      "text": "a",
+      "count": 1
+    },
+    {
+      "text": "世界",
+      "count": 2
+    },
+    {
+      "text": "é",
+      "count": 2
+    },
+    {
+      "text": "😀",
+      "count": 1
+    },
+    {
+      "text": "Привет, 世界 é 😀",
+      "count": 15
+    }
+  ],
+  "projects": {
+    "A": {
+      "tenantId": "01J00000000000000000000001",
+      "actorId": "01J00000000000000000000101",
+      "purpose": "lesson.read",
+      "hostScopeHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "snapshotId": "01J00000000000000000000110"
+    },
+    "B": {
+      "tenantId": "01J00000000000000000000009",
+      "actorId": "01J00000000000000000000102",
+      "purpose": "library.read",
+      "hostScopeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "snapshotId": "01J00000000000000000000111"
+    }
+  },
+  "tokenizerId": "fixture.codepoints",
+  "tokenizerVersion": "1"
+}

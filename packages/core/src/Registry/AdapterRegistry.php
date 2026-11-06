@@ -6,7 +6,7 @@ namespace KnowKit\Registry;
 use KnowKit\Domain\{AdapterId, AdapterKind, Capability, DomainFailure, EffectiveProfile, Outcome};
 use KnowKit\Domain\Contract\{ContractValidator, SchemaSet};
 use KnowKit\Port\{DocumentParser, Chunker, LexicalIndex, VectorIndex, EmbeddingProvider, Reranker,
-    SourceConnector, SourceReader, BlobStore, AccessPolicy, EgressPolicy, JobQueue, Outbox, Clock};
+    SourceConnector, SourceReader, BlobStore, AccessPolicy, EgressPolicy, JobQueue, Outbox, Clock, Tokenizer};
 
 /** Explicit register -> boot -> resolve; no scans, implicit defaults or paid verification. */
 final class AdapterRegistry
@@ -49,7 +49,38 @@ final class AdapterRegistry
     public function resolve(AdapterId $id, EffectiveProfile $profile): object
     {
         [$descriptor, $factory] = $this->entry($id); // A typo errors before touching another factory.
+        $this->validate($id, $profile);
+        $instance = $factory->create($profile);
+        $contract = match ($descriptor->kind) {
+            AdapterKind::Parser => DocumentParser::class, AdapterKind::Chunker => Chunker::class,
+            AdapterKind::Lexical => LexicalIndex::class, AdapterKind::Vector => VectorIndex::class,
+            AdapterKind::Embedding => EmbeddingProvider::class, AdapterKind::Reranker => Reranker::class,
+            AdapterKind::SourceConnector => SourceConnector::class, AdapterKind::SourceReader => SourceReader::class,
+            AdapterKind::BlobStore => BlobStore::class, AdapterKind::AccessPolicy => AccessPolicy::class,
+            AdapterKind::EgressPolicy => EgressPolicy::class, AdapterKind::Jobs => JobQueue::class,
+            AdapterKind::Outbox => Outbox::class, AdapterKind::Clock => Clock::class,
+            AdapterKind::Tokenizer => Tokenizer::class,
+        };
+        if (!$instance instanceof $contract) { throw new DomainFailure(Outcome::Incompatible, 'adapter_contract_violation'); }
+        if ($instance instanceof Tokenizer && $descriptor->tokenizerIdentity !== null) {
+            $instance->capabilities()->requireExact($descriptor->tokenizerIdentity);
+        }
+        return $instance;
+    }
+
+    /** Offline validation only. Neither this nor describe/readiness invokes Factory. */
+    public function validate(AdapterId $id, EffectiveProfile $profile): void
+    {
+        [$descriptor] = $this->entry($id);
         if (!$this->booted) { throw new DomainFailure(Outcome::Incompatible, 'registry_not_booted'); }
+        $bound = false;
+        foreach ($profile->adapterBindings as $port => $adapter) {
+            if ($adapter->value === $id->value) {
+                $bound = true;
+                if ($port !== $descriptor->kind->value) { throw new DomainFailure(Outcome::Incompatible, 'adapter_kind_mismatch'); }
+            }
+        }
+        if (!$bound) { throw new DomainFailure(Outcome::Incompatible, 'unknown_adapter'); }
         $config = $profile->config($id);
         foreach ($descriptor->requiresExt as $ext) {
             if (!extension_loaded($ext)) { throw new DomainFailure(Outcome::Unavailable, 'extension_unavailable'); }
@@ -63,18 +94,17 @@ final class AdapterRegistry
         if ($validator->validateValue($config, $schema->get('$id')) !== []) {
             throw new DomainFailure(Outcome::Incompatible, 'adapter_configuration_invalid');
         }
-        $instance = $factory->create($profile);
-        $contract = match ($descriptor->kind) {
-            AdapterKind::Parser => DocumentParser::class, AdapterKind::Chunker => Chunker::class,
-            AdapterKind::Lexical => LexicalIndex::class, AdapterKind::Vector => VectorIndex::class,
-            AdapterKind::Embedding => EmbeddingProvider::class, AdapterKind::Reranker => Reranker::class,
-            AdapterKind::SourceConnector => SourceConnector::class, AdapterKind::SourceReader => SourceReader::class,
-            AdapterKind::BlobStore => BlobStore::class, AdapterKind::AccessPolicy => AccessPolicy::class,
-            AdapterKind::EgressPolicy => EgressPolicy::class, AdapterKind::Jobs => JobQueue::class,
-            AdapterKind::Outbox => Outbox::class, AdapterKind::Clock => Clock::class,
-        };
-        if (!$instance instanceof $contract) { throw new DomainFailure(Outcome::Incompatible, 'adapter_contract_violation'); }
-        return $instance;
+    }
+
+    public function readiness(AdapterId $id, HostProfile $profile, bool $enabled = true,
+        ?\KnowKit\Domain\Fingerprint $verifiedProfile = null, bool $failed = false): ReadinessReport
+    {
+        try { $this->entry($id); }
+        catch (DomainFailure) { return new ReadinessReport(false, $enabled, false, false, $failed, true); }
+        try { $this->validate($id, $profile->effectiveProfile()); $configured = true; }
+        catch (DomainFailure) { $configured = false; }
+        return new ReadinessReport(true, $enabled, $configured,
+            $configured && $verifiedProfile?->equals($profile->digest()) === true, $failed, false);
     }
     /** @return array{AdapterDescriptor, Factory} */
     private function entry(AdapterId $id): array

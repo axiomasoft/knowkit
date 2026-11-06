@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "adapter-corpus:1",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Initial synthetic PHP adapter corpus. UTF-8 source/IR digests and codepoint counts authored independently with Python hashlib and integer-only JCS. Changes to expected behavior require a new fixture version and an explanation, never a snapshot rewrite. Revision 1.0.1 makes tokenizer ID/version/vocabulary explicit in fixture data and descriptor metadata, pins semantic parser profile signatures, and validates schema-bound isolation packets. Source/IR/count golden expectations are unchanged; profile digest changes have independent preimages in verify-goldens.py.",
+  "rights": {
+    "license": "proprietary",
+    "origin": "KnowKit authored synthetic data; qualified pinned donor metadata/readiness patterns; no upstream dataset or weights",
+    "redistributionAllowed": false
+  },
+  "fixture": {
+    "path": "fixtures/corpus.v1.json",
+    "sha256": "defee39b0717dc6805e0d6c66c133e180ce75a13965b3a495849c5a2b1e79416",
+    "expected": {
+      "sourceDigest": "ff149207724d42330486bc6e9a007e2238f504687af848907f25c046a6bbe7a7",
+      "irDigest": "3db87d1e0ce55dbd254e1b1432dfb67613a0a8a09fad293371cb29dacae0949e",
+      "tokenVectors": 6
+    }
+  },
+  "requiredCaseIds": [
+    "R36-A01",
+    "R36-A02",
+    "DT-R02",
+    "DT-R03",
+    "DT-R05",
+    "DT-R06",
+    "SDK-POLICY",
+    "SDK-BLOB",
+    "SDK-PARSER",
+    "SDK-SEARCH",
+    "SDK-SPACE",
+    "SDK-TOKENIZER",
+    "SDK-BUDGET",
+    "SDK-JOBS",
+    "SDK-OUTBOX",
+    "SDK-DELETION",
+    "SDK-EGRESS",
+    "SDK-ISOLATION",
+    "R41-A01",
+    "R41-A02"
+  ],
+  "cases": [
+    {
+      "id": "R36-A01",
+      "contract": "baseline"
+    },
+    {
+      "id": "R36-A02",
+      "contract": "baseline"
+    },
+    {
+      "id": "DT-R02",
+      "contract": "baseline"
+    },
+    {
+      "id": "DT-R03",
+      "contract": "baseline"
+    },
+    {
+      "id": "DT-R05",
+      "contract": "baseline"
+    },
+    {
+      "id": "DT-R06",
+      "contract": "baseline"
+    },
+    {
+      "id": "SDK-POLICY",
+      "contract": "policy"
+    },
+    {
+      "id": "SDK-BLOB",
+      "contract": "blob"
+    },
+    {
+      "id": "SDK-PARSER",
+      "contract": "parser"
+    },
+    {
+      "id": "SDK-SEARCH",
+      "contract": "search"
+    },
+    {
+      "id": "SDK-SPACE",
+      "contract": "search"
+    },
+    {
+      "id": "SDK-TOKENIZER",
+      "contract": "tokenizer"
+    },
+    {
+      "id": "SDK-BUDGET",
+      "contract": "tokenizer"
+    },
+    {
+      "id": "SDK-JOBS",
+      "contract": "jobs"
+    },
+    {
+      "id": "SDK-OUTBOX",
+      "contract": "outbox"
+    },
+    {
+      "id": "SDK-DELETION",
+      "contract": "deletion"
+    },
+    {
+      "id": "SDK-EGRESS",
+      "contract": "egress"
+    },
+    {
+      "id": "SDK-ISOLATION",
+      "contract": "search"
+    },
+    {
+      "id": "R41-A01",
+      "contract": "dependencies"
+    },
+    {
+      "id": "R41-A02",
+      "contract": "search"
+    }
+  ]
+}

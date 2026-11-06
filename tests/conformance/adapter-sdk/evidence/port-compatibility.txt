@@ -1,0 +1,23 @@
+Command: vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/PortContractsTest.php
+Exit: 2
+
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+..E...                                                              6 / 6 (100%)
+
+Time: 00:00.029, Memory: 10.00 MB
+
+There was 1 error:
+
+1) KnowKit\Tests\Contract\Ports\PortContractsTest::testCoreRemainsVendorFreeAndHasNoAnswerOrFrameworkImports
+RuntimeException: forbidden vendor namespace in core: D\FrozenJson
+
+<repository>/tools/qa.php:26
+<repository>/tools/qa.php:323
+<repository>/tests/contract/ports/PortContractsTest.php:64
+
+ERRORS!
+Tests: 6, Assertions: 607, Errors: 1.

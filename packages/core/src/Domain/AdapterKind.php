@@ -19,4 +19,5 @@ enum AdapterKind: string
     case Jobs = 'jobs';
     case Outbox = 'outbox';
     case Clock = 'clock';
+    case Tokenizer = 'tokenizer';
 }

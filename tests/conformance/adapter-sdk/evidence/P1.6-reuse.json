@@ -1,0 +1,361 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P1.6",
+  "status": "implemented_unreviewed",
+  "date": "2026-11-06",
+  "targetBaseline": "f407a04945d8121955d01baacf4b585a73719614",
+  "candidateFiles": [
+    {
+      "path": "examples/custom-adapter/ContractDoubles.php",
+      "sha256": "7f6a4c9610eb08c1d0493f92adf3691e353726203799356afa2d5065b35244a3"
+    },
+    {
+      "path": "examples/custom-adapter/FakeHost.php",
+      "sha256": "8793dbe3e64093af89ad652fc36722a05f803343862e284584b61123269e3c61"
+    },
+    {
+      "path": "examples/custom-adapter/README.md",
+      "sha256": "c1a06f09c1a469a5bfcd03886a1225af3304c7e26b1072db94f5fc2242a5f5fd"
+    },
+    {
+      "path": "examples/custom-adapter/factory.php",
+      "sha256": "d20eda70c91824ba086a461f5d66d34f65b390173204dd1f2e331f59c8d4dd5a"
+    },
+    {
+      "path": "examples/custom-adapter/negative-factory.php",
+      "sha256": "d0d1a3e1a4385f4a552688e5c31e9361918a65b85b60d8c406763d66907fbf4a"
+    },
+    {
+      "path": "examples/custom-adapter/profile.json",
+      "sha256": "65dc379c702da5dd1087bc6457b393fa9706a4f2b1b72733fe57a7a9e5fc480a"
+    },
+    {
+      "path": "packages/core/conformance/AdapterContract.php",
+      "sha256": "b607daa03a6e0cce0b7f9ae6f1aa5d161221957ea1598ef9ee10dc20cfa2b9c9"
+    },
+    {
+      "path": "packages/core/conformance/AdapterHarness.php",
+      "sha256": "09097252ffc313017f7277ac00e5248c10db776d5e6437dddec7bdf08c485a70"
+    },
+    {
+      "path": "packages/core/conformance/AdapterHost.php",
+      "sha256": "b669e472d6939423e38e5c23cec0e6ad6eb692a97dd886aec6e91ead36012fda"
+    },
+    {
+      "path": "packages/core/conformance/AdapterRig.php",
+      "sha256": "5c5f141c5ca9b3d8b7a34693923e790d955465efeece8b73a916428b30d1a886"
+    },
+    {
+      "path": "packages/core/conformance/CorpusContract.php",
+      "sha256": "2bb89a0334eb5f1ed599d80668a0accbda6a87450e6fe63d331b54c63c07cdbc"
+    },
+    {
+      "path": "packages/core/conformance/Fixture.php",
+      "sha256": "dbec746cbe819d83b24e014fdb8becc447349852f4d277396f951669f941dd73"
+    },
+    {
+      "path": "packages/core/conformance/MemoryStream.php",
+      "sha256": "6ffdd843d1632b87db27164de46525f5a9b49467a8d94be1a9dc2c19b09ab067"
+    },
+    {
+      "path": "packages/core/conformance/RegistryCorpus.php",
+      "sha256": "934454e8248415a3466786fa20a620b69927b32d6f98ddb06d918f33137f08ac"
+    },
+    {
+      "path": "packages/core/conformance/SchemaLoader.php",
+      "sha256": "3a2e430f3d5e8ace0cad3f3795b82ae67905fcf32fe56302e506ac5296e7e708"
+    },
+    {
+      "path": "packages/core/conformance/autoload.php",
+      "sha256": "fda20e07ab2862bc178be056f8b30f1dbf000c9d83b7a9aae435ad0238367fdf"
+    },
+    {
+      "path": "packages/core/conformance/fixtures/corpus.v1.json",
+      "sha256": "defee39b0717dc6805e0d6c66c133e180ce75a13965b3a495849c5a2b1e79416"
+    },
+    {
+      "path": "packages/core/conformance/manifest.v1.json",
+      "sha256": "b9930b20dd11907096f688ad55e66635a7eecdbd484b6ea6b498da3b4570bc16"
+    },
+    {
+      "path": "packages/core/src/Domain/AdapterKind.php",
+      "sha256": "9240f9a82b236b5d30892790838de12084ac864cc69f2c4c6ebecf59b42d396e"
+    },
+    {
+      "path": "packages/core/src/Domain/TokenizerCapabilities.php",
+      "sha256": "14e0475b7a45a88f055bd37ba41eb8ebb7c5708dca0af8a9ca8b05d05cc37a51"
+    },
+    {
+      "path": "packages/core/src/Domain/TokenizerIdentity.php",
+      "sha256": "ffe3e22957d7b9238a079a3cffb18a6963b4f08609bcee30bc920c62295413c3"
+    },
+    {
+      "path": "packages/core/src/Port/Tokenizer.php",
+      "sha256": "1a1eed773a980d918c5308a3b448a1431155c8036a928cf5966bc26e5cdfd461"
+    },
+    {
+      "path": "packages/core/src/Registry/AdapterDescriptor.php",
+      "sha256": "0ad3da7784bcbd8eb84c815e159aa076b00bd6619db38213533c8982f74d0393"
+    },
+    {
+      "path": "packages/core/src/Registry/AdapterRegistry.php",
+      "sha256": "f0dd518027c7f0358426202a64020e51586d59fb9a194c9541e2163210f43f8e"
+    },
+    {
+      "path": "packages/core/src/Registry/HostProfile.php",
+      "sha256": "4af09141c4a0375abca49f649a59ca0cefb00e485c5b5c9c8b30fd727e214b87"
+    },
+    {
+      "path": "packages/core/src/Registry/ReadinessReport.php",
+      "sha256": "523225eb85ebc749e71e5e7b4d1ac964bf9c5898e78f6c0e0d685d1e6337fe7c"
+    },
+    {
+      "path": "packages/core/src/Registry/TokenBudget.php",
+      "sha256": "a20c86f9fb4e312c19fc2589e7447cb7073f458349e08b36605003ddec5de885"
+    },
+    {
+      "path": "packages/core/src/Registry/adapter-descriptor.schema.json",
+      "sha256": "8674401054f093ccdddea1f8ffd234ae8b5937fe59f0e55336ad8e8e04d87b8c"
+    },
+    {
+      "path": "packages/core/src/Registry/host-profile.schema.json",
+      "sha256": "00fadc712060ea7faf3213837f72ba169b81b0dbe61d1bfd5f892db556e6c5b0"
+    },
+    {
+      "path": "phpunit.xml",
+      "sha256": "b415b1785a6723861ac2f2ccacfff07a9b0f1a39ed521908a7f39c93a46f8249"
+    },
+    {
+      "path": "specs/10-customization.md",
+      "sha256": "d27e2b1cade09903844d6dde7069d5a90e19bc5937d174e9c57423d418f226d9"
+    },
+    {
+      "path": "tests/conformance/adapter-sdk/BrokenAdaptersTest.php",
+      "sha256": "eb9730ad5ed20aef6d2f7e19b52e0b15096eb3f01a110f0777b78b13d57acbb6"
+    },
+    {
+      "path": "tests/conformance/adapter-sdk/CorpusTest.php",
+      "sha256": "ae96168485d8a1daf973d5161f0b08a7b98983df65f6ff96c647e7bb6fa64f38"
+    },
+    {
+      "path": "tests/conformance/adapter-sdk/HostProfileTest.php",
+      "sha256": "437f3466711887c1b963753d7253efdabc45f75b3c1447c93fa6d4f3d2e01afe"
+    },
+    {
+      "path": "tests/conformance/adapter-sdk/RunnerTest.php",
+      "sha256": "5d94c8664bdbde4e511088bcc3d7bb02a0d12f87d412ae2c37cd846f1673e81a"
+    },
+    {
+      "path": "tests/conformance/adapter-sdk/Support.php",
+      "sha256": "c52aacb469e90020a23a4131f980838c975b15bd4c35122c7c81d775307ff0f2"
+    },
+    {
+      "path": "tests/conformance/adapter-sdk/verify-goldens.py",
+      "sha256": "6a74f2e01a718ba509026f01f30342379dde1f4b9ab2edd788ec8aa06825a15b"
+    },
+    {
+      "path": "tests/fixtures/check-groups/extension-conformance-sdk.json",
+      "sha256": "beeb846b8883a68553ff039e19852d0aacae8683106a1652201aa12031c342f2"
+    },
+    {
+      "path": "tests/fixtures/host-profiles/false-capability.json",
+      "sha256": "4021d9bff3a640a4c426bf9e90647c66734f1ed86fa63952d8b10f88b18c761f"
+    },
+    {
+      "path": "tests/fixtures/host-profiles/fingerprints.v1.json",
+      "sha256": "2a2190b8b59be5eaa543aba0b38c6c6382c3ffc53afb47b40bab51ed7c3fa8ec"
+    },
+    {
+      "path": "tests/fixtures/host-profiles/project-a.json",
+      "sha256": "65dc379c702da5dd1087bc6457b393fa9706a4f2b1b72733fe57a7a9e5fc480a"
+    },
+    {
+      "path": "tests/fixtures/host-profiles/project-b.json",
+      "sha256": "e76140c578737cf9c8c8d74ba025b4b697ca0778c698ae17836d9d3b89851878"
+    },
+    {
+      "path": "tests/fixtures/host-profiles/tokenizer-mismatch.json",
+      "sha256": "c3a379168a3ea27f00d0ac559574bc29848998cd330884fd2c245b65cd31c281"
+    },
+    {
+      "path": "tests/fixtures/host-profiles/unknown-parser.json",
+      "sha256": "43973b9bcd4855906a32825707ade100630b18bc404eab2dc045617fa0400de8"
+    },
+    {
+      "path": "tools/adapter-conformance.php",
+      "sha256": "869c8d3d4772ff1bd4e6c8f2b77779ab3aa1c27c066cd4529a8c1a8dd7f224fc"
+    }
+  ],
+  "candidateDigest": "cf2fa4c0b66357901ce880e597d2a05ed48497ef6fe99d61d968ae9512f98a85",
+  "candidateDigestAlgorithm": "SHA256 of sorted UTF8(path)||NUL||ASCII(file SHA256)||LF records; only candidateFiles below. Excludes this self-referential receipt and generated executor evidence.",
+  "sourceReviewBeforeImplementation": true,
+  "sources": [
+    {
+      "repo": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/EmbeddingSpace.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/EmbeddingSpace.php",
+      "sha256": "bc82526a84558ff7536c81774bb6e2f42ad39336ecb3f16f6ffa56118437a23a",
+      "hashVerified": true,
+      "sourceRead": true,
+      "lineSpan": [
+        1,
+        22
+      ],
+      "symbols": [
+        "EmbeddingSpace.key",
+        "EmbeddingSpace.assertCompatible"
+      ],
+      "decision": "adapt",
+      "reason": "Reuse exact-space mismatch principle via existing KnowKit Domain EmbeddingSpace/SpaceRef. Reject transplanting the donor's six-field wire/hash shape: approved KnowKit adds document/query roles and full typed domain-separated JCS. No donor runtime copied."
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/plugins/manifest.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/plugins/manifest.py",
+      "sha256": "0cc506f69c0587f2baee85596367f9a386a988b8fe272715cbed58eecef000ab",
+      "lineSpan": [
+        1,
+        539
+      ],
+      "hashVerified": true,
+      "sourceRead": "whole pinned blob fetched; targeted symbols inspected",
+      "symbols": [
+        "parse_manifest",
+        "_reject_unknown",
+        "approval_digest"
+      ],
+      "decision": "adapt",
+      "reason": "Adapt strict metadata-only validation and full manifest/artifact approval identity to PHP HostProfile/descriptor schemas and existing JCS/FrozenJson; reject Python packaging imports, package installer semantics and ordinary json.dumps."
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/plugins/registry.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/plugins/registry.py",
+      "sha256": "601125a4569f8bea3c123ed541bb5a45069001d5098448c6caa944836e5576f5",
+      "lineSpan": [
+        1,
+        658
+      ],
+      "hashVerified": true,
+      "sourceRead": "whole pinned blob fetched; targeted symbols inspected",
+      "symbols": [
+        "PluginRegistry.list_plugins",
+        "PluginRegistry.approve",
+        "_manifest_files",
+        "_distribution_identity"
+      ],
+      "decision": "adapt",
+      "reason": "Retain lazy metadata and exact artifact approval principle; replace installed-distribution scanning, ambient state and mutable enablement with explicit PHP register/boot/resolve and immutable host composition."
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/config/readiness.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/config/readiness.py",
+      "sha256": "43d0449863e791868a45218dbca1b7ccf691f713fb2a022a15552d0af42cb56e",
+      "lineSpan": [
+        1,
+        1054
+      ],
+      "hashVerified": true,
+      "sourceRead": "whole pinned blob fetched; targeted symbols inspected",
+      "symbols": [
+        "readiness_row",
+        "ReadinessState",
+        "build_settings_readiness"
+      ],
+      "decision": "adapt",
+      "reason": "Adapt value-free independent installed/enabled/configured/verified/ready diagnostics. Exclude remote parser/Redis probes, framework/service imports, model/provider calls, ambient host state and exception logging."
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/plugins/test_manifest_discovery_cost.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/plugins/test_manifest_discovery_cost.py",
+      "sha256": "9446089e512e49d8d32c3eb96b0752e1ed552a6836fcb81dbaeb9c1192d5a02e",
+      "lineSpan": [
+        1,
+        35
+      ],
+      "hashVerified": true,
+      "sourceRead": "whole pinned blob fetched; targeted symbols inspected",
+      "symbols": [
+        "test_non_plugin_wheel_does_not_materialize_its_file_inventory",
+        "test_manifest_candidate_and_legacy_distribution_still_use_authoritative_files"
+      ],
+      "decision": "adapt",
+      "reason": "Port no-heavy-discovery negative principle to fresh PHP process with class_exists(false) and zero factory counters; no wheel inventory or Python test dependency retained."
+    }
+  ],
+  "qualifications": {
+    "agentools": {
+      "codeLicense": "proprietary",
+      "verdict": "restricted_private_local",
+      "localUseAllowed": true,
+      "redistributionAllowed": false,
+      "ownerAuthority": "licenses/local-reuse-authorization.md",
+      "modificationAttribution": "AgenTools exact-space concepts (c) 2026 Dmitry Vostrikov; existing KnowKit implementation reused without importing donor runtime.",
+      "notices": [
+        {
+          "path": "licenses/notices/agentools-LICENSE.txt",
+          "sha256": "8c63b2e3e661dc0461d4dca06df370db52e46536b779ae95f167c2f93476d75d"
+        },
+        {
+          "path": "licenses/local-reuse-authorization.md",
+          "sha256": "0f262e8a44a8132b045cbffa70dba5e82eae758c22652460870c426f413b5064"
+        }
+      ]
+    },
+    "deeptutor": {
+      "codeLicense": "Apache-2.0",
+      "verdict": "allowed_private_local",
+      "localUseAllowed": true,
+      "redistributionAllowed": false,
+      "modificationAttribution": "Metadata/readiness/discovery-test concepts (c) 2025 Data Intelligence Lab, The University of Hong Kong; adapted to explicit PHP registration, safe exports and offline diagnostics. No Python runtime/source modules or dependencies transferred.",
+      "notices": [
+        {
+          "path": "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+          "sha256": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4"
+        },
+        {
+          "path": "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md",
+          "sha256": "d59dc01b43d1916db9418bc1ebcc213a4859047dc07e2766c4234391f9db033c"
+        }
+      ]
+    }
+  },
+  "localReuse": {
+    "decision": "reuse-as-is",
+    "paths": [
+      "packages/core/src/Domain/CapabilityDeclaration.php",
+      "packages/core/src/Domain/EffectiveProfile.php",
+      "packages/core/src/Domain/FrozenJson.php",
+      "packages/core/src/Domain/Contract/Jcs.php",
+      "packages/core/src/Domain/Contract/StrictJson.php",
+      "packages/core/src/Domain/Contract/SchemaSet.php",
+      "packages/core/src/Domain/Contract/ContractValidator.php",
+      "packages/core/src/Domain/Contract/ScopeBinding.php",
+      "packages/core/src/Port/PolicyCheckedEmbeddingProvider.php",
+      "tools/qa.php"
+    ],
+    "reason": "Keep approved identities, integer-only JCS, schema semantics, current authorization checks and executed-ID QA runner. No second encoder, port rewrite or production test dependency."
+  },
+  "newGlue": [
+    "HostProfile bundled schemas, immutable full redacted fingerprint and legacy Factory projection are PHP composition absent from donors.",
+    "D5 minimal Tokenizer port/identity/capabilities and local byte/token guard implement approved pinned exact counting, not a model vocabulary.",
+    "Runtime-independent plain-PHP fixture harness owns mandatory assertions; host AdapterRig supplies reset adapters and observable effects.",
+    "Authored Unicode golden fixtures and schema-valid cross-project artifacts plus deliberately broken doubles prove boundary negatives without claiming production Retrieval/Disclosure implementations."
+  ],
+  "verification": "tests/conformance/adapter-sdk/evidence/verification.json",
+  "qualificationLimits": [
+    "Pinned whole-file hashes verified; targeted source/test inspection, not upstream test-suite execution or full donor repository line review.",
+    "Only synthetic contract doubles implemented; no optional external adapter, database, provider or deployed host qualified.",
+    "Only PHP 8.4.1 executed locally. V1, independent review and commit remain coordinator-owned.",
+    "Required knowledge supplied inline; no native plan JSON/generated views read or plan lifecycle commands invoked."
+  ],
+  "sourceGaps": [],
+  "handoff": "Coordinator registers this staged receipt at @plan/artifacts/implementation/P1.6-reuse.json; executor does not write plan state."
+}

@@ -1,0 +1,4 @@
+Command: python3 tests/conformance/adapter-sdk/verify-goldens.py
+Exit: 0
+
+{"ok": true, "profileDigests": {"projectA": "e9f7f5f4205126a8f77ea918fdfc3fd4f1c5f96ab8a534772aef10f19710f73b", "projectB": "22123dcc9558573e55137156d69d8d838eed654238ea4d0cda19eb3b81f1ff30"}, "tokenVectors": 6}

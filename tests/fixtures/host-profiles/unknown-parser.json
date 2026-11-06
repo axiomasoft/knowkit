@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "host-profile:1",
+  "id": "project-a",
+  "version": "1",
+  "adapterBindings": {
+    "access_policy": {
+      "adapterId": "fixture.policy",
+      "config": {},
+      "capabilities": [],
+      "featureClaims": []
+    },
+    "egress_policy": {
+      "adapterId": "fixture.egress",
+      "config": {},
+      "capabilities": [],
+      "featureClaims": []
+    },
+    "blob_store": {
+      "adapterId": "fixture.blob",
+      "config": {},
+      "capabilities": [
+        "storage.immutable",
+        "storage.delete"
+      ],
+      "featureClaims": []
+    },
+    "parser": {
+      "adapterId": "fixture.parsr",
+      "config": {},
+      "capabilities": [
+        "parser.text"
+      ],
+      "featureClaims": []
+    },
+    "lexical": {
+      "adapterId": "fixture.search",
+      "config": {},
+      "capabilities": [
+        "lexical.prefilter"
+      ],
+      "featureClaims": []
+    },
+    "vector": {
+      "adapterId": "fixture.vector",
+      "config": {},
+      "capabilities": [
+        "vector.prefilter"
+      ],
+      "featureClaims": []
+    },
+    "embedding": {
+      "adapterId": "fixture.embedding",
+      "config": {},
+      "capabilities": [
+        "embedding.documents",
+        "embedding.query"
+      ],
+      "featureClaims": []
+    },
+    "tokenizer": {
+      "adapterId": "fixture.codepoints",
+      "config": {},
+      "capabilities": [
+        "tokenizer.exact"
+      ],
+      "featureClaims": []
+    },
+    "jobs": {
+      "adapterId": "fixture.jobs",
+      "config": {},
+      "capabilities": [
+        "job.fencing"
+      ],
+      "featureClaims": []
+    },
+    "outbox": {
+      "adapterId": "fixture.outbox",
+      "config": {},
+      "capabilities": [
+        "outbox.delivery"
+      ],
+      "featureClaims": []
+    }
+  },
+  "parserProfiles": {
+    "plain": {
+      "version": "1",
+      "signature": "2db7b70b0827cf105fdcecbb33ac90aeef8cd30e6a264878e0488ac41e41ab98"
+    }
+  },
+  "searchProfiles": {
+    "simple": {
+      "version": "1",
+      "signature": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    }
+  },
+  "coveragePolicy": {
+    "version": "1",
+    "state": "complete"
+  },
+  "quotas": {
+    "maxBytes": 4096,
+    "maxFragments": 4,
+    "maxAssets": 0,
+    "maxTokens": 1024
+  },
+  "tokenizer": {
+    "tokenizerId": "fixture.codepoints",
+    "tokenizerVersion": "1",
+    "vocabularyDigest": "da456b70411695444a11b673b39dce5e8b52df7312d5a2bc069b6b3de4addea6"
+  }
+}

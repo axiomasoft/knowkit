@@ -1,0 +1,6 @@
+{
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Finalize P1.6 static tokenizer identity validation: redacted descriptors now include tokenizerIdentity (null for other kinds); parserProfiles bind the semantic ParserProfile digest, not IR digest. Expected profile preimages are independently authored in verify-goldens.py, not copied from PHP output. Source/IR/count expectations remain unchanged.",
+  "projectA": "e9f7f5f4205126a8f77ea918fdfc3fd4f1c5f96ab8a534772aef10f19710f73b",
+  "projectB": "22123dcc9558573e55137156d69d8d838eed654238ea4d0cda19eb3b81f1ff30"
+}

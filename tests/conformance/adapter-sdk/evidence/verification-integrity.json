@@ -1,0 +1,11 @@
+{
+  "procedure": "Verify candidate SHA256 records/digest, fixture hashes, complete PHPUnit method mapping and version agreement",
+  "exit": 0,
+  "ok": true,
+  "candidateFiles": 45,
+  "candidateDigest": "cf2fa4c0b66357901ce880e597d2a05ed48497ef6fe99d61d968ae9512f98a85",
+  "corpusCases": 20,
+  "mappedTestMethods": 44,
+  "requiredQaCaseIds": 44,
+  "fixtureVersion": "1.0.1"
+}

@@ -1,0 +1,214 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:adapter-descriptor:1",
+  "type": "object",
+  "required": [
+    "id",
+    "kind",
+    "version",
+    "configSchema",
+    "capabilities",
+    "requiresExt",
+    "features",
+    "packageFingerprint",
+    "weightsFingerprint",
+    "tokenizerIdentity"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9._:-]{0,127}$"
+    },
+    "kind": {
+      "enum": [
+        "parser",
+        "chunker",
+        "lexical",
+        "vector",
+        "embedding",
+        "reranker",
+        "source_connector",
+        "source_reader",
+        "blob_store",
+        "access_policy",
+        "egress_policy",
+        "jobs",
+        "outbox",
+        "clock",
+        "tokenizer"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "configSchema": {
+      "type": "object",
+      "required": [
+        "$id",
+        "type",
+        "unevaluatedProperties"
+      ],
+      "properties": {
+        "$id": {
+          "type": "string"
+        },
+        "type": {
+          "const": "object"
+        },
+        "unevaluatedProperties": {
+          "const": false
+        }
+      }
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "requires"
+        ],
+        "properties": {
+          "id": {
+            "enum": [
+              "parser.text",
+              "parser.markdown",
+              "parser.ocr",
+              "parser.tables",
+              "parser.images",
+              "chunker.structural",
+              "lexical.prefilter",
+              "vector.prefilter",
+              "embedding.documents",
+              "embedding.query",
+              "rerank.subset",
+              "source.inventory.complete",
+              "storage.immutable",
+              "storage.delete",
+              "tokenizer.exact",
+              "job.fencing",
+              "outbox.delivery"
+            ]
+          },
+          "requires": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "parser.text",
+                "parser.markdown",
+                "parser.ocr",
+                "parser.tables",
+                "parser.images",
+                "chunker.structural",
+                "lexical.prefilter",
+                "vector.prefilter",
+                "embedding.documents",
+                "embedding.query",
+                "rerank.subset",
+                "source.inventory.complete",
+                "storage.immutable",
+                "storage.delete",
+                "tokenizer.exact",
+                "job.fencing",
+                "outbox.delivery"
+              ]
+            },
+            "uniqueItems": true
+          }
+        },
+        "unevaluatedProperties": false
+      },
+      "uniqueItems": true
+    },
+    "requiresExt": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]{0,63}$"
+      },
+      "uniqueItems": true
+    },
+    "features": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_.-]{0,127}$"
+      },
+      "additionalProperties": {
+        "type": "boolean"
+      }
+    },
+    "packageFingerprint": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "weightsFingerprint": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "tokenizerIdentity": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "tokenizerId",
+        "tokenizerVersion",
+        "vocabularyDigest"
+      ],
+      "properties": {
+        "tokenizerId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._:-]{0,127}$"
+        },
+        "tokenizerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "vocabularyDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "unevaluatedProperties": false
+    }
+  },
+  "unevaluatedProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "tokenizer"
+          }
+        },
+        "required": [
+          "kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "tokenizerIdentity": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "tokenizerIdentity": {
+            "const": null
+          }
+        }
+      }
+    }
+  ]
+}

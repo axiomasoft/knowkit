@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:host-profile:1",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "id",
+    "version",
+    "adapterBindings",
+    "parserProfiles",
+    "searchProfiles",
+    "coveragePolicy",
+    "quotas"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": "host-profile:1"
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "adapterBindings": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "$ref": "#/$defs/binding"
+      }
+    },
+    "parserProfiles": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/profile"
+      }
+    },
+    "searchProfiles": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/profile"
+      }
+    },
+    "coveragePolicy": {
+      "type": "object",
+      "required": [
+        "version",
+        "state"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "state": {
+          "enum": [
+            "complete",
+            "partial"
+          ]
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "quotas": {
+      "type": "object",
+      "required": [
+        "maxBytes",
+        "maxFragments",
+        "maxAssets"
+      ],
+      "properties": {
+        "maxBytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxFragments": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxAssets": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxTokens": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "tokenizer": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "tokenizerId",
+        "tokenizerVersion",
+        "vocabularyDigest"
+      ],
+      "properties": {
+        "tokenizerId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "tokenizerVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "vocabularyDigest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "externalOwnerContract": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "id",
+        "version",
+        "maxAgeSeconds"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "maxAgeSeconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 5
+        }
+      },
+      "unevaluatedProperties": false
+    }
+  },
+  "unevaluatedProperties": false,
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "profile": {
+      "type": "object",
+      "required": [
+        "version",
+        "signature"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        },
+        "signature": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "binding": {
+      "type": "object",
+      "required": [
+        "adapterId",
+        "config",
+        "capabilities",
+        "featureClaims"
+      ],
+      "properties": {
+        "adapterId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9._:-]{0,127}$"
+        },
+        "config": {
+          "type": "object"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "featureClaims": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_.-]{0,127}$"
+          },
+          "uniqueItems": true
+        }
+      },
+      "unevaluatedProperties": false
+    }
+  }
+}
