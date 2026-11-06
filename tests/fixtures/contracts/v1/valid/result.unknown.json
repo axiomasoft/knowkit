@@ -1,0 +1,9 @@
+{
+  "outcome": "unknown",
+  "degraded": false,
+  "warnings": [],
+  "error": {
+    "code": "policy_unknown",
+    "retryable": true
+  }
+}

@@ -1,0 +1,817 @@
+{
+  "schemaVersion": "hash-vectors-1.0",
+  "vectors": [
+    {
+      "id": "jcs.empty-map",
+      "algorithm": "jcs",
+      "payload": {},
+      "expectedCanonical": "{}",
+      "expectedSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    },
+    {
+      "id": "jcs.empty-list",
+      "algorithm": "jcs",
+      "payload": [],
+      "expectedCanonical": "[]",
+      "expectedSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "jcs.rfc8785-key-order",
+      "algorithm": "jcs",
+      "payload": {
+        "€": "Euro Sign",
+        "\r": "Carriage Return",
+        "דּ": "Hebrew Letter Dalet With Dagesh",
+        "1": "One",
+        "😀": "Emoji: Grinning Face",
+        "": "Control",
+        "ö": "Latin Small Letter O With Diaeresis"
+      },
+      "expectedCanonical": "{\"\\r\":\"Carriage Return\",\"1\":\"One\",\"\":\"Control\",\"ö\":\"Latin Small Letter O With Diaeresis\",\"€\":\"Euro Sign\",\"😀\":\"Emoji: Grinning Face\",\"דּ\":\"Hebrew Letter Dalet With Dagesh\"}",
+      "expectedSha256": "741eb039ec942f906d981b7a59f8fc4e2394b27b88d0947677f244132433a649",
+      "note": "RFC 8785 section 3.2.3 sort example: UTF-16 code unit order puts emoji before U+FB33"
+    },
+    {
+      "id": "jcs.cyrillic-cjk",
+      "algorithm": "jcs",
+      "payload": {
+        "ru": "Привет, мир",
+        "ja": "東京タワー",
+        "zh": "中文"
+      },
+      "expectedCanonical": "{\"ja\":\"東京タワー\",\"ru\":\"Привет, мир\",\"zh\":\"中文\"}",
+      "expectedSha256": "37e1cccd961ac139a2e5c3966bdf40e8cb2c7b9e0f3bd4971c5fd0aa81b13c95"
+    },
+    {
+      "id": "jcs.combining-precomposed",
+      "algorithm": "jcs",
+      "payload": {
+        "text": "Café"
+      },
+      "expectedCanonical": "{\"text\":\"Café\"}",
+      "expectedSha256": "85094b1744c1c9ef3c01c1157f7857d26080e4b1d73c279cb84bccbf550b1a47",
+      "note": "precomposed U+00E9"
+    },
+    {
+      "id": "jcs.combining-decomposed",
+      "algorithm": "jcs",
+      "payload": {
+        "text": "Café"
+      },
+      "expectedCanonical": "{\"text\":\"Café\"}",
+      "expectedSha256": "0ad6cf895e4ae786b1142e955c1dae69ad30676b8324edd6c5771dc346336d4f",
+      "note": "decomposed e + U+0301: no Unicode normalization, different digest"
+    },
+    {
+      "id": "jcs.emoji",
+      "algorithm": "jcs",
+      "payload": {
+        "emoji": "😀👍🏽"
+      },
+      "expectedCanonical": "{\"emoji\":\"😀👍🏽\"}",
+      "expectedSha256": "325690858ee539e94c7e6df38884b8dabdbb7cf80b2c25ae159aed78c602849f"
+    },
+    {
+      "id": "jcs.escapes",
+      "algorithm": "jcs",
+      "payload": {
+        "slash": "a/b",
+        "quote": "\"",
+        "backslash": "\\",
+        "controls": "\u0000\u0007\b\t\n\f\r\u001f",
+        "del": "",
+        "lineSeparator": " "
+      },
+      "expectedCanonical": "{\"backslash\":\"\\\\\",\"controls\":\"\\u0000\\u0007\\b\\t\\n\\f\\r\\u001f\",\"del\":\"\",\"lineSeparator\":\" \",\"quote\":\"\\\"\",\"slash\":\"a/b\"}",
+      "expectedSha256": "6b598de9801d70f89b0f726c05bea49988688009b5107e1d46abeb64f43ad6e8",
+      "note": "slash is not escaped; controls use short escapes or lowercase \\u00XX"
+    },
+    {
+      "id": "jcs.ordered-spans",
+      "algorithm": "jcs",
+      "payload": {
+        "spans": [
+          {
+            "byteStart": 30,
+            "byteEnd": 40
+          },
+          {
+            "byteStart": 0,
+            "byteEnd": 10
+          }
+        ]
+      },
+      "expectedCanonical": "{\"spans\":[{\"byteEnd\":40,\"byteStart\":30},{\"byteEnd\":10,\"byteStart\":0}]}",
+      "expectedSha256": "6bb6c6eb44bdb3b3c2ac19784a6ad88b749d8f76b075b9b1f6410581bd338553",
+      "note": "array order is preserved, never sorted"
+    },
+    {
+      "id": "jcs.decimal-bigint",
+      "algorithm": "jcs",
+      "payload": {
+        "fence": "9223372036854775807",
+        "pointerVersion": "18446744073709551615",
+        "safe": 9007199254740991,
+        "negativeZero": 0
+      },
+      "expectedCanonical": "{\"fence\":\"9223372036854775807\",\"negativeZero\":0,\"pointerVersion\":\"18446744073709551615\",\"safe\":9007199254740991}",
+      "expectedSha256": "23be66af91ba7f69c0e9a44dc997f3ec8181221619f74dda6f48e90a8b83d6d4"
+    },
+    {
+      "id": "jcs.nested-literals",
+      "algorithm": "jcs",
+      "payload": {
+        "b": [
+          true,
+          false,
+          null,
+          {
+            "z": 1,
+            "a": [
+              2,
+              {}
+            ]
+          }
+        ],
+        "a": ""
+      },
+      "expectedCanonical": "{\"a\":\"\",\"b\":[true,false,null,{\"a\":[2,{}],\"z\":1}]}",
+      "expectedSha256": "7a30229773b84fe147e777ad1984315fd2c0a7986606f4c7afaef7c0351e704f"
+    },
+    {
+      "id": "jcs.ir-structured",
+      "algorithm": "ir",
+      "payloadPath": "tests/fixtures/contracts/v1/valid/document-ir.structured.json",
+      "expectedSha256": "2a03e685fc20548dc954fefb499afbcbe02e9f23e3710b35aa9677f01613975e"
+    },
+    {
+      "id": "jcs.ir-unicode",
+      "algorithm": "ir",
+      "payloadPath": "tests/fixtures/contracts/v1/valid/document-ir.unicode-multipage.json",
+      "expectedSha256": "b525a34a86d9fdcc3dd99082cc7af9ad00a5c096397429a6df8af9237d62a3a9"
+    },
+    {
+      "id": "jcs.ir-ocr",
+      "algorithm": "ir",
+      "payloadPath": "tests/fixtures/contracts/v1/valid/document-ir.ocr-uncertain.json",
+      "expectedSha256": "e496d13e2c719df376761c8e2592b1d85f1226c8a624ac79da151a9fe9145beb",
+      "note": "integrity passes for OCR text with a recognition error; quality stays visible in coverage"
+    },
+    {
+      "id": "domain.table-index-manifest",
+      "algorithm": "domain",
+      "domain": "indexManifest",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "78c08cb250d0c57c0b560c392ad7e37f99957f0cd5bc0ff94ba074b58a03f87a"
+    },
+    {
+      "id": "domain.table-publication-snapshot-manifest",
+      "algorithm": "domain",
+      "domain": "publicationSnapshotManifest",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "2e8c4d13aeb7e44ba0c837ec33fab0a5097b7595a3256e7cc9d1bcd8c1370e1a"
+    },
+    {
+      "id": "domain.table-chunk-set-manifest",
+      "algorithm": "domain",
+      "domain": "chunkSetManifest",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "2c0344aaa61cf1ef83e70f86d37a7d102e66b85d50272e206c0327646c460834"
+    },
+    {
+      "id": "domain.table-embedding-space",
+      "algorithm": "domain",
+      "domain": "embeddingSpace",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "7a7e3b04f508aa5c3dee6e125d29ef3473b9df6ccfcb76ff6010849ec57fe825"
+    },
+    {
+      "id": "domain.table-domain-event-payload",
+      "algorithm": "domain",
+      "domain": "domainEventPayload",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "2c71c44feecec0db0f92fe5bc64f390345f8b63cd73adc322da4adf16e106eb8"
+    },
+    {
+      "id": "domain.table-worker-result",
+      "algorithm": "domain",
+      "domain": "workerResult",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "2ee444e8766ca94486ef5d6a371490cf3424a056a51b5df3706c17b7f188dc05"
+    },
+    {
+      "id": "domain.table-processing-identity",
+      "algorithm": "domain",
+      "domain": "processingIdentity",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "4a6850d1c8ea38c73e929bf091e493deb8fcf55724aa0eb0cf9f7a1fd86da494"
+    },
+    {
+      "id": "domain.table-parser-profile",
+      "algorithm": "domain",
+      "domain": "parserProfile",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "49596929002038bee52498ed330b59d1d1ce5750a149223e26018b14cf19dfac"
+    },
+    {
+      "id": "domain.table-chunker-profile",
+      "algorithm": "domain",
+      "domain": "chunkerProfile",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "09d819513dbd58ef99fbb023acf54d52ca74b1bdc73c4842a355695e17dcb70b"
+    },
+    {
+      "id": "domain.table-query-binding",
+      "algorithm": "domain",
+      "domain": "queryBinding",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "dde2661a4abc56eae8b6cb0abb2877352a51a50f17b49036b560710c2b4963b1"
+    },
+    {
+      "id": "domain.table-scope-binding",
+      "algorithm": "domain",
+      "domain": "scopeBinding",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "a8e19d064991449b6e5a9f2a61e7d634923bbf2822b91d0ac0d345938674e0c2"
+    },
+    {
+      "id": "domain.table-policy-binding",
+      "algorithm": "domain",
+      "domain": "policyBinding",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "de59831697c81ea5607483751a3a5c4f2f42a88b94062cb8aeb8f30551ca4517"
+    },
+    {
+      "id": "domain.table-decision-receipt",
+      "algorithm": "domain",
+      "domain": "decisionReceipt",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "4cef82ea9db0dc876e8eb565e8760edf525818eaf3f80a0bf3f8b0461a807527"
+    },
+    {
+      "id": "domain.table-retrieval-cache-key",
+      "algorithm": "domain",
+      "domain": "retrievalCacheKey",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "c93cd5d77b0dcb0f37b963be255e2ba7c8724e83249ff8f5563e2a8ffb72b7f7"
+    },
+    {
+      "id": "domain.table-source-identity",
+      "algorithm": "domain",
+      "domain": "sourceIdentity",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "a5b027ece0bae1896028f79c0b299c87981fa7c3750ad92fbd9537226535c1c5"
+    },
+    {
+      "id": "domain.table-dependency-node-identity",
+      "algorithm": "domain",
+      "domain": "dependencyNodeIdentity",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "8497f8ba8cdb55b1532fad54b8e45b4387c000a5f0b04cedd8588a89b158120a"
+    },
+    {
+      "id": "domain.table-dependency-parent-set",
+      "algorithm": "domain",
+      "domain": "dependencyParentSet",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "8a8ff17bda618b22dba12c2d269b5cf8a5cf19a6ca59be1a572aba48860ecd29"
+    },
+    {
+      "id": "domain.table-idempotency-request",
+      "algorithm": "domain",
+      "domain": "idempotencyRequest",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "6ab69305cadb59a607d2cbcfeebb1d6e46cee01b9724f7e4449f142db089b850"
+    },
+    {
+      "id": "domain.table-evidence-set",
+      "algorithm": "domain",
+      "domain": "evidenceSet",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "e1ce45431fe4824993e9e27599e5eb5cf6a622e7d33e8638bff1cdf81fef388a"
+    },
+    {
+      "id": "domain.table-resource-inventory",
+      "algorithm": "domain",
+      "domain": "resourceInventory",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "03225303450efc17105de7845fa5ac0449c30ed424bb72e2687423f5cfc9a2a6"
+    },
+    {
+      "id": "domain.table-tombstone-set",
+      "algorithm": "domain",
+      "domain": "tombstoneSet",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "9ff4aca94a0f3af5b615413f87c15956c1ebaa60511ef483db0a4dc1e78b6ba7"
+    },
+    {
+      "id": "domain.table-answer-invocation-fingerprint",
+      "algorithm": "domain",
+      "domain": "answerInvocationFingerprint",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "575e8c74f0442900b21e40cc00d41bb0011242faaebe90540b6663728f246765"
+    },
+    {
+      "id": "domain.table-answer-outcome-record",
+      "algorithm": "domain",
+      "domain": "answerOutcomeRecord",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "value": "same payload"
+      },
+      "expectedCanonical": "{\"tenantId\":\"01JC0000000000000000000001\",\"value\":\"same payload\"}",
+      "expectedSha256": "2b9bb2f38982911af279a04cc70fdf89e665d626e0d311af26fe28951ce10ff2"
+    },
+    {
+      "id": "domain.worker-result-self-excluded",
+      "algorithm": "domain",
+      "domain": "workerResult",
+      "payload": {
+        "schemaVersion": "worker-result-1.0",
+        "jobId": "01JC000000000000000000001J",
+        "attemptId": "01JC000000000000000000001K",
+        "tenantId": "01JC0000000000000000000001",
+        "sourceId": "01JC000000000000000000000Y",
+        "sourceVersionId": "01JC000000000000000000000Z",
+        "fence": "9223372036854775807",
+        "sourceEpoch": "1",
+        "profileFingerprint": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2",
+        "status": "partial",
+        "irPath": "ir.json",
+        "irDigest": "2a03e685fc20548dc954fefb499afbcbe02e9f23e3710b35aa9677f01613975e",
+        "irByteLength": "4358",
+        "assets": [
+          {
+            "relativePath": "assets/a1.png",
+            "digest": "00203ef06b85e5a7e4147b12d978b2f4b557392f74dc1a8abf82130649128960",
+            "byteLength": "2048",
+            "mediaType": "image/png"
+          }
+        ],
+        "coverage": {
+          "state": "partial",
+          "counts": {
+            "expected": 2,
+            "processed": 2,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [
+            "column_layout"
+          ],
+          "diagnostics": []
+        },
+        "diagnostics": [
+          {
+            "code": "column_layout_unsupported",
+            "severity": "info"
+          }
+        ],
+        "resultDigest": "c4e6bdc4e47c5ac01dd5d2e52c9a70eebf3c96ef32e7fcc35512b759657cc01a"
+      },
+      "excludeField": "resultDigest",
+      "expectedCanonical": "{\"assets\":[{\"byteLength\":\"2048\",\"digest\":\"00203ef06b85e5a7e4147b12d978b2f4b557392f74dc1a8abf82130649128960\",\"mediaType\":\"image/png\",\"relativePath\":\"assets/a1.png\"}],\"attemptId\":\"01JC000000000000000000001K\",\"coverage\":{\"counts\":{\"empty\":0,\"expected\":2,\"failed\":0,\"processed\":2,\"skipped\":0},\"diagnostics\":[],\"missingFeatures\":[\"column_layout\"],\"state\":\"partial\"},\"diagnostics\":[{\"code\":\"column_layout_unsupported\",\"severity\":\"info\"}],\"fence\":\"9223372036854775807\",\"irByteLength\":\"4358\",\"irDigest\":\"2a03e685fc20548dc954fefb499afbcbe02e9f23e3710b35aa9677f01613975e\",\"irPath\":\"ir.json\",\"jobId\":\"01JC000000000000000000001J\",\"profileFingerprint\":\"d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2\",\"schemaVersion\":\"worker-result-1.0\",\"sourceEpoch\":\"1\",\"sourceId\":\"01JC000000000000000000000Y\",\"sourceVersionId\":\"01JC000000000000000000000Z\",\"status\":\"partial\",\"tenantId\":\"01JC0000000000000000000001\"}",
+      "expectedSha256": "c4e6bdc4e47c5ac01dd5d2e52c9a70eebf3c96ef32e7fcc35512b759657cc01a"
+    },
+    {
+      "id": "domain.decision-receipt-self-excluded",
+      "algorithm": "domain",
+      "domain": "decisionReceipt",
+      "payload": {
+        "decision": "Allow",
+        "operation": "disclose",
+        "resourceRefs": [
+          {
+            "tenantId": "01JC0000000000000000000001",
+            "kind": "source_version",
+            "id": "01JC000000000000000000000Z"
+          }
+        ],
+        "binding": {
+          "tenantPolicyEpoch": "7",
+          "kbPolicyEpoch": "42",
+          "sources": [
+            {
+              "sourceId": "01JC000000000000000000000Y",
+              "sourcePolicyEpoch": "3",
+              "lifecycleEpoch": "1"
+            }
+          ]
+        },
+        "ownerRevision": null,
+        "checkedAt": "2026-11-06T12:00:00Z",
+        "expiresAt": "2026-11-06T12:00:05Z",
+        "hostScopeHash": "c912b43c00855e67c7b9923462598e7ae04b5bf8348f713613d6b36adb4c71e2",
+        "receiptDigest": "e5631e7010ac19bb55253e060bc8941815cec5bf44bd6ff2e9854c1cf282687c"
+      },
+      "excludeField": "receiptDigest",
+      "expectedCanonical": "{\"binding\":{\"kbPolicyEpoch\":\"42\",\"sources\":[{\"lifecycleEpoch\":\"1\",\"sourceId\":\"01JC000000000000000000000Y\",\"sourcePolicyEpoch\":\"3\"}],\"tenantPolicyEpoch\":\"7\"},\"checkedAt\":\"2026-11-06T12:00:00Z\",\"decision\":\"Allow\",\"expiresAt\":\"2026-11-06T12:00:05Z\",\"hostScopeHash\":\"c912b43c00855e67c7b9923462598e7ae04b5bf8348f713613d6b36adb4c71e2\",\"operation\":\"disclose\",\"ownerRevision\":null,\"resourceRefs\":[{\"id\":\"01JC000000000000000000000Z\",\"kind\":\"source_version\",\"tenantId\":\"01JC0000000000000000000001\"}]}",
+      "expectedSha256": "e5631e7010ac19bb55253e060bc8941815cec5bf44bd6ff2e9854c1cf282687c"
+    },
+    {
+      "id": "domain.embedding-space",
+      "algorithm": "domain",
+      "domain": "embeddingSpace",
+      "payload": {
+        "provider": "openai",
+        "model": "text-embedding-3-large",
+        "revision": "2024-01-25",
+        "dimensions": 3072,
+        "normalization": "l2",
+        "indexVersion": "pgvector-hnsw-1",
+        "documentRole": "document",
+        "queryRole": "query"
+      },
+      "expectedCanonical": "{\"dimensions\":3072,\"documentRole\":\"document\",\"indexVersion\":\"pgvector-hnsw-1\",\"model\":\"text-embedding-3-large\",\"normalization\":\"l2\",\"provider\":\"openai\",\"queryRole\":\"query\",\"revision\":\"2024-01-25\"}",
+      "expectedSha256": "b1cba528b9abf7651f0779a6269bff1c394ccf4e2cdc87110b62ff859af45363"
+    },
+    {
+      "id": "domain.index-manifest",
+      "algorithm": "domain",
+      "domain": "indexManifest",
+      "payload": {
+        "schemaVersion": "index-manifest-1.0",
+        "tenantId": "01JC0000000000000000000001",
+        "kbId": "01JC000000000000000000000A",
+        "generationId": "01JC0000000000000000000013",
+        "profile": {
+          "id": "postgres-fts-simple-v1",
+          "kind": "lexical",
+          "parserSignature": {
+            "name": "docling",
+            "version": "2.148.0",
+            "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+          },
+          "chunkerSignature": {
+            "name": "structural",
+            "version": "1.0.0",
+            "profileDigest": "515c71a7fd88d5b20e12df6bd8ba3bc5623145d932ae8c5deaa0a0947cbe0253"
+          }
+        },
+        "members": [
+          {
+            "sourceId": "01JC000000000000000000000Y",
+            "sourceVersionId": "01JC000000000000000000000Z",
+            "sourceDigest": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+            "documentRevisionId": "01JC0000000000000000000010",
+            "irDigest": "b525a34a86d9fdcc3dd99082cc7af9ad00a5c096397429a6df8af9237d62a3a9",
+            "chunkSetId": "01JC0000000000000000000012",
+            "chunkSetDigest": "a0bb5fdbe177bf467ceff4dbba8bab60ed8f5856fe1d66f3fb7c8ef531e743e9",
+            "chunkCount": 3
+          },
+          {
+            "sourceId": "01JC0000000000000000000042",
+            "sourceVersionId": "01JC0000000000000000000043",
+            "sourceDigest": "dd2b962a0f69f4aa48d227ae95877c2213348d86bbca44fa4d8f45e916c1a263",
+            "documentRevisionId": "01JC0000000000000000000044",
+            "irDigest": "3bbed8634ef92921fb7e3ba3a0bcdd15deda8901d422937471804abfbc2ba524",
+            "chunkSetId": "01JC0000000000000000000045",
+            "chunkSetDigest": "81ec8501c8926c854c46674611a528081adb78d6d637562cdeac4172b76284da",
+            "chunkCount": 2
+          }
+        ],
+        "resources": [
+          {
+            "resourceId": "01JC000000000000000000004C",
+            "kind": "lexical_index",
+            "digest": "68ddcd9bab5fef8684dc6b2eed7ea31b76eb7db372bded9734b661b4b2f469cd",
+            "byteLength": "8192"
+          }
+        ],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 2,
+            "processed": 2,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        },
+        "counts": {
+          "members": 2,
+          "chunks": 5,
+          "resources": 1
+        },
+        "embeddingSpaceDigest": null
+      },
+      "expectedCanonical": "{\"counts\":{\"chunks\":5,\"members\":2,\"resources\":1},\"coverage\":{\"counts\":{\"empty\":0,\"expected\":2,\"failed\":0,\"processed\":2,\"skipped\":0},\"diagnostics\":[],\"missingFeatures\":[],\"state\":\"complete\"},\"embeddingSpaceDigest\":null,\"generationId\":\"01JC0000000000000000000013\",\"kbId\":\"01JC000000000000000000000A\",\"members\":[{\"chunkCount\":3,\"chunkSetDigest\":\"a0bb5fdbe177bf467ceff4dbba8bab60ed8f5856fe1d66f3fb7c8ef531e743e9\",\"chunkSetId\":\"01JC0000000000000000000012\",\"documentRevisionId\":\"01JC0000000000000000000010\",\"irDigest\":\"b525a34a86d9fdcc3dd99082cc7af9ad00a5c096397429a6df8af9237d62a3a9\",\"sourceDigest\":\"d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c\",\"sourceId\":\"01JC000000000000000000000Y\",\"sourceVersionId\":\"01JC000000000000000000000Z\"},{\"chunkCount\":2,\"chunkSetDigest\":\"81ec8501c8926c854c46674611a528081adb78d6d637562cdeac4172b76284da\",\"chunkSetId\":\"01JC0000000000000000000045\",\"documentRevisionId\":\"01JC0000000000000000000044\",\"irDigest\":\"3bbed8634ef92921fb7e3ba3a0bcdd15deda8901d422937471804abfbc2ba524\",\"sourceDigest\":\"dd2b962a0f69f4aa48d227ae95877c2213348d86bbca44fa4d8f45e916c1a263\",\"sourceId\":\"01JC0000000000000000000042\",\"sourceVersionId\":\"01JC0000000000000000000043\"}],\"profile\":{\"chunkerSignature\":{\"name\":\"structural\",\"profileDigest\":\"515c71a7fd88d5b20e12df6bd8ba3bc5623145d932ae8c5deaa0a0947cbe0253\",\"version\":\"1.0.0\"},\"id\":\"postgres-fts-simple-v1\",\"kind\":\"lexical\",\"parserSignature\":{\"name\":\"docling\",\"profileDigest\":\"d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2\",\"version\":\"2.148.0\"}},\"resources\":[{\"byteLength\":\"8192\",\"digest\":\"68ddcd9bab5fef8684dc6b2eed7ea31b76eb7db372bded9734b661b4b2f469cd\",\"kind\":\"lexical_index\",\"resourceId\":\"01JC000000000000000000004C\"}],\"schemaVersion\":\"index-manifest-1.0\",\"tenantId\":\"01JC0000000000000000000001\"}",
+      "expectedSha256": "0e9e4e0a83f10f62edbe8a58409f36b2babb36a3ef4b4f796a09e8e69a5bccbf"
+    },
+    {
+      "id": "domain.scope-binding",
+      "algorithm": "domain",
+      "domain": "scopeBinding",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "kbId": "01JC000000000000000000000A",
+        "actorId": "01JC000000000000000000000M",
+        "purpose": "lesson.read",
+        "hostScopeHash": "c912b43c00855e67c7b9923462598e7ae04b5bf8348f713613d6b36adb4c71e2",
+        "policyBindingDigest": "c74597bbac8da584cbf92dddb4efb980a1503cc22ba75c62a161460007e7c3b5"
+      },
+      "expectedCanonical": "{\"actorId\":\"01JC000000000000000000000M\",\"hostScopeHash\":\"c912b43c00855e67c7b9923462598e7ae04b5bf8348f713613d6b36adb4c71e2\",\"kbId\":\"01JC000000000000000000000A\",\"policyBindingDigest\":\"c74597bbac8da584cbf92dddb4efb980a1503cc22ba75c62a161460007e7c3b5\",\"purpose\":\"lesson.read\",\"tenantId\":\"01JC0000000000000000000001\"}",
+      "expectedSha256": "948d2054d06132f59a449c46d43dd54baf91a434eabfee40585ed6a9b19e1df3"
+    },
+    {
+      "id": "domain.scope-binding-other-host",
+      "algorithm": "domain",
+      "domain": "scopeBinding",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "kbId": "01JC000000000000000000000A",
+        "actorId": "01JC000000000000000000000M",
+        "purpose": "lesson.read",
+        "hostScopeHash": "a620f2b447652f9b290140ca8c4b0db67fb59292dc62c29c0f0b0d10c71f82d0",
+        "policyBindingDigest": "c74597bbac8da584cbf92dddb4efb980a1503cc22ba75c62a161460007e7c3b5"
+      },
+      "expectedCanonical": "{\"actorId\":\"01JC000000000000000000000M\",\"hostScopeHash\":\"a620f2b447652f9b290140ca8c4b0db67fb59292dc62c29c0f0b0d10c71f82d0\",\"kbId\":\"01JC000000000000000000000A\",\"policyBindingDigest\":\"c74597bbac8da584cbf92dddb4efb980a1503cc22ba75c62a161460007e7c3b5\",\"purpose\":\"lesson.read\",\"tenantId\":\"01JC0000000000000000000001\"}",
+      "expectedSha256": "65e980b8e93012185c228b33ad5504e1e322a298a6594b23bfbb9cda86e2b7f6"
+    },
+    {
+      "id": "domain.policy-binding",
+      "algorithm": "domain",
+      "domain": "policyBinding",
+      "payload": {
+        "tenantPolicyEpoch": "7",
+        "kbPolicyEpoch": "42",
+        "sources": [
+          {
+            "sourceId": "01JC000000000000000000000Y",
+            "sourcePolicyEpoch": "3",
+            "lifecycleEpoch": "1"
+          }
+        ]
+      },
+      "expectedCanonical": "{\"kbPolicyEpoch\":\"42\",\"sources\":[{\"lifecycleEpoch\":\"1\",\"sourceId\":\"01JC000000000000000000000Y\",\"sourcePolicyEpoch\":\"3\"}],\"tenantPolicyEpoch\":\"7\"}",
+      "expectedSha256": "c74597bbac8da584cbf92dddb4efb980a1503cc22ba75c62a161460007e7c3b5"
+    },
+    {
+      "id": "domain.source-identity",
+      "algorithm": "domain",
+      "domain": "sourceIdentity",
+      "payload": {
+        "tenantId": "01JC0000000000000000000001",
+        "sourceId": "01JC000000000000000000000Y"
+      },
+      "expectedCanonical": "{\"sourceId\":\"01JC000000000000000000000Y\",\"tenantId\":\"01JC0000000000000000000001\"}",
+      "expectedSha256": "ee3ee03fa1764410c97221cd3f26b374261fe20beb2dedbf252605af307c0b8b"
+    },
+    {
+      "id": "domain.event-payload",
+      "algorithm": "domain",
+      "domain": "domainEventPayload",
+      "payload": {
+        "sourceId": "01JC000000000000000000000Y",
+        "reason": "source_revoked",
+        "lifecycleEpoch": "2",
+        "appliesTo": "future_versions"
+      },
+      "expectedCanonical": "{\"appliesTo\":\"future_versions\",\"lifecycleEpoch\":\"2\",\"reason\":\"source_revoked\",\"sourceId\":\"01JC000000000000000000000Y\"}",
+      "expectedSha256": "5be16377afcd71ca70f1fba67fc5f07a2170529d624e2eb70257193b2e3aff0f"
+    },
+    {
+      "id": "domain.processing-identity",
+      "algorithm": "domain",
+      "domain": "processingIdentity",
+      "payload": {
+        "sourceVersionId": "01JC000000000000000000000Z",
+        "sourceDigest": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+        "parserSignature": {
+          "name": "docling",
+          "version": "2.148.0",
+          "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+        },
+        "ocrProfileSignature": null,
+        "chunkerSignature": {
+          "name": "structural",
+          "version": "1.0.0",
+          "profileDigest": "515c71a7fd88d5b20e12df6bd8ba3bc5623145d932ae8c5deaa0a0947cbe0253"
+        },
+        "irSchema": "ir-1.0",
+        "indexProfileDigest": "f1a40c0faa9af7d7669112ffa8c5d1834ab21c15192ed8877c306f780e553834",
+        "embeddingSpaceDigest": null
+      },
+      "expectedCanonical": "{\"chunkerSignature\":{\"name\":\"structural\",\"profileDigest\":\"515c71a7fd88d5b20e12df6bd8ba3bc5623145d932ae8c5deaa0a0947cbe0253\",\"version\":\"1.0.0\"},\"embeddingSpaceDigest\":null,\"indexProfileDigest\":\"f1a40c0faa9af7d7669112ffa8c5d1834ab21c15192ed8877c306f780e553834\",\"irSchema\":\"ir-1.0\",\"ocrProfileSignature\":null,\"parserSignature\":{\"name\":\"docling\",\"profileDigest\":\"d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2\",\"version\":\"2.148.0\"},\"sourceDigest\":\"d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c\",\"sourceVersionId\":\"01JC000000000000000000000Z\"}",
+      "expectedSha256": "b35edd02e16cedb1347829ff266aeab719b26f10d703876429f7328f91df3a70"
+    },
+    {
+      "id": "raw.empty-page-text",
+      "algorithm": "raw",
+      "payloadUtf8": "",
+      "expectedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "raw.page-text-unicode",
+      "algorithm": "raw",
+      "payloadUtf8": "Привет, мир. 東京タワーは高い。 Café vs Café — ёлка.",
+      "expectedSha256": "4b87290d26d4a8b06ef65186cd0253c1f159ce73f6cfbafd8d223986e40f415b"
+    },
+    {
+      "id": "raw.multi-span-content",
+      "algorithm": "raw",
+      "payloadUtf8": "東京タワーは高い。 … Продолжение: 続きの文章。",
+      "expectedSha256": "695976fd169792144415b4828d52443f455a99dbde28af115045224f644fef5d"
+    },
+    {
+      "id": "decode.duplicate-key",
+      "algorithm": "decode",
+      "inputBase64": "eyJhIjoxLCJhIjoxfQ==",
+      "expectedErrorCode": "duplicate_key"
+    },
+    {
+      "id": "decode.duplicate-escaped-key",
+      "algorithm": "decode",
+      "inputBase64": "eyJhIjoxLCJcdTAwNjEiOjJ9",
+      "expectedErrorCode": "duplicate_key"
+    },
+    {
+      "id": "decode.lone-high-surrogate",
+      "algorithm": "decode",
+      "inputBase64": "eyJhIjoiXHVkODAwIn0=",
+      "expectedErrorCode": "invalid_surrogate"
+    },
+    {
+      "id": "decode.lone-low-surrogate",
+      "algorithm": "decode",
+      "inputBase64": "WyJcdWRjMDB4Il0=",
+      "expectedErrorCode": "invalid_surrogate"
+    },
+    {
+      "id": "decode.nan",
+      "algorithm": "decode",
+      "inputBase64": "eyJhIjpOYU59",
+      "expectedErrorCode": "invalid_json"
+    },
+    {
+      "id": "decode.infinity",
+      "algorithm": "decode",
+      "inputBase64": "Wy1JbmZpbml0eV0=",
+      "expectedErrorCode": "invalid_json"
+    },
+    {
+      "id": "decode.float",
+      "algorithm": "decode",
+      "inputBase64": "eyJ4MCI6MC41fQ==",
+      "expectedErrorCode": "non_integer_number"
+    },
+    {
+      "id": "decode.exponent",
+      "algorithm": "decode",
+      "inputBase64": "WzFlM10=",
+      "expectedErrorCode": "non_integer_number"
+    },
+    {
+      "id": "decode.unsafe-integer",
+      "algorithm": "decode",
+      "inputBase64": "WzkwMDcxOTkyNTQ3NDA5OTJd",
+      "expectedErrorCode": "unsafe_integer"
+    },
+    {
+      "id": "decode.invalid-utf8",
+      "algorithm": "decode",
+      "inputBase64": "WyLDKCJd",
+      "expectedErrorCode": "invalid_utf8"
+    },
+    {
+      "id": "decode.encoded-surrogate",
+      "algorithm": "decode",
+      "inputBase64": "WyLtoIAiXQ==",
+      "expectedErrorCode": "invalid_utf8"
+    },
+    {
+      "id": "decode.bom",
+      "algorithm": "decode",
+      "inputBase64": "77u/e30=",
+      "expectedErrorCode": "invalid_json"
+    },
+    {
+      "id": "decode.trailing-comma",
+      "algorithm": "decode",
+      "inputBase64": "WzEsXQ==",
+      "expectedErrorCode": "invalid_json"
+    },
+    {
+      "id": "decode.raw-control",
+      "algorithm": "decode",
+      "inputBase64": "WyJhAWIiXQ==",
+      "expectedErrorCode": "invalid_json"
+    },
+    {
+      "id": "decode.leading-zero",
+      "algorithm": "decode",
+      "inputBase64": "WzAxXQ==",
+      "expectedErrorCode": "invalid_json"
+    },
+    {
+      "id": "decode.depth",
+      "algorithm": "decode",
+      "inputBase64": "W1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tbW1tdXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXV1dXQ==",
+      "expectedErrorCode": "depth_exceeded"
+    },
+    {
+      "id": "legacy.agentools-release-hash",
+      "algorithm": "legacy",
+      "payload": {
+        "sourceHash": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+        "page": 12,
+        "text": "Привет/мир"
+      },
+      "legacyHashType": "agentools_release_hash_v1",
+      "legacyReleaseHash": "6e6644493c871998e2a4cc444a8f71df9b3ba6c00d63af58bcbe96a43aaaf81c",
+      "expectedSha256": "c05234d96b89f08e20ce33309f05806784217b7904bb35b9558800c0a671ce69",
+      "note": "legacy = SHA256(json_encode unicode-unescaped, slash-escaped, insertion order) per AgenTools Integrity::digest; it differs from the JCS digest and is never renamed"
+    }
+  ]
+}

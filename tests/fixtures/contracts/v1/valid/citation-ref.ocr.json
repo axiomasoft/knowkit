@@ -1,0 +1,24 @@
+{
+  "citationId": "01JC000000000000000000002J",
+  "tenantId": "01JC0000000000000000000001",
+  "sourceId": "01JC000000000000000000000Y",
+  "sourceVersionId": "01JC000000000000000000000Z",
+  "documentRevisionId": "01JC0000000000000000000016",
+  "documentId": "01JC0000000000000000000011",
+  "spans": [
+    {
+      "kind": "page",
+      "pageId": "p1",
+      "physicalNo": 1,
+      "printedLabel": null,
+      "blockId": "o1",
+      "byteStart": 0,
+      "byteEnd": 44,
+      "textDigest": "3e5eff01ae65e56944c87912997fbc7c70d44a2051fa30d0dea6d3b4de50ef81"
+    }
+  ],
+  "sourceDigest": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+  "irDigest": "e496d13e2c719df376761c8e2592b1d85f1226c8a624ac79da151a9fe9145beb",
+  "contentDigest": "3e5eff01ae65e56944c87912997fbc7c70d44a2051fa30d0dea6d3b4de50ef81",
+  "origin": "ocr"
+}

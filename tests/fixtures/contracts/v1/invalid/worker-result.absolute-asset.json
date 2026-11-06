@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "worker-result-1.0",
+  "jobId": "01JC000000000000000000001J",
+  "attemptId": "01JC000000000000000000001K",
+  "tenantId": "01JC0000000000000000000001",
+  "sourceId": "01JC000000000000000000000Y",
+  "sourceVersionId": "01JC000000000000000000000Z",
+  "fence": "9223372036854775807",
+  "sourceEpoch": "1",
+  "profileFingerprint": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2",
+  "status": "partial",
+  "irPath": "ir.json",
+  "irDigest": "2a03e685fc20548dc954fefb499afbcbe02e9f23e3710b35aa9677f01613975e",
+  "irByteLength": "4358",
+  "assets": [
+    {
+      "relativePath": "/output/a1.png",
+      "digest": "00203ef06b85e5a7e4147b12d978b2f4b557392f74dc1a8abf82130649128960",
+      "byteLength": "2048",
+      "mediaType": "image/png"
+    }
+  ],
+  "coverage": {
+    "state": "partial",
+    "counts": {
+      "expected": 2,
+      "processed": 2,
+      "empty": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [
+      "column_layout"
+    ],
+    "diagnostics": []
+  },
+  "diagnostics": [
+    {
+      "code": "column_layout_unsupported",
+      "severity": "info"
+    }
+  ],
+  "resultDigest": "3ba654bee3cf0405dc4dde0abc2aee190275045bc727156ffcb89fbc0d0513a1"
+}

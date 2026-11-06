@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:evidence-set:1.0",
+  "title": "EvidenceSet returned only after the usage commit",
+  "description": "Fragments carry exact canonical bytes with explicit joiners; generated origin is labelled and never presented as verbatim. evidenceSetDigest = SHA256('knowkit:evidence-set:v1' || 0x00 || JCS(set without evidenceSetDigest)).",
+  "x-knowkit-maxDocumentBytes": 1048576,
+  "type": "object",
+  "required": ["tenantId", "selectionId", "disclosureAttemptId", "usageId", "hostScopeHash", "scopeBindingDigest", "snapshotRef", "fragments", "totalBytes", "evidenceSetDigest"],
+  "properties": {
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "selectionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "disclosureAttemptId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "usageId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "hostScopeHash": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/hostScopeHash"},
+    "scopeBindingDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "snapshotRef": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/snapshotRef"},
+    "fragments": {"type": "array", "minItems": 1, "maxItems": 64, "items": {"$ref": "#/$defs/fragment"}},
+    "totalBytes": {"type": "integer", "minimum": 1, "maximum": 262144},
+    "evidenceSetDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+  },
+  "unevaluatedProperties": false,
+  "$defs": {
+    "fragment": {
+      "type": "object",
+      "required": ["citation", "text", "joiner", "fragmentDigest", "provenanceKind"],
+      "properties": {
+        "citation": {"$ref": "urn:knowkit:schema:citation-ref:1.0"},
+        "text": {"type": "string", "minLength": 1, "maxLength": 262144},
+        "joiner": {"type": ["string", "null"], "minLength": 1, "maxLength": 16},
+        "fragmentDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "provenanceKind": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/provenanceKind"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"citation": {"properties": {"origin": {"const": "generated"}}, "required": ["origin"]}}, "required": ["citation"]},
+          "then": {"properties": {"provenanceKind": {"enum": ["table_representation", "description", "summary"]}}}
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

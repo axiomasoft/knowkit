@@ -1,0 +1,9 @@
+{
+  "outcome": "unavailable",
+  "degraded": false,
+  "warnings": [],
+  "error": {
+    "code": "RETRYABLE_LOCK_TIMEOUT",
+    "retryable": true
+  }
+}

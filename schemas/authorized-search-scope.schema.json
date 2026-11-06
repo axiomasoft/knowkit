@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:authorized-search-scope:1.0",
+  "title": "AuthorizedSearchScope materialized from a current Allow and exact snapshot",
+  "x-knowkit-maxDocumentBytes": 262144,
+  "type": "object",
+  "required": ["tenantId", "kbId", "snapshotId", "generationId", "allowedSourceVersionIds", "policyBindingDigest", "embeddingSpaceDigest"],
+  "properties": {
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "kbId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "snapshotId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "generationId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "allowedSourceVersionIds": {"type": "array", "maxItems": 4096, "uniqueItems": true, "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"}},
+    "policyBindingDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "embeddingSpaceDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableSha256"}
+  },
+  "unevaluatedProperties": false
+}

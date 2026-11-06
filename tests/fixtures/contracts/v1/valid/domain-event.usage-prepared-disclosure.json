@@ -1,0 +1,45 @@
+{
+  "eventId": "01JC0000000000000000000028",
+  "schemaVersion": "event-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "aggregateType": "usage",
+  "aggregateId": "01JC000000000000000000001A",
+  "aggregateVersion": "1",
+  "type": "usage.prepared_disclosure",
+  "occurredAt": "2026-11-06T12:00:00Z",
+  "causationId": null,
+  "correlationId": "01JC000000000000000000001M",
+  "payload": {
+    "usageId": "01JC000000000000000000001A",
+    "disclosureAttemptId": "01JC0000000000000000000019",
+    "selectionId": "01JC0000000000000000000018",
+    "actorId": "01JC000000000000000000000M",
+    "purpose": "lesson.read",
+    "hostScopeHash": "c912b43c00855e67c7b9923462598e7ae04b5bf8348f713613d6b36adb4c71e2",
+    "runRef": null,
+    "fragmentRefs": [
+      {
+        "chunkRef": {
+          "tenantId": "01JC0000000000000000000001",
+          "sourceId": "01JC000000000000000000000Y",
+          "sourceVersionId": "01JC000000000000000000000Z",
+          "sourceDigest": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+          "documentRevisionId": "01JC0000000000000000000010",
+          "irDigest": "b525a34a86d9fdcc3dd99082cc7af9ad00a5c096397429a6df8af9237d62a3a9",
+          "parserSignature": {
+            "name": "docling",
+            "version": "2.148.0",
+            "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+          },
+          "chunkSetId": "01JC0000000000000000000012",
+          "chunkId": "01JC0000000000000000000034",
+          "chunkDigest": "5efd96eae7323843e5c5cfad98570136814335f34502ab939e7cda411920b458"
+        },
+        "fragmentDigest": "695976fd169792144415b4828d52443f455a99dbde28af115045224f644fef5d"
+      }
+    ],
+    "checkedAt": "2026-11-06T12:00:01Z",
+    "policyBindingDigest": "c74597bbac8da584cbf92dddb4efb980a1503cc22ba75c62a161460007e7c3b5"
+  },
+  "payloadDigest": "47c20aee53fa63a73e932c4a5e4b9d3fd4c80002d564b865cd559411b5b65529"
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:disclosure-request:1.0",
+  "title": "DisclosureRequest (knowledge/api#shapes)",
+  "description": "disclosureAttemptId is required and UNIQUE(tenant_id, disclosure_attempt_id); usageContext is supplied by the trusted host/bridge only.",
+  "x-knowkit-maxDocumentBytes": 262144,
+  "type": "object",
+  "required": ["selectionId", "chunkRefs", "disclosureAttemptId"],
+  "properties": {
+    "selectionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "chunkRefs": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/chunkRefs"},
+    "disclosureAttemptId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "usageContext": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/usageContext"}
+  },
+  "unevaluatedProperties": false
+}

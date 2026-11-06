@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:job:1.0",
+  "title": "Job record (knowledge/jobs): lease/fence state of one durable job",
+  "description": "Wire/status shape of a Job row; the queue runtime is not part of this schema. State is pending|leased|succeeded|failed|cancelled; extraction partial is not a job state. Only leaseTokenHash is stored, never the one-time lease token. A leased job carries leaseTokenHash, leaseUntil and attemptDeadline; fence is a decimal string (PostgreSQL bigint). attempt is bounded by maxAttempts=5. type is the registered job type code (JobQueue::lease(JobType, ...)); this schema bounds its syntax and does not invent a type enum.",
+  "x-knowkit-maxDocumentBytes": 16384,
+  "type": "object",
+  "required": ["jobId", "tenantId", "kbId", "sourceId", "sourceVersionId", "generationId", "type", "state", "attempt", "fence", "leaseTokenHash", "leaseUntil", "attemptDeadline", "availableAt", "checkpointDigest"],
+  "properties": {
+    "jobId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "kbId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "sourceVersionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "generationId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableUlid"},
+    "type": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/code"},
+    "state": {"enum": ["pending", "leased", "succeeded", "failed", "cancelled"]},
+    "attempt": {"type": "integer", "minimum": 0, "maximum": 5},
+    "fence": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "leaseTokenHash": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableSha256"},
+    "leaseUntil": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableUtcInstant"},
+    "attemptDeadline": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableUtcInstant"},
+    "availableAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"},
+    "checkpointDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableSha256"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"state": {"const": "leased"}}, "required": ["state"]},
+      "then": {"properties": {"attempt": {"minimum": 1}, "leaseTokenHash": {"type": "string"}, "leaseUntil": {"type": "string"}, "attemptDeadline": {"type": "string"}}}
+    }
+  ],
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:usage:1.0",
+  "title": "Usage prepared_disclosure record",
+  "description": "Inserted inside the disclosure transaction; stores refs and fragment digests only, never plaintext.",
+  "x-knowkit-maxDocumentBytes": 262144,
+  "type": "object",
+  "required": ["usageId", "tenantId", "disclosureAttemptId", "selectionId", "actorId", "purpose", "hostScopeHash", "runRef", "fragmentRefs", "checkedAt", "policyBindingDigest", "status"],
+  "properties": {
+    "usageId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "disclosureAttemptId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "selectionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "actorId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "purpose": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/purpose"},
+    "hostScopeHash": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/hostScopeHash"},
+    "runRef": {"type": ["string", "null"], "minLength": 1, "maxLength": 256},
+    "fragmentRefs": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 64,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["chunkRef", "fragmentDigest"],
+        "properties": {
+          "chunkRef": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/chunkRef"},
+          "fragmentDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+        },
+        "unevaluatedProperties": false
+      }
+    },
+    "checkedAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"},
+    "policyBindingDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "status": {"const": "prepared_disclosure"}
+  },
+  "unevaluatedProperties": false
+}

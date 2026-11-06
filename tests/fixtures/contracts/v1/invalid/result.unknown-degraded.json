@@ -1,0 +1,12 @@
+{
+  "outcome": "unknown",
+  "degraded": true,
+  "warnings": [
+    "policy_unknown"
+  ],
+  "error": {
+    "code": "policy_unknown",
+    "retryable": true
+  },
+  "effectiveProfile": "lexical-v1"
+}

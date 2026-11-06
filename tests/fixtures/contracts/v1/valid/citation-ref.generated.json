@@ -1,0 +1,31 @@
+{
+  "citationId": "01JC000000000000000000002H",
+  "tenantId": "01JC0000000000000000000001",
+  "sourceId": "01JC000000000000000000000Y",
+  "sourceVersionId": "01JC000000000000000000000Z",
+  "documentRevisionId": "01JC0000000000000000000015",
+  "documentId": "01JC0000000000000000000011",
+  "spans": [
+    {
+      "kind": "segment",
+      "segmentId": "gen-desc-a1",
+      "blockId": "gen1",
+      "byteStart": 0,
+      "byteEnd": 55,
+      "textDigest": "cbdc57566a77f907ceaf7cbbf12b6b07b135a729889512a0eaee9ee2c911b14b"
+    }
+  ],
+  "sourceDigest": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+  "irDigest": "2a03e685fc20548dc954fefb499afbcbe02e9f23e3710b35aa9677f01613975e",
+  "contentDigest": "cbdc57566a77f907ceaf7cbbf12b6b07b135a729889512a0eaee9ee2c911b14b",
+  "assetRefs": [
+    {
+      "assetId": "a1",
+      "digest": "00203ef06b85e5a7e4147b12d978b2f4b557392f74dc1a8abf82130649128960"
+    }
+  ],
+  "origin": "generated",
+  "supportingRefs": [
+    "a1"
+  ]
+}

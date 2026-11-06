@@ -1,0 +1,3198 @@
+{
+  "schemaVersion": "fixture-manifest-1.0",
+  "corpusVersion": "1.1.0",
+  "versionRationale": "1.1.0 (P1.4 correction round 2, intentional contract changes, not a snapshot rewrite): Selection gains the required nullable trusted runRef binding (run-bound positive, missing/empty negatives, same-run/other-run/dropped-run binding vectors); every DomainEvent type has a closed payload projected from its normative record, so domain-event.valid drops sourceVersionId and adds appliesTo (payloadDigest and the domain.event-payload vector change accordingly) and unknown/documentText/credentials payload members are rejected; citation-ref.generated and citation-ref.ocr get their own documentRevisionId because they cite different IRs than the unicode revision (evidence-set.valid digest changes) and EvidenceSet rejects one revision with two irDigests; Result.error.code keeps approved codes in original case (POLICY_CHANGED, RETRYABLE_LOCK_TIMEOUT, POINTER_CONFLICT, HOLD_TOO_LATE) and the epoch-drift binding vector now expects POLICY_CHANGED; new Job record schema with all five states. 1.0.0: initial P1.4 corpus; every wire schema has valid and invalid cases; audit regressions R07-A01..R28-A02 and the mandatory Unicode/page/bbox/version/legacy-hash cases. Expected codes/paths and golden digests are authored intentionally; any change requires a new corpusVersion and rationale.",
+  "requiredTags": [
+    "r07-a01",
+    "r07-a02",
+    "r08-a01",
+    "r10-a01",
+    "r10-a02",
+    "r28-a01",
+    "r28-a02",
+    "combining-marks",
+    "cyrillic-cjk",
+    "empty-page",
+    "page-label",
+    "multiple-spans",
+    "invalid-bbox",
+    "schema-version",
+    "legacy-hash",
+    "strict-json",
+    "unknown-fields",
+    "disclosure-attempt",
+    "usage-context",
+    "wrong-scope",
+    "egress-manifest",
+    "ir-roundtrip",
+    "jobs",
+    "events",
+    "manifests",
+    "deletion",
+    "selection",
+    "evidence",
+    "run-binding",
+    "event-payload",
+    "revision-identity",
+    "error-codes",
+    "job-record"
+  ],
+  "entries": [
+    {
+      "id": "document-ir.unicode-multipage",
+      "path": "tests/fixtures/contracts/v1/valid/document-ir.unicode-multipage.json",
+      "sha256": "34fe9523248c6fe7078257527205f5d39cec0f909edb02186d680a0cbaefa7a4",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r08-a01",
+        "combining-marks",
+        "cyrillic-cjk",
+        "empty-page",
+        "page-label",
+        "multiple-spans",
+        "ir-roundtrip",
+        "r07-a02"
+      ]
+    },
+    {
+      "id": "document-ir.structured",
+      "path": "tests/fixtures/contracts/v1/valid/document-ir.structured.json",
+      "sha256": "89288638a38b3cd3af0bd86a84dd27ab4d7c79d52bda62ba4260838368885890",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r07-a01",
+        "ir-roundtrip",
+        "r10-a01",
+        "r07-a02"
+      ]
+    },
+    {
+      "id": "document-ir.ocr-uncertain",
+      "path": "tests/fixtures/contracts/v1/valid/document-ir.ocr-uncertain.json",
+      "sha256": "2b5def8f4ace8648ccc32de8916f00e0ef0719103fb4ab53442cf21461ba5831",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r10-a02",
+        "ir-roundtrip",
+        "r07-a02"
+      ]
+    },
+    {
+      "id": "document-ir.segments",
+      "path": "tests/fixtures/contracts/v1/valid/document-ir.segments.json",
+      "sha256": "94cc77b27a35bf5d3c1aa154b405d00f0e5a4e99bf6c010b4a099f570c7d6fad",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "ir-roundtrip",
+        "cyrillic-cjk",
+        "r07-a02"
+      ]
+    },
+    {
+      "id": "document-ir.bbox-inverted",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.bbox-inverted.json",
+      "sha256": "70b81a0dbd6f36cffd0720ebe907340ca3802838834343186860d1d2078ee3ea",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "invalid_bbox",
+      "expectedErrorPath": "/blocks/0/spans/0/bbox/x1",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "invalid-bbox"
+      ]
+    },
+    {
+      "id": "document-ir.bbox-out-of-range",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.bbox-out-of-range.json",
+      "sha256": "9c60559f0bfa0a9ae5b774980e4049586706a4e5441ea54aad2e2326c1f858c7",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "maximum",
+      "expectedErrorPath": "/blocks/0/spans/0/bbox/x1",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "invalid-bbox"
+      ]
+    },
+    {
+      "id": "document-ir.bbox-bottom-left",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.bbox-bottom-left.json",
+      "sha256": "00abe65d585ee365c8597e28904e3770b61c441e08140c816bc109d559f79949",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "const",
+      "expectedErrorPath": "/blocks/0/spans/0/bbox/origin",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "invalid-bbox"
+      ]
+    },
+    {
+      "id": "document-ir.bbox-float",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.bbox-float.json",
+      "sha256": "5b133038047f290e65f56abd3fbac4110a7be69d39256babacd076e4bf69bc58",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "non_integer_number",
+      "expectedErrorPath": "",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "invalid-bbox",
+        "strict-json"
+      ]
+    },
+    {
+      "id": "document-ir.schema-version-2",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.schema-version-2.json",
+      "sha256": "e94e8605c35c10b51a9fd216405a2af3c73fd62e980c38798d0c4ad38944af89",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unsupported_schema_version",
+      "expectedErrorPath": "/schemaVersion",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "schema-version"
+      ]
+    },
+    {
+      "id": "document-ir.schema-version-minor",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.schema-version-minor.json",
+      "sha256": "45cb15aa95e70fb5ffea7d258a3cf547cef5ed0dc81e477b1561941bf7096a58",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unsupported_schema_version",
+      "expectedErrorPath": "/schemaVersion",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "schema-version"
+      ]
+    },
+    {
+      "id": "document-ir.segment-physical-no",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.segment-physical-no.json",
+      "sha256": "c10187de8b7c531d000ceddd4e6e8102350217a555bbf8e5ab7768054b459c0a",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "forbidden_field",
+      "expectedErrorPath": "/blocks/0/spans/0/physicalNo",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "page-label"
+      ]
+    },
+    {
+      "id": "document-ir.span-mid-codepoint",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.span-mid-codepoint.json",
+      "sha256": "7fd13b0a27efd690ed1bab8cc2c310e602ff94caeb923d1b214a5725e5afbb8b",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "utf8_boundary",
+      "expectedErrorPath": "/blocks/1/spans/0/byteStart",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "cyrillic-cjk",
+        "multiple-spans",
+        "r08-a01"
+      ]
+    },
+    {
+      "id": "document-ir.span-inside-combining-mark",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.span-inside-combining-mark.json",
+      "sha256": "0a761586fc509972e36fd5685c147fb9b51ca3bbf9f693b2ec6784e8d47939eb",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "utf8_boundary",
+      "expectedErrorPath": "/blocks/2/spans/0/byteEnd",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "combining-marks"
+      ]
+    },
+    {
+      "id": "document-ir.span-empty",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.span-empty.json",
+      "sha256": "f801552e4521312872b6a242dea2c66416da72b077ebd3e86387686294455d7c",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "invalid_span",
+      "expectedErrorPath": "/blocks/3/spans/0/byteEnd",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "multiple-spans"
+      ]
+    },
+    {
+      "id": "document-ir.span-out-of-range",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.span-out-of-range.json",
+      "sha256": "a13b20d18a710f551e41023b90d7e5d5a6377c5067badf70ae54ce4a8d3acdc6",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "span_out_of_range",
+      "expectedErrorPath": "/blocks/3/spans/0/byteEnd",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "multiple-spans"
+      ]
+    },
+    {
+      "id": "document-ir.empty-page-with-text",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.empty-page-with-text.json",
+      "sha256": "9b2be436333bd91c025fe0906808b8430253440810f192f0c993f651aa9dd773",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "page_status_mismatch",
+      "expectedErrorPath": "/pages/1/text",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "empty-page"
+      ]
+    },
+    {
+      "id": "document-ir.failed-page-complete",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.failed-page-complete.json",
+      "sha256": "c83663e9322218746c92fab944feff6730a320f113df2651d0e40e90d72a7b70",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "coverage_mismatch",
+      "expectedErrorPath": "/coverage/state",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "empty-page"
+      ]
+    },
+    {
+      "id": "document-ir.failed-counted-empty",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.failed-counted-empty.json",
+      "sha256": "1883a6735976c1644703d47134ffd9b7bfc9080f857b40b28e635c2a17b61814",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "coverage_mismatch",
+      "expectedErrorPath": "/coverage/counts/empty",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "empty-page"
+      ]
+    },
+    {
+      "id": "document-ir.physical-zero",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.physical-zero.json",
+      "sha256": "7ad7c544dd0fdd75e6efe49a4509c2fc1a3b522f53e482b8ed0951ae1406d449",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "minimum",
+      "expectedErrorPath": "/pages/0/physicalNo",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "page-label"
+      ]
+    },
+    {
+      "id": "document-ir.label-as-number",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.label-as-number.json",
+      "sha256": "c2035f111bbd3f190b446da4af3a1a1ad074fad43f81c3848f84552a1fee4776",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "binding_mismatch",
+      "expectedErrorPath": "/blocks/0/spans/0/printedLabel",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "page-label"
+      ]
+    },
+    {
+      "id": "document-ir.physical-mismatch",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.physical-mismatch.json",
+      "sha256": "5f9dc467c18c66e8f7d9a9921acd9708b2174dc7f8a3d4af5baf8cd0bef8b9c1",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "binding_mismatch",
+      "expectedErrorPath": "/blocks/3/spans/0/physicalNo",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "page-label"
+      ]
+    },
+    {
+      "id": "document-ir.text-digest-mismatch",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.text-digest-mismatch.json",
+      "sha256": "bbf22ccce8890ddbf784814ce415b111aec5c3030f5656284e91b660a3844923",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "digest_mismatch",
+      "expectedErrorPath": "/pages/0/textDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "cyrillic-cjk"
+      ]
+    },
+    {
+      "id": "document-ir.generated-without-support",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.generated-without-support.json",
+      "sha256": "42170166365ec16939473ceb369ffcb8ce98623913233405d3c92131744dd7d6",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "min_items",
+      "expectedErrorPath": "/blocks/6/provenance/supportingRefs",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r10-a01"
+      ]
+    },
+    {
+      "id": "document-ir.generated-as-verbatim",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.generated-as-verbatim.json",
+      "sha256": "daba2aed67da7f3ba4fa4f95191da1700f74251cdf8ee90c8aff98b00e5d9823",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "enum",
+      "expectedErrorPath": "/blocks/6/provenance/kind",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r10-a01"
+      ]
+    },
+    {
+      "id": "document-ir.table-header-ref",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.table-header-ref.json",
+      "sha256": "ad26d57f426ccd222931f287cf7476f5a4785051e8e63c27f058858d17c9c737",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_reference",
+      "expectedErrorPath": "/blocks/2/table/cells/3/headerRefs/0",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r07-a01"
+      ]
+    },
+    {
+      "id": "document-ir.table-merged-overflow",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.table-merged-overflow.json",
+      "sha256": "260b7f8c9d755437dfc3ae66123c85fd1b19d651d908fdfe2527a740e48b15a0",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "table_cell_out_of_range",
+      "expectedErrorPath": "/blocks/2/table/cells/2",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r07-a01"
+      ]
+    },
+    {
+      "id": "document-ir.parent-cycle",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.parent-cycle.json",
+      "sha256": "d7c746d26c825d36bf2c3025820ab0f146d784b21751f3aeda809564722123e5",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "reference_cycle",
+      "expectedErrorPath": "/blocks/0/parentId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r07-a01"
+      ]
+    },
+    {
+      "id": "document-ir.order-violation",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.order-violation.json",
+      "sha256": "bf66f52e8fb6848fcabad44ffc2fbeb4672bdb858077241a72e3bde1dbe12745",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "order_violation",
+      "expectedErrorPath": "/blocks/3/order",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r07-a01"
+      ]
+    },
+    {
+      "id": "document-ir.image-without-asset",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.image-without-asset.json",
+      "sha256": "cc3c075e42e1bef90fd2f4cce03c52c15414dbcf98c9cb2573cc4d595d54040e",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/blocks/4/assetRefs",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r07-a01"
+      ]
+    },
+    {
+      "id": "document-ir.unknown-field",
+      "path": "tests/fixtures/contracts/v1/invalid/document-ir.unknown-field.json",
+      "sha256": "a1cd66b7471ac058e54e64de18eea7738e8b4fc4f4f29d6749e5a49663a6f77b",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/irDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "citation-ref.multi-span",
+      "path": "tests/fixtures/contracts/v1/valid/citation-ref.multi-span.json",
+      "sha256": "194e2ae22d8a12089a92174578058b0a2a2b7c3c2cf5a28e8e259f79dffc5658",
+      "schemaId": "urn:knowkit:schema:citation-ref:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r08-a01",
+        "multiple-spans",
+        "cyrillic-cjk",
+        "page-label"
+      ]
+    },
+    {
+      "id": "citation-ref.generated",
+      "path": "tests/fixtures/contracts/v1/valid/citation-ref.generated.json",
+      "sha256": "f569b768d1875ff3e2aa364549fe4b9c0d13f5e4d6108f9e36cdf37d0e0f8a3e",
+      "schemaId": "urn:knowkit:schema:citation-ref:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r10-a01",
+        "revision-identity"
+      ]
+    },
+    {
+      "id": "citation-ref.ocr",
+      "path": "tests/fixtures/contracts/v1/valid/citation-ref.ocr.json",
+      "sha256": "135b741728593b6af1295ec30369db44fd8b0d229c86824bfe618129e57bcaa4",
+      "schemaId": "urn:knowkit:schema:citation-ref:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r10-a02"
+      ]
+    },
+    {
+      "id": "citation-ref.semantic-claim",
+      "path": "tests/fixtures/contracts/v1/invalid/citation-ref.semantic-claim.json",
+      "sha256": "e6b615552a69e0a7464bc8c6a7780194321d48e5ee16cbf3c2963b6f1f8b10fc",
+      "schemaId": "urn:knowkit:schema:citation-ref:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/semanticVerified",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r10-a02",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "citation-ref.generated-without-support",
+      "path": "tests/fixtures/contracts/v1/invalid/citation-ref.generated-without-support.json",
+      "sha256": "c81bba8e535555301f2e5fe1e472056ae000e6a64b8ebfd5ad1cddf62669ac17",
+      "schemaId": "urn:knowkit:schema:citation-ref:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/supportingRefs",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r10-a01"
+      ]
+    },
+    {
+      "id": "citation-ref.page-span-segment-id",
+      "path": "tests/fixtures/contracts/v1/invalid/citation-ref.page-span-segment-id.json",
+      "sha256": "0056a1b33dbd105688b0b8606f261cfc9375f9ca3a6e0a30c20a030c1ff911a2",
+      "schemaId": "urn:knowkit:schema:citation-ref:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "forbidden_field",
+      "expectedErrorPath": "/spans/0/segmentId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "multiple-spans"
+      ]
+    },
+    {
+      "id": "citation-ref.span-without-text-digest",
+      "path": "tests/fixtures/contracts/v1/invalid/citation-ref.span-without-text-digest.json",
+      "sha256": "f71e943e76bfdb42f18f7a948a6de78012a1eabe89fa4c4c96fcadaa98fbe849",
+      "schemaId": "urn:knowkit:schema:citation-ref:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/spans/1/textDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "multiple-spans",
+        "r08-a01"
+      ]
+    },
+    {
+      "id": "legacy-evidence-ref.valid",
+      "path": "tests/fixtures/contracts/v1/valid/legacy-evidence-ref.valid.json",
+      "sha256": "6bce0271422521c6b8903f81711cab056d877019f40f2045e2f4f0672e92e073",
+      "schemaId": "urn:knowkit:schema:legacy-evidence-ref:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "legacy-hash"
+      ]
+    },
+    {
+      "id": "legacy-evidence-ref.renamed-as-source-digest",
+      "path": "tests/fixtures/contracts/v1/invalid/legacy-evidence-ref.renamed-as-source-digest.json",
+      "sha256": "f32394b820e7083d72fdf5af7ed754aa6e0aa6284665cbaa2aff22f9593f805f",
+      "schemaId": "urn:knowkit:schema:legacy-evidence-ref:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "forbidden_field",
+      "expectedErrorPath": "/sourceDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "legacy-hash"
+      ]
+    },
+    {
+      "id": "legacy-evidence-ref.renamed-as-fingerprint",
+      "path": "tests/fixtures/contracts/v1/invalid/legacy-evidence-ref.renamed-as-fingerprint.json",
+      "sha256": "823491eab84e0883ffa5ea92c4ca562d70dc22412a3f9548fde28ea0c9d3cf44",
+      "schemaId": "urn:knowkit:schema:legacy-evidence-ref:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "forbidden_field",
+      "expectedErrorPath": "/fingerprint",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "legacy-hash"
+      ]
+    },
+    {
+      "id": "legacy-evidence-ref.claims-fresh",
+      "path": "tests/fixtures/contracts/v1/invalid/legacy-evidence-ref.claims-fresh.json",
+      "sha256": "6a228120067b33cc0631fe86a8defae998c16918171fd3d76edf719cf638b44f",
+      "schemaId": "urn:knowkit:schema:legacy-evidence-ref:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "const",
+      "expectedErrorPath": "/freshlyValidated",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "legacy-hash"
+      ]
+    },
+    {
+      "id": "scope.valid",
+      "path": "tests/fixtures/contracts/v1/valid/scope.valid.json",
+      "sha256": "7eb6faf72f01e2f12383c102e1412693cf3c3bfdee577179403fc9d97f2d67d4",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "scope.missing-host-scope-hash",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.missing-host-scope-hash.json",
+      "sha256": "819285233f6e257b60d25680343b8bca3e5d2b1f83b973a90126bbd437f3c264",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/hostScopeHash",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "scope.host-scope-hash-uppercase",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.host-scope-hash-uppercase.json",
+      "sha256": "81dc20b258547a9c094e65b93c4acaf9c21834e560ba0ddbf8f4e2de49514f84",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/hostScopeHash",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "scope.purpose-is-operation",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.purpose-is-operation.json",
+      "sha256": "fa20a0071254ed48dab9f822466f61663feff518f57abd542394b14714a8ad5e",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/purpose",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "scope.epoch-number",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.epoch-number.json",
+      "sha256": "14b91d86399885943551cf09554e45a754f38abe768e13adb201dec6b4dd6c4f",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "type",
+      "expectedErrorPath": "/policyEpoch",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "scope.epoch-leading-zero",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.epoch-leading-zero.json",
+      "sha256": "ea8c73bc7daa356f8eb15e7315cda36023edb75c230ec1badb56b948dbeaa9a5",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/policyEpoch",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "scope.epoch-overflow",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.epoch-overflow.json",
+      "sha256": "91e4738981363d9bc71b60bcfd483bec8d26dcf93faa79ecec02caefcfd91041",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "decimal_out_of_range",
+      "expectedErrorPath": "/policyEpoch",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "scope.lowercase-ulid",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.lowercase-ulid.json",
+      "sha256": "015681279fa95316dd0eac92c3f90114ee1e719e9a07a240208bec8a838e6040",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/tenantId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "scope.model-grants",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.model-grants.json",
+      "sha256": "3d2d20d9e170616e04f5c613a65d7f6963680fb67c7bad0260f4fcf25170a5c3",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/grants",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "scope.duplicate-tenant",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.duplicate-tenant.json",
+      "sha256": "dd90420e1603a7d124af1d37f8dc92dac7911093f2840ae5763c77b1c0c1bfb5",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "duplicate_key",
+      "expectedErrorPath": "",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope",
+        "strict-json"
+      ]
+    },
+    {
+      "id": "scope.invalid-utf8",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.invalid-utf8.json",
+      "sha256": "8e91ead43ddf2e21c80be4ff230901f22882e0453f9dc77c135d92f75b6ab0b9",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "invalid_utf8",
+      "expectedErrorPath": "",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "strict-json"
+      ]
+    },
+    {
+      "id": "scope.lone-surrogate",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.lone-surrogate.json",
+      "sha256": "6f36969b2f0b94b1ce02bbf9a6ec4bace91376bce81923255b27912fe5c048d6",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "invalid_surrogate",
+      "expectedErrorPath": "",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "strict-json"
+      ]
+    },
+    {
+      "id": "scope.nan-epoch",
+      "path": "tests/fixtures/contracts/v1/invalid/scope.nan-epoch.json",
+      "sha256": "a6ef14541a2c3ede2271af454b5948a60d85c81423f1fb9baf69eb2e6dad7f7a",
+      "schemaId": "urn:knowkit:schema:scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "invalid_json",
+      "expectedErrorPath": "",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "strict-json"
+      ]
+    },
+    {
+      "id": "query-grant.valid",
+      "path": "tests/fixtures/contracts/v1/valid/query-grant.valid.json",
+      "sha256": "b4b5446cb10f4d456784eeeae731d5e70468df0cd0e659a34a91628717c7ef81",
+      "schemaId": "urn:knowkit:schema:query-grant:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "query-grant.duplicate-source-version",
+      "path": "tests/fixtures/contracts/v1/invalid/query-grant.duplicate-source-version.json",
+      "sha256": "c947b4173d3e67c35bc373f9bc210ee617f6f87841701d15918f24eab7e3b8f9",
+      "schemaId": "urn:knowkit:schema:query-grant:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unique_items",
+      "expectedErrorPath": "/allowedSourceVersionIds/1",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "query-grant.host-scope-in-grant",
+      "path": "tests/fixtures/contracts/v1/invalid/query-grant.host-scope-in-grant.json",
+      "sha256": "11db9a5afc06a8d9bf0820d61dcbb63aa9087aca543d55316cefc0aa0b78db0b",
+      "schemaId": "urn:knowkit:schema:query-grant:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/hostScopeHash",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "authorized-search-scope.valid",
+      "path": "tests/fixtures/contracts/v1/valid/authorized-search-scope.valid.json",
+      "sha256": "d2eb8cde9d74a26456483e12051ce6ad0969beb113d9ca2b78a8dd9c6cb97505",
+      "schemaId": "urn:knowkit:schema:authorized-search-scope:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "authorized-search-scope.missing-space-digest",
+      "path": "tests/fixtures/contracts/v1/invalid/authorized-search-scope.missing-space-digest.json",
+      "sha256": "84a01258b8d1b45b415f7067081261895feeb160a8fcfa8f0916796148085320",
+      "schemaId": "urn:knowkit:schema:authorized-search-scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/embeddingSpaceDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "authorized-search-scope.unbounded-sources",
+      "path": "tests/fixtures/contracts/v1/invalid/authorized-search-scope.unbounded-sources.json",
+      "sha256": "a9c108a0a281ed6cdd3072a763ec2db9af8dca55fb17aee312d34544ed939ed7",
+      "schemaId": "urn:knowkit:schema:authorized-search-scope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "max_items",
+      "expectedErrorPath": "/allowedSourceVersionIds",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "decision-receipt.valid",
+      "path": "tests/fixtures/contracts/v1/valid/decision-receipt.valid.json",
+      "sha256": "f60e0123c6985a56f9ebb4081a64bb71ea8c6f2e0ecdbf2874b5cd491c5c3c7b",
+      "schemaId": "urn:knowkit:schema:decision-receipt:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "decision-receipt.digest-mismatch",
+      "path": "tests/fixtures/contracts/v1/invalid/decision-receipt.digest-mismatch.json",
+      "sha256": "d8967d42211d166c1e3bf979546eb7be4dbf68cb0ed1913019e18510320ffb4c",
+      "schemaId": "urn:knowkit:schema:decision-receipt:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "digest_mismatch",
+      "expectedErrorPath": "/receiptDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "decision-receipt.operation-unknown",
+      "path": "tests/fixtures/contracts/v1/invalid/decision-receipt.operation-unknown.json",
+      "sha256": "329185c49e91608533f32c029438bb187d537201ef91a037e3d3e3d8f7700292",
+      "schemaId": "urn:knowkit:schema:decision-receipt:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "enum",
+      "expectedErrorPath": "/operation",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "mutation-context.valid",
+      "path": "tests/fixtures/contracts/v1/valid/mutation-context.valid.json",
+      "sha256": "140f4d8943331d289e63a171fa4dbe5d3508ba03624356070120dd8a7b452394",
+      "schemaId": "urn:knowkit:schema:mutation-context:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "mutation-context.bigint-number",
+      "path": "tests/fixtures/contracts/v1/invalid/mutation-context.bigint-number.json",
+      "sha256": "3bfc23a2ac56b88d764384df4ef78bead1250c5c27b68ad50a99a98d45329712",
+      "schemaId": "urn:knowkit:schema:mutation-context:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unsafe_integer",
+      "expectedErrorPath": "",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "strict-json"
+      ]
+    },
+    {
+      "id": "result.success",
+      "path": "tests/fixtures/contracts/v1/valid/result.success.json",
+      "sha256": "f32aa1867872b73de56150cb0c2c69940ef23b12f45ec16ab0dfa9fa262f7496",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.empty",
+      "path": "tests/fixtures/contracts/v1/valid/result.empty.json",
+      "sha256": "c75c2a6c13c1fe4e692e127ea8d4c21b9caf640005019cc88c07f3a0ae0c0b3b",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.denied",
+      "path": "tests/fixtures/contracts/v1/valid/result.denied.json",
+      "sha256": "b2051927790fa946dd7b36a1c6e4f2ff4ecd013f38b781138232152848dec955",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.unknown",
+      "path": "tests/fixtures/contracts/v1/valid/result.unknown.json",
+      "sha256": "fb8f30a0424051f59de3a10743ed3dca97d9f906cf1a4faf0f3b350daaa9fbcd",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.unavailable",
+      "path": "tests/fixtures/contracts/v1/valid/result.unavailable.json",
+      "sha256": "595e64a68b2b7c7dab6c6b921c3429fffbc41cc61836c39cf19c95d3b6fe4f62",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.incompatible-space",
+      "path": "tests/fixtures/contracts/v1/valid/result.incompatible-space.json",
+      "sha256": "000250c8f7320e4b624149dc9c9599bec1da9a615c0f21965d07058c92540b92",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01",
+        "r28-a02"
+      ]
+    },
+    {
+      "id": "result.degraded",
+      "path": "tests/fixtures/contracts/v1/valid/result.degraded.json",
+      "sha256": "929f61c1920a867cf57eb33463c39b1839b2af9bcb7f068e7644ecdb282f76e7",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a02"
+      ]
+    },
+    {
+      "id": "result.policy-changed",
+      "path": "tests/fixtures/contracts/v1/valid/result.policy-changed.json",
+      "sha256": "936fa8103e11e60cb65b663473d0fe2e9cc76f5a84dc29cbf54a5d9a04e488e6",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "error-codes",
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.lock-timeout",
+      "path": "tests/fixtures/contracts/v1/valid/result.lock-timeout.json",
+      "sha256": "53be4d769f847b790859cdb961b32a760bf91b78df75a632ca8c41013683dbbf",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "error-codes",
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.pointer-conflict",
+      "path": "tests/fixtures/contracts/v1/valid/result.pointer-conflict.json",
+      "sha256": "68a86d0182a128fb93774d1936ebee4dfaae79ef37a0d46616a8a5318498125b",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "error-codes"
+      ]
+    },
+    {
+      "id": "result.hold-too-late",
+      "path": "tests/fixtures/contracts/v1/valid/result.hold-too-late.json",
+      "sha256": "ddb881ce5e966e9d029974ba97aed658361579bbe61af601c09d3b4a2262995a",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "error-codes"
+      ]
+    },
+    {
+      "id": "result.error-code-mixed-case",
+      "path": "tests/fixtures/contracts/v1/invalid/result.error-code-mixed-case.json",
+      "sha256": "0b1d0498fbd98ec43f57ce7dbe5f934f0633a99565ff41cb70d3617b2cd2053c",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/error/code",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "error-codes"
+      ]
+    },
+    {
+      "id": "result.error-code-hyphen",
+      "path": "tests/fixtures/contracts/v1/invalid/result.error-code-hyphen.json",
+      "sha256": "34aaee7da59d07c0e7a3e08e10cb97227e7b4d0c9571ecb3bd5bd7db2eb76ed0",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/error/code",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "error-codes"
+      ]
+    },
+    {
+      "id": "result.denied-with-evidence",
+      "path": "tests/fixtures/contracts/v1/invalid/result.denied-with-evidence.json",
+      "sha256": "6eee00aae0531802e0244dd7515fd3beff6b2fc80e03cd8301e83c4b974483fc",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "forbidden_field",
+      "expectedErrorPath": "/data",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.unavailable-as-empty",
+      "path": "tests/fixtures/contracts/v1/invalid/result.unavailable-as-empty.json",
+      "sha256": "efc9fefe4757f9ccfbd09ebc3aad53ea7405953fe293d87c1df45739e070cd84",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "forbidden_field",
+      "expectedErrorPath": "/error",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.empty-with-evidence",
+      "path": "tests/fixtures/contracts/v1/invalid/result.empty-with-evidence.json",
+      "sha256": "3b2444fbb17fc2a3ffc127432a50053596260cbd09c57701a6ad175a29089032",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "max_items",
+      "expectedErrorPath": "/data",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.unknown-degraded",
+      "path": "tests/fixtures/contracts/v1/invalid/result.unknown-degraded.json",
+      "sha256": "46032680a9b5f72050d5529200355a68cebee527ab401b1898fa5d79e336cff8",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "const",
+      "expectedErrorPath": "/degraded",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.partial-outcome",
+      "path": "tests/fixtures/contracts/v1/invalid/result.partial-outcome.json",
+      "sha256": "05050adb10a737222171d43cfc02a910c88564ef74434867cfff8df3ff106db2",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "enum",
+      "expectedErrorPath": "/outcome",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a01"
+      ]
+    },
+    {
+      "id": "result.degraded-without-warning",
+      "path": "tests/fixtures/contracts/v1/invalid/result.degraded-without-warning.json",
+      "sha256": "0184fbd033a878922afc7578eedc039b63d6738d20ae489a636c0bab426ae75c",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "min_items",
+      "expectedErrorPath": "/warnings",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a02"
+      ]
+    },
+    {
+      "id": "result.degraded-without-profile",
+      "path": "tests/fixtures/contracts/v1/invalid/result.degraded-without-profile.json",
+      "sha256": "795bfda3c8618087c7fc15e5afac831c173f84467fd5db63d8deb86cd7f619e3",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/effectiveProfile",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a02"
+      ]
+    },
+    {
+      "id": "result.space-mismatch-hidden",
+      "path": "tests/fixtures/contracts/v1/invalid/result.space-mismatch-hidden.json",
+      "sha256": "49e89dd29c4d3939697de4a95e68b2c06c1fc875286c579c7690abe7ec9479e9",
+      "schemaId": "urn:knowkit:schema:result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "const",
+      "expectedErrorPath": "/outcome",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r28-a02"
+      ]
+    },
+    {
+      "id": "disclosure-request.direct",
+      "path": "tests/fixtures/contracts/v1/valid/disclosure-request.direct.json",
+      "sha256": "eaa93c3ddaf2a67c54691d6f3bfe84e59b1ada45c2b2ca3694ec2ccb3969c8a3",
+      "schemaId": "urn:knowkit:schema:disclosure-request:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "disclosure-attempt"
+      ]
+    },
+    {
+      "id": "disclosure-request.usage-context",
+      "path": "tests/fixtures/contracts/v1/valid/disclosure-request.usage-context.json",
+      "sha256": "48cfd4f1a3d279562cb8bde685c9a5d539c7cc16ac9e2e30313725bba110d568",
+      "schemaId": "urn:knowkit:schema:disclosure-request:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "usage-context",
+        "disclosure-attempt"
+      ]
+    },
+    {
+      "id": "disclosure-request.missing-attempt",
+      "path": "tests/fixtures/contracts/v1/invalid/disclosure-request.missing-attempt.json",
+      "sha256": "67581301ced62f8da642dbabd52e878da6efc8a793cee58608f7d4cf351a1106",
+      "schemaId": "urn:knowkit:schema:disclosure-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/disclosureAttemptId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "disclosure-attempt"
+      ]
+    },
+    {
+      "id": "disclosure-request.duplicate-attempt",
+      "path": "tests/fixtures/contracts/v1/invalid/disclosure-request.duplicate-attempt.json",
+      "sha256": "0dc98278378ff0837f7c6a6ff353bfad3e212b19b3223b53eb55693efe0b5c87",
+      "schemaId": "urn:knowkit:schema:disclosure-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "duplicate_key",
+      "expectedErrorPath": "",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "disclosure-attempt",
+        "strict-json"
+      ]
+    },
+    {
+      "id": "disclosure-request.attempt-not-ulid",
+      "path": "tests/fixtures/contracts/v1/invalid/disclosure-request.attempt-not-ulid.json",
+      "sha256": "0c6006c6f96c6f066730e0d7f1bf6abc0379d2db823c19bc4ba13bb5ce48fe43",
+      "schemaId": "urn:knowkit:schema:disclosure-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/disclosureAttemptId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "disclosure-attempt"
+      ]
+    },
+    {
+      "id": "disclosure-request.usage-context-identity",
+      "path": "tests/fixtures/contracts/v1/invalid/disclosure-request.usage-context-identity.json",
+      "sha256": "d7bee042a61420d20b1180468d45d4d1c5b2dde01975dc469db03f8df484dd5e",
+      "schemaId": "urn:knowkit:schema:disclosure-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/usageContext/actorId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "usage-context",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "disclosure-request.usage-context-without-run",
+      "path": "tests/fixtures/contracts/v1/invalid/disclosure-request.usage-context-without-run.json",
+      "sha256": "fc6e1f19d32856413d6358d8abf40a407485c0128702a995011ff0eb9d1955d7",
+      "schemaId": "urn:knowkit:schema:disclosure-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/usageContext/runRef",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "usage-context"
+      ]
+    },
+    {
+      "id": "disclosure-request.scope-in-body",
+      "path": "tests/fixtures/contracts/v1/invalid/disclosure-request.scope-in-body.json",
+      "sha256": "174bfa836d5d22c7a3b825dae057fc96a87e2ddf7b28f3c68d864b03a7531141",
+      "schemaId": "urn:knowkit:schema:disclosure-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/hostScopeHash",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "wrong-scope",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "egress-request.model-context",
+      "path": "tests/fixtures/contracts/v1/valid/egress-request.model-context.json",
+      "sha256": "2ef4eb4de537832b72652887e092f3a4ec50c1a2bd56b63b3b50921a508f3ff7",
+      "schemaId": "urn:knowkit:schema:egress-request:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "egress-manifest"
+      ]
+    },
+    {
+      "id": "egress-request.omits-question",
+      "path": "tests/fixtures/contracts/v1/invalid/egress-request.omits-question.json",
+      "sha256": "f1ac2924117bc82854a8ead99cd6a33fdb8f880678093bb71fbb2d341bde6c15",
+      "schemaId": "urn:knowkit:schema:egress-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "contains",
+      "expectedErrorPath": "/items",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "egress-manifest"
+      ]
+    },
+    {
+      "id": "egress-request.omits-history",
+      "path": "tests/fixtures/contracts/v1/invalid/egress-request.omits-history.json",
+      "sha256": "4b618c98e419908c5be8c0b5249f4db9b79f2154651694669cbf30810e1b8d96",
+      "schemaId": "urn:knowkit:schema:egress-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "contains",
+      "expectedErrorPath": "/items",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "egress-manifest"
+      ]
+    },
+    {
+      "id": "egress-request.evidence-unbound",
+      "path": "tests/fixtures/contracts/v1/invalid/egress-request.evidence-unbound.json",
+      "sha256": "50c1984a560de2474f3dfb6590ad977abf157f883e0c21c8c9f066c0d4fdc834",
+      "schemaId": "urn:knowkit:schema:egress-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "min_items",
+      "expectedErrorPath": "/items/3/sourceVersionRefs",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "egress-manifest"
+      ]
+    },
+    {
+      "id": "egress-request.no-destination-region",
+      "path": "tests/fixtures/contracts/v1/invalid/egress-request.no-destination-region.json",
+      "sha256": "f76c0b2a6f54f8c91cc930e06beb9da142fbb6330829faed0b075a43adc1453d",
+      "schemaId": "urn:knowkit:schema:egress-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/destination/region",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "egress-manifest"
+      ]
+    },
+    {
+      "id": "egress-request.raw-bytes",
+      "path": "tests/fixtures/contracts/v1/invalid/egress-request.raw-bytes.json",
+      "sha256": "3dc6d52516297e0b2d3f0bcef95ae8e34c7466bb8f9fff953ba88b65c024dada",
+      "schemaId": "urn:knowkit:schema:egress-request:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/items/1/content",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "egress-manifest",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "selection.valid",
+      "path": "tests/fixtures/contracts/v1/valid/selection.valid.json",
+      "sha256": "2ccebddb45b12ae3700ee656dfe5646fcac62fe158192ce30c4199e56c82a2b9",
+      "schemaId": "urn:knowkit:schema:selection:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "selection",
+        "wrong-scope",
+        "run-binding"
+      ]
+    },
+    {
+      "id": "selection.run-bound",
+      "path": "tests/fixtures/contracts/v1/valid/selection.run-bound.json",
+      "sha256": "a92ba14ff5b1a7a60259de4539333b6b00c6b73700fab0b1260d5dc4e444b021",
+      "schemaId": "urn:knowkit:schema:selection:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "selection",
+        "run-binding"
+      ]
+    },
+    {
+      "id": "selection.missing-run-binding",
+      "path": "tests/fixtures/contracts/v1/invalid/selection.missing-run-binding.json",
+      "sha256": "70ba93694b51809b56abb1be3c066c992891f0521357a103cd1024fd28d4e992",
+      "schemaId": "urn:knowkit:schema:selection:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/runRef",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "selection",
+        "run-binding"
+      ]
+    },
+    {
+      "id": "selection.empty-run-binding",
+      "path": "tests/fixtures/contracts/v1/invalid/selection.empty-run-binding.json",
+      "sha256": "822b9e293928fa43b0de3471a4522811358cc2527fdcce3299deb9624584f01b",
+      "schemaId": "urn:knowkit:schema:selection:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "min_length",
+      "expectedErrorPath": "/runRef",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "selection",
+        "run-binding"
+      ]
+    },
+    {
+      "id": "selection.token-budget-without-tokenizer",
+      "path": "tests/fixtures/contracts/v1/invalid/selection.token-budget-without-tokenizer.json",
+      "sha256": "1bf45655cc255b745706c8c22e92f7472d5b2032077d259602bd2a6244a422a9",
+      "schemaId": "urn:knowkit:schema:selection:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/limits/tokenBudget/tokenizerId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "selection"
+      ]
+    },
+    {
+      "id": "selection.fragment-limit-above-total",
+      "path": "tests/fixtures/contracts/v1/invalid/selection.fragment-limit-above-total.json",
+      "sha256": "32dc1894aa42fec97b861aec7dc7759a65defae72e86866b13a1bd75bac2297b",
+      "schemaId": "urn:knowkit:schema:selection:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "limit_exceeded",
+      "expectedErrorPath": "/limits/maxBytes",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "selection"
+      ]
+    },
+    {
+      "id": "selection.cross-tenant-candidate",
+      "path": "tests/fixtures/contracts/v1/invalid/selection.cross-tenant-candidate.json",
+      "sha256": "68e82f56e24599aff2fd886171067f5c32cad4b18f5c02f365fb76ddefd4c7d4",
+      "schemaId": "urn:knowkit:schema:selection:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "binding_mismatch",
+      "expectedErrorPath": "/candidateRefs/1/tenantId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "selection",
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "selection.unsorted-policy-sources",
+      "path": "tests/fixtures/contracts/v1/invalid/selection.unsorted-policy-sources.json",
+      "sha256": "8395f397125a1bd453d5844b404a64c64204589aa6d9091fcbbb2c80541305d0",
+      "schemaId": "urn:knowkit:schema:selection:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unsorted_members",
+      "expectedErrorPath": "/policyBinding/sources/1",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "selection"
+      ]
+    },
+    {
+      "id": "usage.valid",
+      "path": "tests/fixtures/contracts/v1/valid/usage.valid.json",
+      "sha256": "60f19c215e9ee208b4286e93f410d8fb0e716ca80b79afa56c6711748bcd8f23",
+      "schemaId": "urn:knowkit:schema:usage:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "disclosure-attempt",
+        "evidence"
+      ]
+    },
+    {
+      "id": "usage.plaintext",
+      "path": "tests/fixtures/contracts/v1/invalid/usage.plaintext.json",
+      "sha256": "99d269937ecd9ac28905ed1e0c043d1da5212f15fcc0f4da5d125caf6a2a1687",
+      "schemaId": "urn:knowkit:schema:usage:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/text",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "evidence",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "usage.replay-status",
+      "path": "tests/fixtures/contracts/v1/invalid/usage.replay-status.json",
+      "sha256": "6e7976cb73c06c6d5ccbc07a914b08ecb9e41902ac01b191f270424daf5e47c7",
+      "schemaId": "urn:knowkit:schema:usage:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "const",
+      "expectedErrorPath": "/status",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "disclosure-attempt"
+      ]
+    },
+    {
+      "id": "evidence-set.valid",
+      "path": "tests/fixtures/contracts/v1/valid/evidence-set.valid.json",
+      "sha256": "ade5ce52302491f4268dc2d2b0e20b937bf54a05f2d73ff75144981cac106c41",
+      "schemaId": "urn:knowkit:schema:evidence-set:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "evidence",
+        "r10-a01",
+        "multiple-spans",
+        "r08-a01",
+        "revision-identity"
+      ]
+    },
+    {
+      "id": "evidence-set.generated-as-verbatim",
+      "path": "tests/fixtures/contracts/v1/invalid/evidence-set.generated-as-verbatim.json",
+      "sha256": "c131d4d3a9884fb3b263e297603a074c2f6edb8a728b5981da1b59d898a2683a",
+      "schemaId": "urn:knowkit:schema:evidence-set:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "enum",
+      "expectedErrorPath": "/fragments/1/provenanceKind",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "r10-a01",
+        "evidence"
+      ]
+    },
+    {
+      "id": "evidence-set.joiner-missing",
+      "path": "tests/fixtures/contracts/v1/invalid/evidence-set.joiner-missing.json",
+      "sha256": "f153203a71f9fa7e23adb9b21004691d4afc717b1dd765a60475a9bc84bfbbd7",
+      "schemaId": "urn:knowkit:schema:evidence-set:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "binding_mismatch",
+      "expectedErrorPath": "/fragments/0/joiner",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "multiple-spans",
+        "evidence"
+      ]
+    },
+    {
+      "id": "evidence-set.backend-snippet",
+      "path": "tests/fixtures/contracts/v1/invalid/evidence-set.backend-snippet.json",
+      "sha256": "412fd791b3f2d63671e04f639a334dc6dfff8cd8c689e5b740355c37d7e455f4",
+      "schemaId": "urn:knowkit:schema:evidence-set:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "digest_mismatch",
+      "expectedErrorPath": "/fragments/0/fragmentDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "evidence"
+      ]
+    },
+    {
+      "id": "evidence-set.revision-ir-conflict",
+      "path": "tests/fixtures/contracts/v1/invalid/evidence-set.revision-ir-conflict.json",
+      "sha256": "0f57cdf934df20bb96908d481875105aa20767e217938cd6c0a9f269128d60cf",
+      "schemaId": "urn:knowkit:schema:evidence-set:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "binding_mismatch",
+      "expectedErrorPath": "/fragments/1/citation/irDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "evidence",
+        "revision-identity"
+      ]
+    },
+    {
+      "id": "evidence-set.version-digest-conflict",
+      "path": "tests/fixtures/contracts/v1/invalid/evidence-set.version-digest-conflict.json",
+      "sha256": "524919add0066ba5157428127ab45b64505f31a75f929bab14e0152d45dfca28",
+      "schemaId": "urn:knowkit:schema:evidence-set:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "binding_mismatch",
+      "expectedErrorPath": "/fragments/1/citation/sourceDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "evidence",
+        "revision-identity"
+      ]
+    },
+    {
+      "id": "evidence-set.digest-mismatch",
+      "path": "tests/fixtures/contracts/v1/invalid/evidence-set.digest-mismatch.json",
+      "sha256": "e67136708170a7ccb67cec9d9276458c0be8f70a390519072ba8973766c3d894",
+      "schemaId": "urn:knowkit:schema:evidence-set:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "digest_mismatch",
+      "expectedErrorPath": "/evidenceSetDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "evidence",
+        "wrong-scope"
+      ]
+    },
+    {
+      "id": "index-manifest.valid",
+      "path": "tests/fixtures/contracts/v1/valid/index-manifest.valid.json",
+      "sha256": "e6c9f11233eae8278946029c118454ac21fe37d25077bebfeb772bb7e375e682",
+      "schemaId": "urn:knowkit:schema:index-manifest:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "manifests"
+      ]
+    },
+    {
+      "id": "index-manifest.unsorted-members",
+      "path": "tests/fixtures/contracts/v1/invalid/index-manifest.unsorted-members.json",
+      "sha256": "6277d2c269029873323759f0ce1ae8afb82eb33e7cf177f5d9a2ba765f78c03b",
+      "schemaId": "urn:knowkit:schema:index-manifest:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unsorted_members",
+      "expectedErrorPath": "/members/1",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "manifests"
+      ]
+    },
+    {
+      "id": "index-manifest.count-mismatch",
+      "path": "tests/fixtures/contracts/v1/invalid/index-manifest.count-mismatch.json",
+      "sha256": "cf75be7aea14b7a2bb3c49feb406132442bf5b668b8875cccd203d85dad1369d",
+      "schemaId": "urn:knowkit:schema:index-manifest:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "count_mismatch",
+      "expectedErrorPath": "/counts/chunks",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "manifests"
+      ]
+    },
+    {
+      "id": "index-manifest.lexical-with-space",
+      "path": "tests/fixtures/contracts/v1/invalid/index-manifest.lexical-with-space.json",
+      "sha256": "4a946fbda6f1fbb4cace3c3b0ca93ca4504554425f43af646332a12cdd253f4a",
+      "schemaId": "urn:knowkit:schema:index-manifest:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "type",
+      "expectedErrorPath": "/embeddingSpaceDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "manifests"
+      ]
+    },
+    {
+      "id": "index-manifest.latest-pointer",
+      "path": "tests/fixtures/contracts/v1/invalid/index-manifest.latest-pointer.json",
+      "sha256": "5110c6f997b6b841c260ee4252a59ddeec7227c8e6563cb0c150739e96bbaf78",
+      "schemaId": "urn:knowkit:schema:index-manifest:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/latest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "manifests",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "publish-receipt.valid",
+      "path": "tests/fixtures/contracts/v1/valid/publish-receipt.valid.json",
+      "sha256": "d596f16f443d5ab79245901279e2ee07171deb62172e144c3d619d96122a37ab",
+      "schemaId": "urn:knowkit:schema:publish-receipt:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "manifests"
+      ]
+    },
+    {
+      "id": "publish-receipt.pointer-number",
+      "path": "tests/fixtures/contracts/v1/invalid/publish-receipt.pointer-number.json",
+      "sha256": "6b1fe61fd32ccf5b2cfec991c8a9b4fff8e09a37893d59fc6348b43b3b62257d",
+      "schemaId": "urn:knowkit:schema:publish-receipt:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "type",
+      "expectedErrorPath": "/pointerVersion",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "manifests"
+      ]
+    },
+    {
+      "id": "job-envelope.valid",
+      "path": "tests/fixtures/contracts/v1/valid/job-envelope.valid.json",
+      "sha256": "fc13d13803dadac631c99b37d3a0804eb31bbe4bdfc27ac13f28cb1aaaca80be",
+      "schemaId": "urn:knowkit:schema:job-envelope:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs"
+      ]
+    },
+    {
+      "id": "job-envelope.alias-input-file",
+      "path": "tests/fixtures/contracts/v1/invalid/job-envelope.alias-input-file.json",
+      "sha256": "56ecdfc8c64d607ee960876aa6b210be3d7e82e13bb18180382b346a55aab42b",
+      "schemaId": "urn:knowkit:schema:job-envelope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/inputFile",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "job-envelope.fence-overflow",
+      "path": "tests/fixtures/contracts/v1/invalid/job-envelope.fence-overflow.json",
+      "sha256": "b456384d0e809d1bb7fdbff588bdd32c563ca96600a248485b0b7d44d5a34e06",
+      "schemaId": "urn:knowkit:schema:job-envelope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "decimal_out_of_range",
+      "expectedErrorPath": "/fence",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs"
+      ]
+    },
+    {
+      "id": "job-envelope.host-path",
+      "path": "tests/fixtures/contracts/v1/invalid/job-envelope.host-path.json",
+      "sha256": "10389581af5840567b31abca9655c07092b8782e61bdd76a62b46e0857afc6b6",
+      "schemaId": "urn:knowkit:schema:job-envelope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/inputPath",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs"
+      ]
+    },
+    {
+      "id": "job-envelope.profile-mismatch",
+      "path": "tests/fixtures/contracts/v1/invalid/job-envelope.profile-mismatch.json",
+      "sha256": "1eaa64651a5f0bcc77fff0d5deb5e91d4c3eddb2ca8e5e8f21f6bd3a7830c006",
+      "schemaId": "urn:knowkit:schema:job-envelope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "binding_mismatch",
+      "expectedErrorPath": "/profileFingerprint",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs"
+      ]
+    },
+    {
+      "id": "job-envelope.wall-above-ceiling",
+      "path": "tests/fixtures/contracts/v1/invalid/job-envelope.wall-above-ceiling.json",
+      "sha256": "667870f77f2028ea99dbc4f72691fb94533ca700754aa67ad10b6ddff340e579",
+      "schemaId": "urn:knowkit:schema:job-envelope:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "maximum",
+      "expectedErrorPath": "/limits/wallSeconds",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs"
+      ]
+    },
+    {
+      "id": "worker-result.valid",
+      "path": "tests/fixtures/contracts/v1/valid/worker-result.valid.json",
+      "sha256": "32687dbe23fd0fcf49581396a319bda0ea3216595167d7d8dc02c7b17cd7174f",
+      "schemaId": "urn:knowkit:schema:worker-result:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs"
+      ]
+    },
+    {
+      "id": "worker-result.traversal",
+      "path": "tests/fixtures/contracts/v1/invalid/worker-result.traversal.json",
+      "sha256": "a9a9bf8dc738a6c16344ba74712d2e069a0b901dc9509adc12ad4f95a406a4de",
+      "schemaId": "urn:knowkit:schema:worker-result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/irPath",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs"
+      ]
+    },
+    {
+      "id": "worker-result.absolute-asset",
+      "path": "tests/fixtures/contracts/v1/invalid/worker-result.absolute-asset.json",
+      "sha256": "5e187eb8826bf665a7373aa49225c3a02201d74e548bddb94c061a024b1d9b43",
+      "schemaId": "urn:knowkit:schema:worker-result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/assets/0/relativePath",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs"
+      ]
+    },
+    {
+      "id": "worker-result.duplicate-asset",
+      "path": "tests/fixtures/contracts/v1/invalid/worker-result.duplicate-asset.json",
+      "sha256": "26f5cedc572377b88ae4e0819a4a2ca0ab1be9dc62c143bccff12bab6c653c44",
+      "schemaId": "urn:knowkit:schema:worker-result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "duplicate_identifier",
+      "expectedErrorPath": "/assets/1/relativePath",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs"
+      ]
+    },
+    {
+      "id": "worker-result.alias-size",
+      "path": "tests/fixtures/contracts/v1/invalid/worker-result.alias-size.json",
+      "sha256": "63052eaada355296d7c79dd9797cf62ca5fdc04ba746bc02a945c9f150840f4d",
+      "schemaId": "urn:knowkit:schema:worker-result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/assets/0/size",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "worker-result.digest-mismatch",
+      "path": "tests/fixtures/contracts/v1/invalid/worker-result.digest-mismatch.json",
+      "sha256": "919e570f95270127d7eb9f4dec56acd8ac8da47ed0d9b627c949a42c0d8c620a",
+      "schemaId": "urn:knowkit:schema:worker-result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "digest_mismatch",
+      "expectedErrorPath": "/resultDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs"
+      ]
+    },
+    {
+      "id": "worker-result.version-2",
+      "path": "tests/fixtures/contracts/v1/invalid/worker-result.version-2.json",
+      "sha256": "0f28fc69cba57590367814ce3d21a8eccbcc52420faaf250e0b575aa85d45811",
+      "schemaId": "urn:knowkit:schema:worker-result:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unsupported_schema_version",
+      "expectedErrorPath": "/schemaVersion",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "schema-version"
+      ]
+    },
+    {
+      "id": "job.pending",
+      "path": "tests/fixtures/contracts/v1/valid/job.pending.json",
+      "sha256": "32521c017bc3675f79031934f204c5cc0f36a82f45e9f7392e34da6680378073",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.leased",
+      "path": "tests/fixtures/contracts/v1/valid/job.leased.json",
+      "sha256": "6679388c64bb0fdb7b1f227f19d977b6f4cea88208103672fb9eaf5fa5700fb7",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.succeeded",
+      "path": "tests/fixtures/contracts/v1/valid/job.succeeded.json",
+      "sha256": "1306782c0f4f73c7ddebbf4751426b9f9b403101b688a0642805a0b4e2434c46",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.failed",
+      "path": "tests/fixtures/contracts/v1/valid/job.failed.json",
+      "sha256": "319d6102622e01650387dad3bde8167f165c492ca3f97859e276a29715599dca",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.cancelled",
+      "path": "tests/fixtures/contracts/v1/valid/job.cancelled.json",
+      "sha256": "c871c8306f7f0841b5397ae39541330b33d9b45fec7851c6cdeb431987184b5c",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.unknown-field",
+      "path": "tests/fixtures/contracts/v1/invalid/job.unknown-field.json",
+      "sha256": "b37e8cfb9a5d5272baccf368126ed63e31ad39f89d0311d37c02d3fda6fe5a51",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/leaseToken",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "job.lowercase-id",
+      "path": "tests/fixtures/contracts/v1/invalid/job.lowercase-id.json",
+      "sha256": "d55072774faddb114569469c6d589e14b0f0663efae48d55ac731641ba68a946",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/jobId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.generation-not-ulid",
+      "path": "tests/fixtures/contracts/v1/invalid/job.generation-not-ulid.json",
+      "sha256": "e348897d97caa2a602c0ee4fa273f0a95b212ac16a535615581f99dd2739db0e",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/generationId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.state-running",
+      "path": "tests/fixtures/contracts/v1/invalid/job.state-running.json",
+      "sha256": "7890d516220323a0dfc2788be03062da9f9302a5aaa86daa21cfdcedab0297a6",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "enum",
+      "expectedErrorPath": "/state",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.state-partial",
+      "path": "tests/fixtures/contracts/v1/invalid/job.state-partial.json",
+      "sha256": "b30b056195b61ee009aed386a53403b58bdd86497388680e950e5918a4cc05b1",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "enum",
+      "expectedErrorPath": "/state",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.numeric-fence",
+      "path": "tests/fixtures/contracts/v1/invalid/job.numeric-fence.json",
+      "sha256": "9361ade41ff43068e57f57468a3b354172d0800d6c81a56ee6c266bbeccd8a12",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "type",
+      "expectedErrorPath": "/fence",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.fence-leading-zero",
+      "path": "tests/fixtures/contracts/v1/invalid/job.fence-leading-zero.json",
+      "sha256": "f74b42cf54a38423f360124323a0e97b94c75e2d75f628fd019c813aa123054b",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/fence",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.leased-without-token",
+      "path": "tests/fixtures/contracts/v1/invalid/job.leased-without-token.json",
+      "sha256": "83828a0b173d5ce00285cb8c4524ca4a88c1fdb8d0b85b98a72532afa6768033",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "type",
+      "expectedErrorPath": "/leaseTokenHash",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "job.attempt-above-max",
+      "path": "tests/fixtures/contracts/v1/invalid/job.attempt-above-max.json",
+      "sha256": "d283e08b17c1b43146fe295188796f72140c18da506ffce1d6975ddcc51d1084",
+      "schemaId": "urn:knowkit:schema:job:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "maximum",
+      "expectedErrorPath": "/attempt",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "jobs",
+        "job-record"
+      ]
+    },
+    {
+      "id": "domain-event.valid",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.valid.json",
+      "sha256": "7e121d836c482089d5db7b6e1cc8f61a6286277cadf918f1e2e68c20d5b26590",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.source-registered",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.source-registered.json",
+      "sha256": "3d37a7f322b5978cb2e16cc20c624ad08a13f85ae3378f0d900bda9c90af9ee0",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.source-version-accepted",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.source-version-accepted.json",
+      "sha256": "5e91f36a1b20f0e71e5590aa1ffe6bf3438088fae69c4b792b803bc6663a88e7",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.document-revision-accepted",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.document-revision-accepted.json",
+      "sha256": "1e7283287a0d649c3db9197bb997b8e42a585eadfd225461fe56673eecb44dc0",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.generation-sealed",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.generation-sealed.json",
+      "sha256": "f5eb58a525c1fc0408af25b586f76ec842b5c0861a5bb97fcadf6f093a8b0813",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.snapshot-activated",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.snapshot-activated.json",
+      "sha256": "2fb9c9ceceede1eb5e001e1d2471f98d76cc6a02891a95b20e9bc38f247f9a72",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.source-version-corrected",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.source-version-corrected.json",
+      "sha256": "96dc159154c8ca9df125e5846d1b21fd07a5c469686f2c96bac4e35bdce54c17",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.source-deletion-requested",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.source-deletion-requested.json",
+      "sha256": "730d8d76c6c6eb0677c48c53e8c7c111953674154e2aa1a9b14b660f772f72e0",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.retention-hold-changed",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.retention-hold-changed.json",
+      "sha256": "9a76ff8719a56f1962a9bf7e459391ec113f9d8d1bd842b25cf7dfff66996102",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.deletion-attempted",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.deletion-attempted.json",
+      "sha256": "d5a8ce5ed3f3f76cf1d39aba019a79b99fc05b5f0aefde8d7dfe239def7cf1a6",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.deletion-completed",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.deletion-completed.json",
+      "sha256": "495b3058a59f9b8716092a98ebccda782111d58a026012a20379e2513a7982ae",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.usage-prepared-disclosure",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.usage-prepared-disclosure.json",
+      "sha256": "421082eec55d43f0fe422e801969f5317723634601c653712e8c677d334bd81f",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.usage-provider-accepted",
+      "path": "tests/fixtures/contracts/v1/valid/domain-event.usage-provider-accepted.json",
+      "sha256": "2012af3d412755507a44906e4e139b24ddfc01c234a55d00fbe835e8360b33eb",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.payload-unknown-field",
+      "path": "tests/fixtures/contracts/v1/invalid/domain-event.payload-unknown-field.json",
+      "sha256": "1377ddc757fbdc65dfb2cf6773543c23879e7e55248eae2984136e24970f96e1",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/payload/sourceVersionId",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload",
+        "unknown-fields"
+      ]
+    },
+    {
+      "id": "domain-event.payload-document-text",
+      "path": "tests/fixtures/contracts/v1/invalid/domain-event.payload-document-text.json",
+      "sha256": "d923f0826450a169760ff0e312c3f4171a9e35cae2ba4d9db5734ca166f02e8c",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/payload/documentText",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.payload-credentials",
+      "path": "tests/fixtures/contracts/v1/invalid/domain-event.payload-credentials.json",
+      "sha256": "4f42a1ab3ea6e6488e0266fa0060bdba2ec9acee5823ae769fef32dc4d905b3d",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/payload/credentials",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.payload-missing-field",
+      "path": "tests/fixtures/contracts/v1/invalid/domain-event.payload-missing-field.json",
+      "sha256": "b570a6566f198fbaff9343cfe9053372d4f1276f839cf0ae3e7e8540cca190d3",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "required",
+      "expectedErrorPath": "/payload/appliesTo",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.payload-type-mismatch",
+      "path": "tests/fixtures/contracts/v1/invalid/domain-event.payload-type-mismatch.json",
+      "sha256": "cbb7171a0626b50f3742cc1132bec205709ef7d01cd69215f285f69d4e808edb",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/payload/appliesTo",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.payload-nested-unknown",
+      "path": "tests/fixtures/contracts/v1/invalid/domain-event.payload-nested-unknown.json",
+      "sha256": "f64888e603d6b1648b2821d3034d0b56adaa041e200cf952bffbad1d6ee8f16e",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unknown_field",
+      "expectedErrorPath": "/payload/fragmentRefs/0/text",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "event-payload"
+      ]
+    },
+    {
+      "id": "domain-event.unknown-type",
+      "path": "tests/fixtures/contracts/v1/invalid/domain-event.unknown-type.json",
+      "sha256": "9b2f45e76351d4d13293d37aeac500cab07f68d3f315c24c80a1b062abbdb93d",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "enum",
+      "expectedErrorPath": "/type",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events"
+      ]
+    },
+    {
+      "id": "domain-event.version-2",
+      "path": "tests/fixtures/contracts/v1/invalid/domain-event.version-2.json",
+      "sha256": "c997823c195aa1c96aca9cb57cf5c865604a52195ad5beeb81270e4fd526bdba",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "unsupported_schema_version",
+      "expectedErrorPath": "/schemaVersion",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events",
+        "schema-version"
+      ]
+    },
+    {
+      "id": "domain-event.payload-digest",
+      "path": "tests/fixtures/contracts/v1/invalid/domain-event.payload-digest.json",
+      "sha256": "eb330d2b6075da2575b88bf85545e24b4d99cfd8021212bffde6e0937788f01e",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "digest_mismatch",
+      "expectedErrorPath": "/payloadDigest",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events"
+      ]
+    },
+    {
+      "id": "domain-event.offset-time",
+      "path": "tests/fixtures/contracts/v1/invalid/domain-event.offset-time.json",
+      "sha256": "f95a2e391596298381b292cb1d3602f8c5c5dee2a37e44849c2a055f5a72cf73",
+      "schemaId": "urn:knowkit:schema:domain-event:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "pattern",
+      "expectedErrorPath": "/occurredAt",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events"
+      ]
+    },
+    {
+      "id": "restore-receipt.blocked",
+      "path": "tests/fixtures/contracts/v1/valid/restore-receipt.blocked.json",
+      "sha256": "a14e331da6e7e24ff43c057eb322ff8aa5d56975c2bb3c1d9113415e97cb849a",
+      "schemaId": "urn:knowkit:schema:restore-receipt:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events"
+      ]
+    },
+    {
+      "id": "restore-receipt.ready-without-proof",
+      "path": "tests/fixtures/contracts/v1/invalid/restore-receipt.ready-without-proof.json",
+      "sha256": "38589d5923f9768caeb3bcfd5bb5880ce88ed15c9255df815a3c17c63ae9ba66",
+      "schemaId": "urn:knowkit:schema:restore-receipt:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "const",
+      "expectedErrorPath": "/provenThroughCutoff",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "events"
+      ]
+    },
+    {
+      "id": "deletion-task.partial",
+      "path": "tests/fixtures/contracts/v1/valid/deletion-task.partial.json",
+      "sha256": "dd5b6ec824e1c37b821919669d8c6bf6dbaa4fd23e3d85492f50c70de51cbce5",
+      "schemaId": "urn:knowkit:schema:deletion-task:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "deletion"
+      ]
+    },
+    {
+      "id": "deletion-task.done-with-unknown",
+      "path": "tests/fixtures/contracts/v1/invalid/deletion-task.done-with-unknown.json",
+      "sha256": "d95b0c64a2a9efc53835da36bbcda9627e6414b2fd305962b37022b414895249",
+      "schemaId": "urn:knowkit:schema:deletion-task:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "status_mismatch",
+      "expectedErrorPath": "/status",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "deletion"
+      ]
+    },
+    {
+      "id": "deletion-task.unsupported-claimed-done",
+      "path": "tests/fixtures/contracts/v1/invalid/deletion-task.unsupported-claimed-done.json",
+      "sha256": "8ec56b7be9874a5a07ef4c667d40b24ae2173ec844404539882745ccd64b26f9",
+      "schemaId": "urn:knowkit:schema:deletion-task:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "status_mismatch",
+      "expectedErrorPath": "/status",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "deletion"
+      ]
+    },
+    {
+      "id": "deletion-task.external-owned",
+      "path": "tests/fixtures/contracts/v1/invalid/deletion-task.external-owned.json",
+      "sha256": "576094dd24153a88a938f6ac8ae6adae58de00a98b11b4175f97c78880eddbd4",
+      "schemaId": "urn:knowkit:schema:deletion-task:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "const",
+      "expectedErrorPath": "/requiredResources/0/ownerKind",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "deletion"
+      ]
+    },
+    {
+      "id": "deletion-attempt.unknown",
+      "path": "tests/fixtures/contracts/v1/valid/deletion-attempt.unknown.json",
+      "sha256": "4078cb5229f8a1fc6ed5a10bafd10171d0765b8fd33c44ff1c7303af0ae602a6",
+      "schemaId": "urn:knowkit:schema:deletion-attempt:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "deletion"
+      ]
+    },
+    {
+      "id": "deletion-attempt.inflight-with-result",
+      "path": "tests/fixtures/contracts/v1/invalid/deletion-attempt.inflight-with-result.json",
+      "sha256": "720b3d8166713e4ff45b578d0f71ae0398356c4ed06a12549e7fd12cbd6e6de8",
+      "schemaId": "urn:knowkit:schema:deletion-attempt:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "const",
+      "expectedErrorPath": "/result",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "deletion"
+      ]
+    },
+    {
+      "id": "deletion-attempt.result-without-observation",
+      "path": "tests/fixtures/contracts/v1/invalid/deletion-attempt.result-without-observation.json",
+      "sha256": "2f05d0f45c19d59343ecfc1ca880f4f81333748ee82b0a5cb6597532bf9dcbe7",
+      "schemaId": "urn:knowkit:schema:deletion-attempt:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "type",
+      "expectedErrorPath": "/observedAt",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "deletion"
+      ]
+    },
+    {
+      "id": "embedding-space.valid",
+      "path": "tests/fixtures/contracts/v1/valid/embedding-space.valid.json",
+      "sha256": "819c9e98e409f4044bbfbc6e63c477794d14f39026fa97d4aa0f6bc4ca935590",
+      "schemaId": "urn:knowkit:schema:embedding-space:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "manifests"
+      ]
+    },
+    {
+      "id": "embedding-space.dimensions-string",
+      "path": "tests/fixtures/contracts/v1/invalid/embedding-space.dimensions-string.json",
+      "sha256": "0f9fb6c48e2df2cd6f789c263d58cf7afc832b93a9d438072507d717949d68a4",
+      "schemaId": "urn:knowkit:schema:embedding-space:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "type",
+      "expectedErrorPath": "/dimensions",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "manifests"
+      ]
+    },
+    {
+      "id": "embedding-space.depth-exceeded",
+      "path": "tests/fixtures/contracts/v1/invalid/embedding-space.depth-exceeded.json",
+      "sha256": "8ba4b100c564d69868ecd6a545de95dc9613bcad593859d8d27d2f6aa3d4407e",
+      "schemaId": "urn:knowkit:schema:embedding-space:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "depth_exceeded",
+      "expectedErrorPath": "",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture (P1.4); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "strict-json"
+      ]
+    }
+  ]
+}

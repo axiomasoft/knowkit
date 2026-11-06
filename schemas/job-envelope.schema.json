@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:job-envelope:1.0",
+  "title": "job-envelope-1.0 (PHP supervisor to knowkit-worker subprocess)",
+  "description": "Canonical field names from knowledge/jobs#records; aliases (inputFile, ir{path,digest,size}, assets.size) are rejected as unknown fields. Paths are sandbox paths created by the PHP supervisor. Limits are already min(global ceiling, host quota, parser profile, admission quota).",
+  "x-knowkit-maxDocumentBytes": 65536,
+  "x-knowkit-schemaVersion": "job-envelope-1.0",
+  "type": "object",
+  "required": ["schemaVersion", "jobId", "attemptId", "tenantId", "kbId", "sourceId", "sourceVersionId", "fence", "sourceEpoch", "inputDigest", "inputPath", "parserSignature", "parserProfile", "profileFingerprint", "irSchema", "outDir", "leaseExpiresAt", "limits", "correlationId"],
+  "properties": {
+    "schemaVersion": {"const": "job-envelope-1.0"},
+    "jobId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "attemptId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "kbId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "sourceVersionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "fence": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "sourceEpoch": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "inputDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "inputPath": {"type": "string", "pattern": "^/input(/[A-Za-z0-9_-][A-Za-z0-9._-]{0,127}){1,4}$"},
+    "parserSignature": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/parserSignature"},
+    "parserProfile": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/profileId"},
+    "profileFingerprint": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "irSchema": {"const": "ir-1.0"},
+    "outDir": {"type": "string", "pattern": "^/output(/[A-Za-z0-9_-][A-Za-z0-9._-]{0,127}){0,4}$"},
+    "leaseExpiresAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"},
+    "limits": {
+      "type": "object",
+      "required": ["wallSeconds", "cpuSeconds", "memoryBytes", "tempBytes", "maxPages", "maxOutputBytes", "maxAssets"],
+      "properties": {
+        "wallSeconds": {"type": "integer", "minimum": 1, "maximum": 900},
+        "cpuSeconds": {"type": "integer", "minimum": 1, "maximum": 900},
+        "memoryBytes": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/uint64String"},
+        "tempBytes": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/uint64String"},
+        "maxPages": {"type": "integer", "minimum": 1, "maximum": 1000},
+        "maxOutputBytes": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/uint64String"},
+        "maxAssets": {"type": "integer", "minimum": 0, "maximum": 2000}
+      },
+      "unevaluatedProperties": false
+    },
+    "correlationId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"}
+  },
+  "unevaluatedProperties": false
+}

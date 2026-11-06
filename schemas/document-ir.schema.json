@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:document-ir:1.0",
+  "title": "Document IR 1.0",
+  "description": "IR carries no own digest; irDigest = SHA256(JCS(IR)) is held by the enclosing DocumentRevision. Referential integrity, UTF-8 span boundaries, page/segment text digests and coverage arithmetic are semantic rules (wire-contract.md#semantic-rules).",
+  "x-knowkit-maxDocumentBytes": 67108864,
+  "x-knowkit-schemaVersion": "ir-1.0",
+  "type": "object",
+  "required": ["schemaVersion", "tenantId", "sourceVersionId", "parserSignature", "pages", "segments", "blocks", "assets", "coverage"],
+  "properties": {
+    "schemaVersion": {"const": "ir-1.0"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "sourceVersionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "parserSignature": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/parserSignature"},
+    "pages": {"type": "array", "maxItems": 1000, "x-knowkit-uniqueBy": "pageId", "items": {"$ref": "#/$defs/page"}},
+    "segments": {"type": "array", "maxItems": 100000, "x-knowkit-uniqueBy": "segmentId", "items": {"$ref": "#/$defs/segment"}},
+    "blocks": {"type": "array", "maxItems": 200000, "x-knowkit-uniqueBy": "blockId", "items": {"$ref": "#/$defs/block"}},
+    "assets": {"type": "array", "maxItems": 2000, "x-knowkit-uniqueBy": "assetId", "items": {"$ref": "#/$defs/asset"}},
+    "coverage": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/coverage"}
+  },
+  "unevaluatedProperties": false,
+  "$defs": {
+    "unitStatus": {"enum": ["ok", "empty", "failed", "skipped"]},
+    "page": {
+      "type": "object",
+      "required": ["pageId", "physicalNo", "printedLabel", "text", "textDigest", "status"],
+      "properties": {
+        "pageId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"},
+        "physicalNo": {"type": "integer", "minimum": 1, "maximum": 4294967295},
+        "printedLabel": {"type": ["string", "null"], "minLength": 1, "maxLength": 64},
+        "text": {"type": "string", "maxLength": 4194304},
+        "textDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "status": {"$ref": "#/$defs/unitStatus"}
+      },
+      "unevaluatedProperties": false
+    },
+    "segment": {
+      "type": "object",
+      "required": ["segmentId", "text", "textDigest", "status"],
+      "properties": {
+        "segmentId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"},
+        "text": {"type": "string", "maxLength": 4194304},
+        "textDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "status": {"$ref": "#/$defs/unitStatus"}
+      },
+      "unevaluatedProperties": false
+    },
+    "asset": {
+      "type": "object",
+      "required": ["assetId", "mediaType", "digest", "byteLength", "pageId"],
+      "properties": {
+        "assetId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"},
+        "mediaType": {"enum": ["image/png", "image/jpeg", "image/webp", "image/gif", "image/tiff"]},
+        "digest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "byteLength": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/uint64String"},
+        "pageId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableLocalId"},
+        "bbox": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/bbox"}
+      },
+      "unevaluatedProperties": false
+    },
+    "tableCell": {
+      "type": "object",
+      "required": ["cellId", "row", "column", "rowSpan", "colSpan", "header", "headerRefs", "unit", "noteRefs", "spans"],
+      "properties": {
+        "cellId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"},
+        "row": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/uint32"},
+        "column": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/uint32"},
+        "rowSpan": {"type": "integer", "minimum": 1, "maximum": 65535},
+        "colSpan": {"type": "integer", "minimum": 1, "maximum": 65535},
+        "header": {"type": "boolean"},
+        "headerRefs": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localIds"},
+        "unit": {"type": ["string", "null"], "minLength": 1, "maxLength": 64},
+        "noteRefs": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localIds"},
+        "spans": {"type": "array", "maxItems": 64, "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/textLocator"}}
+      },
+      "unevaluatedProperties": false
+    },
+    "table": {
+      "type": "object",
+      "required": ["rows", "columns", "cells"],
+      "properties": {
+        "rows": {"type": "integer", "minimum": 1, "maximum": 65535},
+        "columns": {"type": "integer", "minimum": 1, "maximum": 65535},
+        "cells": {"type": "array", "minItems": 1, "maxItems": 100000, "x-knowkit-uniqueBy": "cellId", "items": {"$ref": "#/$defs/tableCell"}}
+      },
+      "unevaluatedProperties": false
+    },
+    "block": {
+      "type": "object",
+      "required": ["blockId", "kind", "parentId", "order", "origin", "spans", "provenance"],
+      "properties": {
+        "blockId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"},
+        "kind": {"enum": ["text", "heading", "code", "table", "formula", "image"]},
+        "parentId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableLocalId"},
+        "order": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/uint32"},
+        "origin": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/origin"},
+        "spans": {"type": "array", "maxItems": 256, "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/textLocator"}},
+        "provenance": {
+          "type": "object",
+          "required": ["kind", "supportingRefs"],
+          "properties": {
+            "kind": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/provenanceKind"},
+            "supportingRefs": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localIds"}
+          },
+          "unevaluatedProperties": false
+        },
+        "table": {"$ref": "#/$defs/table"},
+        "assetRefs": {"type": "array", "minItems": 1, "maxItems": 64, "uniqueItems": true, "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"}}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "table"}}, "required": ["kind"]},
+          "then": {"required": ["table"]},
+          "else": {"properties": {"table": false}}
+        },
+        {
+          "if": {"properties": {"kind": {"const": "image"}}, "required": ["kind"]},
+          "then": {"required": ["assetRefs"]},
+          "else": {"properties": {"assetRefs": false}}
+        },
+        {
+          "if": {"properties": {"origin": {"const": "generated"}}, "required": ["origin"]},
+          "then": {
+            "properties": {
+              "provenance": {
+                "properties": {
+                  "kind": {"enum": ["table_representation", "description", "summary"]},
+                  "supportingRefs": {"minItems": 1}
+                }
+              }
+            }
+          }
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "selectionId": "01JC0000000000000000000018",
+  "tenantId": "01JC0000000000000000000001",
+  "hostScopeHash": "c912b43c00855e67c7b9923462598e7ae04b5bf8348f713613d6b36adb4c71e2",
+  "runRef": null,
+  "scopeBindingDigest": "948d2054d06132f59a449c46d43dd54baf91a434eabfee40585ed6a9b19e1df3",
+  "queryDigest": "d7d2f0a96b3289ea63aed8d30b335f69e77706f0b27307b6a198c11a850da2a6",
+  "snapshotId": "01JC0000000000000000000014",
+  "generationId": "01JC0000000000000000000013",
+  "candidateRefs": [
+    {
+      "tenantId": "01JC0000000000000000000001",
+      "sourceId": "01JC000000000000000000000Y",
+      "sourceVersionId": "01JC000000000000000000000Z",
+      "sourceDigest": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+      "documentRevisionId": "01JC0000000000000000000010",
+      "irDigest": "b525a34a86d9fdcc3dd99082cc7af9ad00a5c096397429a6df8af9237d62a3a9",
+      "parserSignature": {
+        "name": "docling",
+        "version": "2.148.0",
+        "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+      },
+      "chunkSetId": "01JC0000000000000000000012",
+      "chunkId": "01JC0000000000000000000034",
+      "chunkDigest": "5efd96eae7323843e5c5cfad98570136814335f34502ab939e7cda411920b458"
+    },
+    {
+      "tenantId": "01JC0000000000000000000001",
+      "sourceId": "01JC000000000000000000000Y",
+      "sourceVersionId": "01JC000000000000000000000Z",
+      "sourceDigest": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+      "documentRevisionId": "01JC0000000000000000000010",
+      "irDigest": "b525a34a86d9fdcc3dd99082cc7af9ad00a5c096397429a6df8af9237d62a3a9",
+      "parserSignature": {
+        "name": "docling",
+        "version": "2.148.0",
+        "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+      },
+      "chunkSetId": "01JC0000000000000000000012",
+      "chunkId": "01JC0000000000000000000035",
+      "chunkDigest": "956af1f9367eb445500d5ae25239c10a7645db3869c5c8cb59a81a75b78fe9b9"
+    }
+  ],
+  "limits": {
+    "profile": "compact",
+    "maxFragments": 4,
+    "maxBytes": 4096,
+    "maxBytesPerFragment": 1024,
+    "maxAssets": 0,
+    "tokenBudget": null
+  },
+  "policyBinding": {
+    "tenantPolicyEpoch": "7",
+    "kbPolicyEpoch": "42",
+    "sources": [
+      {
+        "sourceId": "01JC0000000000000000000033",
+        "sourcePolicyEpoch": "1",
+        "lifecycleEpoch": "1"
+      },
+      {
+        "sourceId": "01JC000000000000000000000Y",
+        "sourcePolicyEpoch": "3",
+        "lifecycleEpoch": "1"
+      }
+    ]
+  },
+  "expiresAt": "2026-11-06T12:00:30Z"
+}

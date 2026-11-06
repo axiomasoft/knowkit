@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:mutation-context:1.0",
+  "title": "MutationContext for every mutating command",
+  "x-knowkit-maxDocumentBytes": 4096,
+  "type": "object",
+  "required": ["idempotencyKey", "requestId"],
+  "properties": {
+    "idempotencyKey": {"type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[\\x21-\\x7e]{1,128}$"},
+    "requestId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "expectedRevision": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "expectedEpoch": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"}
+  },
+  "unevaluatedProperties": false
+}

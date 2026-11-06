@@ -1,0 +1,188 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:domain-event:1.0",
+  "title": "DomainEvent event-1.0 (transactional outbox)",
+  "description": "payloadDigest = SHA256('knowkit:event:v1' || 0x00 || JCS(payload)). Every fixed v1 type has one closed payload shape projected from its normative record (wire-contract.md#event-payloads); envelope members (tenantId, eventId) are not repeated in the payload. Payloads carry refs, epochs and digests only: no document text, secrets, signed URLs or raw provider input. Consumers quarantine unknown schemaVersion/type.",
+  "x-knowkit-maxDocumentBytes": 65536,
+  "x-knowkit-schemaVersion": "event-1.0",
+  "type": "object",
+  "required": ["eventId", "schemaVersion", "tenantId", "aggregateType", "aggregateId", "aggregateVersion", "type", "occurredAt", "causationId", "correlationId", "payload", "payloadDigest"],
+  "properties": {
+    "eventId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "schemaVersion": {"const": "event-1.0"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "aggregateType": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/code"},
+    "aggregateId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "aggregateVersion": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "type": {"enum": ["source.registered", "source_version.accepted", "document_revision.accepted", "generation.sealed", "snapshot.activated", "source_version.corrected", "source.revoked", "source.deletion_requested", "retention_hold.changed", "deletion.attempted", "deletion.completed", "usage.prepared_disclosure", "usage.provider_accepted"]},
+    "occurredAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"},
+    "causationId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableUlid"},
+    "correlationId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableUlid"},
+    "payload": {"type": "object", "maxProperties": 64},
+    "payloadDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+  },
+  "allOf": [
+    {"if": {"properties": {"type": {"const": "source.registered"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/sourceRegistered"}}}},
+    {"if": {"properties": {"type": {"const": "source_version.accepted"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/sourceVersionAccepted"}}}},
+    {"if": {"properties": {"type": {"const": "document_revision.accepted"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/documentRevisionAccepted"}}}},
+    {"if": {"properties": {"type": {"const": "generation.sealed"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/generationSealed"}}}},
+    {"if": {"properties": {"type": {"const": "snapshot.activated"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/snapshotActivated"}}}},
+    {"if": {"properties": {"type": {"const": "source_version.corrected"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/sourceVersionCorrected"}}}},
+    {"if": {"properties": {"type": {"const": "source.revoked"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/sourceRevoked"}}}},
+    {"if": {"properties": {"type": {"const": "source.deletion_requested"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/sourceDeletionRequested"}}}},
+    {"if": {"properties": {"type": {"const": "retention_hold.changed"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/retentionHoldChanged"}}}},
+    {"if": {"properties": {"type": {"const": "deletion.attempted"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "urn:knowkit:schema:deletion-attempt:1.0"}}}},
+    {"if": {"properties": {"type": {"const": "deletion.completed"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/deletionCompleted"}}}},
+    {"if": {"properties": {"type": {"const": "usage.prepared_disclosure"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/usagePreparedDisclosure"}}}},
+    {"if": {"properties": {"type": {"const": "usage.provider_accepted"}}, "required": ["type"]}, "then": {"properties": {"payload": {"$ref": "#/$defs/usageProviderAccepted"}}}}
+  ],
+  "unevaluatedProperties": false,
+  "$defs": {
+    "sourceRegistered": {
+      "description": "knowledge/lifecycle Source record without the envelope tenantId; a new source is active.",
+      "type": "object",
+      "required": ["sourceId", "lifecycleState", "lifecycleEpoch", "sourcePolicyEpoch", "retentionHold"],
+      "properties": {
+        "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "lifecycleState": {"const": "active"},
+        "lifecycleEpoch": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+        "sourcePolicyEpoch": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+        "retentionHold": {"type": "boolean"}
+      },
+      "unevaluatedProperties": false
+    },
+    "sourceVersionAccepted": {
+      "description": "ExactSourceRef (knowledge/contracts#dto) without the envelope tenantId.",
+      "type": "object",
+      "required": ["sourceId", "sourceVersionId", "sourceDigest"],
+      "properties": {
+        "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "sourceVersionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "sourceDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+      },
+      "unevaluatedProperties": false
+    },
+    "documentRevisionAccepted": {
+      "description": "DocumentRevisionRef (knowledge/contracts#dto) without the envelope tenantId.",
+      "type": "object",
+      "required": ["sourceId", "sourceVersionId", "sourceDigest", "documentRevisionId", "irDigest", "parserSignature"],
+      "properties": {
+        "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "sourceVersionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "sourceDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "documentRevisionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "irDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "parserSignature": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/parserSignature"}
+      },
+      "unevaluatedProperties": false
+    },
+    "generationSealed": {
+      "description": "Sealed IndexManifest identity (knowledge/publication): generation and its immutable manifestDigest.",
+      "type": "object",
+      "required": ["kbId", "generationId", "manifestDigest"],
+      "properties": {
+        "kbId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "generationId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "manifestDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+      },
+      "unevaluatedProperties": false
+    },
+    "snapshotActivated": {
+      "description": "SnapshotRef without tenantId plus PublishReceipt.pointerVersion; eventId is the envelope eventId.",
+      "type": "object",
+      "required": ["kbId", "snapshotId", "manifestDigest", "pointerVersion"],
+      "properties": {
+        "kbId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "snapshotId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "manifestDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "pointerVersion": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"}
+      },
+      "unevaluatedProperties": false
+    },
+    "sourceVersionCorrected": {
+      "description": "knowledge/lifecycle SourceVersionState without tenantId/eventId; only the erroneous version becomes corrected.",
+      "type": "object",
+      "required": ["sourceVersionId", "usability", "correctedByVersionId"],
+      "properties": {
+        "sourceVersionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "usability": {"const": "corrected"},
+        "correctedByVersionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableUlid"}
+      },
+      "unevaluatedProperties": false
+    },
+    "sourceRevoked": {
+      "description": "knowledge/lifecycle Tombstone without tenantId/eventId; identity-wide, so no sourceVersionId.",
+      "type": "object",
+      "required": ["sourceId", "reason", "lifecycleEpoch", "appliesTo"],
+      "properties": {
+        "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "reason": {"enum": ["source_revoked", "source_deleted", "consent_revoked"]},
+        "lifecycleEpoch": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+        "appliesTo": {"const": "future_versions"}
+      },
+      "unevaluatedProperties": false
+    },
+    "sourceDeletionRequested": {
+      "description": "knowledge/lifecycle Source projection after the transition to deletion_requested.",
+      "type": "object",
+      "required": ["sourceId", "lifecycleState", "lifecycleEpoch"],
+      "properties": {
+        "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "lifecycleState": {"const": "deletion_requested"},
+        "lifecycleEpoch": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"}
+      },
+      "unevaluatedProperties": false
+    },
+    "retentionHoldChanged": {
+      "description": "knowledge/lifecycle Source.retentionHold flag; a hold never grants read permission.",
+      "type": "object",
+      "required": ["sourceId", "retentionHold"],
+      "properties": {
+        "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "retentionHold": {"type": "boolean"}
+      },
+      "unevaluatedProperties": false
+    },
+    "deletionCompleted": {
+      "description": "knowledge/deletion DeletionTask aggregate without tenantId and resource list; pending is not a completion.",
+      "type": "object",
+      "required": ["taskId", "sourceId", "inventoryVersion", "inventoryDigest", "status"],
+      "properties": {
+        "taskId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "inventoryVersion": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+        "inventoryDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "status": {"enum": ["done", "partial", "unknown", "unsupported"]}
+      },
+      "unevaluatedProperties": false
+    },
+    "usagePreparedDisclosure": {
+      "description": "knowledge/disclosure Usage record without tenantId/status: refs and fragment digests only, never plaintext.",
+      "type": "object",
+      "required": ["usageId", "disclosureAttemptId", "selectionId", "actorId", "purpose", "hostScopeHash", "runRef", "fragmentRefs", "checkedAt", "policyBindingDigest"],
+      "properties": {
+        "usageId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "disclosureAttemptId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "selectionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "actorId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "purpose": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/purpose"},
+        "hostScopeHash": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/hostScopeHash"},
+        "runRef": {"$ref": "urn:knowkit:schema:usage:1.0#/properties/runRef"},
+        "fragmentRefs": {"$ref": "urn:knowkit:schema:usage:1.0#/properties/fragmentRefs"},
+        "checkedAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"},
+        "policyBindingDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+      },
+      "unevaluatedProperties": false
+    },
+    "usageProviderAccepted": {
+      "description": "Host-reported downstream acceptance (knowledge/events): identity of the existing Usage only. No provider payload, response text or credential.",
+      "type": "object",
+      "required": ["usageId", "disclosureAttemptId"],
+      "properties": {
+        "usageId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "disclosureAttemptId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"}
+      },
+      "unevaluatedProperties": false
+    }
+  }
+}

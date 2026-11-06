@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:publish-receipt:1.0",
+  "title": "PublishReceipt (metadata only; never a disclosure permission)",
+  "x-knowkit-maxDocumentBytes": 4096,
+  "type": "object",
+  "required": ["snapshotId", "manifestDigest", "pointerVersion", "eventId"],
+  "properties": {
+    "snapshotId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "manifestDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "pointerVersion": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "eventId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"}
+  },
+  "unevaluatedProperties": false
+}

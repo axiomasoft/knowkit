@@ -1,0 +1,9 @@
+{
+  "outcome": "incompatible",
+  "degraded": false,
+  "warnings": [],
+  "error": {
+    "code": "POINTER_CONFLICT",
+    "retryable": false
+  }
+}

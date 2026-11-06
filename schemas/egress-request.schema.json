@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:egress-request:1.0",
+  "title": "EgressRequest for EgressPolicy::mayEgress",
+  "description": "One request covers the complete classified outbound manifest and deployment destination. model_egress_context must declare QUESTION and HISTORY items; no raw bytes or credentials.",
+  "x-knowkit-maxDocumentBytes": 1048576,
+  "type": "object",
+  "required": ["operation", "destination", "items", "manifestDigest"],
+  "properties": {
+    "operation": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/operation"},
+    "destination": {
+      "type": "object",
+      "required": ["providerId", "accountId", "region"],
+      "properties": {
+        "providerId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/name"},
+        "accountId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/name"},
+        "region": {"type": "string", "minLength": 1, "maxLength": 64},
+        "modelId": {"type": "string", "minLength": 1, "maxLength": 256}
+      },
+      "unevaluatedProperties": false
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1024,
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "required": ["category", "contentDigest", "sourceVersionRefs"],
+        "properties": {
+          "category": {"enum": ["QUESTION", "HISTORY", "EVIDENCE", "ASSET", "SYSTEM_INSTRUCTION", "TOOL_OUTPUT", "QUERY", "DOCUMENT_CONTENT"]},
+          "contentDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+          "sourceVersionRefs": {"type": "array", "maxItems": 256, "uniqueItems": true, "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/exactSourceRef"}}
+        },
+        "allOf": [
+          {
+            "if": {"properties": {"category": {"enum": ["EVIDENCE", "ASSET", "DOCUMENT_CONTENT"]}}, "required": ["category"]},
+            "then": {"properties": {"sourceVersionRefs": {"minItems": 1}}}
+          }
+        ],
+        "unevaluatedProperties": false
+      }
+    },
+    "manifestDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"operation": {"const": "model_egress_context"}}, "required": ["operation"]},
+      "then": {
+        "properties": {
+          "items": {
+            "allOf": [
+              {"contains": {"type": "object", "properties": {"category": {"const": "QUESTION"}}, "required": ["category"]}},
+              {"contains": {"type": "object", "properties": {"category": {"const": "HISTORY"}}, "required": ["category"]}}
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "unevaluatedProperties": false
+}

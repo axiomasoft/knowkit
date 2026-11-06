@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "sourceVersionId": "01JC000000000000000000000Z",
+  "parserSignature": {
+    "name": "docling",
+    "version": "2.148.0",
+    "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+  },
+  "pages": [
+    {
+      "pageId": "p1",
+      "physicalNo": 1,
+      "printedLabel": "xii",
+      "text": "Привет, мир. 東京タワーは高い。 Café vs Café — ёлка.",
+      "textDigest": "4b87290d26d4a8b06ef65186cd0253c1f159ce73f6cfbafd8d223986e40f415b",
+      "status": "ok"
+    },
+    {
+      "pageId": "p2",
+      "physicalNo": 2,
+      "printedLabel": "xiii",
+      "text": "",
+      "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "empty"
+    },
+    {
+      "pageId": "p3",
+      "physicalNo": 3,
+      "printedLabel": null,
+      "text": "Продолжение: 続きの文章。 Конец.",
+      "textDigest": "60d64cf0ab9adea3bb6d1312323b4d171990af46b72b97b4bb263859ce4502cf",
+      "status": "ok"
+    }
+  ],
+  "segments": [],
+  "blocks": [
+    {
+      "blockId": "b1",
+      "kind": "heading",
+      "parentId": null,
+      "order": 0,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": "xii",
+          "blockId": "b1",
+          "byteStart": 0,
+          "byteEnd": 21,
+          "bbox": {
+            "space": "page-millionths-top-left-v1",
+            "origin": "top-left",
+            "view": "rotated-page",
+            "x0": 100000,
+            "y0": 50000,
+            "x1": 1000001,
+            "y1": 90000
+          }
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "b2",
+      "kind": "text",
+      "parentId": "b1",
+      "order": 1,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": "xii",
+          "blockId": "b2",
+          "byteStart": 22,
+          "byteEnd": 49
+        },
+        {
+          "kind": "page",
+          "pageId": "p3",
+          "physicalNo": 3,
+          "printedLabel": null,
+          "blockId": "b2",
+          "byteStart": 0,
+          "byteEnd": 42
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "b3",
+      "kind": "text",
+      "parentId": "b1",
+      "order": 2,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": "xii",
+          "blockId": "b3",
+          "byteStart": 59,
+          "byteEnd": 79
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "b4",
+      "kind": "text",
+      "parentId": "b1",
+      "order": 3,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p3",
+          "physicalNo": 3,
+          "printedLabel": null,
+          "blockId": "b4",
+          "byteStart": 43,
+          "byteEnd": 54
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    }
+  ],
+  "assets": [],
+  "coverage": {
+    "state": "complete",
+    "counts": {
+      "expected": 3,
+      "processed": 3,
+      "empty": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": []
+  }
+}

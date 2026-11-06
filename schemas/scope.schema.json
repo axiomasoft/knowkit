@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:scope:1.0",
+  "title": "Trusted Scope",
+  "description": "Built only by the trusted host; model/tool JSON never supplies it.",
+  "x-knowkit-maxDocumentBytes": 4096,
+  "type": "object",
+  "required": ["tenantId", "kbId", "actorId", "purpose", "policyEpoch", "hostScopeHash"],
+  "properties": {
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "kbId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "actorId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "purpose": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/purpose"},
+    "policyEpoch": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "hostScopeHash": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/hostScopeHash"}
+  },
+  "unevaluatedProperties": false
+}

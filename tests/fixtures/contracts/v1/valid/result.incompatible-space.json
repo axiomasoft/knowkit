@@ -1,0 +1,11 @@
+{
+  "outcome": "incompatible",
+  "degraded": false,
+  "warnings": [
+    "space_mismatch"
+  ],
+  "error": {
+    "code": "space_mismatch",
+    "retryable": false
+  }
+}

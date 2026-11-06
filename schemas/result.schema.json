@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:result:1.0",
+  "title": "Result<T> outcome envelope for every application response",
+  "description": "Six distinct outcomes. Unsuccessful outcomes never carry data/evidence. Degradation is only an explicit success flag; a space mismatch is never degradation.",
+  "x-knowkit-maxDocumentBytes": 1048576,
+  "type": "object",
+  "required": ["outcome", "degraded", "warnings"],
+  "properties": {
+    "outcome": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/outcome"},
+    "data": {"type": ["array", "object"]},
+    "error": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/error"},
+    "degraded": {"type": "boolean"},
+    "effectiveProfile": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/profileId"},
+    "warnings": {"type": "array", "maxItems": 32, "uniqueItems": true, "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/code"}}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"outcome": {"const": "success"}}, "required": ["outcome"]},
+      "then": {"required": ["data"], "properties": {"error": false}}
+    },
+    {
+      "if": {"properties": {"outcome": {"const": "empty"}}, "required": ["outcome"]},
+      "then": {"required": ["data"], "properties": {"data": {"type": "array", "maxItems": 0}, "error": false}}
+    },
+    {
+      "if": {"properties": {"outcome": {"enum": ["denied", "unknown", "unavailable", "incompatible"]}}, "required": ["outcome"]},
+      "then": {"required": ["error"], "properties": {"data": false, "degraded": {"const": false}}}
+    },
+    {
+      "if": {"properties": {"degraded": {"const": true}}, "required": ["degraded"]},
+      "then": {"required": ["effectiveProfile"], "properties": {"outcome": {"const": "success"}, "warnings": {"minItems": 1}}}
+    },
+    {
+      "if": {"properties": {"warnings": {"contains": {"const": "space_mismatch"}}}, "required": ["warnings"]},
+      "then": {"properties": {"outcome": {"const": "incompatible"}}}
+    }
+  ],
+  "unevaluatedProperties": false
+}

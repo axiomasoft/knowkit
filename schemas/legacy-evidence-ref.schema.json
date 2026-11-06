@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:legacy-evidence-ref:1.0",
+  "title": "Limited legacy evidence reference",
+  "description": "Retains the original legacy hash type and value verbatim with provenance uncertainty and an exact resolver. A legacy hash is never renamed into sourceDigest/irDigest/contentDigest or a typed fingerprint and is never called freshly validated.",
+  "x-knowkit-maxDocumentBytes": 16384,
+  "type": "object",
+  "required": ["kind", "tenantId", "legacyHashType", "legacyReleaseHash", "provenance", "freshlyValidated", "resolver"],
+  "properties": {
+    "kind": {"const": "legacy"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "legacyHashType": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/code"},
+    "legacyReleaseHash": {"type": "string", "pattern": "^[0-9a-f]{16,128}$"},
+    "provenance": {"const": "legacy_unverified"},
+    "freshlyValidated": {"const": false},
+    "resolver": {
+      "type": "object",
+      "required": ["system", "ref"],
+      "properties": {
+        "system": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/code"},
+        "ref": {"type": "string", "minLength": 1, "maxLength": 512}
+      },
+      "unevaluatedProperties": false
+    },
+    "sourceDigest": false,
+    "irDigest": false,
+    "contentDigest": false,
+    "fingerprint": false
+  },
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,14 @@
+{
+  "outcome": "denied",
+  "degraded": false,
+  "warnings": [],
+  "error": {
+    "code": "explicit_deny",
+    "retryable": false
+  },
+  "data": {
+    "fragments": [
+      "leak"
+    ]
+  }
+}

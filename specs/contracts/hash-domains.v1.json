@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "hash-domains-1.0",
+  "algorithm": "SHA256(ASCII(domain) || 0x00 || UTF8(JCS(payload))); lowercase hex output",
+  "source": "knowledge/contracts#hash-domains (single normative table)",
+  "domains": {
+    "indexManifest": "knowkit:index-manifest:v1",
+    "publicationSnapshotManifest": "knowkit:publication-snapshot:v1",
+    "chunkSetManifest": "knowkit:chunkset-manifest:v1",
+    "embeddingSpace": "knowkit:embedding-space:v1",
+    "domainEventPayload": "knowkit:event:v1",
+    "workerResult": "knowkit:worker-result:v1",
+    "processingIdentity": "knowkit:processing-identity:v1",
+    "parserProfile": "knowkit:parser-profile:v1",
+    "chunkerProfile": "knowkit:chunker-profile:v1",
+    "queryBinding": "knowkit:query-binding:v1",
+    "scopeBinding": "knowkit:scope-binding:v1",
+    "policyBinding": "knowkit:policy-binding:v1",
+    "decisionReceipt": "knowkit:decision-receipt:v1",
+    "retrievalCacheKey": "knowkit:retrieval-cache:v1",
+    "sourceIdentity": "knowkit:source-identity:v1",
+    "dependencyNodeIdentity": "knowkit:dependency-node:v1",
+    "dependencyParentSet": "knowkit:dependency-parents:v1",
+    "idempotencyRequest": "knowkit:command:v1",
+    "evidenceSet": "knowkit:evidence-set:v1",
+    "resourceInventory": "knowkit:resource-inventory:v1",
+    "tombstoneSet": "knowkit:tombstone-set:v1",
+    "answerInvocationFingerprint": "knowkit:answer-invocation:v1",
+    "answerOutcomeRecord": "knowkit:answer-outcome:v1"
+  },
+  "untaggedDigests": {
+    "irDigest": "SHA256(UTF8(JCS(IR)))",
+    "effectiveProfileDigest": "SHA256(UTF8(JCS(strict redacted profile)))",
+    "sourceBytes": "SHA256(raw bytes)",
+    "pageText": "SHA256(raw UTF-8 page text)",
+    "segmentText": "SHA256(raw UTF-8 segment text)",
+    "assetBytes": "SHA256(raw bytes)",
+    "contentPayload": "SHA256(raw canonical bytes actually emitted)",
+    "leaseTokenHash": "SHA256(raw random token bytes)",
+    "selectionTokenHash": "SHA256(raw random token bytes)"
+  },
+  "opaqueTrusted": ["hostScopeHash", "ResolvedModelBinding.digest", "LegacyReleaseHash"]
+}

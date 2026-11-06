@@ -1,0 +1,18 @@
+{
+  "eventId": "01JC000000000000000000001W",
+  "schemaVersion": "event-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "aggregateType": "source",
+  "aggregateId": "01JC000000000000000000000Y",
+  "aggregateVersion": "5",
+  "type": "source.revoked",
+  "occurredAt": "2026-11-06T12:00:00.123Z",
+  "causationId": null,
+  "correlationId": "01JC000000000000000000001M",
+  "payload": {
+    "sourceId": "01JC000000000000000000000Y",
+    "reason": "source_revoked",
+    "lifecycleEpoch": "2"
+  },
+  "payloadDigest": "ab3df480494592723c7d510830ea640013c46517f70a96922a1c83f53279c4eb"
+}

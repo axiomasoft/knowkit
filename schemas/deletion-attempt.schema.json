@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:deletion-attempt:1.0",
+  "title": "DeletionAttempt receipt per (taskId, resourceId)",
+  "description": "An in-flight attempt has no result yet; a recorded result needs observedAt. Timeout/exception is unknown, never deleted.",
+  "x-knowkit-maxDocumentBytes": 16384,
+  "type": "object",
+  "required": ["attemptId", "taskId", "resourceId", "inFlight", "result", "providerReceipt", "knownExpiry", "observedAt"],
+  "properties": {
+    "attemptId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "taskId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "resourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "inFlight": {"type": "boolean"},
+    "result": {"enum": ["deleted", "absent", "unknown", "unsupported", null]},
+    "providerReceipt": {"type": ["string", "null"], "minLength": 1, "maxLength": 1024},
+    "knownExpiry": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableUtcInstant"},
+    "observedAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/nullableUtcInstant"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"inFlight": {"const": true}}, "required": ["inFlight"]},
+      "then": {"properties": {"result": {"const": null}}}
+    },
+    {
+      "if": {"properties": {"result": {"type": "string"}}, "required": ["result"]},
+      "then": {"properties": {"observedAt": {"type": "string"}}}
+    }
+  ],
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "knowkit-evidence:1",
+  "item": "P1.4",
+  "purpose": "Independent cross-check of golden vectors and schema-stage classifications; mutation sanity checks of the contract:schemas suite. Re-run for corpus 1.1.0 (P1.4 correction round 2); rows marked 1.0.0 are from the initial run.",
+  "independentJcs": {
+    "tool": "rfc8785==0.1.4 (PyPI, isolated venv, not a repository dependency)",
+    "scope": "every jcs/domain/ir/raw/legacy vector in tests/fixtures/contracts/v1/vectors/hash-vectors.json recomputed without the KnowKit reference module",
+    "checked": 51,
+    "failures": 0
+  },
+  "independentSchemaValidator": {
+    "tool": "jsonschema==4.23.0 Draft202012Validator with referencing registry (isolated venv)",
+    "scope": "all corpus entries decided at schema stage (valid entries plus invalid entries whose code is a standard keyword); decode, version, semantic and x-knowkit keyword stages excluded by design",
+    "checked": 141,
+    "failures": 0
+  },
+  "mutationChecks": [
+    {
+      "mutation": "PHP Jcs sorts keys by bytes instead of UTF-16 code units",
+      "suiteResult": "2 failures",
+      "corpusVersion": "1.0.0"
+    },
+    {
+      "mutation": "PHP StrictJson accepts duplicate keys",
+      "suiteResult": "6 failures",
+      "corpusVersion": "1.0.0"
+    },
+    {
+      "mutation": "PHP SchemaSet ignores unevaluatedProperties",
+      "suiteResult": "9 failures",
+      "corpusVersion": "1.0.0"
+    },
+    {
+      "mutation": "PHP bbox rounding half-up instead of half-even",
+      "suiteResult": "3 failures",
+      "corpusVersion": "1.0.0"
+    },
+    {
+      "mutation": "Python reference drops the UTF-8 boundary rule",
+      "suiteResult": "6 failures",
+      "corpusVersion": "1.0.0"
+    },
+    {
+      "mutation": "PHP ScopeBinding ignores the Selection.runRef binding",
+      "suiteResult": "3 failures",
+      "corpusVersion": "1.1.0"
+    },
+    {
+      "mutation": "Python check_disclosure_selection ignores the run binding",
+      "suiteResult": "3 failures",
+      "corpusVersion": "1.1.0"
+    },
+    {
+      "mutation": "usage.prepared_disclosure event payload left open",
+      "suiteResult": "1 error, 3 failures",
+      "corpusVersion": "1.1.0"
+    },
+    {
+      "mutation": "PHP EvidenceSet ignores one revision with two irDigests",
+      "suiteResult": "4 failures",
+      "corpusVersion": "1.1.0"
+    },
+    {
+      "mutation": "Result.error.code restricted to lowercase codes",
+      "suiteResult": "1 error, 3 failures",
+      "corpusVersion": "1.1.0"
+    },
+    {
+      "mutation": "leased Job accepted without leaseTokenHash",
+      "suiteResult": "1 error, 3 failures",
+      "corpusVersion": "1.1.0"
+    },
+    {
+      "mutation": "none (restored tree)",
+      "suiteResult": "OK (38 tests)",
+      "corpusVersion": "1.1.0"
+    }
+  ],
+  "suiteRun": {
+    "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/schemas/ContractSchemasTest.php",
+    "exit": 0,
+    "outputPath": "tests/contract/schemas/evidence/phpunit-contract-schemas.txt"
+  },
+  "corpusVersion": "1.1.0"
+}

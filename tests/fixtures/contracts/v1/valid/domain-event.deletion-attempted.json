@@ -1,0 +1,23 @@
+{
+  "eventId": "01JC0000000000000000000025",
+  "schemaVersion": "event-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "aggregateType": "deletion_task",
+  "aggregateId": "01JC0000000000000000000026",
+  "aggregateVersion": "2",
+  "type": "deletion.attempted",
+  "occurredAt": "2026-11-06T12:00:00Z",
+  "causationId": null,
+  "correlationId": "01JC000000000000000000001M",
+  "payload": {
+    "attemptId": "01JC000000000000000000005A",
+    "taskId": "01JC0000000000000000000026",
+    "resourceId": "01JC0000000000000000000051",
+    "inFlight": false,
+    "result": "unknown",
+    "providerReceipt": null,
+    "knownExpiry": null,
+    "observedAt": "2026-11-06T12:05:00Z"
+  },
+  "payloadDigest": "626f28d7ff33743a6a28de1f72a7c85720bf7be44d111a4b38ebb250de54fa0f"
+}

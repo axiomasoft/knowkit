@@ -1,0 +1,19 @@
+{
+  "eventId": "01JC0000000000000000000021",
+  "schemaVersion": "event-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "aggregateType": "knowledge_base",
+  "aggregateId": "01JC000000000000000000000A",
+  "aggregateVersion": "18446744073",
+  "type": "snapshot.activated",
+  "occurredAt": "2026-11-06T12:00:00Z",
+  "causationId": null,
+  "correlationId": "01JC000000000000000000001M",
+  "payload": {
+    "kbId": "01JC000000000000000000000A",
+    "snapshotId": "01JC0000000000000000000014",
+    "manifestDigest": "0e9e4e0a83f10f62edbe8a58409f36b2babb36a3ef4b4f796a09e8e69a5bccbf",
+    "pointerVersion": "18446744073"
+  },
+  "payloadDigest": "b4ca710f6531e9194b19c96998f1730ec3a828259a9b4c691410e2dd8c23123e"
+}

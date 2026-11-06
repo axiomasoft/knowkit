@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:worker-result:1.0",
+  "title": "worker-result-1.0",
+  "description": "resultDigest = SHA256('knowkit:worker-result:v1' || 0x00 || JCS(result without resultDigest)). Paths are relative to /output; traversal, hidden/dot segments and duplicates are rejected.",
+  "x-knowkit-maxDocumentBytes": 1048576,
+  "x-knowkit-schemaVersion": "worker-result-1.0",
+  "type": "object",
+  "required": ["schemaVersion", "jobId", "attemptId", "tenantId", "sourceId", "sourceVersionId", "fence", "sourceEpoch", "profileFingerprint", "status", "irPath", "irDigest", "irByteLength", "assets", "coverage", "diagnostics", "resultDigest"],
+  "properties": {
+    "schemaVersion": {"const": "worker-result-1.0"},
+    "jobId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "attemptId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "sourceVersionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "fence": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "sourceEpoch": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "profileFingerprint": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "status": {"enum": ["complete", "partial", "failed", "cancelled"]},
+    "irPath": {"$ref": "#/$defs/relativePath"},
+    "irDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "irByteLength": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/uint64String"},
+    "assets": {
+      "type": "array",
+      "maxItems": 2000,
+      "x-knowkit-uniqueBy": "relativePath",
+      "items": {
+        "type": "object",
+        "required": ["relativePath", "digest", "byteLength", "mediaType"],
+        "properties": {
+          "relativePath": {"$ref": "#/$defs/relativePath"},
+          "digest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+          "byteLength": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/uint64String"},
+          "mediaType": {"enum": ["image/png", "image/jpeg", "image/webp", "image/gif", "image/tiff"]}
+        },
+        "unevaluatedProperties": false
+      }
+    },
+    "coverage": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/coverage"},
+    "diagnostics": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/diagnostics"},
+    "resultDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+  },
+  "unevaluatedProperties": false,
+  "$defs": {
+    "relativePath": {"type": "string", "maxLength": 1024, "pattern": "^[A-Za-z0-9_-][A-Za-z0-9._-]{0,127}(/[A-Za-z0-9_-][A-Za-z0-9._-]{0,127}){0,15}$"}
+  }
+}

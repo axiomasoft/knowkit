@@ -1,0 +1,27 @@
+{
+  "decision": "Allow",
+  "operation": "read",
+  "resourceRefs": [
+    {
+      "tenantId": "01JC0000000000000000000001",
+      "kind": "source_version",
+      "id": "01JC000000000000000000000Z"
+    }
+  ],
+  "binding": {
+    "tenantPolicyEpoch": "7",
+    "kbPolicyEpoch": "42",
+    "sources": [
+      {
+        "sourceId": "01JC000000000000000000000Y",
+        "sourcePolicyEpoch": "3",
+        "lifecycleEpoch": "1"
+      }
+    ]
+  },
+  "ownerRevision": null,
+  "checkedAt": "2026-11-06T12:00:00Z",
+  "expiresAt": "2026-11-06T12:00:05Z",
+  "hostScopeHash": "c912b43c00855e67c7b9923462598e7ae04b5bf8348f713613d6b36adb4c71e2",
+  "receiptDigest": "e5631e7010ac19bb55253e060bc8941815cec5bf44bd6ff2e9854c1cf282687c"
+}

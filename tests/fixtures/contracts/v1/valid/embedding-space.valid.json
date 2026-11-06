@@ -1,0 +1,10 @@
+{
+  "provider": "openai",
+  "model": "text-embedding-3-large",
+  "revision": "2024-01-25",
+  "dimensions": 3072,
+  "normalization": "l2",
+  "indexVersion": "pgvector-hnsw-1",
+  "documentRole": "document",
+  "queryRole": "query"
+}

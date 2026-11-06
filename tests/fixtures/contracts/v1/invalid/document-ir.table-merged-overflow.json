@@ -1,0 +1,355 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "sourceVersionId": "01JC000000000000000000000Z",
+  "parserSignature": {
+    "name": "docling",
+    "version": "2.148.0",
+    "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+  },
+  "pages": [
+    {
+      "pageId": "p1",
+      "physicalNo": 1,
+      "printedLabel": "1",
+      "text": "1. Results\nThe apparatus was calibrated before each run.\nQuantity Value\nMass 12.5 13.1\nE = mc^2\nFigure 1: Apparatus\n¹ Measured at 20 °C.",
+      "textDigest": "ef23a7d3cfd12c58aa278628223a12e6be91643a96441e748e2a1801b9098ef9",
+      "status": "ok"
+    }
+  ],
+  "segments": [
+    {
+      "segmentId": "gen-desc-a1",
+      "text": "Generated description: a glass flask on a heated stand.",
+      "textDigest": "cbdc57566a77f907ceaf7cbbf12b6b07b135a729889512a0eaee9ee2c911b14b",
+      "status": "ok"
+    }
+  ],
+  "blocks": [
+    {
+      "blockId": "h1",
+      "kind": "heading",
+      "parentId": null,
+      "order": 0,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": "1",
+          "blockId": "h1",
+          "byteStart": 0,
+          "byteEnd": 10
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "t1",
+      "kind": "text",
+      "parentId": "h1",
+      "order": 1,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": "1",
+          "blockId": "t1",
+          "byteStart": 11,
+          "byteEnd": 56
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "tbl1",
+      "kind": "table",
+      "parentId": "h1",
+      "order": 2,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": "1",
+          "blockId": "tbl1",
+          "byteStart": 57,
+          "byteEnd": 86
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      },
+      "table": {
+        "rows": 3,
+        "columns": 2,
+        "cells": [
+          {
+            "cellId": "c00",
+            "row": 0,
+            "column": 0,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": true,
+            "headerRefs": [],
+            "unit": null,
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": "1",
+                "blockId": "tbl1",
+                "byteStart": 57,
+                "byteEnd": 65
+              }
+            ]
+          },
+          {
+            "cellId": "c01",
+            "row": 0,
+            "column": 1,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": true,
+            "headerRefs": [],
+            "unit": null,
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": "1",
+                "blockId": "tbl1",
+                "byteStart": 66,
+                "byteEnd": 71
+              }
+            ]
+          },
+          {
+            "cellId": "c10",
+            "row": 1,
+            "column": 0,
+            "rowSpan": 3,
+            "colSpan": 1,
+            "header": false,
+            "headerRefs": [
+              "c00"
+            ],
+            "unit": null,
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": "1",
+                "blockId": "tbl1",
+                "byteStart": 72,
+                "byteEnd": 76
+              }
+            ]
+          },
+          {
+            "cellId": "c11",
+            "row": 1,
+            "column": 1,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": false,
+            "headerRefs": [
+              "c01"
+            ],
+            "unit": "kg",
+            "noteRefs": [
+              "fn1"
+            ],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": "1",
+                "blockId": "tbl1",
+                "byteStart": 77,
+                "byteEnd": 81
+              }
+            ]
+          },
+          {
+            "cellId": "c21",
+            "row": 2,
+            "column": 1,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": false,
+            "headerRefs": [
+              "c01"
+            ],
+            "unit": "kg",
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": "1",
+                "blockId": "tbl1",
+                "byteStart": 82,
+                "byteEnd": 86
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "blockId": "f1",
+      "kind": "formula",
+      "parentId": "h1",
+      "order": 3,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": "1",
+          "blockId": "f1",
+          "byteStart": 87,
+          "byteEnd": 95
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "img1",
+      "kind": "image",
+      "parentId": "h1",
+      "order": 4,
+      "origin": "source",
+      "spans": [],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      },
+      "assetRefs": [
+        "a1"
+      ]
+    },
+    {
+      "blockId": "cap1",
+      "kind": "text",
+      "parentId": "img1",
+      "order": 5,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": "1",
+          "blockId": "cap1",
+          "byteStart": 96,
+          "byteEnd": 115
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "gen1",
+      "kind": "text",
+      "parentId": "img1",
+      "order": 6,
+      "origin": "generated",
+      "spans": [
+        {
+          "kind": "segment",
+          "segmentId": "gen-desc-a1",
+          "blockId": "gen1",
+          "byteStart": 0,
+          "byteEnd": 55
+        }
+      ],
+      "provenance": {
+        "kind": "description",
+        "supportingRefs": [
+          "a1"
+        ]
+      }
+    },
+    {
+      "blockId": "fn1",
+      "kind": "text",
+      "parentId": "h1",
+      "order": 7,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": "1",
+          "blockId": "fn1",
+          "byteStart": 116,
+          "byteEnd": 138
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    }
+  ],
+  "assets": [
+    {
+      "assetId": "a1",
+      "mediaType": "image/png",
+      "digest": "00203ef06b85e5a7e4147b12d978b2f4b557392f74dc1a8abf82130649128960",
+      "byteLength": "2048",
+      "pageId": "p1",
+      "bbox": {
+        "space": "page-millionths-top-left-v1",
+        "origin": "top-left",
+        "view": "rotated-page",
+        "x0": 120000,
+        "y0": 400000,
+        "x1": 880000,
+        "y1": 700000
+      }
+    }
+  ],
+  "coverage": {
+    "state": "partial",
+    "counts": {
+      "expected": 2,
+      "processed": 2,
+      "empty": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [
+      "column_layout"
+    ],
+    "diagnostics": []
+  }
+}

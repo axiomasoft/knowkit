@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "job-envelope-1.0",
+  "jobId": "01JC000000000000000000001J",
+  "attemptId": "01JC000000000000000000001K",
+  "tenantId": "01JC0000000000000000000001",
+  "kbId": "01JC000000000000000000000A",
+  "sourceId": "01JC000000000000000000000Y",
+  "sourceVersionId": "01JC000000000000000000000Z",
+  "fence": "9223372036854775807",
+  "sourceEpoch": "1",
+  "inputDigest": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+  "parserSignature": {
+    "name": "docling",
+    "version": "2.148.0",
+    "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+  },
+  "parserProfile": "docling-pdf-text-v1",
+  "profileFingerprint": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2",
+  "irSchema": "ir-1.0",
+  "outDir": "/output",
+  "leaseExpiresAt": "2026-11-06T12:01:00Z",
+  "limits": {
+    "wallSeconds": 600,
+    "cpuSeconds": 480,
+    "memoryBytes": "2147483648",
+    "tempBytes": "4294967296",
+    "maxPages": 500,
+    "maxOutputBytes": "268435456",
+    "maxAssets": 2000
+  },
+  "correlationId": "01JC000000000000000000001M",
+  "inputFile": "/input/source.bin"
+}

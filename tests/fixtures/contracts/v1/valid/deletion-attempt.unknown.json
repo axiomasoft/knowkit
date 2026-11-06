@@ -1,0 +1,10 @@
+{
+  "attemptId": "01JC000000000000000000005A",
+  "taskId": "01JC0000000000000000000026",
+  "resourceId": "01JC0000000000000000000051",
+  "inFlight": false,
+  "result": "unknown",
+  "providerReceipt": null,
+  "knownExpiry": null,
+  "observedAt": "2026-11-06T12:05:00Z"
+}

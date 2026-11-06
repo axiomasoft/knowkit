@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:embedding-space:1.0",
+  "title": "EmbeddingSpace",
+  "description": "fingerprint = SHA256('knowkit:embedding-space:v1' || 0x00 || JCS(space)). Equal dimensions never prove compatibility.",
+  "x-knowkit-maxDocumentBytes": 4096,
+  "$ref": "urn:knowkit:schema:common:1.0#/$defs/embeddingSpace"
+}

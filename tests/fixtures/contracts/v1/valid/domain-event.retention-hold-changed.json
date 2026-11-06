@@ -1,0 +1,17 @@
+{
+  "eventId": "01JC0000000000000000000024",
+  "schemaVersion": "event-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "aggregateType": "source",
+  "aggregateId": "01JC000000000000000000000Y",
+  "aggregateVersion": "7",
+  "type": "retention_hold.changed",
+  "occurredAt": "2026-11-06T12:00:00Z",
+  "causationId": null,
+  "correlationId": "01JC000000000000000000001M",
+  "payload": {
+    "sourceId": "01JC000000000000000000000Y",
+    "retentionHold": true
+  },
+  "payloadDigest": "db3da26778387c58cea43834fae45396506bc6a425d240fb9665d9c10c87919a"
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:deletion-task:1.0",
+  "title": "DeletionTask with frozen required inventory",
+  "description": "status must equal the aggregation of required resource states (wire-contract.md#semantic-rules); unknown/unsupported required resources never yield done.",
+  "x-knowkit-maxDocumentBytes": 4194304,
+  "type": "object",
+  "required": ["taskId", "tenantId", "sourceId", "inventoryVersion", "inventoryDigest", "status", "requiredResources", "holdReason"],
+  "properties": {
+    "taskId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "inventoryVersion": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "inventoryDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "status": {"enum": ["pending", "done", "partial", "unknown", "unsupported"]},
+    "requiredResources": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 100000,
+      "x-knowkit-sortedBy": ["resourceId"],
+      "items": {
+        "type": "object",
+        "required": ["resourceId", "resourceClass", "ownerKind", "state"],
+        "properties": {
+          "resourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+          "resourceClass": {"enum": ["original", "ir", "canonical_slice", "asset", "embedding", "provider_resource", "upload_reservation", "backup_obligation"]},
+          "ownerKind": {"const": "owned"},
+          "state": {"enum": ["pending", "in_flight", "deleted", "absent", "unknown", "unsupported"]}
+        },
+        "unevaluatedProperties": false
+      }
+    },
+    "holdReason": {"type": ["string", "null"], "minLength": 1, "maxLength": 256}
+  },
+  "unevaluatedProperties": false
+}

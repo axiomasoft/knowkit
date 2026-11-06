@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:selection:1.0",
+  "title": "Reference-only Selection",
+  "description": "Snapshot pins the search, not the read right. hostScopeHash is stored verbatim; scopeBindingDigest binds tenant/kb/actor/purpose/hostScopeHash/policyBindingDigest. runRef is the trusted run binding copied from the host/bridge usageContext.runRef when the selection was created, or null for a direct library call; it is stored outside the scopeBinding payload and a disclosure from another run (or a run against a direct-call selection, or vice versa) is denied(scope_mismatch).",
+  "x-knowkit-maxDocumentBytes": 1048576,
+  "type": "object",
+  "required": ["selectionId", "tenantId", "hostScopeHash", "runRef", "scopeBindingDigest", "queryDigest", "snapshotId", "generationId", "candidateRefs", "limits", "policyBinding", "expiresAt"],
+  "properties": {
+    "selectionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "hostScopeHash": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/hostScopeHash"},
+    "runRef": {"type": ["string", "null"], "minLength": 1, "maxLength": 256},
+    "scopeBindingDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "queryDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "snapshotId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "generationId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "candidateRefs": {"type": "array", "minItems": 1, "maxItems": 256, "uniqueItems": true, "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/chunkRef"}},
+    "limits": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/selectionLimits"},
+    "policyBinding": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/policyBinding"},
+    "expiresAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"}
+  },
+  "unevaluatedProperties": false
+}

@@ -1,0 +1,10 @@
+{
+  "restoreId": "01JC000000000000000000004P",
+  "tenantId": "01JC0000000000000000000001",
+  "sourceCutoff": "1200",
+  "provenThroughCutoff": false,
+  "lastReplayedRecoverySeq": "1187",
+  "tombstoneDigest": "d37d0beb54ffa83039368823080e9949f1d0fa44340147c26f5902558e292e02",
+  "inventoryVerified": true,
+  "servingState": "ready"
+}

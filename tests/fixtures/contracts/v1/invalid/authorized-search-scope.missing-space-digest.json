@@ -1,0 +1,10 @@
+{
+  "tenantId": "01JC0000000000000000000001",
+  "kbId": "01JC000000000000000000000A",
+  "snapshotId": "01JC0000000000000000000014",
+  "generationId": "01JC0000000000000000000013",
+  "allowedSourceVersionIds": [
+    "01JC000000000000000000000Z"
+  ],
+  "policyBindingDigest": "c74597bbac8da584cbf92dddb4efb980a1503cc22ba75c62a161460007e7c3b5"
+}

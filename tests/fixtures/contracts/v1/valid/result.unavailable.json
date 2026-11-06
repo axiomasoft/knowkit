@@ -1,0 +1,9 @@
+{
+  "outcome": "unavailable",
+  "degraded": false,
+  "warnings": [],
+  "error": {
+    "code": "provider_outage",
+    "retryable": true
+  }
+}

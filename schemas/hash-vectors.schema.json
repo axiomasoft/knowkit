@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:hash-vectors:1.0",
+  "title": "Cross-language canonicalization and digest golden vectors",
+  "x-knowkit-maxDocumentBytes": 4194304,
+  "x-knowkit-schemaVersion": "hash-vectors-1.0",
+  "type": "object",
+  "required": ["schemaVersion", "vectors"],
+  "properties": {
+    "schemaVersion": {"const": "hash-vectors-1.0"},
+    "vectors": {"type": "array", "minItems": 1, "maxItems": 1024, "x-knowkit-uniqueBy": "id", "items": {"$ref": "#/$defs/vector"}}
+  },
+  "unevaluatedProperties": false,
+  "$defs": {
+    "vector": {
+      "type": "object",
+      "required": ["id", "algorithm"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]{0,127}$"},
+        "algorithm": {"enum": ["jcs", "domain", "ir", "raw", "decode", "legacy"]},
+        "note": {"type": "string", "maxLength": 512}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"algorithm": {"const": "jcs"}}, "required": ["algorithm"]},
+          "then": {"required": ["payload", "expectedCanonical", "expectedSha256"], "properties": {"payload": true, "expectedCanonical": {"type": "string"}, "expectedSha256": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}}}
+        },
+        {
+          "if": {"properties": {"algorithm": {"const": "domain"}}, "required": ["algorithm"]},
+          "then": {"required": ["domain", "payload", "expectedCanonical", "expectedSha256"], "properties": {"domain": {"type": "string", "pattern": "^[a-zA-Z]{1,64}$"}, "payload": true, "excludeField": {"type": "string", "pattern": "^[a-zA-Z]{1,64}$"}, "expectedCanonical": {"type": "string"}, "expectedSha256": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}}}
+        },
+        {
+          "if": {"properties": {"algorithm": {"const": "ir"}}, "required": ["algorithm"]},
+          "then": {"required": ["payloadPath", "expectedSha256"], "properties": {"payloadPath": {"type": "string", "pattern": "^tests/fixtures/contracts/v1/[A-Za-z0-9._/-]{1,200}$"}, "expectedSha256": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}}}
+        },
+        {
+          "if": {"properties": {"algorithm": {"const": "raw"}}, "required": ["algorithm"]},
+          "then": {"required": ["payloadUtf8", "expectedSha256"], "properties": {"payloadUtf8": {"type": "string"}, "expectedSha256": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}}}
+        },
+        {
+          "if": {"properties": {"algorithm": {"const": "decode"}}, "required": ["algorithm"]},
+          "then": {"required": ["inputBase64", "expectedErrorCode"], "properties": {"inputBase64": {"type": "string", "pattern": "^[A-Za-z0-9+/]*={0,2}$"}, "expectedErrorCode": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/code"}}}
+        },
+        {
+          "if": {"properties": {"algorithm": {"const": "legacy"}}, "required": ["algorithm"]},
+          "then": {"required": ["payload", "legacyHashType", "legacyReleaseHash", "expectedSha256"], "properties": {"payload": true, "legacyHashType": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/code"}, "legacyReleaseHash": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}, "expectedSha256": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}}}
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

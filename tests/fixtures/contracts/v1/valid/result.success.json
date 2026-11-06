@@ -1,0 +1,9 @@
+{
+  "outcome": "success",
+  "degraded": false,
+  "warnings": [],
+  "data": {
+    "selectionId": "01JC0000000000000000000018",
+    "candidateCount": 2
+  }
+}

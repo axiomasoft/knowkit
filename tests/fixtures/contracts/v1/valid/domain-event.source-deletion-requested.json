@@ -1,0 +1,18 @@
+{
+  "eventId": "01JC0000000000000000000023",
+  "schemaVersion": "event-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "aggregateType": "source",
+  "aggregateId": "01JC000000000000000000000Y",
+  "aggregateVersion": "6",
+  "type": "source.deletion_requested",
+  "occurredAt": "2026-11-06T12:00:00Z",
+  "causationId": null,
+  "correlationId": "01JC000000000000000000001M",
+  "payload": {
+    "sourceId": "01JC000000000000000000000Y",
+    "lifecycleState": "deletion_requested",
+    "lifecycleEpoch": "3"
+  },
+  "payloadDigest": "b166d6b5c766a5238b216a47368245a43397a26a8d07dd039605e3283701905c"
+}

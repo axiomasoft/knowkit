@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:citation-ref:1.0",
+  "title": "Immutable CitationRef",
+  "description": "Binds exact tenant/source/sourceVersion/documentRevision/document/IR digest; never latest. Each span is a TextLocator plus the textDigest of its immutable page/segment. Integrity checks never claim semantic or entailment correctness.",
+  "x-knowkit-maxDocumentBytes": 262144,
+  "type": "object",
+  "$ref": "#/$defs/citationFields",
+  "unevaluatedProperties": false,
+  "$defs": {
+    "citationSpan": {
+      "$ref": "urn:knowkit:schema:common:1.0#/$defs/textLocatorFields",
+      "required": ["textDigest"],
+      "properties": {"textDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}},
+      "unevaluatedProperties": false
+    },
+    "citationFields": {
+      "type": "object",
+      "required": ["citationId", "tenantId", "sourceId", "sourceVersionId", "documentRevisionId", "documentId", "spans", "sourceDigest", "irDigest", "contentDigest", "origin"],
+      "properties": {
+        "citationId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "sourceId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "sourceVersionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "documentRevisionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "documentId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+        "spans": {"type": "array", "minItems": 1, "maxItems": 64, "items": {"$ref": "#/$defs/citationSpan"}},
+        "sourceDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "irDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "contentDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "assetRefs": {
+          "type": "array",
+          "maxItems": 16,
+          "x-knowkit-uniqueBy": "assetId",
+          "items": {
+            "type": "object",
+            "required": ["assetId", "digest"],
+            "properties": {
+              "assetId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"},
+              "digest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+            },
+            "unevaluatedProperties": false
+          }
+        },
+        "origin": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/origin"},
+        "supportingRefs": {"type": "array", "minItems": 1, "maxItems": 256, "uniqueItems": true, "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"}}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"origin": {"const": "generated"}}, "required": ["origin"]},
+          "then": {"required": ["supportingRefs"]}
+        }
+      ]
+    }
+  }
+}

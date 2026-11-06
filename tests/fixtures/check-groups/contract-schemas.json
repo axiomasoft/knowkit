@@ -1,0 +1,421 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "contract:schemas",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "1.1.0 (P1.4 correction round 2): 29 bundled schemas (new job record), 187-entry corpus, 67 hash, 21 locator and 14 binding vectors. New required cases: contract.selection-run-binding (Selection keeps the trusted runRef; other run, dropped run and run-on-direct-call are denied, direct call stays allowed), contract.event-payload-closed (one closed payload per event type; documentText, credentials and unknown members rejected with a correct payloadDigest), contract.evidence-revision-identity (one documentRevisionId never names two irDigests; the corpus fixtures were corrected), contract.error-code-case (POLICY_CHANGED, RETRYABLE_LOCK_TIMEOUT, POINTER_CONFLICT, HOLD_TOO_LATE keep their case) and contract.job-record (five job states, lease fields, decimal fence). Golden digests that changed (domain-event payload, evidence-set, binding vectors) changed because the contract changed, see the corpus versionRationale. 1.0.0: initial P1.4 version; golden digests cross-checked with the independent rfc8785 package and schema-stage outcomes with python-jsonschema 2020-12 (tests/contract/schemas/evidence/independent-verification.json). Any change to a schema, vector or expected outcome requires a new fixtureVersion with a substantive rationale, never a mechanical snapshot rewrite.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic contract corpus and schemas; invented IDs/digests, no third-party document text. Adapted donor patterns: @plan/artifacts/implementation/P1.4-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "R07-A01",
+    "R07-A02",
+    "R08-A01",
+    "R08-A02",
+    "R10-A01",
+    "R10-A02",
+    "R28-A01",
+    "R28-A02",
+    "contract.combining-marks",
+    "contract.cyrillic-cjk",
+    "contract.empty-page",
+    "contract.page-label",
+    "contract.multiple-spans",
+    "contract.invalid-bbox",
+    "contract.schema-version",
+    "contract.legacy-hash",
+    "contract.strict-json",
+    "contract.unknown-fields",
+    "contract.disclosure-attempt",
+    "contract.usage-context",
+    "contract.wrong-scope",
+    "contract.egress-manifest",
+    "contract.jobs-worker",
+    "contract.events-deletion",
+    "contract.manifests-selection-evidence",
+    "contract.schema-registry",
+    "contract.error-registry",
+    "contract.hash-domains",
+    "contract.hash-vectors",
+    "contract.php-python-parity",
+    "contract.corpus-classification",
+    "contract.corpus-integrity",
+    "contract.required-case-integrity",
+    "contract.selection-run-binding",
+    "contract.event-payload-closed",
+    "contract.evidence-revision-identity",
+    "contract.error-code-case",
+    "contract.job-record"
+  ],
+  "testCaseMap": {
+    "R07-A01": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testR07A01StructuredFixtureRetainsStructureOrDeclaresGaps"
+    ],
+    "R07-A02": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testR07A02IrRoundTripPreservesCanonicalBytes"
+    ],
+    "R08-A01": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testR08A01UnicodeMultipleSpansResolveExactText"
+    ],
+    "R08-A02": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testR08A02DeepTutorPageConversion"
+    ],
+    "R10-A01": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testR10A01GeneratedDescriptionIsLabelledNotVerbatim"
+    ],
+    "R10-A02": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testR10A02OcrIntegrityDoesNotClaimSemanticCorrectness"
+    ],
+    "R28-A01": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testR28A01OutcomesStayDistinctWithoutEvidence"
+    ],
+    "R28-A02": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testR28A02DegradationIsExplicitAndSpaceMismatchIsNot"
+    ],
+    "contract.combining-marks": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testCombiningMarksAreNotNormalized"
+    ],
+    "contract.cyrillic-cjk": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testCyrillicAndCjkSpansUseUtf8Boundaries"
+    ],
+    "contract.empty-page": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testEmptyPageHasNoSpansAndCannotMaskFailure"
+    ],
+    "contract.page-label": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testPhysicalPageOneAndLabelXiiStayDistinct"
+    ],
+    "contract.multiple-spans": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testMultipleSpansKeepOrderAndExplicitJoiner"
+    ],
+    "contract.invalid-bbox": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testInvalidBboxIsRejected"
+    ],
+    "contract.schema-version": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testUnsupportedSchemaVersionIsIncompatible"
+    ],
+    "contract.legacy-hash": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testLegacyHashIsNeverRenamedIntoDigest"
+    ],
+    "contract.strict-json": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testStrictJsonRejectsDuplicatesAndNonCanonicalNumbers"
+    ],
+    "contract.unknown-fields": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testUnknownFieldsAreRejectedEverywhere"
+    ],
+    "contract.disclosure-attempt": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testDisclosureAttemptIsRequiredAndUnique"
+    ],
+    "contract.usage-context": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testUsageContextIsTrustedHostDataOnly"
+    ],
+    "contract.wrong-scope": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testWrongScopeIsDenied"
+    ],
+    "contract.egress-manifest": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testEgressRequestCoversCompleteManifest"
+    ],
+    "contract.jobs-worker": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testJobEnvelopeAndWorkerResultUseCanonicalFields"
+    ],
+    "contract.events-deletion": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testEventsRestoreAndDeletionReceipts"
+    ],
+    "contract.manifests-selection-evidence": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testManifestsSelectionAndEvidenceRecords"
+    ],
+    "contract.schema-registry": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testSchemaRegistryIsOfflineClosedAndVersioned"
+    ],
+    "contract.error-registry": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testErrorRegistryMatchesBothImplementations"
+    ],
+    "contract.hash-domains": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testHashDomainTableIsSingleAndExact"
+    ],
+    "contract.hash-vectors": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testGoldenHashVectorsMatchInPhp"
+    ],
+    "contract.php-python-parity": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testPhpAndPythonProduceIdenticalReports"
+    ],
+    "contract.corpus-classification": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testCorpusClassificationAndExactNegativePaths"
+    ],
+    "contract.corpus-integrity": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testCorpusManifestIntegrityRejectsTampering"
+    ],
+    "contract.required-case-integrity": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testRequiredCaseManifestIsComplete"
+    ],
+    "contract.selection-run-binding": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testSelectionRunBindingIsEnforced"
+    ],
+    "contract.event-payload-closed": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testEventPayloadsAreClosedPerType"
+    ],
+    "contract.evidence-revision-identity": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testEvidenceRevisionIdentityIsConsistent"
+    ],
+    "contract.error-code-case": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testApprovedErrorCodesKeepOriginalCase"
+    ],
+    "contract.job-record": [
+      "KnowKit\\Tests\\Contract\\Schemas\\ContractSchemasTest::testJobRecordStatesAndLeaseFields"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/contracts/manifest.v1.json",
+      "sha256": "9426f0f300b6375672e1830689717724522981d6785967c7ebe515e79064897e",
+      "expected": {
+        "corpusVersion": "1.1.0",
+        "entries": 187,
+        "valid": 57,
+        "invalid": 130,
+        "requiredTags": 33
+      }
+    },
+    {
+      "path": "tests/fixtures/contracts/v1/vectors/hash-vectors.json",
+      "sha256": "4617c36e516f59ed8631cd1a430fbdde0a5110de0ee9e2fa3f2d6606b6a22626",
+      "expected": {
+        "vectors": 67,
+        "outcome": "php-python-identical"
+      }
+    },
+    {
+      "path": "tests/fixtures/contracts/v1/vectors/locator-vectors.json",
+      "sha256": "7b913ceede23dbf265276d1c24051a7655d2f356f81542e6d5ea0c9b3f6d2793",
+      "expected": {
+        "vectors": 21,
+        "outcome": "php-python-identical"
+      }
+    },
+    {
+      "path": "tests/fixtures/contracts/v1/vectors/binding-vectors.json",
+      "sha256": "654c322bd3e2d3e2d41a66b1b90a8ebabb2b9c58c2dd2c2f98dcabd5031ddfe3",
+      "expected": {
+        "vectors": 14,
+        "outcome": "php-python-identical"
+      }
+    },
+    {
+      "path": "specs/contracts/error-codes.v1.json",
+      "sha256": "873c93a64bc531563b82ce15a9490bc28557e5b4462b340f8b2ef3b7158158c4",
+      "expected": {
+        "outcome": "mirrored-by-php-and-python"
+      }
+    },
+    {
+      "path": "specs/contracts/hash-domains.v1.json",
+      "sha256": "cf70b30322098a24dde744782821759887ff3c5e722325f0bb428a4529c6a1cd",
+      "expected": {
+        "outcome": "mirrored-by-php-and-python"
+      }
+    },
+    {
+      "path": "schemas/authorized-search-scope.schema.json",
+      "sha256": "4d985ac72459d5d1e6c108adc47b54e4758591d9a5dbff27723406f9e3034f72",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:authorized-search-scope:1.0"
+      }
+    },
+    {
+      "path": "schemas/binding-vectors.schema.json",
+      "sha256": "2857c09d3fd91a46cb054140da4d648baa28e34f0b75613a3e486a5802e04f2b",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:binding-vectors:1.0"
+      }
+    },
+    {
+      "path": "schemas/citation-ref.schema.json",
+      "sha256": "ed2f1191c18eaa0488b55d6075ff2912f88ededdd7585d6f4bdce7ce6433c277",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:citation-ref:1.0"
+      }
+    },
+    {
+      "path": "schemas/common.schema.json",
+      "sha256": "34a123400c04cc88c1e01eb17a78bcfec950b6cd141918447da2a03ba513cae1",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:common:1.0"
+      }
+    },
+    {
+      "path": "schemas/decision-receipt.schema.json",
+      "sha256": "42d816e3834bd94b9e95f810d3a680bb55d1c9b5329ee68c698f12074dd5033f",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:decision-receipt:1.0"
+      }
+    },
+    {
+      "path": "schemas/deletion-attempt.schema.json",
+      "sha256": "4285e0e66f4414f49b18ea0a424e8d5e67aad948050c779e587812b11eddbd2d",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:deletion-attempt:1.0"
+      }
+    },
+    {
+      "path": "schemas/deletion-task.schema.json",
+      "sha256": "107dd4d11f93437714ea2dc30a3794f7f2a0c6db02542519599c06a725319459",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:deletion-task:1.0"
+      }
+    },
+    {
+      "path": "schemas/disclosure-request.schema.json",
+      "sha256": "1e8b6a7f528322ce33ba1bb75b7c1c26425e2fc7a6b6071f2fe1eae2371e15a7",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:disclosure-request:1.0"
+      }
+    },
+    {
+      "path": "schemas/document-ir.schema.json",
+      "sha256": "29c52547c0c243d4e5d727381bb0fb6442172f0e055525130b490094933fc429",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:document-ir:1.0"
+      }
+    },
+    {
+      "path": "schemas/domain-event.schema.json",
+      "sha256": "f8368a52c3b8a81cf1cb7ffbdc9c815f3a88a52755578acd17e44096089d19dc",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:domain-event:1.0"
+      }
+    },
+    {
+      "path": "schemas/egress-request.schema.json",
+      "sha256": "4a4fcdd4cdc789fdf274fa4ccdd569257af5b3f761fd33f2646a3f11107d687a",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:egress-request:1.0"
+      }
+    },
+    {
+      "path": "schemas/embedding-space.schema.json",
+      "sha256": "574c7a7522249ac2507c59dd09c986d88fa8d6171ba2363da8bb90c3d855633a",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:embedding-space:1.0"
+      }
+    },
+    {
+      "path": "schemas/evidence-set.schema.json",
+      "sha256": "72e9ebec366c0e27ed2d265e8c4064fa00ff6c0692f88a8496919a47b04fdcba",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:evidence-set:1.0"
+      }
+    },
+    {
+      "path": "schemas/fixture-manifest.schema.json",
+      "sha256": "c5a0020602b42a6d3d0eb60739d0677c9726466dbf12d2fa89bbc9375ef31874",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:fixture-manifest:1.0"
+      }
+    },
+    {
+      "path": "schemas/hash-vectors.schema.json",
+      "sha256": "29d9ebea973ba21f402d7702d12667043f6707e10768824f1859cf33d0188b09",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:hash-vectors:1.0"
+      }
+    },
+    {
+      "path": "schemas/index-manifest.schema.json",
+      "sha256": "87c64bf47369bb04f41292b7b88317f74cace4b4843b72554e5fac773a1fe704",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:index-manifest:1.0"
+      }
+    },
+    {
+      "path": "schemas/job-envelope.schema.json",
+      "sha256": "5f0873581a52397b1facd5cd57420f0dbd26191b59ad3eee98559ccfdc28ddbf",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:job-envelope:1.0"
+      }
+    },
+    {
+      "path": "schemas/job.schema.json",
+      "sha256": "4a5d149fa00a9309144c1608c841babd0ef675a51de519d0245519badb8dbd5c",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:job:1.0"
+      }
+    },
+    {
+      "path": "schemas/legacy-evidence-ref.schema.json",
+      "sha256": "f92febde703b09f230e17ad1b3b6873700aff49a472c56a3c23682421e277ad1",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:legacy-evidence-ref:1.0"
+      }
+    },
+    {
+      "path": "schemas/locator-vectors.schema.json",
+      "sha256": "fb7d605fdf440ec1fb7c6dc05247f5b306d6ec8a22d419ff945fd738966cda99",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:locator-vectors:1.0"
+      }
+    },
+    {
+      "path": "schemas/mutation-context.schema.json",
+      "sha256": "bec5015ac429084d0714a31bc91669bc251b9d8dca21253706b15b04feba0f72",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:mutation-context:1.0"
+      }
+    },
+    {
+      "path": "schemas/publish-receipt.schema.json",
+      "sha256": "ac361228555c9c0fe8773e2f969dd668f39d834fb888adf8aabea55c5e92239d",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:publish-receipt:1.0"
+      }
+    },
+    {
+      "path": "schemas/query-grant.schema.json",
+      "sha256": "f97c77c5586dd860b0ba0d4a0eb6cd6102aa8f55f9ccc5a5ba185f8a2e51a98b",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:query-grant:1.0"
+      }
+    },
+    {
+      "path": "schemas/restore-receipt.schema.json",
+      "sha256": "7ec5bd5a8db50e9ef08569edcd1af5ed8121d44c5aa5141c9ff1b9927a395623",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:restore-receipt:1.0"
+      }
+    },
+    {
+      "path": "schemas/result.schema.json",
+      "sha256": "067123c34aa14ecb2769c33242014641f53c7b2e209ea0f1e890f563257446aa",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:result:1.0"
+      }
+    },
+    {
+      "path": "schemas/scope.schema.json",
+      "sha256": "247d82834dc20c3414c8f8943384137a9e31c57adf86f24a3fae13f9a83f6f6b",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:scope:1.0"
+      }
+    },
+    {
+      "path": "schemas/selection.schema.json",
+      "sha256": "2f067e559f8aea2f6f9e70e28e4b672425eef6e4495a431412809f412f88aeaa",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:selection:1.0"
+      }
+    },
+    {
+      "path": "schemas/usage.schema.json",
+      "sha256": "d04f25bedca155c8ca2f106304d9287ac31abbd407078affe515b3cef26c668a",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:usage:1.0"
+      }
+    },
+    {
+      "path": "schemas/worker-result.schema.json",
+      "sha256": "4cfdc0ea73d5ee9ad9dc1ce53baa99e273f11c71dbe8ba594e2e11f7b7689fee",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:worker-result:1.0"
+      }
+    }
+  ]
+}

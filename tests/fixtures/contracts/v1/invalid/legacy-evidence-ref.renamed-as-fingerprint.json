@@ -1,0 +1,13 @@
+{
+  "kind": "legacy",
+  "tenantId": "01JC0000000000000000000001",
+  "legacyHashType": "agentools_release_hash_v1",
+  "legacyReleaseHash": "6e6644493c871998e2a4cc444a8f71df9b3ba6c00d63af58bcbe96a43aaaf81c",
+  "provenance": "legacy_unverified",
+  "freshlyValidated": false,
+  "resolver": {
+    "system": "agentools_knowledge",
+    "ref": "release:2054acda:artifact:fragment-12"
+  },
+  "fingerprint": "6e6644493c871998e2a4cc444a8f71df9b3ba6c00d63af58bcbe96a43aaaf81c"
+}

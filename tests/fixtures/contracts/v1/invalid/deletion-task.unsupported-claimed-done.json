@@ -1,0 +1,29 @@
+{
+  "taskId": "01JC0000000000000000000026",
+  "tenantId": "01JC0000000000000000000001",
+  "sourceId": "01JC000000000000000000000Y",
+  "inventoryVersion": "3",
+  "inventoryDigest": "5ff0f1af06486275013e6956999a3535aff6297c87fa29973ca8a59d4b0e0107",
+  "status": "done",
+  "requiredResources": [
+    {
+      "resourceId": "01JC0000000000000000000050",
+      "resourceClass": "original",
+      "ownerKind": "owned",
+      "state": "unsupported"
+    },
+    {
+      "resourceId": "01JC0000000000000000000051",
+      "resourceClass": "embedding",
+      "ownerKind": "owned",
+      "state": "unsupported"
+    },
+    {
+      "resourceId": "01JC0000000000000000000052",
+      "resourceClass": "backup_obligation",
+      "ownerKind": "owned",
+      "state": "unsupported"
+    }
+  ],
+  "holdReason": null
+}

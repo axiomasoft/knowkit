@@ -1,0 +1,17 @@
+{
+  "eventId": "01JC0000000000000000000029",
+  "schemaVersion": "event-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "aggregateType": "usage",
+  "aggregateId": "01JC000000000000000000001A",
+  "aggregateVersion": "2",
+  "type": "usage.provider_accepted",
+  "occurredAt": "2026-11-06T12:00:00Z",
+  "causationId": null,
+  "correlationId": "01JC000000000000000000001M",
+  "payload": {
+    "usageId": "01JC000000000000000000001A",
+    "disclosureAttemptId": "01JC0000000000000000000019"
+  },
+  "payloadDigest": "8c95944ce5a1c9720d63a6bd92563ebfaedc2e2680b3d0fe2bec8e66eae6e8f2"
+}

@@ -1,0 +1,9 @@
+{
+  "outcome": "incompatible",
+  "degraded": false,
+  "warnings": [],
+  "error": {
+    "code": "HOLD_TOO_LATE",
+    "retryable": false
+  }
+}

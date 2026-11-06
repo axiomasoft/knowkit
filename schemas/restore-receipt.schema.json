@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:restore-receipt:1.0",
+  "title": "RestoreReceipt",
+  "description": "servingState=ready requires provenThroughCutoff=true and inventoryVerified=true.",
+  "x-knowkit-maxDocumentBytes": 16384,
+  "type": "object",
+  "required": ["restoreId", "tenantId", "sourceCutoff", "provenThroughCutoff", "lastReplayedRecoverySeq", "tombstoneDigest", "inventoryVerified", "servingState"],
+  "properties": {
+    "restoreId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "sourceCutoff": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "provenThroughCutoff": {"type": "boolean"},
+    "lastReplayedRecoverySeq": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "tombstoneDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "inventoryVerified": {"type": "boolean"},
+    "servingState": {"enum": ["blocked", "ready"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"servingState": {"const": "ready"}}, "required": ["servingState"]},
+      "then": {"properties": {"provenThroughCutoff": {"const": true}, "inventoryVerified": {"const": true}}}
+    }
+  ],
+  "unevaluatedProperties": false
+}

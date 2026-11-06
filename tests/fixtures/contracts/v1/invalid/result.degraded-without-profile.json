@@ -1,0 +1,10 @@
+{
+  "outcome": "success",
+  "degraded": true,
+  "warnings": [
+    "semantic_stage_unavailable"
+  ],
+  "data": {
+    "selectionId": "01JC0000000000000000000018"
+  }
+}

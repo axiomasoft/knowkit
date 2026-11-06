@@ -1,0 +1,95 @@
+{
+  "tenantId": "01JC0000000000000000000001",
+  "selectionId": "01JC0000000000000000000018",
+  "disclosureAttemptId": "01JC0000000000000000000019",
+  "usageId": "01JC000000000000000000001A",
+  "hostScopeHash": "c912b43c00855e67c7b9923462598e7ae04b5bf8348f713613d6b36adb4c71e2",
+  "scopeBindingDigest": "948d2054d06132f59a449c46d43dd54baf91a434eabfee40585ed6a9b19e1df3",
+  "snapshotRef": {
+    "tenantId": "01JC0000000000000000000001",
+    "kbId": "01JC000000000000000000000A",
+    "snapshotId": "01JC0000000000000000000014",
+    "manifestDigest": "05b3abf2579a5eb66403cd78be557fd860633a1fe2103c7642030defe32c657f"
+  },
+  "fragments": [
+    {
+      "citation": {
+        "citationId": "01JC000000000000000000002G",
+        "tenantId": "01JC0000000000000000000001",
+        "sourceId": "01JC000000000000000000000Y",
+        "sourceVersionId": "01JC000000000000000000000Z",
+        "documentRevisionId": "01JC0000000000000000000010",
+        "documentId": "01JC0000000000000000000011",
+        "spans": [
+          {
+            "kind": "page",
+            "pageId": "p1",
+            "physicalNo": 1,
+            "printedLabel": "xii",
+            "blockId": "b2",
+            "byteStart": 22,
+            "byteEnd": 49,
+            "textDigest": "4b87290d26d4a8b06ef65186cd0253c1f159ce73f6cfbafd8d223986e40f415b"
+          },
+          {
+            "kind": "page",
+            "pageId": "p3",
+            "physicalNo": 3,
+            "printedLabel": null,
+            "blockId": "b2",
+            "byteStart": 0,
+            "byteEnd": 42,
+            "textDigest": "60d64cf0ab9adea3bb6d1312323b4d171990af46b72b97b4bb263859ce4502cf"
+          }
+        ],
+        "sourceDigest": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+        "irDigest": "b525a34a86d9fdcc3dd99082cc7af9ad00a5c096397429a6df8af9237d62a3a9",
+        "contentDigest": "695976fd169792144415b4828d52443f455a99dbde28af115045224f644fef5d",
+        "origin": "source"
+      },
+      "text": "東京タワーは高い。 … Продолжение: 続きの文章。",
+      "joiner": " … ",
+      "fragmentDigest": "695976fd169792144415b4828d52443f455a99dbde28af115045224f644fef5d",
+      "provenanceKind": "verbatim"
+    },
+    {
+      "citation": {
+        "citationId": "01JC000000000000000000002H",
+        "tenantId": "01JC0000000000000000000001",
+        "sourceId": "01JC000000000000000000000Y",
+        "sourceVersionId": "01JC000000000000000000000Z",
+        "documentRevisionId": "01JC0000000000000000000015",
+        "documentId": "01JC0000000000000000000011",
+        "spans": [
+          {
+            "kind": "segment",
+            "segmentId": "gen-desc-a1",
+            "blockId": "gen1",
+            "byteStart": 0,
+            "byteEnd": 55,
+            "textDigest": "cbdc57566a77f907ceaf7cbbf12b6b07b135a729889512a0eaee9ee2c911b14b"
+          }
+        ],
+        "sourceDigest": "17be4fec5c9d63df868306982e6fb8073ea010c8a36a43d98aba2c91ebaacaaa",
+        "irDigest": "2a03e685fc20548dc954fefb499afbcbe02e9f23e3710b35aa9677f01613975e",
+        "contentDigest": "cbdc57566a77f907ceaf7cbbf12b6b07b135a729889512a0eaee9ee2c911b14b",
+        "assetRefs": [
+          {
+            "assetId": "a1",
+            "digest": "00203ef06b85e5a7e4147b12d978b2f4b557392f74dc1a8abf82130649128960"
+          }
+        ],
+        "origin": "generated",
+        "supportingRefs": [
+          "a1"
+        ]
+      },
+      "text": "Generated description: a glass flask on a heated stand.",
+      "joiner": null,
+      "fragmentDigest": "cbdc57566a77f907ceaf7cbbf12b6b07b135a729889512a0eaee9ee2c911b14b",
+      "provenanceKind": "description"
+    }
+  ],
+  "totalBytes": 129,
+  "evidenceSetDigest": "f3720d77237109a07d3d5c81f0ff107d6a11a495566b76cde882250deed8345b"
+}

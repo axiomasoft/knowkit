@@ -1,0 +1,17 @@
+{
+  "jobId": "01JC000000000000000000001J",
+  "tenantId": "01JC0000000000000000000001",
+  "kbId": "01JC000000000000000000000A",
+  "sourceId": "01JC000000000000000000000Y",
+  "sourceVersionId": "01JC000000000000000000000Z",
+  "generationId": null,
+  "type": "ingest",
+  "state": "partial",
+  "attempt": 0,
+  "fence": "0",
+  "leaseTokenHash": null,
+  "leaseUntil": null,
+  "attemptDeadline": null,
+  "availableAt": "2026-11-06T12:00:00Z",
+  "checkpointDigest": null
+}

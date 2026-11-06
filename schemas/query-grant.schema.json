@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:query-grant:1.0",
+  "title": "QueryGrant returned by AccessPolicy::authorizeQuery before top-k",
+  "x-knowkit-maxDocumentBytes": 262144,
+  "type": "object",
+  "required": ["allowedCollectionIds", "allowedSourceVersionIds", "grantEpoch", "policyBindingDigest", "expiresAt"],
+  "properties": {
+    "allowedCollectionIds": {"type": "array", "maxItems": 4096, "uniqueItems": true, "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"}},
+    "allowedSourceVersionIds": {"type": "array", "maxItems": 4096, "uniqueItems": true, "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"}},
+    "grantEpoch": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/decimalBigint"},
+    "policyBindingDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "expiresAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"}
+  },
+  "unevaluatedProperties": false
+}

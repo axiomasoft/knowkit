@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "sourceVersionId": "01JC000000000000000000000Z",
+  "parserSignature": {
+    "name": "docling",
+    "version": "2.148.0",
+    "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+  },
+  "pages": [],
+  "segments": [
+    {
+      "segmentId": "s1",
+      "text": "# Введение",
+      "textDigest": "c2ed90a009fb32e1b3b73fd709d39f105ba4f35cad3d57d8129fd418ccdbcda6",
+      "status": "ok"
+    },
+    {
+      "segmentId": "s2",
+      "text": "Текст раздела с кодом `x = 1`.",
+      "textDigest": "85a77e37c0d1b276d10b7187472f4bbb08f9e48b788f3975d656b712bb8a36a5",
+      "status": "ok"
+    }
+  ],
+  "blocks": [
+    {
+      "blockId": "m1",
+      "kind": "heading",
+      "parentId": null,
+      "order": 0,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "segment",
+          "segmentId": "s1",
+          "blockId": "m1",
+          "byteStart": 2,
+          "byteEnd": 18,
+          "physicalNo": 1
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "m2",
+      "kind": "text",
+      "parentId": "m1",
+      "order": 1,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "segment",
+          "segmentId": "s2",
+          "blockId": "m2",
+          "byteStart": 0,
+          "byteEnd": 48
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    }
+  ],
+  "assets": [],
+  "coverage": {
+    "state": "complete",
+    "counts": {
+      "expected": 2,
+      "processed": 2,
+      "empty": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": []
+  }
+}

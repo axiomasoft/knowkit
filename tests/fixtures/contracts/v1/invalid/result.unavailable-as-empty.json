@@ -1,0 +1,10 @@
+{
+  "outcome": "empty",
+  "degraded": false,
+  "warnings": [],
+  "data": [],
+  "error": {
+    "code": "provider_outage",
+    "retryable": true
+  }
+}

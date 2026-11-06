@@ -1,0 +1,355 @@
+{
+  "schemaVersion": "locator-vectors-1.0",
+  "vectors": [
+    {
+      "id": "page.deeptutor-index-zero-label-xii",
+      "op": "page_index_to_locator",
+      "input": {
+        "pageIndex": 0,
+        "printedLabel": "xii",
+        "pageId": "p1",
+        "blockId": "b1",
+        "byteStart": 0,
+        "byteEnd": 22,
+        "bbox": {
+          "x0": "61.2",
+          "y0": "712.8",
+          "x1": "550.8",
+          "y1": "752.4"
+        },
+        "pageWidth": "612",
+        "pageHeight": "792",
+        "coordinateOrigin": "bottom-left"
+      },
+      "expected": {
+        "kind": "page",
+        "pageId": "p1",
+        "physicalNo": 1,
+        "printedLabel": "xii",
+        "blockId": "b1",
+        "byteStart": 0,
+        "byteEnd": 22,
+        "bbox": {
+          "space": "page-millionths-top-left-v1",
+          "origin": "top-left",
+          "view": "rotated-page",
+          "x0": 100000,
+          "y0": 50000,
+          "x1": 900000,
+          "y1": 100000
+        }
+      },
+      "note": "R08-A02: donor 0-based page_index=0 becomes physicalNo=1; label xii stays separate; bbox origin is explicit"
+    },
+    {
+      "id": "page.missing-coordinate-system",
+      "op": "page_index_to_locator",
+      "input": {
+        "pageIndex": 0,
+        "printedLabel": "xii",
+        "pageId": "p1",
+        "blockId": "b1",
+        "byteStart": 0,
+        "byteEnd": 22,
+        "bbox": {
+          "x0": "61.2",
+          "y0": "712.8",
+          "x1": "550.8",
+          "y1": "752.4"
+        },
+        "pageWidth": "612",
+        "pageHeight": "792"
+      },
+      "expectedErrorCode": "missing_coordinate_system",
+      "note": "coordinate system is never inferred"
+    },
+    {
+      "id": "page.negative-index",
+      "op": "page_index_to_locator",
+      "input": {
+        "pageIndex": -1,
+        "printedLabel": null,
+        "pageId": "p1",
+        "blockId": "b1",
+        "byteStart": 0,
+        "byteEnd": 1
+      },
+      "expectedErrorCode": "invalid_page_index"
+    },
+    {
+      "id": "page.no-label",
+      "op": "page_index_to_locator",
+      "input": {
+        "pageIndex": 4,
+        "printedLabel": null,
+        "pageId": "p5",
+        "blockId": "b9",
+        "byteStart": 3,
+        "byteEnd": 9
+      },
+      "expected": {
+        "kind": "page",
+        "pageId": "p5",
+        "physicalNo": 5,
+        "printedLabel": null,
+        "blockId": "b9",
+        "byteStart": 3,
+        "byteEnd": 9
+      }
+    },
+    {
+      "id": "bbox.top-left",
+      "op": "normalize_bbox",
+      "input": {
+        "x0": "0",
+        "y0": "0",
+        "x1": "306",
+        "y1": "396",
+        "pageWidth": "612",
+        "pageHeight": "792",
+        "coordinateOrigin": "top-left"
+      },
+      "expected": {
+        "space": "page-millionths-top-left-v1",
+        "origin": "top-left",
+        "view": "rotated-page",
+        "x0": 0,
+        "y0": 0,
+        "x1": 500000,
+        "y1": 500000
+      }
+    },
+    {
+      "id": "bbox.half-even-down",
+      "op": "normalize_bbox",
+      "input": {
+        "x0": "0.001",
+        "y0": "0",
+        "x1": "1",
+        "y1": "1",
+        "pageWidth": "2000",
+        "pageHeight": "2000",
+        "coordinateOrigin": "top-left"
+      },
+      "expected": {
+        "space": "page-millionths-top-left-v1",
+        "origin": "top-left",
+        "view": "rotated-page",
+        "x0": 0,
+        "y0": 0,
+        "x1": 500,
+        "y1": 500
+      },
+      "note": "0.5 millionths rounds to even 0"
+    },
+    {
+      "id": "bbox.half-even-up",
+      "op": "normalize_bbox",
+      "input": {
+        "x0": "0.003",
+        "y0": "0.005",
+        "x1": "1",
+        "y1": "1",
+        "pageWidth": "2000",
+        "pageHeight": "2000",
+        "coordinateOrigin": "top-left"
+      },
+      "expected": {
+        "space": "page-millionths-top-left-v1",
+        "origin": "top-left",
+        "view": "rotated-page",
+        "x0": 2,
+        "y0": 2,
+        "x1": 500,
+        "y1": 500
+      },
+      "note": "1.5 -> 2 and 2.5 -> 2"
+    },
+    {
+      "id": "bbox.float-free-thirds",
+      "op": "normalize_bbox",
+      "input": {
+        "x0": "1",
+        "y0": "2",
+        "x1": "2",
+        "y1": "3",
+        "pageWidth": "3",
+        "pageHeight": "3",
+        "coordinateOrigin": "top-left"
+      },
+      "expected": {
+        "space": "page-millionths-top-left-v1",
+        "origin": "top-left",
+        "view": "rotated-page",
+        "x0": 333333,
+        "y0": 666667,
+        "x1": 666667,
+        "y1": 1000000
+      }
+    },
+    {
+      "id": "bbox.number-input",
+      "op": "normalize_bbox",
+      "input": {
+        "x0": 1,
+        "y0": "2",
+        "x1": "2",
+        "y1": "3",
+        "pageWidth": "3",
+        "pageHeight": "3",
+        "coordinateOrigin": "top-left"
+      },
+      "expectedErrorCode": "invalid_decimal"
+    },
+    {
+      "id": "bbox.exponent-input",
+      "op": "normalize_bbox",
+      "input": {
+        "x0": "1e2",
+        "y0": "2",
+        "x1": "2",
+        "y1": "3",
+        "pageWidth": "3",
+        "pageHeight": "3",
+        "coordinateOrigin": "top-left"
+      },
+      "expectedErrorCode": "invalid_decimal"
+    },
+    {
+      "id": "bbox.degenerate-after-rounding",
+      "op": "normalize_bbox",
+      "input": {
+        "x0": "0",
+        "y0": "0",
+        "x1": "0.0001",
+        "y1": "1",
+        "pageWidth": "1000",
+        "pageHeight": "2",
+        "coordinateOrigin": "top-left"
+      },
+      "expectedErrorCode": "invalid_bbox"
+    },
+    {
+      "id": "bbox.outside-page",
+      "op": "normalize_bbox",
+      "input": {
+        "x0": "0",
+        "y0": "0",
+        "x1": "613",
+        "y1": "1",
+        "pageWidth": "612",
+        "pageHeight": "792",
+        "coordinateOrigin": "top-left"
+      },
+      "expectedErrorCode": "invalid_bbox"
+    },
+    {
+      "id": "bbox.inverted",
+      "op": "normalize_bbox",
+      "input": {
+        "x0": "300",
+        "y0": "0",
+        "x1": "100",
+        "y1": "1",
+        "pageWidth": "612",
+        "pageHeight": "792",
+        "coordinateOrigin": "top-left"
+      },
+      "expectedErrorCode": "invalid_bbox"
+    },
+    {
+      "id": "span.multi-page-1",
+      "op": "resolve_span",
+      "input": {
+        "text": "Привет, мир. 東京タワーは高い。 Café vs Café — ёлка.",
+        "byteStart": 22,
+        "byteEnd": 49
+      },
+      "expected": {
+        "text": "東京タワーは高い。",
+        "byteLength": 27
+      }
+    },
+    {
+      "id": "span.multi-page-2",
+      "op": "resolve_span",
+      "input": {
+        "text": "Продолжение: 続きの文章。 Конец.",
+        "byteStart": 0,
+        "byteEnd": 42
+      },
+      "expected": {
+        "text": "Продолжение: 続きの文章。",
+        "byteLength": 42
+      }
+    },
+    {
+      "id": "span.combining-whole",
+      "op": "resolve_span",
+      "input": {
+        "text": "Привет, мир. 東京タワーは高い。 Café vs Café — ёлка.",
+        "byteStart": 59,
+        "byteEnd": 65
+      },
+      "expected": {
+        "text": "Café",
+        "byteLength": 6
+      }
+    },
+    {
+      "id": "span.combining-base-only",
+      "op": "resolve_span",
+      "input": {
+        "text": "Привет, мир. 東京タワーは高い。 Café vs Café — ёлка.",
+        "byteStart": 59,
+        "byteEnd": 63
+      },
+      "expected": {
+        "text": "Cafe",
+        "byteLength": 4
+      },
+      "note": "codepoint boundary before U+0301 is a valid byte boundary; grapheme policy belongs to chunking"
+    },
+    {
+      "id": "span.inside-combining-mark",
+      "op": "resolve_span",
+      "input": {
+        "text": "Привет, мир. 東京タワーは高い。 Café vs Café — ёлка.",
+        "byteStart": 59,
+        "byteEnd": 64
+      },
+      "expectedErrorCode": "utf8_boundary"
+    },
+    {
+      "id": "span.inside-cjk",
+      "op": "resolve_span",
+      "input": {
+        "text": "Привет, мир. 東京タワーは高い。 Café vs Café — ёлка.",
+        "byteStart": 23,
+        "byteEnd": 28
+      },
+      "expectedErrorCode": "utf8_boundary"
+    },
+    {
+      "id": "span.empty",
+      "op": "resolve_span",
+      "input": {
+        "text": "abc",
+        "byteStart": 1,
+        "byteEnd": 1
+      },
+      "expectedErrorCode": "invalid_span"
+    },
+    {
+      "id": "span.out-of-range",
+      "op": "resolve_span",
+      "input": {
+        "text": "",
+        "byteStart": 0,
+        "byteEnd": 1
+      },
+      "expectedErrorCode": "span_out_of_range",
+      "note": "an empty page has zero resolvable spans"
+    }
+  ]
+}

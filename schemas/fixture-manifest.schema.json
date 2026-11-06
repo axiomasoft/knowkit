@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:fixture-manifest:1.0",
+  "title": "Versioned contract fixture corpus manifest",
+  "description": "Entry shape from knowledge/contracts#corpus plus expectedErrorPath for exact negative paths. Loaders reject missing files, SHA mismatch, duplicate ids, unknown schema ids and empty required tag groups.",
+  "x-knowkit-maxDocumentBytes": 4194304,
+  "x-knowkit-schemaVersion": "fixture-manifest-1.0",
+  "type": "object",
+  "required": ["schemaVersion", "corpusVersion", "versionRationale", "requiredTags", "entries"],
+  "properties": {
+    "schemaVersion": {"const": "fixture-manifest-1.0"},
+    "corpusVersion": {"type": "string", "pattern": "^(0|[1-9][0-9]{0,3})\\.(0|[1-9][0-9]{0,3})\\.(0|[1-9][0-9]{0,3})$"},
+    "versionRationale": {"type": "string", "minLength": 16, "maxLength": 4096},
+    "requiredTags": {"type": "array", "minItems": 1, "maxItems": 256, "uniqueItems": true, "items": {"$ref": "#/$defs/tag"}},
+    "entries": {"type": "array", "minItems": 1, "maxItems": 10000, "items": {"$ref": "#/$defs/entry"}}
+  },
+  "unevaluatedProperties": false,
+  "$defs": {
+    "tag": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]{0,63}$"},
+    "entry": {
+      "type": "object",
+      "required": ["id", "path", "sha256", "schemaId", "expected", "rights", "tags"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9.-]{0,127}$"},
+        "path": {"type": "string", "pattern": "^[A-Za-z0-9_-][A-Za-z0-9._-]{0,127}(/[A-Za-z0-9_-][A-Za-z0-9._-]{0,127}){0,15}$"},
+        "sha256": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+        "schemaId": {"type": "string", "pattern": "^urn:knowkit:schema:[a-z][a-z0-9-]{0,62}:1\\.0$"},
+        "expected": {"enum": ["valid", "invalid"]},
+        "expectedErrorCode": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/code"},
+        "expectedErrorPath": {"type": "string", "maxLength": 512},
+        "rights": {
+          "type": "object",
+          "required": ["license", "origin", "redistributionAllowed"],
+          "properties": {
+            "license": {"type": "string", "minLength": 1, "maxLength": 128},
+            "origin": {"type": "string", "minLength": 1, "maxLength": 1024},
+            "redistributionAllowed": {"type": "boolean"}
+          },
+          "unevaluatedProperties": false
+        },
+        "tags": {"type": "array", "minItems": 1, "maxItems": 32, "uniqueItems": true, "items": {"$ref": "#/$defs/tag"}},
+        "generatorVersion": {"type": "string", "minLength": 1, "maxLength": 64}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"expected": {"const": "invalid"}}, "required": ["expected"]},
+          "then": {"required": ["expectedErrorCode", "expectedErrorPath"]},
+          "else": {"properties": {"expectedErrorCode": false, "expectedErrorPath": false}}
+        }
+      ],
+      "unevaluatedProperties": false
+    }
+  }
+}

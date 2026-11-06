@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "sourceVersionId": "01JC000000000000000000000Z",
+  "parserSignature": {
+    "name": "docling",
+    "version": "2.148.0",
+    "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+  },
+  "pages": [
+    {
+      "pageId": "p1",
+      "physicalNo": 1,
+      "printedLabel": null,
+      "text": "Tbe quick brown fox jumps over the lazy dog.",
+      "textDigest": "3e5eff01ae65e56944c87912997fbc7c70d44a2051fa30d0dea6d3b4de50ef81",
+      "status": "ok"
+    }
+  ],
+  "segments": [],
+  "blocks": [
+    {
+      "blockId": "o1",
+      "kind": "text",
+      "parentId": null,
+      "order": 0,
+      "origin": "ocr",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "o1",
+          "byteStart": 0,
+          "byteEnd": 44
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    }
+  ],
+  "assets": [],
+  "coverage": {
+    "state": "partial",
+    "counts": {
+      "expected": 1,
+      "processed": 1,
+      "empty": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": [
+      {
+        "segmentId": "p1",
+        "code": "ocr_low_confidence",
+        "severity": "warning"
+      }
+    ]
+  }
+}

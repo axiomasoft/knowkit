@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "index-manifest-1.0",
+  "tenantId": "01JC0000000000000000000001",
+  "kbId": "01JC000000000000000000000A",
+  "generationId": "01JC0000000000000000000013",
+  "profile": {
+    "id": "postgres-fts-simple-v1",
+    "kind": "lexical",
+    "parserSignature": {
+      "name": "docling",
+      "version": "2.148.0",
+      "profileDigest": "d49370949adfbb170cabb23e8bb80e9ac09590e8545943d7e075b196521226f2"
+    },
+    "chunkerSignature": {
+      "name": "structural",
+      "version": "1.0.0",
+      "profileDigest": "515c71a7fd88d5b20e12df6bd8ba3bc5623145d932ae8c5deaa0a0947cbe0253"
+    }
+  },
+  "members": [
+    {
+      "sourceId": "01JC000000000000000000000Y",
+      "sourceVersionId": "01JC000000000000000000000Z",
+      "sourceDigest": "d272d7549fe1d4f1a32a49304cba4b36f87cee22a9adec4a21378f05ed141a3c",
+      "documentRevisionId": "01JC0000000000000000000010",
+      "irDigest": "b525a34a86d9fdcc3dd99082cc7af9ad00a5c096397429a6df8af9237d62a3a9",
+      "chunkSetId": "01JC0000000000000000000012",
+      "chunkSetDigest": "a0bb5fdbe177bf467ceff4dbba8bab60ed8f5856fe1d66f3fb7c8ef531e743e9",
+      "chunkCount": 3
+    },
+    {
+      "sourceId": "01JC0000000000000000000042",
+      "sourceVersionId": "01JC0000000000000000000043",
+      "sourceDigest": "dd2b962a0f69f4aa48d227ae95877c2213348d86bbca44fa4d8f45e916c1a263",
+      "documentRevisionId": "01JC0000000000000000000044",
+      "irDigest": "3bbed8634ef92921fb7e3ba3a0bcdd15deda8901d422937471804abfbc2ba524",
+      "chunkSetId": "01JC0000000000000000000045",
+      "chunkSetDigest": "81ec8501c8926c854c46674611a528081adb78d6d637562cdeac4172b76284da",
+      "chunkCount": 2
+    }
+  ],
+  "resources": [
+    {
+      "resourceId": "01JC000000000000000000004C",
+      "kind": "lexical_index",
+      "digest": "68ddcd9bab5fef8684dc6b2eed7ea31b76eb7db372bded9734b661b4b2f469cd",
+      "byteLength": "8192"
+    }
+  ],
+  "coverage": {
+    "state": "complete",
+    "counts": {
+      "expected": 2,
+      "processed": 2,
+      "empty": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": []
+  },
+  "counts": {
+    "members": 2,
+    "chunks": 5,
+    "resources": 1
+  },
+  "embeddingSpaceDigest": null
+}

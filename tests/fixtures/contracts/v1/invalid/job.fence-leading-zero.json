@@ -1,0 +1,17 @@
+{
+  "jobId": "01JC000000000000000000001J",
+  "tenantId": "01JC0000000000000000000001",
+  "kbId": "01JC000000000000000000000A",
+  "sourceId": "01JC000000000000000000000Y",
+  "sourceVersionId": "01JC000000000000000000000Z",
+  "generationId": null,
+  "type": "ingest",
+  "state": "leased",
+  "attempt": 1,
+  "fence": "07",
+  "leaseTokenHash": "fcbb038b4b015e764c314217ca37f2a484a07fd77d274f12cc49846bca29a7f7",
+  "leaseUntil": "2026-11-06T12:01:00Z",
+  "attemptDeadline": "2026-11-06T12:15:00Z",
+  "availableAt": "2026-11-06T12:00:00Z",
+  "checkpointDigest": "40cbd05857a0496ab2a1884e740aad4d47c7858cb25d7bcaf8b8eed4d459bd18"
+}

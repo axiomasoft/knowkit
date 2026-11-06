@@ -1,0 +1,9 @@
+{
+  "outcome": "success",
+  "degraded": true,
+  "warnings": [],
+  "data": {
+    "selectionId": "01JC0000000000000000000018"
+  },
+  "effectiveProfile": "lexical-v1"
+}
