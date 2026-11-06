@@ -1,7 +1,7 @@
 {
   "schemaVersion": "identity-manifest:1",
-  "fixtureVersion": "1.0.1",
-  "versionRationale": "Initial runtime domain/port corpus; each expected SHA256 uses canonical ASCII-key payloads and full versioned hash domains. Future expectation updates require an intentional version and rationale. Corpus 1.0.1 finalizes one LF at EOF; semantic golden outputs are unchanged.",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "Catalog owning correction: add mandatory records, typed tenant-scoped catalog operations, exact selectors, pagination and expected-state/idempotency vectors. Existing processing and registry golden outputs are unchanged; new request digests are independently calculated with Python hashlib over ASCII-key canonical payloads.",
   "entries": [
     {
       "id": "processing",
@@ -34,6 +34,25 @@
       "rights": {
         "license": "proprietary",
         "origin": "KnowKit authored synthetic fixtures; architecture/version-axes and qualified pinned donor test patterns",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "contract:ports"
+      ]
+    },
+    {
+      "id": "catalog",
+      "path": "tests/fixtures/identity/v1/catalog.json",
+      "sha256": "486e76d0724f4fa268f16abaace890381daec92153522dfd2318fc099ba99c51",
+      "schemaId": "urn:knowkit:test:catalog-fixture:1",
+      "expected": {
+        "requests": 3,
+        "invalidMetadata": 5,
+        "outcome": "catalog-boundaries"
+      },
+      "rights": {
+        "license": "proprietary",
+        "origin": "KnowKit authored synthetic catalog correction corpus; knowledge/catalog and D4; independent Python hashlib request vectors",
         "redistributionAllowed": false
       },
       "tags": [

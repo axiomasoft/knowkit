@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "catalog-fixture:1",
+  "name": "Knowledge catalog",
+  "policyRef": "policy:catalog-v1",
+  "ownerRef": "owner:host-test",
+  "origin": "host:upload",
+  "mime": "text/plain",
+  "rightsRef": "rights:host-test",
+  "createdAt": "2026-11-06T12:00:00Z",
+  "metadata": {
+    "host.label": "Учебная база",
+    "host.order": 1,
+    "host.visible": false
+  },
+  "context": {
+    "idempotencyKey": "catalog-test",
+    "requestId": "01J00000000000000000000600",
+    "expectedRevision": "7",
+    "expectedEpoch": "42"
+  },
+  "invalidMetadata": [
+    {
+      "label": "unscoped"
+    },
+    {
+      "host.bad": null
+    },
+    {
+      "host.bad": {}
+    },
+    {
+      "host.bad": []
+    },
+    {
+      "Host.bad": "uppercase namespace"
+    }
+  ],
+  "requestDigests": [
+    "be4450d6920e6a3ecc916119816745c059b6721f39e40b564c44d59de86e5e73",
+    "77906b708f0909a87cf5ddbaee9abf4e75edb568d6e1604c6501a3aa8d09fcaa",
+    "b5f368ae2dff5c01b10b929966bd22d7176aab91a51de4e01445d8f6a378c5bb"
+  ]
+}

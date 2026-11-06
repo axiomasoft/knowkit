@@ -1,8 +1,8 @@
 {
   "schemaVersion": "check-group:1",
   "group": "contract:ports",
-  "fixtureVersion": "1.0.1",
-  "versionRationale": "Initial P1.5 runtime corpus and complete mapping of every PHPUnit method, including R05-A01/R05-A02 and negative adapter selections. Corpus 1.0.1 finalizes one LF at EOF; semantic golden outputs are unchanged.",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "Catalog owning correction: add mandatory records, typed tenant-scoped catalog operations, exact selectors, pagination and expected-state/idempotency vectors. Existing processing and registry golden outputs are unchanged; new request digests are independently calculated with Python hashlib over ASCII-key canonical payloads.",
   "rights": {
     "license": "proprietary",
     "origin": "KnowKit authored synthetic fixtures; architecture/version-axes and qualified pinned donor test patterns",
@@ -41,7 +41,14 @@
     "PORT-REGISTRY-TYPO",
     "PORT-UNKNOWN-CAPABILITY",
     "PORT-REFLECTION",
-    "PORT-NO-ANSWER"
+    "PORT-NO-ANSWER",
+    "PORT-CATALOG-SIGNATURES",
+    "PORT-CATALOG-RECORDS",
+    "PORT-CATALOG-METADATA",
+    "PORT-CATALOG-ANCESTRY",
+    "PORT-CATALOG-IDEMPOTENCY",
+    "PORT-CATALOG-PAGINATION",
+    "PORT-CATALOG-EXACT-REFS"
   ],
   "testCaseMap": {
     "PORT-TenantAndImmutableBoundariesRejectCrossTenantRefs": [
@@ -142,6 +149,27 @@
     ],
     "PORT-NO-ANSWER": [
       "KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testCoreRemainsVendorFreeAndHasNoAnswerOrFrameworkImports"
+    ],
+    "PORT-CATALOG-SIGNATURES": [
+      "KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testApprovedCatalogSignaturesRetainLegacyEntryPoints"
+    ],
+    "PORT-CATALOG-RECORDS": [
+      "KnowKit\\Tests\\Contract\\Ports\\CatalogTest::testCatalogRecordsContainRequiredFieldsWithoutChangingIdentity"
+    ],
+    "PORT-CATALOG-METADATA": [
+      "KnowKit\\Tests\\Contract\\Ports\\CatalogTest::testMetadataAndProfilesRejectUnboundedOrUnknownShapes"
+    ],
+    "PORT-CATALOG-ANCESTRY": [
+      "KnowKit\\Tests\\Contract\\Ports\\CatalogTest::testCollectionParentsRequireSameTenantKbAndACompleteAcyclicChain"
+    ],
+    "PORT-CATALOG-IDEMPOTENCY": [
+      "KnowKit\\Tests\\Contract\\Ports\\CatalogTest::testMutationDigestsBindOperationBusinessFieldsTenantAndExpectedState"
+    ],
+    "PORT-CATALOG-PAGINATION": [
+      "KnowKit\\Tests\\Contract\\Ports\\CatalogTest::testPaginationBindsTenantKbFilterAndSecurityScopeBeforeReturningRows"
+    ],
+    "PORT-CATALOG-EXACT-REFS": [
+      "KnowKit\\Tests\\Contract\\Ports\\CatalogTest::testExactVersionsAndSnapshotSelectorsRejectSubstitution"
     ]
   },
   "fixtures": [
@@ -163,10 +191,19 @@
       }
     },
     {
-      "path": "tests/fixtures/identity/manifest.v1.json",
-      "sha256": "e1693d0b9e4ffd75559653bb9d90db909ee9f3c1cb06e4f28dadf7aff38edcb7",
+      "path": "tests/fixtures/identity/v1/catalog.json",
+      "sha256": "486e76d0724f4fa268f16abaace890381daec92153522dfd2318fc099ba99c51",
       "expected": {
-        "entries": 2,
+        "requests": 3,
+        "invalidMetadata": 5,
+        "outcome": "catalog-boundaries"
+      }
+    },
+    {
+      "path": "tests/fixtures/identity/manifest.v1.json",
+      "sha256": "eae133c8710c273d56dc0f27f3673ed31a1eb65212991765746968150a244cc1",
+      "expected": {
+        "entries": 3,
         "outcome": "strict-corpus"
       }
     }

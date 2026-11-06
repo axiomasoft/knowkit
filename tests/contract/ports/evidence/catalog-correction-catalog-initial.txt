@@ -1,0 +1,112 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repo>/phpunit.xml
+
+EEEEEE                                                              6 / 6 (100%)
+
+Time: 00:00.005, Memory: 8.00 MB
+
+There were 6 errors:
+
+1) KnowKit\Tests\Contract\Ports\CatalogTest::testCatalogRecordsContainRequiredFieldsWithoutChangingIdentity
+KnowKit\Domain\Contract\ContractViolation: non_integer_number at /
+
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:249
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:102
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:158
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:91
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:42
+<repo>/tests/contract/ports/PortFixture.php:15
+<repo>/tests/contract/ports/CatalogTest.php:16
+<repo>/tests/contract/ports/CatalogTest.php:38
+
+2) KnowKit\Tests\Contract\Ports\CatalogTest::testMetadataAndProfilesRejectUnboundedOrUnknownShapes
+KnowKit\Domain\Contract\ContractViolation: non_integer_number at /
+
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:249
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:102
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:158
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:91
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:42
+<repo>/tests/contract/ports/PortFixture.php:15
+<repo>/tests/contract/ports/CatalogTest.php:16
+<repo>/tests/contract/ports/CatalogTest.php:73
+
+3) KnowKit\Tests\Contract\Ports\CatalogTest::testCollectionParentsRequireSameTenantKbAndACompleteAcyclicChain
+KnowKit\Domain\Contract\ContractViolation: non_integer_number at /
+
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:249
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:102
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:158
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:91
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:42
+<repo>/tests/contract/ports/PortFixture.php:15
+<repo>/tests/contract/ports/CatalogTest.php:16
+<repo>/tests/contract/ports/CatalogTest.php:17
+<repo>/tests/contract/ports/CatalogTest.php:106
+<repo>/tests/contract/ports/CatalogTest.php:107
+
+4) KnowKit\Tests\Contract\Ports\CatalogTest::testMutationDigestsBindOperationBusinessFieldsTenantAndExpectedState
+KnowKit\Domain\Contract\ContractViolation: non_integer_number at /
+
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:249
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:102
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:158
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:91
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:42
+<repo>/tests/contract/ports/PortFixture.php:15
+<repo>/tests/contract/ports/CatalogTest.php:16
+<repo>/tests/contract/ports/CatalogTest.php:121
+
+5) KnowKit\Tests\Contract\Ports\CatalogTest::testPaginationBindsTenantKbFilterAndSecurityScopeBeforeReturningRows
+KnowKit\Domain\Contract\ContractViolation: non_integer_number at /
+
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:249
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:102
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:158
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:91
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:42
+<repo>/tests/contract/ports/PortFixture.php:15
+<repo>/tests/contract/ports/CatalogTest.php:16
+<repo>/tests/contract/ports/CatalogTest.php:26
+<repo>/tests/contract/ports/CatalogTest.php:181
+
+6) KnowKit\Tests\Contract\Ports\CatalogTest::testExactVersionsAndSnapshotSelectorsRejectSubstitution
+KnowKit\Domain\Contract\ContractViolation: non_integer_number at /
+
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:249
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:102
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:158
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:91
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:125
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:88
+<repo>/packages/core/src/Domain/Contract/StrictJson.php:42
+<repo>/tests/contract/ports/PortFixture.php:15
+<repo>/tests/contract/ports/CatalogTest.php:16
+<repo>/tests/contract/ports/CatalogTest.php:196
+
+ERRORS!
+Tests: 6, Assertions: 8, Errors: 6.

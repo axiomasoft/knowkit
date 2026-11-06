@@ -72,7 +72,7 @@ final class BoundaryTest extends TestCase
             static fn() => $scope->assertTenant($foreign),
             static fn() => (new D\ExactIdentityGuard($scope->tenantId))->remember($ref),
             static fn() => new D\SourceVersion($ref,new D\BlobRef($scope->tenantId,$source->sourceId,$source->sourceDigest,
-                new D\Uint64('1'),'test','v1','owned')),
+                new D\Uint64('1'),'test','v1','owned'),'text/plain','rights:test',new D\UtcInstant('2026-11-06T12:00:00Z')),
             static fn() => new D\ResourcePage($scope->tenantId,[new D\ResourceRef($foreign,'source',$source->sourceId)],null),
             static fn() => new D\Parents($scope->tenantId,[new D\ResourceRef($foreign,'source',$source->sourceId)]),
         ] as $boundary) {
@@ -240,7 +240,7 @@ final class BoundaryTest extends TestCase
         try { new D\Parents($scope->tenantId,[$a,$a]); self::fail('Duplicate parent'); } catch (D\DomainFailure) {}
         try { (new D\Node($a,new D\Fingerprint(str_repeat('a',64))))->assertParents($parents); self::fail('Self parent'); } catch (D\DomainFailure) {}
         $source = new D\Source($scope->tenantId,new D\SourceId(PortFixture::id(2)),D\SourceLifecycleState::Revoked,
-            new D\Decimal('2'),new D\Decimal('3'),true);
+            new D\Decimal('2'),new D\Decimal('3'),true,'owner:test','host:upload');
         self::assertTrue($source->retentionHold); self::assertSame(D\SourceLifecycleState::Revoked,$source->lifecycleState);
         $corrected = new D\SourceVersionState($scope->tenantId,new D\SourceVersionId(PortFixture::id(3)),D\Usability::Corrected,
             new D\SourceVersionId(PortFixture::id(4)),new D\EventId(PortFixture::id(400)));

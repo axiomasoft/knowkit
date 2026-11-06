@@ -6,5 +6,8 @@ namespace KnowKit\Domain;
 /** The host allocates this stable ID. No URL, filename or content hash is an identity. */
 final readonly class RegisterSource
 {
-    public function __construct(public SourceId $sourceId) {}
+    public function __construct(public SourceId $sourceId, public string $ownerRef, public string $origin)
+    {
+        ValueGuard::text($ownerRef); ValueGuard::text($origin);
+    }
 }

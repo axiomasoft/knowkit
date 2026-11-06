@@ -110,7 +110,8 @@ final class PortFixture
         foreach ($manifest->get('entries') as $entry) {
             if (isset($seen[$entry->get('id')])) { throw new \InvalidArgumentException('Duplicate fixture'); }
             $seen[$entry->get('id')] = true;
-            if (!in_array($entry->get('schemaId'), ['urn:knowkit:test:identity-fixture:1','urn:knowkit:test:registry-fixture:1'], true)) {
+            if (!in_array($entry->get('schemaId'), ['urn:knowkit:test:identity-fixture:1','urn:knowkit:test:registry-fixture:1',
+                'urn:knowkit:test:catalog-fixture:1'], true)) {
                 throw new \InvalidArgumentException('Unknown fixture schema');
             }
             $path = realpath(self::root() . '/' . $entry->get('path'));

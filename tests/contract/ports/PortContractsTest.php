@@ -53,10 +53,42 @@ final class PortContractsTest extends TestCase
             }
         }
         foreach ((new \ReflectionClass(P\CatalogRepository::class))->getMethods() as $method) {
-            self::assertSame(D\TenantId::class,(string) $method->getParameters()[0]->getType(),$method->getName());
+            $expected = in_array($method->getName(),['createKnowledgeBase','createCollection','addMembership'],true)
+                ? D\Scope::class : D\TenantId::class;
+            self::assertSame($expected,(string) $method->getParameters()[0]->getType(),$method->getName());
         }
         self::assertSame(['append'],array_map(static fn($m): string => $m->getName(),(new \ReflectionClass(P\Outbox::class))->getMethods()));
         self::assertSame(['leaseDelivery','ack'],array_map(static fn($m): string => $m->getName(),(new \ReflectionClass(P\OutboxDelivery::class))->getMethods()));
+    }
+
+    public function testApprovedCatalogSignaturesRetainLegacyEntryPoints(): void
+    {
+        foreach ([
+            ['createKnowledgeBase',[D\Scope::class,D\CreateKB::class,D\MutationContext::class],D\KnowledgeBase::class],
+            ['createCollection',[D\Scope::class,D\CreateCollection::class,D\MutationContext::class],D\Collection::class],
+            ['addMembership',[D\Scope::class,D\AddMembership::class,D\MutationContext::class],D\SourceMembership::class],
+            ['getTenant',[D\TenantId::class],'?' . D\Tenant::class],
+            ['findKnowledgeBase',[D\TenantId::class,D\KbId::class],'?' . D\KnowledgeBase::class],
+            ['getCollection',[D\TenantId::class,D\KbId::class,D\CollectionId::class],'?' . D\Collection::class],
+            ['listSources',[D\TenantId::class,D\KbId::class,D\CollectionFilter::class,D\PageCursor::class],D\SourcePage::class],
+            ['getVersion',[D\TenantId::class,D\SourceVersionRef::class],'?' . D\SourceVersion::class],
+            ['resolveSnapshot',[D\TenantId::class,D\KbId::class,D\SnapshotSelector::class,D\ProfileId::class],'?' . D\PublicationSnapshot::class],
+            ['getKb',[D\TenantId::class,D\KbId::class],'?' . D\KnowledgeBase::class],
+            ['getSource',[D\TenantId::class,D\SourceId::class],'?' . D\Source::class],
+            ['getSourceVersion',[D\TenantId::class,D\SourceVersionId::class],'?' . D\SourceVersion::class],
+            ['listMemberships',[D\TenantId::class,D\SourceId::class],'array'],
+            ['insertTenant',[D\TenantId::class,D\Tenant::class],'void'],
+            ['insertCollection',[D\TenantId::class,D\Collection::class],'void'],
+            ['insertKb',[D\TenantId::class,D\KnowledgeBase::class],'void'],
+            ['insertSource',[D\TenantId::class,D\Source::class],'void'],
+            ['insertSourceVersion',[D\TenantId::class,D\SourceVersion::class],'void'],
+            ['insertMembership',[D\TenantId::class,D\Membership::class],'void'],
+        ] as [$name,$parameters,$return]) {
+            $this->signature(P\CatalogRepository::class,$name,$parameters,$return);
+            foreach ((new \ReflectionMethod(P\CatalogRepository::class,$name))->getParameters() as $parameter) {
+                self::assertFalse($parameter->isOptional(),'No implicit tenant, selector, profile or mutation context');
+            }
+        }
     }
 
     public function testCoreRemainsVendorFreeAndHasNoAnswerOrFrameworkImports(): void
@@ -115,13 +147,15 @@ final class PortContractsTest extends TestCase
 
     public function testManifestCoversEveryExecutedPortsTest(): void
     {
-        foreach (['IdentityTest','RegistryTest','BoundaryTest'] as $class) { require_once __DIR__ . '/' . $class . '.php'; }
+        foreach (['IdentityTest','RegistryTest','BoundaryTest','CatalogTest'] as $class) { require_once __DIR__ . '/' . $class . '.php'; }
         $manifest = json_decode((string) file_get_contents(PortFixture::root() . '/tests/fixtures/check-groups/contract-ports.json'),true,512,JSON_THROW_ON_ERROR);
-        foreach (['R05-A01','R05-A02','PORT-REGISTRY-TYPO','PORT-UNKNOWN-CAPABILITY','PORT-REFLECTION','PORT-NO-ANSWER'] as $id) {
+        foreach (['R05-A01','R05-A02','PORT-REGISTRY-TYPO','PORT-UNKNOWN-CAPABILITY','PORT-REFLECTION','PORT-NO-ANSWER',
+            'PORT-CATALOG-RECORDS','PORT-CATALOG-SIGNATURES','PORT-CATALOG-IDEMPOTENCY','PORT-CATALOG-ANCESTRY',
+            'PORT-CATALOG-PAGINATION','PORT-CATALOG-EXACT-REFS','PORT-CATALOG-METADATA'] as $id) {
             self::assertContains($id,$manifest['requiredCaseIds']);
         }
         $mapped = array_merge(...array_values($manifest['testCaseMap']));
-        foreach ([IdentityTest::class,RegistryTest::class,self::class,BoundaryTest::class] as $class) {
+        foreach ([IdentityTest::class,RegistryTest::class,self::class,BoundaryTest::class,CatalogTest::class] as $class) {
             foreach ((new \ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                 if (str_starts_with($method->getName(),'test')) {
                     self::assertContains($class . '::' . $method->getName(),$mapped);

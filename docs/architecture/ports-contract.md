@@ -67,7 +67,7 @@ successful operation or production adapter is advertised.
 | Boundary | Technical completion and obligation |
 |---|---|
 | CatalogTransaction | run(callable):mixed; locks retain the approved argument order; lockTenant establishes the adapter's transaction tenant before later ID-only guards; casPointer takes Decimal and returns bool. No global ambient tenant is permitted. |
-| CatalogRepository | Every method starts with TenantId. getKb/getSource/getSourceVersion return nullable typed records; listMemberships returns list<Membership>. Explicit insertKb/Source/SourceVersion/Membership/DocumentRevision/ChunkSet/Generation/Snapshot cover the named catalog entities. Every implementation must validate tenant and immutable identity at each read/write. |
+| CatalogRepository | createKnowledgeBase/createCollection/addMembership take trusted Scope, a typed command and MutationContext; all other methods start with TenantId. findKnowledgeBase/getKb/getSource/getSourceVersion/getVersion and getTenant/getCollection return nullable typed records; listMemberships retains list<Membership>. listSources takes CollectionFilter/PageCursor and returns SourcePage; resolveSnapshot takes an explicit SnapshotSelector and ProfileId. Existing insert methods remain, with insertTenant/insertCollection added. Every implementation validates tenant/KB/FKs and exact identities on reads and writes. |
 | BlobStore / SourceReader | Approved methods use exact typed refs, prior BlobWriteReservation and bounded ReadableStream capability; no arbitrary path input. Cursor and ResourcePage carry tenant binding. Reservation permits null digest/length only together with stagingId. An accepted BlobRef always has full digest/length. |
 | Parser / validator / quality / chunker | DocumentParser capabilities and named profile are explicit. ValidationReport is valid/invalid/unknown with safe codes. Coverage and QualityDecision remain separate from job/publication success. ChunkSet is bound to one exact revision and signature. |
 | LexicalIndex | index(GenerationId,ChunkSet):IndexReceipt; search(AuthorizedSearchScope,Query,int):CandidateList. Namespace/membership filtering precedes backend ORDER BY/LIMIT. |
@@ -157,3 +157,88 @@ schema, locator and binding helpers are reused directly, with no second encoder.
 This is contract coverage with deterministic local doubles, not qualification of
 a PostgreSQL/vector backend, a production connector, provider availability or a
 transactional disclosure implementation. Those remain the owning later items.
+
+## Catalog owning correction after P2.1
+
+Sources: knowledge/catalog#model and #queries, contracts#ports, access#contract,
+lifecycle#contract, storage#contract, and mutation-context/common P1.4 schemas.
+D4 permits these minimal PHP records and signature completions; no transport
+schema, initial revision value, new authorization grant or persistence adapter
+is introduced. The original P1.5 evidence remains historical. Correction reuse
+and verification evidence has separate filenames under tests/contract/ports/evidence.
+
+KnowledgeBase now requires name, revision, policyRef, defaultRetrievalProfile and
+CoveragePolicy alongside its existing policyEpoch, activeSnapshotId and
+pointerVersion. These counters keep their different meanings. Collection carries
+tenant/KB/ID, nullable parentId, revision and CatalogMetadata. Tenant carries its
+ID and the existing blocked/ready storage serving gate; ready is not a grant.
+Source requires ownerRef/origin alongside the unchanged separate lifecycle,
+policy-epoch and retention fields. SourceVersion requires mime, rightsRef and
+createdAt; its existing ref contains the exact tenant/source/version/digest and
+blob remains the originalBlobRef. Both original-blob guards are retained.
+SourceMembership is the canonical subtype of the existing Membership; both use
+the original tenant/KB/collection/source argument order, nullable collectionId,
+and required revision/metadata. A membership never grants read access.
+
+Technical assumptions: host-owned policyRef, ownerRef, origin and rightsRef are
+bounded opaque nonempty strings (256 characters), without interpreting them as
+URLs, content identity or credentials. KB names use common's 128-character name
+bound; mime uses the existing 128-character media-type bound. ProfileId and
+CatalogMetadata mirror common's exact profile syntax and namespaced scalar
+metadata bounds. Existing FrozenJson/JCS own immutable metadata bytes; debug
+output omits metadata values. These are PHP validation choices, not new wire
+fields. Required fields have no fabricated legacy defaults. Constructor prefixes
+and existing repository/application entry points are retained; the two existing
+test callers now supply the mandatory metadata. RegisterSource also carries the
+host-owned ownerRef/origin required for registration; SourceId remains host allocated.
+
+createKnowledgeBase(Scope,CreateKB,MutationContext):KnowledgeBase,
+createCollection(Scope,CreateCollection,MutationContext):Collection and
+addMembership(Scope,AddMembership,MutationContext):SourceMembership retain trusted
+access explicitly, including hostScopeHash verbatim. Scope supplies tenant/KB;
+CreateKB also checks its requested KB matches that scope. All existing low-level
+inserts keep their TenantId argument and remain internal transactional primitives.
+Collection.assertAncestry checks a complete direct-parent-to-root chain, including
+tenant/KB and cycles. Storage must load that authoritative chain under locks;
+the value cannot prove the freshness of arbitrary caller-supplied ancestors.
+
+MutationContext exposes expectedRevision/expectedEpoch and assertExpected for
+locked authoritative rows. A revision mismatch is incompatible(stale_write), an
+epoch mismatch denied(POLICY_CHANGED). Storage still owns atomic checks and the
+choice of locked aggregate; this helper does not assign initial counter values.
+Each typed command builds a canonical knowkit:command:v1 request fingerprint from
+operation, tenant/KB and every business field plus the optional expected values.
+It excludes idempotencyKey/requestId and has no clock/temporary-URL input. The
+requiredFeatures list retains its supplied order. Idempotency
+storage is unique on (tenant,key): matching digest returns original accepted
+metadata, changed digest conflicts, rollback retains no success. Replaying
+metadata never substitutes for a fresh authorization or disclosure. The correction
+tests prove the request and expected-state helpers; durable replay and rollback
+remain P2.1 adapter obligations.
+
+listSources(TenantId,KbId,CollectionFilter,PageCursor):SourcePage uses a nullable
+collection filter (null means all KB memberships, including no collection).
+PageCursor is separate from the BlobStore Cursor: it binds tenant/KB/filter and
+an opaque trusted security-scope digest, with an explicit limit 1..100. Hosts
+supply their current scope binding, including hostScopeHash; adapters authenticate
+continuation tokens against that binding before querying. SourcePage checks
+tenant, bounded count, unique ascending sourceId order and continuation binding.
+These checks do not replace tenant-qualified membership filtering before LIMIT.
+
+getVersion(TenantId,SourceVersionRef) validates the entire exact reference.
+resolveSnapshot(TenantId,KbId,SnapshotSelector,ProfileId) requires every argument:
+active() explicitly requests the one KB pointer; exact(SnapshotRef) binds the
+historical snapshot ID and manifest digest. No default selector, per-profile
+latest pointer or profile fallback is provided. Unknown/missing profiles cannot
+select a substitute; historical reads still require current host policy and
+lifecycle checks. A nullable return means absence, never denial/unknown/backend
+failure, which retain their typed outcomes.
+
+Tests: CatalogTest and PortContractsTest::testApprovedCatalogSignaturesRetainLegacyEntryPoints.
+The version 1.1.0 identity corpus adds three independently calculated command
+digests and five metadata negatives without changing existing processing/registry
+goldens. Required cases PORT-CATALOG-RECORDS, -SIGNATURES, -METADATA, -ANCESTRY,
+-IDEMPOTENCY, -PAGINATION and -EXACT-REFS cover the correction. Existing boundary
+tests continue to prove tenant, immutable identity, fresh policy/egress, host
+exclusions and separate lifecycle axes. Full contract:ports, contract:schemas and
+architecture acceptance remain the conductor's checks on the corrected candidate.

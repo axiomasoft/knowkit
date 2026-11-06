@@ -1,0 +1,201 @@
+{
+  "schemaVersion": "catalog-correction-verification:1",
+  "item": "P1.5",
+  "candidateDigest": "a7a46bbce325e929816a32e2592e253e2630150b20485f2778c2de80ce5d723d",
+  "candidateFiles": [
+    {
+      "path": "docs/architecture/ports-contract.md",
+      "sha256": "af616da96144cf98ec2762e1eeb14f0f34cbd9d9c111479d9e6ab7e157579245"
+    },
+    {
+      "path": "packages/core/src/Domain/AddMembership.php",
+      "sha256": "c9a5feb71513c09a468e7c5e190b38171cb096c823bd8de4a78f7bc3099a30a2"
+    },
+    {
+      "path": "packages/core/src/Domain/CatalogMetadata.php",
+      "sha256": "aea93e78745cfc7372fa706829e937ee5149e48a0022dc2c8567c24f4a85a620"
+    },
+    {
+      "path": "packages/core/src/Domain/Collection.php",
+      "sha256": "e2f84f422c7f9c37c1e5029c59264af489d74385baa4d9d4ce4c4f3106b10303"
+    },
+    {
+      "path": "packages/core/src/Domain/CollectionFilter.php",
+      "sha256": "c7e0c7a4ff8e874341d5542e2b6fbbb137448993e18fbe187711eead45edcab9"
+    },
+    {
+      "path": "packages/core/src/Domain/CreateCollection.php",
+      "sha256": "7497a9882f9e8a5f7c3535a1536885344b2c0fa26c5d491c9e15f5ac5aaaa05d"
+    },
+    {
+      "path": "packages/core/src/Domain/CreateKB.php",
+      "sha256": "75dcd282be1714c24742ff14ef8c580e9e0c5604f4076844d89aad8c226fbe25"
+    },
+    {
+      "path": "packages/core/src/Domain/KnowledgeBase.php",
+      "sha256": "a78ac7071cae869c7194fdc515b6d2f23e8af45a42df6a1af651e0e1e45262c7"
+    },
+    {
+      "path": "packages/core/src/Domain/Membership.php",
+      "sha256": "70bce5fd1d84b533a447370ada516cf89fe0d8471f87c7076a4a6e1f4bf5ae91"
+    },
+    {
+      "path": "packages/core/src/Domain/MutationContext.php",
+      "sha256": "b4db37fdeb19d920ca91cc421824503205cc1f5423d5545e416da7bab9c18d40"
+    },
+    {
+      "path": "packages/core/src/Domain/PageCursor.php",
+      "sha256": "a6cff68524d236fbb5b4c9bf36fb0c7a17babb7025d1a527a37e1f2a0ab658ad"
+    },
+    {
+      "path": "packages/core/src/Domain/ProfileId.php",
+      "sha256": "b80732757c3a8062c3017051ec6e52359dbd900dd1d41a3b2a6fa585c00214e1"
+    },
+    {
+      "path": "packages/core/src/Domain/RegisterSource.php",
+      "sha256": "1137afdae160b88a8199f2d785f61f7db89d7d16888f1fceb4a8b0bc00f479c9"
+    },
+    {
+      "path": "packages/core/src/Domain/SnapshotSelector.php",
+      "sha256": "004858b69a0ad376210493fde77b8e42eee30dd93d6c4c7aa32b06e80c3046c3"
+    },
+    {
+      "path": "packages/core/src/Domain/Source.php",
+      "sha256": "b2e2bf6a311fbdb526025de40b75f55509c2418d746b72c7c4b0648df4ff9cf9"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceMembership.php",
+      "sha256": "c2ad9d6784eeee384239382021e744965bff9b8906b16f2b9b4f1006a23d53b1"
+    },
+    {
+      "path": "packages/core/src/Domain/SourcePage.php",
+      "sha256": "eac2a7d1fd0c02284bf165daa5c4c6c0013487b5a3595a97b9a51defd8028313"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceVersion.php",
+      "sha256": "2dd4dd1b011859bb7c2d81cc8087e10ec0b418ee93dc56f469bac7abbb2eaba6"
+    },
+    {
+      "path": "packages/core/src/Domain/Tenant.php",
+      "sha256": "c9d1b20916e9ea1b9a488c6685e7a70fcb24a431f4243b64930bff835bad4abc"
+    },
+    {
+      "path": "packages/core/src/Port/CatalogRepository.php",
+      "sha256": "f9cb5c695f5de2e9f3dc4ebfde81beaf2e27aa96e47eb771e6cf0d1f8740e56a"
+    },
+    {
+      "path": "tests/contract/ports/BoundaryTest.php",
+      "sha256": "dd71a94eadb9f4c3b58aea1eab11b353acd3d35c291978fe4070c9b56cbc96c5"
+    },
+    {
+      "path": "tests/contract/ports/CatalogTest.php",
+      "sha256": "0c11bf7b45203d42f9da0248ae38ec5aeb7835963e207d03ecf8d2267346aa21"
+    },
+    {
+      "path": "tests/contract/ports/IdentityTest.php",
+      "sha256": "5c8aa6a4838726dcdb6a9f767aaebe97e610febdfdf0c9b51f15e26e7dde8a82"
+    },
+    {
+      "path": "tests/contract/ports/PortContractsTest.php",
+      "sha256": "17f440ee4cc2e5288afd091c8d872952491c3b38ced74cbe2a272e3b1e55be0a"
+    },
+    {
+      "path": "tests/contract/ports/PortFixture.php",
+      "sha256": "e146b7a4213d94e8e76566e472cac6273dce76caa128dc319bbb87a5e1fdd867"
+    },
+    {
+      "path": "tests/fixtures/check-groups/contract-ports.json",
+      "sha256": "a8f8961f59fefcd2e1233e4f811c2b2ca9763ea7ae137642bf3ecd21a4679439"
+    },
+    {
+      "path": "tests/fixtures/identity/manifest.v1.json",
+      "sha256": "eae133c8710c273d56dc0f27f3673ed31a1eb65212991765746968150a244cc1"
+    },
+    {
+      "path": "tests/fixtures/identity/v1/catalog.json",
+      "sha256": "486e76d0724f4fa268f16abaace890381daec92153522dfd2318fc099ba99c51"
+    }
+  ],
+  "checks": [
+    {
+      "id": "catalog-initial",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/CatalogTest.php",
+      "exit": 2,
+      "evidence": "tests/contract/ports/evidence/catalog-correction-catalog-initial.txt",
+      "note": "Self-detected fixture setup error: strict integer-only JSON corpus rejected float negative before tests; moved float to programmatic PHP negative."
+    },
+    {
+      "id": "catalog-after-fixture-fix",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/CatalogTest.php",
+      "exit": 0,
+      "evidence": "tests/contract/ports/evidence/catalog-correction-catalog.txt",
+      "tests": 6,
+      "assertions": 131
+    },
+    {
+      "id": "phpstan-initial",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --error-format=raw --autoload-file=tests/contract/ports/bootstrap.php packages/core/src/Domain packages/core/src/Port packages/core/src/Registry packages/core/src/Application",
+      "exit": 0,
+      "evidence": "tests/contract/ports/evidence/catalog-correction-phpstan.txt"
+    },
+    {
+      "id": "ports-contract",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/PortContractsTest.php",
+      "exit": 0,
+      "evidence": "tests/contract/ports/evidence/catalog-correction-port-contracts.txt",
+      "tests": 7,
+      "assertions": 802
+    },
+    {
+      "id": "boundary",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/BoundaryTest.php",
+      "exit": 0,
+      "evidence": "tests/contract/ports/evidence/catalog-correction-boundary.txt",
+      "tests": 9,
+      "assertions": 69
+    },
+    {
+      "id": "identity",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/IdentityTest.php",
+      "exit": 0,
+      "evidence": "tests/contract/ports/evidence/catalog-correction-identity.txt",
+      "tests": 7,
+      "assertions": 51
+    },
+    {
+      "id": "catalog-final",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/CatalogTest.php",
+      "exit": 0,
+      "evidence": "tests/contract/ports/evidence/catalog-correction-catalog-final.txt",
+      "tests": 6,
+      "assertions": 248
+    },
+    {
+      "id": "phpstan-final",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --error-format=raw --autoload-file=tests/contract/ports/bootstrap.php packages/core/src/Domain packages/core/src/Port packages/core/src/Registry packages/core/src/Application",
+      "exit": 0,
+      "evidence": "tests/contract/ports/evidence/catalog-correction-phpstan-final.txt"
+    },
+    {
+      "id": "syntax",
+      "cmd": "php -l (each of the 24 changed/new PHP files in syntax evidence)",
+      "exit": 0,
+      "evidence": "tests/contract/ports/evidence/catalog-correction-syntax.json"
+    }
+  ],
+  "finalLocalProof": {
+    "tests": 29,
+    "assertions": 1170,
+    "phpstanExit": 0,
+    "syntaxFiles": 24,
+    "includes": "PortContractsTest exercises the real package/import DAG and complete required-case manifest mapping."
+  },
+  "acceptance": {
+    "V1": "not run: command withheld; conductor owns acceptance",
+    "groups": "contract:ports, contract:schemas and architecture full suites not run per final execution instruction"
+  },
+  "diffCheck": {"cmd": "git diff --check", "exit": 0, "evidence": "tests/contract/ports/evidence/catalog-correction-diff-check.txt"},
+  "candidateIntegrity": {"verdict": "pass", "files": 28, "newFilesChecked": 26, "checks": ["All candidate file hashes match", "New files have no workspace installation path or trailing whitespace"]},
+  "review": "not performed by executor; conductor must bind the corrected candidate and preserve the previous P1.5 history",
+  "outputNormalization": "Only absolute workspace and PHP extension installation prefixes replaced with <repo>/<php-extensions>; original command output otherwise preserved. PHPStan reports its optional unavailable turbo extension and exits 0."
+}

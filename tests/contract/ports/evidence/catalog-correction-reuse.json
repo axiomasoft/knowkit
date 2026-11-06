@@ -1,0 +1,182 @@
+{
+  "schemaVersion": "catalog-correction-reuse:1",
+  "item": "P1.5",
+  "status": "implemented_unreviewed",
+  "baselineCommit": "6fabb1af1b1ff4d8c4f6c7a533f334b10b320cf9",
+  "originalReceipt": {
+    "path": "tests/contract/ports/evidence/P1.5-reuse.json",
+    "sha256": "27d69b96c150e060f5d662ab0f6efd286dab858501cd8d9e2b572d3c36bfdb56",
+    "note": "Historical qualified donor choices retained; no original receipt or review history rewritten."
+  },
+  "normativeSources": [
+    {
+      "ref": "knowledge/catalog#model,queries",
+      "sha256": "b8e228557af6eebe7aa00a8542e6219f51ecb7b4da8840624c0f2c94d1c42079",
+      "read": "complete supplied execution-input"
+    },
+    {
+      "ref": "D4",
+      "read": "accepted decision in supplied execution-input"
+    },
+    {
+      "ref": "knowledge/contracts#ports,hash-domains",
+      "read": "complete supplied execution-input"
+    }
+  ],
+  "localReuse": [
+    {
+      "path": "packages/core/src/Domain/ValueGuard.php",
+      "sha256": "1aa86b217525560d72856ee56987e01f2b97b4ab636a94d43c93cb9e072e9da9",
+      "decision": "reuse-as-is"
+    },
+    {
+      "path": "packages/core/src/Domain/FrozenJson.php",
+      "sha256": "60cd43859b085f97bcf5e76336b60de03ce4d31db602c9228fbb83192f07eb18",
+      "decision": "reuse-as-is"
+    },
+    {
+      "path": "packages/core/src/Domain/SchemaValue.php",
+      "sha256": "976287bf621cdbe8133262fc4347771a12e903989bfb834ee4a7de5fba0f56c4",
+      "decision": "reuse-as-is"
+    },
+    {
+      "path": "packages/core/src/Domain/CoveragePolicy.php",
+      "sha256": "60e57233e5a78ef17ae7d8b4e615248c1ecda565776c98bc84d38d8e1485cf24",
+      "decision": "reuse-as-is"
+    },
+    {
+      "path": "packages/core/src/Domain/Contract/Jcs.php",
+      "sha256": "88a0b0e64dd6264b4cf340de6aea33aed6fcc747ad83a2427de2faa28aaeae73",
+      "decision": "reuse-as-is"
+    },
+    {
+      "path": "packages/core/src/Domain/Contract/HashDomain.php",
+      "sha256": "7014548c3a5765423ee61e9708f9c140505e2ff98219f5a733bb5b4afdf7a940",
+      "decision": "reuse-as-is"
+    }
+  ],
+  "reason": "Extend existing qualified P1.5 values and reuse P1.4 validation/canonicalization; no additional donor source or dependency imported. Original external candidate decisions remain those of the historical receipt, not a new requalification claim.",
+  "newGlue": [
+    "Required catalog aggregate fields and readonly tenant/collection/membership records absent from the original abbreviated implementation.",
+    "Minimal typed catalog commands, pagination/selector values and exact repository operations completing knowledge/catalog under D4.",
+    "Expected-state/request-fingerprint helpers reuse the existing mutation schema and knowkit:command:v1 domain.",
+    "PHP-only regressions and independent Python hashlib command vectors; no backend qualification claim."
+  ],
+  "assumptions": "Opaque bounded host refs, constructor argument compatibility, nullable filter semantics and adapter obligations are documented in docs/architecture/ports-contract.md#catalog-owning-correction-after-p21.",
+  "candidateDigest": "a7a46bbce325e929816a32e2592e253e2630150b20485f2778c2de80ce5d723d",
+  "candidateDigestAlgorithm": "SHA256 of sorted UTF8(path)||NUL||ASCII(file SHA256)||LF; product/docs/tests/fixtures only, evidence receipts/logs excluded.",
+  "candidateFiles": [
+    {
+      "path": "docs/architecture/ports-contract.md",
+      "sha256": "af616da96144cf98ec2762e1eeb14f0f34cbd9d9c111479d9e6ab7e157579245"
+    },
+    {
+      "path": "packages/core/src/Domain/AddMembership.php",
+      "sha256": "c9a5feb71513c09a468e7c5e190b38171cb096c823bd8de4a78f7bc3099a30a2"
+    },
+    {
+      "path": "packages/core/src/Domain/CatalogMetadata.php",
+      "sha256": "aea93e78745cfc7372fa706829e937ee5149e48a0022dc2c8567c24f4a85a620"
+    },
+    {
+      "path": "packages/core/src/Domain/Collection.php",
+      "sha256": "e2f84f422c7f9c37c1e5029c59264af489d74385baa4d9d4ce4c4f3106b10303"
+    },
+    {
+      "path": "packages/core/src/Domain/CollectionFilter.php",
+      "sha256": "c7e0c7a4ff8e874341d5542e2b6fbbb137448993e18fbe187711eead45edcab9"
+    },
+    {
+      "path": "packages/core/src/Domain/CreateCollection.php",
+      "sha256": "7497a9882f9e8a5f7c3535a1536885344b2c0fa26c5d491c9e15f5ac5aaaa05d"
+    },
+    {
+      "path": "packages/core/src/Domain/CreateKB.php",
+      "sha256": "75dcd282be1714c24742ff14ef8c580e9e0c5604f4076844d89aad8c226fbe25"
+    },
+    {
+      "path": "packages/core/src/Domain/KnowledgeBase.php",
+      "sha256": "a78ac7071cae869c7194fdc515b6d2f23e8af45a42df6a1af651e0e1e45262c7"
+    },
+    {
+      "path": "packages/core/src/Domain/Membership.php",
+      "sha256": "70bce5fd1d84b533a447370ada516cf89fe0d8471f87c7076a4a6e1f4bf5ae91"
+    },
+    {
+      "path": "packages/core/src/Domain/MutationContext.php",
+      "sha256": "b4db37fdeb19d920ca91cc421824503205cc1f5423d5545e416da7bab9c18d40"
+    },
+    {
+      "path": "packages/core/src/Domain/PageCursor.php",
+      "sha256": "a6cff68524d236fbb5b4c9bf36fb0c7a17babb7025d1a527a37e1f2a0ab658ad"
+    },
+    {
+      "path": "packages/core/src/Domain/ProfileId.php",
+      "sha256": "b80732757c3a8062c3017051ec6e52359dbd900dd1d41a3b2a6fa585c00214e1"
+    },
+    {
+      "path": "packages/core/src/Domain/RegisterSource.php",
+      "sha256": "1137afdae160b88a8199f2d785f61f7db89d7d16888f1fceb4a8b0bc00f479c9"
+    },
+    {
+      "path": "packages/core/src/Domain/SnapshotSelector.php",
+      "sha256": "004858b69a0ad376210493fde77b8e42eee30dd93d6c4c7aa32b06e80c3046c3"
+    },
+    {
+      "path": "packages/core/src/Domain/Source.php",
+      "sha256": "b2e2bf6a311fbdb526025de40b75f55509c2418d746b72c7c4b0648df4ff9cf9"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceMembership.php",
+      "sha256": "c2ad9d6784eeee384239382021e744965bff9b8906b16f2b9b4f1006a23d53b1"
+    },
+    {
+      "path": "packages/core/src/Domain/SourcePage.php",
+      "sha256": "eac2a7d1fd0c02284bf165daa5c4c6c0013487b5a3595a97b9a51defd8028313"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceVersion.php",
+      "sha256": "2dd4dd1b011859bb7c2d81cc8087e10ec0b418ee93dc56f469bac7abbb2eaba6"
+    },
+    {
+      "path": "packages/core/src/Domain/Tenant.php",
+      "sha256": "c9d1b20916e9ea1b9a488c6685e7a70fcb24a431f4243b64930bff835bad4abc"
+    },
+    {
+      "path": "packages/core/src/Port/CatalogRepository.php",
+      "sha256": "f9cb5c695f5de2e9f3dc4ebfde81beaf2e27aa96e47eb771e6cf0d1f8740e56a"
+    },
+    {
+      "path": "tests/contract/ports/BoundaryTest.php",
+      "sha256": "dd71a94eadb9f4c3b58aea1eab11b353acd3d35c291978fe4070c9b56cbc96c5"
+    },
+    {
+      "path": "tests/contract/ports/CatalogTest.php",
+      "sha256": "0c11bf7b45203d42f9da0248ae38ec5aeb7835963e207d03ecf8d2267346aa21"
+    },
+    {
+      "path": "tests/contract/ports/IdentityTest.php",
+      "sha256": "5c8aa6a4838726dcdb6a9f767aaebe97e610febdfdf0c9b51f15e26e7dde8a82"
+    },
+    {
+      "path": "tests/contract/ports/PortContractsTest.php",
+      "sha256": "17f440ee4cc2e5288afd091c8d872952491c3b38ced74cbe2a272e3b1e55be0a"
+    },
+    {
+      "path": "tests/contract/ports/PortFixture.php",
+      "sha256": "e146b7a4213d94e8e76566e472cac6273dce76caa128dc319bbb87a5e1fdd867"
+    },
+    {
+      "path": "tests/fixtures/check-groups/contract-ports.json",
+      "sha256": "a8f8961f59fefcd2e1233e4f811c2b2ca9763ea7ae137642bf3ecd21a4679439"
+    },
+    {
+      "path": "tests/fixtures/identity/manifest.v1.json",
+      "sha256": "eae133c8710c273d56dc0f27f3673ed31a1eb65212991765746968150a244cc1"
+    },
+    {
+      "path": "tests/fixtures/identity/v1/catalog.json",
+      "sha256": "486e76d0724f4fa268f16abaace890381daec92153522dfd2318fc099ba99c51"
+    }
+  ]
+}

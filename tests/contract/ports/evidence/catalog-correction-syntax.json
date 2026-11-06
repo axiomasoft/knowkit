@@ -1,0 +1,122 @@
+[
+  {
+    "path": "packages/core/src/Domain/AddMembership.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/AddMembership.php"
+  },
+  {
+    "path": "packages/core/src/Domain/CatalogMetadata.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/CatalogMetadata.php"
+  },
+  {
+    "path": "packages/core/src/Domain/Collection.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/Collection.php"
+  },
+  {
+    "path": "packages/core/src/Domain/CollectionFilter.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/CollectionFilter.php"
+  },
+  {
+    "path": "packages/core/src/Domain/CreateCollection.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/CreateCollection.php"
+  },
+  {
+    "path": "packages/core/src/Domain/CreateKB.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/CreateKB.php"
+  },
+  {
+    "path": "packages/core/src/Domain/KnowledgeBase.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/KnowledgeBase.php"
+  },
+  {
+    "path": "packages/core/src/Domain/Membership.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/Membership.php"
+  },
+  {
+    "path": "packages/core/src/Domain/MutationContext.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/MutationContext.php"
+  },
+  {
+    "path": "packages/core/src/Domain/PageCursor.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/PageCursor.php"
+  },
+  {
+    "path": "packages/core/src/Domain/ProfileId.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/ProfileId.php"
+  },
+  {
+    "path": "packages/core/src/Domain/RegisterSource.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/RegisterSource.php"
+  },
+  {
+    "path": "packages/core/src/Domain/SnapshotSelector.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/SnapshotSelector.php"
+  },
+  {
+    "path": "packages/core/src/Domain/Source.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/Source.php"
+  },
+  {
+    "path": "packages/core/src/Domain/SourceMembership.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/SourceMembership.php"
+  },
+  {
+    "path": "packages/core/src/Domain/SourcePage.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/SourcePage.php"
+  },
+  {
+    "path": "packages/core/src/Domain/SourceVersion.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/SourceVersion.php"
+  },
+  {
+    "path": "packages/core/src/Domain/Tenant.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/Tenant.php"
+  },
+  {
+    "path": "packages/core/src/Port/CatalogRepository.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Port/CatalogRepository.php"
+  },
+  {
+    "path": "tests/contract/ports/BoundaryTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/contract/ports/BoundaryTest.php"
+  },
+  {
+    "path": "tests/contract/ports/CatalogTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/contract/ports/CatalogTest.php"
+  },
+  {
+    "path": "tests/contract/ports/IdentityTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/contract/ports/IdentityTest.php"
+  },
+  {
+    "path": "tests/contract/ports/PortContractsTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/contract/ports/PortContractsTest.php"
+  },
+  {
+    "path": "tests/contract/ports/PortFixture.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/contract/ports/PortFixture.php"
+  }
+]

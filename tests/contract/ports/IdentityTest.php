@@ -122,7 +122,7 @@ final class IdentityTest extends TestCase
     {
         $manifest = PortFixture::json('tests/fixtures/identity/manifest.v1.json'); PortFixture::validateManifest($manifest);
         $entries = $manifest->get('entries'); $first = $entries[0];
-        self::assertCount(2,$entries);
+        self::assertCount(3,$entries);
         foreach ([
             $manifest->with('entries',[]),
             $manifest->with('entries',[$first,$first]),
