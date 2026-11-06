@@ -1,0 +1,47 @@
+name: KnowKit bootstrap
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4', '8.5']
+        postgres: ['16', '17']
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgres }}
+        env:
+          POSTGRES_USER: knowkit_test
+          POSTGRES_DB: knowkit_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ['5432/tcp']
+        options: >-
+          --health-cmd "pg_isready -U knowkit_test -d knowkit_test"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter
+          tools: composer:v2
+          coverage: none
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Record resolved PostgreSQL image revision
+        run: docker image inspect postgres:${{ matrix.postgres }} --format '{{json .RepoDigests}}'
+      - run: composer validate --strict
+      - run: composer validate --strict --working-dir=packages/core
+      - run: vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress
+      - run: php tools/qa.php --check dag
+      - run: php tools/qa.php --check config
+      - name: Explicit completed groups (future groups remain NOT_SELECTED/PENDING)
+        run: composer qa -- --profile local-developed --manifest tests/tooling/baseline/profile.json
+        env:
+          TEST_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test
+          TEST_PG_USER: knowkit_test

@@ -1,0 +1,33 @@
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: ${TEST_NETWORK_SUBNET:-10.235.90.0/28}
+services:
+  postgres:
+    image: ${TEST_POSTGRES_IMAGE:-postgres:16}
+    environment:
+      POSTGRES_DB: knowkit_test
+      POSTGRES_USER: knowkit_test
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports: ["127.0.0.1:${TEST_PG_PORT:-55432}:5432"]
+    tmpfs: ["/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U knowkit_test -d knowkit_test"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  pgvector:
+    profiles: ["vector"]
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_DB: knowkit_test
+      POSTGRES_USER: knowkit_test
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports: ["127.0.0.1:${TEST_VECTOR_PORT:-55433}:5432"]
+    tmpfs: ["/var/lib/postgresql/data"]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U knowkit_test -d knowkit_test"]
+      interval: 2s
+      timeout: 3s
+      retries: 30

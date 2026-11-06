@@ -1,0 +1,14 @@
+<?php
+declare(strict_types=1);
+
+namespace KnowKit\Tests\Fixture;
+
+final class DiscoveryCanaryTest extends \PHPUnit\Framework\TestCase
+{
+    public function testCanary(): void
+    {
+        self::assertFalse(class_exists('Illuminate\\Foundation\\Application'));
+        self::assertFalse(class_exists('AgenTools\\Application'));
+        self::assertFalse(class_exists('Chatom\\Application'));
+    }
+}

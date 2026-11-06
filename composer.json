@@ -1,0 +1,18 @@
+{
+  "name": "knowkit/development",
+  "description": "Development tooling for the independent KnowKit core",
+  "type": "project",
+  "license": "proprietary",
+  "require-dev": {
+    "knowkit/core": "@dev",
+    "phpstan/phpstan": "^2.1",
+    "phpunit/phpunit": "^11.5",
+    "symfony/yaml": "^7.3"
+  },
+  "repositories": [{"type": "path", "url": "packages/core", "options": {"symlink": false, "versions": {"knowkit/core": "dev-main"}}}],
+  "autoload-dev": {"psr-4": {"KnowKit\\Tests\\Tooling\\": "tests/tooling/baseline/"}},
+  "scripts": {"qa": "@php tools/qa.php"},
+  "config": {"sort-packages": true, "allow-plugins": false, "platform": {"php": "8.3.0"}},
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

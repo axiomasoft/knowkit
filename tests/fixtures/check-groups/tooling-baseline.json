@@ -1,0 +1,153 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "tooling:baseline",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial deliberate synthetic bootstrap corpus: fail-closed JUnit adversaries, PHP-only discovery canary and actual isolated Composer/PostgreSQL assertions. Expected digests bind authored fixture bytes; changing expectations requires a new fixture version and an explanatory rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic QA inputs; adapted test patterns are qualified in docs/architecture/P1.2-reuse.json. No document/provider data.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "tooling.unknown-group",
+    "tooling.zero-tests",
+    "tooling.child-failure",
+    "tooling.report-integrity",
+    "tooling.missing-suite",
+    "tooling.profiles",
+    "tooling.lane-worker",
+    "tooling.argv-temp",
+    "tooling.fixture-manifest",
+    "tooling.suite-isolation",
+    "tooling.core-discovery",
+    "DT-R01",
+    "BOOTSTRAP-R42-A02",
+    "tooling.dag-negative",
+    "tooling.portable-config",
+    "BOOTSTRAP-R42-A01",
+    "tooling.db-reset-cleanup",
+    "tooling.db-guard"
+  ],
+  "testCaseMap": {
+    "tooling.unknown-group": [
+      "KnowKit\\Tests\\Tooling\\RunnerTest::testUnknownGroupIsNonzero"
+    ],
+    "tooling.zero-tests": [
+      "KnowKit\\Tests\\Tooling\\RunnerTest::testZeroSelectedTestsIsNonzero"
+    ],
+    "tooling.child-failure": [
+      "KnowKit\\Tests\\Tooling\\RunnerTest::testFailedSubprocessIsNonzeroEvenWithPassingReport"
+    ],
+    "tooling.report-integrity": [
+      "KnowKit\\Tests\\Tooling\\RunnerTest::testRequiredCasesRejectSkippedMissingDuplicateAndEmptyReports"
+    ],
+    "tooling.missing-suite": [
+      "KnowKit\\Tests\\Tooling\\RunnerTest::testUnknownAndAbsentSuitesAreFailures"
+    ],
+    "tooling.profiles": [
+      "KnowKit\\Tests\\Tooling\\RunnerTest::testProfilesExplicitlyPartitionRegistryWithoutSkippingSelectedGroups"
+    ],
+    "tooling.lane-worker": [
+      "KnowKit\\Tests\\Tooling\\RunnerTest::testUnavailableLaneAndUninstalledWorkerFailClosed"
+    ],
+    "tooling.argv-temp": [
+      "KnowKit\\Tests\\Tooling\\RunnerTest::testRunnerReplacesPlaceholdersAsArgvAndCleansPrivateReports"
+    ],
+    "tooling.fixture-manifest": [
+      "KnowKit\\Tests\\Tooling\\RunnerTest::testFixtureManifestDigestsAndVersionRationaleAreEnforced"
+    ],
+    "tooling.suite-isolation": [
+      "KnowKit\\Tests\\Tooling\\DiscoveryTest::testNamedSuitesLoadOnlyTheirOwnTests"
+    ],
+    "tooling.core-discovery": [
+      "KnowKit\\Tests\\Tooling\\DiscoveryTest::testCoreDiscoveryDoesNotRequireOptionalPackages"
+    ],
+    "DT-R01": [
+      "KnowKit\\Tests\\Tooling\\BoundaryTest::testRejectsForbiddenCoreImportsAndInstallHooks"
+    ],
+    "BOOTSTRAP-R42-A02": [
+      "KnowKit\\Tests\\Tooling\\BoundaryTest::testActualCoreGraphAndRegistryDoNotRequireOptionalInstalls"
+    ],
+    "tooling.dag-negative": [
+      "KnowKit\\Tests\\Tooling\\BoundaryTest::testCoreDependencyFloorAndPackageDagMutationsAreRejected"
+    ],
+    "tooling.portable-config": [
+      "KnowKit\\Tests\\Tooling\\BoundaryTest::testPortableConfigurationRejectsHostPathsAndPublicDatabasePorts"
+    ],
+    "BOOTSTRAP-R42-A01": [
+      "KnowKit\\Tests\\Tooling\\InstallTest::testLockedCleanInstallAndDiscoveryWithoutHostRuntimes"
+    ],
+    "tooling.db-reset-cleanup": [
+      "KnowKit\\Tests\\Tooling\\DatabaseTest::testDisposableSchemaResetsAndCleansSuccessAndFailure"
+    ],
+    "tooling.db-guard": [
+      "KnowKit\\Tests\\Tooling\\DatabaseTest::testApplicationDatabaseCannotBeSelected"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/tooling/baseline/fixtures/v1/DiscoveryTest.php.fixture",
+      "sha256": "4be7037f59fefef63db59426f8a406bdf434122778b309780efcc99603c06775",
+      "expected": {
+        "outcome": "passed",
+        "tests": 1,
+        "optionalHostClassesAbsent": true
+      }
+    },
+    {
+      "path": "tests/tooling/baseline/fixtures/v1/child.php",
+      "sha256": "6af71b73435f149b3d773239a148d95fd0342f44e8da6917359fb38db7ff8795",
+      "expected": {
+        "valid": "passed",
+        "child-failure": "rejected_exit_17",
+        "zero": "rejected",
+        "missing": "rejected",
+        "duplicate": "rejected",
+        "skipped": "rejected",
+        "failed": "rejected",
+        "malformed": "rejected",
+        "lying-count": "rejected",
+        "lying-skips": "rejected"
+      }
+    },
+    {
+      "path": "tests/tooling/baseline/fixtures/v1/outcomes.json",
+      "sha256": "b9c2ec0822221f07df49d9066d45331751db26e34fb120d226dd45fa94dcaa84",
+      "expected": {
+        "outcome": "explicit-adversarial-outcomes",
+        "cleanInstall": "passed",
+        "coreIndependence": "passed",
+        "databaseResetCleanup": "passed"
+      }
+    }
+  ],
+  "components": {
+    "composerLock": {
+      "path": "composer.lock",
+      "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7",
+      "platformPhp": "8.3.0",
+      "updatePolicy": "Update lockfile and fixture version/rationale together; rerun installation assertions."
+    },
+    "postgres": {
+      "defaultMajor": 16,
+      "testedRevision": "postgres@sha256:33f923b05f64ca54ac4401c01126a6b92afe839a0aa0a52bc5aeb5cc958e5f20",
+      "qualificationMajor": 17,
+      "scope": "Actual executor database reset/cleanup ran on the recorded PostgreSQL16 image; PG17 is a CI qualification lane."
+    },
+    "pgvector": {
+      "optional": true,
+      "inspectedRevision": "pgvector/pgvector@sha256:a36250871de0833b8757561c72f2477ef1ddd1101afa4e617fb552e0de514c6b",
+      "scope": "Infrastructure image identity only; no vector extension/runtime qualification."
+    },
+    "schemaCorpus": {
+      "schemaVersion": "tooling-fixtures:1",
+      "path": "tests/tooling/baseline/fixtures/v1/outcomes.json"
+    }
+  },
+  "evidenceKind": "bootstrap-tooling-runtime",
+  "limitations": [
+    "BOOTSTRAP-R42-A01/A02 qualify installation and discovery only; actual product Catalog, ingest, search, rights, citations, revoke and adapter lifecycle/common conformance remain required at P9.5 R42-A01/A02.",
+    "Optional external adapters and the Python worker remain unimplemented and unqualified.",
+    "PHP lane is the executing PHP runtime; PHP8.3/8.4/8.5 and PostgreSQL16/17 run in CI."
+  ]
+}

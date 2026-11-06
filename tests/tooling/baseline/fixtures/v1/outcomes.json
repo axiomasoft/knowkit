@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "tooling-fixtures:1",
+  "junit": {
+    "valid": {"exit": 0, "outcome": "passed"},
+    "zero": {"exit": 0, "outcome": "rejected", "error": "zero executed"},
+    "missing": {"exit": 0, "outcome": "rejected", "error": "missing required"},
+    "duplicate": {"exit": 0, "outcome": "rejected", "error": "duplicate executed"},
+    "skipped": {"exit": 0, "outcome": "rejected", "error": "failed/skipped"},
+    "failed": {"exit": 0, "outcome": "rejected", "error": "failed/skipped"},
+    "malformed": {"exit": 0, "outcome": "rejected", "error": "invalid child JUnit"},
+    "lying-count": {"exit": 0, "outcome": "rejected", "error": "JUnit count mismatch"},
+    "lying-skips": {"exit": 0, "outcome": "rejected", "error": "failed/skipped JUnit"}
+  }
+}

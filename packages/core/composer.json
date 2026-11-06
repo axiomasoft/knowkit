@@ -1,0 +1,11 @@
+{
+  "name": "knowkit/core",
+  "description": "Independent KnowKit domain, application, ports, registry and adapters",
+  "type": "library",
+  "license": "proprietary",
+  "require": {"php": ">=8.3", "ext-pdo": "*", "ext-json": "*", "ext-mbstring": "*"},
+  "suggest": {"ext-pdo_pgsql": "Required when explicitly using the PostgreSQL adapter"},
+  "autoload": {"psr-4": {"KnowKit\\": "src/"}},
+  "config": {"allow-plugins": false},
+  "archive": {"exclude": ["/tests", "/vendor", "/composer.lock"]}
+}

@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "knowkit-executor-evidence:1",
+  "item": "P1.2",
+  "runtime": {
+    "php": "8.4.1",
+    "database": "PostgreSQL16; exact image revision recorded in tooling-baseline manifest"
+  },
+  "acceptance": "V1 withheld and intentionally not run; no full QA/profile/all command executed by executor.",
+  "componentChecks": [
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/RunnerTest.php",
+      "exit": 0,
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repo>/phpunit.xml\n\n.........                                                           9 / 9 (100%)\n\nTime: 00:00.287, Memory: 8.00 MB\n\nOK (9 tests, 60 assertions)\n"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/BoundaryTest.php",
+      "exit": 0,
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repo>/phpunit.xml\n\n....                                                                4 / 4 (100%)\n\nTime: 00:00.011, Memory: 8.00 MB\n\nOK (4 tests, 176 assertions)\n"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/BoundaryTest.php --filter testActualCoreGraphAndRegistryDoNotRequireOptionalInstalls",
+      "exit": 0,
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repo>/phpunit.xml\n\n.                                                                   1 / 1 (100%)\n\nTime: 00:00.003, Memory: 8.00 MB\n\nOK (1 test, 155 assertions)\n"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/BoundaryTest.php --filter testRejectsForbiddenCoreImportsAndInstallHooks",
+      "exit": 0,
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repo>/phpunit.xml\n\n.                                                                   1 / 1 (100%)\n\nTime: 00:00.004, Memory: 8.00 MB\n\nOK (1 test, 15 assertions)\n"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/DiscoveryTest.php",
+      "exit": 0,
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repo>/phpunit.xml\n\n..                                                                  2 / 2 (100%)\n\nTime: 00:00.475, Memory: 8.00 MB\n\nOK (2 tests, 49 assertions)\n"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/DatabaseTest.php",
+      "exit": 0,
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repo>/phpunit.xml\n\n..                                                                  2 / 2 (100%)\n\nTime: 00:00.016, Memory: 8.00 MB\n\nOK (2 tests, 8 assertions)\n"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/InstallTest.php",
+      "exit": 0,
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repo>/phpunit.xml\n\n.                                                                   1 / 1 (100%)\n\nTime: 00:03.199, Memory: 8.00 MB\n\nOK (1 test, 14 assertions)\n"
+    },
+    {
+      "cmd": "python3 -I -B tests/contract/architecture/test_checker.py",
+      "exit": 0,
+      "output": "test_changed_fixture_without_digest_rationale_is_rejected (__main__.ManifestTests.test_changed_fixture_without_digest_rationale_is_rejected) ... ok\ntest_declared_required_case_cannot_be_removed (__main__.ManifestTests.test_declared_required_case_cannot_be_removed) ... ok\ntest_dependency_cycle_is_rejected (__main__.ManifestTests.test_dependency_cycle_is_rejected) ... ok\ntest_forbidden_package_and_layer_backimports (__main__.ManifestTests.test_forbidden_package_and_layer_backimports) ... ok\ntest_manifest_and_all_normative_links (__main__.ManifestTests.test_manifest_and_all_normative_links) ... ok\ntest_marker_and_normative_obligation_cannot_disappear (__main__.ManifestTests.test_marker_and_normative_obligation_cannot_disappear) ... ok\ntest_missing_fixture_fails (__main__.ManifestTests.test_missing_fixture_fails) ... ok\ntest_missing_fixture_metadata_and_unknown_schema_fail (__main__.ManifestTests.test_missing_fixture_metadata_and_unknown_schema_fail) ... ok\ntest_missing_or_unmapped_adr_reference_fails (__main__.ManifestTests.test_missing_or_unmapped_adr_reference_fails) ... ok\ntest_optional_host_cannot_raise_core_floor (__main__.ManifestTests.test_optional_host_cannot_raise_core_floor) ... ok\ntest_pending_adr_and_blocking_decision_fail (__main__.ManifestTests.test_pending_adr_and_blocking_decision_fail) ... ok\ntest_removing_anchor_cannot_hide_behind_total_count (__main__.ManifestTests.test_removing_anchor_cannot_hide_behind_total_count) ... ok\ntest_unknown_manifest_version_fails (__main__.ManifestTests.test_unknown_manifest_version_fails) ... ok\ntest_vendor_runtime_dependency_is_rejected (__main__.ManifestTests.test_vendor_runtime_dependency_is_rejected) ... ok\ntest_child_cannot_change_the_candidate_being_checked (__main__.RunnerTests.test_child_cannot_change_the_candidate_being_checked) ... ok\ntest_child_failure_beats_a_valid_looking_report (__main__.RunnerTests.test_child_failure_beats_a_valid_looking_report) ... ok\ntest_duplicate_executed_case_fails (__main__.RunnerTests.test_duplicate_executed_case_fails) ... ok\ntest_explicit_specs_and_architecture_check_select_the_required_group (__main__.RunnerTests.test_explicit_specs_and_architecture_check_select_the_required_group) ... ok\ntest_explicit_specs_directory_is_not_silently_ignored (__main__.RunnerTests.test_explicit_specs_directory_is_not_silently_ignored) ... ok\ntest_missing_executed_case_fails (__main__.RunnerTests.test_missing_executed_case_fails) ... ok\ntest_missing_test_file_fails (__main__.RunnerTests.test_missing_test_file_fails) ... ok\ntest_required_skip_fails (__main__.RunnerTests.test_required_skip_fails) ... ok\ntest_unknown_group_fails_in_fresh_interpreter (__main__.RunnerTests.test_unknown_group_fails_in_fresh_interpreter) ... ok\ntest_zero_selected_cases_fail (__main__.RunnerTests.test_zero_selected_cases_fail) ... ok\n\n----------------------------------------------------------------------\nRan 24 tests in 1.893s\n\nOK\n"
+    },
+    {
+      "cmd": "python3 -I -B tests/contract/architecture/test_fixtures.py",
+      "exit": 0,
+      "output": "test_changed_original_requires_new_source_version_and_rejects_mutation (__main__.ArchitectureFixtureTests.test_changed_original_requires_new_source_version_and_rejects_mutation) ... ok\ntest_core_has_no_optional_host_runtime_dependency (__main__.ArchitectureFixtureTests.test_core_has_no_optional_host_runtime_dependency) ... ok\ntest_historical_citation_resolves_exact_bytes_or_refuses (__main__.ArchitectureFixtureTests.test_historical_citation_resolves_exact_bytes_or_refuses) ... ok\ntest_later_revoke_does_not_retract_confirmed_bounded_buffer (__main__.ArchitectureFixtureTests.test_later_revoke_does_not_retract_confirmed_bounded_buffer) ... ok\ntest_rechunk_preserves_source_and_document_revision (__main__.ArchitectureFixtureTests.test_rechunk_preserves_source_and_document_revision) ... ok\ntest_reembed_changes_only_generation (__main__.ArchitectureFixtureTests.test_reembed_changes_only_generation) ... ok\ntest_remote_change_within_valid_receipt_window_is_explicit (__main__.ArchitectureFixtureTests.test_remote_change_within_valid_receipt_window_is_explicit) ... ok\ntest_reocr_changes_revision_without_changing_original (__main__.ArchitectureFixtureTests.test_reocr_changes_revision_without_changing_original) ... ok\ntest_revoke_after_selection_blocks_disclosure_without_projection_cleanup (__main__.ArchitectureFixtureTests.test_revoke_after_selection_blocks_disclosure_without_projection_cleanup) ... ok\ntest_tombstone_before_registration_blocks_unseen_source (__main__.ArchitectureFixtureTests.test_tombstone_before_registration_blocks_unseen_source) ... ok\ntest_uncertain_commit_and_replay_never_release_new_plaintext (__main__.ArchitectureFixtureTests.test_uncertain_commit_and_replay_never_release_new_plaintext) ... ok\ntest_unknown_expired_or_uncontracted_owner_cannot_disclose (__main__.ArchitectureFixtureTests.test_unknown_expired_or_uncontracted_owner_cannot_disclose) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 0.000s\n\nOK\n"
+    },
+    {
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress",
+      "exit": 0,
+      "output": "\nWarning: PHP Startup: Unable to load dynamic library '<repo>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so' (tried: <repo>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so (Dynamic loading not supported), /lib/php/extensions/no-debug-non-zts-20240924/<repo>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so.so (Dynamic loading not supported)) in Unknown on line 0\n\n [OK] No errors                                                                 \n\n"
+    },
+    {
+      "cmd": "docker run --rm --network none -v \"$PWD:/repo:ro\" -w /repo rhysd/actionlint:1.7.10 -color .github/workflows/ci.yml",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "cmd": "composer validate --strict",
+      "exit": 0,
+      "output": "./composer.json is valid"
+    },
+    {
+      "cmd": "composer validate --strict --working-dir=packages/core",
+      "exit": 0,
+      "output": "./composer.json is valid"
+    },
+    {
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 0,
+      "output": "success; packages=1; phpFiles=0 (skeleton, no product classes yet)"
+    },
+    {
+      "cmd": "php tools/qa.php --check config",
+      "exit": 0,
+      "output": "success; files=6"
+    },
+    {
+      "cmd": "docker compose -p knowkit-p12-executor config --quiet",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "cmd": "git diff --check",
+      "exit": 0,
+      "output": ""
+    },
+    {
+      "cmd": "php -l tools/qa.php",
+      "exit": 0,
+      "output": "No syntax errors detected in tools/qa.php"
+    }
+  ],
+  "repairedFindings": [
+    "DAG negative assertion initially expected a different diagnostic; rejection now consistently names forbidden imports.",
+    "PostgreSQL to_regclass returns SQL NULL for an absent table; assertion corrected from false to null.",
+    "PHPStan DOM node narrowing and redundant null-coalescing corrected.",
+    "Actionlint required a string service-port key; CI now uses ports['5432'].",
+    "Verified PHPUnit native JUnit writes backslash PHP IDs in class and dotted display names in classname; runner uses native class where available. A real clean-install JUnit regression now checks required-case mapping."
+  ],
+  "environment": [
+    "Docker default address pool exhausted; isolated configurable explicit IPAM subnet resolved startup.",
+    "PHPStan optional turbo extension cannot load in this PHP build; analyzer still ran and returned exit 0 with no errors.",
+    "After tests, pg_namespace contains zero knowkit_qa_* schemas.",
+    "PostgreSQL test service knowkit-p12-executor remains healthy at loopback port 55432 for coordinator V1; teardown after acceptance with docker compose -p knowkit-p12-executor down --volumes --remove-orphans."
+  ],
+  "qualificationLimits": [
+    "CI matrix PHP8.3/8.4/8.5 and PostgreSQL16/17 configured; external CI not launched.",
+    "pgvector image identity inspected only; extension functionality unqualified."
+  ],
+  "productDigests": {
+    ".env.example": "4609bf001ed7449b1cf31c9aff5b0972d48251f4b05e26caab579eab54e4a5ae",
+    ".github/workflows/ci.yml": "8957fb4cdb9767a494ede00b1e92f170b36d6098e5eb6e7c290680ec29f8484a",
+    ".gitignore": "7a5fe8c90d10500fd7d5843b035c492a40002197124e211eb9278c33704a4c59",
+    "compose.yaml": "c1165c503be8d054bc323a8e40043f8f3d8a44543475492587999ea3679a8ab7",
+    "composer.json": "0612b218ed9080043e96588d99d6a0843c58be4cc76253c2e31b4c56a6ca8eda",
+    "composer.lock": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7",
+    "docs/development.md": "9b3280043c6df91100d50028e4c54a168f8f0a498a5f9c4dfb1b0d186fcfbc80",
+    "packages/core/bin/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packages/core/composer.json": "fcb6691da8920b785b7cd5860844148b47d0703bfa94249508c222d9f54f5509",
+    "packages/core/migrations/postgres/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packages/core/src/Adapter/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packages/core/src/Application/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packages/core/src/Domain/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packages/core/src/Port/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "packages/core/src/Registry/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "phpstan.neon": "17a2f4a922e0137ea256c671375296af339d93fc9b7e12ad17c74646ad5eeb12",
+    "phpunit.xml": "a70bce66b79a8bd035c6f7b78b2ceef8850060b79ced24999c6d465eb04cfec9",
+    "tests/core/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/fixtures/check-groups/tooling-baseline.json": "77c6d4d5be79cf5b9ee8819376416ac1b03a8d79ba1521bba86a4986158fcbb9",
+    "tests/tooling/baseline/BoundaryTest.php": "8c5c7d3b2867a5ea69e3cb7f4e47e01054dc9d809d4cda04a629b2315821ba4d",
+    "tests/tooling/baseline/DatabaseSandbox.php": "c5d947f6f58105793f0262e9b18dd38f731af9d756e93eb33373ea86897d3c85",
+    "tests/tooling/baseline/DatabaseTest.php": "85403860da7df488865260c5acbbede386525f4577fef07d97b7f53ee5abb65d",
+    "tests/tooling/baseline/DiscoveryTest.php": "6b943c13e7b07f42ff9667612aba9bb25e773e0313d6b3e467fb49edba50c561",
+    "tests/tooling/baseline/InstallTest.php": "fb04b680cdc2730041a0814deaca57f83089c4035771a6243162cc1c1a15d7d1",
+    "tests/tooling/baseline/RunnerTest.php": "fb73e079d90cc4955cef8a7bb3d07846d33325d331134b1a89f58b92b9cb831e",
+    "tests/tooling/baseline/Support.php": "c96ae90fb8587778a8dcff072ffbe72216fbba6ceb878b2df43b8edbefb86ce8",
+    "tests/tooling/baseline/bootstrap.php": "e0d3c5eec048f0ad988720991e7422ef424c2f749a5aad4c56929395f1051d05",
+    "tests/tooling/baseline/fixtures/v1/DiscoveryTest.php.fixture": "4be7037f59fefef63db59426f8a406bdf434122778b309780efcc99603c06775",
+    "tests/tooling/baseline/fixtures/v1/child.php": "6af71b73435f149b3d773239a148d95fd0342f44e8da6917359fb38db7ff8795",
+    "tests/tooling/baseline/fixtures/v1/outcomes.json": "b9c2ec0822221f07df49d9066d45331751db26e34fb120d226dd45fa94dcaa84",
+    "tests/tooling/baseline/profile.json": "0c1754f0bfa0557a44b3d3b1a937903feba723e90f0ba72fc18acf1f246bc9cd",
+    "tools/qa-groups.json": "beb3983a664ae966eab8127cd21438aa77fcd9c966ddda642ae7efc9bb00bb25",
+    "tools/qa.php": "0dec2a997582514bb116101b16a4ad7ac83fe82414d11a32228925ebd236af56"
+  },
+  "executedBootstrapCaseIds": [
+    "tooling.unknown-group",
+    "tooling.zero-tests",
+    "tooling.child-failure",
+    "tooling.report-integrity",
+    "tooling.missing-suite",
+    "tooling.profiles",
+    "tooling.lane-worker",
+    "tooling.argv-temp",
+    "tooling.fixture-manifest",
+    "tooling.suite-isolation",
+    "tooling.core-discovery",
+    "DT-R01",
+    "BOOTSTRAP-R42-A02",
+    "tooling.dag-negative",
+    "tooling.portable-config",
+    "BOOTSTRAP-R42-A01",
+    "tooling.db-reset-cleanup",
+    "tooling.db-guard"
+  ],
+  "caseProof": "All 18 mapped PHPUnit methods executed successfully in their individual test-file checks above; class-specific reruns cover subsequent changes. This component proof is not conductor acceptance V1."
+}
