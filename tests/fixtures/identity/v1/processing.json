@@ -1,0 +1,329 @@
+{
+  "schemaVersion": "identity-fixture:1",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "First PHP runtime vectors; independent hashlib over ASCII-key JCS payloads, full SHA256 and downstream-only axis invalidation. Not a snapshot rewrite. Corpus 1.0.1 finalizes one LF at EOF; semantic golden outputs are unchanged.",
+  "tenantId": "01J00000000000000000000001",
+  "sourceId": "01J00000000000000000000002",
+  "sourceBytes": "Immutable original: Привет, 世界 é 😀\n",
+  "base": {
+    "sourceVersionId": "01J00000000000000000000003",
+    "sourceDigest": "9763c6e540c70a23daa76648f4f535b4a67b0de3b5d7fe47b99bda908a373993",
+    "parserSignature": {
+      "name": "text",
+      "version": "1",
+      "profileDigest": "3626dda0b233c8bef4ecaff65b3bab6dd741f511faffdf1a105c1d4e50e553fc"
+    },
+    "ocrProfileSignature": {
+      "name": "ocr",
+      "version": "1",
+      "profileDigest": "306c362f86c4cbf953e2f971188b601a59749bf1f90f7e77d47f644b1569439e"
+    },
+    "chunkerSignature": {
+      "name": "structural",
+      "version": "1",
+      "profileDigest": "a9a3e33ea38519b6175a8476b4b46be2fcadf68ec9f5cc08d59b78eabc641f20"
+    },
+    "irSchema": "ir-1.0",
+    "indexProfileDigest": "b6816eb1d37a340376d9f7bf132b89099dc194cd4378f8af2cbbb0fcd5b5c673",
+    "embeddingSpaceDigest": "fce6f947d864e469e3a2233a2df92d0e627b8f71c53e879a334b63e72aba0e70"
+  },
+  "baseDigest": "9d9e5325effe29d80b4e4b9907bf15327e29ebe55dcd4f24493609e6dea51fa9",
+  "space": {
+    "provider": "recorded",
+    "model": "deterministic",
+    "revision": "1",
+    "dimensions": 3,
+    "normalization": "none",
+    "indexVersion": "1",
+    "documentRole": "document",
+    "queryRole": "query"
+  },
+  "spaceDigest": "fce6f947d864e469e3a2233a2df92d0e627b8f71c53e879a334b63e72aba0e70",
+  "scenarios": [
+    {
+      "id": "parser",
+      "payload": {
+        "sourceVersionId": "01J00000000000000000000003",
+        "sourceDigest": "9763c6e540c70a23daa76648f4f535b4a67b0de3b5d7fe47b99bda908a373993",
+        "parserSignature": {
+          "name": "text",
+          "version": "2",
+          "profileDigest": "3626dda0b233c8bef4ecaff65b3bab6dd741f511faffdf1a105c1d4e50e553fc"
+        },
+        "ocrProfileSignature": {
+          "name": "ocr",
+          "version": "1",
+          "profileDigest": "306c362f86c4cbf953e2f971188b601a59749bf1f90f7e77d47f644b1569439e"
+        },
+        "chunkerSignature": {
+          "name": "structural",
+          "version": "1",
+          "profileDigest": "a9a3e33ea38519b6175a8476b4b46be2fcadf68ec9f5cc08d59b78eabc641f20"
+        },
+        "irSchema": "ir-1.0",
+        "indexProfileDigest": "b6816eb1d37a340376d9f7bf132b89099dc194cd4378f8af2cbbb0fcd5b5c673",
+        "embeddingSpaceDigest": "fce6f947d864e469e3a2233a2df92d0e627b8f71c53e879a334b63e72aba0e70"
+      },
+      "expectedDigest": "3d0ef3eaa2b7007dde6631e3321c9899bf0548b1b7720364bef915e824bf1203",
+      "changedAxes": [
+        "documentRevisionId",
+        "chunkSetId",
+        "generationId"
+      ]
+    },
+    {
+      "id": "re-ocr",
+      "payload": {
+        "sourceVersionId": "01J00000000000000000000003",
+        "sourceDigest": "9763c6e540c70a23daa76648f4f535b4a67b0de3b5d7fe47b99bda908a373993",
+        "parserSignature": {
+          "name": "text",
+          "version": "1",
+          "profileDigest": "3626dda0b233c8bef4ecaff65b3bab6dd741f511faffdf1a105c1d4e50e553fc"
+        },
+        "ocrProfileSignature": {
+          "name": "ocr",
+          "version": "2",
+          "profileDigest": "306c362f86c4cbf953e2f971188b601a59749bf1f90f7e77d47f644b1569439e"
+        },
+        "chunkerSignature": {
+          "name": "structural",
+          "version": "1",
+          "profileDigest": "a9a3e33ea38519b6175a8476b4b46be2fcadf68ec9f5cc08d59b78eabc641f20"
+        },
+        "irSchema": "ir-1.0",
+        "indexProfileDigest": "b6816eb1d37a340376d9f7bf132b89099dc194cd4378f8af2cbbb0fcd5b5c673",
+        "embeddingSpaceDigest": "fce6f947d864e469e3a2233a2df92d0e627b8f71c53e879a334b63e72aba0e70"
+      },
+      "expectedDigest": "ccfbcb118a1c86b7e880473c3b6c991f069cc8ce646a01e87567953858e8515b",
+      "changedAxes": [
+        "documentRevisionId",
+        "chunkSetId",
+        "generationId"
+      ]
+    },
+    {
+      "id": "re-chunk",
+      "payload": {
+        "sourceVersionId": "01J00000000000000000000003",
+        "sourceDigest": "9763c6e540c70a23daa76648f4f535b4a67b0de3b5d7fe47b99bda908a373993",
+        "parserSignature": {
+          "name": "text",
+          "version": "1",
+          "profileDigest": "3626dda0b233c8bef4ecaff65b3bab6dd741f511faffdf1a105c1d4e50e553fc"
+        },
+        "ocrProfileSignature": {
+          "name": "ocr",
+          "version": "1",
+          "profileDigest": "306c362f86c4cbf953e2f971188b601a59749bf1f90f7e77d47f644b1569439e"
+        },
+        "chunkerSignature": {
+          "name": "structural",
+          "version": "2",
+          "profileDigest": "a9a3e33ea38519b6175a8476b4b46be2fcadf68ec9f5cc08d59b78eabc641f20"
+        },
+        "irSchema": "ir-1.0",
+        "indexProfileDigest": "b6816eb1d37a340376d9f7bf132b89099dc194cd4378f8af2cbbb0fcd5b5c673",
+        "embeddingSpaceDigest": "fce6f947d864e469e3a2233a2df92d0e627b8f71c53e879a334b63e72aba0e70"
+      },
+      "expectedDigest": "b981b1d4504b9673a735e843d84ce7378be5d9f7bfe88ed7f50ed160b28f2323",
+      "changedAxes": [
+        "chunkSetId",
+        "generationId"
+      ]
+    },
+    {
+      "id": "re-embed",
+      "payload": {
+        "sourceVersionId": "01J00000000000000000000003",
+        "sourceDigest": "9763c6e540c70a23daa76648f4f535b4a67b0de3b5d7fe47b99bda908a373993",
+        "parserSignature": {
+          "name": "text",
+          "version": "1",
+          "profileDigest": "3626dda0b233c8bef4ecaff65b3bab6dd741f511faffdf1a105c1d4e50e553fc"
+        },
+        "ocrProfileSignature": {
+          "name": "ocr",
+          "version": "1",
+          "profileDigest": "306c362f86c4cbf953e2f971188b601a59749bf1f90f7e77d47f644b1569439e"
+        },
+        "chunkerSignature": {
+          "name": "structural",
+          "version": "1",
+          "profileDigest": "a9a3e33ea38519b6175a8476b4b46be2fcadf68ec9f5cc08d59b78eabc641f20"
+        },
+        "irSchema": "ir-1.0",
+        "indexProfileDigest": "b6816eb1d37a340376d9f7bf132b89099dc194cd4378f8af2cbbb0fcd5b5c673",
+        "embeddingSpaceDigest": "2a14ba6b241ac22e124a40d84af9053d64798c4bb645f41796e4cb181b14b3ec"
+      },
+      "expectedDigest": "59a6edb78925b28d5fbd6c2761cddbce8167207ec262857a3ff2aa8616eecd2c",
+      "changedAxes": [
+        "generationId"
+      ]
+    },
+    {
+      "id": "changed-original",
+      "payload": {
+        "sourceVersionId": "01J00000000000000000000004",
+        "sourceDigest": "e4f7079229304def789a6bd452e07a94e8bc0aa0e89c8230ce59aa3a4531b044",
+        "parserSignature": {
+          "name": "text",
+          "version": "1",
+          "profileDigest": "3626dda0b233c8bef4ecaff65b3bab6dd741f511faffdf1a105c1d4e50e553fc"
+        },
+        "ocrProfileSignature": {
+          "name": "ocr",
+          "version": "1",
+          "profileDigest": "306c362f86c4cbf953e2f971188b601a59749bf1f90f7e77d47f644b1569439e"
+        },
+        "chunkerSignature": {
+          "name": "structural",
+          "version": "1",
+          "profileDigest": "a9a3e33ea38519b6175a8476b4b46be2fcadf68ec9f5cc08d59b78eabc641f20"
+        },
+        "irSchema": "ir-1.0",
+        "indexProfileDigest": "b6816eb1d37a340376d9f7bf132b89099dc194cd4378f8af2cbbb0fcd5b5c673",
+        "embeddingSpaceDigest": "fce6f947d864e469e3a2233a2df92d0e627b8f71c53e879a334b63e72aba0e70"
+      },
+      "expectedDigest": "b5c403f26aae6e40c8a568fb2d0bd1cfdc01b4f197ad799ac7f1086f6c320a74",
+      "changedAxes": [
+        "sourceVersionId",
+        "documentRevisionId",
+        "chunkSetId",
+        "generationId"
+      ]
+    }
+  ],
+  "history": [
+    {
+      "documentRevisionId": "01J00000000000000000000010",
+      "documentId": "01J00000000000000000000011",
+      "chunkSetId": "01J00000000000000000000012",
+      "chunkId": "01J00000000000000000000013",
+      "generationId": "01J00000000000000000000014",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000000003",
+        "parserSignature": {
+          "name": "text",
+          "version": "1",
+          "profileDigest": "3626dda0b233c8bef4ecaff65b3bab6dd741f511faffdf1a105c1d4e50e553fc"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "Привет, 世界 é 😀",
+            "textDigest": "ff149207724d42330486bc6e9a007e2238f504687af848907f25c046a6bbe7a7",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 29
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "irDigest": "fdba766528051bd5e16e7154d0ecd84f55a437ef9d817d11ec640cc38f67c85f"
+    },
+    {
+      "documentRevisionId": "01J00000000000000000000020",
+      "documentId": "01J00000000000000000000021",
+      "chunkSetId": "01J00000000000000000000022",
+      "chunkId": "01J00000000000000000000023",
+      "generationId": "01J00000000000000000000024",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000000003",
+        "parserSignature": {
+          "name": "text",
+          "version": "2",
+          "profileDigest": "3626dda0b233c8bef4ecaff65b3bab6dd741f511faffdf1a105c1d4e50e553fc"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "Привет, 世界 é 😀",
+            "textDigest": "ff149207724d42330486bc6e9a007e2238f504687af848907f25c046a6bbe7a7",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 29
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "irDigest": "974d9769a576cb4b2b4b8a739fe7ad93950e764d63a0f46c66127fcd18fa897c"
+    }
+  ],
+  "negative": {
+    "sourceVersionId": "01J00000000000000000000003",
+    "changedBytes": "Changed immutable bytes",
+    "expectedOutcome": "incompatible",
+    "expectedErrorCode": "immutable_conflict"
+  }
+}

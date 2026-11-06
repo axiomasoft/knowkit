@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "identity-manifest:1",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Initial runtime domain/port corpus; each expected SHA256 uses canonical ASCII-key payloads and full versioned hash domains. Future expectation updates require an intentional version and rationale. Corpus 1.0.1 finalizes one LF at EOF; semantic golden outputs are unchanged.",
+  "entries": [
+    {
+      "id": "processing",
+      "path": "tests/fixtures/identity/v1/processing.json",
+      "sha256": "c3de61ab9381c14a32baca3135294c379bd826bd124e7e75d566c50b137af3b3",
+      "schemaId": "urn:knowkit:test:identity-fixture:1",
+      "expected": {
+        "scenarios": 5,
+        "history": 2,
+        "negative": "immutable_conflict"
+      },
+      "rights": {
+        "license": "proprietary",
+        "origin": "KnowKit authored synthetic fixtures; architecture/version-axes and qualified pinned donor test patterns",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "contract:ports"
+      ]
+    },
+    {
+      "id": "registry",
+      "path": "tests/fixtures/identity/v1/registry.json",
+      "sha256": "efd9226a9501a4aa5b99112b828e5fe2e11d26a4edb446fbfa1cf13a968e86c1",
+      "schemaId": "urn:knowkit:test:registry-fixture:1",
+      "expected": {
+        "scenarios": 5,
+        "factoryCallsOnRejection": 0
+      },
+      "rights": {
+        "license": "proprietary",
+        "origin": "KnowKit authored synthetic fixtures; architecture/version-axes and qualified pinned donor test patterns",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "contract:ports"
+      ]
+    }
+  ]
+}

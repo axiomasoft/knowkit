@@ -1,0 +1,10 @@
+{
+  "gitDiffCheckExit": 0,
+  "candidateWhitespaceChecks": 195,
+  "noIndexDiffOnlyExit1": 195,
+  "noIndexSemantics": "--no-index implies --exit-code; exit 1 with empty --check diagnostics indicates expected added-file differences, not a whitespace error.",
+  "whitespaceFailures": [],
+  "candidateDigest": "2b8b904390c886681344ee832f7bbf03f88bf9e720816076b2272ad5eb1ab28c",
+  "candidateHashMismatches": [],
+  "evidenceFormatting": "Repository and PHP extension directory paths replaced with portable placeholders; terminal blank lines removed; substantive command output preserved."
+}

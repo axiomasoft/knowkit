@@ -1,0 +1,174 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "contract:ports",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Initial P1.5 runtime corpus and complete mapping of every PHPUnit method, including R05-A01/R05-A02 and negative adapter selections. Corpus 1.0.1 finalizes one LF at EOF; semantic golden outputs are unchanged.",
+  "rights": {
+    "license": "proprietary",
+    "origin": "KnowKit authored synthetic fixtures; architecture/version-axes and qualified pinned donor test patterns",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "PORT-TenantAndImmutableBoundariesRejectCrossTenantRefs",
+    "PORT-GrantAndHostExclusionsApplyBeforeTopK",
+    "PORT-CollectionFiltersAndStaleGrantCannotWidenScope",
+    "PORT-ReceiptFreshnessPolicyChangesAndHostScopeMismatch",
+    "PORT-EveryEmbeddingCallChecksProcessingAndEgressBeforeSending",
+    "PORT-VectorsAndRerankerCannotChangeSpaceOrExpandCandidates",
+    "PORT-LeaseFenceTokenExpiryDeadlineAndFalseWrites",
+    "PORT-DependencyParentsAndLifecycleAxesRemainSeparate",
+    "PORT-ReservationPrecedesUnknownDigestAndRedactsDocumentInputs",
+    "PORT-ProcessingAxesAndHistoricalRefs",
+    "PORT-ChangedOriginalCannotReuseVersionOrCitation",
+    "PORT-RevisionIdentityCannotChangeItsIrOrSource",
+    "PORT-CanonicalProfilesAndSpaceAreIndependent",
+    "PORT-ImmutableRecordsAndUnicodeLocators",
+    "PORT-TypedIdsDecimalsAndCalendarInstants",
+    "PORT-VersionedFixtureManifestAndNegativeLoaderCases",
+    "PORT-ApprovedPolicyAndDisclosureSignatures",
+    "PORT-AllPublicTypesResolveAndCatalogBoundariesAreScoped",
+    "PORT-CoreRemainsVendorFreeAndHasNoAnswerOrFrameworkImports",
+    "PORT-SchemaBoundDtoRoundTripsAndFreezesItsInput",
+    "PORT-AllOutcomeSemanticsRemainDistinct",
+    "PORT-ManifestCoversEveryExecutedPortsTest",
+    "PORT-DiscoveryHasNoFactorySideEffectsAndBootIsExplicit",
+    "PORT-TypoDuplicateUnknownAndMissingCapabilitiesNeverFallback",
+    "PORT-UnknownDependencyConfigurationAndUnboundAdapterAreRejected",
+    "PORT-EffectiveProfileOwnsFrozenRedactedConfig",
+    "PORT-FactoryMustImplementTheDeclaredPort",
+    "R05-A01",
+    "R05-A02",
+    "PORT-REGISTRY-TYPO",
+    "PORT-UNKNOWN-CAPABILITY",
+    "PORT-REFLECTION",
+    "PORT-NO-ANSWER"
+  ],
+  "testCaseMap": {
+    "PORT-TenantAndImmutableBoundariesRejectCrossTenantRefs": [
+      "KnowKit\\Tests\\Contract\\Ports\\BoundaryTest::testTenantAndImmutableBoundariesRejectCrossTenantRefs"
+    ],
+    "PORT-GrantAndHostExclusionsApplyBeforeTopK": [
+      "KnowKit\\Tests\\Contract\\Ports\\BoundaryTest::testGrantAndHostExclusionsApplyBeforeTopK"
+    ],
+    "PORT-CollectionFiltersAndStaleGrantCannotWidenScope": [
+      "KnowKit\\Tests\\Contract\\Ports\\BoundaryTest::testCollectionFiltersAndStaleGrantCannotWidenScope"
+    ],
+    "PORT-ReceiptFreshnessPolicyChangesAndHostScopeMismatch": [
+      "KnowKit\\Tests\\Contract\\Ports\\BoundaryTest::testReceiptFreshnessPolicyChangesAndHostScopeMismatch"
+    ],
+    "PORT-EveryEmbeddingCallChecksProcessingAndEgressBeforeSending": [
+      "KnowKit\\Tests\\Contract\\Ports\\BoundaryTest::testEveryEmbeddingCallChecksProcessingAndEgressBeforeSending"
+    ],
+    "PORT-VectorsAndRerankerCannotChangeSpaceOrExpandCandidates": [
+      "KnowKit\\Tests\\Contract\\Ports\\BoundaryTest::testVectorsAndRerankerCannotChangeSpaceOrExpandCandidates"
+    ],
+    "PORT-LeaseFenceTokenExpiryDeadlineAndFalseWrites": [
+      "KnowKit\\Tests\\Contract\\Ports\\BoundaryTest::testLeaseFenceTokenExpiryDeadlineAndFalseWrites"
+    ],
+    "PORT-DependencyParentsAndLifecycleAxesRemainSeparate": [
+      "KnowKit\\Tests\\Contract\\Ports\\BoundaryTest::testDependencyParentsAndLifecycleAxesRemainSeparate"
+    ],
+    "PORT-ReservationPrecedesUnknownDigestAndRedactsDocumentInputs": [
+      "KnowKit\\Tests\\Contract\\Ports\\BoundaryTest::testReservationPrecedesUnknownDigestAndRedactsDocumentInputs"
+    ],
+    "PORT-ProcessingAxesAndHistoricalRefs": [
+      "KnowKit\\Tests\\Contract\\Ports\\IdentityTest::testProcessingAxesAndHistoricalRefs"
+    ],
+    "PORT-ChangedOriginalCannotReuseVersionOrCitation": [
+      "KnowKit\\Tests\\Contract\\Ports\\IdentityTest::testChangedOriginalCannotReuseVersionOrCitation"
+    ],
+    "PORT-RevisionIdentityCannotChangeItsIrOrSource": [
+      "KnowKit\\Tests\\Contract\\Ports\\IdentityTest::testRevisionIdentityCannotChangeItsIrOrSource"
+    ],
+    "PORT-CanonicalProfilesAndSpaceAreIndependent": [
+      "KnowKit\\Tests\\Contract\\Ports\\IdentityTest::testCanonicalProfilesAndSpaceAreIndependent"
+    ],
+    "PORT-ImmutableRecordsAndUnicodeLocators": [
+      "KnowKit\\Tests\\Contract\\Ports\\IdentityTest::testImmutableRecordsAndUnicodeLocators"
+    ],
+    "PORT-TypedIdsDecimalsAndCalendarInstants": [
+      "KnowKit\\Tests\\Contract\\Ports\\IdentityTest::testTypedIdsDecimalsAndCalendarInstants"
+    ],
+    "PORT-VersionedFixtureManifestAndNegativeLoaderCases": [
+      "KnowKit\\Tests\\Contract\\Ports\\IdentityTest::testVersionedFixtureManifestAndNegativeLoaderCases"
+    ],
+    "PORT-ApprovedPolicyAndDisclosureSignatures": [
+      "KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testApprovedPolicyAndDisclosureSignatures"
+    ],
+    "PORT-AllPublicTypesResolveAndCatalogBoundariesAreScoped": [
+      "KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testAllPublicTypesResolveAndCatalogBoundariesAreScoped"
+    ],
+    "PORT-CoreRemainsVendorFreeAndHasNoAnswerOrFrameworkImports": [
+      "KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testCoreRemainsVendorFreeAndHasNoAnswerOrFrameworkImports"
+    ],
+    "PORT-SchemaBoundDtoRoundTripsAndFreezesItsInput": [
+      "KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testSchemaBoundDtoRoundTripsAndFreezesItsInput"
+    ],
+    "PORT-AllOutcomeSemanticsRemainDistinct": [
+      "KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testAllOutcomeSemanticsRemainDistinct"
+    ],
+    "PORT-ManifestCoversEveryExecutedPortsTest": [
+      "KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testManifestCoversEveryExecutedPortsTest"
+    ],
+    "PORT-DiscoveryHasNoFactorySideEffectsAndBootIsExplicit": [
+      "KnowKit\\Tests\\Contract\\Ports\\RegistryTest::testDiscoveryHasNoFactorySideEffectsAndBootIsExplicit"
+    ],
+    "PORT-TypoDuplicateUnknownAndMissingCapabilitiesNeverFallback": [
+      "KnowKit\\Tests\\Contract\\Ports\\RegistryTest::testTypoDuplicateUnknownAndMissingCapabilitiesNeverFallback"
+    ],
+    "PORT-UnknownDependencyConfigurationAndUnboundAdapterAreRejected": [
+      "KnowKit\\Tests\\Contract\\Ports\\RegistryTest::testUnknownDependencyConfigurationAndUnboundAdapterAreRejected"
+    ],
+    "PORT-EffectiveProfileOwnsFrozenRedactedConfig": [
+      "KnowKit\\Tests\\Contract\\Ports\\RegistryTest::testEffectiveProfileOwnsFrozenRedactedConfig"
+    ],
+    "PORT-FactoryMustImplementTheDeclaredPort": [
+      "KnowKit\\Tests\\Contract\\Ports\\RegistryTest::testFactoryMustImplementTheDeclaredPort"
+    ],
+    "R05-A01": [
+      "KnowKit\\Tests\\Contract\\Ports\\IdentityTest::testProcessingAxesAndHistoricalRefs"
+    ],
+    "R05-A02": [
+      "KnowKit\\Tests\\Contract\\Ports\\IdentityTest::testChangedOriginalCannotReuseVersionOrCitation"
+    ],
+    "PORT-REGISTRY-TYPO": [
+      "KnowKit\\Tests\\Contract\\Ports\\RegistryTest::testTypoDuplicateUnknownAndMissingCapabilitiesNeverFallback"
+    ],
+    "PORT-UNKNOWN-CAPABILITY": [
+      "KnowKit\\Tests\\Contract\\Ports\\RegistryTest::testTypoDuplicateUnknownAndMissingCapabilitiesNeverFallback"
+    ],
+    "PORT-REFLECTION": [
+      "KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testApprovedPolicyAndDisclosureSignatures"
+    ],
+    "PORT-NO-ANSWER": [
+      "KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testCoreRemainsVendorFreeAndHasNoAnswerOrFrameworkImports"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/identity/v1/processing.json",
+      "sha256": "c3de61ab9381c14a32baca3135294c379bd826bd124e7e75d566c50b137af3b3",
+      "expected": {
+        "scenarios": 5,
+        "history": 2,
+        "negative": "immutable_conflict"
+      }
+    },
+    {
+      "path": "tests/fixtures/identity/v1/registry.json",
+      "sha256": "efd9226a9501a4aa5b99112b828e5fe2e11d26a4edb446fbfa1cf13a968e86c1",
+      "expected": {
+        "scenarios": 5,
+        "factoryCallsOnRejection": 0
+      }
+    },
+    {
+      "path": "tests/fixtures/identity/manifest.v1.json",
+      "sha256": "e1693d0b9e4ffd75559653bb9d90db909ee9f3c1cb06e4f28dadf7aff38edcb7",
+      "expected": {
+        "entries": 2,
+        "outcome": "strict-corpus"
+      }
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "registry-fixture:1",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Exact explicit registration negatives; every rejected request must leave all factories uncalled. Corpus 1.0.1 finalizes one LF at EOF; semantic golden outputs are unchanged.",
+  "cases": [
+    {
+      "id": "typo",
+      "adapterId": "clok",
+      "expectedOutcome": "incompatible",
+      "expectedErrorCode": "unknown_adapter"
+    },
+    {
+      "id": "unknown-capability",
+      "capability": "parser.teext",
+      "expectedOutcome": "incompatible",
+      "expectedErrorCode": "unsupported_capability"
+    },
+    {
+      "id": "duplicate",
+      "expectedOutcome": "incompatible",
+      "expectedErrorCode": "duplicate_adapter"
+    },
+    {
+      "id": "cycle",
+      "expectedOutcome": "incompatible",
+      "expectedErrorCode": "capability_cycle"
+    },
+    {
+      "id": "missing-capability",
+      "expectedOutcome": "incompatible",
+      "expectedErrorCode": "unsupported_capability"
+    }
+  ]
+}

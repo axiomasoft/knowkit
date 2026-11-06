@@ -1,0 +1,1103 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P1.5",
+  "status": "implemented_unreviewed",
+  "date": "2026-11-06",
+  "targetBaseline": "aa1ee86f64598315b44ca65a7d16f01d4c8ef9ac",
+  "candidateDigest": "2b8b904390c886681344ee832f7bbf03f88bf9e720816076b2272ad5eb1ab28c",
+  "candidateDigestAlgorithm": "SHA256 of sorted UTF8(path)||NUL||ASCII(file SHA256)||LF records; only candidateFiles below. Excludes this self-referential receipt and generated evidence outputs.",
+  "candidateFiles": [
+    {
+      "path": "docs/architecture/ports-contract.md",
+      "sha256": "5e064eb8b7467d37063f0ac863771ee328fa1b4d9acbed18e86a8f3827aed2d4"
+    },
+    {
+      "path": "packages/core/src/Application/Disclosure.php",
+      "sha256": "be38409eb1feb28f3d34468a129ae36cfb21cdc8fa304f83793a1d5841e0df62"
+    },
+    {
+      "path": "packages/core/src/Application/Ingestion.php",
+      "sha256": "d0e32460abcd3ba7810f0f389603d55732614f53494b6c06746dd8234831e5c7"
+    },
+    {
+      "path": "packages/core/src/Application/Lifecycle.php",
+      "sha256": "d44e9088e113e78c508c45df55b8c19238e242cf632b586af9c4a046af01eb67"
+    },
+    {
+      "path": "packages/core/src/Application/Publishing.php",
+      "sha256": "22b680036282c784af52b685f4e5578bbde9dd4d855b102ec547464e050aae90"
+    },
+    {
+      "path": "packages/core/src/Application/Retrieval.php",
+      "sha256": "772ba1eef9ab9bbe1a88283e3fdf2c604ab7a2d843d512ba551bcab672b2e767"
+    },
+    {
+      "path": "packages/core/src/Domain/ActorId.php",
+      "sha256": "21ba2694531d27248e9fc6ac839f3255b52147b11fa8f6a69a875b89e864718d"
+    },
+    {
+      "path": "packages/core/src/Domain/AdapterId.php",
+      "sha256": "95b8a4ad5a1fa0e0ede13a9a511f15c77abb261931980f215924e499e3c18fc5"
+    },
+    {
+      "path": "packages/core/src/Domain/AdapterKind.php",
+      "sha256": "88efa9082d747f87ecd260f47be54c2ff048d7091c9ab4d200302fa044276589"
+    },
+    {
+      "path": "packages/core/src/Domain/AttemptId.php",
+      "sha256": "ef33a18d09e5a9661e7651ecdf7f1f86cb1038f51167099b188c0c43d8ee168c"
+    },
+    {
+      "path": "packages/core/src/Domain/AuthorizedSearchScope.php",
+      "sha256": "1f1ae01e6c635d0c9cea9dc6ca83152d8128dca3d982c332c7eee0fb4375fd1a"
+    },
+    {
+      "path": "packages/core/src/Domain/Bbox.php",
+      "sha256": "edbc21774d35e0fcbe1993abbf668c543c9acad503ff7dcd6ce456fd107a06ff"
+    },
+    {
+      "path": "packages/core/src/Domain/BlobRef.php",
+      "sha256": "636b0d9b2954d5b6e94a8defffdc1cf03703521fe5508f9b966c1d73f7a723a6"
+    },
+    {
+      "path": "packages/core/src/Domain/BlobWriteReservation.php",
+      "sha256": "c979e246740b8c6a88bdf685045d671097c3bff82ce92b50ee4d50bb6618fdc9"
+    },
+    {
+      "path": "packages/core/src/Domain/BuildGeneration.php",
+      "sha256": "24dc7c8682bfd8197d244e76fcb1e4a66ede88ebe7db45b30786d9ccb2655b7b"
+    },
+    {
+      "path": "packages/core/src/Domain/Candidate.php",
+      "sha256": "1d1c8227166cc1ba8a21dea35a125b2d5c7b4d93e169bd841b65570f584f0c99"
+    },
+    {
+      "path": "packages/core/src/Domain/CandidateList.php",
+      "sha256": "c6a6756d76a0566b8fe7403a2847fcba2a9382a322ac064e6c794946b16e8c4a"
+    },
+    {
+      "path": "packages/core/src/Domain/CandidateSubset.php",
+      "sha256": "0c25a0d1b61958a761a41b71236a56756978d57cec1e1dde13c88e7e0427e7da"
+    },
+    {
+      "path": "packages/core/src/Domain/Capability.php",
+      "sha256": "864aa0a85c8536a6f95fcf9feea306ff552b1ed7dc19a5c4f72bee80a9144fd4"
+    },
+    {
+      "path": "packages/core/src/Domain/CapabilityDeclaration.php",
+      "sha256": "e3926ee8aaf9840839c5d5824929a7e337f11cf92846c2f96d0ae1f973b122a9"
+    },
+    {
+      "path": "packages/core/src/Domain/Checkpoint.php",
+      "sha256": "678c8511d4fd10826ea862c370c06181065cc42dc96fed0e49ac2f2cb6dd2fe7"
+    },
+    {
+      "path": "packages/core/src/Domain/Chunk.php",
+      "sha256": "f488e1c03a012a8587fcdccda89ea1d7597eada9c751fd0188330c3770b81930"
+    },
+    {
+      "path": "packages/core/src/Domain/ChunkId.php",
+      "sha256": "4d1aa241ca90eba92371c7bba3c07bc19a7707fd9209bb71ff29d57334f7a03e"
+    },
+    {
+      "path": "packages/core/src/Domain/ChunkRef.php",
+      "sha256": "4c0882e421e314da93007d00b69656cb86e98ffb498f1569f926fe5f7baebcd7"
+    },
+    {
+      "path": "packages/core/src/Domain/ChunkSet.php",
+      "sha256": "27d515f091375dde8ef8810aa044f43eb2001db41094d2cf5491805ab3a4f395"
+    },
+    {
+      "path": "packages/core/src/Domain/ChunkSetId.php",
+      "sha256": "0038e04c724e633fd1c20f96b89653537ffdd1317b0052ee1071162554d0b291"
+    },
+    {
+      "path": "packages/core/src/Domain/ChunkerProfile.php",
+      "sha256": "0b4dc60ea2e519597a69479a3610c52e9938ba689b7c48b15ce96e251038ce9c"
+    },
+    {
+      "path": "packages/core/src/Domain/CitationRef.php",
+      "sha256": "8cee366f255d96b18d27a785795b4524dc3eac898fcb05fc502bbcff41b34c14"
+    },
+    {
+      "path": "packages/core/src/Domain/CollectionId.php",
+      "sha256": "b31f16f0322276e34031e4f678b5f7f8afcc5befbb1516b371f97ec2691e3a25"
+    },
+    {
+      "path": "packages/core/src/Domain/ConnectorCapabilities.php",
+      "sha256": "e60479438ac4f9ebe0a2ad13ae5fd5dbdde135b177b2e2db4afec5420d8a0508"
+    },
+    {
+      "path": "packages/core/src/Domain/ConnectorRequest.php",
+      "sha256": "faf80ee0947c249d8c5f20bd4998dc4368d20b4e60f150494150f49ba1fe83f5"
+    },
+    {
+      "path": "packages/core/src/Domain/Correction.php",
+      "sha256": "bef02c54afc3a796289788001746788b0203526bbfb89bae59d37e582b128ea4"
+    },
+    {
+      "path": "packages/core/src/Domain/Coverage.php",
+      "sha256": "6b957869ebb3946606cda5d9910a9d73de80df51a2a35c34eeb3d32273f54692"
+    },
+    {
+      "path": "packages/core/src/Domain/CoveragePolicy.php",
+      "sha256": "60e57233e5a78ef17ae7d8b4e615248c1ecda565776c98bc84d38d8e1485cf24"
+    },
+    {
+      "path": "packages/core/src/Domain/CrawlItem.php",
+      "sha256": "4fbe813a33b00dfd69543e5a24d0d7c2e6fee08bfe00e68b9d1cecb35611154f"
+    },
+    {
+      "path": "packages/core/src/Domain/CrawlSnapshot.php",
+      "sha256": "3c139addca7ff1d9f386118247d2cc42b8c0bcdd1262c4b0087feab7ce7c86ee"
+    },
+    {
+      "path": "packages/core/src/Domain/CredentialRef.php",
+      "sha256": "1034347c8e6876d417447d2de5bb132a425ffe08c0042b2300fcd0e5de4d8366"
+    },
+    {
+      "path": "packages/core/src/Domain/CurrentMemberships.php",
+      "sha256": "b3eef9a4ac1ca5ef2d50d584a874be885df44809acf4798787dd344f4b1a278d"
+    },
+    {
+      "path": "packages/core/src/Domain/Cursor.php",
+      "sha256": "e67ca13b8e0ea1660b074fac56d216d1e9dc3626111602c3b75acfe7e68018fb"
+    },
+    {
+      "path": "packages/core/src/Domain/Decimal.php",
+      "sha256": "7bce19ca5d04120635881ce627b0cbda2ecfd50341f2ccb28e150a0dff6f7094"
+    },
+    {
+      "path": "packages/core/src/Domain/Decision.php",
+      "sha256": "9ca62665458ea4fd809511362759f81da99426f3ee36f98ca75209f83b58fdfe"
+    },
+    {
+      "path": "packages/core/src/Domain/DecisionReceipt.php",
+      "sha256": "422070c3df8b3be496dcbf59d43338946a53692b612866fa3e8565fd5e5b2669"
+    },
+    {
+      "path": "packages/core/src/Domain/DeletionReceipt.php",
+      "sha256": "2e7dc54a61e52f03bef8a0ef23b97d999eba7b4808b03029f41bf307b750799f"
+    },
+    {
+      "path": "packages/core/src/Domain/DeletionTaskId.php",
+      "sha256": "158b52d60570a7ab414dbe78f8c2c1d808c3c0f6c32e73faf2240a19fb9ed163"
+    },
+    {
+      "path": "packages/core/src/Domain/DeliveryLease.php",
+      "sha256": "1a33b89b3bc9a56128c8853297a1982887f3786a54ed936d9537a18a9615d80b"
+    },
+    {
+      "path": "packages/core/src/Domain/DisclosureOutcome.php",
+      "sha256": "90f78c5516553723623331c83a73e9544e850addf2d5fcd72e3cfc9a595866df"
+    },
+    {
+      "path": "packages/core/src/Domain/DisclosureRequest.php",
+      "sha256": "87878539147896a66706baea297b1a3bdd0fecacd0f52e719728ba10965bed2f"
+    },
+    {
+      "path": "packages/core/src/Domain/DocumentId.php",
+      "sha256": "c876e7b79a7aaf4e38d9f624a947c2d93489149e93118b93cb271b74d9af1fd6"
+    },
+    {
+      "path": "packages/core/src/Domain/DocumentRevisionId.php",
+      "sha256": "0978116c7e08ab3dc968c4848953765a5633ef8554331da6936b24ccab2243ae"
+    },
+    {
+      "path": "packages/core/src/Domain/DocumentRevisionRef.php",
+      "sha256": "324f8e20ff389adf87438a4d0b33fb72cd7b8218db618144536bf4de0ac47d49"
+    },
+    {
+      "path": "packages/core/src/Domain/DomainEvent.php",
+      "sha256": "2b3da537e3dcce98ac96696b4c0122d0f389d0d2df6e3e162c4170ba9b1c28f3"
+    },
+    {
+      "path": "packages/core/src/Domain/DomainFailure.php",
+      "sha256": "14e6419a71ae5ecf445ee7860986b565ac437547efe91065c1c10f42586f136e"
+    },
+    {
+      "path": "packages/core/src/Domain/EffectiveProfile.php",
+      "sha256": "fbfafeb6d930d693b85651178083bc6846e32d003dc32d51bfb5fa80d2956cdb"
+    },
+    {
+      "path": "packages/core/src/Domain/EgressRequest.php",
+      "sha256": "89fdc8f270bdefeb2b67dfa00450ff52da3c2dabd15720d57f18d4192431719d"
+    },
+    {
+      "path": "packages/core/src/Domain/EmbeddingAccess.php",
+      "sha256": "437b074d92fd2e37948e28e5186db89be247bdaa390592da8d18305091dac5b7"
+    },
+    {
+      "path": "packages/core/src/Domain/EmbeddingBatch.php",
+      "sha256": "1b557f53cf62d987656d060c6be907ab24b0b11e98c4a6981a713c372e463b78"
+    },
+    {
+      "path": "packages/core/src/Domain/EmbeddingCapabilities.php",
+      "sha256": "8a9e21e528f241abb18a34fbef5395c9b9f7357ecb776cf6c71a2f2b88bd6819"
+    },
+    {
+      "path": "packages/core/src/Domain/EmbeddingInput.php",
+      "sha256": "ab200d587781f2c6950bec03d8ca9d0a9e126c12f2d80364ffa7ff7f8782ce90"
+    },
+    {
+      "path": "packages/core/src/Domain/EmbeddingSpace.php",
+      "sha256": "c1186d093ab01f03f0d31c8e43f7a6c1614ce332dec89413c1085e441563d7c5"
+    },
+    {
+      "path": "packages/core/src/Domain/EventId.php",
+      "sha256": "367e1770a909fd9fda4493cf4f9ba9f087704d0111fe082265a268b0e211bd0e"
+    },
+    {
+      "path": "packages/core/src/Domain/EvidenceSet.php",
+      "sha256": "ab5c3506962094b97b4fe70a558acb070202557b471893058228fa0a74e05d13"
+    },
+    {
+      "path": "packages/core/src/Domain/ExactIdentityGuard.php",
+      "sha256": "da5112a2b92c40601a4e82c32823c4886af1b6966ded65daff38bb030828ecd8"
+    },
+    {
+      "path": "packages/core/src/Domain/ExactSourceRef.php",
+      "sha256": "a94dda7c39b5c44094b4b45cd2dab4097fbbb65098c4449d869c98d1a6627476"
+    },
+    {
+      "path": "packages/core/src/Domain/Fingerprint.php",
+      "sha256": "a815f2ef72904620045a45926278b3dbc4ab9be998021ac931004135cf600b7f"
+    },
+    {
+      "path": "packages/core/src/Domain/FrozenJson.php",
+      "sha256": "60cd43859b085f97bcf5e76336b60de03ce4d31db602c9228fbb83192f07eb18"
+    },
+    {
+      "path": "packages/core/src/Domain/Generation.php",
+      "sha256": "14d350a46f3c3083f05296f88349631c2e65e6f94dd2f907a34bb79a019cddf8"
+    },
+    {
+      "path": "packages/core/src/Domain/GenerationId.php",
+      "sha256": "f6a8759e54329b00b813f2f3d646e311b5eeedfcc20a699ccefd678c986e707e"
+    },
+    {
+      "path": "packages/core/src/Domain/GenerationReceipt.php",
+      "sha256": "d59947dd222d623c36d56ea7842cd040c5eb0d740c6d4150efbe4e9729ec157e"
+    },
+    {
+      "path": "packages/core/src/Domain/IdempotencyKey.php",
+      "sha256": "98ba5e149d703900d82bc3f47c64b1d4460e48726717d06c49d2d0fc5382884b"
+    },
+    {
+      "path": "packages/core/src/Domain/IndexManifest.php",
+      "sha256": "bf87488f6fe33a78788257c3ddedab8da03671a56420147fae947256081514cc"
+    },
+    {
+      "path": "packages/core/src/Domain/IndexReceipt.php",
+      "sha256": "23c67d24dd994b4e09e0b50d8aaf43b14b26d5c74d7b433e7ce4777ca475ee6a"
+    },
+    {
+      "path": "packages/core/src/Domain/IrDigest.php",
+      "sha256": "52c352938378300050da909063acacd7d4f8db8ab37d0ca5e34a1b56e97cc87c"
+    },
+    {
+      "path": "packages/core/src/Domain/IrDocument.php",
+      "sha256": "91e241aa785a0f3ed3bcfe5274e36b7179faa9b6ed9719b6e72018fef35e5712"
+    },
+    {
+      "path": "packages/core/src/Domain/Job.php",
+      "sha256": "46f5aea2f16c20b6f51fd4fd6bc80368767f74cf3569ef7450e3f18e0fd07d26"
+    },
+    {
+      "path": "packages/core/src/Domain/JobCommand.php",
+      "sha256": "578093a7685c673beb84e0b92347a57cd30c9f2b7ba61c202495b952525acd4f"
+    },
+    {
+      "path": "packages/core/src/Domain/JobEnvelope.php",
+      "sha256": "623a435734e2509faa66bbcb879632c121b2d6bfc4c9e553f22f0931a2e3db01"
+    },
+    {
+      "path": "packages/core/src/Domain/JobId.php",
+      "sha256": "8390e905001927feadede482b93ae568b24f26b40ffef1050392207a6489def5"
+    },
+    {
+      "path": "packages/core/src/Domain/JobResult.php",
+      "sha256": "868ff6f1c39219c53c9999eaa61fc51e2446805320e1e7289b8f370a45638b91"
+    },
+    {
+      "path": "packages/core/src/Domain/JobState.php",
+      "sha256": "2ea1fdf0e82cd77580c46603fb2704062dcbb755b15a4754a11bc7330c94af2f"
+    },
+    {
+      "path": "packages/core/src/Domain/JobType.php",
+      "sha256": "465677c1d2615ace4194668c5cf2cb3d47f014499a52d3bbd01746d97e66fefe"
+    },
+    {
+      "path": "packages/core/src/Domain/KbId.php",
+      "sha256": "c48d8104467588fbec84f98322cc1c91854c00e963ae45a440db8f300ec01113"
+    },
+    {
+      "path": "packages/core/src/Domain/KnowledgeBase.php",
+      "sha256": "658f7d71e813b5a6f8ca2c141fdfd1aa6bd36d6e9da7c96ad31a206d655fc2d5"
+    },
+    {
+      "path": "packages/core/src/Domain/Lease.php",
+      "sha256": "090e7097d46026191c841d2a043dc875cea54c46574456e18820cc32e45522b6"
+    },
+    {
+      "path": "packages/core/src/Domain/LegalHold.php",
+      "sha256": "2257104559a3e6c90b94aa6ed59f2fd22dfe33379702160cf2e411eeab5f1eb1"
+    },
+    {
+      "path": "packages/core/src/Domain/LifecycleEvent.php",
+      "sha256": "923c762ff3cdb89a3a6b82f252c3d40b2cdc7bd96c0a2308673f2d88f51bef6b"
+    },
+    {
+      "path": "packages/core/src/Domain/Limit.php",
+      "sha256": "25101157c50b6363679fd45a0c6c6cc34200ecb97f780c63fbd0fd11d2d1166e"
+    },
+    {
+      "path": "packages/core/src/Domain/LocalId.php",
+      "sha256": "40706559fef8a8d69dc548c521b87c5690a445d113d73d12edaa6e225f3122f6"
+    },
+    {
+      "path": "packages/core/src/Domain/LockMode.php",
+      "sha256": "1139043986e88953e450f1ca4d0e10a9d8997d91dbb6f50473a97b37ec8dae74"
+    },
+    {
+      "path": "packages/core/src/Domain/Membership.php",
+      "sha256": "9f6bc722fce94d09bd5331a55650d77c8e270e3a9c6cab944aeb3b07a0a44607"
+    },
+    {
+      "path": "packages/core/src/Domain/MutationContext.php",
+      "sha256": "a30af49a212cb85339384229f30f08f0240a85961547d450eae54fc8079c5309"
+    },
+    {
+      "path": "packages/core/src/Domain/Node.php",
+      "sha256": "0f3c3cdeff1a6311224c45b63ee93103ac7b824fa0490f5798bad4177969f050"
+    },
+    {
+      "path": "packages/core/src/Domain/NodeRefs.php",
+      "sha256": "58ea667897db302254dafa700fe53771d2d415d86b8f1d7d4440707edc4ed38f"
+    },
+    {
+      "path": "packages/core/src/Domain/Operation.php",
+      "sha256": "965343083c0a8ea5982c303daccdd7c60fc73f9a75c51d72e50ddc47d439843d"
+    },
+    {
+      "path": "packages/core/src/Domain/Outcome.php",
+      "sha256": "19bbae96a0eff5b8f4117dcbfb953f5ad9feb34af4d855b707e84345ea844c69"
+    },
+    {
+      "path": "packages/core/src/Domain/Parents.php",
+      "sha256": "a3abf487dadd5c2e505d07d2531dc79046c17e10b1ad539455114fe401e7d5d6"
+    },
+    {
+      "path": "packages/core/src/Domain/ParserCapabilities.php",
+      "sha256": "7de899557fb019313f0c3bc271f6433056603a3cbd8517fca269163334e8f5ce"
+    },
+    {
+      "path": "packages/core/src/Domain/ParserProfile.php",
+      "sha256": "bf8f420f88a3af547341dff35ea8fc9d28e0fd8dc185568ca516ad61b6480d33"
+    },
+    {
+      "path": "packages/core/src/Domain/ParserSignature.php",
+      "sha256": "e88fe3d60d5cebae7f42b52c9752294c32facc9b104e3919971745096250b27c"
+    },
+    {
+      "path": "packages/core/src/Domain/ProcessingIdentity.php",
+      "sha256": "346a77c0b573e4de73fbbd9a14042e6c8e97ebf9b5a7df055220e2500067296c"
+    },
+    {
+      "path": "packages/core/src/Domain/PublicationSnapshot.php",
+      "sha256": "ae0c399d29e91d3a88867c8d2699b80c72c8f12ee5b74ba5bf83b627541a94b1"
+    },
+    {
+      "path": "packages/core/src/Domain/PublishOutcome.php",
+      "sha256": "5436b42037ac71e6daa0f706054e61cfddd36dee1c11ec41695ef89543c08104"
+    },
+    {
+      "path": "packages/core/src/Domain/PublishReceipt.php",
+      "sha256": "8ccc4ac9e2f614a894e5d8000c251295f1c993946571b8a305f746d03b7ceeb2"
+    },
+    {
+      "path": "packages/core/src/Domain/PurgeRequest.php",
+      "sha256": "61b17bb2338f4b1bcf4f459d4729a000ad153121452c5659fd3210c0ce3089d3"
+    },
+    {
+      "path": "packages/core/src/Domain/QualityDecision.php",
+      "sha256": "24024c39862e09ce6063dcf7c7efde2552a8d0a80052b1eebd8615afb825de7e"
+    },
+    {
+      "path": "packages/core/src/Domain/Query.php",
+      "sha256": "a29e19d28437cf2bb5cfb06727ddac78b690378584ddeb3139e86fdbaaca69fb"
+    },
+    {
+      "path": "packages/core/src/Domain/QueryGrant.php",
+      "sha256": "55006228ee1396d31f39c5c38920286f87a5d712a4f7d4042b24881ea90d9381"
+    },
+    {
+      "path": "packages/core/src/Domain/QueryInput.php",
+      "sha256": "582293fb6d727851f6139197a3e79949da56ae6865b27ed1c6462b15fe98963c"
+    },
+    {
+      "path": "packages/core/src/Domain/Readiness.php",
+      "sha256": "bde827a253dd3174aa622251d7afff2f7798ab1e5b3c574149cf9ce2c659d374"
+    },
+    {
+      "path": "packages/core/src/Domain/RegisterSource.php",
+      "sha256": "d5c13d7c586be145a581f68b4e8f6e22893a1e2053890f2aea0065499b13a7c1"
+    },
+    {
+      "path": "packages/core/src/Domain/RequestId.php",
+      "sha256": "a8dd6c735d801e8ea68ffe456631a89c105c5ad7d7e7764ce9def82c8e10a918"
+    },
+    {
+      "path": "packages/core/src/Domain/RerankProfile.php",
+      "sha256": "6c764d4f6981c944ff18c92e73cbbfe726fb0ea0c66dffa87bea5a82a059266a"
+    },
+    {
+      "path": "packages/core/src/Domain/ResourceId.php",
+      "sha256": "4b6b6498b345705b026db1959fdd4033fdb3ea06d7381e1ea4c40d4f17746d92"
+    },
+    {
+      "path": "packages/core/src/Domain/ResourcePage.php",
+      "sha256": "1d31f67c1419371528a529616d70a11b4b40ebe054348116933c2849cfef93ce"
+    },
+    {
+      "path": "packages/core/src/Domain/ResourceRef.php",
+      "sha256": "a4ee82cfa73392619e8e921ffe92df574c6f370bea8a6f519ee29c41f7956d61"
+    },
+    {
+      "path": "packages/core/src/Domain/RestoreReceipt.php",
+      "sha256": "589ece622908f765f49690977eb0a8eee1e92d5a14aba148ea05a5d6ae910bd6"
+    },
+    {
+      "path": "packages/core/src/Domain/Result.php",
+      "sha256": "7ccceca6ed2281ec5cb156edcba52c25bd69a37175eb1a1fedbd49624fd046b4"
+    },
+    {
+      "path": "packages/core/src/Domain/RetrievalOutcome.php",
+      "sha256": "c1ec6233953b44859400ced44e84498728a98657acc31f676638fa4a4dac39a2"
+    },
+    {
+      "path": "packages/core/src/Domain/Revocation.php",
+      "sha256": "13cb2a16bcc11770cf421439ca729ba94fde85999ec0812027bf20133fc807c9"
+    },
+    {
+      "path": "packages/core/src/Domain/SchemaValue.php",
+      "sha256": "976287bf621cdbe8133262fc4347771a12e903989bfb834ee4a7de5fba0f56c4"
+    },
+    {
+      "path": "packages/core/src/Domain/Scope.php",
+      "sha256": "4ff955fd41d5f5f96b1c4d57cbe06e1910c46b96e93bde3ff4c848b02790b1ab"
+    },
+    {
+      "path": "packages/core/src/Domain/Selection.php",
+      "sha256": "c75b00360eb4ae703913386b653ffdac90d908e1b2d7cb8735b694df9ba570db"
+    },
+    {
+      "path": "packages/core/src/Domain/SelectionId.php",
+      "sha256": "86a8ee29805e5839fef632f6337264c11d06449677570a750f196350c9144eb5"
+    },
+    {
+      "path": "packages/core/src/Domain/Sha256.php",
+      "sha256": "02780c1b4aeaffd9d1938dfa4f2d18d62cc85aa8096cc74c7777eb71cb27e50f"
+    },
+    {
+      "path": "packages/core/src/Domain/SnapshotId.php",
+      "sha256": "9c33d7ee1b2d11635517a788d22803882ec099189bbe5ba32a9503d3f70865d7"
+    },
+    {
+      "path": "packages/core/src/Domain/SnapshotRef.php",
+      "sha256": "9a10e0ee2eab884a3b8163352bd6fb567c77e1470ba253a9fbb6cc445c01325a"
+    },
+    {
+      "path": "packages/core/src/Domain/Source.php",
+      "sha256": "8d0e1d38c1934e7c2997b61ae88a37f8499630cc7d30e9713cfbd16b709e2770"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceBytes.php",
+      "sha256": "fa3a38f047169295c9bf547e4549a39144564fb602ea19b135f5f746763dc4e8"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceDigest.php",
+      "sha256": "81bac304d8255a36a95e13e12ad8ddd1e1aedca00edb035db00b1ed3547ee5da"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceId.php",
+      "sha256": "946a87f3af0cacf6af99a893594c9144e098f32155896ddf96afa6bc293fcc58"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceLifecycleState.php",
+      "sha256": "0349d775823eba6785206db93b2c345959face38eee1e1482d27c0a1ca1f2317"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceReceipt.php",
+      "sha256": "b3685a5c6562d5e19f4beee2ada1cfad0ae461d3a4130e2879aa9ed518568e55"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceUpload.php",
+      "sha256": "560c07ff1daaac35e0c9c3a5c692d06aae0f9f2896f6782d9172a31cb6da0f09"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceVersion.php",
+      "sha256": "b26aa7e68953193ccff22fa486017294d0f9c773691356d4cc71c99e45c305f9"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceVersionId.php",
+      "sha256": "530c397651c673d0c3233b1f390ba40b798a7324fc1b57cb2ded88be5420e513"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceVersionRef.php",
+      "sha256": "727726a9ca8489018a02fd81b80f5b969547aecb1bd6ff1365e5581b32421b30"
+    },
+    {
+      "path": "packages/core/src/Domain/SourceVersionState.php",
+      "sha256": "c1103e4899ad3ac9010298cade75cb2bae6b89dfbd65c95d3e729cc3032c7af7"
+    },
+    {
+      "path": "packages/core/src/Domain/SpaceRef.php",
+      "sha256": "932eb9adfc00ca611664002e78b0c1b86c225d0135a3f602ee6d2a3e25c07b86"
+    },
+    {
+      "path": "packages/core/src/Domain/Span.php",
+      "sha256": "555d309b9986f681fade893836100a7834c628f8db03d9411e8b2fd5d8796d5f"
+    },
+    {
+      "path": "packages/core/src/Domain/TenantId.php",
+      "sha256": "86cf6ea6ae07870613f42661c5c1ff1d882acd49d51012a7ae499a201668d76d"
+    },
+    {
+      "path": "packages/core/src/Domain/TextLocator.php",
+      "sha256": "324b7de135f17d08045a281a6a912e25ae11cb2bee2785ffb58f2c9f502e566a"
+    },
+    {
+      "path": "packages/core/src/Domain/Tombstone.php",
+      "sha256": "b42ce5558cc4f6280f3001cc6bca73b1ed407e450535766e2ee6aa682fb5d239"
+    },
+    {
+      "path": "packages/core/src/Domain/Uint64.php",
+      "sha256": "5a4284db32961e3e84a773f8f5bc5700ce9fd1a1e565f8fd027f7ddf92c6dc0b"
+    },
+    {
+      "path": "packages/core/src/Domain/Ulid.php",
+      "sha256": "86a2a9c0394f14e5b50d43d70cd58b535b9cee38ddeace22cef7c3aa1041acc1"
+    },
+    {
+      "path": "packages/core/src/Domain/Usability.php",
+      "sha256": "eebca033d19557bb29d7cb18f4f4d0cbff51e389fbdab91e357d9482dad67f6d"
+    },
+    {
+      "path": "packages/core/src/Domain/UsabilityReport.php",
+      "sha256": "a174582919da80c1354455e18e50ed2852a9f4a9574a6b940034071c56d7a8a9"
+    },
+    {
+      "path": "packages/core/src/Domain/Usage.php",
+      "sha256": "63dec5e2214efc3a5483ae92c4310801c538f9e0ca5c6d833e64f0482db39469"
+    },
+    {
+      "path": "packages/core/src/Domain/UsageId.php",
+      "sha256": "95bcabfe9a4f6200b2e045978e30fc21025a3727784267a298bc8e08a76f5944"
+    },
+    {
+      "path": "packages/core/src/Domain/UtcInstant.php",
+      "sha256": "92885369ed4b850e1afaca377bfed880f4764566559947017223718990e76fb6"
+    },
+    {
+      "path": "packages/core/src/Domain/ValidationReport.php",
+      "sha256": "366fef1abf3aaa3e13227561a1ececf879c9d1800a831d5da1350c94bafb2436"
+    },
+    {
+      "path": "packages/core/src/Domain/ValueGuard.php",
+      "sha256": "1aa86b217525560d72856ee56987e01f2b97b4ab636a94d43c93cb9e072e9da9"
+    },
+    {
+      "path": "packages/core/src/Domain/Vector.php",
+      "sha256": "fa5bae6797c75f2a265b3026b2d82e10c9d2bb2fc2b35801bf72dc5d40c0225b"
+    },
+    {
+      "path": "packages/core/src/Domain/VersionReceipt.php",
+      "sha256": "ef5a11f6a0b5f623c31ff1cf7fc065db91dd3bf2a879809c95cd33a43cf3e4d1"
+    },
+    {
+      "path": "packages/core/src/Domain/WorkerId.php",
+      "sha256": "e84d5f3656c1bc6cb845e38fd86afb3bb9afce329ed65ee4e123bf057df57ad6"
+    },
+    {
+      "path": "packages/core/src/Domain/WorkerResult.php",
+      "sha256": "247ea2e00ec7c6a44e07a56654ba27a12ceec5345291b8af72950b829ccce530"
+    },
+    {
+      "path": "packages/core/src/Domain/WriterId.php",
+      "sha256": "02e117ffd54a48477ff7fabac3ba25afc0630cd91dcae26a3c88a4851f6bcc9e"
+    },
+    {
+      "path": "packages/core/src/Port/AccessPolicy.php",
+      "sha256": "2834aad2217d646e228df46d72012082eb91b27a385a07e95b78009bff45984a"
+    },
+    {
+      "path": "packages/core/src/Port/BlobStore.php",
+      "sha256": "b509dbb49dbe8c841a7706c6fc3cd2add674b39f590f88d142b16ad4f6c49c4d"
+    },
+    {
+      "path": "packages/core/src/Port/CanonicalJson.php",
+      "sha256": "af2ad3b602ed034f477969c2779dfb6c64c2b95dbdca708ad5d59dc703089527"
+    },
+    {
+      "path": "packages/core/src/Port/CatalogRepository.php",
+      "sha256": "42cc6869789faa1d9e1aba778e57c8a3b0c1178032ba3c7757bf9139c9c13ca9"
+    },
+    {
+      "path": "packages/core/src/Port/CatalogTransaction.php",
+      "sha256": "f5022d8cae8c0d12a7afd2780e3642fd44e1985cfda6ec2c0e7ce7a70d5ea839"
+    },
+    {
+      "path": "packages/core/src/Port/Chunker.php",
+      "sha256": "d67648bcefdd63eff395da94d67bb3c633bd59b90423b0fefbe5829370e2a89d"
+    },
+    {
+      "path": "packages/core/src/Port/Clock.php",
+      "sha256": "753dc28eec8d54bb40b756fd5aebfc061153f57276b17a6def0cdab54c4284b9"
+    },
+    {
+      "path": "packages/core/src/Port/DependencyStore.php",
+      "sha256": "1f181ccd4eac802d901137da258946f560863a423294970507098333a0bd06b7"
+    },
+    {
+      "path": "packages/core/src/Port/DocumentParser.php",
+      "sha256": "c5fdc612944db7de78c2c6bd001df0c2112ad873dc0a352dac4e1b3edce27446"
+    },
+    {
+      "path": "packages/core/src/Port/EgressPolicy.php",
+      "sha256": "b78636d735f6b7f738d9579c416b1c8d951bece13c4fcbce5870bb7b45c8a2cb"
+    },
+    {
+      "path": "packages/core/src/Port/EmbeddingProvider.php",
+      "sha256": "81767e72510ec5cdca955263d47cae6584d5269d36061c48d548b557c5c94034"
+    },
+    {
+      "path": "packages/core/src/Port/ExtractionValidator.php",
+      "sha256": "7c0f3b58e7293ae70c4c5e495fd165337ff25fffdc95652f29e994dba5121d1a"
+    },
+    {
+      "path": "packages/core/src/Port/IdGenerator.php",
+      "sha256": "32a0b7a65d572801f9cfcc8729580715ef6aa386f58ee77f143cb566cade9b63"
+    },
+    {
+      "path": "packages/core/src/Port/JobQueue.php",
+      "sha256": "ceb6dd7ffadc6e5a733e780f282917f2d306baab9adb3877a3fd7beba8ac8834"
+    },
+    {
+      "path": "packages/core/src/Port/LexicalIndex.php",
+      "sha256": "45979f87047aba3f82f994d278e237bf0e60d4a813cc6f6a9d2cef81aead2221"
+    },
+    {
+      "path": "packages/core/src/Port/LifecycleStore.php",
+      "sha256": "67ee48c103276e592fe22217ad0a531344c5e75358e50145aa81ac6aa33c5943"
+    },
+    {
+      "path": "packages/core/src/Port/Outbox.php",
+      "sha256": "90304827690e53db356e62e4d6c9304bd475ef51c3ccd53e39ce1033725c4099"
+    },
+    {
+      "path": "packages/core/src/Port/OutboxDelivery.php",
+      "sha256": "43bd124905f07797ed18164b38e16a69476b81c3a8da11261862f29e2b5835ef"
+    },
+    {
+      "path": "packages/core/src/Port/PolicyCheckedEmbeddingProvider.php",
+      "sha256": "2b5806ff346a4630c37f9698f86953148a1b9895580248f3b20edfab09116180"
+    },
+    {
+      "path": "packages/core/src/Port/QualityPolicy.php",
+      "sha256": "881ea7c05f9fcc2889251dd8851be7a970ffe2ad8f0d98f53d105d5a8aeb3b85"
+    },
+    {
+      "path": "packages/core/src/Port/ReadableStream.php",
+      "sha256": "6138c7d724f3528bfda5580e5ea449f0195de07328b5a4f746737640dc6e34ce"
+    },
+    {
+      "path": "packages/core/src/Port/Reranker.php",
+      "sha256": "7654ee4c90a6efb0706c836ab4df655a7a2a31855d3e5935ee39d3549c401a68"
+    },
+    {
+      "path": "packages/core/src/Port/SourceConnector.php",
+      "sha256": "9723bf330bdc998820afeeaac264f0a96866f93ac2dc3f5ea1c792589034f67b"
+    },
+    {
+      "path": "packages/core/src/Port/SourceReader.php",
+      "sha256": "a03c1a9e87e9a96f666464e27f99e8dca4707ae85b1a87045934146ca002ace0"
+    },
+    {
+      "path": "packages/core/src/Port/VectorIndex.php",
+      "sha256": "7fd3b11775520946da62f47f06ee36201a2e4d7ed6bb6dad01e26a287f4ec843"
+    },
+    {
+      "path": "packages/core/src/Registry/AdapterDescriptor.php",
+      "sha256": "6d77a8e15d087151c61b00397e40f9db7f1dd11bce3300a65d21c7a712bc8c2a"
+    },
+    {
+      "path": "packages/core/src/Registry/AdapterRegistry.php",
+      "sha256": "6b9ce99d2add2c0cd90255aa73d6bdf6f21313a8d461bacfa882996afa1c0d8e"
+    },
+    {
+      "path": "packages/core/src/Registry/Factory.php",
+      "sha256": "d50a48b5755bde01fd28d2980323945bf8bc3730b2a5037fea313db9259fe62d"
+    },
+    {
+      "path": "phpunit.xml",
+      "sha256": "6efb24af46ec3665a7af03f00bc4dce6c028bf82e247c88e256aba422c37e035"
+    },
+    {
+      "path": "tests/contract/ports/BoundaryTest.php",
+      "sha256": "0f8e1b05ef5f31090a9afacf3a72c27964e59837279432551d3f908af8093981"
+    },
+    {
+      "path": "tests/contract/ports/IdentityTest.php",
+      "sha256": "011b33c72dea2c10421d18f17deeac389e662c00a0f73bd14453ee512f2764c8"
+    },
+    {
+      "path": "tests/contract/ports/PortContractsTest.php",
+      "sha256": "867a01e16dce2be57a22fe85340237cbce19bfb5fb5c39800856192d165b0d92"
+    },
+    {
+      "path": "tests/contract/ports/PortFixture.php",
+      "sha256": "2e9299e2e6cc88929efb6d24a8d1eb0683f8d78a04669a45e295a4d8183d83b1"
+    },
+    {
+      "path": "tests/contract/ports/RegistryTest.php",
+      "sha256": "c3894b7cb2eef36358f2a79a63f747ee6f1df11153be9c3b3915178b4188de25"
+    },
+    {
+      "path": "tests/contract/ports/bootstrap.php",
+      "sha256": "76c0c457cad0db0c27686f9a80f2252840248e8ef4043cbfd69f1a2e84a01509"
+    },
+    {
+      "path": "tests/fixtures/check-groups/contract-ports.json",
+      "sha256": "3daf3226f1dc7444120f61e4d95691476bc3fa5c1ceb77f30d50958022aa3c89"
+    },
+    {
+      "path": "tests/fixtures/identity/manifest.v1.json",
+      "sha256": "e1693d0b9e4ffd75559653bb9d90db909ee9f3c1cb06e4f28dadf7aff38edcb7"
+    },
+    {
+      "path": "tests/fixtures/identity/v1/processing.json",
+      "sha256": "c3de61ab9381c14a32baca3135294c379bd826bd124e7e75d566c50b137af3b3"
+    },
+    {
+      "path": "tests/fixtures/identity/v1/registry.json",
+      "sha256": "efd9226a9501a4aa5b99112b828e5fe2e11d26a4edb446fbfa1cf13a968e86c1"
+    }
+  ],
+  "sources": [
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Wire.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Wire.php",
+      "sha256": "9692f7fb198469cfa523afc14fb51a4657546f2efc377c61a15c4df6829cf924",
+      "lineSpan": [
+        1,
+        76
+      ],
+      "hashVerified": true,
+      "sourceRead": true,
+      "decision": "adapt",
+      "symbols": [
+        "Wire::strings",
+        "Wire::objects"
+      ],
+      "targetPaths": [
+        "packages/core/src/Domain/ValueGuard.php"
+      ],
+      "reason": "Reuse strict native value/list checks; retain P1.4 JsonObject instead of donor associative objects and reject donor float bbox representation.",
+      "qualificationRef": "tests/contract/ports/evidence/P1.5-reuse.json#/qualifications/agentools"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Integrity.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Integrity.php",
+      "sha256": "db434ab6ee5c957f0ce86a620f77d6761712da624132e3d70d8bae1175b44c0f",
+      "lineSpan": [
+        1,
+        36
+      ],
+      "hashVerified": true,
+      "sourceRead": true,
+      "decision": "adapt",
+      "symbols": [
+        "Integrity::text",
+        "Integrity::hash",
+        "Integrity::names"
+      ],
+      "targetPaths": [
+        "packages/core/src/Domain/ValueGuard.php",
+        "packages/core/src/Domain/Sha256.php"
+      ],
+      "reason": "Adapt validation patterns to bounded typed values. Reject Integrity::digest: ordinary json_encode is not KnowKit JCS/domain-separated hashing; reuse existing P1.4 helpers.",
+      "qualificationRef": "tests/contract/ports/evidence/P1.5-reuse.json#/qualifications/agentools"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Artifact.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Artifact.php",
+      "sha256": "56e5c593818686a75173782b2406a924ea5731ef9d608177e6a372b01696f117",
+      "lineSpan": [
+        1,
+        24
+      ],
+      "hashVerified": true,
+      "sourceRead": true,
+      "decision": "reject",
+      "symbols": [
+        "Artifact"
+      ],
+      "targetPaths": [
+        "packages/core/src/Domain/ChunkRef.php",
+        "packages/core/src/Domain/TextLocator.php",
+        "packages/core/src/Domain/Span.php"
+      ],
+      "reason": "Donor artifact has generic string IDs, conflated source/page/content hashes, no exact tenant/version/revision/IR tuple, and float bbox. Cannot use its wire shape; new composition uses approved P1.4 definitions.",
+      "qualificationRef": "tests/contract/ports/evidence/P1.5-reuse.json#/qualifications/agentools"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "packages/agentools-core/src/Common/CanonicalJson.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Common/CanonicalJson.php",
+      "sha256": "df694a8f5b94a1a7d0b2fe3cdadc029e4fcbd8d5aed55f1f6616f5cf9086365d",
+      "lineSpan": [
+        1,
+        14
+      ],
+      "hashVerified": true,
+      "sourceRead": true,
+      "decision": "adapt",
+      "symbols": [
+        "CanonicalJson::canonicalize",
+        "CanonicalJson::canonicalizeJson"
+      ],
+      "targetPaths": [
+        "packages/core/src/Port/CanonicalJson.php"
+      ],
+      "reason": "Preserve the two-method inversion interface, adapt namespace and document the KnowKit integer-only wire profile. No donor encoder or runtime dependency copied.",
+      "qualificationRef": "tests/contract/ports/evidence/P1.5-reuse.json#/qualifications/agentools"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/parsing/types.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/types.py",
+      "sha256": "c71af832dea76b2498763f685c5c3f1ce57e7cd1834af8c2d68d16c291faa82a",
+      "lineSpan": [
+        1,
+        52
+      ],
+      "hashVerified": true,
+      "sourceRead": true,
+      "decision": "reject",
+      "symbols": [
+        "ParsedDocument",
+        "ParserError"
+      ],
+      "targetPaths": [
+        "packages/core/src/Domain/IrDocument.php",
+        "packages/core/src/Domain/SchemaValue.php"
+      ],
+      "reason": "Markdown-first Python record with local Path/workdir and optional structure cannot satisfy closed IR 1.0, tenant/exact refs, canonical locators and coverage. Use existing vendor-free P1.4 validator-backed immutable PHP records.",
+      "qualificationRef": "tests/contract/ports/evidence/P1.5-reuse.json#/qualifications/deeptutor"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/parsing/signature.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/signature.py",
+      "sha256": "20344ed30f04486da7b0044ed3dffc681f2d63a7369d4fe399deca0ad4af85f4",
+      "lineSpan": [
+        1,
+        50
+      ],
+      "hashVerified": true,
+      "sourceRead": true,
+      "decision": "adapt",
+      "symbols": [
+        "ParserSignature::build",
+        "ParserSignature::hash"
+      ],
+      "targetPaths": [
+        "packages/core/src/Domain/ParserSignature.php",
+        "packages/core/src/Domain/ParserProfile.php",
+        "packages/core/src/Domain/ChunkerProfile.php",
+        "packages/core/src/Domain/ProcessingIdentity.php"
+      ],
+      "reason": "Adapt immutable semantic-setting identity and order-independence tests. Replace Python json.dumps/16-hex truncation/stringified params with full existing typed KnowKit JCS domains; credentials/paths excluded. No Python runtime imported.",
+      "qualificationRef": "tests/contract/ports/evidence/P1.5-reuse.json#/qualifications/deeptutor"
+    }
+  ],
+  "qualifications": {
+    "agentools": {
+      "codeLicense": "proprietary",
+      "verdict": "restricted",
+      "localUseAllowed": true,
+      "redistributionAllowed": false,
+      "ownerAuthority": "licenses/local-reuse-authorization.md",
+      "notices": [
+        {
+          "path": "licenses/notices/agentools-LICENSE.txt",
+          "sha256": "8c63b2e3e661dc0461d4dca06df370db52e46536b779ae95f167c2f93476d75d"
+        },
+        {
+          "path": "licenses/local-reuse-authorization.md",
+          "sha256": "0f262e8a44a8132b045cbffa70dba5e82eae758c22652460870c426f413b5064"
+        }
+      ],
+      "scope": "Exact listed source/test patterns only; no donor runtime/dependencies, model assets, datasets or machine configuration transferred.",
+      "modificationAttribution": "AgenTools patterns (c) 2026 Dmitry Vostrikov; adapted to KnowKit strict types and package boundaries."
+    },
+    "deeptutor": {
+      "codeLicense": "Apache-2.0",
+      "verdict": "allowed_private_local",
+      "localUseAllowed": true,
+      "redistributionAllowed": false,
+      "notices": [
+        {
+          "path": "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+          "sha256": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4"
+        },
+        {
+          "path": "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md",
+          "sha256": "d59dc01b43d1916db9418bc1ebcc213a4859047dc07e2766c4234391f9db033c"
+        }
+      ],
+      "scope": "Parser configuration identity approach and tests only; no Python runtime, models, OCR assets or dependencies imported.",
+      "modificationAttribution": "DeepTutor signature/test concepts adapted to full KnowKit SHA256/JCS and exact version axes; donor JSON algorithm not retained."
+    }
+  },
+  "reusedTests": [
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "packages/agentools-core/tests/Common/canonical.php",
+      "sha256": "1f46970523298e3c653809f82ee287a837b70c832b4dc776374d95a6a0ee9f92",
+      "sourceRead": true,
+      "targets": [
+        "IdentityTest::testCanonicalProfilesAndSpaceAreIndependent"
+      ],
+      "note": "Order-invariance/domain-separation pattern adapted; original donor suite not executed."
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/IngestTest.php",
+      "sha256": "ff90f60dd0dee003f5e2b31919a4eb0b3e8a8a5cb65d358bac1d372ec572fa15",
+      "sourceRead": true,
+      "targets": [
+        "IdentityTest",
+        "BoundaryTest"
+      ],
+      "note": "Negative immutable/hash/tenant/UTF8/space and deny/unknown spy patterns adapted; no original donor suite execution claimed."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/services/parsing/test_signature.py",
+      "sha256": "5bcb4682b8ac2bb923469613327b4b1fca51b46f770fa85205d08891a2cd36bb",
+      "sourceRead": true,
+      "targets": [
+        "IdentityTest::testCanonicalProfilesAndSpaceAreIndependent",
+        "IdentityTest::testProcessingAxesAndHistoricalRefs"
+      ],
+      "note": "Order and semantic-field change assertions ported; short hash expectation deliberately rejected by approved contract."
+    }
+  ],
+  "localReuse": {
+    "paths": [
+      "packages/core/src/Domain/Contract/JsonObject.php",
+      "packages/core/src/Domain/Contract/Jcs.php",
+      "packages/core/src/Domain/Contract/StrictJson.php",
+      "packages/core/src/Domain/Contract/HashDomain.php",
+      "packages/core/src/Domain/Contract/ContractValidator.php",
+      "packages/core/src/Domain/Contract/LocatorConversion.php",
+      "tests/contract/schemas/ContractHarness.php",
+      "tools/qa.php"
+    ],
+    "decision": "reuse-as-is",
+    "reason": "Existing P1.4 canonicalization and schema semantics and P1.2 strict runner remain unchanged."
+  },
+  "newGlue": [
+    "Typed canonical ULID classes, bounded decimal/UTC values and exact immutable PHP reference composition are absent in the donor shapes.",
+    "SchemaValue freezes already validated P1.4 wire values without adding transport fields or filesystem dependency.",
+    "D4 authorizes minimal typed catalog/vector/lease/dependency/lifecycle PHP records; their assumptions and sources are in docs/architecture/ports-contract.md.",
+    "Explicit registry boot and local capability dependency validation prevent typo, unknown capability and fallback selection.",
+    "PolicyCheckedEmbeddingProvider supplies optional final per-transmission checks and result-space validation without implementing a provider."
+  ],
+  "addedGapTests": [
+    "R05-A01/R05-A02 against real PHP values and validated IR",
+    "Unknown/duplicate adapter and capability dependencies without factory effects",
+    "Reflection of exact AccessPolicy/EgressPolicy/Disclosure/embedding contracts",
+    "Host eligibility and typed filter pre-top-k scope",
+    "Per-call deny/unknown egress spy and full vector fingerprint checks",
+    "Lease fence/token/expiry/deadline and typed false-write handling",
+    "Fixture loader negatives and complete required-case mapping"
+  ],
+  "checks": [
+    {
+      "id": "ports-identity",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/IdentityTest.php",
+      "exit": 0,
+      "tests": 7,
+      "evidence": "tests/contract/ports/evidence/phpunit-identity.txt"
+    },
+    {
+      "id": "ports-registry",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/RegistryTest.php",
+      "exit": 0,
+      "tests": 5,
+      "evidence": "tests/contract/ports/evidence/phpunit-registrytest.txt"
+    },
+    {
+      "id": "ports-contracts",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/PortContractsTest.php",
+      "exit": 0,
+      "tests": 6,
+      "evidence": "tests/contract/ports/evidence/phpunit-portcontractstest.txt"
+    },
+    {
+      "id": "ports-boundaries",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/BoundaryTest.php",
+      "exit": 0,
+      "tests": 9,
+      "evidence": "tests/contract/ports/evidence/phpunit-boundarytest.txt"
+    },
+    {
+      "id": "schemas-regression",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/schemas/ContractSchemasTest.php",
+      "exit": 0,
+      "tests": 38,
+      "evidence": "tests/contract/ports/evidence/phpunit-schemas.txt"
+    },
+    {
+      "id": "discovery",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/DiscoveryTest.php",
+      "exit": 0,
+      "tests": 2,
+      "evidence": "tests/contract/ports/evidence/phpunit-discovery.txt"
+    }
+  ],
+  "staticAnalysis": {
+    "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --error-format=raw --autoload-file=tests/contract/ports/bootstrap.php packages/core/src/Domain packages/core/src/Port packages/core/src/Registry packages/core/src/Application",
+    "exit": 0,
+    "evidence": "tests/contract/ports/evidence/phpstan.txt",
+    "note": "Optional turbo extension emits a startup warning in this PHP build; analysis itself passes without ignored errors."
+  },
+  "syntax": {
+    "cmd": "php -l each changed PHP file",
+    "exit": 0,
+    "files": 188,
+    "evidence": "tests/contract/ports/evidence/syntax.json"
+  },
+  "acceptance": {
+    "V1": "Not run by executor; coordinator-owned acceptance."
+  },
+  "unresolved": [
+    "Coordinator registers this repository-staged receipt at @plan/artifacts/implementation/P1.5-reuse.json; executor did not mutate plans.",
+    "PHP 8.4.1 was executed; PHP 8.3 matrix and production adapter/backend qualification are not claimed."
+  ]
+}
