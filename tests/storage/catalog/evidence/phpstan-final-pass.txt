@@ -1,0 +1,2 @@
+
+Warning: PHP Startup: Unable to load dynamic library '<repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so' (tried: <repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so (Dynamic loading not supported), <php-extension-dir>/<repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so.so (Dynamic loading not supported)) in Unknown on line 0

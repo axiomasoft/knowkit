@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "execution-verification:1",
+  "item": "P2.1",
+  "acceptance": "V1 not run; coordinator-owned",
+  "checks": [
+    {
+      "id": "schema",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/schema-restrict.txt",
+      "tests": 7,
+      "assertions": 318
+    },
+    {
+      "id": "catalog",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/CatalogTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/catalog-authority-final.txt",
+      "tests": 11,
+      "assertions": 127
+    },
+    {
+      "id": "integrity",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/IntegrityTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/integrity-restrict.txt",
+      "tests": 5,
+      "assertions": 41
+    },
+    {
+      "id": "durability",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/DurabilityTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/durability-verified.txt",
+      "tests": 4,
+      "assertions": 63
+    },
+    {
+      "id": "boundary",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/BoundaryTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/boundary-source-final.txt",
+      "tests": 4,
+      "assertions": 42
+    },
+    {
+      "id": "ports-catalog",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/CatalogTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/ports-catalog-verified.txt",
+      "tests": 6,
+      "assertions": 248
+    },
+    {
+      "id": "ports-contracts",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/PortContractsTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/ports-contracts-verified.txt",
+      "tests": 7,
+      "assertions": 802
+    },
+    {
+      "id": "phpstan",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --error-format=raw --autoload-file=tests/contract/ports/bootstrap.php packages/core/src/Adapter/Postgres/Catalog packages/core/src/Adapter/Postgres/PdoOutbox.php packages/core/src/Application/Catalog packages/core/src/Application/Events/DomainEventFactory.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/phpstan-final-pass.txt"
+    }
+  ],
+  "syntax": {
+    "cmd": "php -l each candidate PHP file; SchemaTest.php refreshed after FK proof update",
+    "exit": 0,
+    "files": 23,
+    "evidence": "tests/storage/catalog/evidence/syntax.json"
+  },
+  "diff": {
+    "cmd": "git diff --check plus whitespace inspection of new candidate files",
+    "exit": 0,
+    "evidence": "tests/storage/catalog/evidence/diff-check.json"
+  }
+}

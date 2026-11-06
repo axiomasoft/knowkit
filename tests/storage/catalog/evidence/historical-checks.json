@@ -1,0 +1,97 @@
+{
+  "note": "Intermediate executor diagnostics, corrected before final handoff; no acceptance run is represented here. Root/extension-directory paths redacted.",
+  "logs": [
+    {
+      "originalLogName": "boundary-final.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n...                                                                 3 / 3 (100%)\n\nTime: 00:00.293, Memory: 10.00 MB\n\nOK (3 tests, 36 assertions)\n"
+    },
+    {
+      "originalLogName": "boundary-verified.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n....                                                                4 / 4 (100%)\n\nTime: 00:00.335, Memory: 10.00 MB\n\nOK (4 tests, 42 assertions)\n"
+    },
+    {
+      "originalLogName": "boundary.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n...                                                                 3 / 3 (100%)\n\nTime: 00:00.184, Memory: 10.00 MB\n\nOK (3 tests, 36 assertions)\n"
+    },
+    {
+      "originalLogName": "catalog-final.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n..........                                                        10 / 10 (100%)\n\nTime: 00:00.987, Memory: 10.00 MB\n\nOK (10 tests, 117 assertions)\n"
+    },
+    {
+      "originalLogName": "catalog-initial.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n..........                                                        10 / 10 (100%)\n\nTime: 00:00.699, Memory: 10.00 MB\n\nOK (10 tests, 117 assertions)\n"
+    },
+    {
+      "originalLogName": "catalog-verified.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n...........                                                       11 / 11 (100%)\n\nTime: 00:01.068, Memory: 10.00 MB\n\nOK (11 tests, 127 assertions)\n"
+    },
+    {
+      "originalLogName": "durability-final.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n....                                                                4 / 4 (100%)\n\nTime: 00:00.821, Memory: 10.00 MB\n\nOK (4 tests, 63 assertions)\n"
+    },
+    {
+      "originalLogName": "durability.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n....                                                                4 / 4 (100%)\n\nTime: 00:00.642, Memory: 10.00 MB\n\nOK (4 tests, 63 assertions)\n"
+    },
+    {
+      "originalLogName": "integrity-final.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n.....                                                               5 / 5 (100%)\n\nTime: 00:00.858, Memory: 10.00 MB\n\nOK (5 tests, 40 assertions)\n"
+    },
+    {
+      "originalLogName": "integrity-initial.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n...                                                                 3 / 3 (100%)\n\nTime: 00:00.306, Memory: 10.00 MB\n\nOK (3 tests, 35 assertions)\n"
+    },
+    {
+      "originalLogName": "phpstan-corrected.txt",
+      "output": "\nWarning: PHP Startup: Unable to load dynamic library '<repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so' (tried: <repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so (Dynamic loading not supported), <php-extension-dir>/<repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so.so (Dynamic loading not supported)) in Unknown on line 0\n"
+    },
+    {
+      "originalLogName": "phpstan-final.txt",
+      "output": "\nWarning: PHP Startup: Unable to load dynamic library '<repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so' (tried: <repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so (Dynamic loading not supported), <php-extension-dir>/<repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so.so (Dynamic loading not supported)) in Unknown on line 0\nInstructions for interpreting errors\n---------\n\nEach error has an associated identifier, like `argument.type`\nor `return.missing`.\n\nEach error identifier has documentation at URL https://phpstan.org/error-identifiers/<identifier>\nThis page contains code example, explanation why is this an error\nand instruction how to fix it.\nBefore fixing the error, fetch the documentation page for its identifier.\n\nThe error usually indicates a real bug or incorrect type in the code. Fix the underlying cause, do not just make the error go away.\nDo not add `@phpstan-ignore` comments, `@phpstan-ignore-next-line` comments, or baseline entries to suppress the error.\nDo not use assert() or inline @var PHPDoc tag to override PHPStan's inferred type.\nDo not add type casts just to silence errors.\nDo not widen parameter or return types just to make the error go away.\n<repository>/packages/core/src/Adapter/Postgres/Catalog/Migrate.php:31:If condition is always false. [identifier=if.alwaysFalse]\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php:140:Using nullsafe property access \"?->snapshotId\" on left side of ?? is unnecessary. Use -> instead. [identifier=nullsafe.neverNull]\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:26:If condition is always false. [identifier=if.alwaysFalse]\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:61:Instanceof between KnowKit\\Domain\\SourceId and KnowKit\\Domain\\SourceId will always evaluate to true. [identifier=instanceof.alwaysTrue]\n"
+    },
+    {
+      "originalLogName": "phpstan-verified.txt",
+      "output": "\nWarning: PHP Startup: Unable to load dynamic library '<repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so' (tried: <repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so (Dynamic loading not supported), <php-extension-dir>/<repository>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so.so (Dynamic loading not supported)) in Unknown on line 0\nInstructions for interpreting errors\n---------\n\nEach error has an associated identifier, like `argument.type`\nor `return.missing`.\n\nEach error identifier has documentation at URL https://phpstan.org/error-identifiers/<identifier>\nThis page contains code example, explanation why is this an error\nand instruction how to fix it.\nBefore fixing the error, fetch the documentation page for its identifier.\n\nThe error usually indicates a real bug or incorrect type in the code. Fix the underlying cause, do not just make the error go away.\nDo not add `@phpstan-ignore` comments, `@phpstan-ignore-next-line` comments, or baseline entries to suppress the error.\nDo not use assert() or inline @var PHPDoc tag to override PHPStan's inferred type.\nDo not add type casts just to silence errors.\nDo not widen parameter or return types just to make the error go away.\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php:216:Using nullsafe property access \"?->value\" on left side of ?? is unnecessary. Use -> instead. [identifier=nullsafe.neverNull]\n"
+    },
+    {
+      "originalLogName": "ports-catalog-final.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n......                                                              6 / 6 (100%)\n\nTime: 00:00.019, Memory: 10.00 MB\n\nOK (6 tests, 248 assertions)\n"
+    },
+    {
+      "originalLogName": "ports-contracts-corrected.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n...E...                                                             7 / 7 (100%)\n\nTime: 00:00.025, Memory: 12.00 MB\n\nThere was 1 error:\n\n1) KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testCoreRemainsVendorFreeAndHasNoAnswerOrFrameworkImports\nRuntimeException: forbidden core layer edge\n\n<repository>/tools/qa.php:26\n<repository>/tools/qa.php:329\n<repository>/tests/contract/ports/PortContractsTest.php:96\n\nERRORS!\nTests: 7, Assertions: 795, Errors: 1.\n"
+    },
+    {
+      "originalLogName": "ports-contracts-corrected2.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n.......                                                             7 / 7 (100%)\n\nTime: 00:00.033, Memory: 12.00 MB\n\nOK (7 tests, 802 assertions)\n"
+    },
+    {
+      "originalLogName": "ports-contracts-final.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n...E...                                                             7 / 7 (100%)\n\nTime: 00:00.055, Memory: 10.00 MB\n\nThere was 1 error:\n\n1) KnowKit\\Tests\\Contract\\Ports\\PortContractsTest::testCoreRemainsVendorFreeAndHasNoAnswerOrFrameworkImports\nRuntimeException: forbidden vendor namespace in core: D\\TenantId\n\n<repository>/tools/qa.php:26\n<repository>/tools/qa.php:323\n<repository>/tests/contract/ports/PortContractsTest.php:96\n\nERRORS!\nTests: 7, Assertions: 795, Errors: 1.\n"
+    },
+    {
+      "originalLogName": "schema-final.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n......                                                              6 / 6 (100%)\n\nTime: 00:00.725, Memory: 10.00 MB\n\nOK (6 tests, 184 assertions)\n"
+    },
+    {
+      "originalLogName": "schema-initial.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n..E.EE                                                              6 / 6 (100%)\n\nTime: 00:00.450, Memory: 10.00 MB\n\nThere were 3 errors:\n\n1) KnowKit\\Tests\\Storage\\Catalog\\SchemaTest::testForeignMembershipNullUniquenessAndCollectionCycleAreRejectedByDatabase\nKnowKit\\Domain\\DomainFailure: storage_unavailable\n\n<repository>/packages/core/src/Adapter/Postgres/Catalog/Connection.php:33\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php:30\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php:180\n<repository>/tests/storage/catalog/CatalogFixture.php:111\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:24\n<repository>/tests/storage/catalog/CatalogFixture.php:111\n<repository>/tests/storage/catalog/SchemaTest.php:47\n<repository>/tests/storage/catalog/CatalogFixture.php:83\n<repository>/tests/tooling/baseline/DatabaseSandbox.php:31\n<repository>/tests/storage/catalog/CatalogFixture.php:75\n<repository>/tests/storage/catalog/SchemaTest.php:46\n\n2) KnowKit\\Tests\\Storage\\Catalog\\SchemaTest::testNullableReservationFinalizeAndExactAbsentProof\nKnowKit\\Domain\\DomainFailure: storage_unavailable\n\n<repository>/packages/core/src/Adapter/Postgres/Catalog/Connection.php:33\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php:30\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php:180\n<repository>/tests/storage/catalog/CatalogFixture.php:111\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:24\n<repository>/tests/storage/catalog/CatalogFixture.php:111\n<repository>/tests/storage/catalog/SchemaTest.php:75\n<repository>/tests/storage/catalog/CatalogFixture.php:83\n<repository>/tests/tooling/baseline/DatabaseSandbox.php:31\n<repository>/tests/storage/catalog/CatalogFixture.php:75\n<repository>/tests/storage/catalog/SchemaTest.php:74\n\n3) KnowKit\\Tests\\Storage\\Catalog\\SchemaTest::testRestoreProofAndDependencyCycleFailClosed\nKnowKit\\Domain\\DomainFailure: storage_unavailable\n\n<repository>/packages/core/src/Adapter/Postgres/Catalog/Connection.php:33\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php:30\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php:180\n<repository>/tests/storage/catalog/CatalogFixture.php:111\n<repository>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:24\n<repository>/tests/storage/catalog/CatalogFixture.php:111\n<repository>/tests/storage/catalog/SchemaTest.php:100\n<repository>/tests/storage/catalog/CatalogFixture.php:83\n<repository>/tests/tooling/baseline/DatabaseSandbox.php:31\n<repository>/tests/storage/catalog/CatalogFixture.php:75\n<repository>/tests/storage/catalog/SchemaTest.php:99\n\nERRORS!\nTests: 6, Assertions: 172, Errors: 3.\n"
+    },
+    {
+      "originalLogName": "schema.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n......                                                              6 / 6 (100%)\n\nTime: 00:00.544, Memory: 10.00 MB\n\nOK (6 tests, 176 assertions)\n"
+    },
+    {
+      "originalLogName": "integrity-verified.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n.....                                                               5 / 5 (100%)\n\nTime: 00:00.696, Memory: 10.00 MB\n\nOK (5 tests, 41 assertions)\n"
+    },
+    {
+      "originalLogName": "schema-verified.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n.......                                                             7 / 7 (100%)\n\nTime: 00:00.806, Memory: 10.00 MB\n\nOK (7 tests, 193 assertions)\n"
+    },
+    {
+      "originalLogName": "catalog-source-final.txt",
+      "output": "PHPUnit 11.5.57 by Sebastian Bergmann and contributors.\n\nRuntime:       PHP 8.4.1\nConfiguration: <repository>/phpunit.xml\n\n...........                                                       11 / 11 (100%)\n\nTime: 00:00.958, Memory: 10.00 MB\n\nOK (11 tests, 127 assertions)\n"
+    }
+  ]
+}

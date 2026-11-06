@@ -1,0 +1,6 @@
+{
+  "cmd": "git diff --check",
+  "exit": 0,
+  "output": "",
+  "newFilesWhitespaceErrors": []
+}

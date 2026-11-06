@@ -1,0 +1,117 @@
+[
+  {
+    "path": "packages/core/src/Adapter/Postgres/Catalog/ChunkMetadata.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/ChunkMetadata.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/Catalog/ChunkSetMetadata.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/ChunkSetMetadata.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/Catalog/Connection.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/Connection.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/Catalog/Migrate.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/Migrate.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/Catalog/RevisionMetadata.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/RevisionMetadata.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/Catalog/migrate.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/migrate.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/PdoOutbox.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/PdoOutbox.php"
+  },
+  {
+    "path": "packages/core/src/Application/Catalog/CatalogCommands.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Catalog/CatalogCommands.php"
+  },
+  {
+    "path": "packages/core/src/Application/Catalog/MutationAuthorizer.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Catalog/MutationAuthorizer.php"
+  },
+  {
+    "path": "packages/core/src/Application/Catalog/OriginBoundary.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Catalog/OriginBoundary.php"
+  },
+  {
+    "path": "packages/core/src/Application/Catalog/RemoveKnowledgeBase.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Catalog/RemoveKnowledgeBase.php"
+  },
+  {
+    "path": "packages/core/src/Application/Catalog/SourceCommands.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Catalog/SourceCommands.php"
+  },
+  {
+    "path": "packages/core/src/Application/Events/DomainEventFactory.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Events/DomainEventFactory.php"
+  },
+  {
+    "path": "tests/storage/catalog/BoundaryTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/catalog/BoundaryTest.php"
+  },
+  {
+    "path": "tests/storage/catalog/CatalogFixture.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/catalog/CatalogFixture.php"
+  },
+  {
+    "path": "tests/storage/catalog/CatalogTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/catalog/CatalogTest.php"
+  },
+  {
+    "path": "tests/storage/catalog/DurabilityTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/catalog/DurabilityTest.php"
+  },
+  {
+    "path": "tests/storage/catalog/IntegrityTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/catalog/IntegrityTest.php"
+  },
+  {
+    "path": "tests/storage/catalog/SchemaTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/catalog/SchemaTest.php"
+  },
+  {
+    "path": "tests/storage/catalog/bootstrap.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/catalog/bootstrap.php"
+  },
+  {
+    "path": "tests/storage/catalog/worker.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/catalog/worker.php"
+  }
+]

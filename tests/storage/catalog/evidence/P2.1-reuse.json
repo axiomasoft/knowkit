@@ -1,0 +1,417 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P2.1",
+  "status": "implemented_unreviewed",
+  "targetBaseline": "4d417a570975889d9420701f505ab83062c03254",
+  "candidateDigest": "c9ba02b598e3cb085acfe079a26d235fe9f44b730c01eb7d6250687ea7159ee3",
+  "candidateDigestAlgorithm": "SHA256 of sorted UTF8(path)||NUL||ASCII(file SHA256)||LF records in candidateFiles. Excludes this self-referential receipt and generated evidence outputs; no plan files or unrelated changes are included.",
+  "candidateFiles": [
+    {
+      "path": "packages/core/migrations/postgres/001_metadata.sql",
+      "sha256": "f4acde755ebc9f942e2cf2711cb1c92e2bc4b885057ff7965955490b0a13d881"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/ChunkMetadata.php",
+      "sha256": "e239e58046b5e8c3b6a43213e07e68d27ba4bd4e8b62c4161fa7a2993b08e1ca"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/ChunkSetMetadata.php",
+      "sha256": "d15b1802361e884d2a9bb4a2223dcba2a1adc17b1340be3d0fb2d9132f6a22a4"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/Connection.php",
+      "sha256": "534e9ad85012336d2fded6371b0a3ff62b09a35c4dcb2a43cd278d36721ea418"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/Migrate.php",
+      "sha256": "1dd9e9c85445ed41a961948c43c3f178d7983bac84311ebee2fae1c65f018ee9"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php",
+      "sha256": "f97020a941a3e32c6db589699b89ea7e4375c588e0c21be0a9a804d8aee7a6e3"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php",
+      "sha256": "983c0f656218e523761fe51036b0e8172681fc4a5433c14f279d5ae187f4bd4f"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/README.md",
+      "sha256": "2ee2c9efe1c73925ba83c651c0aeba38d5d47a7906f54a7c052280e7f757202c"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/RevisionMetadata.php",
+      "sha256": "46bf6ef992bde49a1d24ee54ef04c8568e7ee578f9b458ee0b62f7d960d6ee66"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/migrate.php",
+      "sha256": "db0de3b94e645896719fb9fbf37bc09b24a96d1b0e627ba9bceeae93f71bfe85"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/PdoOutbox.php",
+      "sha256": "72665a14cd352e717d6a38bc92579076e1070a9c0da5ef152994cb2c3c2c204a"
+    },
+    {
+      "path": "packages/core/src/Application/Catalog/CatalogCommands.php",
+      "sha256": "24d32fca6bb183e294981c87162f0299f8416aa5bc98f8ae7b8a436ad54e424e"
+    },
+    {
+      "path": "packages/core/src/Application/Catalog/MutationAuthorizer.php",
+      "sha256": "5499fa469c82f55542ed8f04a881f2925d4b170c9699108dca3bf10de98648bb"
+    },
+    {
+      "path": "packages/core/src/Application/Catalog/OriginBoundary.php",
+      "sha256": "6114fda8ec159842b1a62050c20ce216171a53f906a89b949938a2936f76cc95"
+    },
+    {
+      "path": "packages/core/src/Application/Catalog/RemoveKnowledgeBase.php",
+      "sha256": "4846cd175ad4e0cec294a44ee239e699b1c516271a12bc9f32a2e19971195eaa"
+    },
+    {
+      "path": "packages/core/src/Application/Catalog/SourceCommands.php",
+      "sha256": "e6e7b77fe5920c83f4b48d0620cd3c3035cd3f629e607898db077398dcd8e4eb"
+    },
+    {
+      "path": "packages/core/src/Application/Events/DomainEventFactory.php",
+      "sha256": "c77be787f7aacc8475f736d5b4d00c51301b5ecf0044127f3a329807897ebd10"
+    },
+    {
+      "path": "phpunit.xml",
+      "sha256": "1d8c4b973b8699d3d7ae11583b1b27287f335b5e1d183b74cbcb996659bc6e9a"
+    },
+    {
+      "path": "tests/fixtures/check-groups/storage-catalog.json",
+      "sha256": "29c5f4c184e5fa39a5f764aacc5bb96e3c3e4bdbea23c635a779c9c00b0f1288"
+    },
+    {
+      "path": "tests/storage/catalog/BoundaryTest.php",
+      "sha256": "acce9f5ae69535c86f62024aac2dbd37e6e04dc6f12078a9ed258d190821473a"
+    },
+    {
+      "path": "tests/storage/catalog/CatalogFixture.php",
+      "sha256": "3012dd274858a43e165d99a32000c91c40c12f46815ea3a0c5efe9d61d9fff61"
+    },
+    {
+      "path": "tests/storage/catalog/CatalogTest.php",
+      "sha256": "f6918d0254f39af9cf864e37ca725d264fefb23797666062cac885a6545671a5"
+    },
+    {
+      "path": "tests/storage/catalog/DurabilityTest.php",
+      "sha256": "7bbc6b459b1389bef17457ba1991f8a22e0b1a4d86d9214f0736ce128fab4cb0"
+    },
+    {
+      "path": "tests/storage/catalog/IntegrityTest.php",
+      "sha256": "64a0b6c1a5df00e936212c4537a1fe4d5f8f56db9477d0e0a61bbf9b8fc69907"
+    },
+    {
+      "path": "tests/storage/catalog/SchemaTest.php",
+      "sha256": "7c8619f708ef08db13af6c74f54df266447675bd3f3f24004d37152948bd3dbb"
+    },
+    {
+      "path": "tests/storage/catalog/bootstrap.php",
+      "sha256": "5a443e9c3f6af1a3be6ea7578355d3d51295ddb6af986013236a4cdf608cad81"
+    },
+    {
+      "path": "tests/storage/catalog/fixtures/v1/cases.json",
+      "sha256": "52820ab932c7d9cc9089bfdff227c9434082156c23630af6195bd825015c05c6"
+    },
+    {
+      "path": "tests/storage/catalog/fixtures/v1/metadata.sql",
+      "sha256": "3605084c85c8366d0a9d6fef6e900c6dcff72e5e50140592597394b01e810409"
+    },
+    {
+      "path": "tests/storage/catalog/worker.php",
+      "sha256": "710607e8b8701999ab31eefb84526a8c0acbf8bad229a7dea4f6c7e7f52390b6"
+    }
+  ],
+  "sources": [
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Adapters/Postgres/Repository.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Adapters/Postgres/Repository.php",
+      "sha256": "740e1f5f43a93b60e3002387afc3270c731ecfa918e189a3e5d851f70788928e",
+      "lineSpan": [
+        1,
+        232
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "symbols": [
+        "Repository::transaction",
+        "Repository::lock",
+        "Repository::find",
+        "Repository::publish"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/Postgres/Catalog/Connection.php",
+        "packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php",
+        "packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php"
+      ],
+      "reason": "Adapt explicit transaction rollback, tenant-qualified lookup, identity replay/conflict and guarded writes. Donor Material/Release strings, release payload storage and own-transaction restriction do not implement KnowKit ULIDs, caller transactions, catalog/revision records or full metadata relations.",
+      "qualificationRef": "licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Adapters/Postgres/schema.sql",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Adapters/Postgres/schema.sql",
+      "sha256": "5e672cd9e466a84f18939d57b499ff161c2a66f31669d6d326c92188023b8287",
+      "lineSpan": [
+        1,
+        42
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "symbols": [
+        "knowledge_immutable",
+        "knowledge_no_mutation",
+        "tenant-qualified foreign key"
+      ],
+      "targetPaths": [
+        "packages/core/migrations/postgres/001_metadata.sql"
+      ],
+      "reason": "Adapt immutable SQL trigger and tenant-qualified FK patterns only. Build the full approved baseline from knowledge/persistence; donor single-release schema cannot represent IR/chunks/snapshots/jobs/resources/lifecycle/usage identities.",
+      "qualificationRef": "licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/DurableTest.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/DurableTest.php",
+      "sha256": "966b3254bf0e32509495c720ab04455b430844b4e62f0107d056ad8e13e78ee1",
+      "lineSpan": [
+        1,
+        157
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "symbols": [
+        "testDurableReplayAndHashConflict",
+        "testFailedCorrectionRollsBack",
+        "testTenantCurrentRightsAndUnknown",
+        "testSqlImmutabilityAndTenantForeignKey",
+        "testCompetingConnections",
+        "testCrashBeforeAndAfterCommitRestart"
+      ],
+      "targetPaths": [
+        "tests/storage/catalog/CatalogTest.php",
+        "tests/storage/catalog/SchemaTest.php",
+        "tests/storage/catalog/IntegrityTest.php",
+        "tests/storage/catalog/DurabilityTest.php",
+        "tests/storage/catalog/worker.php"
+      ],
+      "reason": "Port real PostgreSQL connections, deny/unknown, immutable/FK negatives, rollback and SIGKILL/restart patterns to restricted roles, canonical IDs, command receipts and same-tx outbox. Original donor suite was not executed.",
+      "qualificationRef": "licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/file_io.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/file_io.py",
+      "sha256": "942e4ed3197ccc1e3417f72befcc6236a15eb049304f44b17a9fa4a59adad21f",
+      "lineSpan": [
+        1,
+        133
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "reject",
+      "symbols": [
+        "atomic_write_json",
+        "atomic_write_text",
+        "_sync_to_disk"
+      ],
+      "targetPaths": [],
+      "reason": "Filesystem atomic replacement has no SQL transaction, tenant FK, revision or same-tx outbox contract. Its fsync warning permits degraded durability and must not become a successful catalog receipt. No Python runtime belongs in core.",
+      "qualificationRef": "docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/knowledge/staging.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/staging.py",
+      "sha256": "7cf99fa7ff2b4f1ff7c036171afe40e155e1ed2217047fb2092888e08460e0cf",
+      "lineSpan": [
+        1,
+        73
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "reject",
+      "symbols": [
+        "content_hash",
+        "non_colliding",
+        "stage_source"
+      ],
+      "targetPaths": [],
+      "reason": "Path-existence checks, copy2 and sibling basename collision handling cannot provide tenant/source CAS ownership, durable pre-PUT reservations, immutable object versions or concurrent SQL acceptance. Physical LocalBlob implementation belongs to P2.2; this item only supplies its ledger contracts.",
+      "qualificationRef": "docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    }
+  ],
+  "qualifications": {
+    "agentools": {
+      "codeLicense": "proprietary",
+      "localUseAllowed": true,
+      "redistributionAllowed": false,
+      "ownerAuthority": "licenses/local-reuse-authorization.md",
+      "notice": "licenses/notices/agentools-LICENSE.txt",
+      "modificationAttribution": "AgenTools patterns (c) 2026 Dmitry Vostrikov, privately adapted to KnowKit canonical identities, scoped transactions and full baseline schema."
+    },
+    "deeptutor": {
+      "codeLicense": "Apache-2.0",
+      "decision": "inspected_rejected",
+      "notice": "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+      "thirdPartyNotices": "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md",
+      "importedCode": false
+    }
+  },
+  "localReuse": {
+    "decision": "reuse-as-is",
+    "paths": [
+      "packages/core/src/Domain",
+      "packages/core/src/Port",
+      "packages/core/src/Domain/Contract/Jcs.php",
+      "packages/core/src/Domain/Contract/HashDomain.php",
+      "packages/core/src/Domain/Contract/ContractValidator.php",
+      "tests/tooling/baseline/DatabaseSandbox.php",
+      "tests/contract/ports/bootstrap.php",
+      "tests/contract/ports/PortFixture.php",
+      "tools/qa.php"
+    ],
+    "reason": "Use accepted P1.5 owning correction without modifying its Domain/Port or schemas. Reuse existing offline validation/JCS, required-case/fixture gate and disposable database guard."
+  },
+  "reusedTests": [
+    "AgenTools durable replay/conflict and crash patterns in DurabilityTest; tenant/FK/immutable and deny/unknown patterns in CatalogTest, SchemaTest and IntegrityTest."
+  ],
+  "addedGapTests": [
+    "CAT-SAME-LOCAL-IDS",
+    "CAT-FOREIGN-MEMBERSHIP",
+    "CAT-CYCLE",
+    "CAT-REPLAY",
+    "CAT-PAYLOAD-CONFLICT",
+    "CAT-STALE-REVISION",
+    "CAT-BASELINE",
+    "CAT-MIGRATION-CHECKSUM",
+    "CAT-TOMBSTONE",
+    "CAT-RESERVATION",
+    "CAT-RESTORE-DEPENDENCIES",
+    "CAT-IMMUTABLE-HISTORY",
+    "CAT-OUTBOX",
+    "CAT-PAGINATION",
+    "CAT-CROSS-TENANT-SQL",
+    "CAT-SEAL",
+    "CAT-JOB-USAGE-CONSTRAINTS",
+    "CAT-COMPETING-REPLAY",
+    "CAT-COMPETING-CONFLICT",
+    "CAT-CRASH-BEFORE",
+    "CAT-CRASH-AFTER",
+    "CAT-GUARDS",
+    "CAT-SOURCE-COMMANDS",
+    "CAT-FIXTURE-INTEGRITY",
+    "CAT-EXACT-SPANS",
+    "CAT-LATE-PRIMITIVES",
+    "CAT-MIGRATION-CLI",
+    "CAT-POLICY-RACE",
+    "CAT-INTERSECTED-RIGHTS",
+    "R02-A01",
+    "R02-A02",
+    "R35-A01",
+    "R35-A02"
+  ],
+  "newGlue": [
+    "Complete tenant-qualified baseline DDL, relational snapshot-generation/deletion-inventory bindings, exact locator guards, restore/reservation and immutable companion constraints are absent from the donor model.",
+    "Scoped catalog/source metadata commands and authenticated pagination adapt the approved PHP records, without inventing defaults for immutable IR/chunk metadata.",
+    "Explicit local receipt-check/event-factory closures preserve the approved import DAG; current-owner I/O remains outside SQL transactions.",
+    "Full disclosure, connector network I/O, physical blob PUT/deletion, publication readiness/seal workflows and outbox delivery remain with their owning items."
+  ],
+  "checks": [
+    {
+      "id": "schema",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/schema-restrict.txt",
+      "tests": 7,
+      "assertions": 318
+    },
+    {
+      "id": "catalog",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/CatalogTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/catalog-authority-final.txt",
+      "tests": 11,
+      "assertions": 127
+    },
+    {
+      "id": "integrity",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/IntegrityTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/integrity-restrict.txt",
+      "tests": 5,
+      "assertions": 41
+    },
+    {
+      "id": "durability",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/DurabilityTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/durability-verified.txt",
+      "tests": 4,
+      "assertions": 63
+    },
+    {
+      "id": "boundary",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/BoundaryTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/boundary-source-final.txt",
+      "tests": 4,
+      "assertions": 42
+    },
+    {
+      "id": "ports-catalog",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/CatalogTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/ports-catalog-verified.txt",
+      "tests": 6,
+      "assertions": 248
+    },
+    {
+      "id": "ports-contracts",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/PortContractsTest.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/ports-contracts-verified.txt",
+      "tests": 7,
+      "assertions": 802
+    },
+    {
+      "id": "phpstan",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --error-format=raw --autoload-file=tests/contract/ports/bootstrap.php packages/core/src/Adapter/Postgres/Catalog packages/core/src/Adapter/Postgres/PdoOutbox.php packages/core/src/Application/Catalog packages/core/src/Application/Events/DomainEventFactory.php",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/phpstan-final-pass.txt"
+    },
+    {
+      "id": "syntax",
+      "cmd": "php -l each candidate PHP file; SchemaTest.php refreshed after FK proof update",
+      "exit": 0,
+      "files": 23,
+      "evidence": "tests/storage/catalog/evidence/syntax.json"
+    },
+    {
+      "id": "diff",
+      "cmd": "git diff --check plus whitespace inspection of new candidate files",
+      "exit": 0,
+      "evidence": "tests/storage/catalog/evidence/diff-check.json"
+    }
+  ],
+  "runtime": {
+    "php": "8.4.1",
+    "postgres": "16.14 (Debian 16.14-1.pgdg13+1)"
+  },
+  "unresolved": [
+    "Coordinator registers this local receipt at @plan/artifacts/implementation/P2.1-reuse.json; executor did not mutate plans.",
+    "V1, independent review and commit remain coordinator-owned; no acceptance/review/commit is claimed.",
+    "P2.2 must create/finalize an accepted, uniquely resolvable ledger entry before catalog SourceVersion acceptance.",
+    "Only the recorded PHP8.4/PostgreSQL16 lane ran; other runtime matrix lanes are not claimed."
+  ]
+}

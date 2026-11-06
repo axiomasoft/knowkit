@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "storage-catalog-fixtures:1",
+  "version": "1.0.0",
+  "rationale": "Initial authored synthetic tenant, immutable identity, transactional replay and fail-closed persistence cases. No document/provider inputs.",
+  "tables": ["tenants","knowledge_bases","collections","collection_closure","sources","source_memberships","source_versions","source_version_state","tombstones","idempotency_receipts","document_revisions","documents","segments","pages","blocks","assets","chunk_sets","chunks","index_generations","index_memberships","lexical_documents","publication_snapshots","snapshot_memberships","jobs","job_checkpoints","dependency_nodes","dependency_edges","evidence_usages","usage_refs","usage_invalidations","selections","citations","resource_ledger","resource_writers","deletion_tasks","deletion_attempts","outbox","inbox","lifecycle_events","restore_receipts"],
+  "outcomes": {"sameLocalIds": "isolated", "foreignMembership": "rejected", "collectionCycle": "rejected", "samePayloadReplay": "original_response", "differentPayload": "idempotency_conflict", "staleRevision": "stale_write", "staleEpoch": "POLICY_CHANGED", "immutableMutation": "23514", "unknownOwner": "policy_unknown", "privateRedirect": "unsafe_origin", "traversal": "unsafe_path", "rawSqlFilter": "TypeError", "externalResourceRemoval": "detach_only", "managedResourceRemoval": "deletion_intent"}
+}
