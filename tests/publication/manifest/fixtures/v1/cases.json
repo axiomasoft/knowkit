@@ -1,0 +1,248 @@
+{
+  "schemaVersion": "publication-manifest-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored exact-identity/asset corpus and outcomes. SHA256 and integer-only JCS domain digests calculated independently with Python hashlib, not captured from product output. Digest changes require a new fixture version and behavior rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic RU/EN/CJK identity corpus and one embedded synthetic PNG; algorithm-only adaptations attributed in P3.3-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "ir": {
+    "schemaVersion": "ir-1.0",
+    "tenantId": "01J00000000000000000000001",
+    "sourceVersionId": "01J00000000000000000000003",
+    "parserSignature": {
+      "name": "synthetic-manifest",
+      "version": "1",
+      "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "pages": [],
+    "segments": [
+      {
+        "segmentId": "s1",
+        "text": "gravity.",
+        "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+        "status": "ok"
+      },
+      {
+        "segmentId": "s2",
+        "text": "資料庫.",
+        "textDigest": "2fb10827eeab35d283feeba2d643a56032d3864a190bfba055c94da1885b7ee9",
+        "status": "ok"
+      }
+    ],
+    "blocks": [
+      {
+        "blockId": "b1",
+        "kind": "text",
+        "parentId": null,
+        "order": 0,
+        "origin": "source",
+        "spans": [
+          {
+            "kind": "segment",
+            "segmentId": "s1",
+            "blockId": "b1",
+            "byteStart": 0,
+            "byteEnd": 8
+          }
+        ],
+        "provenance": {
+          "kind": "verbatim",
+          "supportingRefs": []
+        }
+      },
+      {
+        "blockId": "b2",
+        "kind": "text",
+        "parentId": null,
+        "order": 1,
+        "origin": "source",
+        "spans": [
+          {
+            "kind": "segment",
+            "segmentId": "s2",
+            "blockId": "b2",
+            "byteStart": 0,
+            "byteEnd": 10
+          }
+        ],
+        "provenance": {
+          "kind": "verbatim",
+          "supportingRefs": []
+        }
+      }
+    ],
+    "assets": [
+      {
+        "assetId": "a1",
+        "mediaType": "image/png",
+        "digest": "c054eec0ca71070d8406b12c9e0b1745c861d337f4818c5fe8334e1b4c0dc425",
+        "byteLength": "68",
+        "pageId": null
+      }
+    ],
+    "coverage": {
+      "state": "complete",
+      "counts": {
+        "expected": 2,
+        "processed": 2,
+        "empty": 0,
+        "failed": 0,
+        "skipped": 0
+      },
+      "missingFeatures": [],
+      "diagnostics": []
+    }
+  },
+  "assetBase64": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aL1sAAAAASUVORK5CYII=",
+  "chunkSetManifest": {
+    "schemaVersion": "synthetic-chunkset:1",
+    "chunkSetId": "01J00000000000000000005001",
+    "revisionRef": {
+      "tenantId": "01J00000000000000000000001",
+      "sourceId": "01J00000000000000000000002",
+      "sourceVersionId": "01J00000000000000000000003",
+      "sourceDigest": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d",
+      "documentRevisionId": "01J00000000000000000000004",
+      "irDigest": "bf3c1ffd6a8938f097c10d660a1bd28121a13c8f779fe26c9ad112d63a493be4",
+      "parserSignature": {
+        "name": "synthetic-manifest",
+        "version": "1",
+        "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "documentId": "01J00000000000000000000005",
+    "chunkerSignature": {
+      "name": "synthetic-manifest",
+      "version": "1",
+      "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "chunks": [
+      {
+        "chunkId": "01J00000000000000000006001",
+        "chunkDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+        "byteLength": 8,
+        "spans": [
+          {
+            "kind": "segment",
+            "segmentId": "s1",
+            "blockId": "b1",
+            "byteStart": 0,
+            "byteEnd": 8,
+            "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9"
+          }
+        ]
+      },
+      {
+        "chunkId": "01J00000000000000000006002",
+        "chunkDigest": "2fb10827eeab35d283feeba2d643a56032d3864a190bfba055c94da1885b7ee9",
+        "byteLength": 10,
+        "spans": [
+          {
+            "kind": "segment",
+            "segmentId": "s2",
+            "blockId": "b2",
+            "byteStart": 0,
+            "byteEnd": 10,
+            "textDigest": "2fb10827eeab35d283feeba2d643a56032d3864a190bfba055c94da1885b7ee9"
+          }
+        ]
+      }
+    ]
+  },
+  "manifest": {
+    "schemaVersion": "index-manifest-1.0",
+    "tenantId": "01J00000000000000000000001",
+    "kbId": "01J00000000000000000000100",
+    "generationId": "01J00000000000000000000501",
+    "profile": {
+      "id": "postgres-fts-simple-v1",
+      "kind": "lexical",
+      "parserSignature": {
+        "name": "synthetic-manifest",
+        "version": "1",
+        "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "chunkerSignature": {
+        "name": "synthetic-manifest",
+        "version": "1",
+        "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+      }
+    },
+    "members": [
+      {
+        "sourceId": "01J00000000000000000000002",
+        "sourceVersionId": "01J00000000000000000000003",
+        "sourceDigest": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d",
+        "documentRevisionId": "01J00000000000000000000004",
+        "irDigest": "bf3c1ffd6a8938f097c10d660a1bd28121a13c8f779fe26c9ad112d63a493be4",
+        "chunkSetId": "01J00000000000000000005001",
+        "chunkSetDigest": "a5cec14be9dea2ac1bb51f4a40b5d209daf449d86f3f9bb114d60bb41d696b0b",
+        "chunkCount": 2
+      }
+    ],
+    "resources": [
+      {
+        "resourceId": "01J00000000000000000000310",
+        "kind": "ir",
+        "digest": "bf3c1ffd6a8938f097c10d660a1bd28121a13c8f779fe26c9ad112d63a493be4",
+        "byteLength": "1289"
+      },
+      {
+        "resourceId": "01J00000000000000000000311",
+        "kind": "canonical_slice",
+        "digest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+        "byteLength": "8"
+      },
+      {
+        "resourceId": "01J00000000000000000000312",
+        "kind": "canonical_slice",
+        "digest": "2fb10827eeab35d283feeba2d643a56032d3864a190bfba055c94da1885b7ee9",
+        "byteLength": "10"
+      },
+      {
+        "resourceId": "01J00000000000000000000313",
+        "kind": "asset",
+        "digest": "c054eec0ca71070d8406b12c9e0b1745c861d337f4818c5fe8334e1b4c0dc425",
+        "byteLength": "68"
+      }
+    ],
+    "coverage": {
+      "state": "complete",
+      "counts": {
+        "expected": 2,
+        "processed": 2,
+        "empty": 0,
+        "failed": 0,
+        "skipped": 0
+      },
+      "missingFeatures": [],
+      "diagnostics": []
+    },
+    "counts": {
+      "members": 1,
+      "chunks": 2,
+      "resources": 4
+    },
+    "embeddingSpaceDigest": null
+  },
+  "manifestDigest": "686c6eb3cde845dc99bd70f9287a4045d8efc65b850164a14539eef0a67890e4",
+  "cases": {
+    "MISSING-OBJECT": "unavailable",
+    "CORRUPT-MANIFEST": "incompatible",
+    "DUPLICATE-CHUNK": "unavailable",
+    "MISSING-CHUNK": "unavailable",
+    "WRONG-SPACE": "incompatible",
+    "REQUIRED-LEXICAL-FAILURE": "unavailable",
+    "OPTIONAL-PROJECTION-FAILURE": "sealed-degraded",
+    "R03-A01": "rebuild-exact-identities",
+    "R03-A02": "canonical-unavailable",
+    "R11-A01": "staged-not-active",
+    "R11-A02": "atomic-snapshot-and-outbox",
+    "R21-A01": "candidate-refused",
+    "R21-A02": "rank-only-rrf-fts",
+    "DT-Q04": "unreadable-not-sealed-no-query-embedding",
+    "DT-Q05": "all-assets-verified"
+  }
+}

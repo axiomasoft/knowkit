@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "publication:manifest",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored exact-identity/asset corpus and outcomes. SHA256 and integer-only JCS domain digests calculated independently with Python hashlib, not captured from product output. Digest changes require a new fixture version and behavior rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic RU/EN/CJK identity corpus and one embedded synthetic PNG; algorithm-only adaptations attributed in P3.3-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "MISSING-OBJECT",
+    "CORRUPT-MANIFEST",
+    "DUPLICATE-CHUNK",
+    "MISSING-CHUNK",
+    "WRONG-SPACE",
+    "REQUIRED-LEXICAL-FAILURE",
+    "OPTIONAL-PROJECTION-FAILURE",
+    "R03-A01",
+    "R03-A02",
+    "R11-A01",
+    "R11-A02",
+    "R21-A01",
+    "R21-A02",
+    "DT-Q04",
+    "DT-Q05",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES",
+    "SEAL-GUARDS",
+    "RECEIPT-IMMUTABILITY"
+  ],
+  "testCaseMap": {
+    "MISSING-OBJECT": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testMissingObjectKeepsPreviousSnapshot"
+    ],
+    "CORRUPT-MANIFEST": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testCorruptPersistedManifestCannotSeal"
+    ],
+    "DUPLICATE-CHUNK": [
+      "KnowKit\\Tests\\Publication\\Manifest\\ManifestTest::testDuplicateAndMissingPersistedChunksAreRejected"
+    ],
+    "MISSING-CHUNK": [
+      "KnowKit\\Tests\\Publication\\Manifest\\ManifestTest::testDuplicateAndMissingPersistedChunksAreRejected"
+    ],
+    "WRONG-SPACE": [
+      "KnowKit\\Tests\\Publication\\Manifest\\ManifestTest::testFullEmbeddingFingerprintIsCheckedWithoutQueryEmbedding"
+    ],
+    "REQUIRED-LEXICAL-FAILURE": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testRequiredLexicalFailureAndUnreadableWriteNeverSeal"
+    ],
+    "OPTIONAL-PROJECTION-FAILURE": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testOptionalFailureIsSealedWithDegradedCapabilities"
+    ],
+    "R03-A01": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testProjectionRebuildKeepsImmutableCitationCoordinates"
+    ],
+    "R03-A02": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testForgedBackendTextCannotReplaceCorruptCanonicalBytes"
+    ],
+    "R11-A01": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testInterruptedStagingIsDurableAndRetryable"
+    ],
+    "R11-A02": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testSnapshotAndOutboxCommitAndRollbackTogether"
+    ],
+    "R21-A01": [
+      "KnowKit\\Tests\\Publication\\Manifest\\ManifestTest::testForgedCandidateAndWrongRevisionAreRefused"
+    ],
+    "R21-A02": [
+      "KnowKit\\Tests\\Publication\\Manifest\\ManifestTest::testRankFusionIgnoresIncompatibleScoreScales"
+    ],
+    "DT-Q04": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testRequiredLexicalFailureAndUnreadableWriteNeverSeal"
+    ],
+    "DT-Q05": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testMissingAndCorruptAssetsCannotSeal"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Publication\\Manifest\\ManifestTest::testIndependentFixtureDigestsAndCaseInventory"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Publication\\Manifest\\ManifestTest::testRequiredMissingSkippedAndEmptyReportsFailClosed"
+    ],
+    "SEAL-GUARDS": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testTenantLifecyclePolicyAndLeaseGuards"
+    ],
+    "RECEIPT-IMMUTABILITY": [
+      "KnowKit\\Tests\\Publication\\Manifest\\PostgresTest::testReceiptAndSealedMembershipAreImmutable"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/publication/manifest/fixtures/v1/cases.json",
+      "sha256": "0fed63dba8da4ce850b266a5f8ca69122a24b51ee63a72cab2acd79192cf29a9",
+      "expected": "Versioned exact manifest/IR/chunkset/resource digests and explicit outcomes for every mandatory regression."
+    }
+  ]
+}
