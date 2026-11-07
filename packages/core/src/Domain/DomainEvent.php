@@ -6,4 +6,9 @@ namespace KnowKit\Domain;
 final readonly class DomainEvent extends SchemaValue
 {
     protected const SCHEMA = 'domain-event';
+
+    public function tenantId(): TenantId
+    {
+        return new TenantId($this->toWire()->get('tenantId'));
+    }
 }

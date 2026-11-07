@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "retrieval:cache",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial synthetic full-scope and immutable-generation partition vectors, fixed lifetime, failed/cancelled producer negatives, stale invalidation and PostgreSQL fresh disclosure/history assertions. No baseline digest rewrite. Cache-key golden vector independently authored with Python integer-only JCS and normative retrieval-cache hash domain.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic cache and disclosure regression vectors; donor sources qualified separately.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "SAME-QUERY-TWO-TENANTS",
+    "AUDIENCE-PURPOSE-CHANGE",
+    "POLICY-BUMP",
+    "REVOKE-ON-CACHE-HIT",
+    "STALE-INVALIDATION",
+    "NEW-INDEX-GENERATION",
+    "R26-A01",
+    "R26-A02",
+    "DT-R11",
+    "CACHE-HIT",
+    "POISONED-CACHE",
+    "SNAPSHOT-MEMBERSHIP",
+    "OUTBOX-INVALIDATION",
+    "CACHE-BOUNDARIES",
+    "TYPED-FAILURES",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "SAME-QUERY-TWO-TENANTS": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\PostgresTest::testSameQueryAcrossTwoTenantsUsesSeparateReferencesAndCacheEntries"
+    ],
+    "AUDIENCE-PURPOSE-CHANGE": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testAudiencePurposeAndPolicyChangesMissEvenWithStaleInvalidation"
+    ],
+    "POLICY-BUMP": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testAudiencePurposeAndPolicyChangesMissEvenWithStaleInvalidation",
+      "KnowKit\\Tests\\Retrieval\\Cache\\PostgresTest::testPolicyBumpAfterCacheHitBlocksFreshDisclosure"
+    ],
+    "REVOKE-ON-CACHE-HIT": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\PostgresTest::testRevokeOnCacheHitAndHistoricalReplayNeverAuthorizeFreshBytes"
+    ],
+    "STALE-INVALIDATION": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\PostgresTest::testRevokeOnCacheHitAndHistoricalReplayNeverAuthorizeFreshBytes",
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testHostExclusionsAndPoisonedBindingsCannotExpandUniverse"
+    ],
+    "NEW-INDEX-GENERATION": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testNewSnapshotAndIndexGenerationNeverReuseOldRanks"
+    ],
+    "R26-A01": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testFullScopePolicyPartitionsKeys",
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testQueryNormalizationProfileSpaceAndPolicyRevisionsPartitionKeys",
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testHitsRecheckQueryGrantAndIssueNewReferenceOnlySelection",
+      "KnowKit\\Tests\\Retrieval\\Cache\\PostgresTest::testSameQueryAcrossTwoTenantsUsesSeparateReferencesAndCacheEntries"
+    ],
+    "R26-A02": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\PostgresTest::testRevokeOnCacheHitAndHistoricalReplayNeverAuthorizeFreshBytes"
+    ],
+    "DT-R11": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testFullScopePolicyPartitionsKeys",
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testQueryNormalizationProfileSpaceAndPolicyRevisionsPartitionKeys",
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testFailedProducerCancelledWaiterAndExpiryCannotPopulateOrRenewCache",
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testSlowProducerCannotInstallExpiredEntry",
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testMalformedLifetimeAndExpiredUntrustedCacheAreRejected",
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testCancelledCacheWaiterCannotIssueTokenOrPublishCachedAuthorization"
+    ],
+    "CACHE-HIT": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testHitsRecheckQueryGrantAndIssueNewReferenceOnlySelection"
+    ],
+    "POISONED-CACHE": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testPoisonedRefsAndImmutableIdentityFailOnHitBeforeIssuingToken",
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testHostExclusionsAndPoisonedBindingsCannotExpandUniverse"
+    ],
+    "SNAPSHOT-MEMBERSHIP": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\PostgresTest::testCacheHitLoadsExactCurrentSnapshotMembershipBeforeUsingRanks"
+    ],
+    "OUTBOX-INVALIDATION": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testOutboxDuplicateGapAndDelayedInvalidationOnlyEvict",
+      "KnowKit\\Tests\\Retrieval\\Cache\\PostgresTest::testDurableOutboxConsumerAndDuplicateDeliveryOnlyEvict"
+    ],
+    "CACHE-BOUNDARIES": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testBoundedCacheEvictionAndTenantBoundary",
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testMalformedLifetimeAndExpiredUntrustedCacheAreRejected"
+    ],
+    "TYPED-FAILURES": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\CacheTest::testFreshQueryDenialUnknownAndUnavailableCannotBeHiddenByCache"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\FixtureTest::testVersionedFixturesDigestsAndPinnedDonorDecisions",
+      "KnowKit\\Tests\\Retrieval\\Cache\\FixtureTest::testPinnedDonorDecisionsBindExactCandidate"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Retrieval\\Cache\\FixtureTest::testRequiredCasesRejectMissingSkippedFailedEmptyAndUnknownGroup"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/cache/v1/corpus.json",
+      "sha256": "ebe3d3ae658c057f3e08ffc19104231a98edc9464255c70688f01aeba1178eb0",
+      "expected": "All required scoped cache expected outcomes, query digest and provenance."
+    },
+    {
+      "path": "tests/fixtures/cache/v1/manifest.json",
+      "sha256": "ee4fae43d8d94f654bf9eb94538e40558ba6ab390a34c28fe805757e92d7768f",
+      "expected": "Versioned input digest and authored rationale."
+    }
+  ]
+}

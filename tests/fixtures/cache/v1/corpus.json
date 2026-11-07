@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "reference-cache-corpus:1",
+  "fixtureVersion": "1.0.0",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic cache and disclosure regression vectors; donor sources qualified separately.",
+    "redistributionAllowed": false
+  },
+  "query": {
+    "text": "gravity",
+    "sha256": "d4e3fc7b0477747da28f05c27af9f1ab8e70cd60f729a2813f410fd39eb466ac"
+  },
+  "cases": {
+    "SAME-QUERY-TWO-TENANTS": [
+      "success",
+      "separate_keys",
+      "tenant_bound_refs"
+    ],
+    "AUDIENCE-PURPOSE-CHANGE": [
+      "success",
+      "cache_miss"
+    ],
+    "POLICY-BUMP": [
+      "cache_miss",
+      "denied_fresh_disclosure"
+    ],
+    "REVOKE-ON-CACHE-HIT": [
+      "reference_hit",
+      "denied_fresh_disclosure"
+    ],
+    "STALE-INVALIDATION": [
+      "reference_hit",
+      "denied_fresh_disclosure"
+    ],
+    "NEW-INDEX-GENERATION": [
+      "cache_miss",
+      "success"
+    ],
+    "R26-A01": [
+      "partition_all_trusted_bindings",
+      "fresh_query_grant"
+    ],
+    "R26-A02": [
+      "immutable_history_digest",
+      "metadata_only_replay",
+      "denied_fresh_disclosure"
+    ],
+    "DT-R11": [
+      "full_scope_profile_epoch_key",
+      "no_failed_or_cancelled_fill",
+      "fixed_expiry"
+    ],
+    "CACHE-HIT": [
+      "fresh_selection_token",
+      "refs_ranks_only"
+    ],
+    "POISONED-CACHE": [
+      "denied_or_incompatible",
+      "no_token_or_payload"
+    ],
+    "SNAPSHOT-MEMBERSHIP": [
+      "incompatible",
+      "snapshot_membership_mismatch"
+    ],
+    "OUTBOX-INVALIDATION": [
+      "tenant_eviction_only",
+      "duplicate_gap_blocked_safe"
+    ],
+    "CACHE-BOUNDARIES": [
+      "bounded_capacity",
+      "denied_foreign_tenant",
+      "expiry_rejected"
+    ],
+    "TYPED-FAILURES": [
+      "denied",
+      "unknown",
+      "unavailable",
+      "incompatible"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "verified_digests"
+    ],
+    "RUNNER-NEGATIVES": [
+      "missing_skipped_failed_empty_unknown_rejected"
+    ]
+  },
+  "expectedDigests": {
+    "cacheKey": "9cf928ac36395717b756c4e0bc4bd68e8764e692eeaa9898324a38874461e816"
+  },
+  "digestProvenance": "Independent Python stdlib integer-only JCS and approved typed SHA256 domains; synthetic scope 1/100/101, snapshot 110 with b*64 digest, generation 14 and compact whitespace:1 query."
+}

@@ -1,0 +1,240 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.4",
+  "targetBaseline": "d5437c3aa2d65925eb125e707ba99b15b59c1aa7",
+  "candidateDigest": {
+    "algorithm": "sha256-path-digest-lines",
+    "excludes": [
+      "tests/retrieval/cache/evidence/P4.4-reuse.json"
+    ],
+    "paths": [
+      "packages/core/src/Adapter/Memory/InMemoryReferenceCache.php",
+      "packages/core/src/Application/Retrieval/Cache/InvalidatingInbox.php",
+      "packages/core/src/Application/Retrieval/Cache/README.md",
+      "packages/core/src/Application/Retrieval/Cache/ReferenceSearch.php",
+      "packages/core/src/Application/Retrieval/Selection/Selections.php",
+      "packages/core/src/Domain/DomainEvent.php",
+      "packages/core/src/Domain/ReferenceCacheEntry.php",
+      "packages/core/src/Domain/ReferenceCacheKey.php",
+      "packages/core/src/Port/ReferenceCache.php",
+      "phpunit.xml",
+      "tests/fixtures/cache/v1/corpus.json",
+      "tests/fixtures/cache/v1/manifest.json",
+      "tests/fixtures/check-groups/retrieval-cache.json",
+      "tests/retrieval/cache/CacheTest.php",
+      "tests/retrieval/cache/Fixture.php",
+      "tests/retrieval/cache/FixtureTest.php",
+      "tests/retrieval/cache/PostgresTest.php"
+    ],
+    "sha256": "b5aa6c295b929a6689b3ed0cbb9924a1105d7872aafc86e0135a59a2002bd157"
+  },
+  "sources": [
+    {
+      "repo": "axiomasoft/agentools",
+      "donor": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Retrieval/Service.php",
+      "sha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "observedSha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Service.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "symbols": [
+        "retrieve",
+        "disclose"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Cache",
+        "packages/core/src/Domain/ReferenceCacheKey.php",
+        "tests/retrieval/cache"
+      ],
+      "reason": "Adapt hit binding validation and fresh disclosure separation; replace release lookups with authoritative exact snapshot inventory and fresh core QueryGrant.",
+      "qualificationRef": "tests/retrieval/cache/CacheTest.php"
+    },
+    {
+      "repo": "axiomasoft/agentools",
+      "donor": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Retrieval/Selector.php",
+      "sha256": "3b2fbd68477f86744e577054c8bfebc0dcd1b94b00da7e5fc9480ac7974a3bb1",
+      "observedSha256": "3b2fbd68477f86744e577054c8bfebc0dcd1b94b00da7e5fc9480ac7974a3bb1",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Selector.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "symbols": [
+        "choose"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Cache",
+        "packages/core/src/Domain/ReferenceCacheKey.php",
+        "tests/retrieval/cache"
+      ],
+      "reason": "Reuse existing adapted BoundedSelector on every hit, including immutable candidate validation, overlap/budgets and deterministic chunk-ID ties; do not cache its plaintext pool.",
+      "qualificationRef": "tests/retrieval/cache/CacheTest.php"
+    },
+    {
+      "repo": "axiomasoft/agentools",
+      "donor": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Retrieval/Query.php",
+      "sha256": "c537dc9c8f3ad19f60b2e1a56615de32792cce80429164a2b9f971778016159d",
+      "observedSha256": "c537dc9c8f3ad19f60b2e1a56615de32792cce80429164a2b9f971778016159d",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Query.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "symbols": [
+        "cacheKey",
+        "binding"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Cache",
+        "packages/core/src/Domain/ReferenceCacheKey.php",
+        "tests/retrieval/cache"
+      ],
+      "reason": "Adapt full scope/query/profile key; add trusted opaque hostScopeHash, current grant universe, policy revision, immutable snapshot/generation and versioned normalization.",
+      "qualificationRef": "tests/retrieval/cache/CacheTest.php"
+    },
+    {
+      "repo": "axiomasoft/agentools",
+      "donor": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/Retrieval/SelectionTest.php",
+      "sha256": "df2a12b1956a531476fba1102767cc5fba4bf1dd0ea91158202c8e184f95dd1f",
+      "observedSha256": "df2a12b1956a531476fba1102767cc5fba4bf1dd0ea91158202c8e184f95dd1f",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/SelectionTest.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "symbols": [
+        "testPoisonedCacheAndRerank",
+        "testLastBoundaryAndWorkerReset",
+        "testCacheShapeAndLifetime",
+        "testSourceChangeAtFinalRepositoryRead"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Cache",
+        "packages/core/src/Domain/ReferenceCacheKey.php",
+        "tests/retrieval/cache"
+      ],
+      "reason": "Port poisoned binding/ref, fixed TTL/reset and source change after cached search negatives to PHP core contracts and actual PostgreSQL disclosure.",
+      "qualificationRef": "tests/retrieval/cache/CacheTest.php"
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "donor": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/pipelines/llamaindex/retrievers.py",
+      "sha256": "c974d313438af7a584cab96d1f3279ea5236165a24b3de7bb8d36299d6d0f178",
+      "observedSha256": "c974d313438af7a584cab96d1f3279ea5236165a24b3de7bb8d36299d6d0f178",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/pipelines/llamaindex/retrievers.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "symbols": [
+        "_scoped_index",
+        "retrieve_scoped_nodes"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Cache",
+        "packages/core/src/Domain/ReferenceCacheKey.php",
+        "tests/retrieval/cache"
+      ],
+      "reason": "Adapt bounded generation-scoped cache and pre-ranking universe isolation. Keep existing PostgreSQL FTS prefilter; Python/LlamaIndex runtime, fallback and BM25 ranking are incompatible with vendor-free core.",
+      "qualificationRef": "tests/retrieval/cache/CacheTest.php"
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "donor": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/services/rag/test_llamaindex_bm25_fusion.py",
+      "sha256": "60b6f91062af843ceaf8f638ebe82c11190e96a436fdb18a76379ee1fd68e8cf",
+      "observedSha256": "60b6f91062af843ceaf8f638ebe82c11190e96a436fdb18a76379ee1fd68e8cf",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/test_llamaindex_bm25_fusion.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "symbols": [
+        "test_unmatched_hits_are_dropped_and_matched_ones_kept",
+        "test_a_query_with_no_shared_term_adds_nothing_from_bm25"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Cache",
+        "packages/core/src/Domain/ReferenceCacheKey.php",
+        "tests/retrieval/cache"
+      ],
+      "reason": "BM25 zero-score filtering tests require LlamaIndex/BM25 and do not specify cache behavior. No score-threshold postfilter is added to PostgreSQL FTS; cache preserves existing empty/outcome semantics.",
+      "qualificationRef": "tests/retrieval/cache/CacheTest.php"
+    }
+  ],
+  "reusedTests": [
+    "AgenTools poisoned cache and final source read regressions",
+    "AgenTools fixed lifetime and worker cache reset"
+  ],
+  "addedGapTests": [
+    "R26-A01",
+    "R26-A02",
+    "DT-R11",
+    "PostgreSQL cross-tenant, snapshot membership and revoke/policy fresh disclosure"
+  ],
+  "newCodeRationale": "Donors lack the approved core immutable refs, QueryGrant, trusted hostScopeHash and PostgreSQL disclosure transaction. New typed key/entry/port and inbox decorator provide narrow glue without vendor dependencies, durable grants or evidence plaintext.",
+  "checks": [
+    {
+      "cmd": "sha256sum six pinned local donor candidates",
+      "verdict": "pass"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/retrieval/cache/CacheTest.php",
+      "exit": 0,
+      "tests": 14,
+      "assertions": 97
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/retrieval/cache/PostgresTest.php",
+      "exit": 0,
+      "tests": 5,
+      "assertions": 180
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/retrieval/selection/SelectionTest.php",
+      "exit": 0,
+      "tests": 15,
+      "assertions": 144
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/retrieval/disclosure/DisclosureTest.php",
+      "exit": 0,
+      "tests": 12,
+      "assertions": 490
+    },
+    {
+      "cmd": "Scoped PHPStan level 5 with --autoload-file=tests/retrieval/disclosure/bootstrap.php",
+      "exit": 0
+    },
+    {
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 0
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/retrieval/cache/FixtureTest.php",
+      "exit": 0,
+      "tests": 3,
+      "assertions": 122
+    },
+    {
+      "cmd": "php -l on 12 changed/new PHP files",
+      "exit": 0
+    },
+    {
+      "cmd": "git diff --check",
+      "exit": 0
+    }
+  ],
+  "unresolved": [],
+  "planMirror": "Coordinator-owned: plan mutation forbidden to executor.",
+  "qualificationLimits": [
+    "Only the process-local ReferenceCache adapter and PostgreSQL disclosure/inbox are qualified; no optional external cache, HTTP or provider adapter is claimed."
+  ]
+}

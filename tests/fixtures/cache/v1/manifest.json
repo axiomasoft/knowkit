@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "reference-cache-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial synthetic full-scope and immutable-generation partition vectors, fixed lifetime, failed/cancelled producer negatives, stale invalidation and PostgreSQL fresh disclosure/history assertions. No baseline digest rewrite. Cache-key golden vector independently authored with Python integer-only JCS and normative retrieval-cache hash domain.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic cache and disclosure regression vectors; donor sources qualified separately.",
+    "redistributionAllowed": false
+  },
+  "files": [
+    {
+      "path": "tests/fixtures/cache/v1/corpus.json",
+      "sha256": "ebe3d3ae658c057f3e08ffc19104231a98edc9464255c70688f01aeba1178eb0",
+      "expected": "Versioned query digest and typed expected outcomes for every mandatory cache regression."
+    }
+  ]
+}

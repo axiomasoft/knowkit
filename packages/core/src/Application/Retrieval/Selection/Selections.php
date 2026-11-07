@@ -6,6 +6,7 @@ namespace KnowKit\Application\Retrieval\Selection;
 
 use KnowKit\Application\Access\AccessContext;
 use KnowKit\Application\Access\PolicyChecks;
+use KnowKit\Application\Retrieval\Cache\ReferenceSearch;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\ContractValidator;
 use KnowKit\Domain\Contract\HashDomain;
@@ -13,6 +14,7 @@ use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Port\Clock;
 use KnowKit\Port\IdGenerator;
 use KnowKit\Port\LexicalIndex;
+use KnowKit\Port\ReferenceCache;
 use KnowKit\Port\SelectionCatalog;
 use KnowKit\Port\SelectionStore;
 
@@ -28,6 +30,7 @@ final readonly class Selections
         private Clock $clock,
         private IdGenerator $ids,
         private ContractValidator $validator,
+        private ?ReferenceCache $cache = null,
     ) {}
 
     /** @param list<D\SourceVersionId> $hostEligible Trusted host universe, intersected before top-k. */
@@ -54,14 +57,16 @@ final readonly class Selections
                 $hostEligible, $policyBinding, $query->original, $memberships);
             $inventory = $this->catalog->load($context->scope(), $snapshot, $generation);
             $inventory->assertSearch($scope, $query);
-            $candidates = $this->index->search($scope, $query->normalized, $topK);
-            if ($candidates->scope != $scope) {
-                throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
-            }
+            $search = new ReferenceSearch($this->index, $this->clock, $this->cache);
+            $entry = $search->candidates($context, $scope, $inventory, $query, $topK);
+            $candidates = new D\CandidateList($scope, $entry->candidates);
             $selected = $this->selector->choose($scope, $candidates->candidates, $inventory, $query->limits);
             $context->assertCurrent();
 
-            return $this->issue($context, $query, $inventory, $selected, $policyBinding, $runRef, $ttl);
+            $result = $this->issue($context, $query, $inventory, $selected, $policyBinding, $runRef, $ttl);
+            $search->remember($context, $entry);
+
+            return $result;
         } catch (D\DomainFailure $failure) {
             return new D\RetrievalOutcome(D\Result::failure($failure));
         } catch (\Throwable) {
