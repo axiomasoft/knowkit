@@ -13,7 +13,7 @@
             "dist": {
                 "type": "path",
                 "url": "packages/core",
-                "reference": "963881e9caba011638f55a135bb4325900c290fe"
+                "reference": "1b9a697dbde6658989b01c25c7931b2bc0f97e1c"
             },
             "require": {
                 "ext-json": "*",
@@ -24,6 +24,9 @@
             "suggest": {
                 "ext-pdo_pgsql": "Required when explicitly using the PostgreSQL adapter"
             },
+            "bin": [
+                "bin/knowkit"
+            ],
             "type": "library",
             "autoload": {
                 "psr-4": {

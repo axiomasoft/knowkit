@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "cli-fixtures:1",
+  "version": "1.0.0",
+  "versionRationale": "Initial independent authored outcomes and immutable text fixture; empty member migration closes a discovered persistence gap. No expected-output snapshot rewrite.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "provenance": "Project-authored synthetic support/empty TXT and CLI assertions. No external dataset or credentials."
+  },
+  "cases": {
+    "R01-A01": "Success without framework/Python/model services; exact source citation resolves before revoke.",
+    "LOCAL-TEXT-WALKTHROUGH": "upload -> leased job -> validate -> activate -> search -> fresh disclosure -> original citation read -> revoke -> denied.",
+    "MALFORMED-COMMAND": "Exit 2 before host callback; no echoed input, credentials, paths or duplicate JSON keys.",
+    "DENIED": "Denied exit 3 and no document data, including an upload denied before resource writes.",
+    "REPEAT-UPLOAD": "Identical upload/key/expected state replays exact metadata with no new version/resource; changed request conflicts.",
+    "EMPTY": "An unmatched query and a published confirmed-empty TXT return empty/data=[]/exit 0.",
+    "REVOKE-CACHE-DISCLOSURE": "Actual cache hit issues a new selection; revoke then new attempt returns denied without Usage/text; old attempt metadata only.",
+    "OUTPUT-REDACTION": "One JSON envelope on stdout, safe stderr; unexpected errors exit 70 with no exception text/credentials/paths.",
+    "CLI-GRAMMAR": "Every approved CLI route validates a closed input and forwards typed mutation flags to the host.",
+    "TYPED-OUTCOMES": "success/empty=0, denied=3, unknown/unavailable=4, incompatible=5, syntax=2, unexpected=70.",
+    "EXACT-SCOPE-IDENTITY": "Foreign tenant/token/tampered exact refs cannot disclose; historical citation does not redirect to a new empty version.",
+    "CANCEL-FENCING": "Stale epoch fails; cancellation fences the worker and prevents late publication.",
+    "LIFECYCLE-COMMANDS": "Correction denies historical bytes; legal hold prevents physical completion while deletion task metadata stays pending.",
+    "EMPTY-MEMBER-INVARIANT": "A sealed catalog-bound empty member can publish; a nonempty chunkset with missing projection cannot masquerade as empty.",
+    "FIXTURE-INTEGRITY": "Digests, provenance, donor decisions and candidate receipt match.",
+    "RUNNER-NEGATIVES": "Missing, skipped, failing and zero cases, unknown group and failed child all fail closed."
+  }
+}

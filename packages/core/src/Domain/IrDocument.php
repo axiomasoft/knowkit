@@ -16,6 +16,12 @@ final readonly class IrDocument extends SchemaValue
     }
 
     /** @return list<JsonObject> */
+    public function segments(): array
+    {
+        return $this->toWire()->get('segments');
+    }
+
+    /** @return list<JsonObject> */
     public function assets(): array
     {
         return $this->toWire()->get('assets');

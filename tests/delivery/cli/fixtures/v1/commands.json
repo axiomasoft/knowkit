@@ -1,0 +1,712 @@
+{
+  "schemaVersion": "cli-commands:1",
+  "version": "1.0.0",
+  "rationale": "Initial authored grammar and fail-closed negative vectors. No snapshot rewrite.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "provenance": "Project-authored synthetic input. SYNTHETIC_SECRET is a non-secret sentinel."
+  },
+  "valid": [
+    {
+      "command": "kb create",
+      "input": {
+        "kbId": "01JC0000000000000000000001",
+        "name": "Fixture"
+      },
+      "mutation": true,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "kb",
+        "create",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key"
+      ]
+    },
+    {
+      "command": "collection create",
+      "input": {
+        "collectionId": "01JC0000000000000000000001"
+      },
+      "mutation": true,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "collection",
+        "create",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key"
+      ]
+    },
+    {
+      "command": "source register",
+      "input": {
+        "sourceId": "01JC0000000000000000000001",
+        "ownerRef": "fixture:owner",
+        "origin": "fixture:local"
+      },
+      "mutation": true,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "source",
+        "register",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key"
+      ]
+    },
+    {
+      "command": "source upload",
+      "input": {
+        "sourceId": "01JC0000000000000000000001",
+        "sourceVersionId": "01JC0000000000000000000001",
+        "rightsRef": "fixture:private"
+      },
+      "mutation": true,
+      "epoch": true,
+      "revision": true,
+      "argv": [
+        "source",
+        "upload",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0",
+        "--expected-revision",
+        "0",
+        "--file",
+        "examples/plain-php/fixtures/v1/support.txt"
+      ]
+    },
+    {
+      "command": "ingest start",
+      "input": {
+        "sourceVersionId": "01JC0000000000000000000001",
+        "generationId": "01JC0000000000000000000001"
+      },
+      "mutation": true,
+      "epoch": true,
+      "revision": false,
+      "argv": [
+        "ingest",
+        "start",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0"
+      ]
+    },
+    {
+      "command": "ingest status",
+      "input": {
+        "jobId": "01JC0000000000000000000001"
+      },
+      "mutation": false,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "ingest",
+        "status",
+        "--json",
+        "--input",
+        "-"
+      ]
+    },
+    {
+      "command": "ingest cancel",
+      "input": {
+        "jobId": "01JC0000000000000000000001"
+      },
+      "mutation": true,
+      "epoch": true,
+      "revision": false,
+      "argv": [
+        "ingest",
+        "cancel",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0"
+      ]
+    },
+    {
+      "command": "ingest reprocess",
+      "input": {
+        "sourceVersionId": "01JC0000000000000000000001",
+        "generationId": "01JC0000000000000000000001"
+      },
+      "mutation": true,
+      "epoch": true,
+      "revision": false,
+      "argv": [
+        "ingest",
+        "reprocess",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0"
+      ]
+    },
+    {
+      "command": "publication validate",
+      "input": {
+        "generationId": "01JC0000000000000000000001"
+      },
+      "mutation": true,
+      "epoch": true,
+      "revision": false,
+      "argv": [
+        "publication",
+        "validate",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0"
+      ]
+    },
+    {
+      "command": "publication activate",
+      "input": {
+        "generationId": "01JC0000000000000000000001"
+      },
+      "mutation": true,
+      "epoch": true,
+      "revision": true,
+      "argv": [
+        "publication",
+        "activate",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0",
+        "--expected-revision",
+        "0"
+      ]
+    },
+    {
+      "command": "search",
+      "input": {
+        "query": "support"
+      },
+      "mutation": false,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "search",
+        "--json",
+        "--input",
+        "-"
+      ]
+    },
+    {
+      "command": "disclose",
+      "input": {
+        "selectionId": "01JC0000000000000000000001",
+        "chunkRefs": [
+          {
+            "tenantId": "01JC0000000000000000000001",
+            "sourceId": "01JC0000000000000000000001",
+            "sourceVersionId": "01JC0000000000000000000001",
+            "sourceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "documentRevisionId": "01JC0000000000000000000001",
+            "irDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "parserSignature": {
+              "name": "text",
+              "version": "1",
+              "profileDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            },
+            "chunkSetId": "01JC0000000000000000000001",
+            "chunkId": "01JC0000000000000000000001",
+            "chunkDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+          }
+        ],
+        "disclosureAttemptId": "01JC0000000000000000000001",
+        "token": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "mutation": false,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "disclose",
+        "--json",
+        "--input",
+        "-"
+      ]
+    },
+    {
+      "command": "read source",
+      "input": {
+        "citationId": "01JC0000000000000000000001",
+        "attemptId": "01JC0000000000000000000001"
+      },
+      "mutation": false,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "read",
+        "source",
+        "--json",
+        "--input",
+        "-"
+      ]
+    },
+    {
+      "command": "read page",
+      "input": {
+        "citationId": "01JC0000000000000000000001",
+        "attemptId": "01JC0000000000000000000001",
+        "pageId": "p1"
+      },
+      "mutation": false,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "read",
+        "page",
+        "--json",
+        "--input",
+        "-"
+      ]
+    },
+    {
+      "command": "read region",
+      "input": {
+        "citationId": "01JC0000000000000000000001",
+        "attemptId": "01JC0000000000000000000001",
+        "pageId": "p1",
+        "bbox": {
+          "x0": 0,
+          "y0": 0,
+          "x1": 1000000,
+          "y1": 1000000
+        }
+      },
+      "mutation": false,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "read",
+        "region",
+        "--json",
+        "--input",
+        "-"
+      ]
+    },
+    {
+      "command": "read table",
+      "input": {
+        "citationId": "01JC0000000000000000000001",
+        "attemptId": "01JC0000000000000000000001",
+        "tableId": "t1"
+      },
+      "mutation": false,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "read",
+        "table",
+        "--json",
+        "--input",
+        "-"
+      ]
+    },
+    {
+      "command": "read asset",
+      "input": {
+        "citationId": "01JC0000000000000000000001",
+        "attemptId": "01JC0000000000000000000001",
+        "assetId": "a1"
+      },
+      "mutation": false,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "read",
+        "asset",
+        "--json",
+        "--input",
+        "-"
+      ]
+    },
+    {
+      "command": "lifecycle correct",
+      "input": {
+        "oldVersion": {
+          "tenantId": "01JC0000000000000000000001",
+          "sourceId": "01JC0000000000000000000001",
+          "sourceVersionId": "01JC0000000000000000000001",
+          "sourceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      },
+      "mutation": true,
+      "epoch": true,
+      "revision": false,
+      "argv": [
+        "lifecycle",
+        "correct",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0"
+      ]
+    },
+    {
+      "command": "lifecycle revoke",
+      "input": {
+        "sourceId": "01JC0000000000000000000001",
+        "reason": "source_revoked"
+      },
+      "mutation": true,
+      "epoch": true,
+      "revision": false,
+      "argv": [
+        "lifecycle",
+        "revoke",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0"
+      ]
+    },
+    {
+      "command": "lifecycle delete",
+      "input": {
+        "sourceId": "01JC0000000000000000000001"
+      },
+      "mutation": true,
+      "epoch": true,
+      "revision": false,
+      "argv": [
+        "lifecycle",
+        "delete",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0"
+      ]
+    },
+    {
+      "command": "lifecycle hold",
+      "input": {
+        "sourceId": "01JC0000000000000000000001",
+        "enabled": true
+      },
+      "mutation": true,
+      "epoch": true,
+      "revision": false,
+      "argv": [
+        "lifecycle",
+        "hold",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0"
+      ]
+    },
+    {
+      "command": "purge status",
+      "input": {
+        "taskId": "01JC0000000000000000000001"
+      },
+      "mutation": false,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "purge",
+        "status",
+        "--json",
+        "--input",
+        "-"
+      ]
+    },
+    {
+      "command": "capabilities",
+      "input": {},
+      "mutation": false,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "capabilities",
+        "--json",
+        "--input",
+        "-"
+      ]
+    },
+    {
+      "command": "restore verify",
+      "input": {
+        "runId": "01JC0000000000000000000001"
+      },
+      "mutation": true,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "restore",
+        "verify",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key"
+      ]
+    },
+    {
+      "command": "reconcile",
+      "input": {
+        "runId": "01JC0000000000000000000001"
+      },
+      "mutation": true,
+      "epoch": false,
+      "revision": false,
+      "argv": [
+        "reconcile",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key"
+      ]
+    }
+  ],
+  "malformed": [
+    {
+      "id": "unknown-command",
+      "argv": [
+        "SYNTHETIC_SECRET",
+        "--json"
+      ],
+      "stdin": "{}"
+    },
+    {
+      "id": "identity-flag",
+      "argv": [
+        "search",
+        "--tenant",
+        "SYNTHETIC_SECRET"
+      ],
+      "stdin": "{}"
+    },
+    {
+      "id": "identity-input",
+      "argv": [
+        "search",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"query\":\"support\",\"tenantId\":\"01JC0000000000000000000001\"}"
+    },
+    {
+      "id": "usage-context-input",
+      "argv": [
+        "disclose",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"selectionId\":\"01JC0000000000000000000001\",\"chunkRefs\":[{\"tenantId\":\"01JC0000000000000000000001\",\"sourceId\":\"01JC0000000000000000000001\",\"sourceVersionId\":\"01JC0000000000000000000001\",\"sourceDigest\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"documentRevisionId\":\"01JC0000000000000000000001\",\"irDigest\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"parserSignature\":{\"name\":\"text\",\"version\":\"1\",\"profileDigest\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\"},\"chunkSetId\":\"01JC0000000000000000000001\",\"chunkId\":\"01JC0000000000000000000001\",\"chunkDigest\":\"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\"}],\"disclosureAttemptId\":\"01JC0000000000000000000001\",\"token\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"usageContext\":{\"runRef\":\"untrusted\"}}"
+    },
+    {
+      "id": "duplicate-flag",
+      "argv": [
+        "capabilities",
+        "--json",
+        "--json"
+      ],
+      "stdin": "{}"
+    },
+    {
+      "id": "missing-key",
+      "argv": [
+        "kb",
+        "create",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"kbId\":\"01JC0000000000000000000001\",\"name\":\"Fixture\"}"
+    },
+    {
+      "id": "missing-epoch",
+      "argv": [
+        "lifecycle",
+        "delete",
+        "--idempotency-key",
+        "key",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"sourceId\":\"01JC0000000000000000000001\"}"
+    },
+    {
+      "id": "noncanonical-epoch",
+      "argv": [
+        "lifecycle",
+        "delete",
+        "--idempotency-key",
+        "key",
+        "--expected-epoch",
+        "00",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"sourceId\":\"01JC0000000000000000000001\"}"
+    },
+    {
+      "id": "malformed-json",
+      "argv": [
+        "search",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"query\":\"SYNTHETIC_SECRET\""
+    },
+    {
+      "id": "duplicate-json-key",
+      "argv": [
+        "search",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"query\":\"first\",\"query\":\"SYNTHETIC_SECRET\"}"
+    },
+    {
+      "id": "file-wrapper",
+      "argv": [
+        "search",
+        "--input",
+        "https://private/SYNTHETIC_SECRET"
+      ],
+      "stdin": "{}"
+    },
+    {
+      "id": "missing-file",
+      "argv": [
+        "search",
+        "--input",
+        "/private/SYNTHETIC_SECRET.json"
+      ],
+      "stdin": "{}"
+    },
+    {
+      "id": "array-input",
+      "argv": [
+        "search",
+        "--input",
+        "-"
+      ],
+      "stdin": "[]"
+    },
+    {
+      "id": "invalid-id",
+      "argv": [
+        "read",
+        "source",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"citationId\":\"SYNTHETIC_SECRET\",\"attemptId\":\"01JC0000000000000000000001\"}"
+    },
+    {
+      "id": "empty-value",
+      "argv": [
+        "search",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"query\":\"\"}"
+    },
+    {
+      "id": "unexpected-positional",
+      "argv": [
+        "capabilities",
+        "SYNTHETIC_SECRET"
+      ],
+      "stdin": "{}"
+    },
+    {
+      "id": "oversized-input",
+      "argv": [
+        "search",
+        "--input",
+        "-"
+      ],
+      "stdin": "",
+      "stdinBytes": 65537
+    },
+    {
+      "id": "nested-ref-unknown-field",
+      "argv": [
+        "disclose",
+        "--json",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"selectionId\": \"01JC0000000000000000000001\", \"chunkRefs\": [{\"tenantId\": null}], \"disclosureAttemptId\": \"01JC0000000000000000000001\", \"token\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}"
+    },
+    {
+      "id": "noninteger-bbox",
+      "argv": [
+        "read",
+        "region",
+        "--json",
+        "--input",
+        "-"
+      ],
+      "stdin": "{\"citationId\": \"01JC0000000000000000000001\", \"attemptId\": \"01JC0000000000000000000001\", \"pageId\": \"p1\", \"bbox\": {\"x0\": 0.1, \"y0\": 0, \"x1\": 1000000, \"y1\": 1000000}}"
+    },
+    {
+      "id": "nonapplicable-revision",
+      "argv": [
+        "ingest",
+        "start",
+        "--json",
+        "--input",
+        "-",
+        "--idempotency-key",
+        "fixture-key",
+        "--expected-epoch",
+        "0",
+        "--expected-revision",
+        "0"
+      ],
+      "stdin": "{\"sourceVersionId\": \"01JC0000000000000000000001\", \"generationId\": \"01JC0000000000000000000001\"}"
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "delivery:cli",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial independent authored outcomes and immutable text fixture; empty member migration closes a discovered persistence gap. No expected-output snapshot rewrite.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic support/empty TXT and CLI assertions. No external dataset or credentials.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "R01-A01",
+    "LOCAL-TEXT-WALKTHROUGH",
+    "MALFORMED-COMMAND",
+    "DENIED",
+    "REPEAT-UPLOAD",
+    "EMPTY",
+    "REVOKE-CACHE-DISCLOSURE",
+    "OUTPUT-REDACTION",
+    "CLI-GRAMMAR",
+    "TYPED-OUTCOMES",
+    "EXACT-SCOPE-IDENTITY",
+    "CANCEL-FENCING",
+    "LIFECYCLE-COMMANDS",
+    "EMPTY-MEMBER-INVARIANT",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "R01-A01": [
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testStandaloneWalkthroughWithoutOptionalServices",
+      "KnowKit\\Tests\\Delivery\\Cli\\TransportTest::testInstalledComposerBinaryLoadsHostOnlyAfterValidation"
+    ],
+    "LOCAL-TEXT-WALKTHROUGH": [
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testStandaloneWalkthroughWithoutOptionalServices",
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testLibraryAndCliResolveSameExactCitationAndLifecycle"
+    ],
+    "MALFORMED-COMMAND": [
+      "KnowKit\\Tests\\Delivery\\Cli\\TransportTest::testMalformedCommandsFailBeforeHostAndNeverEchoInputs"
+    ],
+    "DENIED": [
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testDeniedAndEmptyStayDistinctAndCannotLeakText"
+    ],
+    "REPEAT-UPLOAD": [
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testRepeatUploadIsIdempotentAndChangedRequestConflicts"
+    ],
+    "EMPTY": [
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testDeniedAndEmptyStayDistinctAndCannotLeakText",
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testEmptyTextPublicationDoesNotRedirectHistoricalCitationToLatest"
+    ],
+    "REVOKE-CACHE-DISCLOSURE": [
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testRevokeAfterActualCacheHitBlocksNewDisclosureAndCitationRead"
+    ],
+    "OUTPUT-REDACTION": [
+      "KnowKit\\Tests\\Delivery\\Cli\\TransportTest::testInternalErrorsAndAccidentalHostOutputAreRedacted",
+      "KnowKit\\Tests\\Delivery\\Cli\\TransportTest::testExecutableUsesExactlyOneEnvelopeAndSafeStderr",
+      "KnowKit\\Tests\\Delivery\\Cli\\TransportTest::testTypedOutcomesKeepDistinctExitCodesAndFailureRedaction",
+      "KnowKit\\Tests\\Delivery\\Cli\\TransportTest::testInstalledComposerBinaryLoadsHostOnlyAfterValidation"
+    ],
+    "CLI-GRAMMAR": [
+      "KnowKit\\Tests\\Delivery\\Cli\\TransportTest::testEveryGrammarRouteForwardsMutationAndHostOwnedInput"
+    ],
+    "TYPED-OUTCOMES": [
+      "KnowKit\\Tests\\Delivery\\Cli\\TransportTest::testTypedOutcomesKeepDistinctExitCodesAndFailureRedaction"
+    ],
+    "EXACT-SCOPE-IDENTITY": [
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testWrongHostContextAndTamperedImmutableRefsDenyWithoutUsage",
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testEmptyTextPublicationDoesNotRedirectHistoricalCitationToLatest"
+    ],
+    "CANCEL-FENCING": [
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testCancelInvalidatesWorkerBeforePublicationAndStatusIsTyped"
+    ],
+    "LIFECYCLE-COMMANDS": [
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testCorrectionLegalHoldDeleteAndPurgeKeepExactIdentity"
+    ],
+    "EMPTY-MEMBER-INVARIANT": [
+      "KnowKit\\Tests\\Delivery\\Cli\\EmptyMembershipTest::testMissingNonemptyIndexProjectionCannotMasqueradeAsEmptyMember",
+      "KnowKit\\Tests\\Delivery\\Cli\\JourneyTest::testEmptyTextPublicationDoesNotRedirectHistoricalCitationToLatest"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Delivery\\Cli\\FixtureTest::testVersionedFixturesAndReuseBindTheCandidate"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Delivery\\Cli\\FixtureTest::testRequiredCasesFailForMissingSkippedFailedEmptyAndUnknownGroup"
+    ]
+  },
+  "deferredCases": [
+    {
+      "id": "R01-A02",
+      "reason": "Owner answer P4.5 Q1=a moves real HTTP transport conformance to the HTTP delivery item. Not selected here; no pass claimed."
+    }
+  ],
+  "fixtures": [
+    {
+      "path": "examples/plain-php/fixtures/v1/support.txt",
+      "sha256": "d97adf8ea2240ae1e75446977a9829de147bc5b296ff9cccb545ac3dd011c8f7",
+      "expected": "Synthetic local support text; original bytes remain unchanged."
+    },
+    {
+      "path": "examples/plain-php/fixtures/v1/empty.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected": "Confirmed zero bytes; no fabricated text or index rows."
+    },
+    {
+      "path": "tests/delivery/cli/fixtures/v1/commands.json",
+      "sha256": "67e0f0715347e06cae6796d191adbdc009c78ddffb15fc2296de6f4cf56ee05e",
+      "expected": "Every approved route and explicit malformed command vectors."
+    },
+    {
+      "path": "tests/delivery/cli/fixtures/v1/outcomes.json",
+      "sha256": "4ff2338beac2bcda57ddcdbd9e5f07671c233009d89a4bac4a19dd5aa27df56e",
+      "expected": "Authored typed outcomes for every required case."
+    },
+    {
+      "path": "tests/delivery/cli/fixtures/v1/host.php",
+      "sha256": "a35bb762ceea6d31f93ff2c980aa9f1434b5857530d3302a093ca8bcb4bf6643",
+      "expected": "Synthetic host bootstrap proves installed executable validation and output redaction; not application authority."
+    }
+  ],
+  "components": {
+    "composerLock": {
+      "path": "composer.lock",
+      "sha256": "d76fdb70e0f66cf5f2b7f2a85cc1f8be3cfe0941dfb6eda3969981bf91c474bd"
+    },
+    "phpFloor": "8.3",
+    "requiredBackend": "PostgreSQL (unavailable is failure, never skip)"
+  }
+}

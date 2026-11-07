@@ -1,0 +1,2 @@
+Support response time is 30 minutes.
+Keep the incident reference with every support request.

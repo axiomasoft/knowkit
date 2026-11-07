@@ -1,0 +1,259 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.5",
+  "targetBaseline": "97f9c881d691b73c94463b54eb4e335ad6042950",
+  "candidateDigest": {
+    "algorithm": "sha256-path-digest-lines",
+    "excludes": [
+      "tests/delivery/cli/evidence/P4.5-reuse.json"
+    ],
+    "paths": [
+      "composer.lock",
+      "docs/getting-started.md",
+      "examples/plain-php/Bytes.php",
+      "examples/plain-php/Host.php",
+      "examples/plain-php/QueryDelivery.php",
+      "examples/plain-php/README.md",
+      "examples/plain-php/Runtime.php",
+      "examples/plain-php/Sandbox.php",
+      "examples/plain-php/Storage.php",
+      "examples/plain-php/TextDelivery.php",
+      "examples/plain-php/Walkthrough.php",
+      "examples/plain-php/bootstrap.php",
+      "examples/plain-php/fixtures/v1/empty.txt",
+      "examples/plain-php/fixtures/v1/support.txt",
+      "examples/plain-php/run.php",
+      "packages/core/bin/knowkit",
+      "packages/core/composer.json",
+      "packages/core/migrations/postgres/009_empty_snapshot_members.sql",
+      "packages/core/src/Adapter/Cli/Command.php",
+      "packages/core/src/Adapter/Cli/Grammar.php",
+      "packages/core/src/Adapter/Cli/Kernel.php",
+      "packages/core/src/Adapter/Cli/Response.php",
+      "packages/core/src/Adapter/Cli/UsageError.php",
+      "packages/core/src/Adapter/Postgres/Catalog/Migrate.php",
+      "packages/core/src/Domain/IrDocument.php",
+      "phpunit.xml",
+      "tests/delivery/cli/EmptyMembershipTest.php",
+      "tests/delivery/cli/FixtureTest.php",
+      "tests/delivery/cli/JourneyTest.php",
+      "tests/delivery/cli/TransportTest.php",
+      "tests/delivery/cli/fixtures/v1/commands.json",
+      "tests/delivery/cli/fixtures/v1/host.php",
+      "tests/delivery/cli/fixtures/v1/outcomes.json",
+      "tests/events/outbox/MigrationTest.php",
+      "tests/fixtures/check-groups/delivery-cli.json",
+      "tests/storage/catalog/SchemaTest.php"
+    ],
+    "sha256": "fd5c9a1b476b4357065d983c0b4af5c1be38d6aa89145401cd9f0c6eda042625"
+  },
+  "sources": [
+    {
+      "repo": "axiomasoft/agentools",
+      "donor": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/Golden/GoldenJourneyTest.php",
+      "sha256": "c326f0b5586c44383d69c3390a36d41e59861c354977ae3311cf187eaf5bd73f",
+      "observedSha256": "c326f0b5586c44383d69c3390a36d41e59861c354977ae3311cf187eaf5bd73f",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Golden/GoldenJourneyTest.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "symbols": [
+        "prove",
+        "testSupportIngestIndexRuntimeCitationAndReplay"
+      ],
+      "targetPaths": [
+        "examples/plain-php",
+        "tests/delivery/cli",
+        "docs/getting-started.md"
+      ],
+      "reason": "Transfer exact citation/source digest, cache-hit/new delivery and repeat-write assertions to actual PHP core CLI, PostgreSQL and LocalBlob services. No model/provider runtime imported.",
+      "qualificationRef": "tests/delivery/cli/JourneyTest.php"
+    },
+    {
+      "repo": "axiomasoft/agentools",
+      "donor": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/Golden/RecoveryTest.php",
+      "sha256": "3c0eddc31c715651bacda336013e1930c6465675520a51af94cb55c09fc8e0d5",
+      "observedSha256": "3c0eddc31c715651bacda336013e1930c6465675520a51af94cb55c09fc8e0d5",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Golden/RecoveryTest.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "symbols": [
+        "testCorrectionAfterIntentIsKnownNotSent"
+      ],
+      "targetPaths": [
+        "examples/plain-php",
+        "tests/delivery/cli",
+        "docs/getting-started.md"
+      ],
+      "reason": "Transfer invalidation after selection and before actual disclosure: correction/revocation/cancellation block bytes and late publication. Donor provider crash/lookup scenario is outside standalone delivery and is not claimed qualified.",
+      "qualificationRef": "tests/delivery/cli/JourneyTest.php"
+    },
+    {
+      "repo": "axiomasoft/agentools",
+      "donor": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/Golden/ExampleTest.php",
+      "sha256": "a409f6f3f274c0d6ef32ba5f4dd45774dff9c42044b89c65557b92f4d25c0d99",
+      "observedSha256": "a409f6f3f274c0d6ef32ba5f4dd45774dff9c42044b89c65557b92f4d25c0d99",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Golden/ExampleTest.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "symbols": [
+        "testRunnableSyntheticExample"
+      ],
+      "targetPaths": [
+        "examples/plain-php",
+        "tests/delivery/cli",
+        "docs/getting-started.md"
+      ],
+      "reason": "Transfer subprocess runnable synthetic example and assertions on typed outcomes/citations. Replace Agentools host/runtime with an explicit disposable plain-PHP composition.",
+      "qualificationRef": "tests/delivery/cli/JourneyTest.php"
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "donor": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "docs-for-dev/INDEXING_RECOVERY.md",
+      "sha256": "326c197a699973c6257b76c3bd56f37d0866d28e153fef596b5334f66dcea716",
+      "observedSha256": "326c197a699973c6257b76c3bd56f37d0866d28e153fef596b5334f66dcea716",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/INDEXING_RECOVERY.md",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "symbols": [
+        "staged publication",
+        "cancellation",
+        "runtime failures"
+      ],
+      "targetPaths": [
+        "examples/plain-php",
+        "tests/delivery/cli",
+        "docs/getting-started.md"
+      ],
+      "reason": "Apply staged validate/activate and truthful leased/completed status, cancellation fencing and bounded redacted failures. Retain KnowKit PostgreSQL job/immutable-generation contracts; do not import Python journals or engines.",
+      "qualificationRef": "tests/delivery/cli/JourneyTest.php"
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "donor": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "docs-for-dev/KNOWLEDGE_MIGRATION.md",
+      "sha256": "ad61c73a2675694447a693612898ac6168a6da847b2614ad1fe00c7024b01990",
+      "observedSha256": "ad61c73a2675694447a693612898ac6168a6da847b2614ad1fe00c7024b01990",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/KNOWLEDGE_MIGRATION.md",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "symbols": [
+        "prepare the source",
+        "verify the migration"
+      ],
+      "targetPaths": [
+        "examples/plain-php",
+        "tests/delivery/cli",
+        "docs/getting-started.md"
+      ],
+      "reason": "Adapt local copy-upload and verify original source/citation before discarding anything. Fixtures remain unchanged; no path-as-identity, directory flattening, overwrite semantics or LlamaIndex dependency is transferred.",
+      "qualificationRef": "tests/delivery/cli/JourneyTest.php"
+    }
+  ],
+  "reusedTests": [
+    "Exact citation/version/digest and original-byte verification",
+    "Actual cache hit followed by fresh denial after revocation",
+    "Repeat immutable upload and idempotency conflict",
+    "Runnable standalone subprocess example",
+    "Correction/cancel immediately before new delivery/publication"
+  ],
+  "addedGapTests": [
+    "Closed CLI grammar, host-controlled identity and input redaction",
+    "Distinct typed exits and safe stdout/stderr",
+    "Confirmed empty TXT publication, immutable historical citation and nonempty-as-empty rejection",
+    "Required-case runner missing/skipped/failed/empty/unknown/subprocess negatives"
+  ],
+  "newCodeRationale": "Donors do not define the approved KnowKit CLI routes, Scope/PolicyContext, exact PHP DTOs or PostgreSQL/LocalBlob composition. New CLI glue validates transport data and delegates through a trusted host callback to application use cases. The standalone host wires existing core services, without a parallel retrieval/disclosure/lifecycle implementation. Migration 009 permits only sealed catalog-bound physically empty members, retaining exact identity and the existing nonempty path.",
+  "checks": [
+    {
+      "cmd": "sha256sum five pinned local donor candidates",
+      "verdict": "pass"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/delivery/cli/TransportTest.php",
+      "exit": 0,
+      "tests": 6,
+      "assertions": 251
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/delivery/cli/JourneyTest.php",
+      "exit": 0,
+      "tests": 9,
+      "assertions": 61
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/delivery/cli/EmptyMembershipTest.php",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 3
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php",
+      "exit": 0,
+      "tests": 9,
+      "assertions": 393
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/events/outbox/MigrationTest.php",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 10
+    },
+    {
+      "cmd": "Scoped PHPStan level 5 with examples/plain-php/bootstrap.php, --memory-limit=1G and --debug",
+      "exit": 0
+    },
+    {
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 0
+    },
+    {
+      "cmd": "composer validate --strict",
+      "exit": 0
+    },
+    {
+      "cmd": "composer validate --strict --working-dir=packages/core",
+      "exit": 0
+    },
+    {
+      "cmd": "php -l on 25 changed/new PHP files and executable",
+      "exit": 0
+    },
+    {
+      "cmd": "composer update knowkit/core --no-interaction --no-progress; composer reinstall knowkit/core --no-interaction --no-progress",
+      "exit": 0
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/delivery/cli/FixtureTest.php",
+      "exit": 0,
+      "tests": 2,
+      "assertions": 93
+    },
+    {
+      "cmd": "git diff --check",
+      "exit": 0
+    }
+  ],
+  "unresolved": [],
+  "planMirror": "Coordinator-owned; executor plan mutation is forbidden. Copy this tracked receipt during registration.",
+  "qualificationLimits": [
+    "Actual local lane: PHP 8.4.1 and the configured disposable PostgreSQL backend; no claim of PHP 8.3/8.5 or PostgreSQL 17/18 qualification.",
+    "Standalone example is single-user and single-process: persisted artifact reload, supervisor heartbeat/restart, provider crash recovery and multi-user authentication are not qualified.",
+    "Restore/reconcile CLI grammar is available; the TXT example returns typed unavailable for unconfigured host recovery integration.",
+    "Owner answer P4.5 Q1=a defers R01-A02 real HTTP transport conformance to HTTP delivery; it is not selected or passed here.",
+    "V1 and independent review are coordinator-owned and were not launched."
+  ]
+}
