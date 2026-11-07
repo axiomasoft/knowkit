@@ -1,0 +1,325 @@
+{
+  "schemaVersion": "sources-inventory-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "branchHeadAfterInventory": "ffffffffffffffffffffffffffffffffffffffff",
+  "requiredCaseIds": [
+    "inventory:github-truncated-tree",
+    "download-size-mismatch",
+    "pagination-incomplete",
+    "single-commit-pin",
+    "rename",
+    "namespace-collision",
+    "partial-crawl-preserves-old",
+    "last-source-empty-snapshot",
+    "unavailable-not-empty",
+    "no-hidden-modelcall",
+    "DT-I07",
+    "DT-I08",
+    "DT-I09",
+    "DT-I10",
+    "DT-I11",
+    "DT-I12",
+    "DT-I14",
+    "FULL-SCOPE-RECEIPT",
+    "CURRENT-ACCESS-CAS-REPLAY",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "scenarios": {
+    "initial": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": true,
+      "fullTree": true,
+      "allPages": true,
+      "capped": false,
+      "failures": [],
+      "omittedCount": 0,
+      "items": [
+        {
+          "originKey": "a",
+          "logicalPath": "docs/a.md",
+          "bytes": "alpha",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+          "byteLength": "5"
+        },
+        {
+          "originKey": "b",
+          "logicalPath": "docs/b.md",
+          "bytes": "bravo",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "f144a6907dc4284d1f9fe6a7d9b9ff53c02c1d07ba68f24d413d7ff7f757a782",
+          "byteLength": "5"
+        }
+      ]
+    },
+    "empty": {
+      "pin": "2222222222222222222222222222222222222222",
+      "complete": true,
+      "fullTree": true,
+      "allPages": true,
+      "capped": false,
+      "failures": [],
+      "omittedCount": 0,
+      "items": []
+    },
+    "unavailable": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": false,
+      "fullTree": false,
+      "allPages": false,
+      "capped": false,
+      "failures": [
+        "provider_unavailable"
+      ],
+      "omittedCount": null,
+      "items": []
+    },
+    "truncated-tree": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": false,
+      "fullTree": false,
+      "allPages": true,
+      "capped": false,
+      "failures": [
+        "tree_truncated"
+      ],
+      "omittedCount": 0,
+      "items": [
+        {
+          "originKey": "a",
+          "logicalPath": "docs/a.md",
+          "bytes": "alpha",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+          "byteLength": "5"
+        }
+      ]
+    },
+    "truncated-compare": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": false,
+      "fullTree": false,
+      "allPages": true,
+      "capped": false,
+      "failures": [
+        "compare_truncated"
+      ],
+      "omittedCount": 0,
+      "items": [
+        {
+          "originKey": "a",
+          "logicalPath": "docs/a.md",
+          "bytes": "alpha",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+          "byteLength": "5"
+        }
+      ]
+    },
+    "incomplete-pages": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": false,
+      "fullTree": true,
+      "allPages": false,
+      "capped": false,
+      "failures": [
+        "pagination_incomplete"
+      ],
+      "omittedCount": 0,
+      "items": [
+        {
+          "originKey": "a",
+          "logicalPath": "docs/a.md",
+          "bytes": "alpha",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+          "byteLength": "5"
+        }
+      ]
+    },
+    "capped": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": false,
+      "fullTree": true,
+      "allPages": true,
+      "capped": true,
+      "failures": [
+        "crawl_capped"
+      ],
+      "omittedCount": 1,
+      "items": [
+        {
+          "originKey": "a",
+          "logicalPath": "docs/a.md",
+          "bytes": "alpha",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+          "byteLength": "5"
+        }
+      ]
+    },
+    "truncated-body": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": true,
+      "fullTree": true,
+      "allPages": true,
+      "capped": false,
+      "failures": [],
+      "omittedCount": 0,
+      "items": [
+        {
+          "originKey": "a",
+          "logicalPath": "docs/a.md",
+          "bytes": "alph",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+          "byteLength": "5"
+        }
+      ],
+      "expectedError": "download_integrity_mismatch"
+    },
+    "wrong-digest": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": true,
+      "fullTree": true,
+      "allPages": true,
+      "capped": false,
+      "failures": [],
+      "omittedCount": 0,
+      "items": [
+        {
+          "originKey": "a",
+          "logicalPath": "docs/a.md",
+          "bytes": "alpha",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f0",
+          "byteLength": "5"
+        }
+      ],
+      "expectedError": "download_integrity_mismatch"
+    },
+    "oversized": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": true,
+      "fullTree": true,
+      "allPages": true,
+      "capped": false,
+      "failures": [],
+      "omittedCount": 0,
+      "items": [
+        {
+          "originKey": "a",
+          "logicalPath": "docs/a.md",
+          "bytes": "alpha",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+          "byteLength": "5",
+          "maxBytes": 4
+        }
+      ],
+      "expectedError": "download_limit_exceeded"
+    },
+    "partial": {
+      "pin": "2222222222222222222222222222222222222222",
+      "complete": false,
+      "fullTree": true,
+      "allPages": true,
+      "capped": false,
+      "failures": [
+        "download_unavailable"
+      ],
+      "omittedCount": 0,
+      "items": [
+        {
+          "originKey": "a",
+          "logicalPath": "docs/a.md",
+          "bytes": "alpha changed",
+          "revision": "2222222222222222222222222222222222222222",
+          "contentDigest": "0ab073b2a66c2f1ebf68d5ba65bf4b15cd8459be35d7e1c56d7cec536c2a9274",
+          "byteLength": "13"
+        },
+        {
+          "originKey": "b",
+          "logicalPath": "docs/b.md",
+          "bytes": "bravo",
+          "revision": "2222222222222222222222222222222222222222",
+          "contentDigest": "f144a6907dc4284d1f9fe6a7d9b9ff53c02c1d07ba68f24d413d7ff7f757a782",
+          "byteLength": "5",
+          "status": "unavailable"
+        }
+      ]
+    },
+    "rename": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": true,
+      "fullTree": true,
+      "allPages": true,
+      "capped": false,
+      "failures": [],
+      "omittedCount": 0,
+      "items": [
+        {
+          "originKey": "a",
+          "logicalPath": "docs/renamed.md",
+          "bytes": "alpha",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+          "byteLength": "5"
+        },
+        {
+          "originKey": "b",
+          "logicalPath": "docs/b.md",
+          "bytes": "bravo",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "f144a6907dc4284d1f9fe6a7d9b9ff53c02c1d07ba68f24d413d7ff7f757a782",
+          "byteLength": "5"
+        }
+      ],
+      "renames": [
+        [
+          "a",
+          "a",
+          "docs/a.md",
+          "docs/renamed.md"
+        ]
+      ]
+    },
+    "rename-identity": {
+      "pin": "1111111111111111111111111111111111111111",
+      "complete": true,
+      "fullTree": true,
+      "allPages": true,
+      "capped": false,
+      "failures": [],
+      "omittedCount": 0,
+      "items": [
+        {
+          "originKey": "c",
+          "logicalPath": "docs/new.md",
+          "bytes": "alpha",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "8ed3f6ad685b959ead7022518e1af76cd816f8e8ec7ccdda1ed4018e8f2223f8",
+          "byteLength": "5"
+        },
+        {
+          "originKey": "b",
+          "logicalPath": "docs/b.md",
+          "bytes": "bravo",
+          "revision": "1111111111111111111111111111111111111111",
+          "contentDigest": "f144a6907dc4284d1f9fe6a7d9b9ff53c02c1d07ba68f24d413d7ff7f757a782",
+          "byteLength": "5"
+        }
+      ],
+      "renames": [
+        [
+          "a",
+          "c",
+          "docs/renamed.md",
+          "docs/new.md"
+        ]
+      ]
+    }
+  },
+  "initialInventoryDigest": "57558723985c38f0a1c6057f9a52aaf95ace83863ec8ee389389bc4bef58cbe8"
+}

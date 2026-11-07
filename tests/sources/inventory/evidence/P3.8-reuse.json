@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "knowkit-reuse-receipt:1",
+  "item": "P3.8",
+  "reuseKind": "independent-logic-adaptation",
+  "candidates": [
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/github_source/client.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "c1663a50854c8022a99d71b359a01999b7ec1ebcbab4d996ccc91284e6ea54ec",
+      "verifiedLocalSha256": "c1663a50854c8022a99d71b359a01999b7ec1ebcbab4d996ccc91284e6ea54ec",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/github_source/client.py",
+      "decision": "adapt",
+      "rationale": "Reject prefix downloads, require full length/full SHA256, full tree/page proof and exact pinned revision; do not reuse HTTP client or truncation behavior."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/github_source/sync.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "9a068b006fb46356c156ee280630559d13c0d8c6c388c34f497e7cf5ed3ea37b",
+      "verifiedLocalSha256": "9a068b006fb46356c156ee280630559d13c0d8c6c388c34f497e7cf5ed3ea37b",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/github_source/sync.py",
+      "decision": "adapt",
+      "rationale": "Resolve-before-inventory and explicit identity changes; replace mutable branch full-tree lookup and best-effort removals with receipt-bound complete-only reconciliation."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/web_source/sync.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "4bf3401589fa40721535f2ef1f1557e95f58e19dfeb3f4bfff2b29b343019b03",
+      "verifiedLocalSha256": "4bf3401589fa40721535f2ef1f1557e95f58e19dfeb3f4bfff2b29b343019b03",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/web_source/sync.py",
+      "decision": "adapt",
+      "rationale": "Failure-state preservation and removal-before-rebuild logic; allow empty publication, and retain authoritative deny when projection fails."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/services/test_web_source_sync.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "53a5eb8f0adb225722740d8198521d35d09b63f58dade19c21161ca5576820b4",
+      "verifiedLocalSha256": "53a5eb8f0adb225722740d8198521d35d09b63f58dade19c21161ca5576820b4",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/test_web_source_sync.py",
+      "decision": "adapt",
+      "rationale": "Independently implement namespace separation, unavailable-state preservation and deny-before-rebuild regression cases."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/services/test_github_source_path_containment.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "5a99e82e1e20242614f565c25e862d7018c75600d68a01422e830186a6a71d1e",
+      "verifiedLocalSha256": "5a99e82e1e20242614f565c25e862d7018c75600d68a01422e830186a6a71d1e",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/test_github_source_path_containment.py",
+      "decision": "defer",
+      "rationale": "No filesystem download sink in this item. Paths remain logical metadata and are never dereferenced. Host transport/path containment requires separate installed-adapter qualification."
+    }
+  ],
+  "inspection": "Full GitHub client, targeted full/incremental sync and removal paths, web failure/removal/rebuild logic, namespace/failure/removal tests, full path-containment test candidate. No upstream test suite run.",
+  "newCodeRationale": "Existing SourceConnector/CrawlSnapshot port had metadata-only checks and no reconciler. Implement vendor-free typed byte receipts, scope-bound inventory proof, generic lifecycle-before-publication coordination and recording-only SDK doubles using existing canonicalization/hash domain and MutationContext.",
+  "qualification": {
+    "contractDoubles": true,
+    "productionGithub": false,
+    "productionWeb": false,
+    "installedConnector": false,
+    "networkSecurity": false
+  },
+  "deferred": [
+    "Production HTTP/GitHub/web adapters and immutable revision resolution/security qualification",
+    "Durable host InventoryStore binding to existing catalog/lifecycle/publication guards; SDK store is single-process only"
+  ],
+  "planReceipt": "Not written: plan_mutation is forbidden; coordinator owns plan artifact recording."
+}

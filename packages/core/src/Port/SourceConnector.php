@@ -8,6 +8,10 @@ use KnowKit\Domain\{ConnectorCapabilities, Scope, ConnectorRequest, CrawlSnapsho
 interface SourceConnector
 {
     public function describe(): ConnectorCapabilities;
-    /** Resolve one exact revision before inventory/downloads; complete requires a proved full inventory. */
+    /**
+     * Resolve one immutable revision before inventory/downloads. Reconciliation requires
+     * a scope-bound InventoryReceipt, including full verified downloads and completeness proof.
+     * Capability claims alone do not qualify an installed production connector.
+     */
     public function inventory(Scope $scope, ConnectorRequest $request): CrawlSnapshot;
 }

@@ -3,17 +3,28 @@ declare(strict_types=1);
 
 namespace KnowKit\Domain;
 
+use KnowKit\Domain\Sources\InventoryReceipt;
+
 final readonly class CrawlSnapshot
 {
     /**
      * @param list<CrawlItem> $items
      * @param list<string> $failures
      */
-    public function __construct(public AdapterId $connectorId, public string $sourceNamespace, public string $pinnedRevision,
-        public bool $complete, public array $items, public array $failures, public ?int $omittedCount,
-        public Fingerprint $inventoryDigest, public UtcInstant $observedAt)
-    {
-        ValueGuard::text($sourceNamespace, 256); ValueGuard::text($pinnedRevision, 256);
+    public function __construct(
+        public AdapterId $connectorId,
+        public string $sourceNamespace,
+        public string $pinnedRevision,
+        public bool $complete,
+        public array $items,
+        public array $failures,
+        public ?int $omittedCount,
+        public Fingerprint $inventoryDigest,
+        public UtcInstant $observedAt,
+        public ?InventoryReceipt $receipt = null,
+    ) {
+        ValueGuard::text($sourceNamespace, 256);
+        ValueGuard::text($pinnedRevision, 256);
         ValueGuard::objects($items, CrawlItem::class, 1000000);
         $seen = [];
         foreach ($items as $item) {
@@ -23,7 +34,8 @@ final readonly class CrawlSnapshot
             $seen[$item->originKey] = true;
         }
         ValueGuard::strings($failures, false, true);
-        if (($omittedCount !== null && ($omittedCount < 0 || $omittedCount > 4294967295)) || ($complete && ($failures !== [] || ($omittedCount ?? 0) !== 0))) {
+        if (($omittedCount !== null && ($omittedCount < 0 || $omittedCount > 4294967295))
+            || ($complete && ($failures !== [] || ($omittedCount ?? 0) !== 0))) {
             throw new DomainFailure(Outcome::Incompatible, 'adapter_contract_violation');
         }
     }

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "sources:inventory",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial pinned inventory/download, complete-only absence, immediate deny and empty-publication corpus. Outcome changes require a new fixture version and rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic source recordings; DeepTutor regression logic independently adapted, no copied source content.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "inventory:github-truncated-tree",
+    "download-size-mismatch",
+    "pagination-incomplete",
+    "single-commit-pin",
+    "rename",
+    "namespace-collision",
+    "partial-crawl-preserves-old",
+    "last-source-empty-snapshot",
+    "unavailable-not-empty",
+    "no-hidden-modelcall",
+    "DT-I07",
+    "DT-I08",
+    "DT-I09",
+    "DT-I10",
+    "DT-I11",
+    "DT-I12",
+    "DT-I14",
+    "FULL-SCOPE-RECEIPT",
+    "CURRENT-ACCESS-CAS-REPLAY",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "inventory:github-truncated-tree": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testTruncatedTreeAndComparePreserveAbsentMembers"
+    ],
+    "download-size-mismatch": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testDownloadSizeDigestAndFullBodyLimitsRejectPrefixes"
+    ],
+    "pagination-incomplete": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testIncompletePaginationCannotDelete"
+    ],
+    "single-commit-pin": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testInventoryAndAllReadsUseOneImmutableCommit"
+    ],
+    "rename": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testRenamesRequireExplicitOldAndNewIdentityMapping"
+    ],
+    "namespace-collision": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testSourceNamespacesWithTheSamePathNeverCollide"
+    ],
+    "partial-crawl-preserves-old": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testAvailableAAndUnavailableBKeepExactOldB"
+    ],
+    "last-source-empty-snapshot": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testCompleteLastSourceRemovalPublishesAnEmptySnapshot"
+    ],
+    "unavailable-not-empty": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testUnavailableIsDistinctFromCompleteEmpty"
+    ],
+    "no-hidden-modelcall": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testNoHiddenModelProbeRetryOrProductionQualification",
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testExampleFactoryUsesTheQualifiedRecordedPort"
+    ],
+    "DT-I07": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testDownloadSizeDigestAndFullBodyLimitsRejectPrefixes"
+    ],
+    "DT-I08": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testTruncatedTreeAndComparePreserveAbsentMembers",
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testIncompletePaginationCannotDelete"
+    ],
+    "DT-I09": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testInventoryAndAllReadsUseOneImmutableCommit"
+    ],
+    "DT-I10": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testConfirmedRemovalDeniesBeforeRebuildAndSurvivesItsFailure"
+    ],
+    "DT-I11": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testSourceNamespacesWithTheSamePathNeverCollide",
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testRenamesRequireExplicitOldAndNewIdentityMapping"
+    ],
+    "DT-I12": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testAvailableAAndUnavailableBKeepExactOldB"
+    ],
+    "DT-I14": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testCompleteLastSourceRemovalPublishesAnEmptySnapshot"
+    ],
+    "FULL-SCOPE-RECEIPT": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testReceiptTamperingAndFullScopeChangesFailClosed",
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testCollisionFalseCompletenessAndMissingProofFailClosed"
+    ],
+    "CURRENT-ACCESS-CAS-REPLAY": [
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testReplayCasAndCurrentAccessAreAuthoritative",
+      "KnowKit\\Tests\\Sources\\Inventory\\InventoryTest::testPublicationRechecksCurrentAccessAfterRemoval"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Sources\\Inventory\\FixtureTest::testVersionedFixturesAndIndependentFullHashes"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Sources\\Inventory\\FixtureTest::testRunnerRejectsMissingSkippedFailedAndZeroCases"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/sources/v1/cases.json",
+      "sha256": "7541ed311e6dce4102c660fa39be307b0958835770232fee71b6bf99e85e2103",
+      "expected": "Every named source regression runs; partial inventory preserves absent entries; verified complete empty inventory replaces the last active partition without fallback."
+    }
+  ]
+}
