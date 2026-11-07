@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "storage-catalog-uint32:1",
+  "version": "2.0.0",
+  "rationale": "P2.1 owning correction for the confirmed P2.5 persistence defect: uint32 physicalNo and readingOrder must cross the signed int32 boundary without changing the deployed 001 bytes, migration history, immutable rows or wire contract. Existing v1 fixture bytes and expected digests remain unchanged.",
+  "rights": {"license": "LicenseRef-KnowKit-Private", "origin": "Project-authored synthetic boundary values from the approved uint32 contract; no document/provider data.", "redistributionAllowed": false},
+  "baselineChecksum": "f4acde755ebc9f942e2cf2711cb1c92e2bc4b885057ff7965955490b0a13d881",
+  "valid": [
+    {"physicalNo": 1, "readingOrder": 0},
+    {"physicalNo": 2147483647, "readingOrder": 2147483647},
+    {"physicalNo": 2147483648, "readingOrder": 2147483648},
+    {"physicalNo": 4294967295, "readingOrder": 4294967295}
+  ],
+  "invalidPhysicalNo": [-1, 0, 4294967296],
+  "invalidReadingOrder": [-1, 4294967296],
+  "expected": {"columnType": "bigint", "outOfRangeSqlState": "23514", "upgrade": "preserves_rows_and_001_history"}
+}

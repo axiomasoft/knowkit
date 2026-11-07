@@ -22,8 +22,13 @@ try {
     $db=new Connection($pdo,$schema); $tx=new PdoCatalogTransaction($db); $clock=new TestClock(); $ids=new TestIds(random_int(10000000,99999999));
     $authority=new MutationAuthorizer(new CurrentOwner($db),$clock); $events=new DomainEventFactory($clock,$ids,PortFixture::validator());
     $repo=new PdoCatalogRepository($db,$tx,$authority->requireAllow(...),$clock,$ids,$events->create(...),new PdoOutbox($db,$tx),str_repeat('test cursor authentication ',2));
-    $s=new D\Scope(new D\TenantId(CatalogFixture::id(1)),new D\KbId(CatalogFixture::id(100)),new D\ActorId(CatalogFixture::id(101)),
-        'catalog.manage',new D\Decimal('0'),new D\Sha256(str_repeat('a',64)));
+    $currentScope=static function() use($repo): D\Scope {
+        $tenant=new D\TenantId(CatalogFixture::id(1)); $kbId=new D\KbId(CatalogFixture::id(100));
+        $kb=$repo->getKb($tenant,$kbId)??throw new RuntimeException('Test KB required');
+        return new D\Scope($tenant,$kbId,new D\ActorId(CatalogFixture::id(101)),
+            'catalog.manage',$kb->policyEpoch,new D\Sha256(str_repeat('a',64)));
+    };
+    $s=$currentScope();
     $command=new D\CreateCollection(new D\CollectionId(CatalogFixture::id(200)),null,new D\CatalogMetadata(new JsonObject(['test.label'=>$label])));
     $context=new D\MutationContext(new JsonObject(['idempotencyKey'=>'competing-key','requestId'=>CatalogFixture::id(900),'expectedRevision'=>'0','expectedEpoch'=>'0']),PortFixture::validator());
     fwrite(STDOUT,"READY\n"); fflush(STDOUT); fgets(STDIN);
@@ -34,7 +39,14 @@ try {
             $repo->createCollection($s,$command,$context); fwrite(STDOUT,"PRECOMMIT\n"); fflush(STDOUT); fgets(STDIN);
         });
     } else {
-        $result=(new CatalogCommands($repo,$tx,$authority))->createCollection($s,$command,$context);
+        $commands=new CatalogCommands($repo,$tx,$authority);
+        try { $result=$commands->createCollection($s,$command,$context); }
+        catch (D\DomainFailure $e) {
+            if ($e->errorCode!=='POLICY_CHANGED') { throw $e; }
+            // A competing commit can stale the pre-lock receipt. Model one host retry with
+            // a fresh scope and owner check, keeping the original command/expected state.
+            $result=$commands->createCollection($currentScope(),$command,$context);
+        }
         fwrite(STDOUT,json_encode(['status'=>'accepted','revision'=>$result->revision->value,'label'=>$result->metadata->toWire()->get('test.label')],JSON_THROW_ON_ERROR)."\n"); fflush(STDOUT);
         if ($mode==='crash-after') { fgets(STDIN); }
     }

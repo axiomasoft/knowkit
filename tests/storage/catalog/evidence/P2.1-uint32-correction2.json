@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "knowkit-correction-evidence:1",
+  "item": "P2.1",
+  "round": "executor.2",
+  "focus": "V1 child exit 1: stale policy scope in durability test worker",
+  "diagnosis": {
+    "acceptance": "composer qa -- storage:catalog returned 1; its report only exposed child exit 1 and discarded child stdout.",
+    "failedCases": [
+      "DurabilityTest::testCompetingConnectionsReplaySameAcceptedResult",
+      "DurabilityTest::testCompetingConnectionsRejectDifferentPayload",
+      "DurabilityTest::testCrashAfterCommitRestartReturnsOriginalReceipt"
+    ],
+    "cause": "The worker hardcoded Scope.policyEpoch=0. Existing catalog mutations advance kb_policy_epoch, so replay after a committed write and a receipt invalidated by a concurrent commit correctly fail POLICY_CHANGED with the stale scope.",
+    "productBehavior": "Preserve current owner checks before SQL, under-lock binding verification, policy epoch advancement, expected state and replay/conflict outcomes."
+  },
+  "correction": {
+    "path": "tests/storage/catalog/worker.php",
+    "sha256": "1ace1b98696127670ed7b54496bae1a9c5b6103a0024b28f36a3886d092bb7df",
+    "localReuse": "Use the existing repository tenant-qualified getKb() and CatalogCommands current-owner authorization path, matching CatalogTest's scope refresh before replay. No new donor code or runtime dependency.",
+    "behavior": "Resolve current scope at worker startup. If a competing commit invalidates the pre-lock receipt, allow one host retry with a refreshed scope and new owner check outside the transaction. Keep the same command, idempotency key, expectedRevision and expectedEpoch.",
+    "assertions": "DurabilityTest assertions and wire/fixture expected outcomes were not changed."
+  },
+  "checks": [
+    {
+      "id": "new-case",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml --filter testFreshMigrationStoresFullUint32AndRejectsOutOfRangeValues --log-junit tests/storage/catalog/evidence/uint32-correction2-default.xml tests/storage/catalog/SchemaTest.php",
+      "exit": 0,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-correction2-default.txt",
+        "tests/storage/catalog/evidence/uint32-correction2-default.xml"
+      ]
+    },
+    {
+      "id": "catalog-diagnostic",
+      "cmd": "KNOWKIT_QA_COMPOSER_PROJECT=. vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/storage/catalog/evidence/uint32-correction2-catalog.xml tests/storage/catalog/CatalogTest.php",
+      "exit": 0,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-correction2-catalog.txt",
+        "tests/storage/catalog/evidence/uint32-correction2-catalog.xml"
+      ]
+    },
+    {
+      "id": "integrity-diagnostic",
+      "cmd": "KNOWKIT_QA_COMPOSER_PROJECT=. vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/storage/catalog/evidence/uint32-correction2-integrity.xml tests/storage/catalog/IntegrityTest.php",
+      "exit": 0,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-correction2-integrity.txt",
+        "tests/storage/catalog/evidence/uint32-correction2-integrity.xml"
+      ]
+    },
+    {
+      "id": "durability-before",
+      "cmd": "KNOWKIT_QA_COMPOSER_PROJECT=. vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/storage/catalog/evidence/uint32-correction2-durability.xml tests/storage/catalog/DurabilityTest.php",
+      "exit": 1,
+      "tests": 4,
+      "failures": 3,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-correction2-durability.txt",
+        "tests/storage/catalog/evidence/uint32-correction2-durability.xml"
+      ]
+    },
+    {
+      "id": "durability-after",
+      "cmd": "KNOWKIT_QA_COMPOSER_PROJECT=. vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/storage/catalog/evidence/uint32-correction2-durability-fixed.xml tests/storage/catalog/DurabilityTest.php",
+      "exit": 0,
+      "tests": 4,
+      "assertions": 63,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-correction2-durability-fixed.txt",
+        "tests/storage/catalog/evidence/uint32-correction2-durability-fixed.xml"
+      ]
+    },
+    {
+      "id": "worker-syntax",
+      "cmd": "php -l tests/storage/catalog/worker.php",
+      "exit": 0,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-correction2-syntax.txt"
+      ]
+    },
+    {
+      "id": "diff",
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-correction2-whitespace.txt"
+      ]
+    }
+  ],
+  "remaining": "V1 was not rerun. The coordinator owns acceptance and the authorized independent review. The earlier uint32 correction and its receipt are preserved."
+}

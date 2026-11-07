@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Storage\Catalog\SchemaTest" file="tests/storage/catalog/SchemaTest.php" tests="9" assertions="344" errors="0" failures="0" skipped="0" time="1.084844">
+    <testcase name="testFreshMigrationContainsCompleteBaselineAndTenantQualifiedForeignKeys" file="tests/storage/catalog/SchemaTest.php" line="17" class="KnowKit\Tests\Storage\Catalog\SchemaTest" classname="KnowKit.Tests.Storage.Catalog.SchemaTest" assertions="302" time="0.125735"/>
+    <testcase name="testMigrationReplayAndChecksumMismatch" file="tests/storage/catalog/SchemaTest.php" line="36" class="KnowKit\Tests\Storage\Catalog\SchemaTest" classname="KnowKit.Tests.Storage.Catalog.SchemaTest" assertions="9" time="0.083915"/>
+    <testcase name="testFreshMigrationStoresFullUint32AndRejectsOutOfRangeValues" file="tests/storage/catalog/SchemaTest.php" line="57" class="KnowKit\Tests\Storage\Catalog\SchemaTest" classname="KnowKit.Tests.Storage.Catalog.SchemaTest" assertions="5" time="0.153522"/>
+    <testcase name="testDeployedBaselineUpgradePreservesRowsHistoryAndImmutableGuards" file="tests/storage/catalog/SchemaTest.php" line="67" class="KnowKit\Tests\Storage\Catalog\SchemaTest" classname="KnowKit.Tests.Storage.Catalog.SchemaTest" assertions="14" time="0.128415"/>
+    <testcase name="testForeignMembershipNullUniquenessAndCollectionCycleAreRejectedByDatabase" file="tests/storage/catalog/SchemaTest.php" line="134" class="KnowKit\Tests\Storage\Catalog\SchemaTest" classname="KnowKit.Tests.Storage.Catalog.SchemaTest" assertions="2" time="0.107028"/>
+    <testcase name="testUnseenTombstoneAndImmutableIdentityCannotBeBypassed" file="tests/storage/catalog/SchemaTest.php" line="151" class="KnowKit\Tests\Storage\Catalog\SchemaTest" classname="KnowKit.Tests.Storage.Catalog.SchemaTest" assertions="2" time="0.073370"/>
+    <testcase name="testNullableReservationFinalizeAndExactAbsentProof" file="tests/storage/catalog/SchemaTest.php" line="162" class="KnowKit\Tests\Storage\Catalog\SchemaTest" classname="KnowKit.Tests.Storage.Catalog.SchemaTest" assertions="2" time="0.112922"/>
+    <testcase name="testRestoreProofAndDependencyCycleFailClosed" file="tests/storage/catalog/SchemaTest.php" line="196" class="KnowKit\Tests\Storage\Catalog\SchemaTest" classname="KnowKit.Tests.Storage.Catalog.SchemaTest" assertions="1" time="0.076066"/>
+    <testcase name="testExplicitMigrationCliUsesChecksumWithoutImplicitInstall" file="tests/storage/catalog/SchemaTest.php" line="209" class="KnowKit\Tests\Storage\Catalog\SchemaTest" classname="KnowKit.Tests.Storage.Catalog.SchemaTest" assertions="7" time="0.223871"/>
+  </testsuite>
+</testsuites>

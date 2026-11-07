@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Storage\Catalog\IntegrityTest" file="tests/storage/catalog/IntegrityTest.php" tests="5" assertions="41" errors="0" failures="0" skipped="0" time="0.598251">
+    <testcase name="testCrossTenantSqlReferencesAcrossEveryBaselineFamilyAreRejected" file="tests/storage/catalog/IntegrityTest.php" line="21" class="KnowKit\Tests\Storage\Catalog\IntegrityTest" classname="KnowKit.Tests.Storage.Catalog.IntegrityTest" assertions="26" time="0.121104"/>
+    <testcase name="testSealedMembershipsManifestAndHistoricalSnapshotCannotBeMutated" file="tests/storage/catalog/IntegrityTest.php" line="56" class="KnowKit\Tests\Storage\Catalog\IntegrityTest" classname="KnowKit.Tests.Storage.Catalog.IntegrityTest" assertions="7" time="0.120681"/>
+    <testcase name="testJobsDisclosuresMetadataAndUnknownDeletionObligationsHaveNegativeConstraints" file="tests/storage/catalog/IntegrityTest.php" line="79" class="KnowKit\Tests\Storage\Catalog\IntegrityTest" classname="KnowKit.Tests.Storage.Catalog.IntegrityTest" assertions="2" time="0.114431"/>
+    <testcase name="testExactSpanValidationAndCompanionOnlyMutationHaveNegativeExamples" file="tests/storage/catalog/IntegrityTest.php" line="94" class="KnowKit\Tests\Storage\Catalog\IntegrityTest" classname="KnowKit.Tests.Storage.Catalog.IntegrityTest" assertions="1" time="0.115186"/>
+    <testcase name="testLateInsertPrimitivesRequireRealMetadataAndPreserveExactReferences" file="tests/storage/catalog/IntegrityTest.php" line="116" class="KnowKit\Tests\Storage\Catalog\IntegrityTest" classname="KnowKit.Tests.Storage.Catalog.IntegrityTest" assertions="5" time="0.126850"/>
+  </testsuite>
+</testsuites>

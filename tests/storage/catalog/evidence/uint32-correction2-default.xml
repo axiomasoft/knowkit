@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Storage\Catalog\SchemaTest" file="tests/storage/catalog/SchemaTest.php" tests="1" assertions="5" errors="0" failures="0" skipped="0" time="0.123625">
+    <testcase name="testFreshMigrationStoresFullUint32AndRejectsOutOfRangeValues" file="tests/storage/catalog/SchemaTest.php" line="57" class="KnowKit\Tests\Storage\Catalog\SchemaTest" classname="KnowKit.Tests.Storage.Catalog.SchemaTest" assertions="5" time="0.123625"/>
+  </testsuite>
+</testsuites>

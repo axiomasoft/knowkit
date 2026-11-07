@@ -19,5 +19,5 @@ try {
     $pdo=new PDO(getenv('KNOWKIT_PG_DSN'),getenv('KNOWKIT_PG_USER')?:null,getenv('KNOWKIT_PG_PASSWORD')?:null,
         [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]);
     (new Migrate($pdo,$argv[1]))->apply(dirname(__DIR__,4).'/migrations/postgres/001_metadata.sql');
-    fwrite(STDOUT,"001_metadata applied\n");
+    fwrite(STDOUT,"001_metadata applied\n002_metadata_uint32 applied\n");
 } catch (Throwable) { fwrite(STDERR,"Migration failed; verify schema, connection and checksum\n"); exit(1); }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Storage\Catalog\DurabilityTest" file="tests/storage/catalog/DurabilityTest.php" tests="4" assertions="57" errors="0" failures="3" skipped="0" time="0.646873">
+    <testcase name="testCompetingConnectionsReplaySameAcceptedResult" file="tests/storage/catalog/DurabilityTest.php" line="31" class="KnowKit\Tests\Storage\Catalog\DurabilityTest" classname="KnowKit.Tests.Storage.Catalog.DurabilityTest" assertions="14" time="0.170415">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">KnowKit\Tests\Storage\Catalog\DurabilityTest::testCompetingConnectionsReplaySameAcceptedResult
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &amp;0 [
+-    'status' =&gt; 'accepted',
+-    'revision' =&gt; '0',
+-    'label' =&gt; 'same',
++    'status' =&gt; 'POLICY_CHANGED',
+ ]
+
+tests/storage/catalog/DurabilityTest.php:37
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/storage/catalog/DurabilityTest.php:33</failure>
+    </testcase>
+    <testcase name="testCompetingConnectionsRejectDifferentPayload" file="tests/storage/catalog/DurabilityTest.php" line="42" class="KnowKit\Tests\Storage\Catalog\DurabilityTest" classname="KnowKit.Tests.Storage.Catalog.DurabilityTest" assertions="13" time="0.147236">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">KnowKit\Tests\Storage\Catalog\DurabilityTest::testCompetingConnectionsRejectDifferentPayload
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &amp;0 [
+-    0 =&gt; 'accepted',
+-    1 =&gt; 'idempotency_conflict',
++    0 =&gt; 'POLICY_CHANGED',
++    1 =&gt; 'accepted',
+ ]
+
+tests/storage/catalog/DurabilityTest.php:48
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/storage/catalog/DurabilityTest.php:44</failure>
+    </testcase>
+    <testcase name="testCrashBeforeCommitLeavesNoSuccessReceiptAndRestartCommitsOnce" file="tests/storage/catalog/DurabilityTest.php" line="53" class="KnowKit\Tests\Storage\Catalog\DurabilityTest" classname="KnowKit.Tests.Storage.Catalog.DurabilityTest" assertions="17" time="0.175010"/>
+    <testcase name="testCrashAfterCommitRestartReturnsOriginalReceipt" file="tests/storage/catalog/DurabilityTest.php" line="64" class="KnowKit\Tests\Storage\Catalog\DurabilityTest" classname="KnowKit.Tests.Storage.Catalog.DurabilityTest" assertions="13" time="0.154212">
+      <failure type="PHPUnit\Framework\ExpectationFailedException">KnowKit\Tests\Storage\Catalog\DurabilityTest::testCrashAfterCommitRestartReturnsOriginalReceipt
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'{"status":"accepted","revision":"0","label":"same"}'
++'{"status":"POLICY_CHANGED"}'
+
+tests/storage/catalog/DurabilityTest.php:70
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/storage/catalog/DurabilityTest.php:66</failure>
+    </testcase>
+  </testsuite>
+</testsuites>

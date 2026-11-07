@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Storage\Catalog\BoundaryTest" file="tests/storage/catalog/BoundaryTest.php" tests="1" assertions="23" errors="0" failures="0" skipped="0" time="0.008742">
+    <testcase name="testFixtureVersionProvenanceDigestsAndRequiredCaseMappingAreComplete" file="tests/storage/catalog/BoundaryTest.php" line="58" class="KnowKit\Tests\Storage\Catalog\BoundaryTest" classname="KnowKit.Tests.Storage.Catalog.BoundaryTest" assertions="23" time="0.008742"/>
+  </testsuite>
+</testsuites>

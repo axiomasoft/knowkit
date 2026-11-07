@@ -1,0 +1,3 @@
+No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/Migrate.php
+No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/migrate.php
+No syntax errors detected in tests/storage/catalog/SchemaTest.php

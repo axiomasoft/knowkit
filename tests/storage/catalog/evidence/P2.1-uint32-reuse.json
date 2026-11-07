@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "knowkit-reuse-correction:1",
+  "item": "P2.1",
+  "correction": "Full uint32 storage for pages.physical_no and blocks.reading_order only",
+  "baseCommit": "6f493c5aa69183ca15c1b05af66d2309e9d37fbd",
+  "continuationOf": {
+    "path": "tests/storage/catalog/evidence/P2.1-reuse.json",
+    "sha256": "5730ca00ad22930a55515904ccab12de0d91d2b66dfef40c6e47e52167e941b2",
+    "note": "Historical source qualification, candidate and review evidence remain unchanged. This correction does not rebind them to the current tree or import new donor code."
+  },
+  "decisions": [
+    {
+      "decision": "adapt",
+      "paths": [
+        {
+          "path": "packages/core/src/Adapter/Postgres/Catalog/Migrate.php",
+          "sha256": "1dd9e9c85445ed41a961948c43c3f178d7983bac84311ebee2fae1c65f018ee9"
+        },
+        {
+          "path": "packages/core/src/Adapter/Postgres/Catalog/migrate.php",
+          "sha256": "db0de3b94e645896719fb9fbf37bc09b24a96d1b0e627ba9bceeae93f71bfe85"
+        },
+        {
+          "path": "tests/storage/catalog/SchemaTest.php",
+          "sha256": "7c8619f708ef08db13af6c74f54df266447675bd3f3f24004d37152948bd3dbb"
+        }
+      ],
+      "reason": "Read before editing; extend the existing explicit transaction/advisory-lock/checksum migrator and SchemaTest in place. Preserve the baseline-path API and all historical 001 bytes."
+    },
+    {
+      "decision": "reuse-as-is",
+      "paths": [
+        {
+          "path": "tests/tooling/baseline/DatabaseSandbox.php",
+          "sha256": "c5d947f6f58105793f0262e9b18dd38f731af9d756e93eb33373ea86897d3c85"
+        },
+        {
+          "path": "tests/storage/catalog/fixtures/v1/metadata.sql",
+          "sha256": "3605084c85c8366d0a9d6fef6e900c6dcff72e5e50140592597394b01e810409"
+        }
+      ],
+      "reason": "Reuse the disposable PostgreSQL sandbox and populated synthetic baseline SQL without altering their bytes or expected outcomes."
+    }
+  ],
+  "newGlue": [
+    "A forward-only 002 ALTER TABLE migration is necessary: editing 001 would invalidate deployed checksums, while integer storage cannot represent the approved uint32 range.",
+    "The core migration inventory is an explicit ordered local set; all files are read before entering one advisory-locked transaction and each historical checksum is verified.",
+    "The additive v2 fixture authors signed-int32 crossover and uint32 endpoint expectations. Existing v1 digests are retained.",
+    "The new migration path is outside the original write_set; it is required and explicitly authorized by the correction and write-fence exception."
+  ],
+  "baselineChecksum": "f4acde755ebc9f942e2cf2711cb1c92e2bc4b885057ff7965955490b0a13d881",
+  "candidateFiles": [
+    {
+      "path": "packages/core/migrations/postgres/002_metadata_uint32.sql",
+      "sha256": "1961ec4b675bbf8b77a68000df822b6fefbbb993c2ddb0ea17ca8dfc90de29ca"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/Migrate.php",
+      "sha256": "6a9032efcbd08af51cfc7333d23a7046b5d229c7a062fb13fdb52a5c044472d0"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/migrate.php",
+      "sha256": "f317caf17a8c62c45612f272168963f9fff95d0456aa81b3b6cae4b7585756dd"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/README.md",
+      "sha256": "d3257a745d8130c0118aa706ad7a0658e6c3755168d992a269a9927d29de30e6"
+    },
+    {
+      "path": "tests/storage/catalog/SchemaTest.php",
+      "sha256": "453b9f5d48184dc098d6bee97e4b21e2d401456781aa5aad4608f618b5493919"
+    },
+    {
+      "path": "tests/storage/catalog/fixtures/v2/uint32.json",
+      "sha256": "44ccb6e50f2cb4da8036da5ac2bde2585e54ff7cbdaf197ecd0bc44237e551fb"
+    },
+    {
+      "path": "tests/fixtures/check-groups/storage-catalog.json",
+      "sha256": "48cf98aaaacc793578ff0c00d69157b14f0633fafd56b7208e67a3649a6e5a35"
+    }
+  ],
+  "checks": [
+    {
+      "id": "schema-file",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/storage/catalog/evidence/uint32-schema.xml tests/storage/catalog/SchemaTest.php",
+      "exit": 0,
+      "tests": 9,
+      "assertions": 344,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-schema.txt",
+        "tests/storage/catalog/evidence/uint32-schema.xml"
+      ]
+    },
+    {
+      "id": "fixture-method",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml --filter testFixtureVersionProvenanceDigestsAndRequiredCaseMappingAreComplete --log-junit tests/storage/catalog/evidence/uint32-fixtures.xml tests/storage/catalog/BoundaryTest.php",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 23,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-fixtures.txt",
+        "tests/storage/catalog/evidence/uint32-fixtures.xml"
+      ]
+    },
+    {
+      "id": "phpstan",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --error-format=raw --autoload-file=tests/contract/ports/bootstrap.php packages/core/src/Adapter/Postgres/Catalog/Migrate.php packages/core/src/Adapter/Postgres/Catalog/migrate.php",
+      "exit": 0,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-phpstan.txt"
+      ],
+      "note": "Optional PHPStan turbo extension emitted a startup warning because dynamic loading is unsupported; analysis exited 0."
+    },
+    {
+      "id": "syntax",
+      "cmd": "php -l packages/core/src/Adapter/Postgres/Catalog/Migrate.php; php -l packages/core/src/Adapter/Postgres/Catalog/migrate.php; php -l tests/storage/catalog/SchemaTest.php",
+      "exit": 0,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-syntax.txt"
+      ]
+    },
+    {
+      "id": "whitespace",
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": [
+        "tests/storage/catalog/evidence/uint32-whitespace.txt"
+      ]
+    }
+  ],
+  "runtime": {
+    "php": "8.4.1",
+    "postgres": "16.14 (Debian 16.14-1.pgdg13+1)",
+    "testDatabase": "knowkit_test",
+    "testPort": 55434,
+    "disposable": true,
+    "note": "Default Docker subnet and port were occupied; used an alternate subnet and port for this isolated backend. No deployment database was modified."
+  },
+  "remaining": [
+    "V1 and the single authorized independent review are coordinator-owned; neither was launched by this executor.",
+    "Only the recorded PHP8.4/PostgreSQL16 lane was executed."
+  ]
+}

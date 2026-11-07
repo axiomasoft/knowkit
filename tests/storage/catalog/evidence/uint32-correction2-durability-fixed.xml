@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Storage\Catalog\DurabilityTest" file="tests/storage/catalog/DurabilityTest.php" tests="4" assertions="63" errors="0" failures="0" skipped="0" time="0.679492">
+    <testcase name="testCompetingConnectionsReplaySameAcceptedResult" file="tests/storage/catalog/DurabilityTest.php" line="31" class="KnowKit\Tests\Storage\Catalog\DurabilityTest" classname="KnowKit.Tests.Storage.Catalog.DurabilityTest" assertions="16" time="0.168200"/>
+    <testcase name="testCompetingConnectionsRejectDifferentPayload" file="tests/storage/catalog/DurabilityTest.php" line="42" class="KnowKit\Tests\Storage\Catalog\DurabilityTest" classname="KnowKit.Tests.Storage.Catalog.DurabilityTest" assertions="15" time="0.166142"/>
+    <testcase name="testCrashBeforeCommitLeavesNoSuccessReceiptAndRestartCommitsOnce" file="tests/storage/catalog/DurabilityTest.php" line="53" class="KnowKit\Tests\Storage\Catalog\DurabilityTest" classname="KnowKit.Tests.Storage.Catalog.DurabilityTest" assertions="17" time="0.180502"/>
+    <testcase name="testCrashAfterCommitRestartReturnsOriginalReceipt" file="tests/storage/catalog/DurabilityTest.php" line="64" class="KnowKit\Tests\Storage\Catalog\DurabilityTest" classname="KnowKit.Tests.Storage.Catalog.DurabilityTest" assertions="15" time="0.164649"/>
+  </testsuite>
+</testsuites>

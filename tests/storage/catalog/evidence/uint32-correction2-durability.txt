@@ -1,0 +1,63 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: phpunit.xml
+
+FF.F                                                                4 / 4 (100%)
+
+Time: 00:00.648, Memory: 10.00 MB
+
+There were 3 failures:
+
+1) KnowKit\Tests\Storage\Catalog\DurabilityTest::testCompetingConnectionsReplaySameAcceptedResult
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &0 [
+-    'status' => 'accepted',
+-    'revision' => '0',
+-    'label' => 'same',
++    'status' => 'POLICY_CHANGED',
+ ]
+
+tests/storage/catalog/DurabilityTest.php:37
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/storage/catalog/DurabilityTest.php:33
+
+2) KnowKit\Tests\Storage\Catalog\DurabilityTest::testCompetingConnectionsRejectDifferentPayload
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &0 [
+-    0 => 'accepted',
+-    1 => 'idempotency_conflict',
++    0 => 'POLICY_CHANGED',
++    1 => 'accepted',
+ ]
+
+tests/storage/catalog/DurabilityTest.php:48
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/storage/catalog/DurabilityTest.php:44
+
+3) KnowKit\Tests\Storage\Catalog\DurabilityTest::testCrashAfterCommitRestartReturnsOriginalReceipt
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'{"status":"accepted","revision":"0","label":"same"}'
++'{"status":"POLICY_CHANGED"}'
+
+tests/storage/catalog/DurabilityTest.php:70
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/storage/catalog/DurabilityTest.php:66
+
+FAILURES!
+Tests: 4, Assertions: 57, Failures: 3.

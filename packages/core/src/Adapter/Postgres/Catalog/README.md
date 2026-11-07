@@ -10,7 +10,12 @@ php packages/core/src/Adapter/Postgres/Catalog/migrate.php knowkit
 Supply `KNOWKIT_PG_DSN`, `KNOWKIT_PG_USER` and `KNOWKIT_PG_PASSWORD` through the
 environment. The CLI takes only the schema name. `Migrate` owns its transaction,
 advisory migration lock and checksum ledger. Adapter construction never installs
-anything. This core migration needs no extension or vector backend.
+anything. The baseline path passed to `Migrate::apply` applies the ordered core
+migration set from the same directory. `001_metadata.sql` and its stored checksum
+remain unchanged; `002_metadata_uint32.sql` upgrades existing pages and blocks to
+bigint storage with the wire uint32 limits (physical number 1…4294967295,
+reading order 0…4294967295). Existing rows and migration history are retained.
+Fresh installs apply both migrations. No extension or vector backend is needed.
 
 Wire the same `Connection` into `PdoCatalogTransaction`, `PdoCatalogRepository`
 and `KnowKit\Adapter\Postgres\PdoOutbox`. Inject a host `AccessPolicy`, local
