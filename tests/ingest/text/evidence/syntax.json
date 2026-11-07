@@ -1,0 +1,54 @@
+[
+  {
+    "path": "packages/core/src/Application/Ingest/Markdown/MarkdownParser.php",
+    "exit": 0
+  },
+  {
+    "path": "packages/core/src/Application/Ingest/Markdown/SubsetParser.php",
+    "exit": 0
+  },
+  {
+    "path": "packages/core/src/Application/Ingest/Text/CanonicalText.php",
+    "exit": 0
+  },
+  {
+    "path": "packages/core/src/Application/Ingest/Text/ExtractionResult.php",
+    "exit": 0
+  },
+  {
+    "path": "packages/core/src/Application/Ingest/Text/ParserSettings.php",
+    "exit": 0
+  },
+  {
+    "path": "packages/core/src/Application/Ingest/Text/TextParser.php",
+    "exit": 0
+  },
+  {
+    "path": "tests/ingest/text/AuditTest.php",
+    "exit": 0
+  },
+  {
+    "path": "tests/ingest/text/FixtureTest.php",
+    "exit": 0
+  },
+  {
+    "path": "tests/ingest/text/MarkdownTest.php",
+    "exit": 0
+  },
+  {
+    "path": "tests/ingest/text/SidecarTest.php",
+    "exit": 0
+  },
+  {
+    "path": "tests/ingest/text/TextFixture.php",
+    "exit": 0
+  },
+  {
+    "path": "tests/ingest/text/TextTest.php",
+    "exit": 0
+  },
+  {
+    "path": "tests/ingest/text/bootstrap.php",
+    "exit": 0
+  }
+]

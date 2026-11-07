@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "executor-handoff:1",
+  "item": "P2.4",
+  "changedPaths": [
+    "packages/core/src/Application/Ingest/Markdown/MarkdownParser.php",
+    "packages/core/src/Application/Ingest/Markdown/SubsetParser.php",
+    "packages/core/src/Application/Ingest/Text/CanonicalText.php",
+    "packages/core/src/Application/Ingest/Text/ExtractionResult.php",
+    "packages/core/src/Application/Ingest/Text/ParserSettings.php",
+    "packages/core/src/Application/Ingest/Text/README.md",
+    "packages/core/src/Application/Ingest/Text/TextParser.php",
+    "phpunit.xml",
+    "tests/fixtures/check-groups/ingest-text.json",
+    "tests/fixtures/documents/markdown/manifest.v1.json",
+    "tests/fixtures/documents/markdown/v1/block-limit.md",
+    "tests/fixtures/documents/markdown/v1/inline.md",
+    "tests/fixtures/documents/markdown/v1/literal.md",
+    "tests/fixtures/documents/markdown/v1/malformed-table.md",
+    "tests/fixtures/documents/markdown/v1/structure.md",
+    "tests/fixtures/documents/markdown/v1/table-limit.md",
+    "tests/fixtures/documents/markdown/v1/unclosed.md",
+    "tests/fixtures/documents/text/manifest.v1.json",
+    "tests/fixtures/documents/text/v1/blank.txt",
+    "tests/fixtures/documents/text/v1/bom-crlf.txt",
+    "tests/fixtures/documents/text/v1/bom-only.bin",
+    "tests/fixtures/documents/text/v1/form-feed.txt",
+    "tests/fixtures/documents/text/v1/line-count.txt",
+    "tests/fixtures/documents/text/v1/line-limit.txt",
+    "tests/fixtures/documents/text/v1/long-line.txt",
+    "tests/fixtures/documents/text/v1/malformed.bin",
+    "tests/fixtures/documents/text/v1/oversize.txt",
+    "tests/fixtures/documents/text/v1/unicode.txt",
+    "tests/fixtures/documents/text/v1/utf16.bin",
+    "tests/fixtures/documents/text/v1/whitespace.txt",
+    "tests/ingest/text/AuditTest.php",
+    "tests/ingest/text/FixtureTest.php",
+    "tests/ingest/text/MarkdownTest.php",
+    "tests/ingest/text/SidecarTest.php",
+    "tests/ingest/text/TextFixture.php",
+    "tests/ingest/text/TextTest.php",
+    "tests/ingest/text/bootstrap.php",
+    "tests/ingest/text/evidence/AuditTest.txt",
+    "tests/ingest/text/evidence/AuditTest.xml",
+    "tests/ingest/text/evidence/FixtureTest.txt",
+    "tests/ingest/text/evidence/FixtureTest.xml",
+    "tests/ingest/text/evidence/MarkdownTest.txt",
+    "tests/ingest/text/evidence/MarkdownTest.xml",
+    "tests/ingest/text/evidence/P2.4-reuse.json",
+    "tests/ingest/text/evidence/SidecarTest.txt",
+    "tests/ingest/text/evidence/SidecarTest.xml",
+    "tests/ingest/text/evidence/TextTest.txt",
+    "tests/ingest/text/evidence/TextTest.xml",
+    "tests/ingest/text/evidence/analysis-checks.json",
+    "tests/ingest/text/evidence/executed-cases.json",
+    "tests/ingest/text/evidence/handoff.json",
+    "tests/ingest/text/evidence/local-checks.json",
+    "tests/ingest/text/evidence/phpstan.txt",
+    "tests/ingest/text/evidence/syntax.json",
+    "tests/ingest/text/evidence/whitespace.txt"
+  ],
+  "localChecks": [
+    {
+      "id": "TextTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/text/TextTest.php --log-junit tests/ingest/text/evidence/TextTest.xml",
+      "exit": 0,
+      "output": "tests/ingest/text/evidence/TextTest.txt"
+    },
+    {
+      "id": "MarkdownTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/text/MarkdownTest.php --log-junit tests/ingest/text/evidence/MarkdownTest.xml",
+      "exit": 0,
+      "output": "tests/ingest/text/evidence/MarkdownTest.txt"
+    },
+    {
+      "id": "SidecarTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/text/SidecarTest.php --log-junit tests/ingest/text/evidence/SidecarTest.xml",
+      "exit": 0,
+      "output": "tests/ingest/text/evidence/SidecarTest.txt"
+    },
+    {
+      "id": "AuditTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/text/AuditTest.php --log-junit tests/ingest/text/evidence/AuditTest.xml",
+      "exit": 0,
+      "output": "tests/ingest/text/evidence/AuditTest.txt"
+    },
+    {
+      "id": "FixtureTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/text/FixtureTest.php --log-junit tests/ingest/text/evidence/FixtureTest.xml",
+      "exit": 0,
+      "output": "tests/ingest/text/evidence/FixtureTest.txt"
+    },
+    {
+      "id": "phpstan",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/ingest/text/bootstrap.php --no-progress --error-format=json packages/core/src/Application/Ingest/Text packages/core/src/Application/Ingest/Markdown",
+      "exit": 0
+    }
+  ],
+  "syntaxFiles": 13,
+  "requiredCases": 30,
+  "testCount": 18,
+  "assertions": 953,
+  "acceptanceRun": false,
+  "acceptanceOwner": "coordinator",
+  "reuseReceipt": "tests/ingest/text/evidence/P2.4-reuse.json",
+  "decision": "Q1=a; immutable extraction sidecar alongside unchanged IR 1.0; existing DocumentParser port unchanged.",
+  "assumptions": [
+    "Whitespace-only canonical bytes remain ok; only zero-byte canonical text is empty.",
+    "Normalization failures return failed/skipped IR, partial coverage and incompatible extraction outcome; structural gaps preserve all canonical bytes and are incomplete_extraction.",
+    "Explicit fingerprinted bounded settings and subset metadata are documented in Application/Ingest/Text/README.md."
+  ],
+  "scopeDeviations": [
+    {
+      "path": "phpunit.xml",
+      "reason": "Core suite must discover tests/ingest/text for the existing ingest:text acceptance group."
+    }
+  ],
+  "qualification": "PDF/OCR/search audit scenarios use synthetic contract-boundary fixtures; no PDF/OCR/EPUB/search adapter implementation or backend qualification claim.",
+  "registration": "Coordinator registers staged reuse receipt in @plan; executor did not mutate plans or commit."
+}

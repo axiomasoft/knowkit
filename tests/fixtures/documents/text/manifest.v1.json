@@ -1,0 +1,227 @@
+{
+  "schemaVersion": "text-fixtures:1",
+  "version": "1.0.0",
+  "versionRationale": "Initial independently authored text-v1 byte fixtures and bounded Markdown subset. Canonical expected bytes/digests are defined from literal fixture intent, not captured parser output; any expectation change requires a new version and rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "provenance": "Project-authored synthetic bytes; no user documents or external assets."
+  },
+  "cases": [
+    {
+      "id": "TXT-BOM-CRLF",
+      "path": "tests/fixtures/documents/text/v1/bom-crlf.txt",
+      "sourceDigest": "ffc5461d6156c0c28a539f5fc4424eb67a992be58e4d81391bae699a2162fa8a",
+      "options": {},
+      "expected": {
+        "outcome": "success",
+        "status": "ok",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "3bb1384b628799a6775e63030e96f0f16486be8657cb81faa50734c046d95dd4",
+        "irDigests": {
+          "text": "9747a3cb357ced28276ccdbc771af07d3f0299591b07c64115a01f8fbe3fa42d",
+          "markdown": "324a2160750bc88b265cf81a5c1a04292334c736b56b8f3118af407eb5fa803f"
+        }
+      },
+      "canonicalUtf8": "Привет é\n漢字\nEnd\n"
+    },
+    {
+      "id": "TXT-UNICODE",
+      "path": "tests/fixtures/documents/text/v1/unicode.txt",
+      "sourceDigest": "b6de1dd3ab42aa097fefab3dda4e3bd4ca111c6195bc0e51b63cbf5490c072fb",
+      "options": {},
+      "expected": {
+        "outcome": "success",
+        "status": "ok",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "b6de1dd3ab42aa097fefab3dda4e3bd4ca111c6195bc0e51b63cbf5490c072fb",
+        "irDigests": {
+          "text": "e553be893a774544183cb481d7902366d3688d12712eaaa2f048f5c0e91bc9a1",
+          "markdown": "f9ba5646dfe66781d98bbf94c12196ed1693aa08a185aa6a9e373ac05fb6119f"
+        }
+      },
+      "canonicalUtf8": "é é Кириллица 漢字 ﬁ\n"
+    },
+    {
+      "id": "TXT-MALFORMED",
+      "path": "tests/fixtures/documents/text/v1/malformed.bin",
+      "sourceDigest": "7ed06fc18facc9cfff9b4a41105b5ffbbbc287243b9130dbeeacbcd8e1b17a69",
+      "options": {},
+      "expected": {
+        "outcome": "incompatible",
+        "status": "failed",
+        "coverage": "partial",
+        "errorCode": "invalid_utf8",
+        "canonicalDigest": null,
+        "irDigests": {
+          "text": "3e0897ad6e4e8661ebca6da3cfb3bd24247b6e2e10b11e16699e37d8f202a4bd",
+          "markdown": "e345ee2faa6703ea1ee69bdf634830f947f8cc47a039cf78cf594c0f6621f138"
+        }
+      }
+    },
+    {
+      "id": "TXT-BLANK",
+      "path": "tests/fixtures/documents/text/v1/blank.txt",
+      "sourceDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "options": {},
+      "expected": {
+        "outcome": "empty",
+        "status": "empty",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "irDigests": {
+          "text": "831beec6906a2aa05be0a98656148f5434b56e90e9a7edf59b9c4d67e2617397",
+          "markdown": "e1b24a7988113494d4a1dbb56140a552757f6e2bf230a69cc4f0be37c77a8d25"
+        }
+      },
+      "canonicalUtf8": ""
+    },
+    {
+      "id": "TXT-BOM-ONLY",
+      "path": "tests/fixtures/documents/text/v1/bom-only.bin",
+      "sourceDigest": "f1945cd6c19e56b3c1c78943ef5ec18116907a4ca1efc40a57d48ab1db7adfc5",
+      "options": {},
+      "expected": {
+        "outcome": "empty",
+        "status": "empty",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "irDigests": {
+          "text": "831beec6906a2aa05be0a98656148f5434b56e90e9a7edf59b9c4d67e2617397",
+          "markdown": "e1b24a7988113494d4a1dbb56140a552757f6e2bf230a69cc4f0be37c77a8d25"
+        }
+      },
+      "canonicalUtf8": ""
+    },
+    {
+      "id": "TXT-WHITESPACE",
+      "path": "tests/fixtures/documents/text/v1/whitespace.txt",
+      "sourceDigest": "bb403f616bb62f0c473c42534601e3d8fe24fa61add49f51f4cdba8bd585ce29",
+      "options": {},
+      "expected": {
+        "outcome": "success",
+        "status": "ok",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "7d7713ab8ff9ccbfe07f962d3a015e11231859724c83788c38341f4c216cd5c2",
+        "irDigests": {
+          "text": "104f2fe34e0442e0845fa880450d8951d51843e40d2fc8ea9b8402007f897ca1",
+          "markdown": "e19cc48e5d6118f01708101f0ea5e05ddcff545ab8b5c0e9c4e4c0449a926856"
+        }
+      },
+      "canonicalUtf8": " \t\n"
+    },
+    {
+      "id": "TXT-ENCODING",
+      "path": "tests/fixtures/documents/text/v1/utf16.bin",
+      "sourceDigest": "53c523bad1a04b0d2fce18ee10dacb6a7362f3804cdcbdaf68ff1ae76e8a51cd",
+      "options": {},
+      "expected": {
+        "outcome": "incompatible",
+        "status": "failed",
+        "coverage": "partial",
+        "errorCode": "unsupported_encoding",
+        "canonicalDigest": null,
+        "irDigests": {
+          "text": "b0d397df5c092b16266ec4157c6b560de33bd0d7338891ec981a7470aaa3ceb9",
+          "markdown": "78294b9e76324c07fe9709d9ab7760238eb43a73ba2f64ad611370304fc9c3a1"
+        }
+      }
+    },
+    {
+      "id": "TXT-LONG-LINE",
+      "path": "tests/fixtures/documents/text/v1/long-line.txt",
+      "sourceDigest": "9df7d7178a452bbea541ea4f66852f9ad5eaff7fcf999c78396d2ba9f7c5c988",
+      "options": {},
+      "expected": {
+        "outcome": "success",
+        "status": "ok",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "9df7d7178a452bbea541ea4f66852f9ad5eaff7fcf999c78396d2ba9f7c5c988",
+        "irDigests": {
+          "text": "af824c9c2f3b3314906db4323dc72e351272cfa799711d808a48ca8b3c540f37",
+          "markdown": "f7411d1088af7724b2c0ef6d60753ecd6fcc30e47ebdd6ecacd4217a577d9ceb"
+        }
+      }
+    },
+    {
+      "id": "TXT-SIZE",
+      "path": "tests/fixtures/documents/text/v1/oversize.txt",
+      "sourceDigest": "58a18f1c12e687a40762994c51e9160d9c49cd0e084c3c1735ebdad620d30881",
+      "options": {
+        "maxSourceBytes": 64
+      },
+      "expected": {
+        "outcome": "incompatible",
+        "status": "skipped",
+        "coverage": "partial",
+        "errorCode": "document_too_large",
+        "canonicalDigest": null,
+        "irDigests": {
+          "text": "7335d181b52fb9db0604fcfa0137ef5fc5f000af8411f89178f7ac35fa813fc9",
+          "markdown": "cd9024b57107c8b93b8e86646d45aedb15a35e970ec5fdbfd9cbfa7a6637f7d7"
+        }
+      }
+    },
+    {
+      "id": "TXT-LINE-LIMIT",
+      "path": "tests/fixtures/documents/text/v1/line-limit.txt",
+      "sourceDigest": "6d78392a5886177fe5b86e585a0b695a2bcd01a05504b3c4e38bc8eeb21e8326",
+      "options": {
+        "maxLineBytes": 8
+      },
+      "expected": {
+        "outcome": "incompatible",
+        "status": "skipped",
+        "coverage": "partial",
+        "errorCode": "line_size_limit",
+        "canonicalDigest": null,
+        "irDigests": {
+          "text": "19ac0645ba3e5c9e527799f1bb967a2908ef8fccc996a5ed5bbb26f8d885b900",
+          "markdown": "45849e871db9fd2e713296d818e554a789c1c6432d4a5266a2c56eac34a78790"
+        }
+      }
+    },
+    {
+      "id": "TXT-LINE-COUNT",
+      "path": "tests/fixtures/documents/text/v1/line-count.txt",
+      "sourceDigest": "ea7fb08b7a2dc4619ffb7c7bb38d95a2047935fa165d71b12efd3852a2e6d0cc",
+      "options": {
+        "maxLines": 2
+      },
+      "expected": {
+        "outcome": "incompatible",
+        "status": "skipped",
+        "coverage": "partial",
+        "errorCode": "line_count_limit",
+        "canonicalDigest": null,
+        "irDigests": {
+          "text": "f5b89c3082dc70de9a8d508bba678a3e91f2e7d0fc2aca7a702811b20d0044b3",
+          "markdown": "f4e9e9d9c63fec2fd3a046ffbc50294d3add54cea1bedda2880702c0e723d1a0"
+        }
+      }
+    },
+    {
+      "id": "TXT-FORM-FEED",
+      "path": "tests/fixtures/documents/text/v1/form-feed.txt",
+      "sourceDigest": "d813c34a4bfe2ee2cd51681173fe2846c71db2c2629cc67395851cf18f61da1a",
+      "options": {},
+      "expected": {
+        "outcome": "success",
+        "status": "ok",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "d813c34a4bfe2ee2cd51681173fe2846c71db2c2629cc67395851cf18f61da1a",
+        "irDigests": {
+          "text": "5bc436b6b15f5b4597d76b9050dacdd08ed0bff703742647e73c7c962485943f",
+          "markdown": "8bfe9aec4217a45eb5191c4ccb2b1df7562def84f97ac706ebc45399af2c62b1"
+        }
+      },
+      "canonicalUtf8": "first\fsecond"
+    }
+  ]
+}

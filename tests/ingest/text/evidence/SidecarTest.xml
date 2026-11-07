@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Ingest\Text\SidecarTest" file="tests/ingest/text/SidecarTest.php" tests="5" assertions="64" errors="0" failures="0" skipped="0" time="0.012417">
+    <testcase name="testNormalizationPartitionAndEveryCanonicalCodepointMapExactly" file="tests/ingest/text/SidecarTest.php" line="15" class="KnowKit\Tests\Ingest\Text\SidecarTest" classname="KnowKit.Tests.Ingest.Text.SidecarTest" assertions="27" time="0.009283"/>
+    <testcase name="testSidecarImmutableBindingRejectsForeignTenantVersionProfileAndIr" file="tests/ingest/text/SidecarTest.php" line="42" class="KnowKit\Tests\Ingest\Text\SidecarTest" classname="KnowKit.Tests.Ingest.Text.SidecarTest" assertions="20" time="0.001622"/>
+    <testcase name="testOriginalCanonicalRenderedAndTruncatedDigestsAreSeparate" file="tests/ingest/text/SidecarTest.php" line="66" class="KnowKit\Tests\Ingest\Text\SidecarTest" classname="KnowKit.Tests.Ingest.Text.SidecarTest" assertions="6" time="0.000596"/>
+    <testcase name="testMissingNormalizationCannotMasqueradeAsConfirmedEmpty" file="tests/ingest/text/SidecarTest.php" line="79" class="KnowKit\Tests\Ingest\Text\SidecarTest" classname="KnowKit.Tests.Ingest.Text.SidecarTest" assertions="2" time="0.000388"/>
+    <testcase name="testPresentationSuffixAndHtmlNeverBecomeCanonicalQuotes" file="tests/ingest/text/SidecarTest.php" line="93" class="KnowKit\Tests\Ingest\Text\SidecarTest" classname="KnowKit.Tests.Ingest.Text.SidecarTest" assertions="9" time="0.000528"/>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Ingest\Text\MarkdownTest" file="tests/ingest/text/MarkdownTest.php" tests="3" assertions="237" errors="0" failures="0" skipped="0" time="0.019237">
+    <testcase name="testVersionedSubsetFixturesPreserveExactCanonicalSyntax" file="tests/ingest/text/MarkdownTest.php" line="14" class="KnowKit\Tests\Ingest\Text\MarkdownTest" classname="KnowKit.Tests.Ingest.Text.MarkdownTest" assertions="193" time="0.015461"/>
+    <testcase name="testHeadingListFenceAndTableStructureHasExactSourceSpans" file="tests/ingest/text/MarkdownTest.php" line="39" class="KnowKit\Tests\Ingest\Text\MarkdownTest" classname="KnowKit.Tests.Ingest.Text.MarkdownTest" assertions="35" time="0.002035"/>
+    <testcase name="testSupportedBoundariesAndIncompleteSuffixNeverDisappear" file="tests/ingest/text/MarkdownTest.php" line="63" class="KnowKit\Tests\Ingest\Text\MarkdownTest" classname="KnowKit.Tests.Ingest.Text.MarkdownTest" assertions="9" time="0.001741"/>
+  </testsuite>
+</testsuites>

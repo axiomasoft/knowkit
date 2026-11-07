@@ -1,0 +1,483 @@
+{
+  "schemaVersion": "markdown-fixtures:1",
+  "version": "1.0.0",
+  "versionRationale": "Initial independently authored text-v1 byte fixtures and bounded Markdown subset. Canonical expected bytes/digests are defined from literal fixture intent, not captured parser output; any expectation change requires a new version and rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "provenance": "Project-authored synthetic bytes; no user documents or external assets."
+  },
+  "cases": [
+    {
+      "id": "MD-STRUCTURE",
+      "path": "tests/fixtures/documents/markdown/v1/structure.md",
+      "sourceDigest": "915063e8f0fbac60f324df5a89c99201eaa5965955aec3005b9cbfeb6ba403c2",
+      "canonicalDigest": "915063e8f0fbac60f324df5a89c99201eaa5965955aec3005b9cbfeb6ba403c2",
+      "options": {},
+      "expected": {
+        "outcome": "success",
+        "coverage": "complete",
+        "kinds": [
+          "heading",
+          "text",
+          "heading",
+          "text",
+          "text",
+          "text",
+          "code",
+          "table"
+        ],
+        "diagnostics": []
+      }
+    },
+    {
+      "id": "MD-LITERAL",
+      "path": "tests/fixtures/documents/markdown/v1/literal.md",
+      "sourceDigest": "bec46d6ad00d7ee4db267438bad357c626fe21399c5236a44f835a0e084aae1d",
+      "canonicalDigest": "bec46d6ad00d7ee4db267438bad357c626fe21399c5236a44f835a0e084aae1d",
+      "options": {},
+      "expected": {
+        "outcome": "incompatible",
+        "coverage": "partial",
+        "kinds": [
+          "heading",
+          "text",
+          "text",
+          "text",
+          "text"
+        ],
+        "diagnostics": [
+          "unsupported_markdown_construct",
+          "literal_html",
+          "unresolved_markdown_image"
+        ]
+      }
+    },
+    {
+      "id": "MD-FENCE-INCOMPLETE",
+      "path": "tests/fixtures/documents/markdown/v1/unclosed.md",
+      "sourceDigest": "2b4fcb9e0a60abdea7f6ac3289274b70f3cfc74161cd016e1ff47ba8a481755e",
+      "canonicalDigest": "2b4fcb9e0a60abdea7f6ac3289274b70f3cfc74161cd016e1ff47ba8a481755e",
+      "options": {},
+      "expected": {
+        "outcome": "incompatible",
+        "coverage": "partial",
+        "kinds": [
+          "code"
+        ],
+        "diagnostics": [
+          "unclosed_code_fence"
+        ]
+      }
+    },
+    {
+      "id": "MD-TABLE-MALFORMED",
+      "path": "tests/fixtures/documents/markdown/v1/malformed-table.md",
+      "sourceDigest": "d8532c17016868896eb0d35024612fe1858f6300209f31d15919dd4fa59dfc5f",
+      "canonicalDigest": "d8532c17016868896eb0d35024612fe1858f6300209f31d15919dd4fa59dfc5f",
+      "options": {},
+      "expected": {
+        "outcome": "incompatible",
+        "coverage": "partial",
+        "kinds": [
+          "text"
+        ],
+        "diagnostics": [
+          "malformed_pipe_table"
+        ]
+      }
+    },
+    {
+      "id": "MD-BLOCK-LIMIT",
+      "path": "tests/fixtures/documents/markdown/v1/block-limit.md",
+      "sourceDigest": "c87485c1a206d900fe7af3f6f9509c26ec1e0d5ca66e22fb586075379f5fb229",
+      "canonicalDigest": "c87485c1a206d900fe7af3f6f9509c26ec1e0d5ca66e22fb586075379f5fb229",
+      "options": {
+        "maxBlocks": 1
+      },
+      "expected": {
+        "outcome": "incompatible",
+        "coverage": "partial",
+        "kinds": [
+          "heading"
+        ],
+        "diagnostics": [
+          "block_count_limit"
+        ]
+      }
+    },
+    {
+      "id": "MD-TABLE-LIMIT",
+      "path": "tests/fixtures/documents/markdown/v1/table-limit.md",
+      "sourceDigest": "2fd6b622957d919cf19e072ef449c07b9a0579395fd0a840133a026549cce59f",
+      "canonicalDigest": "2fd6b622957d919cf19e072ef449c07b9a0579395fd0a840133a026549cce59f",
+      "options": {
+        "maxTableCells": 2
+      },
+      "expected": {
+        "outcome": "incompatible",
+        "coverage": "partial",
+        "kinds": [
+          "text"
+        ],
+        "diagnostics": [
+          "table_cell_limit"
+        ]
+      }
+    },
+    {
+      "id": "MD-INLINE",
+      "path": "tests/fixtures/documents/markdown/v1/inline.md",
+      "sourceDigest": "c9367dd613a24ecf08a59b43bc6e1f9264c1ddededf233bcdf706ad031c038de",
+      "canonicalDigest": "c9367dd613a24ecf08a59b43bc6e1f9264c1ddededf233bcdf706ad031c038de",
+      "options": {},
+      "expected": {
+        "outcome": "success",
+        "coverage": "complete",
+        "kinds": [
+          "text"
+        ],
+        "diagnostics": []
+      }
+    }
+  ],
+  "auditContracts": {
+    "qualification": "Synthetic IR and projection contracts only. No PDF/OCR/EPUB/search parser or backend executed or claimed implemented.",
+    "externalAdaptersImplemented": false,
+    "syntheticOriginalBytes": "%PDF-synthetic-contract-bytes-not-an-extraction",
+    "originalDigest": "594621d848c58c4647acadb258afabaa98ef24a3e4353e466526871bd19b8f10",
+    "canonicalPageIr": {
+      "schemaVersion": "ir-1.0",
+      "tenantId": "01JC0000000000000000000001",
+      "sourceVersionId": "01JC000000000000000000000Z",
+      "parserSignature": {
+        "name": "synthetic.contract.only",
+        "version": "1",
+        "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "pages": [
+        {
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "text": "ﬁ é 漢字",
+          "textDigest": "e2d7f67f381b403e808f89e319dbc2f34c7d61bce030de7eb6de54afb789eb93",
+          "status": "ok"
+        }
+      ],
+      "segments": [],
+      "blocks": [
+        {
+          "blockId": "b1",
+          "kind": "text",
+          "parentId": null,
+          "order": 0,
+          "origin": "source",
+          "spans": [
+            {
+              "kind": "page",
+              "pageId": "p1",
+              "physicalNo": 1,
+              "printedLabel": null,
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 3
+            }
+          ],
+          "provenance": {
+            "kind": "verbatim",
+            "supportingRefs": []
+          }
+        }
+      ],
+      "assets": [],
+      "coverage": {
+        "state": "complete",
+        "counts": {
+          "expected": 1,
+          "processed": 1,
+          "empty": 0,
+          "failed": 0,
+          "skipped": 0
+        },
+        "missingFeatures": [],
+        "diagnostics": []
+      }
+    },
+    "normalizedSearch": {
+      "canonical": "é",
+      "normalized": "é",
+      "mapping": {
+        "normalizedStart": 0,
+        "normalizedEnd": 2,
+        "canonicalStart": 0,
+        "canonicalEnd": 3
+      }
+    },
+    "scanStates": [
+      {
+        "status": "empty",
+        "coverage": "partial",
+        "ir": {
+          "schemaVersion": "ir-1.0",
+          "tenantId": "01JC0000000000000000000001",
+          "sourceVersionId": "01JC000000000000000000000Z",
+          "parserSignature": {
+            "name": "synthetic.contract.only",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "pages": [
+            {
+              "pageId": "p1",
+              "physicalNo": 1,
+              "printedLabel": null,
+              "text": "",
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "status": "empty"
+            }
+          ],
+          "segments": [],
+          "blocks": [],
+          "assets": [],
+          "coverage": {
+            "state": "partial",
+            "counts": {
+              "expected": 1,
+              "processed": 1,
+              "empty": 1,
+              "failed": 0,
+              "skipped": 0
+            },
+            "missingFeatures": [
+              "visual_inventory"
+            ],
+            "diagnostics": [
+              {
+                "segmentId": "p1",
+                "code": "visual_status_unknown",
+                "severity": "warning"
+              }
+            ]
+          }
+        }
+      },
+      {
+        "status": "failed",
+        "coverage": "partial",
+        "ir": {
+          "schemaVersion": "ir-1.0",
+          "tenantId": "01JC0000000000000000000001",
+          "sourceVersionId": "01JC000000000000000000000Z",
+          "parserSignature": {
+            "name": "synthetic.contract.only",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          },
+          "pages": [
+            {
+              "pageId": "p1",
+              "physicalNo": 1,
+              "printedLabel": null,
+              "text": "",
+              "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "status": "failed"
+            }
+          ],
+          "segments": [],
+          "blocks": [],
+          "assets": [],
+          "coverage": {
+            "state": "partial",
+            "counts": {
+              "expected": 1,
+              "processed": 0,
+              "empty": 0,
+              "failed": 1,
+              "skipped": 0
+            },
+            "missingFeatures": [
+              "ocr_text"
+            ],
+            "diagnostics": [
+              {
+                "segmentId": "p1",
+                "code": "unreadable_scan",
+                "severity": "error"
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "incompleteMulticolumnIr": {
+      "schemaVersion": "ir-1.0",
+      "tenantId": "01JC0000000000000000000001",
+      "sourceVersionId": "01JC000000000000000000000Z",
+      "parserSignature": {
+        "name": "synthetic.contract.only",
+        "version": "1",
+        "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "pages": [
+        {
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "text": "L1\nL2\nR1\nR2",
+          "textDigest": "9c04538b446a245aea175b45b91b687f94fd0bce7caa0bc0e3ab33b884d23545",
+          "status": "ok"
+        },
+        {
+          "pageId": "p2",
+          "physicalNo": 2,
+          "printedLabel": null,
+          "text": "next",
+          "textDigest": "c6c1c9a9c8543f1e4cd980064cf1625eeb61a90703b2464fff039f21682508b3",
+          "status": "ok"
+        }
+      ],
+      "segments": [],
+      "blocks": [
+        {
+          "blockId": "b1",
+          "kind": "table",
+          "parentId": null,
+          "order": 0,
+          "origin": "source",
+          "spans": [
+            {
+              "kind": "page",
+              "pageId": "p1",
+              "physicalNo": 1,
+              "printedLabel": null,
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 11,
+              "bbox": {
+                "space": "page-millionths-top-left-v1",
+                "origin": "top-left",
+                "view": "rotated-page",
+                "x0": 0,
+                "y0": 0,
+                "x1": 1000000,
+                "y1": 1000000
+              }
+            },
+            {
+              "kind": "page",
+              "pageId": "p2",
+              "physicalNo": 2,
+              "printedLabel": null,
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 4,
+              "bbox": {
+                "space": "page-millionths-top-left-v1",
+                "origin": "top-left",
+                "view": "rotated-page",
+                "x0": 0,
+                "y0": 0,
+                "x1": 1000000,
+                "y1": 1000000
+              }
+            }
+          ],
+          "provenance": {
+            "kind": "verbatim",
+            "supportingRefs": []
+          },
+          "table": {
+            "rows": 2,
+            "columns": 1,
+            "cells": [
+              {
+                "cellId": "c0",
+                "row": 0,
+                "column": 0,
+                "rowSpan": 1,
+                "colSpan": 1,
+                "header": true,
+                "headerRefs": [],
+                "unit": null,
+                "noteRefs": [],
+                "spans": [
+                  {
+                    "kind": "page",
+                    "pageId": "p1",
+                    "physicalNo": 1,
+                    "printedLabel": null,
+                    "blockId": "b1",
+                    "byteStart": 0,
+                    "byteEnd": 11,
+                    "bbox": {
+                      "space": "page-millionths-top-left-v1",
+                      "origin": "top-left",
+                      "view": "rotated-page",
+                      "x0": 0,
+                      "y0": 0,
+                      "x1": 1000000,
+                      "y1": 1000000
+                    }
+                  }
+                ]
+              },
+              {
+                "cellId": "c1",
+                "row": 1,
+                "column": 0,
+                "rowSpan": 1,
+                "colSpan": 1,
+                "header": false,
+                "headerRefs": [
+                  "c0"
+                ],
+                "unit": null,
+                "noteRefs": [],
+                "spans": [
+                  {
+                    "kind": "page",
+                    "pageId": "p2",
+                    "physicalNo": 2,
+                    "printedLabel": null,
+                    "blockId": "b1",
+                    "byteStart": 0,
+                    "byteEnd": 4,
+                    "bbox": {
+                      "space": "page-millionths-top-left-v1",
+                      "origin": "top-left",
+                      "view": "rotated-page",
+                      "x0": 0,
+                      "y0": 0,
+                      "x1": 1000000,
+                      "y1": 1000000
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "assets": [],
+      "coverage": {
+        "state": "partial",
+        "counts": {
+          "expected": 2,
+          "processed": 2,
+          "empty": 0,
+          "failed": 0,
+          "skipped": 0
+        },
+        "missingFeatures": [
+          "reading_order"
+        ],
+        "diagnostics": [
+          {
+            "code": "unverified_column_order",
+            "severity": "warning"
+          }
+        ]
+      }
+    }
+  }
+}

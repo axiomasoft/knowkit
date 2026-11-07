@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P2.4",
+  "sources": [
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/src/Adapters/PlainTextExtractor.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "540a72806f40220dfcdbd9f7f3844cc41d7c55c63c405c41fc6d4441cd6cb091",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Adapters/PlainTextExtractor.php",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "reason": "Adapt exact canonical range/hash extraction to one logical segment and confirmed-empty coverage; reject donor physical pages.",
+      "targets": [
+        "packages/core/src/Application/Ingest/Text/TextParser.php"
+      ],
+      "license": "Proprietary; (c) 2026 Dmitry Vostrikov; private local adaptation authority licenses/local-reuse-authorization.md"
+    },
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/src/GenericValidator.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "aa447e7fcca2ac1644181eee560607edddc51bbdf9aa4fa98cd39b50a3763d94",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/GenericValidator.php",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "reason": "Reuse UTF-8/span/hash/source binding patterns through existing KnowKit validator/locators. Reject nonempty-every-page and donor hierarchy assumptions.",
+      "targets": [
+        "packages/core/src/Application/Ingest/Text/CanonicalText.php",
+        "tests/ingest/text/TextTest.php"
+      ],
+      "license": "Proprietary; (c) 2026 Dmitry Vostrikov; private local adaptation authority licenses/local-reuse-authorization.md"
+    },
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/tests/IngestTest.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "ff90f60dd0dee003f5e2b31919a4eb0b3e8a8a5cb65d358bac1d372ec572fa15",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/IngestTest.php",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "reason": "Adapt malformed UTF-8, boundary, hash mismatch, immutable identity and completeness negatives to local canonical segments.",
+      "targets": [
+        "tests/ingest/text/TextTest.php",
+        "tests/ingest/text/SidecarTest.php"
+      ],
+      "license": "Proprietary; (c) 2026 Dmitry Vostrikov; private local adaptation authority licenses/local-reuse-authorization.md"
+    },
+    {
+      "repository": "deeptutor",
+      "path": "deeptutor/services/rag/pipelines/llamaindex/document_loader.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "29856d09c034acd9657a0e2a864ddee84f6e92f1cd8c2eb0e618c7888dee632e",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/pipelines/llamaindex/document_loader.py",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "reject",
+      "reason": "Provider/model imports, OCR fallback, strip and inferred-empty/visual behavior conflict with this explicit local text baseline. No runtime code transferred.",
+      "targets": [
+        "tests/ingest/text/AuditTest.php"
+      ],
+      "license": "Apache-2.0; (c) 2025 Data Intelligence Lab, The University of Hong Kong; notices in docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repository": "deeptutor",
+      "path": "deeptutor/services/rag/source_pages.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "1f0f17f41bd3d87a8e20c21a325b2ea9de02b6b623640c9dc47ccfef589c10d6",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/source_pages.py",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "reason": "Adapt exact original digest versus canonical locator distinction and located-versus-unlocated regression intent. Reject dummy unsearchable text, native PDF fallback and fake text pagination.",
+      "targets": [
+        "tests/ingest/text/AuditTest.php",
+        "tests/ingest/text/SidecarTest.php"
+      ],
+      "license": "Apache-2.0; (c) 2025 Data Intelligence Lab, The University of Hong Kong; notices in docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repository": "deeptutor",
+      "path": "tests/services/rag/test_source_pages.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "31629b4c1bcc9eeed59291e2472ffddcd2681daf95fd64f8197372653c6dff84",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/test_source_pages.py",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "reason": "Adapt list-content retention and no unlocated replacement assertions; PDF/OCR/search examples stay explicitly contract-only, not adapter qualification.",
+      "targets": [
+        "tests/ingest/text/MarkdownTest.php",
+        "tests/ingest/text/AuditTest.php"
+      ],
+      "license": "Apache-2.0; (c) 2025 Data Intelligence Lab, The University of Hong Kong; notices in docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    }
+  ],
+  "existingReuse": [
+    "KnowKit Domain SourceBytes/ExactSourceRef, ParserProfile, FrozenJson/JCS, IrDocument/ContractValidator, TextLocator/LocatorConversion; no duplicate validator or encoder."
+  ],
+  "sourceGaps": [
+    "No donor implements text-v1 BOM/line-ending transform partitions or approved Q1=a sidecar. New bounded normalization/mapping glue is necessary.",
+    "No donor offers vendor-free PHP bounded Markdown AST with exact original canonical spans. New subset scanner is necessary.",
+    "Actual PDF extraction/OCR/EPUB/search adapters are out of scope; corresponding audit cases test contracts and fail-closed unsupported media only."
+  ],
+  "registration": "Product-side staging only; coordinator registers @plan/artifacts/implementation/P2.4-reuse.json.",
+  "qualification": "Exact pinned content inspected before implementation; six SHA256 values independently calculated and matched. Donor suites not run; no portability claim for their runtimes."
+}

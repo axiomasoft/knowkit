@@ -1,0 +1,455 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "ingest:text",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial independently authored text-v1 byte fixtures and bounded Markdown subset. Canonical expected bytes/digests are defined from literal fixture intent, not captured parser output; any expectation change requires a new version and rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures; donor qualification tests/ingest/text/evidence/P2.4-reuse.json; no external adapter implementation claim.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "TXT-BOM-CRLF",
+    "TXT-UNICODE",
+    "TXT-MALFORMED",
+    "TXT-BLANK",
+    "TXT-BOM-ONLY",
+    "TXT-WHITESPACE",
+    "TXT-ENCODING",
+    "TXT-LONG-LINE",
+    "TXT-SIZE",
+    "TXT-LINE-LIMIT",
+    "TXT-LINE-COUNT",
+    "TXT-FORM-FEED",
+    "MD-STRUCTURE",
+    "MD-LITERAL",
+    "MD-FENCE-INCOMPLETE",
+    "MD-TABLE-MALFORMED",
+    "MD-BLOCK-LIMIT",
+    "MD-TABLE-LIMIT",
+    "MD-INLINE",
+    "TXT-PROFILE",
+    "TXT-SIDECAR",
+    "TXT-MAP",
+    "R09-A01",
+    "R09-A02",
+    "R13-A01",
+    "R13-A02",
+    "R13-A03",
+    "DT-I13",
+    "DT-I17",
+    "INGEST-FIXTURE"
+  ],
+  "testCaseMap": {
+    "TXT-BOM-CRLF": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+    ],
+    "TXT-UNICODE": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+    ],
+    "TXT-MALFORMED": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers",
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testMalformedSequencesAndExplicitEncodingNeverHeuristicallyDecode"
+    ],
+    "TXT-BLANK": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+    ],
+    "TXT-BOM-ONLY": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+    ],
+    "TXT-WHITESPACE": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+    ],
+    "TXT-ENCODING": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+    ],
+    "TXT-LONG-LINE": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+    ],
+    "TXT-SIZE": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers",
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testSizeLimitCountsBytesAndNeverTruncatesInsideUnicode"
+    ],
+    "TXT-LINE-LIMIT": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+    ],
+    "TXT-LINE-COUNT": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+    ],
+    "TXT-FORM-FEED": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+    ],
+    "MD-STRUCTURE": [
+      "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax",
+      "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testHeadingListFenceAndTableStructureHasExactSourceSpans"
+    ],
+    "MD-LITERAL": [
+      "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax"
+    ],
+    "MD-FENCE-INCOMPLETE": [
+      "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax"
+    ],
+    "MD-TABLE-MALFORMED": [
+      "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax"
+    ],
+    "MD-BLOCK-LIMIT": [
+      "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax",
+      "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testSupportedBoundariesAndIncompleteSuffixNeverDisappear"
+    ],
+    "MD-TABLE-LIMIT": [
+      "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax",
+      "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testSupportedBoundariesAndIncompleteSuffixNeverDisappear"
+    ],
+    "MD-INLINE": [
+      "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax"
+    ],
+    "TXT-PROFILE": [
+      "KnowKit\\Tests\\Ingest\\Text\\TextTest::testProfileMismatchCannotSilentlyUseDefaultsAndLimitsAreFingerprinted"
+    ],
+    "TXT-SIDECAR": [
+      "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testSidecarImmutableBindingRejectsForeignTenantVersionProfileAndIr",
+      "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testMissingNormalizationCannotMasqueradeAsConfirmedEmpty"
+    ],
+    "TXT-MAP": [
+      "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testNormalizationPartitionAndEveryCanonicalCodepointMapExactly"
+    ],
+    "R09-A01": [
+      "KnowKit\\Tests\\Ingest\\Text\\AuditTest::testPdfOffsetContractUsesCanonicalTextNotOriginalByteCoordinates"
+    ],
+    "R09-A02": [
+      "KnowKit\\Tests\\Ingest\\Text\\AuditTest::testNormalizedSearchProjectionContractKeepsExplicitCanonicalMapping"
+    ],
+    "R13-A01": [
+      "KnowKit\\Tests\\Ingest\\Text\\AuditTest::testNonpaginatedHeadingAndParagraphLocatorsResolveWithoutGeometry"
+    ],
+    "R13-A02": [
+      "KnowKit\\Tests\\Ingest\\Text\\AuditTest::testBlankFailedAndVisualUnknownContractsStayDistinctWithoutDummyText"
+    ],
+    "R13-A03": [
+      "KnowKit\\Tests\\Ingest\\Text\\AuditTest::testUnsupportedPdfNeverClaimsReadingOrderOrCompleteness"
+    ],
+    "DT-I13": [
+      "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testOriginalCanonicalRenderedAndTruncatedDigestsAreSeparate",
+      "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testNormalizationPartitionAndEveryCanonicalCodepointMapExactly"
+    ],
+    "DT-I17": [
+      "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testPresentationSuffixAndHtmlNeverBecomeCanonicalQuotes"
+    ],
+    "INGEST-FIXTURE": [
+      "KnowKit\\Tests\\Ingest\\Text\\FixtureTest::testVersionProvenanceDigestsOutcomesAndRequiredCaseBindings"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/documents/text/v1/bom-crlf.txt",
+      "sha256": "ffc5461d6156c0c28a539f5fc4424eb67a992be58e4d81391bae699a2162fa8a",
+      "expected": {
+        "outcome": "success",
+        "status": "ok",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "3bb1384b628799a6775e63030e96f0f16486be8657cb81faa50734c046d95dd4",
+        "irDigests": {
+          "text": "9747a3cb357ced28276ccdbc771af07d3f0299591b07c64115a01f8fbe3fa42d",
+          "markdown": "324a2160750bc88b265cf81a5c1a04292334c736b56b8f3118af407eb5fa803f"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/unicode.txt",
+      "sha256": "b6de1dd3ab42aa097fefab3dda4e3bd4ca111c6195bc0e51b63cbf5490c072fb",
+      "expected": {
+        "outcome": "success",
+        "status": "ok",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "b6de1dd3ab42aa097fefab3dda4e3bd4ca111c6195bc0e51b63cbf5490c072fb",
+        "irDigests": {
+          "text": "e553be893a774544183cb481d7902366d3688d12712eaaa2f048f5c0e91bc9a1",
+          "markdown": "f9ba5646dfe66781d98bbf94c12196ed1693aa08a185aa6a9e373ac05fb6119f"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/malformed.bin",
+      "sha256": "7ed06fc18facc9cfff9b4a41105b5ffbbbc287243b9130dbeeacbcd8e1b17a69",
+      "expected": {
+        "outcome": "incompatible",
+        "status": "failed",
+        "coverage": "partial",
+        "errorCode": "invalid_utf8",
+        "canonicalDigest": null,
+        "irDigests": {
+          "text": "3e0897ad6e4e8661ebca6da3cfb3bd24247b6e2e10b11e16699e37d8f202a4bd",
+          "markdown": "e345ee2faa6703ea1ee69bdf634830f947f8cc47a039cf78cf594c0f6621f138"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/blank.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "expected": {
+        "outcome": "empty",
+        "status": "empty",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "irDigests": {
+          "text": "831beec6906a2aa05be0a98656148f5434b56e90e9a7edf59b9c4d67e2617397",
+          "markdown": "e1b24a7988113494d4a1dbb56140a552757f6e2bf230a69cc4f0be37c77a8d25"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/bom-only.bin",
+      "sha256": "f1945cd6c19e56b3c1c78943ef5ec18116907a4ca1efc40a57d48ab1db7adfc5",
+      "expected": {
+        "outcome": "empty",
+        "status": "empty",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "irDigests": {
+          "text": "831beec6906a2aa05be0a98656148f5434b56e90e9a7edf59b9c4d67e2617397",
+          "markdown": "e1b24a7988113494d4a1dbb56140a552757f6e2bf230a69cc4f0be37c77a8d25"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/whitespace.txt",
+      "sha256": "bb403f616bb62f0c473c42534601e3d8fe24fa61add49f51f4cdba8bd585ce29",
+      "expected": {
+        "outcome": "success",
+        "status": "ok",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "7d7713ab8ff9ccbfe07f962d3a015e11231859724c83788c38341f4c216cd5c2",
+        "irDigests": {
+          "text": "104f2fe34e0442e0845fa880450d8951d51843e40d2fc8ea9b8402007f897ca1",
+          "markdown": "e19cc48e5d6118f01708101f0ea5e05ddcff545ab8b5c0e9c4e4c0449a926856"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/utf16.bin",
+      "sha256": "53c523bad1a04b0d2fce18ee10dacb6a7362f3804cdcbdaf68ff1ae76e8a51cd",
+      "expected": {
+        "outcome": "incompatible",
+        "status": "failed",
+        "coverage": "partial",
+        "errorCode": "unsupported_encoding",
+        "canonicalDigest": null,
+        "irDigests": {
+          "text": "b0d397df5c092b16266ec4157c6b560de33bd0d7338891ec981a7470aaa3ceb9",
+          "markdown": "78294b9e76324c07fe9709d9ab7760238eb43a73ba2f64ad611370304fc9c3a1"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/long-line.txt",
+      "sha256": "9df7d7178a452bbea541ea4f66852f9ad5eaff7fcf999c78396d2ba9f7c5c988",
+      "expected": {
+        "outcome": "success",
+        "status": "ok",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "9df7d7178a452bbea541ea4f66852f9ad5eaff7fcf999c78396d2ba9f7c5c988",
+        "irDigests": {
+          "text": "af824c9c2f3b3314906db4323dc72e351272cfa799711d808a48ca8b3c540f37",
+          "markdown": "f7411d1088af7724b2c0ef6d60753ecd6fcc30e47ebdd6ecacd4217a577d9ceb"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/oversize.txt",
+      "sha256": "58a18f1c12e687a40762994c51e9160d9c49cd0e084c3c1735ebdad620d30881",
+      "expected": {
+        "outcome": "incompatible",
+        "status": "skipped",
+        "coverage": "partial",
+        "errorCode": "document_too_large",
+        "canonicalDigest": null,
+        "irDigests": {
+          "text": "7335d181b52fb9db0604fcfa0137ef5fc5f000af8411f89178f7ac35fa813fc9",
+          "markdown": "cd9024b57107c8b93b8e86646d45aedb15a35e970ec5fdbfd9cbfa7a6637f7d7"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/line-limit.txt",
+      "sha256": "6d78392a5886177fe5b86e585a0b695a2bcd01a05504b3c4e38bc8eeb21e8326",
+      "expected": {
+        "outcome": "incompatible",
+        "status": "skipped",
+        "coverage": "partial",
+        "errorCode": "line_size_limit",
+        "canonicalDigest": null,
+        "irDigests": {
+          "text": "19ac0645ba3e5c9e527799f1bb967a2908ef8fccc996a5ed5bbb26f8d885b900",
+          "markdown": "45849e871db9fd2e713296d818e554a789c1c6432d4a5266a2c56eac34a78790"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/line-count.txt",
+      "sha256": "ea7fb08b7a2dc4619ffb7c7bb38d95a2047935fa165d71b12efd3852a2e6d0cc",
+      "expected": {
+        "outcome": "incompatible",
+        "status": "skipped",
+        "coverage": "partial",
+        "errorCode": "line_count_limit",
+        "canonicalDigest": null,
+        "irDigests": {
+          "text": "f5b89c3082dc70de9a8d508bba678a3e91f2e7d0fc2aca7a702811b20d0044b3",
+          "markdown": "f4e9e9d9c63fec2fd3a046ffbc50294d3add54cea1bedda2880702c0e723d1a0"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/v1/form-feed.txt",
+      "sha256": "d813c34a4bfe2ee2cd51681173fe2846c71db2c2629cc67395851cf18f61da1a",
+      "expected": {
+        "outcome": "success",
+        "status": "ok",
+        "coverage": "complete",
+        "errorCode": null,
+        "canonicalDigest": "d813c34a4bfe2ee2cd51681173fe2846c71db2c2629cc67395851cf18f61da1a",
+        "irDigests": {
+          "text": "5bc436b6b15f5b4597d76b9050dacdd08ed0bff703742647e73c7c962485943f",
+          "markdown": "8bfe9aec4217a45eb5191c4ccb2b1df7562def84f97ac706ebc45399af2c62b1"
+        }
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/markdown/v1/structure.md",
+      "sha256": "915063e8f0fbac60f324df5a89c99201eaa5965955aec3005b9cbfeb6ba403c2",
+      "expected": {
+        "outcome": "success",
+        "coverage": "complete",
+        "kinds": [
+          "heading",
+          "text",
+          "heading",
+          "text",
+          "text",
+          "text",
+          "code",
+          "table"
+        ],
+        "diagnostics": [],
+        "canonicalDigest": "915063e8f0fbac60f324df5a89c99201eaa5965955aec3005b9cbfeb6ba403c2"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/markdown/v1/literal.md",
+      "sha256": "bec46d6ad00d7ee4db267438bad357c626fe21399c5236a44f835a0e084aae1d",
+      "expected": {
+        "outcome": "incompatible",
+        "coverage": "partial",
+        "kinds": [
+          "heading",
+          "text",
+          "text",
+          "text",
+          "text"
+        ],
+        "diagnostics": [
+          "unsupported_markdown_construct",
+          "literal_html",
+          "unresolved_markdown_image"
+        ],
+        "canonicalDigest": "bec46d6ad00d7ee4db267438bad357c626fe21399c5236a44f835a0e084aae1d"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/markdown/v1/unclosed.md",
+      "sha256": "2b4fcb9e0a60abdea7f6ac3289274b70f3cfc74161cd016e1ff47ba8a481755e",
+      "expected": {
+        "outcome": "incompatible",
+        "coverage": "partial",
+        "kinds": [
+          "code"
+        ],
+        "diagnostics": [
+          "unclosed_code_fence"
+        ],
+        "canonicalDigest": "2b4fcb9e0a60abdea7f6ac3289274b70f3cfc74161cd016e1ff47ba8a481755e"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/markdown/v1/malformed-table.md",
+      "sha256": "d8532c17016868896eb0d35024612fe1858f6300209f31d15919dd4fa59dfc5f",
+      "expected": {
+        "outcome": "incompatible",
+        "coverage": "partial",
+        "kinds": [
+          "text"
+        ],
+        "diagnostics": [
+          "malformed_pipe_table"
+        ],
+        "canonicalDigest": "d8532c17016868896eb0d35024612fe1858f6300209f31d15919dd4fa59dfc5f"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/markdown/v1/block-limit.md",
+      "sha256": "c87485c1a206d900fe7af3f6f9509c26ec1e0d5ca66e22fb586075379f5fb229",
+      "expected": {
+        "outcome": "incompatible",
+        "coverage": "partial",
+        "kinds": [
+          "heading"
+        ],
+        "diagnostics": [
+          "block_count_limit"
+        ],
+        "canonicalDigest": "c87485c1a206d900fe7af3f6f9509c26ec1e0d5ca66e22fb586075379f5fb229"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/markdown/v1/table-limit.md",
+      "sha256": "2fd6b622957d919cf19e072ef449c07b9a0579395fd0a840133a026549cce59f",
+      "expected": {
+        "outcome": "incompatible",
+        "coverage": "partial",
+        "kinds": [
+          "text"
+        ],
+        "diagnostics": [
+          "table_cell_limit"
+        ],
+        "canonicalDigest": "2fd6b622957d919cf19e072ef449c07b9a0579395fd0a840133a026549cce59f"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/markdown/v1/inline.md",
+      "sha256": "c9367dd613a24ecf08a59b43bc6e1f9264c1ddededf233bcdf706ad031c038de",
+      "expected": {
+        "outcome": "success",
+        "coverage": "complete",
+        "kinds": [
+          "text"
+        ],
+        "diagnostics": [],
+        "canonicalDigest": "c9367dd613a24ecf08a59b43bc6e1f9264c1ddededf233bcdf706ad031c038de"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/text/manifest.v1.json",
+      "sha256": "4efaf49a38d72ca4de0f567bf349fd6e73ed8ea784f6c27ea4a97c879dc2400a",
+      "expected": {
+        "caseCount": 12,
+        "irDigestOracle": "Independently authored Python stdlib SHA256/JCS-compatible ASCII-key IR objects; no parser snapshots."
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/markdown/manifest.v1.json",
+      "sha256": "f7f917e27e695d9547e41e2a1ab9b7e5634ff223d0d1815c70975239861f02d7",
+      "expected": {
+        "caseCount": 7,
+        "externalAdaptersImplemented": false,
+        "auditCoverage": "contract-only"
+      }
+    }
+  ]
+}

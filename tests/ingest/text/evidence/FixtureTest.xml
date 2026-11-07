@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Ingest\Text\FixtureTest" file="tests/ingest/text/FixtureTest.php" tests="1" assertions="186" errors="0" failures="0" skipped="0" time="0.002636">
+    <testcase name="testVersionProvenanceDigestsOutcomesAndRequiredCaseBindings" file="tests/ingest/text/FixtureTest.php" line="13" class="KnowKit\Tests\Ingest\Text\FixtureTest" classname="KnowKit.Tests.Ingest.Text.FixtureTest" assertions="186" time="0.002636"/>
+  </testsuite>
+</testsuites>

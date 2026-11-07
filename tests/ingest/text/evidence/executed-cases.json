@@ -1,0 +1,346 @@
+{
+  "schemaVersion": "executed-cases:1",
+  "group": "ingest:text",
+  "requiredCaseCount": 30,
+  "testCount": 18,
+  "assertions": 953,
+  "cases": [
+    {
+      "id": "TXT-BOM-CRLF",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-UNICODE",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-MALFORMED",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers",
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testMalformedSequencesAndExplicitEncodingNeverHeuristicallyDecode"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-BLANK",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-BOM-ONLY",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-WHITESPACE",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-ENCODING",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-LONG-LINE",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-SIZE",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers",
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testSizeLimitCountsBytesAndNeverTruncatesInsideUnicode"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-LINE-LIMIT",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-LINE-COUNT",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-FORM-FEED",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testVersionedTextCorpusAgainstBothRealParsers"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "MD-STRUCTURE",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax",
+        "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testHeadingListFenceAndTableStructureHasExactSourceSpans"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/MarkdownTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "MD-LITERAL",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/MarkdownTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "MD-FENCE-INCOMPLETE",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/MarkdownTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "MD-TABLE-MALFORMED",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/MarkdownTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "MD-BLOCK-LIMIT",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax",
+        "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testSupportedBoundariesAndIncompleteSuffixNeverDisappear"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/MarkdownTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "MD-TABLE-LIMIT",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax",
+        "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testSupportedBoundariesAndIncompleteSuffixNeverDisappear"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/MarkdownTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "MD-INLINE",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\MarkdownTest::testVersionedSubsetFixturesPreserveExactCanonicalSyntax"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/MarkdownTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-PROFILE",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\TextTest::testProfileMismatchCannotSilentlyUseDefaultsAndLimitsAreFingerprinted"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/TextTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-SIDECAR",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testSidecarImmutableBindingRejectsForeignTenantVersionProfileAndIr",
+        "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testMissingNormalizationCannotMasqueradeAsConfirmedEmpty"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/SidecarTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "TXT-MAP",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testNormalizationPartitionAndEveryCanonicalCodepointMapExactly"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/SidecarTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "R09-A01",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\AuditTest::testPdfOffsetContractUsesCanonicalTextNotOriginalByteCoordinates"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/AuditTest.xml"
+      ],
+      "qualification": "contract-only; no external adapter implementation claim"
+    },
+    {
+      "id": "R09-A02",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\AuditTest::testNormalizedSearchProjectionContractKeepsExplicitCanonicalMapping"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/AuditTest.xml"
+      ],
+      "qualification": "contract-only; no external adapter implementation claim"
+    },
+    {
+      "id": "R13-A01",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\AuditTest::testNonpaginatedHeadingAndParagraphLocatorsResolveWithoutGeometry"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/AuditTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "R13-A02",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\AuditTest::testBlankFailedAndVisualUnknownContractsStayDistinctWithoutDummyText"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/AuditTest.xml"
+      ],
+      "qualification": "contract-only; no external adapter implementation claim"
+    },
+    {
+      "id": "R13-A03",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\AuditTest::testUnsupportedPdfNeverClaimsReadingOrderOrCompleteness"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/AuditTest.xml"
+      ],
+      "qualification": "contract-only; no external adapter implementation claim"
+    },
+    {
+      "id": "DT-I13",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testOriginalCanonicalRenderedAndTruncatedDigestsAreSeparate",
+        "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testNormalizationPartitionAndEveryCanonicalCodepointMapExactly"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/SidecarTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "DT-I17",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\SidecarTest::testPresentationSuffixAndHtmlNeverBecomeCanonicalQuotes"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/SidecarTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    },
+    {
+      "id": "INGEST-FIXTURE",
+      "verdict": "pass",
+      "tests": [
+        "KnowKit\\Tests\\Ingest\\Text\\FixtureTest::testVersionProvenanceDigestsOutcomesAndRequiredCaseBindings"
+      ],
+      "reports": [
+        "tests/ingest/text/evidence/FixtureTest.xml"
+      ],
+      "qualification": "local text/Markdown implementation; no EPUB adapter claim"
+    }
+  ]
+}

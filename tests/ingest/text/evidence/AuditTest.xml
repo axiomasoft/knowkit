@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Ingest\Text\AuditTest" file="tests/ingest/text/AuditTest.php" tests="5" assertions="57" errors="0" failures="0" skipped="0" time="0.013359">
+    <testcase name="testPdfOffsetContractUsesCanonicalTextNotOriginalByteCoordinates" file="tests/ingest/text/AuditTest.php" line="17" class="KnowKit\Tests\Ingest\Text\AuditTest" classname="KnowKit.Tests.Ingest.Text.AuditTest" assertions="6" time="0.008271"/>
+    <testcase name="testNormalizedSearchProjectionContractKeepsExplicitCanonicalMapping" file="tests/ingest/text/AuditTest.php" line="30" class="KnowKit\Tests\Ingest\Text\AuditTest" classname="KnowKit.Tests.Ingest.Text.AuditTest" assertions="7" time="0.000272"/>
+    <testcase name="testNonpaginatedHeadingAndParagraphLocatorsResolveWithoutGeometry" file="tests/ingest/text/AuditTest.php" line="44" class="KnowKit\Tests\Ingest\Text\AuditTest" classname="KnowKit.Tests.Ingest.Text.AuditTest" assertions="13" time="0.002172"/>
+    <testcase name="testBlankFailedAndVisualUnknownContractsStayDistinctWithoutDummyText" file="tests/ingest/text/AuditTest.php" line="61" class="KnowKit\Tests\Ingest\Text\AuditTest" classname="KnowKit.Tests.Ingest.Text.AuditTest" assertions="13" time="0.001144"/>
+    <testcase name="testUnsupportedPdfNeverClaimsReadingOrderOrCompleteness" file="tests/ingest/text/AuditTest.php" line="77" class="KnowKit\Tests\Ingest\Text\AuditTest" classname="KnowKit.Tests.Ingest.Text.AuditTest" assertions="18" time="0.001500"/>
+  </testsuite>
+</testsuites>

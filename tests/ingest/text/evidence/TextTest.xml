@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Ingest\Text\TextTest" file="tests/ingest/text/TextTest.php" tests="4" assertions="409" errors="0" failures="0" skipped="0" time="0.046303">
+    <testcase name="testVersionedTextCorpusAgainstBothRealParsers" file="tests/ingest/text/TextTest.php" line="16" class="KnowKit\Tests\Ingest\Text\TextTest" classname="KnowKit.Tests.Ingest.Text.TextTest" assertions="346" time="0.041879"/>
+    <testcase name="testMalformedSequencesAndExplicitEncodingNeverHeuristicallyDecode" file="tests/ingest/text/TextTest.php" line="48" class="KnowKit\Tests\Ingest\Text\TextTest" classname="KnowKit.Tests.Ingest.Text.TextTest" assertions="16" time="0.002149"/>
+    <testcase name="testProfileMismatchCannotSilentlyUseDefaultsAndLimitsAreFingerprinted" file="tests/ingest/text/TextTest.php" line="65" class="KnowKit\Tests\Ingest\Text\TextTest" classname="KnowKit.Tests.Ingest.Text.TextTest" assertions="42" time="0.001541"/>
+    <testcase name="testSizeLimitCountsBytesAndNeverTruncatesInsideUnicode" file="tests/ingest/text/TextTest.php" line="85" class="KnowKit\Tests\Ingest\Text\TextTest" classname="KnowKit.Tests.Ingest.Text.TextTest" assertions="5" time="0.000734"/>
+  </testsuite>
+</testsuites>

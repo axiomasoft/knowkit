@@ -1,0 +1,7 @@
+[
+  {
+    "id": "phpstan",
+    "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/ingest/text/bootstrap.php --no-progress --error-format=json packages/core/src/Application/Ingest/Text packages/core/src/Application/Ingest/Markdown",
+    "exit": 0
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "TextTest",
+    "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/text/TextTest.php --log-junit tests/ingest/text/evidence/TextTest.xml",
+    "exit": 0,
+    "output": "tests/ingest/text/evidence/TextTest.txt"
+  },
+  {
+    "id": "MarkdownTest",
+    "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/text/MarkdownTest.php --log-junit tests/ingest/text/evidence/MarkdownTest.xml",
+    "exit": 0,
+    "output": "tests/ingest/text/evidence/MarkdownTest.txt"
+  },
+  {
+    "id": "SidecarTest",
+    "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/text/SidecarTest.php --log-junit tests/ingest/text/evidence/SidecarTest.xml",
+    "exit": 0,
+    "output": "tests/ingest/text/evidence/SidecarTest.txt"
+  },
+  {
+    "id": "AuditTest",
+    "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/text/AuditTest.php --log-junit tests/ingest/text/evidence/AuditTest.xml",
+    "exit": 0,
+    "output": "tests/ingest/text/evidence/AuditTest.txt"
+  },
+  {
+    "id": "FixtureTest",
+    "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/text/FixtureTest.php --log-junit tests/ingest/text/evidence/FixtureTest.xml",
+    "exit": 0,
+    "output": "tests/ingest/text/evidence/FixtureTest.txt"
+  }
+]
