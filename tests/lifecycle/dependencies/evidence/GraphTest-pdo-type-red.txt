@@ -1,0 +1,31 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: phpunit.xml
+
+.....E...                                                           9 / 9 (100%)
+
+Time: 00:01.316, Memory: 10.00 MB
+
+There was 1 error:
+
+1) KnowKit\Tests\Lifecycle\Dependencies\GraphTest::testExactVersionCorrectionAndSourceWideDelete
+TypeError: KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::state(): Argument #4 ($invalidated) must be of type ?string, int given, called in packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php on line 68
+
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:195
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:68
+tests/lifecycle/dependencies/Fixture.php:64
+tests/lifecycle/dependencies/GraphTest.php:110
+tests/lifecycle/dependencies/Fixture.php:33
+packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+tests/lifecycle/dependencies/Fixture.php:29
+tests/lifecycle/dependencies/GraphTest.php:110
+tests/lifecycle/dependencies/Fixture.php:26
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/lifecycle/dependencies/Fixture.php:26
+tests/lifecycle/dependencies/GraphTest.php:104
+
+ERRORS!
+Tests: 9, Assertions: 66, Errors: 1.

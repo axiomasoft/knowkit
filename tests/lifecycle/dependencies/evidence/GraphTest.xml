@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" file="tests/lifecycle/dependencies/GraphTest.php" tests="9" assertions="78" errors="0" failures="0" skipped="0" time="1.164349">
+    <testcase name="testTombstoneBeforeRootAndSourceRegistration" file="tests/lifecycle/dependencies/GraphTest.php" line="18" class="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" classname="KnowKit.Tests.Lifecycle.Dependencies.GraphTest" assertions="15" time="0.111520"/>
+    <testcase name="testImmutableConflictPreservesBytesAndParents" file="tests/lifecycle/dependencies/GraphTest.php" line="40" class="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" classname="KnowKit.Tests.Lifecycle.Dependencies.GraphTest" assertions="10" time="0.102954"/>
+    <testcase name="testCycleSelfReferenceAndDuplicateParentRejected" file="tests/lifecycle/dependencies/GraphTest.php" line="63" class="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" classname="KnowKit.Tests.Lifecycle.Dependencies.GraphTest" assertions="7" time="0.100304"/>
+    <testcase name="testMissingAndCrossTenantParentsCannotBecomeVisible" file="tests/lifecycle/dependencies/GraphTest.php" line="75" class="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" classname="KnowKit.Tests.Lifecycle.Dependencies.GraphTest" assertions="10" time="0.102151"/>
+    <testcase name="testDeepInvalidAncestorAndLateDerivativeBeforePropagation" file="tests/lifecycle/dependencies/GraphTest.php" line="92" class="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" classname="KnowKit.Tests.Lifecycle.Dependencies.GraphTest" assertions="7" time="0.344968"/>
+    <testcase name="testExactVersionCorrectionAndSourceWideDelete" file="tests/lifecycle/dependencies/GraphTest.php" line="107" class="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" classname="KnowKit.Tests.Lifecycle.Dependencies.GraphTest" assertions="10" time="0.113978"/>
+    <testcase name="testUnknownDeniedUnavailableAndTransactionGuardsStayDistinct" file="tests/lifecycle/dependencies/GraphTest.php" line="127" class="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" classname="KnowKit.Tests.Lifecycle.Dependencies.GraphTest" assertions="7" time="0.090037"/>
+    <testcase name="testInvalidationRollbackLeavesNoPartialEffect" file="tests/lifecycle/dependencies/GraphTest.php" line="142" class="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" classname="KnowKit.Tests.Lifecycle.Dependencies.GraphTest" assertions="7" time="0.092846"/>
+    <testcase name="testStoredParentSetCannotBeExtendedBehindImmutableDigest" file="tests/lifecycle/dependencies/GraphTest.php" line="155" class="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" classname="KnowKit.Tests.Lifecycle.Dependencies.GraphTest" assertions="5" time="0.105590"/>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" file="tests/lifecycle/dependencies/GraphTest.php" tests="1" assertions="11" errors="0" failures="0" skipped="0" time="0.097331">
+    <testcase name="testUnknownDeniedUnavailableAndTransactionGuardsStayDistinct" file="tests/lifecycle/dependencies/GraphTest.php" line="128" class="KnowKit\Tests\Lifecycle\Dependencies\GraphTest" classname="KnowKit.Tests.Lifecycle.Dependencies.GraphTest" assertions="11" time="0.097331"/>
+  </testsuite>
+</testsuites>

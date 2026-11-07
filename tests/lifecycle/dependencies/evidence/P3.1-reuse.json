@@ -1,0 +1,293 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P3.1",
+  "implementationBaseline": "505499e3d15c6824de47858b03e98c0c2b6da8da",
+  "rights": "AgenTools private local adaptation, copyright (c) 2026 Dmitry Vostrikov; licenses/local-reuse-authorization.md and licenses/notices/agentools-LICENSE.txt. No DeepTutor Python source copied.",
+  "sources": [
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "sha256": "afdfaecf1f2246cf4f4a8e1ab70bc1da1d89926c8aab11740c0a47d6a841bd7f",
+      "decision": "adapt",
+      "symbols": [
+        "registerInside",
+        "activeInside",
+        "invalidateInside",
+        "recordUse"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php",
+        "packages/core/src/Adapter/Postgres/Dependencies/NodeMetadata.php"
+      ],
+      "reason": "Adapt immutable set comparison, recursive ancestors/descendants, tenant serialization and historical replay. Replace donor graph keys with exact catalog ULIDs, separate source tombstone from nodes, and use invocation-scoped usage_refs.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local adaptation only",
+      "qualificationRef": "Pinned local donor cache bytes read and SHA-256 verified before qualification; donor suites not run."
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Dependencies/DeletionWorker.php",
+      "sha256": "0b1cf97507a8357b431dfa6dfaf8e6ae48c5501336292fd8dddeb9d2ae9a06af",
+      "decision": "reject",
+      "symbols": [
+        "attempt"
+      ],
+      "targetPaths": [],
+      "reason": "External deletion attempts and provider receipts belong to later deletion work; dependency invalidation never claims physical erasure.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local adaptation only",
+      "qualificationRef": "Pinned local donor cache bytes read and SHA-256 verified before qualification; donor suites not run."
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/Invalidation/ConcurrencyTest.php",
+      "sha256": "ff5dd8ff9f09dea8b9ca025f733d1cf206bdcb768dd30fa8c01521a46d75f347",
+      "decision": "adapt",
+      "symbols": [
+        "testRegistrationCompetesWithRevocation"
+      ],
+      "targetPaths": [
+        "tests/lifecycle/dependencies/ConcurrencyTest.php",
+        "tests/lifecycle/dependencies/worker.php"
+      ],
+      "reason": "Adapt real separate-process lock barrier regression to approved tenant lock and unseen source registration.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local adaptation only",
+      "qualificationRef": "Pinned local donor cache bytes read and SHA-256 verified before qualification; donor suites not run."
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/Invalidation/CrashTest.php",
+      "sha256": "4222d7a980d09921653bf54a167fbf57653a162aa1e010125e8a0b62e2c90f8d",
+      "decision": "adapt",
+      "symbols": [
+        "testInvalidationCommitCrashAndDeletionRestart"
+      ],
+      "targetPaths": [
+        "tests/lifecycle/dependencies/GraphTest.php"
+      ],
+      "reason": "Adapt atomic rollback, durable post-commit replay and unchanged effect assertions. No provider deletion or SIGKILL qualification is claimed by this test adaptation.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local adaptation only",
+      "qualificationRef": "Pinned local donor cache bytes read and SHA-256 verified before qualification; donor suites not run."
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/Invalidation/DeletionTest.php",
+      "sha256": "b9500c993cf23036598f5048b572089fcb49cd94fd486b7f546a2328b2cfb597",
+      "decision": "reject",
+      "symbols": [
+        "testReplayAndCrashedAttemptDoNotRepeatIo",
+        "testUnknownUnsupportedAndExplicitRetry"
+      ],
+      "targetPaths": [],
+      "reason": "Deletion transport outcomes/attempts are outside dependency DAG scope; no deletion implementation copied.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local adaptation only",
+      "qualificationRef": "Pinned local donor cache bytes read and SHA-256 verified before qualification; donor suites not run."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/runtime/coordination/recovery.py",
+      "sha256": "bf79e3b37d2fb417603d83a35cf9e646624566176a6aad4131ffa43691d38bdf",
+      "decision": "reject",
+      "symbols": [
+        "TurnRecoveryService"
+      ],
+      "targetPaths": [],
+      "reason": "Worker turn/lease recovery has no dependency DAG or immutable source lineage contract; importing this Python service would add an unrelated worker boundary.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "No source copied; rejected Python candidate",
+      "qualificationRef": "Pinned local donor cache bytes read and SHA-256 verified before qualification; donor suites not run."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/runtime/coordination/test_journal_recovery.py",
+      "sha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "decision": "reject",
+      "symbols": [
+        "test_recovery_rechecks_lease_after_expired_scan",
+        "test_wrong_user_repository_does_not_acknowledge_expired_turn"
+      ],
+      "targetPaths": [],
+      "reason": "Turn journals and coordinator fencing are covered by jobs/recovery work, not graph acceptance. Tenant rejection is tested directly against the PostgreSQL dependency adapter instead.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "No source copied; rejected Python candidate",
+      "qualificationRef": "Pinned local donor cache bytes read and SHA-256 verified before qualification; donor suites not run."
+    }
+  ],
+  "reusedTests": [
+    "Separate-process registration versus revocation barrier",
+    "Atomic invalidation rollback and committed replay"
+  ],
+  "addedGapTests": [
+    "Exact immutable catalog identities and parent-set digest",
+    "Unseen source tombstone without fake source row",
+    "Exact-version correction versus source-wide delete/revoke",
+    "Cross-tenant/missing parents, self-reference, duplicates and cycle",
+    "Deep invalid ancestor before propagation and late derivative",
+    "Invocation lineage without payload, immutable history and late usage",
+    "Unknown versus denied versus unavailable",
+    "Core lexical use without graph/navigation/summaries",
+    "Required-case runner rejection of empty/missing/skipped/failed reports"
+  ],
+  "newGlue": "Approved Node/Parents/Usage/LifecycleEvent DTOs, existing schema and tenant lock protocol differ from the donor. Catalog identity lookup, prepared-usage binding checks and typed synchronous application gate are local adaptation glue.",
+  "checks": [
+    {
+      "id": "GraphTest",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/GraphTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/GraphTest.xml",
+      "exit": 0,
+      "tests": 9,
+      "assertions": 78,
+      "evidence": "tests/lifecycle/dependencies/evidence/GraphTest.xml",
+      "output": "tests/lifecycle/dependencies/evidence/GraphTest.txt"
+    },
+    {
+      "id": "UsageTest",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/UsageTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/UsageTest.xml",
+      "exit": 0,
+      "tests": 4,
+      "assertions": 42,
+      "evidence": "tests/lifecycle/dependencies/evidence/UsageTest.xml",
+      "output": "tests/lifecycle/dependencies/evidence/UsageTest.txt"
+    },
+    {
+      "id": "ConcurrencyTest",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/ConcurrencyTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/ConcurrencyTest.xml",
+      "exit": 0,
+      "tests": 2,
+      "assertions": 13,
+      "evidence": "tests/lifecycle/dependencies/evidence/ConcurrencyTest.xml",
+      "output": "tests/lifecycle/dependencies/evidence/ConcurrencyTest.txt"
+    },
+    {
+      "id": "OptionalExtensionTest",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/OptionalExtensionTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/OptionalExtensionTest.xml",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 31,
+      "evidence": "tests/lifecycle/dependencies/evidence/OptionalExtensionTest.xml",
+      "output": "tests/lifecycle/dependencies/evidence/OptionalExtensionTest.txt"
+    },
+    {
+      "id": "FixtureTest",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/FixtureTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/FixtureTest.xml",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 156,
+      "evidence": "tests/lifecycle/dependencies/evidence/FixtureTest.xml",
+      "output": "tests/lifecycle/dependencies/evidence/FixtureTest.txt"
+    },
+    {
+      "id": "Boundary",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/GraphTest.php --filter testUnknownDeniedUnavailableAndTransactionGuardsStayDistinct --log-junit tests/lifecycle/dependencies/.phpunit.cache/Boundary.xml",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 11,
+      "evidence": "tests/lifecycle/dependencies/evidence/Boundary.xml",
+      "output": "tests/lifecycle/dependencies/evidence/Boundary.txt"
+    },
+    {
+      "id": "dag",
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 0,
+      "evidence": "tests/lifecycle/dependencies/evidence/dag.txt"
+    },
+    {
+      "id": "syntax",
+      "cmd": "rg --files packages/core/src/Adapter/Postgres/Dependencies packages/core/src/Application/Dependencies tests/lifecycle/dependencies -g '*.php' | xargs -r -n1 php -l",
+      "exit": 0,
+      "evidence": "tests/lifecycle/dependencies/evidence/syntax.txt"
+    },
+    {
+      "id": "phpstan-workspace",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/contract/ports/bootstrap.php --no-progress packages/core/src/Adapter/Postgres/Dependencies packages/core/src/Application/Dependencies",
+      "exit": 0,
+      "evidence": "tests/lifecycle/dependencies/evidence/phpstan-workspace.txt"
+    },
+    {
+      "id": "whitespace",
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": "tests/lifecycle/dependencies/evidence/whitespace.txt"
+    }
+  ],
+  "unresolved": [],
+  "targetCandidateDigest": "ca4b6b117c2fed6e9ebe619be349b0ebaa12b62a764a0bc5cbe3c4b27b17eb15",
+  "candidateFiles": {
+    "packages/core/src/Adapter/Postgres/Dependencies/NodeMetadata.php": "28dd16f8406604b127ab2bd9bee829c1cf188874ace86dc396d65370463e84a3",
+    "packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php": "117a1d4c7bf4c2a713fcac5670e2ac33c8bce9c3ad10c71dbbbe0f08d7c899de",
+    "packages/core/src/Adapter/Postgres/Dependencies/README.md": "4c6fc22c0e341f5c5f2d9dccb55b2c89e8a5affd4ddcfad1b93c585b9409c439",
+    "packages/core/src/Application/Dependencies/RequireUsable.php": "d083ee3dfb86b1317f48c4fcf819148885603f29124ab4ebdf96d49c3d39cd15",
+    "phpunit.xml": "9d7726b81e7535b1d26d40bdc290ebe872249428eef1fc6dd78252df3b94261c",
+    "tests/fixtures/check-groups/lifecycle-dependencies.json": "24395a2a17f64758ae51a181dca781fd259e3b309291dd3795e4b9a680387fdc",
+    "tests/lifecycle/dependencies/ConcurrencyTest.php": "8ea64e4f9d3eab9458f13593bf12d91e1bf0a794ee101423fbcf54b25d9531e5",
+    "tests/lifecycle/dependencies/Fixture.php": "3d0e4d49537837c51eff42e151066d88434eeea07ac4dfcf0647be026d5f4f47",
+    "tests/lifecycle/dependencies/FixtureTest.php": "3dfd30608a4db91a5fc30c5b684c5f295a3b65f1cc92f691e7346f9c26caa44e",
+    "tests/lifecycle/dependencies/GraphTest.php": "a0352fd10164535aa79a7a6b555c4af4354f5c4ffc89d913bfc26d45f4d6c166",
+    "tests/lifecycle/dependencies/OptionalExtensionTest.php": "7d8ae325bc858657ff926b9b304d9409d2e08f850f5f661e3f04f67a959529d3",
+    "tests/lifecycle/dependencies/UsageTest.php": "4d0e2dc80fe171d0a23fdb4292a5dbb6bad196a846624a448d331a20bdde7b55",
+    "tests/lifecycle/dependencies/fixtures/v1/cases.json": "c86afc4f90bfc376aa20260af8a6ba657110f819e2e884e4e1b2ea171f3bd58c",
+    "tests/lifecycle/dependencies/worker.php": "d95d6bb6cb25e92c89c80139f39a576dcd5fb80eb0702de6864ad02be9f77378"
+  },
+  "planArtifact": "Coordinator/registrar mirrors this tracked receipt; executor plan_mutation is forbidden.",
+  "candidateDigestRecipe": "SHA256(UTF8(sorted compact JSON mapping repository-relative product/test/fixture/doc paths to SHA256(bytes))); evidence excluded to avoid self-reference.",
+  "historicalChecks": [
+    {
+      "id": "GraphTest-initial-red",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/GraphTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/GraphTest.xml",
+      "exit": 2,
+      "evidence": "tests/lifecycle/dependencies/evidence/GraphTest-initial-red.txt",
+      "resolution": "Recursive text collation must match the C-collated ULID domain."
+    },
+    {
+      "id": "UsageTest-initial-red",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/UsageTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/UsageTest.xml",
+      "exit": 2,
+      "evidence": "tests/lifecycle/dependencies/evidence/UsageTest-initial-red.txt",
+      "resolution": "Synthetic chunk requires exact nonempty spans."
+    },
+    {
+      "id": "FixtureTest-initial-red",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/FixtureTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/FixtureTest.xml",
+      "exit": 2,
+      "evidence": "tests/lifecycle/dependencies/evidence/FixtureTest-initial-red.txt",
+      "resolution": "Same recursive text collation defect."
+    },
+    {
+      "id": "GraphTest-pdo-type-red",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/GraphTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/GraphTest.xml",
+      "exit": 2,
+      "evidence": "tests/lifecycle/dependencies/evidence/GraphTest-pdo-type-red.txt",
+      "resolution": "PDO bigint returned int; normalize epoch to wire string at the read boundary."
+    },
+    {
+      "id": "UsageTest-pdo-type-red",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/UsageTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/UsageTest.xml",
+      "exit": 2,
+      "evidence": "tests/lifecycle/dependencies/evidence/UsageTest-pdo-type-red.txt",
+      "resolution": "Same PDO bigint normalization defect."
+    },
+    {
+      "id": "phpstan-without-workspace-autoloader",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress packages/core/src/Adapter/Postgres/Dependencies packages/core/src/Application/Dependencies",
+      "exit": 1,
+      "evidence": "tests/lifecycle/dependencies/evidence/phpstan.txt",
+      "resolution": "Composer path package is a copied installed snapshot. Explicit candidate workspace autoloader, also used by repository tests, supplies current core symbols; the correctly bootstrapped analysis passes."
+    }
+  ]
+}

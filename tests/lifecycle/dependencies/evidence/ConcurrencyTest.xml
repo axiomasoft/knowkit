@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Lifecycle\Dependencies\ConcurrencyTest" file="tests/lifecycle/dependencies/ConcurrencyTest.php" tests="2" assertions="13" errors="0" failures="0" skipped="0" time="0.552312">
+    <testcase name="testWaitingSourceAndGraphRegistrationCannotBypassTombstone" file="tests/lifecycle/dependencies/ConcurrencyTest.php" line="14" class="KnowKit\Tests\Lifecycle\Dependencies\ConcurrencyTest" classname="KnowKit.Tests.Lifecycle.Dependencies.ConcurrencyTest" assertions="10" time="0.285563"/>
+    <testcase name="testSemanticLockTimeoutIsUnavailableAndLeavesNoNode" file="tests/lifecycle/dependencies/ConcurrencyTest.php" line="33" class="KnowKit\Tests\Lifecycle\Dependencies\ConcurrencyTest" classname="KnowKit.Tests.Lifecycle.Dependencies.ConcurrencyTest" assertions="3" time="0.266748"/>
+  </testsuite>
+</testsuites>

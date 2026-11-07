@@ -1,0 +1,33 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: phpunit.xml
+
+E                                                                   1 / 1 (100%)
+
+Time: 00:00.137, Memory: 10.00 MB
+
+There was 1 error:
+
+1) KnowKit\Tests\Lifecycle\Dependencies\FixtureTest::testVersionedDigestsProvenanceAndRequiredCasesFailClosed
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+packages/core/src/Adapter/Postgres/Catalog/Connection.php:38
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:61
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:39
+tests/lifecycle/dependencies/Fixture.php:56
+tests/lifecycle/dependencies/Fixture.php:61
+tests/lifecycle/dependencies/FixtureTest.php:27
+tests/lifecycle/dependencies/Fixture.php:33
+packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+tests/lifecycle/dependencies/Fixture.php:29
+tests/lifecycle/dependencies/FixtureTest.php:26
+tests/lifecycle/dependencies/Fixture.php:26
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/lifecycle/dependencies/Fixture.php:26
+tests/lifecycle/dependencies/FixtureTest.php:24
+
+ERRORS!
+Tests: 1, Assertions: 23, Errors: 1.

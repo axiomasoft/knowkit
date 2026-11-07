@@ -1,0 +1,954 @@
+
+Warning: PHP Startup: optional PHPStan turbo extension unavailable (dynamic loading unsupported; machine paths redacted).
+Instructions for interpreting errors
+---------
+
+Each error has an associated identifier, like `argument.type`
+or `return.missing`.
+
+Each error identifier has documentation at URL https://phpstan.org/error-identifiers/<identifier>
+This page contains code example, explanation why is this an error
+and instruction how to fix it.
+Before fixing the error, fetch the documentation page for its identifier.
+
+The error usually indicates a real bug or incorrect type in the code. Fix the underlying cause, do not just make the error go away.
+Do not add `@phpstan-ignore` comments, `@phpstan-ignore-next-line` comments, or baseline entries to suppress the error.
+Do not use assert() or inline @var PHPDoc tag to override PHPStan's inferred type.
+Do not add type casts just to silence errors.
+Do not widen parameter or return types just to make the error go away.
+ ------ -----------------------------------------------------------------------
+  Line   Adapter/Postgres/Dependencies/NodeMetadata.php
+ ------ -----------------------------------------------------------------------
+  12     Parameter $db of method
+         KnowKit\Adapter\Postgres\Dependencies\NodeMetadata::__construct() has
+         invalid type KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+  12     Parameter $tx of method
+         KnowKit\Adapter\Postgres\Dependencies\NodeMetadata::__construct() has
+         invalid type KnowKit\Adapter\Postgres\Catalog\PdoCatalogTransaction.
+         🪪  class.notFound
+  12     Property KnowKit\Adapter\Postgres\Dependencies\NodeMetadata::$db has
+         unknown class KnowKit\Adapter\Postgres\Catalog\Connection as its
+         type.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  12     Property KnowKit\Adapter\Postgres\Dependencies\NodeMetadata::$tx has
+         unknown class KnowKit\Adapter\Postgres\Catalog\PdoCatalogTransaction
+         as its type.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  13     Access to property $db on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\PdoCatalogTransaction.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  16     Method KnowKit\Adapter\Postgres\Dependencies\NodeMetadata::resolve()
+         has invalid return type KnowKit\Domain\Contract\JsonObject.
+         🪪  class.notFound
+  16     Parameter $ref of method
+         KnowKit\Adapter\Postgres\Dependencies\NodeMetadata::resolve() has
+         invalid type KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+  18     Access to property $tenantId on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  18     Call to method requireTenant() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\PdoCatalogTransaction.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  19     Access to property $id on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  19     Access to property $tenantId on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  20     Access to property $kind on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  21     Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  21     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  23     Instantiated class KnowKit\Domain\Contract\JsonObject not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  25     Access to property $kind on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  26     Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  26     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  28     Access to constant Incompatible on an unknown class
+         KnowKit\Domain\Outcome.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  28     Instantiated class KnowKit\Domain\DomainFailure not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  28     Throwing object of an unknown class KnowKit\Domain\DomainFailure.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  29     Instantiated class KnowKit\Domain\Contract\JsonObject not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  33     Access to property $kind on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  34     Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  34     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  34     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  37     Access to property $kind on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  38     Access to constant Incompatible on an unknown class
+         KnowKit\Domain\Outcome.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  38     Access to property $kind on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  38     Instantiated class KnowKit\Domain\DomainFailure not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  38     Throwing object of an unknown class KnowKit\Domain\DomainFailure.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  41     Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  41     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  44     Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  44     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  46     Instantiated class KnowKit\Domain\Contract\JsonObject not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  48     Call to method with() on an unknown class
+         KnowKit\Domain\Contract\JsonObject.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  48     Instantiated class KnowKit\Domain\Contract\JsonObject not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  55     Access to constant Incompatible on an unknown class
+         KnowKit\Domain\Outcome.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  55     Instantiated class KnowKit\Domain\DomainFailure not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  55     Throwing object of an unknown class KnowKit\Domain\DomainFailure.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+ ------ -----------------------------------------------------------------------
+
+ ------ -----------------------------------------------------------------------
+  Line   Adapter/Postgres/Dependencies/PdoDependencyStore.php
+ ------ -----------------------------------------------------------------------
+  14     Class KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore
+         implements unknown interface KnowKit\Port\DependencyStore.
+         🪪  interface.notFound (non-ignorable)
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  17     Parameter $db of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::__construct
+         () has invalid type KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+  17     Parameter $ids of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::__construct
+         () has invalid type KnowKit\Port\IdGenerator.
+         🪪  class.notFound
+  17     Parameter $tenant of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::__construct
+         () has invalid type KnowKit\Domain\TenantId.
+         🪪  class.notFound
+  17     Parameter $tx of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::__construct
+         () has invalid type
+         KnowKit\Adapter\Postgres\Catalog\PdoCatalogTransaction.
+         🪪  class.notFound
+  17     Property
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::$db has
+         unknown class KnowKit\Adapter\Postgres\Catalog\Connection as its
+         type.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  17     Property
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::$ids has
+         unknown class KnowKit\Port\IdGenerator as its type.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  17     Property
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::$tenant has
+         unknown class KnowKit\Domain\TenantId as its type.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  17     Property
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::$tx has
+         unknown class KnowKit\Adapter\Postgres\Catalog\PdoCatalogTransaction
+         as its type.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  19     Access to property $db on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\PdoCatalogTransaction.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  23     Parameter $node of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::register()
+         has invalid type KnowKit\Domain\Node.
+         🪪  class.notFound
+  23     Parameter $parents of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::register()
+         has invalid type KnowKit\Domain\Parents.
+         🪪  class.notFound
+  25     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  25     Call to method assertParents() on an unknown class
+         KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  27     Access to property $refs on an unknown class KnowKit\Domain\Parents.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  28     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  32     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  33     Access to constant DependencyNodeIdentity on an unknown class
+         KnowKit\Domain\Contract\HashDomain.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  33     Access to property $identityDigest on an unknown class
+         KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  34     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  35     Access to property $identityDigest on an unknown class
+         KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  35     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  36     Call to method digest() on an unknown class KnowKit\Domain\Parents.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  38     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  38     Access to property $refs on an unknown class KnowKit\Domain\Parents.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  39     Parameter #1 $refs of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::checkAncest
+         ors() expects KnowKit\Domain\NodeRefs, KnowKit\Domain\Parents given.
+         🪪  argument.type
+  40     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  43     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  43     Call to method digest() on an unknown class KnowKit\Domain\Parents.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  43     Call to method digest() on an unknown class KnowKit\Domain\Parents.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  44     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  44     Instantiated class KnowKit\Domain\NodeRefs not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  46     Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  46     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  48     Access to property $identityDigest on an unknown class
+         KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  48     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  48     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  48     Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  48     Call to method digest() on an unknown class KnowKit\Domain\Parents.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  49     Access to property $refs on an unknown class KnowKit\Domain\Parents.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  50     Access to property $ref on an unknown class KnowKit\Domain\Node.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  50     Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  50     Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  50     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  54     Method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::checkAncest
+         ors() has invalid return type KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+  54     Parameter $refs of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::checkAncest
+         ors() has invalid type KnowKit\Domain\NodeRefs.
+         🪪  class.notFound
+  56     Access to constant Allow on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  56     Access to property $tenantId on an unknown class
+         KnowKit\Domain\NodeRefs.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  57     Access to property $refs on an unknown class KnowKit\Domain\NodeRefs.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  60     Access to constant Unknown on an unknown class
+         KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  61     Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  61     Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  61     Access to constant Unknown on an unknown class
+         KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  61     Access to property $decision on an unknown class
+         KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  62     Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  62     Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  65     Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  66     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  67     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  68     Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  68     Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  71     Call to method digest() on an unknown class KnowKit\Domain\Parents.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  73     Access to constant Allow on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  73     Access to property $decision on an unknown class
+         KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  76     Access to constant DependencyNodeIdentity on an unknown class
+         KnowKit\Domain\Contract\HashDomain.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  78     Access to constant Allow on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  78     Access to property $decision on an unknown class
+         KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  80     Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  80     Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  80     Access to property $decision on an unknown class
+         KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  80     Access to property $decision on an unknown class
+         KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  85     Instantiated class KnowKit\Domain\NodeRefs not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  85     Instantiated class KnowKit\Domain\UsabilityReport not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  89     Parameter $usage of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::recordUsage
+         () has invalid type KnowKit\Domain\Usage.
+         🪪  class.notFound
+  91     Call to method toWire() on an unknown class KnowKit\Domain\Usage.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  91     Instantiated class KnowKit\Domain\TenantId not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  92     Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  92     Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  92     Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  102    Access to constant Denied on an unknown class KnowKit\Domain\Outcome.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  102    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  105    Access to property $id on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  105    Access to property $id on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  108    Call to static method canonicalize() on an unknown class
+         KnowKit\Domain\Contract\Jcs.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  108    Call to static method canonicalize() on an unknown class
+         KnowKit\Domain\Contract\Jcs.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  109    Call to static method canonicalize() on an unknown class
+         KnowKit\Domain\Contract\Jcs.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  109    Instantiated class KnowKit\Domain\Contract\JsonObject not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  112    Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  112    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  113    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  113    Call to static method canonicalize() on an unknown class
+         KnowKit\Domain\Contract\Jcs.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  113    Call to static method decode() on an unknown class
+         KnowKit\Domain\Contract\StrictJson.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  118    Instantiated class KnowKit\Domain\NodeRefs not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  120    Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  120    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  121    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  121    Call to method next() on an unknown class KnowKit\Port\IdGenerator.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  125    Parameter $event of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::invalidate(
+         ) has invalid type KnowKit\Domain\LifecycleEvent.
+         🪪  class.notFound
+  127    Access to property $event on an unknown class
+         KnowKit\Domain\LifecycleEvent.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  127    Instantiated class KnowKit\Domain\TenantId not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  128    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  128    Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  128    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  129    Access to property $event on an unknown class
+         KnowKit\Domain\LifecycleEvent.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  129    Call to static method canonicalize() on an unknown class
+         KnowKit\Domain\Contract\Jcs.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  129    Call to static method decode() on an unknown class
+         KnowKit\Domain\Contract\StrictJson.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  134    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  134    Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  134    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  139    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  139    Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  139    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  141    Access to property $event on an unknown class
+         KnowKit\Domain\LifecycleEvent.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  141    Call to method append() on an unknown class
+         KnowKit\Adapter\Postgres\PdoOutbox.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  141    Instantiated class KnowKit\Adapter\Postgres\PdoOutbox not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  143    Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  143    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  145    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  145    Call to method next() on an unknown class KnowKit\Port\IdGenerator.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  149    Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  149    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  150    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  151    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  151    Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  151    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  154    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  154    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  155    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  157    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  158    Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  158    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  159    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  160    Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  160    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  161    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  163    Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  163    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  165    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  165    Call to method next() on an unknown class KnowKit\Port\IdGenerator.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  169    Parameter $tenant of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::guard() has
+         invalid type KnowKit\Domain\TenantId.
+         🪪  class.notFound
+  171    Access to constant Denied on an unknown class KnowKit\Domain\Outcome.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  172    Call to method requireTenant() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\PdoCatalogTransaction.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  175    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  175    Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  175    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  176    Parameter $ref of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::requireNode
+         () has invalid type KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+  178    Access to property $id on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  180    Access to property $kind on an unknown class
+         KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  182    Method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::parents()
+         has invalid return type KnowKit\Domain\Parents.
+         🪪  class.notFound
+  185    Call to method execute() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  185    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  186    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  187    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  190    Instantiated class KnowKit\Domain\Parents not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  192    Method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::ref() has
+         invalid return type KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+  194    Instantiated class KnowKit\Domain\ResourceRef not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  195    Instantiated class KnowKit\Domain\DocumentRevisionId not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  195    Instantiated class KnowKit\Domain\SourceId not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  195    Instantiated class KnowKit\Domain\SourceVersionId not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  196    Instantiated class KnowKit\Domain\ChunkId not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  196    Instantiated class KnowKit\Domain\ResourceId not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  199    Method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::state() has
+         invalid return type KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+  199    Parameter $ref of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::state() has
+         invalid type KnowKit\Domain\ResourceRef.
+         🪪  class.notFound
+  201    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  201    Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  201    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  202    Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  202    Instantiated class KnowKit\Domain\NodeRefs not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  202    Instantiated class KnowKit\Domain\UsabilityReport not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  204    Call to method row() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  205    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  206    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  208    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  208    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  209    Call to method table() on an unknown class
+         KnowKit\Adapter\Postgres\Catalog\Connection.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  210    Access to property $value on an unknown class
+         KnowKit\Domain\TenantId.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  211    Access to constant Allow on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  211    Access to constant Unknown on an unknown class
+         KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  213    Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  214    Access to constant Allow on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  214    Instantiated class KnowKit\Domain\NodeRefs not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  214    Instantiated class KnowKit\Domain\UsabilityReport not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  216    Parameter $report of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::requireUsab
+         le() has invalid type KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+  218    Access to constant Allow on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  218    Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  218    Access to property $decision on an unknown class
+         KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  218    Access to property $decision on an unknown class
+         KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  219    Access to constant Denied on an unknown class KnowKit\Domain\Outcome.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  219    Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  219    Access to constant Unknown on an unknown class
+         KnowKit\Domain\Outcome.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  219    Access to property $decision on an unknown class
+         KnowKit\Domain\UsabilityReport.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  221    Access to constant Incompatible on an unknown class
+         KnowKit\Domain\Outcome.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  221    Instantiated class KnowKit\Domain\DomainFailure not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  221    Parameter $outcome of method
+         KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore::fail() has
+         invalid type KnowKit\Domain\Outcome.
+         🪪  class.notFound
+  221    Throwing object of an unknown class KnowKit\Domain\DomainFailure.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+ ------ -----------------------------------------------------------------------
+
+ ------ -----------------------------------------------------------------------
+  Line   Application/Dependencies/RequireUsable.php
+ ------ -----------------------------------------------------------------------
+  11     Parameter $store of method
+         KnowKit\Application\Dependencies\RequireUsable::__construct() has
+         invalid type KnowKit\Port\DependencyStore.
+         🪪  class.notFound
+  11     Property KnowKit\Application\Dependencies\RequireUsable::$store has
+         unknown class KnowKit\Port\DependencyStore as its type.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  12     Parameter $refs of method
+         KnowKit\Application\Dependencies\RequireUsable::check() has invalid
+         type KnowKit\Domain\NodeRefs.
+         🪪  class.notFound
+  14     Call to method checkAncestors() on an unknown class
+         KnowKit\Port\DependencyStore.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  15     Access to constant Denied on an unknown class KnowKit\Domain\Outcome.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  15     Access to constant Deny on an unknown class KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  15     Instantiated class KnowKit\Domain\DomainFailure not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  15     Throwing object of an unknown class KnowKit\Domain\DomainFailure.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  16     Access to constant Unknown on an unknown class
+         KnowKit\Domain\Decision.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  16     Access to constant Unknown on an unknown class
+         KnowKit\Domain\Outcome.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  16     Instantiated class KnowKit\Domain\DomainFailure not found.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+  16     Throwing object of an unknown class KnowKit\Domain\DomainFailure.
+         🪪  class.notFound
+         💡  Learn more at https://phpstan.org/user-guide/discovering-symbols
+ ------ -----------------------------------------------------------------------
+
+ [ERROR] Found 248 errors
+

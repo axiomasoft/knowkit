@@ -1,0 +1,8 @@
+{
+    "outcome": "success",
+    "check": "dag",
+    "details": {
+        "packages": 1,
+        "phpFiles": 282
+    }
+}

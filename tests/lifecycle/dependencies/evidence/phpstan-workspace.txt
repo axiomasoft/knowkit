@@ -1,0 +1,5 @@
+
+Warning: PHP Startup: optional PHPStan turbo extension unavailable (dynamic loading unsupported; machine paths redacted).
+
+ [OK] No errors
+

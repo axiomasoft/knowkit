@@ -1,0 +1,149 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: phpunit.xml
+
+.EE.EEEEE                                                           9 / 9 (100%)
+
+Time: 00:00.905, Memory: 10.00 MB
+
+There were 7 errors:
+
+1) KnowKit\Tests\Lifecycle\Dependencies\GraphTest::testImmutableConflictPreservesBytesAndParents
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+packages/core/src/Adapter/Postgres/Catalog/Connection.php:38
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:61
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:39
+tests/lifecycle/dependencies/Fixture.php:56
+tests/lifecycle/dependencies/Fixture.php:61
+tests/lifecycle/dependencies/GraphTest.php:45
+tests/lifecycle/dependencies/Fixture.php:33
+packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+tests/lifecycle/dependencies/Fixture.php:29
+tests/lifecycle/dependencies/GraphTest.php:43
+tests/lifecycle/dependencies/Fixture.php:26
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/lifecycle/dependencies/Fixture.php:26
+tests/lifecycle/dependencies/GraphTest.php:41
+
+2) KnowKit\Tests\Lifecycle\Dependencies\GraphTest::testCycleSelfReferenceAndDuplicateParentRejected
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+packages/core/src/Adapter/Postgres/Catalog/Connection.php:38
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:61
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:39
+tests/lifecycle/dependencies/Fixture.php:56
+tests/lifecycle/dependencies/Fixture.php:61
+tests/lifecycle/dependencies/GraphTest.php:61
+tests/lifecycle/dependencies/Fixture.php:33
+packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+tests/lifecycle/dependencies/Fixture.php:29
+tests/lifecycle/dependencies/GraphTest.php:61
+tests/lifecycle/dependencies/Fixture.php:26
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/lifecycle/dependencies/Fixture.php:26
+tests/lifecycle/dependencies/GraphTest.php:60
+
+3) KnowKit\Tests\Lifecycle\Dependencies\GraphTest::testDeepInvalidAncestorAndLateDerivativeBeforePropagation
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+packages/core/src/Adapter/Postgres/Catalog/Connection.php:38
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:61
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:39
+tests/lifecycle/dependencies/Fixture.php:56
+tests/lifecycle/dependencies/Fixture.php:61
+tests/lifecycle/dependencies/GraphTest.php:90
+tests/lifecycle/dependencies/Fixture.php:33
+packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+tests/lifecycle/dependencies/Fixture.php:29
+tests/lifecycle/dependencies/GraphTest.php:90
+tests/lifecycle/dependencies/Fixture.php:26
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/lifecycle/dependencies/Fixture.php:26
+tests/lifecycle/dependencies/GraphTest.php:89
+
+4) KnowKit\Tests\Lifecycle\Dependencies\GraphTest::testExactVersionCorrectionAndSourceWideDelete
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+packages/core/src/Adapter/Postgres/Catalog/Connection.php:38
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:61
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:39
+tests/lifecycle/dependencies/Fixture.php:56
+tests/lifecycle/dependencies/Fixture.php:61
+tests/lifecycle/dependencies/GraphTest.php:106
+tests/lifecycle/dependencies/Fixture.php:33
+packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+tests/lifecycle/dependencies/Fixture.php:29
+tests/lifecycle/dependencies/GraphTest.php:106
+tests/lifecycle/dependencies/Fixture.php:26
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/lifecycle/dependencies/Fixture.php:26
+tests/lifecycle/dependencies/GraphTest.php:104
+
+5) KnowKit\Tests\Lifecycle\Dependencies\GraphTest::testUnknownDeniedUnavailableAndTransactionGuardsStayDistinct
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+packages/core/src/Adapter/Postgres/Catalog/Connection.php:38
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:61
+tests/lifecycle/dependencies/Fixture.php:64
+tests/lifecycle/dependencies/GraphTest.php:130
+tests/lifecycle/dependencies/Fixture.php:33
+packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+tests/lifecycle/dependencies/Fixture.php:29
+tests/lifecycle/dependencies/GraphTest.php:130
+tests/lifecycle/dependencies/Fixture.php:26
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/lifecycle/dependencies/Fixture.php:26
+tests/lifecycle/dependencies/GraphTest.php:122
+
+6) KnowKit\Tests\Lifecycle\Dependencies\GraphTest::testInvalidationRollbackLeavesNoPartialEffect
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+packages/core/src/Adapter/Postgres/Catalog/Connection.php:38
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:61
+tests/lifecycle/dependencies/Fixture.php:64
+tests/lifecycle/dependencies/GraphTest.php:142
+tests/lifecycle/dependencies/Fixture.php:33
+packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+tests/lifecycle/dependencies/Fixture.php:29
+tests/lifecycle/dependencies/GraphTest.php:142
+tests/lifecycle/dependencies/Fixture.php:26
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/lifecycle/dependencies/Fixture.php:26
+tests/lifecycle/dependencies/GraphTest.php:137
+
+7) KnowKit\Tests\Lifecycle\Dependencies\GraphTest::testStoredParentSetCannotBeExtendedBehindImmutableDigest
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+packages/core/src/Adapter/Postgres/Catalog/Connection.php:38
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:61
+packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php:39
+tests/lifecycle/dependencies/Fixture.php:56
+tests/lifecycle/dependencies/Fixture.php:61
+tests/lifecycle/dependencies/GraphTest.php:152
+tests/lifecycle/dependencies/Fixture.php:33
+packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+tests/lifecycle/dependencies/Fixture.php:29
+tests/lifecycle/dependencies/GraphTest.php:152
+tests/lifecycle/dependencies/Fixture.php:26
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/lifecycle/dependencies/Fixture.php:26
+tests/lifecycle/dependencies/GraphTest.php:150
+
+ERRORS!
+Tests: 9, Assertions: 33, Errors: 7.

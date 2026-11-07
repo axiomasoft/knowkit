@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Lifecycle\Dependencies\UsageTest" file="tests/lifecycle/dependencies/UsageTest.php" tests="4" assertions="42" errors="0" failures="0" skipped="0" time="0.532844">
+    <testcase name="testInvocationLineageSurvivesAbsentPayloadAndRevocationWithoutRewritingHistory" file="tests/lifecycle/dependencies/UsageTest.php" line="15" class="KnowKit\Tests\Lifecycle\Dependencies\UsageTest" classname="KnowKit.Tests.Lifecycle.Dependencies.UsageTest" assertions="11" time="0.146543"/>
+    <testcase name="testUsageBindingExactIdentityAndImmutableFragmentsAreChecked" file="tests/lifecycle/dependencies/UsageTest.php" line="41" class="KnowKit\Tests\Lifecycle\Dependencies\UsageTest" classname="KnowKit.Tests.Lifecycle.Dependencies.UsageTest" assertions="20" time="0.120143"/>
+    <testcase name="testRevokedGraphParentPreventsConfirmedSupportingEvidence" file="tests/lifecycle/dependencies/UsageTest.php" line="66" class="KnowKit\Tests\Lifecycle\Dependencies\UsageTest" classname="KnowKit.Tests.Lifecycle.Dependencies.UsageTest" assertions="6" time="0.132474"/>
+    <testcase name="testExactCorrectionMarksOnlyAffectedUsageAndLateUnregisteredRootIsDenied" file="tests/lifecycle/dependencies/UsageTest.php" line="80" class="KnowKit\Tests\Lifecycle\Dependencies\UsageTest" classname="KnowKit.Tests.Lifecycle.Dependencies.UsageTest" assertions="5" time="0.133683"/>
+  </testsuite>
+</testsuites>

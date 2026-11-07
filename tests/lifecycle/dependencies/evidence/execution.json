@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "executor-evidence:1",
+  "item": "P3.1",
+  "targetCandidateDigest": "ca4b6b117c2fed6e9ebe619be349b0ebaa12b62a764a0bc5cbe3c4b27b17eb15",
+  "checks": [
+    {
+      "id": "GraphTest",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/GraphTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/GraphTest.xml",
+      "exit": 0,
+      "tests": 9,
+      "assertions": 78,
+      "evidence": "tests/lifecycle/dependencies/evidence/GraphTest.xml",
+      "output": "tests/lifecycle/dependencies/evidence/GraphTest.txt"
+    },
+    {
+      "id": "UsageTest",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/UsageTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/UsageTest.xml",
+      "exit": 0,
+      "tests": 4,
+      "assertions": 42,
+      "evidence": "tests/lifecycle/dependencies/evidence/UsageTest.xml",
+      "output": "tests/lifecycle/dependencies/evidence/UsageTest.txt"
+    },
+    {
+      "id": "ConcurrencyTest",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/ConcurrencyTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/ConcurrencyTest.xml",
+      "exit": 0,
+      "tests": 2,
+      "assertions": 13,
+      "evidence": "tests/lifecycle/dependencies/evidence/ConcurrencyTest.xml",
+      "output": "tests/lifecycle/dependencies/evidence/ConcurrencyTest.txt"
+    },
+    {
+      "id": "OptionalExtensionTest",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/OptionalExtensionTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/OptionalExtensionTest.xml",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 31,
+      "evidence": "tests/lifecycle/dependencies/evidence/OptionalExtensionTest.xml",
+      "output": "tests/lifecycle/dependencies/evidence/OptionalExtensionTest.txt"
+    },
+    {
+      "id": "FixtureTest",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/FixtureTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/FixtureTest.xml",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 156,
+      "evidence": "tests/lifecycle/dependencies/evidence/FixtureTest.xml",
+      "output": "tests/lifecycle/dependencies/evidence/FixtureTest.txt"
+    },
+    {
+      "id": "Boundary",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/GraphTest.php --filter testUnknownDeniedUnavailableAndTransactionGuardsStayDistinct --log-junit tests/lifecycle/dependencies/.phpunit.cache/Boundary.xml",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 11,
+      "evidence": "tests/lifecycle/dependencies/evidence/Boundary.xml",
+      "output": "tests/lifecycle/dependencies/evidence/Boundary.txt"
+    },
+    {
+      "id": "dag",
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 0,
+      "evidence": "tests/lifecycle/dependencies/evidence/dag.txt"
+    },
+    {
+      "id": "syntax",
+      "cmd": "rg --files packages/core/src/Adapter/Postgres/Dependencies packages/core/src/Application/Dependencies tests/lifecycle/dependencies -g '*.php' | xargs -r -n1 php -l",
+      "exit": 0,
+      "evidence": "tests/lifecycle/dependencies/evidence/syntax.txt"
+    },
+    {
+      "id": "phpstan-workspace",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/contract/ports/bootstrap.php --no-progress packages/core/src/Adapter/Postgres/Dependencies packages/core/src/Application/Dependencies",
+      "exit": 0,
+      "evidence": "tests/lifecycle/dependencies/evidence/phpstan-workspace.txt"
+    },
+    {
+      "id": "whitespace",
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": "tests/lifecycle/dependencies/evidence/whitespace.txt"
+    }
+  ],
+  "historicalChecks": [
+    {
+      "id": "GraphTest-initial-red",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/GraphTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/GraphTest.xml",
+      "exit": 2,
+      "evidence": "tests/lifecycle/dependencies/evidence/GraphTest-initial-red.txt",
+      "resolution": "Recursive text collation must match the C-collated ULID domain."
+    },
+    {
+      "id": "UsageTest-initial-red",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/UsageTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/UsageTest.xml",
+      "exit": 2,
+      "evidence": "tests/lifecycle/dependencies/evidence/UsageTest-initial-red.txt",
+      "resolution": "Synthetic chunk requires exact nonempty spans."
+    },
+    {
+      "id": "FixtureTest-initial-red",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/FixtureTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/FixtureTest.xml",
+      "exit": 2,
+      "evidence": "tests/lifecycle/dependencies/evidence/FixtureTest-initial-red.txt",
+      "resolution": "Same recursive text collation defect."
+    },
+    {
+      "id": "GraphTest-pdo-type-red",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/GraphTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/GraphTest.xml",
+      "exit": 2,
+      "evidence": "tests/lifecycle/dependencies/evidence/GraphTest-pdo-type-red.txt",
+      "resolution": "PDO bigint returned int; normalize epoch to wire string at the read boundary."
+    },
+    {
+      "id": "UsageTest-pdo-type-red",
+      "cmd": "TEST_PG_DSN='pgsql:host=127.0.0.1;port=55434;dbname=knowkit_test' vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/dependencies/UsageTest.php --log-junit tests/lifecycle/dependencies/.phpunit.cache/UsageTest.xml",
+      "exit": 2,
+      "evidence": "tests/lifecycle/dependencies/evidence/UsageTest-pdo-type-red.txt",
+      "resolution": "Same PDO bigint normalization defect."
+    },
+    {
+      "id": "phpstan-without-workspace-autoloader",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress packages/core/src/Adapter/Postgres/Dependencies packages/core/src/Application/Dependencies",
+      "exit": 1,
+      "evidence": "tests/lifecycle/dependencies/evidence/phpstan.txt",
+      "resolution": "Composer path package is a copied installed snapshot. Explicit candidate workspace autoloader, also used by repository tests, supplies current core symbols; the correctly bootstrapped analysis passes."
+    }
+  ],
+  "acceptanceNotRun": {
+    "id": "V1",
+    "reason": "Withheld by the execution input; the conductor owns the acceptance run."
+  },
+  "evidenceSanitization": "Checkout prefixes removed; optional PHPStan turbo warning retains its meaning without machine-specific extension paths. No test failure or exit was hidden. Trailing display padding removed.",
+  "environment": "PHP 8.4.1; disposable PostgreSQL backend on loopback port 55434, isolated schemas, restricted runtime roles. No backend skips.",
+  "integration": "Caller owns fresh access checks, ordered locks, prepared evidence_usages, and source/version epoch CAS; dependency adapter owns lineage and invalidation projections.",
+  "planArtifact": "No plan mutation performed; coordinator/registrar can mirror the tracked reuse receipt."
+}

@@ -1,0 +1,11 @@
+No syntax errors detected in packages/core/src/Application/Dependencies/RequireUsable.php
+No syntax errors detected in tests/lifecycle/dependencies/Fixture.php
+No syntax errors detected in tests/lifecycle/dependencies/FixtureTest.php
+No syntax errors detected in tests/lifecycle/dependencies/ConcurrencyTest.php
+No syntax errors detected in tests/lifecycle/dependencies/GraphTest.php
+No syntax errors detected in tests/lifecycle/dependencies/OptionalExtensionTest.php
+No syntax errors detected in tests/lifecycle/dependencies/worker.php
+No syntax errors detected in tests/lifecycle/dependencies/UsageTest.php
+No syntax errors detected in packages/core/src/Adapter/Postgres/Dependencies/PdoDependencyStore.php
+No syntax errors detected in packages/core/src/Adapter/Postgres/Dependencies/NodeMetadata.php
+No syntax errors detected in tests/lifecycle/dependencies/GraphTest.php

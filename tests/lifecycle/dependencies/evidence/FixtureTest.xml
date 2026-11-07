@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Lifecycle\Dependencies\FixtureTest" file="tests/lifecycle/dependencies/FixtureTest.php" tests="1" assertions="156" errors="0" failures="0" skipped="0" time="0.135657">
+    <testcase name="testVersionedDigestsProvenanceAndRequiredCasesFailClosed" file="tests/lifecycle/dependencies/FixtureTest.php" line="14" class="KnowKit\Tests\Lifecycle\Dependencies\FixtureTest" classname="KnowKit.Tests.Lifecycle.Dependencies.FixtureTest" assertions="156" time="0.135657"/>
+  </testsuite>
+</testsuites>

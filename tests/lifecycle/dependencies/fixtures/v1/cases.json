@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "lifecycle-dependencies-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored P3.1 expectations. Python hashlib and sorted compact JSON independently derive typed identity/parent digests from synthetic catalog metadata. No production content or snapshot rewrite.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic metadata and regression scenarios; pinned private donor adaptations are recorded in evidence/P3.1-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "digests": {
+    "sourceContent": "f16fb750ae98412628f0ba5bca16606e2d8553d753fb7c249288a158fabde64e",
+    "sourceNode": "98df5f99ddcbde2d91be4a19fe67f89396caddf03c058615cfce9f5c83a45cf6",
+    "resourceContent": "fac55418520b7d1433c7c3544afb4813b8da20c3d578ffdc46a29af71c70f0fe",
+    "resourceNode": "2b0857842c1c1c8002bc52b65d6711a49c2e9270ad1c2a5ad421052370c3c8d9",
+    "emptyParents": "ec13a9c8a70dabcac5bf22a13b531caf502e3a3be002433b5917d7898d34d768",
+    "oneParent": "373a453d62d2614264fbc03f68d347db958c25466886b6aa7c438ae078bb9f9f",
+    "twoParents": "6fb3403f0677a606a91de95c9dc10bdd4e0452752c1a41599aca9721a659b8e3"
+  },
+  "cases": [
+    {
+      "id": "TOMBSTONE-BEFORE-NODE",
+      "expected": "registration rejected; first event and epoch retained; no graph root"
+    },
+    {
+      "id": "CHANGED-PARENT-SET",
+      "expected": "immutable_conflict; original digest and complete parent set preserved"
+    },
+    {
+      "id": "CYCLE",
+      "expected": "cycle, self-reference and duplicate parents rejected"
+    },
+    {
+      "id": "CROSS-TENANT-EDGE",
+      "expected": "scope_mismatch or tenant-qualified FK rejection; no visible derivative"
+    },
+    {
+      "id": "DEEP-INVALID-ANCESTOR",
+      "expected": "Deny at depth 24 before propagation"
+    },
+    {
+      "id": "LATE-DERIVATIVE",
+      "expected": "ancestor_unusable; no derivative node inserted"
+    },
+    {
+      "id": "EXACT-VERSION-CORRECTION",
+      "expected": "only exact version blocked by correction; ordinary versions remain usable; delete blocks every version"
+    },
+    {
+      "id": "R04-A01",
+      "expected": "same immutable identity with different bytes or parents rejected; old digest and parent set preserved"
+    },
+    {
+      "id": "R04-A02",
+      "expected": "missing or foreign required parent rejected before derivative acceptance"
+    },
+    {
+      "id": "R41-A01",
+      "expected": "revoked supporting ancestor blocks graph/summary and dependent usage"
+    },
+    {
+      "id": "R41-A02",
+      "expected": "real core lexical exact evidence works with no dependency nodes, navigation or summaries"
+    },
+    {
+      "id": "DEPENDENCY-USAGE",
+      "expected": "per-invocation refs retained without payload; same run may contain different invocation fragments; new usage denied after revoke"
+    },
+    {
+      "id": "DEPENDENCY-BINDING",
+      "expected": "exact tenant/source/version/IR/chunk and prepared disclosure binding verified; historical fragments immutable"
+    },
+    {
+      "id": "DEPENDENCY-LOCKS",
+      "expected": "real independent connections wait on tenant barrier and reread committed tombstone"
+    },
+    {
+      "id": "DEPENDENCY-TIMEOUT",
+      "expected": "unavailable:RETRYABLE_LOCK_TIMEOUT; no false empty result or inserted node"
+    },
+    {
+      "id": "DEPENDENCY-ROLLBACK",
+      "expected": "source state, tombstone, event, outbox and markers roll back together; committed replay keeps one effect"
+    },
+    {
+      "id": "DEPENDENCY-PARENT-DIGEST",
+      "expected": "incompatible immutable_conflict on read and new derivative after raw edge append"
+    },
+    {
+      "id": "DEPENDENCY-OUTCOMES",
+      "expected": "missing node Unknown; invalid source Deny; SQL timeout unavailable; update barrier mandatory"
+    },
+    {
+      "id": "DEPENDENCY-FIXTURE",
+      "expected": "literal independently computed hashes verified; empty/missing/skipped/failed/duplicate reports rejected"
+    }
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "lifecycle:dependencies",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored P3.1 expectations. Python hashlib and sorted compact JSON independently derive typed identity/parent digests from synthetic catalog metadata. No production content or snapshot rewrite.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic metadata and regression scenarios; pinned private donor adaptations are recorded in evidence/P3.1-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "TOMBSTONE-BEFORE-NODE",
+    "CHANGED-PARENT-SET",
+    "CYCLE",
+    "CROSS-TENANT-EDGE",
+    "DEEP-INVALID-ANCESTOR",
+    "LATE-DERIVATIVE",
+    "EXACT-VERSION-CORRECTION",
+    "R04-A01",
+    "R04-A02",
+    "R41-A01",
+    "R41-A02",
+    "DEPENDENCY-USAGE",
+    "DEPENDENCY-BINDING",
+    "DEPENDENCY-LOCKS",
+    "DEPENDENCY-TIMEOUT",
+    "DEPENDENCY-ROLLBACK",
+    "DEPENDENCY-PARENT-DIGEST",
+    "DEPENDENCY-OUTCOMES",
+    "DEPENDENCY-FIXTURE"
+  ],
+  "testCaseMap": {
+    "TOMBSTONE-BEFORE-NODE": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testTombstoneBeforeRootAndSourceRegistration"
+    ],
+    "CHANGED-PARENT-SET": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testImmutableConflictPreservesBytesAndParents"
+    ],
+    "CYCLE": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testCycleSelfReferenceAndDuplicateParentRejected"
+    ],
+    "CROSS-TENANT-EDGE": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testMissingAndCrossTenantParentsCannotBecomeVisible"
+    ],
+    "DEEP-INVALID-ANCESTOR": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testDeepInvalidAncestorAndLateDerivativeBeforePropagation"
+    ],
+    "LATE-DERIVATIVE": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testDeepInvalidAncestorAndLateDerivativeBeforePropagation"
+    ],
+    "EXACT-VERSION-CORRECTION": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testExactVersionCorrectionAndSourceWideDelete",
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\UsageTest::testExactCorrectionMarksOnlyAffectedUsageAndLateUnregisteredRootIsDenied"
+    ],
+    "R04-A01": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testImmutableConflictPreservesBytesAndParents"
+    ],
+    "R04-A02": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testMissingAndCrossTenantParentsCannotBecomeVisible"
+    ],
+    "R41-A01": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\UsageTest::testRevokedGraphParentPreventsConfirmedSupportingEvidence"
+    ],
+    "R41-A02": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\OptionalExtensionTest::testCoreLexicalEvidenceWorksWithoutGraphNavigationOrSummaries"
+    ],
+    "DEPENDENCY-USAGE": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\UsageTest::testInvocationLineageSurvivesAbsentPayloadAndRevocationWithoutRewritingHistory"
+    ],
+    "DEPENDENCY-BINDING": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\UsageTest::testUsageBindingExactIdentityAndImmutableFragmentsAreChecked"
+    ],
+    "DEPENDENCY-LOCKS": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\ConcurrencyTest::testWaitingSourceAndGraphRegistrationCannotBypassTombstone"
+    ],
+    "DEPENDENCY-TIMEOUT": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\ConcurrencyTest::testSemanticLockTimeoutIsUnavailableAndLeavesNoNode"
+    ],
+    "DEPENDENCY-ROLLBACK": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testInvalidationRollbackLeavesNoPartialEffect"
+    ],
+    "DEPENDENCY-PARENT-DIGEST": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testStoredParentSetCannotBeExtendedBehindImmutableDigest"
+    ],
+    "DEPENDENCY-OUTCOMES": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\GraphTest::testUnknownDeniedUnavailableAndTransactionGuardsStayDistinct"
+    ],
+    "DEPENDENCY-FIXTURE": [
+      "KnowKit\\Tests\\Lifecycle\\Dependencies\\FixtureTest::testVersionedDigestsProvenanceAndRequiredCasesFailClosed"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/lifecycle/dependencies/fixtures/v1/cases.json",
+      "sha256": "c86afc4f90bfc376aa20260af8a6ba657110f819e2e884e4e1b2ea171f3bd58c",
+      "expected": "All authored graph, lineage, lifecycle, lock and optional-core scenarios; literal typed digests"
+    }
+  ]
+}
