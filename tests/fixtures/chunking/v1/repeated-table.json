@@ -1,0 +1,289 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01J00000000000000000000001",
+  "sourceVersionId": "01J00000000000000000000003",
+  "parserSignature": {
+    "name": "synthetic-ir",
+    "version": "1",
+    "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "pages": [
+    {
+      "pageId": "p1",
+      "physicalNo": 1,
+      "printedLabel": null,
+      "text": "Item Mass\nA 12",
+      "textDigest": "961b0c79684c3a40c30a8e3aef33e712a08accb4a4621ed6c06adf8b8273c0be",
+      "status": "ok"
+    },
+    {
+      "pageId": "p2",
+      "physicalNo": 2,
+      "printedLabel": null,
+      "text": "Item Mass\nB 13\n¹ Dry mass.",
+      "textDigest": "6d1dfac52743c72449f828d0c0a5a1cdcf63cad23a15fc9d0aa6ea2cabb320cc",
+      "status": "ok"
+    }
+  ],
+  "segments": [],
+  "blocks": [
+    {
+      "blockId": "t",
+      "kind": "table",
+      "parentId": null,
+      "order": 0,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "t",
+          "byteStart": 0,
+          "byteEnd": 14
+        },
+        {
+          "kind": "page",
+          "pageId": "p2",
+          "physicalNo": 2,
+          "printedLabel": null,
+          "blockId": "t",
+          "byteStart": 0,
+          "byteEnd": 14
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      },
+      "table": {
+        "rows": 4,
+        "columns": 2,
+        "cells": [
+          {
+            "cellId": "c00",
+            "row": 0,
+            "column": 0,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": true,
+            "headerRefs": [],
+            "unit": null,
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": null,
+                "blockId": "t",
+                "byteStart": 0,
+                "byteEnd": 4
+              }
+            ]
+          },
+          {
+            "cellId": "c01",
+            "row": 0,
+            "column": 1,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": true,
+            "headerRefs": [],
+            "unit": null,
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": null,
+                "blockId": "t",
+                "byteStart": 5,
+                "byteEnd": 9
+              }
+            ]
+          },
+          {
+            "cellId": "c10",
+            "row": 1,
+            "column": 0,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": false,
+            "headerRefs": [
+              "c00"
+            ],
+            "unit": null,
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": null,
+                "blockId": "t",
+                "byteStart": 10,
+                "byteEnd": 11
+              }
+            ]
+          },
+          {
+            "cellId": "c11",
+            "row": 1,
+            "column": 1,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": false,
+            "headerRefs": [
+              "c01"
+            ],
+            "unit": "kg",
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": null,
+                "blockId": "t",
+                "byteStart": 12,
+                "byteEnd": 14
+              }
+            ]
+          },
+          {
+            "cellId": "c20",
+            "row": 2,
+            "column": 0,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": true,
+            "headerRefs": [],
+            "unit": null,
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p2",
+                "physicalNo": 2,
+                "printedLabel": null,
+                "blockId": "t",
+                "byteStart": 0,
+                "byteEnd": 4
+              }
+            ]
+          },
+          {
+            "cellId": "c21",
+            "row": 2,
+            "column": 1,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": true,
+            "headerRefs": [],
+            "unit": null,
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p2",
+                "physicalNo": 2,
+                "printedLabel": null,
+                "blockId": "t",
+                "byteStart": 5,
+                "byteEnd": 9
+              }
+            ]
+          },
+          {
+            "cellId": "c30",
+            "row": 3,
+            "column": 0,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": false,
+            "headerRefs": [
+              "c20"
+            ],
+            "unit": null,
+            "noteRefs": [],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p2",
+                "physicalNo": 2,
+                "printedLabel": null,
+                "blockId": "t",
+                "byteStart": 10,
+                "byteEnd": 11
+              }
+            ]
+          },
+          {
+            "cellId": "c31",
+            "row": 3,
+            "column": 1,
+            "rowSpan": 1,
+            "colSpan": 1,
+            "header": false,
+            "headerRefs": [
+              "c21"
+            ],
+            "unit": "kg",
+            "noteRefs": [
+              "fn"
+            ],
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p2",
+                "physicalNo": 2,
+                "printedLabel": null,
+                "blockId": "t",
+                "byteStart": 12,
+                "byteEnd": 14
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "blockId": "fn",
+      "kind": "text",
+      "parentId": null,
+      "order": 1,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p2",
+          "physicalNo": 2,
+          "printedLabel": null,
+          "blockId": "fn",
+          "byteStart": 15,
+          "byteEnd": 27
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    }
+  ],
+  "assets": [],
+  "coverage": {
+    "state": "complete",
+    "counts": {
+      "expected": 2,
+      "processed": 2,
+      "empty": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": []
+  }
+}

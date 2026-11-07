@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01J00000000000000000000001",
+  "sourceVersionId": "01J00000000000000000000003",
+  "parserSignature": {
+    "name": "synthetic-ir",
+    "version": "1",
+    "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "pages": [
+    {
+      "pageId": "p1",
+      "physicalNo": 1,
+      "printedLabel": null,
+      "text": "# API\n```php\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n$x = '猫';\n```",
+      "textDigest": "910f41ca0b8f9003662992c4244d351a76e295c0b979228576190fd2eeab779b",
+      "status": "ok"
+    }
+  ],
+  "segments": [],
+  "blocks": [
+    {
+      "blockId": "h",
+      "kind": "heading",
+      "parentId": null,
+      "order": 0,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "h",
+          "byteStart": 0,
+          "byteEnd": 5
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "code",
+      "kind": "code",
+      "parentId": "h",
+      "order": 1,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "code",
+          "byteStart": 6,
+          "byteEnd": 2416
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    }
+  ],
+  "assets": [],
+  "coverage": {
+    "state": "complete",
+    "counts": {
+      "expected": 1,
+      "processed": 1,
+      "empty": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": []
+  }
+}

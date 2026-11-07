@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01J00000000000000000000001",
+  "sourceVersionId": "01J00000000000000000000003",
+  "parserSignature": {
+    "name": "synthetic-ir",
+    "version": "1",
+    "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "pages": [
+    {
+      "pageId": "p1",
+      "physicalNo": 1,
+      "printedLabel": null,
+      "text": "Начало абзаца",
+      "textDigest": "bdb4c437182b821f05942a79e3b07d0ad756ea1d1ae4478f079246a5b9bdd2dc",
+      "status": "ok"
+    },
+    {
+      "pageId": "p2",
+      "physicalNo": 2,
+      "printedLabel": null,
+      "text": "続き é.",
+      "textDigest": "7c312a821ee55b1548692f4b533161571982247fe81468348e5019a8633c6516",
+      "status": "ok"
+    }
+  ],
+  "segments": [],
+  "blocks": [
+    {
+      "blockId": "p",
+      "kind": "text",
+      "parentId": null,
+      "order": 0,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "p",
+          "byteStart": 0,
+          "byteEnd": 25
+        },
+        {
+          "kind": "page",
+          "pageId": "p2",
+          "physicalNo": 2,
+          "printedLabel": null,
+          "blockId": "p",
+          "byteStart": 0,
+          "byteEnd": 11
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    }
+  ],
+  "assets": [],
+  "coverage": {
+    "state": "complete",
+    "counts": {
+      "expected": 2,
+      "processed": 2,
+      "empty": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": []
+  }
+}

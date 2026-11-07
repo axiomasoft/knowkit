@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "chunking-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial independent literal-slice oracles: ordered cross-page joiner, sentence boundaries, one whole-block overlap, row/cell boundaries and bounded code followup; UTF-8 is never normalized.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "provenance": "Project-authored synthetic IR; structured/OCR cases reuse versioned P1.4/P2.5 fixtures.",
+    "redistributionAllowed": false
+  },
+  "cases": [
+    {
+      "id": "cross-page",
+      "path": "tests/fixtures/chunking/v1/cross-page.json",
+      "sha256": "fa8025b299c0955303c7caaa7da7a8b7dff467733b59b063cb12309219778059",
+      "expected": {
+        "outcome": "multi_span",
+        "quotes": [
+          {
+            "text": "Начало абзаца\n続き é.",
+            "sha256": "71588a8da265bc6feae6a29a682f4c63d7194db34bbd526ca9bf5b874a0665c3"
+          }
+        ],
+        "chunkSetId": "7Q9HWWX3W3HYHP63MV3HJPECRP",
+        "chunkId": "14N368CWDK8V8DZDF5VXFH6MT2",
+        "manifestDigest": "c43fa1f1af62fa78908b7d2524a0fb86249fedb017d7f0ce2b9d93a1763ffb46"
+      }
+    },
+    {
+      "id": "code",
+      "path": "tests/fixtures/chunking/v1/code.json",
+      "sha256": "af6c0aa1d0a6e3b30cca7ff8db97d590d279c2a7799c8a0caf64cd1966fe3e90",
+      "expected": {
+        "outcome": "explicit_read_requirement",
+        "omittedBlock": "code",
+        "quoteDigests": [
+          "b0d67a4666b3952ae73dfbd2f0ebf13789a6270d02b5b24066cf7eb53a5943de"
+        ]
+      }
+    },
+    {
+      "id": "multibyte",
+      "path": "tests/fixtures/chunking/v1/multibyte.json",
+      "sha256": "9b65d744773ee7feb537ba62610bda4bb5e1e1fd73882ba6359fd1a08ec3f270",
+      "expected": {
+        "outcome": "bounded_chunks_or_explicit_followup"
+      }
+    },
+    {
+      "id": "sentences",
+      "path": "tests/fixtures/chunking/v1/sentences.json",
+      "sha256": "dd014979eea7a6a1c6acb78cbc752010a3ab7c95d315a87ee18d561fe8175e47",
+      "expected": {
+        "outcome": "sentence_boundaries",
+        "maxBytes": 20,
+        "quotes": [
+          {
+            "text": "One sentence. ",
+            "sha256": "6fa412f322bb0f52c5a5aa2d7d99e1953fa93194977231d4177a91f3fdeb06f3"
+          },
+          {
+            "text": "Two sentences. ",
+            "sha256": "a064daa20d6e1950ca4bcd345a7bb6dc780b5e659c392229812acdc0816b8096"
+          },
+          {
+            "text": "Three sentences.",
+            "sha256": "54eba8844494ca0631c906e6bb50fd474f0935e1fbf55779b0c3036dfdddd960"
+          }
+        ]
+      }
+    },
+    {
+      "id": "overlap",
+      "path": "tests/fixtures/chunking/v1/overlap.json",
+      "sha256": "54d4e4ef5c05ec37cb04465c2fca8e0f4c3d26599976b47fc06d2b8d65302f98",
+      "expected": {
+        "outcome": "one_block_overlap",
+        "maxBytes": 13,
+        "quotes": [
+          {
+            "text": "aaaaaa\nbbbbbb",
+            "sha256": "30c17058fb0e33a767e28b7449ca79c6b2d89f6c7493ad9f87a766ea0958206d"
+          },
+          {
+            "text": "bbbbbb\ncccccc",
+            "sha256": "8b26aa0f5b993308459417b621ad27ac8d13a8b616d3d4301b62059e049076c4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "repeated-table",
+      "path": "tests/fixtures/chunking/v1/repeated-table.json",
+      "sha256": "db167405d0312fb5e7bf9a5da0fd3d1d6563509030429136ede13e3329eab7c8",
+      "expected": {
+        "outcome": "whole_rows",
+        "quotes": [
+          {
+            "text": "Item\nMass",
+            "sha256": "37970d2573af9b829c728c7032be9af6d083812e916049173d795fb33347d216"
+          },
+          {
+            "text": "A\n12",
+            "sha256": "dcab1e951b3e76171d16b9551660c447566252def655a80a142be42e54320738"
+          },
+          {
+            "text": "Item\nMass",
+            "sha256": "37970d2573af9b829c728c7032be9af6d083812e916049173d795fb33347d216"
+          },
+          {
+            "text": "B\n13",
+            "sha256": "2d1ec393e9d85696e2e7c9973a65cb0c9f967ad8ec707c3db23a1de3c41e5156"
+          },
+          {
+            "text": "¹ Dry mass.",
+            "sha256": "51b7d3367c332958d517cd6a91e4bc9476d265186eccec5ed876b253a41a7dc9"
+          }
+        ]
+      }
+    },
+    {
+      "id": "structured",
+      "path": "tests/fixtures/chunking/v1/structured.json",
+      "sha256": "3fdf5af265f1488d70ec895e8d417a3a7e0a2543bc32b9e77cb30b5036c56bf0",
+      "expected": {
+        "outcome": "bounded_chunks_or_explicit_followup"
+      }
+    },
+    {
+      "id": "ocr",
+      "path": "tests/fixtures/chunking/v1/ocr.json",
+      "sha256": "2332dd31d922ea9d38770b9398e619f5ba807d2c24ff0784ccf86ca0366f6780",
+      "expected": {
+        "outcome": "bounded_chunks_or_explicit_followup"
+      }
+    }
+  ]
+}

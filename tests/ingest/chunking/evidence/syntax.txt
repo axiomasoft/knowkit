@@ -1,0 +1,10 @@
+No syntax errors detected in packages/core/src/Adapter/Postgres/ChunkSets/PdoChunkSetStore.php
+No syntax errors detected in packages/core/src/Application/Chunking/CanonicalMap.php
+No syntax errors detected in packages/core/src/Application/Chunking/ChunkBudget.php
+No syntax errors detected in packages/core/src/Application/Chunking/ChunkingResult.php
+No syntax errors detected in packages/core/src/Application/Chunking/StructuralChunker.php
+No syntax errors detected in tests/ingest/chunking/ChunkingFixture.php
+No syntax errors detected in tests/ingest/chunking/FixtureTest.php
+No syntax errors detected in tests/ingest/chunking/StoreTest.php
+No syntax errors detected in tests/ingest/chunking/StructuralTest.php
+No syntax errors detected in tests/ingest/chunking/bootstrap.php

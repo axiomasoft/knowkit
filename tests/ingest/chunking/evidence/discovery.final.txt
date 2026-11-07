@@ -1,0 +1,18 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Available tests:
+ - KnowKit\Tests\Ingest\Chunking\FixtureTest::testVersionedOraclesRequiredCasesAndReceiptFailClosed
+ - KnowKit\Tests\Ingest\Chunking\FixtureTest::testVersionedNegativeProfilesRejectWithoutGuessing
+ - KnowKit\Tests\Ingest\Chunking\StoreTest::testHistoricalChunksetsAndMetadataAreImmutableAndTenantQualified
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testCrossPageParagraphRetainsExactSeparateSpansAndJoiner
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testOversizedCodeAndInheritedHeadingProduceExplicitBoundedReadRequirement
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testRepeatedHeadersHaveRealContextRefsAndRowsAreNeverCut
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testMergedCellsKeepRowspanClosureUnitsNotesAndExactRanges
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testMultibyteSplitsStayOnCodepointsAndKeepEveryByte
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testSentencesPrecedeByteSplitsAndWholeBlockOverlapProgresses
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testNewFullChunkerFingerprintCannotOverwriteHistoricalRefs
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testProcessingAxesAndChangedOriginalRemainIndependent
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testGeneratedDescriptionNeverBecomesVerbatimSource
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testDigestConsistentOcrKeepsQualityLimitations
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testRevisionTenantDigestAndCanonicalTextTamperingReject
+ - KnowKit\Tests\Ingest\Chunking\StructuralTest::testTokenBudgetsRequireExactFullCounterIdentityAndCountContext

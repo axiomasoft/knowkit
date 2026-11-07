@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01J00000000000000000000001",
+  "sourceVersionId": "01J00000000000000000000003",
+  "parserSignature": {
+    "name": "synthetic-ir",
+    "version": "1",
+    "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "pages": [
+    {
+      "pageId": "p1",
+      "physicalNo": 1,
+      "printedLabel": null,
+      "text": "aaaaaa\nbbbbbb\ncccccc",
+      "textDigest": "0995e1f00c32e792e3c02409b208a0980a6735f9b97b85d4c9a77809096a3eb5",
+      "status": "ok"
+    }
+  ],
+  "segments": [],
+  "blocks": [
+    {
+      "blockId": "p1",
+      "kind": "text",
+      "parentId": null,
+      "order": 0,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "p1",
+          "byteStart": 0,
+          "byteEnd": 6
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "p2",
+      "kind": "text",
+      "parentId": null,
+      "order": 1,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "p2",
+          "byteStart": 7,
+          "byteEnd": 13
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    },
+    {
+      "blockId": "p3",
+      "kind": "text",
+      "parentId": null,
+      "order": 2,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "p3",
+          "byteStart": 14,
+          "byteEnd": 20
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    }
+  ],
+  "assets": [],
+  "coverage": {
+    "state": "complete",
+    "counts": {
+      "expected": 1,
+      "processed": 1,
+      "empty": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": []
+  }
+}

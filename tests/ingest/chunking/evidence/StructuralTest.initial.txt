@@ -1,0 +1,88 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repo>/phpunit.xml
+
+EEEEEEEEEEEE                                                      12 / 12 (100%)
+
+Time: 00:00.019, Memory: 10.00 MB
+
+There were 12 errors:
+
+1) KnowKit\Tests\Ingest\Chunking\StructuralTest::testCrossPageParagraphRetainsExactSeparateSpansAndJoiner
+ParseError: Unclosed '[' does not match ')'
+
+<repo>/packages/core/src/Application/Chunking/StructuralChunker.php:118
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:20
+
+2) KnowKit\Tests\Ingest\Chunking\StructuralTest::testOversizedCodeAndInheritedHeadingProduceExplicitBoundedReadRequirement
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:33
+
+3) KnowKit\Tests\Ingest\Chunking\StructuralTest::testRepeatedHeadersHaveRealContextRefsAndRowsAreNeverCut
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:54
+
+4) KnowKit\Tests\Ingest\Chunking\StructuralTest::testMergedCellsKeepRowspanClosureUnitsNotesAndExactRanges
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:68
+
+5) KnowKit\Tests\Ingest\Chunking\StructuralTest::testMultibyteSplitsStayOnCodepointsAndKeepEveryByte
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:86
+
+6) KnowKit\Tests\Ingest\Chunking\StructuralTest::testSentencesPrecedeByteSplitsAndWholeBlockOverlapProgresses
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:101
+
+7) KnowKit\Tests\Ingest\Chunking\StructuralTest::testNewFullChunkerFingerprintCannotOverwriteHistoricalRefs
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:112
+
+8) KnowKit\Tests\Ingest\Chunking\StructuralTest::testProcessingAxesAndChangedOriginalRemainIndependent
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:128
+
+9) KnowKit\Tests\Ingest\Chunking\StructuralTest::testGeneratedDescriptionNeverBecomesVerbatimSource
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:140
+
+10) KnowKit\Tests\Ingest\Chunking\StructuralTest::testDigestConsistentOcrKeepsQualityLimitations
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:152
+
+11) KnowKit\Tests\Ingest\Chunking\StructuralTest::testRevisionTenantDigestAndCanonicalTextTamperingReject
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:161
+
+12) KnowKit\Tests\Ingest\Chunking\StructuralTest::testTokenBudgetsRequireExactFullCounterIdentityAndCountContext
+Error: Class "KnowKit\Application\Chunking\StructuralChunker" not found
+
+<repo>/tests/ingest/chunking/ChunkingFixture.php:20
+<repo>/tests/ingest/chunking/StructuralTest.php:185
+<repo>/tests/ingest/chunking/ChunkingFixture.php:24
+<repo>/tests/ingest/chunking/StructuralTest.php:185
+
+ERRORS!
+Tests: 12, Assertions: 1, Errors: 12.

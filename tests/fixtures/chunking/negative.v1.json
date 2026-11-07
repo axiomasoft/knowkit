@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "chunking-negatives:1",
+  "fixtureVersion": "1.0.0",
+  "cases": [
+    {
+      "id": "zero-byte-budget",
+      "options": {
+        "maxBytes": 0
+      },
+      "expected": "limit_exceeded"
+    },
+    {
+      "id": "wrong-byte-type",
+      "options": {
+        "maxBytes": "1200"
+      },
+      "expected": "limit_exceeded"
+    },
+    {
+      "id": "negative-count-budget",
+      "options": {
+        "maxCount": -1
+      },
+      "expected": "limit_exceeded"
+    },
+    {
+      "id": "unbounded-overlap",
+      "options": {
+        "overlapBlocks": 2
+      },
+      "expected": "limit_exceeded"
+    },
+    {
+      "id": "unknown-option",
+      "options": {
+        "estimate": true
+      },
+      "expected": "unknown_field"
+    },
+    {
+      "id": "missing-counter",
+      "options": {
+        "maxCount": 10
+      },
+      "expected": "tokenizer_required"
+    },
+    {
+      "id": "incomplete-counter",
+      "options": {
+        "maxCount": 10,
+        "counter": {
+          "id": "fixture.counter"
+        }
+      },
+      "expected": "tokenizer_required"
+    }
+  ]
+}

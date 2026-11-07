@@ -1,0 +1,27 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repo>/phpunit.xml
+
+.....F......                                                      12 / 12 (100%)
+
+Time: 00:00.118, Memory: 12.00 MB
+
+There was 1 failure:
+
+1) KnowKit\Tests\Ingest\Chunking\StructuralTest::testSentencesPrecedeByteSplitsAndWholeBlockOverlapProgresses
+Failed asserting that two arrays are identical.
+--- Expected
++++ Actual
+@@ @@
+ Array &0 [
+-    0 => 'p2',
+-    1 => 'p3',
++    0 => 'p1',
++    1 => 'p2',
+ ]
+
+<repo>/tests/ingest/chunking/StructuralTest.php:105
+
+FAILURES!
+Tests: 12, Assertions: 785, Failures: 1.

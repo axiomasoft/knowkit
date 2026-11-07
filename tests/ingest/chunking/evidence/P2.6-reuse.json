@@ -1,0 +1,221 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P2.6",
+  "targetBaseline": "7d37764c83ad880083e55fb2e0f4c028cace524e",
+  "sources": [
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Adapters/PlainTextExtractor.php",
+      "sha256": "540a72806f40220dfcdbd9f7f3844cc41d7c55c63c405c41fc6d4441cd6cb091",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Adapters/PlainTextExtractor.php",
+      "decision": "reject",
+      "symbols": [
+        "PlainTextExtractor::extract"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Chunking/StructuralChunker.php",
+        "tests/ingest/chunking/StructuralTest.php"
+      ],
+      "reason": "Physical page-only, whole-page artifacts cannot implement logical-segment multi-span chunks, row groups or bounded structural followups. Existing canonical IR replaces extraction here.",
+      "qualificationRef": "P2.6 executor: pinned AgenTools git blobs and pinned DeepTutor raw GitHub bytes independently SHA256-verified before implementation; relevant source/test bodies inspected in this session. Donor test suites not executed.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; (c) 2026 Dmitry Vostrikov; private local adaptation authority licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/GenericValidator.php",
+      "sha256": "aa447e7fcca2ac1644181eee560607edddc51bbdf9aa4fa98cd39b50a3763d94",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/GenericValidator.php",
+      "decision": "adapt",
+      "symbols": [
+        "GenericValidator::validate"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Chunking/StructuralChunker.php",
+        "tests/ingest/chunking/StructuralTest.php"
+      ],
+      "reason": "Reuse its already adapted P2.5 SpanAssembler for exact source mapping, UTF-8 boundaries, slice equality and full text hashes. Keep IR/tenant/revision semantics and generated provenance distinct.",
+      "qualificationRef": "P2.6 executor: pinned AgenTools git blobs and pinned DeepTutor raw GitHub bytes independently SHA256-verified before implementation; relevant source/test bodies inspected in this session. Donor test suites not executed.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; (c) 2026 Dmitry Vostrikov; private local adaptation authority licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/IngestTest.php",
+      "sha256": "ff90f60dd0dee003f5e2b31919a4eb0b3e8a8a5cb65d358bac1d372ec572fa15",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/IngestTest.php",
+      "decision": "adapt",
+      "symbols": [
+        "testArtifactHashesAndSourceMapping",
+        "testUtf8AndCoordinateBoundaries",
+        "testImmutableAndCorruptRelease",
+        "testMultiplePagesAndTenantIdentity"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Chunking/StructuralChunker.php",
+        "tests/ingest/chunking/StructuralTest.php"
+      ],
+      "reason": "Adapt regression intent: self-signed invented text, multibyte splits, immutable history and cross-tenant persistence must reject. No donor suite-pass claim.",
+      "qualificationRef": "P2.6 executor: pinned AgenTools git blobs and pinned DeepTutor raw GitHub bytes independently SHA256-verified before implementation; relevant source/test bodies inspected in this session. Donor test suites not executed.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; (c) 2026 Dmitry Vostrikov; private local adaptation authority licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/pipelines/llamaindex/document_loader.py",
+      "sha256": "29856d09c034acd9657a0e2a864ddee84f6e92f1cd8c2eb0e618c7888dee632e",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/pipelines/llamaindex/document_loader.py",
+      "decision": "reject",
+      "symbols": [
+        "LlamaIndexDocumentLoader._parse_document",
+        "LlamaIndexDocumentLoader._append_visual_documents",
+        "LlamaIndexDocumentLoader._load_image_nodes"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Chunking/StructuralChunker.php",
+        "tests/ingest/chunking/StructuralTest.php"
+      ],
+      "reason": "Python/LlamaIndex/provider runtime, automatic OCR fallback, stripped/concatenated text and unlabeled generated descriptions conflict with the approved vendor-free PHP canonical span boundary. No runtime or source body imported.",
+      "qualificationRef": "P2.6 executor: pinned AgenTools git blobs and pinned DeepTutor raw GitHub bytes independently SHA256-verified before implementation; relevant source/test bodies inspected in this session. Donor test suites not executed.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0; (c) 2025 Data Intelligence Lab, The University of Hong Kong; docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/source_pages.py",
+      "sha256": "1f0f17f41bd3d87a8e20c21a325b2ea9de02b6b623640c9dc47ccfef589c10d6",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/source_pages.py",
+      "decision": "adapt",
+      "symbols": [
+        "source_digest",
+        "SourceRef",
+        "_block_text",
+        "build_pdf_documents"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Chunking/StructuralChunker.php",
+        "tests/ingest/chunking/StructuralTest.php"
+      ],
+      "reason": "Adapt full SHA256 source/version binding and retain table footnotes/located page structure. Reject native-parser fallback, placeholder page text, short cache hashes and SentenceSplitter offsets as canonical provenance.",
+      "qualificationRef": "P2.6 executor: pinned AgenTools git blobs and pinned DeepTutor raw GitHub bytes independently SHA256-verified before implementation; relevant source/test bodies inspected in this session. Donor test suites not executed.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0; (c) 2025 Data Intelligence Lab, The University of Hong Kong; docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/services/rag/test_source_pages.py",
+      "sha256": "31629b4c1bcc9eeed59291e2472ffddcd2681daf95fd64f8197372653c6dff84",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/test_source_pages.py",
+      "decision": "adapt",
+      "symbols": [
+        "test_reference_lists_are_indexed_and_page_furniture_is_not",
+        "test_reference_list_without_page_index_is_still_indexed"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Chunking/StructuralChunker.php",
+        "tests/ingest/chunking/StructuralTest.php"
+      ],
+      "reason": "Adapt preservation of located structure and table footnotes; a repeated context header must not become fabricated contiguous source text. No PDF parser qualification is claimed.",
+      "qualificationRef": "P2.6 executor: pinned AgenTools git blobs and pinned DeepTutor raw GitHub bytes independently SHA256-verified before implementation; relevant source/test bodies inspected in this session. Donor test suites not executed.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0; (c) 2025 Data Intelligence Lab, The University of Hong Kong; docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    }
+  ],
+  "existingReuse": [
+    "P2.5 SpanAssembler and existing Span/TextLocator/IrDocument/JCS/HashDomain/Chunk/ChunkSet/ProcessingIdentity; no replacement encoders or domain wire fields.",
+    "Existing PdoCatalogRepository immutable inserts, tenant guards, exact canonical resource inventory, real restricted-role PostgreSQL fixtures."
+  ],
+  "reusedTests": [
+    "AgenTools canonical mapping/hash/UTF-8/tenant/immutable corruption regression intent.",
+    "DeepTutor located table/footnote preservation and refusal to replace located evidence with unlocated text."
+  ],
+  "addedGapTests": [
+    "Cross-page explicit joiners, oversized code/read requirement, repeated physical/context headers, merged row closure, units/notes, UTF-8 budgets, same IR with a new profile.",
+    "Independent Python golden literal quote SHA256 and full cross-page manifest/ID oracle; negative profile fixtures and required-case fail-closed mapping.",
+    "Generated descriptions retain origin/support; OCR technical integrity preserves uncertainty; exact counter capability/identity and context-inclusive budgets; historical SQL replay and payload rejection."
+  ],
+  "newCodeRationale": [
+    "None of the six donors implements the approved PHP multi-span IR plus deterministic ChunkSetManifest, exact local tokenizer identity, merged row closure and existing PostgreSQL metadata seam. New glue composes existing project validators and persistence rather than importing incompatible runtimes."
+  ],
+  "checks": [
+    {
+      "cmd": "python3 tests/fixtures/chunking/generate.py",
+      "exit": 0,
+      "note": "Completed fixture/oracle generation before focused verification; expected hashes are not taken from PHP output."
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/chunking/StructuralTest.php",
+      "exit": 0,
+      "tests": 12,
+      "assertions": 798,
+      "evidence": "tests/ingest/chunking/evidence/StructuralTest.complete.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/chunking/StoreTest.php",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 71,
+      "evidence": "tests/ingest/chunking/evidence/StoreTest.initial.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/chunking/FixtureTest.php",
+      "exit": 0,
+      "tests": 2,
+      "assertions": 130,
+      "evidence": "tests/ingest/chunking/evidence/FixtureTest.final.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/ingest/chunking/bootstrap.php --no-progress packages/core/src/Application/Chunking packages/core/src/Adapter/Postgres/ChunkSets",
+      "exit": 0,
+      "evidence": "tests/ingest/chunking/evidence/phpstan.final.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml --testsuite Core --group ingest:chunking --list-tests",
+      "exit": 0,
+      "note": "Discovery only: 15 tests, no acceptance or whole-suite execution.",
+      "evidence": "tests/ingest/chunking/evidence/discovery.final.txt"
+    }
+  ],
+  "diagnostics": [
+    {
+      "text": "Initial focused run found a mismatched bracket in the new sentence splitter. Corrected locally.",
+      "exit": 2,
+      "evidence": "tests/ingest/chunking/evidence/StructuralTest.initial.txt"
+    },
+    {
+      "text": "The next run exposed zero-based synthetic overlap block IDs against the intended one-based IDs. Corrected the generator; independent quote oracles were unchanged.",
+      "exit": 1,
+      "evidence": "tests/ingest/chunking/evidence/StructuralTest.corrected.txt"
+    },
+    {
+      "text": "PHPStan identified an over-narrow PHPDoc on the runtime-checked resource map. Described the actual unchecked array input; retained runtime rejection and all analysis rules.",
+      "exit": 1,
+      "evidence": "tests/ingest/chunking/evidence/phpstan.txt"
+    },
+    {
+      "text": "The final static analysis exits 0 with no analysis errors; the environment emits the existing optional PHPStan turbo extension startup warning.",
+      "evidence": "tests/ingest/chunking/evidence/phpstan.final.txt"
+    }
+  ],
+  "acceptance": "V1 is coordinator-owned and was not run. Only the changed test files, focused static analysis, syntax checks, diff whitespace and discovery were executed.",
+  "unresolved": [],
+  "registration": "Product-side staging only; coordinator registers @plan/artifacts/implementation/P2.6-reuse.json. No native plan mutation by executor.",
+  "scopeNotes": [
+    "phpunit.xml receives the necessary Core test-directory registration under the explicit write-fence exception; reported as write_set deviation.",
+    "Chunker keeps its existing signature: trusted revision/document bindings are constructor inputs; metadata/followups use an application sidecar following P2.4.",
+    "maxCount/counter are semantic option names compatible with the existing ChunkerProfile credential-key filter; counter carries complete ID/version/vocabulary digest.",
+    "This implements chunk construction and internal persistence, not query/disclosure authorization, OCR quality adjudication or PDF parser qualification."
+  ]
+}

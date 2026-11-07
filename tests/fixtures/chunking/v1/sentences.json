@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01J00000000000000000000001",
+  "sourceVersionId": "01J00000000000000000000003",
+  "parserSignature": {
+    "name": "synthetic-ir",
+    "version": "1",
+    "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "pages": [
+    {
+      "pageId": "p1",
+      "physicalNo": 1,
+      "printedLabel": null,
+      "text": "One sentence. Two sentences. Three sentences.",
+      "textDigest": "32751abf59990f594c48dea429b02f46eaf4115aba5f757f70853fbe61ef4d6a",
+      "status": "ok"
+    }
+  ],
+  "segments": [],
+  "blocks": [
+    {
+      "blockId": "p",
+      "kind": "text",
+      "parentId": null,
+      "order": 0,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "p",
+          "byteStart": 0,
+          "byteEnd": 45
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    }
+  ],
+  "assets": [],
+  "coverage": {
+    "state": "complete",
+    "counts": {
+      "expected": 1,
+      "processed": 1,
+      "empty": 0,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": []
+  }
+}
