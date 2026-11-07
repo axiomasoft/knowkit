@@ -26,7 +26,7 @@ final class CatalogTest extends TestCase
         CatalogFixture::run(function($f) {
             foreach ([1,9] as $tenant) { $f->tenant($tenant); $f->kb($tenant); $f->source(2,$tenant); }
             foreach ([1,9] as $tenant) {
-                $scope=$f->scope($tenant); $f->commands->addMembership($scope,new D\AddMembership(new D\SourceId(CatalogFixture::id(2)),null,new D\CatalogMetadata()),$f->context('membership','0'));
+                $scope=$f->scope($tenant); $f->commands->addMembership($scope,new D\AddMembership(new D\SourceId(CatalogFixture::id(2)),null,new D\CatalogMetadata()),$f->context('membership','0','0'));
                 $page=new D\PageCursor($scope->tenantId,$scope->kbId,new D\CollectionFilter(),$scope->hostScopeHash);
                 $sources=$f->repo->listSources($scope->tenantId,$scope->kbId,$page->filter,$page)->sources;
                 self::assertCount(1,$sources); self::assertTrue($scope->tenantId->equals($sources[0]->tenantId));
@@ -51,7 +51,8 @@ final class CatalogTest extends TestCase
             $this->rejects(fn()=>$f->commands->createCollection($s,$collection,$f->context()),'idempotency_conflict');
             $accepted=$f->commands->createCollection($s,$collection,$f->context('collection','0'));
             self::assertSame('1',$f->repo->getKb($s->tenantId,$s->kbId)->revision->value);
-            self::assertEquals($accepted,$f->commands->createCollection($s,$collection,$f->context('collection','0')));
+            $s=$f->scope();
+            self::assertEquals($accepted,$f->commands->createCollection($s,$collection,$f->context('collection','0','0')));
             self::assertSame(1,$f->count('collections')); self::assertSame(2,$f->count('idempotency_receipts'));
             self::assertSame('original_response',CatalogFixture::fixture()['outcomes']['samePayloadReplay']);
         });
@@ -92,14 +93,14 @@ final class CatalogTest extends TestCase
         CatalogFixture::run(function($f) {
             $f->tenant(); $f->kb(); $source=$f->source(); $s=$f->scope();
             foreach ([200,201] as $n=>$id) {
-                $f->commands->createCollection($s,new D\CreateCollection(new D\CollectionId(CatalogFixture::id($id)),null,new D\CatalogMetadata()),$f->context('c'.$id,(string)$n));
+                $f->commands->createCollection($f->scope(),new D\CreateCollection(new D\CollectionId(CatalogFixture::id($id)),null,new D\CatalogMetadata()),$f->context('c'.$id,(string)$n));
             }
             foreach ([200,201] as $n=>$id) {
-                $f->commands->addMembership($s,new D\AddMembership($source->sourceId,new D\CollectionId(CatalogFixture::id($id)),new D\CatalogMetadata()),$f->context('m'.$id,(string)($n+2)));
+                $f->commands->addMembership($f->scope(),new D\AddMembership($source->sourceId,new D\CollectionId(CatalogFixture::id($id)),new D\CatalogMetadata()),$f->context('m'.$id,(string)($n+2)));
             }
             self::assertCount(2,$f->repo->listMemberships($s->tenantId,$source->sourceId));
-            $resource=new D\ResourceRef($s->tenantId,'source',$source->sourceId);
-            $binding=new JsonObject(['tenantPolicyEpoch'=>'0','kbPolicyEpoch'=>'0','sources'=>[new JsonObject(['sourceId'=>$source->sourceId->value,'sourcePolicyEpoch'=>'0','lifecycleEpoch'=>'0'])]]);
+            $s=$f->scope(); $resource=new D\ResourceRef($s->tenantId,'source',$source->sourceId);
+            $binding=new JsonObject(['tenantPolicyEpoch'=>'0','kbPolicyEpoch'=>$s->policyEpoch->value,'sources'=>[new JsonObject(['sourceId'=>$source->sourceId->value,'sourcePolicyEpoch'=>'0','lifecycleEpoch'=>'0'])]]);
             foreach ([D\Decision::Deny,D\Decision::Unknown] as $decision) {
                 $f->owner->decision=D\Decision::Allow;
                 $f->authority->prepare($s,$resource,D\Operation::Disclose);
@@ -164,7 +165,7 @@ final class CatalogTest extends TestCase
             $f->tenant(); $f->kb(); $s=$f->scope();
             $f->commands->createCollection($s,new D\CreateCollection(new D\CollectionId(CatalogFixture::id(200)),null,new D\CatalogMetadata()),$f->context('collection','0'));
             foreach ([2,3,4] as $i=>$id) {
-                $source=$f->source($id); $f->commands->addMembership($s,new D\AddMembership($source->sourceId,$id===2?null:new D\CollectionId(CatalogFixture::id(200)),new D\CatalogMetadata()),$f->context('member'.$id,(string)($i+1)));
+                $source=$f->source($id); $f->commands->addMembership($f->scope(),new D\AddMembership($source->sourceId,$id===2?null:new D\CollectionId(CatalogFixture::id(200)),new D\CatalogMetadata()),$f->context('member'.$id,(string)($i+1)));
             }
             $filter=new D\CollectionFilter(new D\CollectionId(CatalogFixture::id(200))); $cursor=new D\PageCursor($s->tenantId,$s->kbId,$filter,$s->hostScopeHash,null,1);
             $first=$f->repo->listSources($s->tenantId,$s->kbId,$filter,$cursor); self::assertSame(CatalogFixture::id(3),$first->sources[0]->sourceId->value);
@@ -181,11 +182,11 @@ final class CatalogTest extends TestCase
             $f->tenant(); $f->kb(); $s=$f->scope();
             foreach ([2,3] as $i=>$id) {
                 $source=$f->source($id); $f->resource(300+$i,$id,1,$id===2?'owned':'external');
-                $f->commands->addMembership($s,new D\AddMembership($source->sourceId,null,new D\CatalogMetadata()),$f->context('member'.$id,(string)$i));
+                $f->commands->addMembership($f->scope(),new D\AddMembership($source->sourceId,null,new D\CatalogMetadata()),$f->context('member'.$id,(string)$i));
             }
             $remove=new RemoveKnowledgeBase($f->repo,$f->repo->removeKnowledgeBase(...),$f->tx,$f->authority);
-            $tasks=$remove->remove($s,$f->context('remove','2')); self::assertCount(1,$tasks);
-            self::assertSame($tasks,$remove->remove($s,$f->context('remove','2')));
+            $tasks=$remove->remove($f->scope(),$f->context('remove','2','2')); self::assertCount(1,$tasks);
+            self::assertSame($tasks,$remove->remove($f->scope(),$f->context('remove','2','2')));
             self::assertSame(0,$f->count('source_memberships')); self::assertSame(2,$f->count('resource_ledger')); self::assertSame(1,$f->count('knowledge_bases'));
             $required=json_decode($f->db->execute('SELECT required_resources_json FROM deletion_tasks')->fetchColumn(),true);
             self::assertSame(CatalogFixture::id(300),$required[0]['resourceId']);
@@ -214,6 +215,7 @@ final class CatalogTest extends TestCase
         CatalogFixture::run(function($f) {
             $f->tenant(); $f->kb(); $source=$f->source(); $s=$f->scope(); $collection=new D\CollectionId(CatalogFixture::id(200));
             $f->commands->createCollection($s,new D\CreateCollection($collection,null,new D\CatalogMetadata()),$f->context('collection','0'));
+            $s=$f->scope();
             foreach (['knowledge_base:'.$s->kbId->value,'collection:'.$collection->value,'source:'.$source->sourceId->value] as $key) {
                 $f->owner->decisions=[$key=>D\Decision::Deny];
                 $this->rejects(fn()=>$f->commands->addMembership($s,new D\AddMembership($source->sourceId,$collection,new D\CatalogMetadata()),$f->context('membership','1')),'policy_denied',D\Outcome::Denied);

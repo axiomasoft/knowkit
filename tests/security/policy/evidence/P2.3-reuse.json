@@ -1,0 +1,276 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P2.3",
+  "status": "implemented_unreviewed",
+  "sources": [
+    {
+      "repository": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Scope.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Scope.php",
+      "sha256": "30b35ea956b2dcaa62d957825b7d09470a9dade1ffd66493d1bfd957bf1b13ec",
+      "lineSpan": [
+        1,
+        23
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub file fetched and PHP SHA256 compared with input expectation before implementation; all seven comparisons exit 0.",
+      "decision": "adapt",
+      "targetPaths": [
+        "packages/core/src/Domain/Access/PolicyContext.php",
+        "packages/core/src/Application/Access/RequestBoundary.php"
+      ],
+      "reason": "Retain the trusted host composition pattern and audience/eligibility separation. Reject donor matches() as an authority: approved six-field Scope, hostScopeHash and business purpose remain unchanged."
+    },
+    {
+      "repository": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/MaterialAccessPolicy.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/MaterialAccessPolicy.php",
+      "sha256": "79ff6e497013bf4812a98ce1f4b44e04c1ae12bb2c7dd19dd1219f6a8034f853",
+      "lineSpan": [
+        1,
+        11
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub file fetched and PHP SHA256 compared with input expectation before implementation; all seven comparisons exit 0.",
+      "decision": "adapt",
+      "targetPaths": [
+        "packages/core/src/Application/Access/PolicyChecks.php"
+      ],
+      "reason": "Adapt current-owner checks and fail-closed unknown semantics. Keep existing exact KnowKit AccessPolicy/EgressPolicy signatures; no donor ACL types imported."
+    },
+    {
+      "repository": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "sha256": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+      "lineSpan": [
+        1,
+        129
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub file fetched and PHP SHA256 compared with input expectation before implementation; all seven comparisons exit 0.",
+      "decision": "adapt",
+      "targetPaths": [
+        "tests/security/policy/PolicyTest.php",
+        "tests/security/policy/ContextTest.php"
+      ],
+      "reason": "Adapt tenant/purpose cache isolation, revoke before disclosure, expiry and filtering before adapters into stronger trusted-context and epoch assertions."
+    },
+    {
+      "repository": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "packages/agentools-core/src/Security/ExecutionContext.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Security/ExecutionContext.php",
+      "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+      "lineSpan": [
+        1,
+        72
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub file fetched and PHP SHA256 compared with input expectation before implementation; all seven comparisons exit 0.",
+      "decision": "adapt",
+      "targetPaths": [
+        "packages/core/src/Application/Access/AccessContext.php"
+      ],
+      "reason": "Adapt private construction through an authenticated host port and current identity recheck. Preserve the existing hostScopeHash verbatim; do not import session/Agentools dependencies or recompute it."
+    },
+    {
+      "repository": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/multi_user/knowledge_access.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/multi_user/knowledge_access.py",
+      "sha256": "4c76110ffacd4caa354ad7a06f2fca1b61cce1e9120349b9726ba60e5b833e78",
+      "lineSpan": [
+        1,
+        443
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub file fetched and PHP SHA256 compared with input expectation before implementation; all seven comparisons exit 0.",
+      "decision": "adapt",
+      "targetPaths": [
+        "tests/security/policy/ContextTest.php",
+        "tests/security/policy/PolicyTest.php"
+      ],
+      "reason": "Use membership/workspace assignment shortcuts as negative DT-R12 scenarios only. Reject the donor's assignment-derived read authority, default selection and ambient user context for production."
+    },
+    {
+      "repository": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/services/test_github_source_path_containment.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/test_github_source_path_containment.py",
+      "sha256": "5a99e82e1e20242614f565c25e862d7018c75600d68a01422e830186a6a71d1e",
+      "lineSpan": [
+        1,
+        218
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub file fetched and PHP SHA256 compared with input expectation before implementation; all seven comparisons exit 0.",
+      "decision": "reject",
+      "targetPaths": [],
+      "reason": "Remote filesystem destination containment belongs to a different ingestion item. P2.3 accepts no filesystem paths; no code or tests transferred."
+    },
+    {
+      "repository": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/utils/archive_extractor.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/utils/archive_extractor.py",
+      "sha256": "4c548fa0d58334d1ff129c6eaefbc7aad530136f6a7b95359dc72e5f4e893ff6",
+      "lineSpan": [
+        1,
+        227
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub file fetched and PHP SHA256 compared with input expectation before implementation; all seven comparisons exit 0.",
+      "decision": "reject",
+      "targetPaths": [],
+      "reason": "ZIP extraction, limits and path flattening are outside access-policy boundaries. No extraction code, DocumentValidator dependency or log behavior transferred."
+    }
+  ],
+  "qualifications": {
+    "agentools": {
+      "codeLicense": "proprietary",
+      "localUseAllowed": true,
+      "redistributionAllowed": false,
+      "authority": "licenses/local-reuse-authorization.md",
+      "notice": "licenses/notices/agentools-LICENSE.txt",
+      "licenseSha256": "8c63b2e3e661dc0461d4dca06df370db52e46536b779ae95f167c2f93476d75d",
+      "transferScope": "Only the exact adapted files and target paths listed above; no donor runtime, network client, model, dataset or transitive dependencies."
+    },
+    "deeptutor": {
+      "codeLicense": "Apache-2.0",
+      "localUseAllowed": true,
+      "redistributionAllowed": false,
+      "license": "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+      "licenseSha256": "cd2f54e1e5066644023203dcbd956776a9f4ef6eb8b6225afe1ffa2d380fede4",
+      "notices": "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md",
+      "noticeSha256": "d59dc01b43d1916db9418bc1ebcc213a4859047dc07e2766c4234391f9db033c",
+      "transferScope": "Anti-pattern-inspired synthetic adversarial tests only; no Python implementation or runtime imported."
+    }
+  },
+  "newCodeRationale": "Donors lack the approved hostScopeHash/business-purpose and QueryGrant contract, tenant/KB/source epoch bindings, separate egress manifests and explicit remote freshness windows. New vendor-free PHP helpers compose existing Scope, validators, receipt hashing, AuthorizedSearchScope, PostgreSQL locks and baseline schema. No wire schema changed.",
+  "sourceGaps": [
+    "No production HTTP/Laravel transport exists in this item; the shared request guard is tested directly.",
+    "Full publication, selection/disclosure/Usage commit and synchronous ancestor checks remain required in their owning workflows.",
+    "External-owner/provider tests use local doubles, not optional adapter qualification."
+  ],
+  "registration": "Executor stages this product receipt here. Coordinator registers @plan/artifacts/implementation/P2.3-reuse.json through the native API; no plan mutation by executor.",
+  "targetBaseline": "9847b23740ee0405cd60239553c146db7e4d4193",
+  "candidateFiles": [
+    {
+      "path": "packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php",
+      "sha256": "130222026981ebd297ce29df8af282dd92bea6fd1bb5af6b2944417fa56ed315"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/PolicyEpoch/PdoPolicyEpoch.php",
+      "sha256": "88b95e8750a58fe3b3a5b77bd4b93ca3d5ee8327991904b76490dc47387e3fa2"
+    },
+    {
+      "path": "packages/core/src/Application/Access/AccessContext.php",
+      "sha256": "3824e5f10f27581cb11d799b0b68d5ee2a3803928625d84f28bbefbc1224ee84"
+    },
+    {
+      "path": "packages/core/src/Application/Access/DenyAll.php",
+      "sha256": "145206797b3f4d845b7293a1d3c76a9f4ba29be4f8468d2a8678330c610daf6c"
+    },
+    {
+      "path": "packages/core/src/Application/Access/ExternalOwnerPolicy.php",
+      "sha256": "10366e62297e385e1371b10a3da610600ef68a995b0e64a03b19178490a75500"
+    },
+    {
+      "path": "packages/core/src/Application/Access/HostIdentity.php",
+      "sha256": "08d1ecf3cdda8fff9ac79e22426c0681848f07f0592290654efcc71aeb373033"
+    },
+    {
+      "path": "packages/core/src/Application/Access/PolicyChecks.php",
+      "sha256": "cae6b758959c26ee7289f58d3f45043828b50ce1f80f144f1cf991a6f9f2b55a"
+    },
+    {
+      "path": "packages/core/src/Application/Access/PreparedDecision.php",
+      "sha256": "796bd8f490146f014b6e64437d5454e9aa34523bd786cd25a0a65e3a6cf571ac"
+    },
+    {
+      "path": "packages/core/src/Application/Access/README.md",
+      "sha256": "a166258bf6b12784db82f0ca37ad9ab91c4b44e73731d48db4aa9ba4705d5b6f"
+    },
+    {
+      "path": "packages/core/src/Application/Access/ReceiptFactory.php",
+      "sha256": "0c9c1a99c058f7d17508ec9a7fed6d119dddc367afe807529af5e8b0d4ec0435"
+    },
+    {
+      "path": "packages/core/src/Application/Access/RequestBoundary.php",
+      "sha256": "51a8547d5d144de0de325eb0a845d17c8b3ac365cd729c0c28cf5c1c63b1e1d8"
+    },
+    {
+      "path": "packages/core/src/Domain/Access/OwnerFreshness.php",
+      "sha256": "b26a0d6373efdb892e52dd5a303554145f6e1ac169ee9181f6b83d1455cbdfb8"
+    },
+    {
+      "path": "packages/core/src/Domain/Access/PolicyContext.php",
+      "sha256": "b251938b7c839c32627a7a61f7feaf416739e2ac3dab178f3678427e76ad236c"
+    },
+    {
+      "path": "phpunit.xml",
+      "sha256": "09016f2523224e66bfbf67e9f88ac7a01b60512c3ed1430a5cb1ccad03a7b152"
+    },
+    {
+      "path": "tests/fixtures/check-groups/security-policy.json",
+      "sha256": "16f56b0907c8adb2be0aebe713454e094397445517be2d51554071ab36886b36"
+    },
+    {
+      "path": "tests/security/policy/ContextTest.php",
+      "sha256": "a8de5474bd4e3ab048315942547ef8f2ef88610c05597f833f5affa4ebb21df3"
+    },
+    {
+      "path": "tests/security/policy/EpochTest.php",
+      "sha256": "f13120404bbba850222eadbbc3713cf15a972a85a53444fe65ed152f0d88f56f"
+    },
+    {
+      "path": "tests/security/policy/FixtureTest.php",
+      "sha256": "129090deae9b352155c89970fbe657cc4ae7544e081b30c3351421bb2598356e"
+    },
+    {
+      "path": "tests/security/policy/OwnershipTest.php",
+      "sha256": "d547a253b831af903c73e8eaa0d1c820e8d0d1e9096a9bdbfd95686cd14bb882"
+    },
+    {
+      "path": "tests/security/policy/PolicyFixture.php",
+      "sha256": "75318350d7f23f3fe1c4e6b32f9db39978b1c49c31b29a30e79e26d02866b478"
+    },
+    {
+      "path": "tests/security/policy/PolicyTest.php",
+      "sha256": "ded146db4e7896f20f5cc4ea1376938f3604312200ae8dd02b6d45e7f391a17a"
+    },
+    {
+      "path": "tests/security/policy/bootstrap.php",
+      "sha256": "a956436608bc2b2dcc62e2fd11b47f03ef5e23938fe96a3c1bcb6807abeb91c2"
+    },
+    {
+      "path": "tests/security/policy/fixtures/v1/cases.json",
+      "sha256": "21137d01972ff339f6e450a4d9cdf3967ceae4f4982da81e18e793b201389a5e"
+    },
+    {
+      "path": "tests/security/policy/run-check.py",
+      "sha256": "46704d8588cdaa67b0aa395689e5058804e60c1856efc816a3f924d52fbec46c"
+    },
+    {
+      "path": "tests/storage/catalog/CatalogFixture.php",
+      "sha256": "de0e3e8e9b79c4aefdd0639ff15672f4e6bbd30fb993c3e7b82598526f3e208b"
+    },
+    {
+      "path": "tests/storage/catalog/CatalogTest.php",
+      "sha256": "892db275838a397f62c3e330c06e5054fb9406121f22a56c7de68413fec8e190"
+    }
+  ],
+  "candidateDigest": "bf22f611d1bd0794badb78fd1c63e2da5595e833def40ffddc080a316de2f597",
+  "candidateDigestAlgorithm": "SHA256 of sorted UTF8(path)||NUL||ASCII(file SHA256)||LF records in candidateFiles. Excludes this receipt and generated evidence. Coordinator acceptance/review must bind the full final candidate separately."
+}

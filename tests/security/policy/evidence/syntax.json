@@ -1,0 +1,107 @@
+[
+  {
+    "path": "packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/PolicyEpoch/PdoPolicyEpoch.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/PolicyEpoch/PdoPolicyEpoch.php"
+  },
+  {
+    "path": "packages/core/src/Application/Access/AccessContext.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Access/AccessContext.php"
+  },
+  {
+    "path": "packages/core/src/Application/Access/DenyAll.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Access/DenyAll.php"
+  },
+  {
+    "path": "packages/core/src/Application/Access/ExternalOwnerPolicy.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Access/ExternalOwnerPolicy.php"
+  },
+  {
+    "path": "packages/core/src/Application/Access/HostIdentity.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Access/HostIdentity.php"
+  },
+  {
+    "path": "packages/core/src/Application/Access/PolicyChecks.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Access/PolicyChecks.php"
+  },
+  {
+    "path": "packages/core/src/Application/Access/PreparedDecision.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Access/PreparedDecision.php"
+  },
+  {
+    "path": "packages/core/src/Application/Access/ReceiptFactory.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Access/ReceiptFactory.php"
+  },
+  {
+    "path": "packages/core/src/Application/Access/RequestBoundary.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Access/RequestBoundary.php"
+  },
+  {
+    "path": "packages/core/src/Domain/Access/OwnerFreshness.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/Access/OwnerFreshness.php"
+  },
+  {
+    "path": "packages/core/src/Domain/Access/PolicyContext.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Domain/Access/PolicyContext.php"
+  },
+  {
+    "path": "tests/security/policy/ContextTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/security/policy/ContextTest.php"
+  },
+  {
+    "path": "tests/security/policy/EpochTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/security/policy/EpochTest.php"
+  },
+  {
+    "path": "tests/security/policy/FixtureTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/security/policy/FixtureTest.php"
+  },
+  {
+    "path": "tests/security/policy/OwnershipTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/security/policy/OwnershipTest.php"
+  },
+  {
+    "path": "tests/security/policy/PolicyFixture.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/security/policy/PolicyFixture.php"
+  },
+  {
+    "path": "tests/security/policy/PolicyTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/security/policy/PolicyTest.php"
+  },
+  {
+    "path": "tests/security/policy/bootstrap.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/security/policy/bootstrap.php"
+  },
+  {
+    "path": "tests/storage/catalog/CatalogFixture.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/catalog/CatalogFixture.php"
+  },
+  {
+    "path": "tests/storage/catalog/CatalogTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/catalog/CatalogTest.php"
+  }
+]

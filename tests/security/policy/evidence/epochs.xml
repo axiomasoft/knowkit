@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Security\Policy\EpochTest" file="tests/security/policy/EpochTest.php" tests="3" assertions="38" errors="0" failures="0" skipped="0" time="0.293982">
+    <testcase name="testCollectionAndMembershipMutationInvalidateSourceReceiptsInSameTransaction" file="tests/security/policy/EpochTest.php" line="52" class="KnowKit\Tests\Security\Policy\EpochTest" classname="KnowKit.Tests.Security.Policy.EpochTest" assertions="10" time="0.111235"/>
+    <testcase name="testEpochCASAndExactTenantVersionLifecycleChecksFailClosed" file="tests/security/policy/EpochTest.php" line="79" class="KnowKit\Tests\Security\Policy\EpochTest" classname="KnowKit.Tests.Security.Policy.EpochTest" assertions="23" time="0.085199"/>
+    <testcase name="testRightsRevokeAfterExtractionBlocksFreshPublicationAndGuardedAcceptance" file="tests/security/policy/EpochTest.php" line="105" class="KnowKit\Tests\Security\Policy\EpochTest" classname="KnowKit.Tests.Security.Policy.EpochTest" assertions="5" time="0.097547"/>
+  </testsuite>
+</testsuites>

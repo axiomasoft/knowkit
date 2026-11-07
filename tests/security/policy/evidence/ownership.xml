@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Security\Policy\OwnershipTest" file="tests/security/policy/OwnershipTest.php" tests="1" assertions="6" errors="0" failures="0" skipped="0" time="0.120480">
+    <testcase name="testKnowledgeBaseRemovalDeletesManagedInventoryAndOnlyDetachesExternal" file="tests/security/policy/OwnershipTest.php" line="15" class="KnowKit\Tests\Security\Policy\OwnershipTest" classname="KnowKit.Tests.Security.Policy.OwnershipTest" assertions="6" time="0.120480"/>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,155 @@
+{
+    "source": "Individual targeted PHPUnit JUnit reports; V1 was not invoked",
+    "requiredCaseIds": [
+        {
+            "id": "R02-A01",
+            "status": "passed"
+        },
+        {
+            "id": "R02-A02",
+            "status": "passed"
+        },
+        {
+            "id": "R12-A01",
+            "status": "passed"
+        },
+        {
+            "id": "R12-A02",
+            "status": "passed"
+        },
+        {
+            "id": "R18-A01",
+            "status": "passed"
+        },
+        {
+            "id": "R18-A02",
+            "status": "passed"
+        },
+        {
+            "id": "R19-A01",
+            "status": "passed"
+        },
+        {
+            "id": "R19-A02",
+            "status": "passed"
+        },
+        {
+            "id": "DT-R12",
+            "status": "passed"
+        },
+        {
+            "id": "POLICY-EXPIRED",
+            "status": "passed"
+        },
+        {
+            "id": "POLICY-AUDIENCE",
+            "status": "passed"
+        },
+        {
+            "id": "POLICY-DEFAULT",
+            "status": "passed"
+        },
+        {
+            "id": "POLICY-EPOCHS",
+            "status": "passed"
+        },
+        {
+            "id": "POLICY-IDENTITY",
+            "status": "passed"
+        },
+        {
+            "id": "POLICY-PAYLOAD",
+            "status": "passed"
+        },
+        {
+            "id": "POLICY-FIXTURE",
+            "status": "passed"
+        }
+    ],
+    "executedTests": [
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\ContextTest::testModelIdentityCannotReplaceTrustedHostScope",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\ContextTest::testUnauthenticatedOrMismatchedBodyEmitsNoMetadata",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\ContextTest::testAudiencePurposeAndScopeResetInvalidatePreviousContext",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\ContextTest::testHostIdentityFailureIsTypedWithoutRawInputs",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\ContextTest::testMalformedHostEligibilityAndUnboundedOwnerWindowAreRejected",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testBuiltInPolicyAndEgressDenyByDefault",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testCurrentExternalOwnerReplacesStaleAllowWithDenyUnknownOrError",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testExpiredOwnerCacheAndUnknownFreshnessCannotAuthorize",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testUnknownBusinessPurposeCannotBorrowSameAudienceReadGrant",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testSourceDenySurvivesAllowedCollectionMembershipForSearchReadAndPreview",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testReadAllowIsNotProcessingOrEgressPermissionAndProviderSeesNoBytes",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testAdmissionAllowCannotBeReusedAfterRightsRevokeBeforePublication",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testPreparedDecisionBindsAudiencePurposeHostScopeEpochAndSingleAttempt",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testActualEgressBytesAndFreshBindingMustMatchBeforeProvider",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testContextChangeDuringEgressCannotSendAndEmptyChecksCannotAllow",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testProcessingAndEgressOwnerWindowsAreRecheckedAtActualTransmission",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\EpochTest::testCollectionAndMembershipMutationInvalidateSourceReceiptsInSameTransaction",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\EpochTest::testEpochCASAndExactTenantVersionLifecycleChecksFailClosed",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\EpochTest::testRightsRevokeAfterExtractionBlocksFreshPublicationAndGuardedAcceptance",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\OwnershipTest::testKnowledgeBaseRemovalDeletesManagedInventoryAndOnlyDetachesExternal",
+            "status": "passed"
+        },
+        {
+            "id": "KnowKit\\Tests\\Security\\Policy\\FixtureTest::testVersionProvenanceDigestOutcomesAndEveryRequiredCaseBinding",
+            "status": "passed"
+        }
+    ]
+}

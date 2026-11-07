@@ -91,9 +91,13 @@ final class CatalogFixture
         });
     }
     public function scope(int $tenant=1): D\Scope
-    { return new D\Scope(new D\TenantId(self::id($tenant)),new D\KbId(self::id(100)),new D\ActorId(self::id(101)),'catalog.manage',new D\Decimal('0'),new D\Sha256(str_repeat('a',64))); }
-    public function context(string $key='create-kb',?string $revision=null,?string $epoch='0'): D\MutationContext
     {
+        $row=$this->db->row('SELECT kb_policy_epoch FROM '.$this->db->table('knowledge_bases').' WHERE tenant_id=? AND id=?',[self::id($tenant),self::id(100)]);
+        return new D\Scope(new D\TenantId(self::id($tenant)),new D\KbId(self::id(100)),new D\ActorId(self::id(101)),'catalog.manage',new D\Decimal((string)($row['kb_policy_epoch']??0)),new D\Sha256(str_repeat('a',64)));
+    }
+    public function context(string $key='create-kb',?string $revision=null,?string $epoch='current'): D\MutationContext
+    {
+        if ($epoch==='current') { $epoch=$this->scope()->policyEpoch->value; }
         $w=new JsonObject(['idempotencyKey'=>$key,'requestId'=>self::id(900)]);
         if ($revision!==null) { $w=$w->with('expectedRevision',$revision); } if ($epoch!==null) { $w=$w->with('expectedEpoch',$epoch); }
         return new D\MutationContext($w,PortFixture::validator());

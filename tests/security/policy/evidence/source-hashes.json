@@ -1,0 +1,44 @@
+[
+    {
+        "path": "extensions/knowledge/src/Scope.php",
+        "sha256": "30b35ea956b2dcaa62d957825b7d09470a9dade1ffd66493d1bfd957bf1b13ec",
+        "expected": "30b35ea956b2dcaa62d957825b7d09470a9dade1ffd66493d1bfd957bf1b13ec",
+        "matches": true
+    },
+    {
+        "path": "extensions/knowledge/src/MaterialAccessPolicy.php",
+        "sha256": "79ff6e497013bf4812a98ce1f4b44e04c1ae12bb2c7dd19dd1219f6a8034f853",
+        "expected": "79ff6e497013bf4812a98ce1f4b44e04c1ae12bb2c7dd19dd1219f6a8034f853",
+        "matches": true
+    },
+    {
+        "path": "extensions/knowledge/tests/Retrieval/AccessTest.php",
+        "sha256": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+        "expected": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+        "matches": true
+    },
+    {
+        "path": "packages/agentools-core/src/Security/ExecutionContext.php",
+        "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+        "expected": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+        "matches": true
+    },
+    {
+        "path": "deeptutor/multi_user/knowledge_access.py",
+        "sha256": "4c76110ffacd4caa354ad7a06f2fca1b61cce1e9120349b9726ba60e5b833e78",
+        "expected": "4c76110ffacd4caa354ad7a06f2fca1b61cce1e9120349b9726ba60e5b833e78",
+        "matches": true
+    },
+    {
+        "path": "tests/services/test_github_source_path_containment.py",
+        "sha256": "5a99e82e1e20242614f565c25e862d7018c75600d68a01422e830186a6a71d1e",
+        "expected": "5a99e82e1e20242614f565c25e862d7018c75600d68a01422e830186a6a71d1e",
+        "matches": true
+    },
+    {
+        "path": "deeptutor/utils/archive_extractor.py",
+        "sha256": "4c548fa0d58334d1ff129c6eaefbc7aad530136f6a7b95359dc72e5f4e893ff6",
+        "expected": "4c548fa0d58334d1ff129c6eaefbc7aad530136f6a7b95359dc72e5f4e893ff6",
+        "matches": true
+    }
+]

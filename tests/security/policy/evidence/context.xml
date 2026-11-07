@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Security\Policy\ContextTest" file="tests/security/policy/ContextTest.php" tests="5" assertions="74" errors="0" failures="0" skipped="0" time="0.002354">
+    <testcase name="testModelIdentityCannotReplaceTrustedHostScope" file="tests/security/policy/ContextTest.php" line="22" class="KnowKit\Tests\Security\Policy\ContextTest" classname="KnowKit.Tests.Security.Policy.ContextTest" assertions="40" time="0.001365"/>
+    <testcase name="testUnauthenticatedOrMismatchedBodyEmitsNoMetadata" file="tests/security/policy/ContextTest.php" line="34" class="KnowKit\Tests\Security\Policy\ContextTest" classname="KnowKit.Tests.Security.Policy.ContextTest" assertions="5" time="0.000080"/>
+    <testcase name="testAudiencePurposeAndScopeResetInvalidatePreviousContext" file="tests/security/policy/ContextTest.php" line="44" class="KnowKit\Tests\Security\Policy\ContextTest" classname="KnowKit.Tests.Security.Policy.ContextTest" assertions="19" time="0.000674"/>
+    <testcase name="testHostIdentityFailureIsTypedWithoutRawInputs" file="tests/security/policy/ContextTest.php" line="63" class="KnowKit\Tests\Security\Policy\ContextTest" classname="KnowKit.Tests.Security.Policy.ContextTest" assertions="3" time="0.000076"/>
+    <testcase name="testMalformedHostEligibilityAndUnboundedOwnerWindowAreRejected" file="tests/security/policy/ContextTest.php" line="75" class="KnowKit\Tests\Security\Policy\ContextTest" classname="KnowKit.Tests.Security.Policy.ContextTest" assertions="7" time="0.000159"/>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Security\Policy\FixtureTest" file="tests/security/policy/FixtureTest.php" tests="1" assertions="83" errors="0" failures="0" skipped="0" time="0.002041">
+    <testcase name="testVersionProvenanceDigestOutcomesAndEveryRequiredCaseBinding" file="tests/security/policy/FixtureTest.php" line="12" class="KnowKit\Tests\Security\Policy\FixtureTest" classname="KnowKit.Tests.Security.Policy.FixtureTest" assertions="83" time="0.002041"/>
+  </testsuite>
+</testsuites>

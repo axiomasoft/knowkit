@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Security\Policy\PolicyTest" file="tests/security/policy/PolicyTest.php" tests="11" assertions="82" errors="0" failures="0" skipped="0" time="0.067560">
+    <testcase name="testBuiltInPolicyAndEgressDenyByDefault" file="tests/security/policy/PolicyTest.php" line="29" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="6" time="0.010593"/>
+    <testcase name="testCurrentExternalOwnerReplacesStaleAllowWithDenyUnknownOrError" file="tests/security/policy/PolicyTest.php" line="41" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="9" time="0.006669"/>
+    <testcase name="testExpiredOwnerCacheAndUnknownFreshnessCannotAuthorize" file="tests/security/policy/PolicyTest.php" line="58" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="8" time="0.001387"/>
+    <testcase name="testUnknownBusinessPurposeCannotBorrowSameAudienceReadGrant" file="tests/security/policy/PolicyTest.php" line="73" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="4" time="0.004539"/>
+    <testcase name="testSourceDenySurvivesAllowedCollectionMembershipForSearchReadAndPreview" file="tests/security/policy/PolicyTest.php" line="86" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="9" time="0.008601"/>
+    <testcase name="testReadAllowIsNotProcessingOrEgressPermissionAndProviderSeesNoBytes" file="tests/security/policy/PolicyTest.php" line="103" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="10" time="0.008904"/>
+    <testcase name="testAdmissionAllowCannotBeReusedAfterRightsRevokeBeforePublication" file="tests/security/policy/PolicyTest.php" line="124" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="2" time="0.003580"/>
+    <testcase name="testPreparedDecisionBindsAudiencePurposeHostScopeEpochAndSingleAttempt" file="tests/security/policy/PolicyTest.php" line="136" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="16" time="0.015258"/>
+    <testcase name="testActualEgressBytesAndFreshBindingMustMatchBeforeProvider" file="tests/security/policy/PolicyTest.php" line="156" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="6" time="0.002421"/>
+    <testcase name="testContextChangeDuringEgressCannotSendAndEmptyChecksCannotAllow" file="tests/security/policy/PolicyTest.php" line="169" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="6" time="0.001666"/>
+    <testcase name="testProcessingAndEgressOwnerWindowsAreRecheckedAtActualTransmission" file="tests/security/policy/PolicyTest.php" line="186" class="KnowKit\Tests\Security\Policy\PolicyTest" classname="KnowKit.Tests.Security.Policy.PolicyTest" assertions="6" time="0.003942"/>
+  </testsuite>
+</testsuites>

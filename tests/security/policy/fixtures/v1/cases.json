@@ -1,0 +1,37 @@
+{
+  "schemaVersion": "security-policy-fixtures:1",
+  "version": "1.0.0",
+  "versionRationale": "Initial authored policy boundary expectations: host identity substitution, scope reset, stale external observations, source/collection intersection, independent egress, guarded epochs and managed/external ownership. Expected outcomes are explicit requirements, not rewritten runtime snapshots.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "provenance": "Project-authored synthetic identities and payloads. Pinned donor pattern and adversarial-test decisions: tests/security/policy/evidence/P2.3-reuse.json."
+  },
+  "forgedFields": ["scope", "context", "identity", "accessContext", "policyContext", "tenant", "tenantId", "kbId", "subject", "subjectId", "actorId", "audience", "grants", "scopes", "egress", "purpose", "policyEpoch", "hostScopeHash"],
+  "payload": {
+    "utf8": "abc",
+    "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+  },
+  "outcomes": {
+    "R02-A01": "current_deny_unknown_or_error_blocks_stale_allow",
+    "R02-A02": "managed_deletion_intent_external_detach_only",
+    "R12-A01": "read_allow_egress_denied_provider_observes_no_bytes",
+    "R12-A02": "fresh_publish_denied_and_epoch_drift_blocks_acceptance",
+    "R18-A01": "trusted_host_identity_only",
+    "R18-A02": "core_request_guard_refuses_untrusted_identity_without_metadata",
+    "R19-A01": "source_deny_survives_allowed_membership",
+    "R19-A02": "unknown_purpose_no_content",
+    "DT-R12": "membership_not_authority_context_reset_required",
+    "POLICY-EXPIRED": "unknown_owner_freshness",
+    "POLICY-AUDIENCE": "denied_scope_mismatch",
+    "POLICY-DEFAULT": "deny_all_access_and_egress",
+    "POLICY-EPOCHS": "collection_membership_tenant_source_changes_invalidate",
+    "POLICY-IDENTITY": "foreign_tenant_denied_immutable_conflict_separate",
+    "POLICY-PAYLOAD": "incompatible_manifest_or_denied_changed_binding"
+  },
+  "coverageLimits": [
+    "R18-A02 executes the shared core request guard; optional HTTP and Laravel transports are not implemented or qualified.",
+    "Publication/disclosure assertions exercise fresh authorization and real PostgreSQL epoch checks, not the later complete snapshot publication or Usage commit workflows.",
+    "External owner/provider behavior uses deterministic contract doubles; no optional external adapter is qualified.",
+    "Remote rights may change inside the explicitly admitted owner check-to-commit window; local epochs cannot prove remote freshness."
+  ]
+}

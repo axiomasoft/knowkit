@@ -1,0 +1,158 @@
+{
+  "item": "P2.3",
+  "status": "implemented_unreviewed",
+  "acceptance": {
+    "V1": "not_run_executor_prohibition_conductor_owned"
+  },
+  "candidateDigest": "bf22f611d1bd0794badb78fd1c63e2da5595e833def40ffddc080a316de2f597",
+  "targetedTests": [
+    {
+      "cmd": [
+        "vendor/bin/phpunit",
+        "--configuration",
+        "phpunit.xml",
+        "--log-junit",
+        "tests/security/policy/evidence/context.xml",
+        "tests/security/policy/ContextTest.php"
+      ],
+      "exit": 0,
+      "tests": 5,
+      "assertions": 74,
+      "evidence": "tests/security/policy/evidence/context.txt"
+    },
+    {
+      "cmd": [
+        "vendor/bin/phpunit",
+        "--configuration",
+        "phpunit.xml",
+        "--log-junit",
+        "tests/security/policy/evidence/policy.xml",
+        "tests/security/policy/PolicyTest.php"
+      ],
+      "exit": 0,
+      "tests": 11,
+      "assertions": 82,
+      "evidence": "tests/security/policy/evidence/policy.txt"
+    },
+    {
+      "cmd": [
+        "vendor/bin/phpunit",
+        "--configuration",
+        "phpunit.xml",
+        "--log-junit",
+        "tests/security/policy/evidence/epochs.xml",
+        "tests/security/policy/EpochTest.php"
+      ],
+      "exit": 0,
+      "tests": 3,
+      "assertions": 38,
+      "evidence": "tests/security/policy/evidence/epochs.txt"
+    },
+    {
+      "cmd": [
+        "vendor/bin/phpunit",
+        "--configuration",
+        "phpunit.xml",
+        "--log-junit",
+        "tests/security/policy/evidence/ownership.xml",
+        "tests/security/policy/OwnershipTest.php"
+      ],
+      "exit": 0,
+      "tests": 1,
+      "assertions": 6,
+      "evidence": "tests/security/policy/evidence/ownership.txt"
+    },
+    {
+      "cmd": [
+        "vendor/bin/phpunit",
+        "--configuration",
+        "phpunit.xml",
+        "--log-junit",
+        "tests/security/policy/evidence/fixtures.xml",
+        "tests/security/policy/FixtureTest.php"
+      ],
+      "exit": 0,
+      "tests": 1,
+      "assertions": 83,
+      "evidence": "tests/security/policy/evidence/fixtures.txt"
+    },
+    {
+      "cmd": [
+        "vendor/bin/phpunit",
+        "--configuration",
+        "phpunit.xml",
+        "tests/contract/ports/BoundaryTest.php"
+      ],
+      "exit": 0,
+      "tests": 9,
+      "assertions": 69,
+      "evidence": "tests/security/policy/evidence/contract-boundary.txt"
+    },
+    {
+      "cmd": [
+        "vendor/bin/phpunit",
+        "--configuration",
+        "phpunit.xml",
+        "tests/storage/catalog/CatalogTest.php"
+      ],
+      "exit": 0,
+      "tests": 11,
+      "assertions": 127,
+      "evidence": "tests/security/policy/evidence/catalog.txt"
+    },
+    {
+      "cmd": [
+        "vendor/bin/phpunit",
+        "--configuration",
+        "phpunit.xml",
+        "tests/storage/catalog/BoundaryTest.php"
+      ],
+      "exit": 0,
+      "tests": 4,
+      "assertions": 42,
+      "evidence": "tests/security/policy/evidence/catalog-boundary.txt"
+    },
+    {
+      "cmd": [
+        "vendor/bin/phpunit",
+        "--configuration",
+        "phpunit.xml",
+        "tests/storage/blobs/AuditTest.php"
+      ],
+      "exit": 0,
+      "tests": 4,
+      "assertions": 32,
+      "evidence": "tests/security/policy/evidence/blob-audit.txt"
+    }
+  ],
+  "totalTests": 49,
+  "totalAssertions": 553,
+  "newPolicyTests": 21,
+  "requiredCaseIdsVerified": 16,
+  "staticAnalysis": {
+    "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/contract/ports/bootstrap.php --no-progress packages/core/src/Domain/Access packages/core/src/Application/Access packages/core/src/Adapter/Postgres/PolicyEpoch packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php",
+    "exit": 0,
+    "evidence": "tests/security/policy/evidence/phpstan.txt"
+  },
+  "syntax": {
+    "phpFiles": 21,
+    "exit": 0,
+    "evidence": "tests/security/policy/evidence/syntax.json"
+  },
+  "pythonSyntax": {
+    "cmd": "compile(source, filename, exec) for run-check.py",
+    "exit": 0
+  },
+  "environment": {
+    "postgresVersion": "160014",
+    "backend": "existing disposable knowkit test backend; no skip",
+    "composeAttempt": "default subnet overlapped with an existing test project; no repository environment change required"
+  },
+  "scopeDeviations": [
+    "packages/core/src/Adapter/Postgres/Catalog/PdoCatalogRepository.php",
+    "phpunit.xml",
+    "tests/storage/catalog/CatalogFixture.php",
+    "tests/storage/catalog/CatalogTest.php"
+  ],
+  "route": "Owner-authorized temporary codex/gpt-6.1-sol/xhigh substitution per Q1; canonical assignment is unchanged; no reviewer launched."
+}

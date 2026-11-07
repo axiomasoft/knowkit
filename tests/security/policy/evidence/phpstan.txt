@@ -1,0 +1,7 @@
+
+Warning: PHPStan optional turbo extension unavailable (dynamic loading not supported).
+
+ [OK] No errors
+
+
+exit=0

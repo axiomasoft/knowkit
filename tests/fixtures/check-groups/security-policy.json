@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "security:policy",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored policy boundary expectations: host identity substitution, scope reset, stale external observations, source/collection intersection, independent egress, guarded epochs and managed/external ownership. Expected outcomes are explicit requirements, not rewritten runtime snapshots.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic identities and payloads. Pinned donor pattern and adversarial-test decisions: tests/security/policy/evidence/P2.3-reuse.json."
+  },
+  "requiredCaseIds": [
+    "R02-A01",
+    "R02-A02",
+    "R12-A01",
+    "R12-A02",
+    "R18-A01",
+    "R18-A02",
+    "R19-A01",
+    "R19-A02",
+    "DT-R12",
+    "POLICY-EXPIRED",
+    "POLICY-AUDIENCE",
+    "POLICY-DEFAULT",
+    "POLICY-EPOCHS",
+    "POLICY-IDENTITY",
+    "POLICY-PAYLOAD",
+    "POLICY-FIXTURE"
+  ],
+  "testCaseMap": {
+    "R02-A01": [
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testCurrentExternalOwnerReplacesStaleAllowWithDenyUnknownOrError"
+    ],
+    "R02-A02": [
+      "KnowKit\\Tests\\Security\\Policy\\OwnershipTest::testKnowledgeBaseRemovalDeletesManagedInventoryAndOnlyDetachesExternal"
+    ],
+    "R12-A01": [
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testReadAllowIsNotProcessingOrEgressPermissionAndProviderSeesNoBytes",
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testProcessingAndEgressOwnerWindowsAreRecheckedAtActualTransmission"
+    ],
+    "R12-A02": [
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testAdmissionAllowCannotBeReusedAfterRightsRevokeBeforePublication",
+      "KnowKit\\Tests\\Security\\Policy\\EpochTest::testRightsRevokeAfterExtractionBlocksFreshPublicationAndGuardedAcceptance"
+    ],
+    "R18-A01": [
+      "KnowKit\\Tests\\Security\\Policy\\ContextTest::testModelIdentityCannotReplaceTrustedHostScope"
+    ],
+    "R18-A02": [
+      "KnowKit\\Tests\\Security\\Policy\\ContextTest::testUnauthenticatedOrMismatchedBodyEmitsNoMetadata"
+    ],
+    "R19-A01": [
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testSourceDenySurvivesAllowedCollectionMembershipForSearchReadAndPreview"
+    ],
+    "R19-A02": [
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testUnknownBusinessPurposeCannotBorrowSameAudienceReadGrant"
+    ],
+    "DT-R12": [
+      "KnowKit\\Tests\\Security\\Policy\\ContextTest::testAudiencePurposeAndScopeResetInvalidatePreviousContext",
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testSourceDenySurvivesAllowedCollectionMembershipForSearchReadAndPreview",
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testCurrentExternalOwnerReplacesStaleAllowWithDenyUnknownOrError"
+    ],
+    "POLICY-EXPIRED": [
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testExpiredOwnerCacheAndUnknownFreshnessCannotAuthorize"
+    ],
+    "POLICY-AUDIENCE": [
+      "KnowKit\\Tests\\Security\\Policy\\ContextTest::testAudiencePurposeAndScopeResetInvalidatePreviousContext",
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testPreparedDecisionBindsAudiencePurposeHostScopeEpochAndSingleAttempt"
+    ],
+    "POLICY-DEFAULT": [
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testBuiltInPolicyAndEgressDenyByDefault"
+    ],
+    "POLICY-EPOCHS": [
+      "KnowKit\\Tests\\Security\\Policy\\EpochTest::testCollectionAndMembershipMutationInvalidateSourceReceiptsInSameTransaction",
+      "KnowKit\\Tests\\Security\\Policy\\EpochTest::testEpochCASAndExactTenantVersionLifecycleChecksFailClosed",
+      "KnowKit\\Tests\\Security\\Policy\\ContextTest::testHostIdentityFailureIsTypedWithoutRawInputs"
+    ],
+    "POLICY-IDENTITY": [
+      "KnowKit\\Tests\\Security\\Policy\\EpochTest::testEpochCASAndExactTenantVersionLifecycleChecksFailClosed"
+    ],
+    "POLICY-PAYLOAD": [
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testActualEgressBytesAndFreshBindingMustMatchBeforeProvider",
+      "KnowKit\\Tests\\Security\\Policy\\PolicyTest::testContextChangeDuringEgressCannotSendAndEmptyChecksCannotAllow"
+    ],
+    "POLICY-FIXTURE": [
+      "KnowKit\\Tests\\Security\\Policy\\FixtureTest::testVersionProvenanceDigestOutcomesAndEveryRequiredCaseBinding"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/security/policy/fixtures/v1/cases.json",
+      "sha256": "21137d01972ff339f6e450a4d9cdf3967ceae4f4982da81e18e793b201389a5e",
+      "expected": {
+        "R02-A01": "current_deny_unknown_or_error_blocks_stale_allow",
+        "R02-A02": "managed_deletion_intent_external_detach_only",
+        "R12-A01": "read_allow_egress_denied_provider_observes_no_bytes",
+        "R12-A02": "fresh_publish_denied_and_epoch_drift_blocks_acceptance",
+        "R18-A01": "trusted_host_identity_only",
+        "R18-A02": "core_request_guard_refuses_untrusted_identity_without_metadata",
+        "R19-A01": "source_deny_survives_allowed_membership",
+        "R19-A02": "unknown_purpose_no_content",
+        "DT-R12": "membership_not_authority_context_reset_required",
+        "POLICY-EXPIRED": "unknown_owner_freshness",
+        "POLICY-AUDIENCE": "denied_scope_mismatch",
+        "POLICY-DEFAULT": "deny_all_access_and_egress",
+        "POLICY-EPOCHS": "collection_membership_tenant_source_changes_invalidate",
+        "POLICY-IDENTITY": "foreign_tenant_denied_immutable_conflict_separate",
+        "POLICY-PAYLOAD": "incompatible_manifest_or_denied_changed_binding"
+      }
+    }
+  ]
+}

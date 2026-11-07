@@ -334,7 +334,7 @@ final readonly class PdoCatalogRepository implements CatalogRepository
     }
     private function bump(Scope $access,KnowledgeBase $kb): void
     {
-        DomainFailure::requireWrite($this->db->execute('UPDATE '.$this->table('knowledge_bases').' SET revision=revision+1 WHERE tenant_id=? AND id=? AND revision=?',
+        DomainFailure::requireWrite($this->db->execute('UPDATE '.$this->table('knowledge_bases').' SET revision=revision+1,kb_policy_epoch=kb_policy_epoch+1 WHERE tenant_id=? AND id=? AND revision=?',
             [$access->tenantId->value,$kb->kbId->value,$kb->revision->value])->rowCount()===1);
     }
     public function createKnowledgeBase(Scope $access,CreateKB $command,MutationContext $context): KnowledgeBase
@@ -409,7 +409,7 @@ final readonly class PdoCatalogRepository implements CatalogRepository
             $tasks[]=$task;
         }
         $this->db->execute('DELETE FROM '.$this->table('source_memberships').' WHERE tenant_id=? AND kb_id=?',[$scope->tenantId->value,$scope->kbId->value]);
-        DomainFailure::requireWrite($this->db->execute('UPDATE '.$this->table('knowledge_bases').' SET removed_at=?,revision=revision+1,active_snapshot_id=NULL,pointer_version=pointer_version+1 WHERE tenant_id=? AND id=? AND revision=? AND removed_at IS NULL',
+        DomainFailure::requireWrite($this->db->execute('UPDATE '.$this->table('knowledge_bases').' SET removed_at=?,revision=revision+1,kb_policy_epoch=kb_policy_epoch+1,active_snapshot_id=NULL,pointer_version=pointer_version+1 WHERE tenant_id=? AND id=? AND revision=? AND removed_at IS NULL',
             [$this->clock->now()->value,$scope->tenantId->value,$scope->kbId->value,$kb->revision->value])->rowCount()===1);
         $this->accept($scope,$context,$operation,$digest,['tasks'=>$tasks]); return $tasks;
     }
