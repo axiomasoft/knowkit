@@ -1,0 +1,390 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "ingest:validation",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial source-integrity corpus: independently calculated SHA256 over literal original bytes, canonical UTF-8/JCS, and ordered spans. Structured/Unicode shapes adapt the project-authored P1.4 golden corpus; no external parser implementation is claimed.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic corpus; P1.4 shapes and P2.5 donor qualification.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "IR-UNICODE",
+    "IR-STRUCTURED",
+    "IR-OCR",
+    "IR-BLANK",
+    "IR-MISSING-SCAN",
+    "IR-UNKNOWN",
+    "IR-SEGMENT",
+    "IR-UINT32",
+    "IR-UTF8-SPLIT",
+    "IR-CYCLE",
+    "IR-REF",
+    "IR-PAGE-HASH",
+    "IR-READING-ORDER",
+    "IR-BBOX-SPACE",
+    "IR-BBOX-RANGE",
+    "IR-SEGMENT-PAGE",
+    "IR-COVERAGE-LIE",
+    "IR-EXPECTED-COUNT",
+    "IR-TAMPER",
+    "SOURCE-HASH",
+    "ASSET-HASH",
+    "CHUNK-TAMPER",
+    "MULTI-SPANS",
+    "R08-A01",
+    "BLANK-PAGE",
+    "R16-A03",
+    "MISSING-SCAN",
+    "R16-A01",
+    "PARTIAL-VS-STRICT",
+    "R16-A02",
+    "QUALITY-DIAGNOSTICS",
+    "IR-OBJECT-LIMIT",
+    "IR-STRICT-JSON",
+    "R07-A01",
+    "R07-A02",
+    "R08-A02",
+    "R09-A01",
+    "R09-A02",
+    "DT-I01",
+    "DT-I02",
+    "R04-A01",
+    "R04-A02",
+    "STORE-RESOURCE",
+    "STORE-LIFECYCLE",
+    "STORE-UINT32",
+    "IR-FIXTURE",
+    "IR-IN-MEMORY-LIMIT"
+  ],
+  "testCaseMap": {
+    "IR-UNICODE": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-STRUCTURED": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-OCR": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-BLANK": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-MISSING-SCAN": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-UNKNOWN": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-SEGMENT": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-UINT32": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-UTF8-SPLIT": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-CYCLE": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-REF": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-PAGE-HASH": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-READING-ORDER": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-BBOX-SPACE": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-BBOX-RANGE": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-SEGMENT-PAGE": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-COVERAGE-LIE": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-EXPECTED-COUNT": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips"
+    ],
+    "IR-TAMPER": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testSourceIrAndAssetTamperingCannotSelfSignOrOmitInventory"
+    ],
+    "SOURCE-HASH": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testSourceIrAndAssetTamperingCannotSelfSignOrOmitInventory"
+    ],
+    "ASSET-HASH": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testSourceIrAndAssetTamperingCannotSelfSignOrOmitInventory"
+    ],
+    "CHUNK-TAMPER": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testUnicodeMultipleSpansResolveExactlyAndRejectForgedChunk"
+    ],
+    "MULTI-SPANS": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testUnicodeMultipleSpansResolveExactlyAndRejectForgedChunk"
+    ],
+    "R08-A01": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testUnicodeMultipleSpansResolveExactlyAndRejectForgedChunk"
+    ],
+    "BLANK-PAGE": [
+      "KnowKit\\Tests\\Ingest\\Validation\\QualityTest::testBatchStatusNeverReplacesIndependentSourceCoverage"
+    ],
+    "R16-A03": [
+      "KnowKit\\Tests\\Ingest\\Validation\\QualityTest::testBatchStatusNeverReplacesIndependentSourceCoverage"
+    ],
+    "MISSING-SCAN": [
+      "KnowKit\\Tests\\Ingest\\Validation\\QualityTest::testStrictCompletenessBlocksNineOfTenAndPreservesMissingScan",
+      "KnowKit\\Tests\\Ingest\\Validation\\StoreTest::testMissingScanRemainsPartialInPersistenceAndReadiness"
+    ],
+    "R16-A01": [
+      "KnowKit\\Tests\\Ingest\\Validation\\QualityTest::testStrictCompletenessBlocksNineOfTenAndPreservesMissingScan",
+      "KnowKit\\Tests\\Ingest\\Validation\\StoreTest::testMissingScanRemainsPartialInPersistenceAndReadiness"
+    ],
+    "PARTIAL-VS-STRICT": [
+      "KnowKit\\Tests\\Ingest\\Validation\\QualityTest::testExplicitPartialAllowsReadinessButExcludesCompletenessRequiredQueries"
+    ],
+    "R16-A02": [
+      "KnowKit\\Tests\\Ingest\\Validation\\QualityTest::testExplicitPartialAllowsReadinessButExcludesCompletenessRequiredQueries"
+    ],
+    "QUALITY-DIAGNOSTICS": [
+      "KnowKit\\Tests\\Ingest\\Validation\\QualityTest::testUnknownLowConfidenceReviewAndRequiredFeaturesKeepSeparateDecisions"
+    ],
+    "IR-OBJECT-LIMIT": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testSchemaObjectAndByteLimitsAndStrictDecodeFailClosed"
+    ],
+    "IR-STRICT-JSON": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testSchemaObjectAndByteLimitsAndStrictDecodeFailClosed"
+    ],
+    "R07-A01": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testStructuredFixtureRetainsRelationshipsOrExplicitUnavailableCapability",
+      "KnowKit\\Tests\\Ingest\\Validation\\StoreTest::testExactStructuredBundleRoundTripsEveryRefAndRejectsSqlMutation"
+    ],
+    "R07-A02": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips",
+      "KnowKit\\Tests\\Ingest\\Validation\\StoreTest::testExactStructuredBundleRoundTripsEveryRefAndRejectsSqlMutation"
+    ],
+    "R08-A02": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testPageConversionRequiresExplicitCoordinateOriginAndHalfEvenRounding"
+    ],
+    "R09-A01": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testCanonicalOffsetsAndNormalizedMappingNeverUseOriginalPdfOffsets"
+    ],
+    "R09-A02": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testCanonicalOffsetsAndNormalizedMappingNeverUseOriginalPdfOffsets"
+    ],
+    "DT-I01": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testFullTypedFingerprintsAndVerifiedManifestRejectCacheIdentityDrift"
+    ],
+    "DT-I02": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testFullTypedFingerprintsAndVerifiedManifestRejectCacheIdentityDrift"
+    ],
+    "R04-A01": [
+      "KnowKit\\Tests\\Ingest\\Validation\\StoreTest::testChangedBytesOrParentSetCannotOverwriteHistoricalRevision",
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testSourceIrAndAssetTamperingCannotSelfSignOrOmitInventory"
+    ],
+    "R04-A02": [
+      "KnowKit\\Tests\\Ingest\\Validation\\StoreTest::testMissingAndForeignParentsNeverMakeDerivativeVisible"
+    ],
+    "STORE-RESOURCE": [
+      "KnowKit\\Tests\\Ingest\\Validation\\StoreTest::testResourceInventoryAndParentBindingAreAuthoritative"
+    ],
+    "STORE-LIFECYCLE": [
+      "KnowKit\\Tests\\Ingest\\Validation\\StoreTest::testCurrentInvalidationAndVersionStateBlockDescendantsSynchronously"
+    ],
+    "STORE-UINT32": [
+      "KnowKit\\Tests\\Ingest\\Validation\\StoreTest::testUint32CoordinatesAndLateParentOrderPersistWithoutNarrowing"
+    ],
+    "IR-FIXTURE": [
+      "KnowKit\\Tests\\Ingest\\Validation\\FixtureTest::testProvenanceVersionDigestsOutcomesAndRequiredExecutedCasesFailClosed"
+    ],
+    "IR-IN-MEMORY-LIMIT": [
+      "KnowKit\\Tests\\Ingest\\Validation\\TechnicalTest::testInMemoryIrCannotBypassTransportByteCeiling",
+      "KnowKit\\Tests\\Ingest\\Validation\\StoreTest::testInMemoryIrByteCeilingIsCheckedBeforeAnyPersistence"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/ir/v1/unicode.json",
+      "sha256": "71aca8a5bb6bbe4847d908a9665c5abebc6f6b8ce1df0ea9a051672e74baaa2b",
+      "expected": {
+        "status": "valid",
+        "coverage": "complete"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/structured.json",
+      "sha256": "3fdf5af265f1488d70ec895e8d417a3a7e0a2543bc32b9e77cb30b5036c56bf0",
+      "expected": {
+        "status": "valid",
+        "coverage": "partial"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/ocr.json",
+      "sha256": "2332dd31d922ea9d38770b9398e619f5ba807d2c24ff0784ccf86ca0366f6780",
+      "expected": {
+        "status": "valid",
+        "coverage": "partial"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/blank.json",
+      "sha256": "d42314d1eaa3a9bdc95bd0d820073cf68523e1ccb3a01df330e90e319dec66ac",
+      "expected": {
+        "status": "valid",
+        "coverage": "complete"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/missing-scan.json",
+      "sha256": "588f8df3da3c3be667742e04acea734e187a0db3c4a6ecc4ecb7e952d883a888",
+      "expected": {
+        "status": "valid",
+        "coverage": "partial",
+        "missingPhysicalNos": [
+          10
+        ]
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/unknown.json",
+      "sha256": "48f88650c1ac49d0d0a29ce4834470177e0de252f2ccd7fccb61a74ee4d6f179",
+      "expected": {
+        "status": "valid",
+        "coverage": "unknown"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/segment.json",
+      "sha256": "94419107578a35d662071462c1bd86359df0b2397065b98bde9e2e24a0ca32eb",
+      "expected": {
+        "status": "valid",
+        "coverage": "complete"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/uint32.json",
+      "sha256": "73a993f90eb4d3b34c03b36c8f6c86443fad0b25c8cdf6292073b2a776fa9bf1",
+      "expected": {
+        "status": "valid",
+        "coverage": "complete"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/utf8-split.json",
+      "sha256": "d5da518137ec548272cde93ab9b731d6d20dd39b1e690ed7b6a0288c4222b41a",
+      "expected": {
+        "status": "invalid",
+        "code": "utf8_boundary",
+        "path": "/blocks/0/spans/0/byteStart"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/cycle.json",
+      "sha256": "70f353a820280cfb7e23a9fd1668c690b7f6d35370f319462df4f3f71be78595",
+      "expected": {
+        "status": "invalid",
+        "code": "reference_cycle",
+        "path": "/blocks/0/parentId"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/unknown-ref.json",
+      "sha256": "e9e79a2ab3b05be6c1ef5e4ba624c5920826b5211f5ce11232529d1ed8b5c620",
+      "expected": {
+        "status": "invalid",
+        "code": "unknown_reference",
+        "path": "/blocks/0/parentId"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/page-hash.json",
+      "sha256": "f2a0d69fdb234e5d6b6841db1a21d8eb7fd25fed203eb1455309cfe4242f4ab6",
+      "expected": {
+        "status": "invalid",
+        "code": "digest_mismatch",
+        "path": "/pages/0/textDigest"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/reading-order.json",
+      "sha256": "d95222ec080126047cee10ea3aa58489f437e2e35f01655a4ce44d8a7f01cc56",
+      "expected": {
+        "status": "invalid",
+        "code": "order_violation",
+        "path": "/blocks/1/order"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/bbox-space.json",
+      "sha256": "be53c5d88e0405639e6263c1bebc021f6dc69463d63886163c14ff8eeeb4aab8",
+      "expected": {
+        "status": "invalid",
+        "code": "const",
+        "path": "/blocks/0/spans/0/bbox/space"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/bbox-range.json",
+      "sha256": "196aa506b03d4dbd573ac75d0e43a0cb16667881a437c1714d4f57dd96ad4245",
+      "expected": {
+        "status": "invalid",
+        "code": "maximum",
+        "path": "/blocks/0/spans/0/bbox/x1"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/segment-page.json",
+      "sha256": "0d6deb7c414b1927de7ae33efe532973d68780c82fc3baaa315ba08d28a1c090",
+      "expected": {
+        "status": "invalid",
+        "code": "forbidden_field",
+        "path": "/blocks/0/spans/0/physicalNo"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/coverage-lie.json",
+      "sha256": "efdd8257fde7a34f25af11dc2a8bbb2d2a7f4812bc497856e253f2cad8c214c3",
+      "expected": {
+        "status": "invalid",
+        "code": "coverage_mismatch",
+        "path": "/coverage/state"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/expected-count.json",
+      "sha256": "36ae3af240ed8658148d91dfd2bb65f4287c9da6967c16409a8366a5a2ed07cf",
+      "expected": {
+        "status": "invalid",
+        "code": "coverage_mismatch",
+        "path": "/coverage/counts/expected"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/manifest.v1.json",
+      "sha256": "64c4288525abaef66ea10c4233dec0464312bdc5330ec8583a829a3e5c163739",
+      "expected": {
+        "caseCount": 18,
+        "externalAdaptersImplemented": false
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/original.bin",
+      "sha256": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6"
+      }
+    },
+    {
+      "path": "tests/fixtures/ir/v1/original.png",
+      "sha256": "431ced6916a2a21a156e38701afe55bbd7f88969fbbfc56d7fe099d47f265460",
+      "expected": {
+        "assetDigest": "431ced6916a2a21a156e38701afe55bbd7f88969fbbfc56d7fe099d47f265460"
+      }
+    }
+  ]
+}

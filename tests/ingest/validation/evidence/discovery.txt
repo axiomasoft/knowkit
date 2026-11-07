@@ -1,0 +1,25 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Available tests:
+ - KnowKit\Tests\Ingest\Validation\FixtureTest::testProvenanceVersionDigestsOutcomesAndRequiredExecutedCasesFailClosed
+ - KnowKit\Tests\Ingest\Validation\QualityTest::testStrictCompletenessBlocksNineOfTenAndPreservesMissingScan
+ - KnowKit\Tests\Ingest\Validation\QualityTest::testExplicitPartialAllowsReadinessButExcludesCompletenessRequiredQueries
+ - KnowKit\Tests\Ingest\Validation\QualityTest::testBatchStatusNeverReplacesIndependentSourceCoverage
+ - KnowKit\Tests\Ingest\Validation\QualityTest::testUnknownLowConfidenceReviewAndRequiredFeaturesKeepSeparateDecisions
+ - KnowKit\Tests\Ingest\Validation\StoreTest::testExactStructuredBundleRoundTripsEveryRefAndRejectsSqlMutation
+ - KnowKit\Tests\Ingest\Validation\StoreTest::testChangedBytesOrParentSetCannotOverwriteHistoricalRevision
+ - KnowKit\Tests\Ingest\Validation\StoreTest::testMissingAndForeignParentsNeverMakeDerivativeVisible
+ - KnowKit\Tests\Ingest\Validation\StoreTest::testResourceInventoryAndParentBindingAreAuthoritative
+ - KnowKit\Tests\Ingest\Validation\StoreTest::testCurrentInvalidationAndVersionStateBlockDescendantsSynchronously
+ - KnowKit\Tests\Ingest\Validation\StoreTest::testUint32CoordinatesAndLateParentOrderPersistWithoutNarrowing
+ - KnowKit\Tests\Ingest\Validation\StoreTest::testMissingScanRemainsPartialInPersistenceAndReadiness
+ - KnowKit\Tests\Ingest\Validation\StoreTest::testInMemoryIrByteCeilingIsCheckedBeforeAnyPersistence
+ - KnowKit\Tests\Ingest\Validation\TechnicalTest::testVersionedCorpusRunsSchemaBeforeSemanticChecksAndRoundTrips
+ - KnowKit\Tests\Ingest\Validation\TechnicalTest::testSourceIrAndAssetTamperingCannotSelfSignOrOmitInventory
+ - KnowKit\Tests\Ingest\Validation\TechnicalTest::testUnicodeMultipleSpansResolveExactlyAndRejectForgedChunk
+ - KnowKit\Tests\Ingest\Validation\TechnicalTest::testStructuredFixtureRetainsRelationshipsOrExplicitUnavailableCapability
+ - KnowKit\Tests\Ingest\Validation\TechnicalTest::testPageConversionRequiresExplicitCoordinateOriginAndHalfEvenRounding
+ - KnowKit\Tests\Ingest\Validation\TechnicalTest::testCanonicalOffsetsAndNormalizedMappingNeverUseOriginalPdfOffsets
+ - KnowKit\Tests\Ingest\Validation\TechnicalTest::testFullTypedFingerprintsAndVerifiedManifestRejectCacheIdentityDrift
+ - KnowKit\Tests\Ingest\Validation\TechnicalTest::testSchemaObjectAndByteLimitsAndStrictDecodeFailClosed
+ - KnowKit\Tests\Ingest\Validation\TechnicalTest::testInMemoryIrCannotBypassTransportByteCeiling

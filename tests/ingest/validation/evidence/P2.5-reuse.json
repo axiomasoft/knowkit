@@ -1,0 +1,244 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P2.5",
+  "targetBaseline": "d3643eb81dc5fc2958290287e4684c2e2030c2e9",
+  "sources": [
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Adapters/PlainTextExtractor.php",
+      "sha256": "540a72806f40220dfcdbd9f7f3844cc41d7c55c63c405c41fc6d4441cd6cb091",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Adapters/PlainTextExtractor.php",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "reject",
+      "symbols": [
+        "PlainTextExtractor::extract"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Validation/DefaultQualityPolicy.php"
+      ],
+      "reason": "Physical pages and a nonempty-every-page rule conflict with logical segments and confirmed-empty coverage. Reuse existing P2.4 extractors instead.",
+      "qualificationRef": "Pinned local git object (AgenTools) or raw pinned GitHub bytes (DeepTutor), inspected and independently hashed in this executor session before implementation; donor suites not run.",
+      "license": "Proprietary; (c) 2026 Dmitry Vostrikov; licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/GenericValidator.php",
+      "sha256": "aa447e7fcca2ac1644181eee560607edddc51bbdf9aa4fa98cd39b50a3763d94",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/GenericValidator.php",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "symbols": [
+        "GenericValidator::validate"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Validation/TechnicalValidator.php",
+        "packages/core/src/Application/Validation/SpanAssembler.php"
+      ],
+      "reason": "Adapt exact source/page/content hashes, canonical UTF-8 byte boundaries and source-text equality. Existing KnowKit schema/semantic helpers own refs/cycles/geometry; add asset inventory and explicit ordered multi-span assembly.",
+      "qualificationRef": "Pinned local git object (AgenTools) or raw pinned GitHub bytes (DeepTutor), inspected and independently hashed in this executor session before implementation; donor suites not run.",
+      "license": "Proprietary; (c) 2026 Dmitry Vostrikov; licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/IngestTest.php",
+      "sha256": "ff90f60dd0dee003f5e2b31919a4eb0b3e8a8a5cb65d358bac1d372ec572fa15",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/IngestTest.php",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "symbols": [
+        "testSourceRefAndHashMismatch",
+        "testArtifactHashesAndSourceMapping",
+        "testUtf8AndCoordinateBoundaries",
+        "testHierarchyAndDuplicateIds",
+        "testImmutableAndCorruptRelease"
+      ],
+      "targetPaths": [
+        "tests/ingest/validation/TechnicalTest.php",
+        "tests/ingest/validation/StoreTest.php",
+        "tests/ingest/validation/QualityTest.php"
+      ],
+      "reason": "Adapt negative source/hash/self-signed-text/boundary/immutable/hierarchy tests; split technical integrity from per-source quality policy.",
+      "qualificationRef": "Pinned local git object (AgenTools) or raw pinned GitHub bytes (DeepTutor), inspected and independently hashed in this executor session before implementation; donor suites not run.",
+      "license": "Proprietary; (c) 2026 Dmitry Vostrikov; licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/pipelines/llamaindex/document_loader.py",
+      "sha256": "29856d09c034acd9657a0e2a864ddee84f6e92f1cd8c2eb0e618c7888dee632e",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/pipelines/llamaindex/document_loader.py",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "reject",
+      "symbols": [
+        "LlamaIndexDocumentLoader.load",
+        "LlamaIndexDocumentLoader._parse_document",
+        "LlamaIndexDocumentLoader._append_if_nonempty"
+      ],
+      "targetPaths": [
+        "tests/ingest/validation/QualityTest.php"
+      ],
+      "reason": "LlamaIndex/provider imports, automatic OCR fallback and strip/concatenation cannot preserve the approved PHP immutable canonical spans. No external parser is implemented here.",
+      "qualificationRef": "Pinned local git object (AgenTools) or raw pinned GitHub bytes (DeepTutor), inspected and independently hashed in this executor session before implementation; donor suites not run.",
+      "license": "Apache-2.0; (c) 2025 Data Intelligence Lab, The University of Hong Kong; docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/source_pages.py",
+      "sha256": "1f0f17f41bd3d87a8e20c21a325b2ea9de02b6b623640c9dc47ccfef589c10d6",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/source_pages.py",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "symbols": [
+        "source_digest",
+        "build_pdf_documents",
+        "legacy_page_index",
+        "SourceRef"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Validation/ExtractionCacheEntry.php",
+        "tests/ingest/validation/TechnicalTest.php"
+      ],
+      "reason": "Adapt full source SHA256, page-index/label separation and canonical-vs-original distinction as invariants/tests. Reject 16hex cache keys, dummy unsearchable text and native-parser fallback.",
+      "qualificationRef": "Pinned local git object (AgenTools) or raw pinned GitHub bytes (DeepTutor), inspected and independently hashed in this executor session before implementation; donor suites not run.",
+      "license": "Apache-2.0; (c) 2025 Data Intelligence Lab, The University of Hong Kong; docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/services/rag/test_source_pages.py",
+      "sha256": "31629b4c1bcc9eeed59291e2472ffddcd2681daf95fd64f8197372653c6dff84",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/test_source_pages.py",
+      "sourceRead": true,
+      "hashVerified": true,
+      "decision": "adapt",
+      "symbols": [
+        "test_reference_lists_are_indexed_and_page_furniture_is_not",
+        "test_page_number_block_does_not_return_through_the_text_layer",
+        "test_reference_list_without_page_index_is_still_indexed"
+      ],
+      "targetPaths": [
+        "tests/ingest/validation/TechnicalTest.php",
+        "tests/ingest/validation/QualityTest.php"
+      ],
+      "reason": "Adapt preservation of located structure, notes and source ranges without unlocated replacement. Missing scan and blank page remain distinct; tests qualify core boundaries only.",
+      "qualificationRef": "Pinned local git object (AgenTools) or raw pinned GitHub bytes (DeepTutor), inspected and independently hashed in this executor session before implementation; donor suites not run.",
+      "license": "Apache-2.0; (c) 2025 Data Intelligence Lab, The University of Hong Kong; docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    }
+  ],
+  "existingReuse": [
+    "Domain IrDocument/ContractValidator/StrictJson/SchemaSet/SemanticRules/JCS/Digests/LocatorConversion/Span/TextLocator/ProcessingIdentity/Parents and exact identity values are reused, not replaced.",
+    "PostgreSQL baseline 001 plus owning P2.1 uint32 migration 002, shared guarded transaction/Connection/Outbox and existing catalog test sandbox."
+  ],
+  "reusedTests": [
+    "AgenTools IngestTest source mapping, artifact hashes, UTF-8 coordinates, hierarchy and immutable/corrupt-release regressions adapted to TechnicalTest/StoreTest.",
+    "DeepTutor source_pages structured/located/blank page regression intent adapted; no Python runtime dependency or upstream test-pass claim."
+  ],
+  "addedGapTests": [
+    "Verified complete asset inventory and canonical IR external digest; immutable tenant-qualified document/resource maps and durable parent set.",
+    "Explicit joiner and canonical span-to-chunk equality; strict/partial/unknown source readiness and independent batch members.",
+    "DT-I01/DT-I02 full typed processing identity and verified cache inventory; current ancestor state and rollback negatives."
+  ],
+  "checks": [
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/validation/TechnicalTest.php",
+      "exit": 0,
+      "evidence": "tests/ingest/validation/evidence/TechnicalTest.document.txt",
+      "tests": 9,
+      "assertions": 154
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/validation/QualityTest.php",
+      "exit": 0,
+      "evidence": "tests/ingest/validation/evidence/QualityTest.final.txt",
+      "tests": 4,
+      "assertions": 31
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/validation/StoreTest.php",
+      "exit": 0,
+      "evidence": "tests/ingest/validation/evidence/StoreTest.limits.txt",
+      "tests": 8,
+      "assertions": 113
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/validation/FixtureTest.php",
+      "exit": 0,
+      "evidence": "tests/ingest/validation/evidence/FixtureTest.final.txt",
+      "tests": 1,
+      "assertions": 207
+    },
+    {
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/ingest/validation/bootstrap.php --no-progress packages/core/src/Application/Validation packages/core/src/Adapter/Postgres/Documents",
+      "exit": 0,
+      "evidence": "tests/ingest/validation/evidence/phpstan.document.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml --testsuite Core --group ingest:validation --list-tests",
+      "exit": 0,
+      "evidence": "tests/ingest/validation/evidence/discovery.txt",
+      "note": "Discovery only, not acceptance execution."
+    },
+    {
+      "cmd": "php -l <each of the 19 new PHP files>",
+      "exit": 0,
+      "evidence": "tests/ingest/validation/evidence/syntax.txt"
+    },
+    {
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": "tests/ingest/validation/evidence/whitespace.txt"
+    }
+  ],
+  "unresolved": [],
+  "newCodeRationale": [
+    "No donor provides this approved vendor-free PHP multi-span IR + asset inventory boundary, PostgreSQL typed metadata mapping or immutable dependency parent set. New application/adapter glue composes existing primitives."
+  ],
+  "scopeNotes": [
+    "R07/R09 core fixtures do not qualify PDF/OCR/search adapters. R16 exercises implemented readiness/completeness eligibility gates; later publication/query orchestration remains with its owning items.",
+    "Manual-review-needed always blocks this default automatic gate; no review-receipt protocol or general lifecycle DependencyStore is invented.",
+    "One DocumentStorage maps one immutable IR to one logical document; local IDs remain in IR/SQL and callers preallocate distinct ULIDs/resources.",
+    "Asset source_locators_json retains the original schema-bound IR AssetRef in a singleton array, including local asset ID, page/bbox and original digest; explicit origin/parent comes from typed adapter metadata.",
+    "Chunk validation requires the expected preallocated DocumentId as well as exact source/revision/IR identity. Span-only resolution does not fabricate a persisted document ID."
+  ],
+  "registration": "Product-side staging only. Coordinator registers @plan/artifacts/implementation/P2.5-reuse.json; executor does not mutate native plan state.",
+  "diagnostics": [
+    {
+      "text": "Initial PostgreSQL focused run failed at recursive CTE; using dependency-node ID type/collation in both terms fixed it. Original negative assertions retained.",
+      "exit": 2,
+      "evidence": "tests/ingest/validation/evidence/StoreTest.txt"
+    },
+    {
+      "text": "Coverage is a copied immutable value, so the initial identity assertion was corrected to value equality.",
+      "exit": 1,
+      "evidence": "tests/ingest/validation/evidence/QualityTest.txt"
+    },
+    {
+      "text": "In-memory >64 MiB negative required more than the CLI default 128 MiB during fixture construction. Test helper temporarily allocates 384 MiB and restores the setting; the product ceiling stays 64 MiB.",
+      "exit": 255,
+      "evidence": "tests/ingest/validation/evidence/TechnicalTest.final.txt"
+    },
+    {
+      "text": "OOM left a disposable schema; exact P2.5 digest/rights marker and isolated role grants identified it for cleanup.",
+      "evidence": "tests/ingest/validation/evidence/environment-cleanup.txt"
+    },
+    {
+      "text": "First focused PHPStan invocation missed the workspace autoloader. With explicit bootstrap, runtime boundary annotations were corrected to describe checked input arrays. No ignore/baseline/disabled rule was added.",
+      "exit": 1,
+      "evidence": "tests/ingest/validation/evidence/phpstan.final.txt"
+    },
+    {
+      "text": "PHPStan completes with exit 0 and no analysis errors, while its optional turbo extension emits a startup warning in this PHP runtime.",
+      "evidence": "tests/ingest/validation/evidence/phpstan.document.txt"
+    }
+  ],
+  "acceptance": "V1 withheld and not run; the coordinator owns acceptance and native registration."
+}

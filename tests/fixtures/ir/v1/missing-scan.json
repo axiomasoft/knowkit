@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01J00000000000000000000001",
+  "sourceVersionId": "01J00000000000000000000003",
+  "parserSignature": {
+    "name": "synthetic-ir",
+    "version": "1",
+    "profileDigest": "0ea1b1b7dc1030915d7d5e3e71e1d0184be225c0b462b7474e436abd332e06b7"
+  },
+  "pages": [
+    {
+      "pageId": "p1",
+      "physicalNo": 1,
+      "printedLabel": "1",
+      "text": "Page 1",
+      "textDigest": "e8b8355262d0af49d5243e0225b02368cf12bcbe0d25afd89f7cab1bbbf151fb",
+      "status": "ok"
+    },
+    {
+      "pageId": "p2",
+      "physicalNo": 2,
+      "printedLabel": "2",
+      "text": "Page 2",
+      "textDigest": "794f7062cf3f56f2c7d70702bd3d13e11124e4790972080d2f30d64f243a9d47",
+      "status": "ok"
+    },
+    {
+      "pageId": "p3",
+      "physicalNo": 3,
+      "printedLabel": "3",
+      "text": "Page 3",
+      "textDigest": "b2172e20df3711d87a12d093beb8a9b9d25db6837f897495a2ef8cfc2c5dcd39",
+      "status": "ok"
+    },
+    {
+      "pageId": "p4",
+      "physicalNo": 4,
+      "printedLabel": "4",
+      "text": "Page 4",
+      "textDigest": "be315c294e89da2fc16a03db7ee60db53e003c3769e8bf83019bb12e9576dfe0",
+      "status": "ok"
+    },
+    {
+      "pageId": "p5",
+      "physicalNo": 5,
+      "printedLabel": "5",
+      "text": "Page 5",
+      "textDigest": "438ff2afcf15e4b4536dc2514d74c66b50035c7e447e78d1f41681850183cbab",
+      "status": "ok"
+    },
+    {
+      "pageId": "p6",
+      "physicalNo": 6,
+      "printedLabel": "6",
+      "text": "Page 6",
+      "textDigest": "b97e7d061ab32cd89c497e7b70c5aeacaa502d8848cbea06dcdd8eb6d54153e5",
+      "status": "ok"
+    },
+    {
+      "pageId": "p7",
+      "physicalNo": 7,
+      "printedLabel": "7",
+      "text": "Page 7",
+      "textDigest": "36d2fbfa789ad4b06c615dbbba682748049cb4695754d82f568f1e6162c02335",
+      "status": "ok"
+    },
+    {
+      "pageId": "p8",
+      "physicalNo": 8,
+      "printedLabel": "8",
+      "text": "Page 8",
+      "textDigest": "268e6c61dbab5e4796f2f47e92425299eec246ecbd535ae60201c2e28cf0ade1",
+      "status": "ok"
+    },
+    {
+      "pageId": "p9",
+      "physicalNo": 9,
+      "printedLabel": "9",
+      "text": "Page 9",
+      "textDigest": "621dd2bc281df8eb383ef5771412b24c210dcd2d0939cf7b4a87de06b4eb9815",
+      "status": "ok"
+    },
+    {
+      "pageId": "p10",
+      "physicalNo": 10,
+      "printedLabel": "x",
+      "text": "",
+      "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "failed"
+    }
+  ],
+  "segments": [],
+  "blocks": [],
+  "assets": [],
+  "coverage": {
+    "state": "partial",
+    "counts": {
+      "expected": 10,
+      "processed": 9,
+      "empty": 0,
+      "failed": 1,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": [
+      {
+        "segmentId": "p10",
+        "code": "scan_missing",
+        "severity": "error"
+      }
+    ]
+  }
+}

@@ -1,0 +1,307 @@
+{
+  "schemaVersion": "ir-validation-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial source-integrity corpus: independently calculated SHA256 over literal original bytes, canonical UTF-8/JCS, and ordered spans. Structured/Unicode shapes adapt the project-authored P1.4 golden corpus; no external parser implementation is claimed.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "provenance": "Project-authored synthetic corpus; P1.4 shapes and P2.5 donor qualification."
+  },
+  "externalAdaptersImplemented": false,
+  "profileOptions": {
+    "normalization": "none",
+    "geometryRounding": "half-even",
+    "languages": [
+      "ru",
+      "ja"
+    ]
+  },
+  "parserProfileDigest": "0ea1b1b7dc1030915d7d5e3e71e1d0184be225c0b462b7474e436abd332e06b7",
+  "processingDigest": "d4b3777e3184b36a00b2775924cf2e830fb5dcbb58fc2a3693b4cb01f982867f",
+  "multiSpan": {
+    "spanIndices": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        1,
+        1
+      ]
+    ],
+    "joiner": " […] ",
+    "text": "Привет, мир. […] 東京タワーは高い。 […] Café — ёлка. […] Продолжение: 続きの文章。",
+    "contentDigest": "61eeda3de46e65e0d0daf063d78855dcf208281faceaca0ccb098c8b7a53b2a5"
+  },
+  "normalizedMapping": {
+    "normalized": "Café",
+    "canonical": "Café",
+    "normalizedStart": 0,
+    "normalizedEnd": 5,
+    "canonicalStart": 0,
+    "canonicalEnd": 6
+  },
+  "cases": [
+    {
+      "id": "IR-UNICODE",
+      "path": "tests/fixtures/ir/v1/unicode.json",
+      "sha256": "71aca8a5bb6bbe4847d908a9665c5abebc6f6b8ce1df0ea9a051672e74baaa2b",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "805e6f2461664098ee22f743a3ad1310a442af211e65d6fdac4140c5ca687632",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "valid",
+        "coverage": "complete"
+      }
+    },
+    {
+      "id": "IR-STRUCTURED",
+      "path": "tests/fixtures/ir/v1/structured.json",
+      "sha256": "3fdf5af265f1488d70ec895e8d417a3a7e0a2543bc32b9e77cb30b5036c56bf0",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "17984ae980e0538eb9d503bfee5d92d17087702838f2467d76490d606a538740",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "valid",
+        "coverage": "partial"
+      },
+      "assets": {
+        "a1": {
+          "path": "tests/fixtures/ir/v1/original.png",
+          "sha256": "431ced6916a2a21a156e38701afe55bbd7f88969fbbfc56d7fe099d47f265460",
+          "byteLength": "68"
+        }
+      }
+    },
+    {
+      "id": "IR-OCR",
+      "path": "tests/fixtures/ir/v1/ocr.json",
+      "sha256": "2332dd31d922ea9d38770b9398e619f5ba807d2c24ff0784ccf86ca0366f6780",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "8646a55d8fffddc1814060a7422aaaaaa75b04d3409132c3488bc24126b7326a",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "valid",
+        "coverage": "partial"
+      }
+    },
+    {
+      "id": "IR-BLANK",
+      "path": "tests/fixtures/ir/v1/blank.json",
+      "sha256": "d42314d1eaa3a9bdc95bd0d820073cf68523e1ccb3a01df330e90e319dec66ac",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "df65b3811bca28168ddb69476170412a2bc1136650a87d170a59ea2715554e2c",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "valid",
+        "coverage": "complete"
+      }
+    },
+    {
+      "id": "IR-MISSING-SCAN",
+      "path": "tests/fixtures/ir/v1/missing-scan.json",
+      "sha256": "588f8df3da3c3be667742e04acea734e187a0db3c4a6ecc4ecb7e952d883a888",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "1b479a81ad96d7248123c194a85ee1afe8595a39d79dfc3d924ba4767f9456ea",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "valid",
+        "coverage": "partial",
+        "missingPhysicalNos": [
+          10
+        ]
+      }
+    },
+    {
+      "id": "IR-UNKNOWN",
+      "path": "tests/fixtures/ir/v1/unknown.json",
+      "sha256": "48f88650c1ac49d0d0a29ce4834470177e0de252f2ccd7fccb61a74ee4d6f179",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "8105292ebe21c8ce66c95b911390f4c5a32c188473a8ae1ec9beb62bcebbcc0a",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "valid",
+        "coverage": "unknown"
+      }
+    },
+    {
+      "id": "IR-SEGMENT",
+      "path": "tests/fixtures/ir/v1/segment.json",
+      "sha256": "94419107578a35d662071462c1bd86359df0b2397065b98bde9e2e24a0ca32eb",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "91c3a9943fe0f530557a4c7b01f73e8281f0a52b9c6c8e42ebb47fa2de86d70f",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "valid",
+        "coverage": "complete"
+      }
+    },
+    {
+      "id": "IR-UINT32",
+      "path": "tests/fixtures/ir/v1/uint32.json",
+      "sha256": "73a993f90eb4d3b34c03b36c8f6c86443fad0b25c8cdf6292073b2a776fa9bf1",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "7519a7dba9e68877597058b87adb0c1cd60521341c9148db912646684bb256f5",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "valid",
+        "coverage": "complete"
+      }
+    },
+    {
+      "id": "IR-UTF8-SPLIT",
+      "path": "tests/fixtures/ir/v1/utf8-split.json",
+      "sha256": "d5da518137ec548272cde93ab9b731d6d20dd39b1e690ed7b6a0288c4222b41a",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "f376bcf1ffc2e0cfdd33f545aaef415bf96bd85fda2ec34aa8b9dd13f07a6eb2",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "invalid",
+        "code": "utf8_boundary",
+        "path": "/blocks/0/spans/0/byteStart"
+      }
+    },
+    {
+      "id": "IR-CYCLE",
+      "path": "tests/fixtures/ir/v1/cycle.json",
+      "sha256": "70f353a820280cfb7e23a9fd1668c690b7f6d35370f319462df4f3f71be78595",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "9ccbe47e1ce5ed2e9e02914c8aeb7b0dc528c1eb799829984a02beb1ced6cfae",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "invalid",
+        "code": "reference_cycle",
+        "path": "/blocks/0/parentId"
+      }
+    },
+    {
+      "id": "IR-REF",
+      "path": "tests/fixtures/ir/v1/unknown-ref.json",
+      "sha256": "e9e79a2ab3b05be6c1ef5e4ba624c5920826b5211f5ce11232529d1ed8b5c620",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "72a1b74873f35219ccb16c6b8d262e20eb6b9c12ba16e16e118791e1aa17236f",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "invalid",
+        "code": "unknown_reference",
+        "path": "/blocks/0/parentId"
+      }
+    },
+    {
+      "id": "IR-PAGE-HASH",
+      "path": "tests/fixtures/ir/v1/page-hash.json",
+      "sha256": "f2a0d69fdb234e5d6b6841db1a21d8eb7fd25fed203eb1455309cfe4242f4ab6",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "ef589e628fba2391380ee94ad4826100463a32a167f2d9ec4a1d46d7748f9fde",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "invalid",
+        "code": "digest_mismatch",
+        "path": "/pages/0/textDigest"
+      }
+    },
+    {
+      "id": "IR-READING-ORDER",
+      "path": "tests/fixtures/ir/v1/reading-order.json",
+      "sha256": "d95222ec080126047cee10ea3aa58489f437e2e35f01655a4ce44d8a7f01cc56",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "11a5be5622e02d0a4ea21259861627ca534f389e372eba9c00a64f4a9061a68f",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "invalid",
+        "code": "order_violation",
+        "path": "/blocks/1/order"
+      }
+    },
+    {
+      "id": "IR-BBOX-SPACE",
+      "path": "tests/fixtures/ir/v1/bbox-space.json",
+      "sha256": "be53c5d88e0405639e6263c1bebc021f6dc69463d63886163c14ff8eeeb4aab8",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "3d4408093a7598d4bac3c799fe2218d8fca6e2d87eb964e93150444fb2d4d7dd",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "invalid",
+        "code": "const",
+        "path": "/blocks/0/spans/0/bbox/space"
+      }
+    },
+    {
+      "id": "IR-BBOX-RANGE",
+      "path": "tests/fixtures/ir/v1/bbox-range.json",
+      "sha256": "196aa506b03d4dbd573ac75d0e43a0cb16667881a437c1714d4f57dd96ad4245",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "bf58c1397d9611e5476b3f38b3bb2481f6d0e93f344ab2614a9cde11116c40ec",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "invalid",
+        "code": "maximum",
+        "path": "/blocks/0/spans/0/bbox/x1"
+      }
+    },
+    {
+      "id": "IR-SEGMENT-PAGE",
+      "path": "tests/fixtures/ir/v1/segment-page.json",
+      "sha256": "0d6deb7c414b1927de7ae33efe532973d68780c82fc3baaa315ba08d28a1c090",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "42d4b3bd09417623daab9b059c343ab42a79b3c5a1ef93dbc85cc561cf0dec3d",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "invalid",
+        "code": "forbidden_field",
+        "path": "/blocks/0/spans/0/physicalNo"
+      }
+    },
+    {
+      "id": "IR-COVERAGE-LIE",
+      "path": "tests/fixtures/ir/v1/coverage-lie.json",
+      "sha256": "efdd8257fde7a34f25af11dc2a8bbb2d2a7f4812bc497856e253f2cad8c214c3",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "ab40dda8f3efc725714a1f3eae6d34d0e6c98e94cf29878800a604cee5451eea",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "invalid",
+        "code": "coverage_mismatch",
+        "path": "/coverage/state"
+      }
+    },
+    {
+      "id": "IR-EXPECTED-COUNT",
+      "path": "tests/fixtures/ir/v1/expected-count.json",
+      "sha256": "36ae3af240ed8658148d91dfd2bb65f4287c9da6967c16409a8366a5a2ed07cf",
+      "schemaId": "urn:knowkit:schema:document-ir:1.0",
+      "irDigest": "10fbde8a188c2b52b37157f01e2c49a24f27ddfe85cf472d00d17b621111b04b",
+      "sourcePath": "tests/fixtures/ir/v1/original.bin",
+      "sourceDigest": "730b668e1f6353b2a08b27ae7f216713d4abb50752ddeb0768bd68424339a8f6",
+      "expected": {
+        "status": "invalid",
+        "code": "coverage_mismatch",
+        "path": "/coverage/counts/expected"
+      }
+    }
+  ]
+}

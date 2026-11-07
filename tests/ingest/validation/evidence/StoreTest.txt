@@ -1,0 +1,141 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repo>/phpunit.xml
+
+EEFFEEE                                                             7 / 7 (100%)
+
+Time: 00:00.637, Memory: 10.00 MB
+
+There were 5 errors:
+
+1) KnowKit\Tests\Ingest\Validation\StoreTest::testExactStructuredBundleRoundTripsEveryRefAndRejectsSqlMutation
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+<repo>/packages/core/src/Adapter/Postgres/Catalog/Connection.php:37
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoRevisionLineage.php:79
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoRevisionLineage.php:33
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoDocumentStore.php:38
+<repo>/tests/ingest/validation/StorageFixture.php:80
+<repo>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+<repo>/tests/ingest/validation/StorageFixture.php:77
+<repo>/tests/ingest/validation/StoreTest.php:22
+<repo>/tests/ingest/validation/StorageFixture.php:98
+<repo>/tests/storage/catalog/CatalogFixture.php:85
+<repo>/tests/tooling/baseline/DatabaseSandbox.php:31
+<repo>/tests/storage/catalog/CatalogFixture.php:77
+<repo>/tests/ingest/validation/StorageFixture.php:95
+<repo>/tests/ingest/validation/StoreTest.php:20
+
+2) KnowKit\Tests\Ingest\Validation\StoreTest::testChangedBytesOrParentSetCannotOverwriteHistoricalRevision
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+<repo>/packages/core/src/Adapter/Postgres/Catalog/Connection.php:37
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoRevisionLineage.php:79
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoRevisionLineage.php:33
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoDocumentStore.php:38
+<repo>/tests/ingest/validation/StorageFixture.php:80
+<repo>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+<repo>/tests/ingest/validation/StorageFixture.php:77
+<repo>/tests/ingest/validation/StoreTest.php:54
+<repo>/tests/ingest/validation/StorageFixture.php:98
+<repo>/tests/storage/catalog/CatalogFixture.php:85
+<repo>/tests/tooling/baseline/DatabaseSandbox.php:31
+<repo>/tests/storage/catalog/CatalogFixture.php:77
+<repo>/tests/ingest/validation/StorageFixture.php:95
+<repo>/tests/ingest/validation/StoreTest.php:53
+
+3) KnowKit\Tests\Ingest\Validation\StoreTest::testCurrentInvalidationAndVersionStateBlockDescendantsSynchronously
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+<repo>/packages/core/src/Adapter/Postgres/Catalog/Connection.php:37
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoRevisionLineage.php:79
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoRevisionLineage.php:33
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoDocumentStore.php:38
+<repo>/tests/ingest/validation/StorageFixture.php:80
+<repo>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+<repo>/tests/ingest/validation/StorageFixture.php:77
+<repo>/tests/ingest/validation/StoreTest.php:125
+<repo>/tests/ingest/validation/StorageFixture.php:98
+<repo>/tests/storage/catalog/CatalogFixture.php:85
+<repo>/tests/tooling/baseline/DatabaseSandbox.php:31
+<repo>/tests/storage/catalog/CatalogFixture.php:77
+<repo>/tests/ingest/validation/StorageFixture.php:95
+<repo>/tests/ingest/validation/StoreTest.php:124
+
+4) KnowKit\Tests\Ingest\Validation\StoreTest::testUint32CoordinatesAndLateParentOrderPersistWithoutNarrowing
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+<repo>/packages/core/src/Adapter/Postgres/Catalog/Connection.php:37
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoRevisionLineage.php:79
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoRevisionLineage.php:33
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoDocumentStore.php:38
+<repo>/tests/ingest/validation/StorageFixture.php:80
+<repo>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+<repo>/tests/ingest/validation/StorageFixture.php:77
+<repo>/tests/ingest/validation/StoreTest.php:148
+<repo>/tests/ingest/validation/StorageFixture.php:98
+<repo>/tests/storage/catalog/CatalogFixture.php:85
+<repo>/tests/tooling/baseline/DatabaseSandbox.php:31
+<repo>/tests/storage/catalog/CatalogFixture.php:77
+<repo>/tests/ingest/validation/StorageFixture.php:95
+<repo>/tests/ingest/validation/StoreTest.php:147
+
+5) KnowKit\Tests\Ingest\Validation\StoreTest::testMissingScanRemainsPartialInPersistenceAndReadiness
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+<repo>/packages/core/src/Adapter/Postgres/Catalog/Connection.php:37
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoRevisionLineage.php:79
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoRevisionLineage.php:33
+<repo>/packages/core/src/Adapter/Postgres/Documents/PdoDocumentStore.php:38
+<repo>/tests/ingest/validation/StorageFixture.php:80
+<repo>/packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php:25
+<repo>/tests/ingest/validation/StorageFixture.php:77
+<repo>/tests/ingest/validation/StoreTest.php:168
+<repo>/tests/ingest/validation/StorageFixture.php:98
+<repo>/tests/storage/catalog/CatalogFixture.php:85
+<repo>/tests/tooling/baseline/DatabaseSandbox.php:31
+<repo>/tests/storage/catalog/CatalogFixture.php:77
+<repo>/tests/ingest/validation/StorageFixture.php:95
+<repo>/tests/ingest/validation/StoreTest.php:167
+
+--
+
+There were 2 failures:
+
+1) KnowKit\Tests\Ingest\Validation\StoreTest::testMissingAndForeignParentsNeverMakeDerivativeVisible
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'required_parent_missing'
++'storage_unavailable'
+
+<repo>/tests/ingest/validation/StoreTest.php:184
+<repo>/tests/ingest/validation/StoreTest.php:79
+<repo>/tests/ingest/validation/StorageFixture.php:98
+<repo>/tests/storage/catalog/CatalogFixture.php:85
+<repo>/tests/tooling/baseline/DatabaseSandbox.php:31
+<repo>/tests/storage/catalog/CatalogFixture.php:77
+<repo>/tests/ingest/validation/StorageFixture.php:95
+<repo>/tests/ingest/validation/StoreTest.php:76
+
+2) KnowKit\Tests\Ingest\Validation\StoreTest::testResourceInventoryAndParentBindingAreAuthoritative
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'canonical_resource_required'
++'storage_unavailable'
+
+<repo>/tests/ingest/validation/StoreTest.php:184
+<repo>/tests/ingest/validation/StoreTest.php:108
+<repo>/tests/ingest/validation/StorageFixture.php:98
+<repo>/tests/storage/catalog/CatalogFixture.php:85
+<repo>/tests/tooling/baseline/DatabaseSandbox.php:31
+<repo>/tests/storage/catalog/CatalogFixture.php:77
+<repo>/tests/ingest/validation/StorageFixture.php:95
+<repo>/tests/ingest/validation/StoreTest.php:101
+
+ERRORS!
+Tests: 7, Assertions: 4, Errors: 5, Failures: 2.

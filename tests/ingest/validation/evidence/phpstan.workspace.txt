@@ -1,0 +1,49 @@
+
+Warning: PHP Startup: Unable to load dynamic library '<repo>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so' (tried: <repo>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so (Dynamic loading not supported), <php-extensions>/<repo>/vendor/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so.so (Dynamic loading not supported)) in Unknown on line 0
+Instructions for interpreting errors
+---------
+
+Each error has an associated identifier, like `argument.type`
+or `return.missing`.
+
+Each error identifier has documentation at URL https://phpstan.org/error-identifiers/<identifier>
+This page contains code example, explanation why is this an error
+and instruction how to fix it.
+Before fixing the error, fetch the documentation page for its identifier.
+
+The error usually indicates a real bug or incorrect type in the code. Fix the underlying cause, do not just make the error go away.
+Do not add `@phpstan-ignore` comments, `@phpstan-ignore-next-line` comments, or baseline entries to suppress the error.
+Do not use assert() or inline @var PHPDoc tag to override PHPStan's inferred type.
+Do not add type casts just to silence errors.
+Do not widen parameter or return types just to make the error go away.
+ ------ -----------------------------------------------------------------------
+  Line   Application/Validation/SpanAssembler.php
+ ------ -----------------------------------------------------------------------
+  35     Call to function array_is_list() with non-empty-list<KnowKit\Domain\S
+         pan> will always evaluate to true.
+         🪪  function.alreadyNarrowedType
+         💡  Because the type is coming from a PHPDoc, you can turn off this
+         check by setting treatPhpDocTypesAsCertain: false in your phpstan.neo
+         n.
+  35     Result of || is always false.
+         🪪  booleanOr.alwaysFalse
+         💡  Because the type is coming from a PHPDoc, you can turn off this
+         check by setting treatPhpDocTypesAsCertain: false in your phpstan.neo
+         n.
+  35     Strict comparison using === between non-empty-list<KnowKit\Domain\Spa
+         n> and array{} will always evaluate to false.
+         🪪  identical.alwaysFalse
+         💡  Because the type is coming from a PHPDoc, you can turn off this
+         check by setting treatPhpDocTypesAsCertain: false in your phpstan.neo
+         n.
+  41     Instanceof between KnowKit\Domain\Span and KnowKit\Domain\Span will
+         always evaluate to true.
+         🪪  instanceof.alwaysTrue
+         💡  Because the type is coming from a PHPDoc, you can turn off this
+         check by setting treatPhpDocTypesAsCertain: false in your phpstan.neo
+         n.
+ ------ -----------------------------------------------------------------------
+
+
+ [ERROR] Found 4 errors
+

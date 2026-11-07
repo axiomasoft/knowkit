@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "ir-1.0",
+  "tenantId": "01J00000000000000000000001",
+  "sourceVersionId": "01J00000000000000000000003",
+  "parserSignature": {
+    "name": "synthetic-ir",
+    "version": "1",
+    "profileDigest": "0ea1b1b7dc1030915d7d5e3e71e1d0184be225c0b462b7474e436abd332e06b7"
+  },
+  "pages": [
+    {
+      "pageId": "max",
+      "physicalNo": 4294967295,
+      "printedLabel": "max",
+      "text": "",
+      "textDigest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "empty"
+    }
+  ],
+  "segments": [
+    {
+      "segmentId": "s1",
+      "text": "Café ﬁ",
+      "textDigest": "534206dac74ecbe07de9dbd5451a76b2c2111145dc9d77080083eae376d8fdcc",
+      "status": "ok"
+    }
+  ],
+  "blocks": [
+    {
+      "blockId": "b1",
+      "kind": "text",
+      "parentId": null,
+      "order": 4294967295,
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "segment",
+          "segmentId": "s1",
+          "blockId": "b1",
+          "byteStart": 0,
+          "byteEnd": 10
+        }
+      ],
+      "provenance": {
+        "kind": "verbatim",
+        "supportingRefs": []
+      }
+    }
+  ],
+  "assets": [],
+  "coverage": {
+    "state": "complete",
+    "counts": {
+      "expected": 2,
+      "processed": 2,
+      "empty": 1,
+      "failed": 0,
+      "skipped": 0
+    },
+    "missingFeatures": [],
+    "diagnostics": []
+  }
+}

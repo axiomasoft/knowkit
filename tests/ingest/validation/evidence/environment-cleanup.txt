@@ -1,0 +1,3 @@
+Removed one abandoned disposable P2.5 schema and its isolated NOLOGIN runtime role after the OOM diagnostic.
+Ownership verified from the exact P2.5 synthetic source digest, license marker, empty revision store and isolated role grants.
+No application/public schema or unrelated fixture was changed.
