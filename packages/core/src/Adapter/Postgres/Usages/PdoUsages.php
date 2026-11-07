@@ -9,6 +9,7 @@ use KnowKit\Adapter\Postgres\Catalog\Connection;
 use KnowKit\Adapter\Postgres\Catalog\PdoCatalogTransaction;
 use KnowKit\Adapter\Postgres\Dependencies\NodeMetadata;
 use KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore;
+use KnowKit\Adapter\Postgres\Reading\PdoCitations;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
@@ -135,6 +136,7 @@ final readonly class PdoUsages implements DisclosureStore
             return $this->replay($scope, $request) ?? throw new D\DomainFailure(D\Outcome::Unknown, 'commit_unknown');
         }
         $this->dependencies->recordUsage($prepared->usage);
+        (new PdoCitations($this->db))->save($prepared);
         $this->appendEvent($prepared->event);
         $finalNow = self::instant($this->db->execute('SELECT clock_timestamp()')->fetchColumn());
         if ($record->selection->expiresAt()->compare($finalNow) <= 0) {
@@ -152,6 +154,36 @@ final readonly class PdoUsages implements DisclosureStore
         $this->db->execute('INSERT INTO ' . $this->db->table('outbox')
             . ' (tenant_id,id,event_json,payload_digest,aggregate_version) VALUES (?,?,?::jsonb,?,?)',
             [$wire->get('tenantId'), $wire->get('eventId'), $event->canonical(), $wire->get('payloadDigest'), '1']);
+    }
+
+    /** Historical reads use current policy epochs and exact refs, independently of Selection expiry. */
+    public function readingPlan(D\Scope $scope, D\ChunkRef $ref): D\DisclosurePlan
+    {
+        $source = $ref->revisionRef->sourceRef;
+        $scope->assertTenant($source->tenantId);
+        $sources = [$source->sourceId->value => $source->sourceId];
+        $resources = [];
+        $this->resource($resources, $scope, 'source_version', $source->sourceVersionId);
+        $this->ancestors($scope, $ref, $sources, $resources);
+        $this->collections($scope, $source->sourceId, $resources);
+        ksort($sources, SORT_STRING);
+        foreach ($sources as $id) {
+            $this->resource($resources, $scope, 'source', $id);
+        }
+        ksort($resources, SORT_STRING);
+
+        return new D\DisclosurePlan(array_values($sources), array_values($resources), $this->binding($scope, array_values($sources)));
+    }
+
+    /** SQL-only checks under the same tenant/KB/source guards used by Usage commit. */
+    public function requireReadable(D\Scope $scope, D\ChunkRef $ref): void
+    {
+        $metadata = new NodeMetadata($this->db, $this->tx);
+        $actual = $metadata->resolve(new D\ResourceRef($scope->tenantId, 'chunk', $ref->chunkId));
+        if ($actual['identity'] != $ref->toWire()) {
+            throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
+        }
+        $this->requireUsable($scope, [$ref]);
     }
 
     private function insert(D\Scope $scope, D\PreparedDisclosure $prepared): bool

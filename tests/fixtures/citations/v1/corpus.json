@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "citation-corpus:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored immutable page/segment identities and independent output expectations; no snapshot updates.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic citation and image bytes; no external documents.",
+    "redistributionAllowed": false
+  },
+  "source": "Original source version 1\n",
+  "page": "Заголовок: масса (кг)\n12\n",
+  "correctedPage": "Исправлено: масса (кг)\n13\n",
+  "label": "xii",
+  "pageIndex": 0,
+  "physicalNo": 1,
+  "asset": "synthetic retained image bytes v1",
+  "preview": "synthetic exact region image bytes v1",
+  "invalidRegions": [[-1, 0, 100, 100], [0, 0, 1000001, 100], [100, 0, 100, 100], [0, 100, 100, 0]],
+  "cases": {
+    "PAGE-INDEX-ZERO": "physicalNo=1",
+    "PRINTED-LABEL-XII": "printedLabel=xii",
+    "HISTORICAL-REOCR": "exact original or refuse",
+    "REVOKED-ASSET": "denied",
+    "EXPIRED-URL": "denied(read_expired)",
+    "INVALID-REGION": "reject without clamp",
+    "PURGED-PAYLOAD": "unavailable(payload_purged)",
+    "R27-A01": "complete table with headers/units or explicit table_read_required",
+    "R27-A02": "exact multibyte spans and independent token/byte/fragment/asset limits",
+    "R33-A01": "retained original or refuse, no newest lookup",
+    "R33-A02": "fresh check after revoke, no permanent URL",
+    "DT-Q11": "alternatives, distinct original/preview digests"
+  },
+  "expectedDigests": {
+    "source": "9eb2ec34bc17ae674df86ad83fa5bf072589f336b14c8ccadd729cc1ebc50d11",
+    "page": "c2a266e4e1f57d61f3161aae8c1a1a51c9b0f17b28b01dbd24a36e314e7d2831",
+    "correctedPage": "c1a779ffba959c46e67c609dbba22251010ed591f1223bc55f57b32f2706a8a3",
+    "asset": "e606fc66bc9d8ae91f462ea824395363d6c5688d6d5dabf6dc84a179335e5d18",
+    "preview": "5e7880e30b369ca671ba8aeed41eeb754ccab35015656f93d7bbaf96952f12c8"
+  }
+}

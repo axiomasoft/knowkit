@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.3",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/Service.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "observedSha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Service.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt fresh owner/source checks and all-or-nothing private buffering; use core SQL guards and confirmed Usage COMMIT.",
+      "qualificationRef": "tests/retrieval/reading/ReadingTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Reading",
+        "packages/core/src/Adapter/Postgres/Reading",
+        "tests/retrieval/reading"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/EvidenceSet.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "d84404e2ea497a9558d4839bd55848b1440c1f383c0f2d27c0ac6f5037b900f9",
+      "observedSha256": "d84404e2ea497a9558d4839bd55848b1440c1f383c0f2d27c0ac6f5037b900f9",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/EvidenceSet.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt stable historical identity: a stored result or preview is never authority for a later delivery.",
+      "qualificationRef": "tests/retrieval/reading/ReadingTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Reading",
+        "packages/core/src/Adapter/Postgres/Reading",
+        "tests/retrieval/reading"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+      "observedSha256": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt tenant/scope, revoke, correction, expiry and metadata-only historical replay regressions.",
+      "qualificationRef": "tests/retrieval/reading/ReadingTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Reading",
+        "packages/core/src/Adapter/Postgres/Reading",
+        "tests/retrieval/reading"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/source_pages.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "1f0f17f41bd3d87a8e20c21a325b2ea9de02b6b623640c9dc47ccfef589c10d6",
+      "observedSha256": "1f0f17f41bd3d87a8e20c21a325b2ea9de02b6b623640c9dc47ccfef589c10d6",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/source_pages.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt zero-based page index conversion and exact source digest checks. Reject path identity, latest pointers and permanent object URLs.",
+      "qualificationRef": "tests/retrieval/reading/ReadingTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Reading",
+        "packages/core/src/Adapter/Postgres/Reading",
+        "tests/retrieval/reading"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/reading/_grounding.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "2890d7146df08f0ce7a6ce1c243373e9ee9ec03f9672a9e15f52c66403cd6cf8",
+      "observedSha256": "2890d7146df08f0ce7a6ce1c243373e9ee9ec03f9672a9e15f52c66403cd6cf8",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/reading/_grounding.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Use the existing core SpanAssembler for exact UTF-8 byte offsets. Reject first-hit matching and clamped or fuzzy quote recovery.",
+      "qualificationRef": "tests/retrieval/reading/ReadingTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Reading",
+        "packages/core/src/Adapter/Postgres/Reading",
+        "tests/retrieval/reading"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/reading/test_grounding.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "a9393b1aeaed63bee38e76aa206fbc87ab9e83f8cdf04d15ccb2139d38ebb1a7",
+      "observedSha256": "a9393b1aeaed63bee38e76aa206fbc87ab9e83f8cdf04d15ccb2139d38ebb1a7",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/reading/test_grounding.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt canonical spelling and retained-source regression intent; assertions bind original bytes and digests, never a normalized nearest match.",
+      "qualificationRef": "tests/retrieval/reading/ReadingTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Reading",
+        "packages/core/src/Adapter/Postgres/Reading",
+        "tests/retrieval/reading"
+      ]
+    }
+  ],
+  "newCodeRationale": "Reuse core CitationRef, SpanAssembler, PolicyChecks, PdoUsages, PdoCatalogTransaction and PdoDependencyStore. Add only the missing immutable citation writer/resolver and controlled bounded reading gateway; existing SQL tables and wire schemas remain unchanged.",
+  "sourceGaps": [
+    "Pinned donors do not implement tenant/KB/source shared SQL guards, immutable resolver rows, atomic Usage lineage, DB-clock freshness or ambiguous-COMMIT handling. These use the qualified core disclosure implementation.",
+    "Arbitrary PDF/image rendering and dynamic crops are not supplied by these PHP donors. Region reads return only an exact retained IR asset with its original bbox/transform and produced-byte digest; unmatched regions refuse, ambiguous regions return alternatives.",
+    "No optional external BlobStore adapter or HTTP/Laravel delivery adapter is claimed implemented. The gateway returns a bounded buffer for authenticated host delivery; originals above the hard bound refuse."
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "retrieval:reading",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial explicit mapping of every mandatory citation/preview scenario to executed PHPUnit assertions, including actual PostgreSQL and LocalBlob integration.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures; pinned donor algorithms qualified by the reuse receipt.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "PAGE-INDEX-ZERO",
+    "PRINTED-LABEL-XII",
+    "HISTORICAL-REOCR",
+    "REVOKED-ASSET",
+    "EXPIRED-URL",
+    "INVALID-REGION",
+    "PURGED-PAYLOAD",
+    "R27-A01",
+    "R27-A02",
+    "R33-A01",
+    "R33-A02",
+    "DT-Q11",
+    "EXACT-SEGMENT-RESOLVER",
+    "READ-USAGE-LINEAGE",
+    "READ-TYPED-OUTCOMES",
+    "READ-COMMIT-UNKNOWN",
+    "READ-FINAL-EXPIRY",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES",
+    "EXACT-MULTISPAN",
+    "EXACT-INTEGRITY"
+  ],
+  "testCaseMap": {
+    "PAGE-INDEX-ZERO": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testPageIndexZeroPhysicalOneAndPrintedLabelRemainSeparate"
+    ],
+    "PRINTED-LABEL-XII": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testPageIndexZeroPhysicalOneAndPrintedLabelRemainSeparate"
+    ],
+    "HISTORICAL-REOCR": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testOldLocatorAfterCorrectionOrReOcrNeverUsesNewBytes",
+      "KnowKit\\Tests\\Retrieval\\Reading\\BoundaryTest::testOldCitationSurvivesExpiredSelectionWithoutExtendingItsAuthorization"
+    ],
+    "REVOKED-ASSET": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testPolicyRevokeAfterBufferingAndBeforeServingIsFresh",
+      "KnowKit\\Tests\\Retrieval\\Reading\\BoundaryTest::testRealLocalBlobPreviewIsBoundedVerifiedAndReauthorizes"
+    ],
+    "EXPIRED-URL": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testExpiredReadAndExpiryDuringPreloadIssueNoBytes"
+    ],
+    "INVALID-REGION": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testInvalidRegionCannotClampOrChooseNearestVisual"
+    ],
+    "PURGED-PAYLOAD": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testPurgedResolverAndPayloadDuringPreloadRemainUnavailable"
+    ],
+    "R27-A01": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testTableRetainsCompleteRowsHeadersAndUnitsOrRequiresExplicitRead"
+    ],
+    "R27-A02": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testMultibyteTokenByteFragmentAndAssetLimitsRemainIndependent"
+    ],
+    "R33-A01": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testOldLocatorAfterCorrectionOrReOcrNeverUsesNewBytes",
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testChangedUnderlyingSourceAndAssetDigestRefuseOldLocator"
+    ],
+    "R33-A02": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testPreviewRevocationDuringPreloadBlocksPageTableAssetAndSource",
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testPolicyRevokeAfterBufferingAndBeforeServingIsFresh"
+    ],
+    "DT-Q11": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testAmbiguousLabelReturnsAlternativesAndVisualHashesStayDistinct",
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testAmbiguousRegionReturnsEveryExactAlternativeWithoutChoosingFirstAsset"
+    ],
+    "EXACT-SEGMENT-RESOLVER": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testIssuedCitationIsPersistedAtomicallyAndExactSegmentStillResolves"
+    ],
+    "READ-USAGE-LINEAGE": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testUsageAuditContainsExactRefsAndOutputDigestWithoutPlaintext"
+    ],
+    "READ-TYPED-OUTCOMES": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\ReadingTest::testUnknownDeniedUnavailableAndIncompatibleStayDistinctAndNeverLeakBody"
+    ],
+    "READ-COMMIT-UNKNOWN": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\BoundaryTest::testAmbiguousCommitReturnsNoBodyAndRetryIsMetadataOnly"
+    ],
+    "READ-FINAL-EXPIRY": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\BoundaryTest::testExpiryDuringSqlWorkRollsBackUsageOutboxAndReadReceipt"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\FixtureTest::testVersionedCorpusAndDonorDigests"
+    ],
+    "EXACT-MULTISPAN": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\CanonicalTest::testMultipleSpansRetainOrderExplicitJoinerAndDigestOfActuallyProducedBytes"
+    ],
+    "EXACT-INTEGRITY": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\CanonicalTest::testChangedSpanDigestAndUtf8ContinuationOffsetCannotReturnApproximateQuote"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Retrieval\\Reading\\FixtureTest::testRequiredCasesRejectMissingSkippedEmptyFailedAndUnknown"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/citations/v1/corpus.json",
+      "sha256": "d7ab1a7a3799b9a7d0482bd57bac4e75b2ee536e4e8fcdc7c788b8911917bf99",
+      "expected": "Exact original page/source/asset/preview digests and authored typed outcomes; updates require a new fixture version and rationale."
+    }
+  ]
+}
