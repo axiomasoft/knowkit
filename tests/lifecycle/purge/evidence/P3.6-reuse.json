@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P3.6",
+  "authority": "licenses/local-reuse-authorization.md",
+  "candidates": [
+    {"source":"agentools:extensions/knowledge/src/Dependencies/PostgresGraph.php","revision":"2054acda51eb69eca1579c78900858c5ff3de01e","sha256":"afdfaecf1f2246cf4f4a8e1ab70bc1da1d89926c8aab11740c0a47d6a841bd7f","decision":"adapt","use":"Tenant-guarded begin/result/finish attempts, immutable resource obligations and explicit retry; replace donor identities and result vocabulary."},
+    {"source":"agentools:extensions/knowledge/src/Dependencies/DeletionWorker.php","revision":"2054acda51eb69eca1579c78900858c5ff3de01e","sha256":"0b1cf97507a8357b431dfa6dfaf8e6ae48c5501336292fd8dddeb9d2ae9a06af","decision":"adapt","use":"One durable attempt before external I/O, exception to unknown and replay without repeated I/O."},
+    {"source":"agentools:extensions/knowledge/tests/Invalidation/ConcurrencyTest.php","revision":"2054acda51eb69eca1579c78900858c5ff3de01e","sha256":"ff5dd8ff9f09dea8b9ca025f733d1cf206bdcb768dd30fa8c01521a46d75f347","decision":"adapt","use":"Registration/revoke serialization and delayed writer regression using existing P2.2 reservations and source guards."},
+    {"source":"agentools:extensions/knowledge/tests/Invalidation/CrashTest.php","revision":"2054acda51eb69eca1579c78900858c5ff3de01e","sha256":"4222d7a980d09921653bf54a167fbf57653a162aa1e010125e8a0b62e2c90f8d","decision":"adapt","use":"External deletion before lost receipt remains unknown; explicit verification retry is required."},
+    {"source":"agentools:extensions/knowledge/tests/Invalidation/DeletionTest.php","revision":"2054acda51eb69eca1579c78900858c5ff3de01e","sha256":"b9500c993cf23036598f5048b572089fcb49cd94fd486b7f546a2328b2cfb597","decision":"adapt","use":"Replay, unsupported transport, exception and explicit retry assertions with canonical statuses."},
+    {"source":"deeptutor:deeptutor/runtime/coordination/recovery.py","revision":"f7aed0744c36c5afef16a4261c31ebee1208cac2","sha256":"bf79e3b37d2fb417603d83a35cf9e646624566176a6aad4131ffa43691d38bdf","decision":"pattern_only","use":"Durable obligations survive ephemeral configuration/coordinator disappearance; lease expiry is not writer quiescence."},
+    {"source":"deeptutor:tests/runtime/coordination/test_journal_recovery.py","revision":"f7aed0744c36c5afef16a4261c31ebee1208cac2","sha256":"4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67","decision":"pattern_only","use":"Restart preserves durable history and live work; DT-I15 exercises config detach with orphan error."}
+  ],
+  "sourceGaps": ["Donor succeeded is not an erasure proof; exact-version capability, frozen inventory, backup retention, holds and writer/job blockers require KnowKit-specific code.", "External transports are contract doubles only; the local BlobStore bridge is the concrete transport adaptation. Orphan discovery and restore replay belong to P3.7."],
+  "verification": "All seven cached candidate SHA-256 values matched the pinned execution-input before implementation.",
+  "sourceUrlTemplates": {
+    "agentools": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/{source-path}",
+    "deeptutor": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/{source-path}"
+  },
+  "adaptationTargets": [
+    "packages/core/src/Application/Deletion/DeletionWorker.php",
+    "packages/core/src/Adapter/Postgres/Deletion/PdoDeletionStore.php",
+    "tests/lifecycle/purge/AttemptsTest.php",
+    "tests/lifecycle/purge/InventoryTest.php"
+  ],
+  "executedRequiredCaseIds": [
+    "TRANSPORT-EXCEPTION", "UNKNOWN-RECEIPT", "UNSUPPORTED", "TIMEOUT-AFTER-DELETE",
+    "CONFIRMED-ABSENT", "LEGAL-HOLD", "BACKUP-RETENTION", "BACKUP-EXPIRY",
+    "LATE-WRITER", "LATE-ORPHAN", "R31-A01", "R31-A02", "DT-I15",
+    "ATTEMPT-INTERRUPTION", "EXACT-VERSION-PROOF", "PURGE-FIXTURE", "RECEIPT-BINDING", "PURGE-UPGRADE",
+    "RETRY-AFTER-UPGRADE", "RETRY-AFTER-UNKNOWN"
+  ],
+  "proof": {
+    "method": "Single-file PHPUnit runs and changed-method reruns; V1 and the complete group suite were not run. No external provider implementation is claimed.",
+    "successfulRuns": [
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/purge/AttemptsTest.php","exit":0,"tests":6,"assertions":49},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/purge/InventoryTest.php","exit":0,"tests":7,"assertions":58},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml --filter testLegalHoldRetainsBytesWithoutGrantingAccessAndLateHoldIsRejected tests/lifecycle/purge/InventoryTest.php","exit":0,"tests":1,"assertions":8},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml --filter testExactConfirmedMissingLocalObjectCompletesAndPreservesAuditIdentity tests/lifecycle/purge/InventoryTest.php","exit":0,"tests":1,"assertions":7},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml --filter testBackupExpiryRequiresSeparateExactProofAfterRetention tests/lifecycle/purge/InventoryTest.php","exit":0,"tests":1,"assertions":12},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/purge/FixtureTest.php","exit":0,"tests":1,"assertions":88},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/purge/InvariantsTest.php","exit":0,"tests":2,"assertions":9},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml --filter testUpgradeInvalidatesUnprovenDoneAndPreservesTaskIdentity tests/lifecycle/purge/InvariantsTest.php","exit":0,"tests":1,"assertions":5},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php","exit":0,"tests":9,"assertions":372},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/commands/LifecycleTest.php","exit":0,"tests":15,"assertions":132},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/ExternalContractTest.php","exit":0,"tests":3,"assertions":36},
+      {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/events/outbox/MigrationTest.php","exit":0,"tests":1,"assertions":10}
+    ],
+    "otherChecks": ["Scoped PHPStan with the workspace autoloader: exit 0", "php tools/qa.php --check dag: exit 0", "PHP syntax of all 19 candidate PHP files: exit 0", "git diff --check: exit 0"],
+    "resolvedDifficulties": ["Initial test-only LegalHold argument order, Group attribute reflection and guarded ancestor lookup were corrected. Permission assertions use the existing Decision::Deny vocabulary.", "Initial scoped PHPStan omitted the workspace autoloader and could not discover core classes. The corrected invocation passed; the existing optional turbo-extension startup warning remains.", "Core discovery contained an empty tests/core placeholder. Removed that directory reference from phpunit.xml as required by the execution-input pre-flight guardrail; every remaining Core directory contains real tests."],
+    "planMirror": "Not written: plan mutation is forbidden and the plans symlink resolves outside the project. The coordinator/registrar owns plan recording."
+  },
+  "correctionRounds": [
+    {
+      "round": "executor.2",
+      "finding": "F1 / fk-884c636ba0f17523",
+      "change": "A new AttemptId always reserves a fresh transport verification, including for deleted ledger rows. Removed historical-success copying across AttemptIds; replay of the same AttemptId is unchanged. Public interfaces and migrations are unchanged.",
+      "postgresCoverage": "Real pre-006 migrations, deleted resource records and done tasks are upgraded through 006. Covers both finalized bytes and nullable-digest absent reservations; verification runs as a non-superuser. Separate interleavings cover A1 success followed by A2 unknown through receipt or interrupt; A3 unknown must call transport and block done. A4 fresh absent proof permits done. Historical receipts remain unchanged.",
+      "negativeRunsBeforeProductFix": [
+        {"cmd":"vendor/bin/phpunit --configuration phpunit.xml --filter testPre006DeletedResourcesCanObtainFreshVerificationAfterUpgrade tests/lifecycle/purge/InvariantsTest.php","exit":2,"observed":"deletion_unproven after a real PostgreSQL upgrade"},
+        {"cmd":"vendor/bin/phpunit --configuration phpunit.xml --filter testRetryAfterLaterUnknownRequiresFreshTransportAndPreservesAttemptReplay tests/lifecycle/purge/AttemptsTest.php","exit":1,"observed":"A3 incorrectly returned deleted instead of the transport's unknown"}
+      ],
+      "successfulRuns": [
+        {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/purge/AttemptsTest.php","exit":0,"tests":7,"assertions":90},
+        {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/purge/InvariantsTest.php","exit":0,"tests":3,"assertions":45},
+        {"cmd":"vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/purge/FixtureTest.php","exit":0,"tests":1,"assertions":94},
+        {"cmd":"vendor/bin/phpunit --configuration phpunit.xml --filter 'testExactConfirmedMissingLocalObjectCompletesAndPreservesAuditIdentity|testPreRevokeWriterAndUnfinalizedReservationBlockUntilExactAbsence' tests/lifecycle/purge/InventoryTest.php","exit":0,"tests":2,"assertions":20},
+        {"cmd":"vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --autoload-file tests/contract/ports/bootstrap.php packages/core/src/Adapter/Postgres/Deletion/PdoDeletionStore.php","exit":0}
+      ],
+      "acceptance": "V1 / composer qa -- lifecycle:purge remains conductor-owned and was not run by this correction round.",
+      "setupCorrection": "The new pre-006 fixture initially omitted the required lifecycle_state; it was corrected before reproducing F1."
+    }
+  ]
+}

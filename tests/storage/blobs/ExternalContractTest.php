@@ -42,26 +42,35 @@ final class ExternalContractTest extends TestCase
     public function testLocalDeleteRequiresExactAttemptAndReportsDeletedAbsentAndDurabilityUnknownHonestly(): void
     {
         BlobFixture::run(function($f) {
-            $ref=$f->put(); $resource=$f->reservation()->resource; $attempt=new D\AttemptId(BlobFixture::id(351));
+            $ref=$f->put(); $nextRef=$f->put(310,311); $resource=$f->reservation()->resource; $attempt=new D\AttemptId(BlobFixture::id(351));
             try { $f->store->delete($resource,$attempt); self::fail('Unreserved delete accepted'); }
             catch (D\DomainFailure $e) { self::assertSame('deletion_not_reserved',$e->errorCode); }
             $inventory=json_encode([['resourceId'=>$resource->id->value,'digest'=>$ref->digest->value,'objectVersion'=>$ref->objectVersion]],JSON_THROW_ON_ERROR);
             $f->catalog->db->execute("INSERT INTO deletion_tasks VALUES (?,?,?,'pending',?::jsonb,0,?,NULL)",[BlobFixture::id(1),BlobFixture::id(350),BlobFixture::id(2),$inventory,str_repeat('a',64)]);
             $f->catalog->db->execute('INSERT INTO deletion_attempts(tenant_id,id,task_id,resource_id,in_flight,storage_key,object_version,staging_id) VALUES (?,?,?,?,true,?,?,?)',
                 [BlobFixture::id(1),$attempt->value,BlobFixture::id(350),$resource->id->value,$f->row()['storage_key'],$ref->objectVersion,$f->row()['staging_id']]);
-            try { $f->store->delete($resource,$attempt); self::fail('Accepted resource was deleted'); }
-            catch (D\DomainFailure $e) { self::assertSame('resource_in_use',$e->errorCode); }
-            $f->catalog->db->execute("UPDATE resource_ledger SET ref_count=0,state='deleting'");
-            $f->catalog->db->execute("UPDATE deletion_attempts SET object_version='forged'");
-            try { $f->store->delete($resource,$attempt); self::fail('Mismatched exact coordinates deleted'); }
+            try { $f->store->delete($resource,$attempt); self::fail('Delete before logical revoke accepted'); }
             catch (D\DomainFailure $e) { self::assertSame('deletion_not_reserved',$e->errorCode); }
             self::assertFileExists($f->path($ref));
-            $f->catalog->db->execute('UPDATE deletion_attempts SET object_version=?',[$ref->objectVersion]);
+            $f->catalog->db->execute("UPDATE sources SET lifecycle_state='deletion_requested',lifecycle_epoch=1");
+            $f->catalog->db->execute("INSERT INTO tombstones(tenant_id,id,source_id,reason,event_id,lifecycle_epoch,applies_to) VALUES (?,?,?,'source_deleted',?,1,'future_versions')",
+                [BlobFixture::id(1),BlobFixture::id(370),BlobFixture::id(2),BlobFixture::id(371)]);
+            try { $f->store->delete($resource,$attempt); self::fail('Accepted resource was deleted'); }
+            catch (D\DomainFailure $e) { self::assertSame('resource_in_use',$e->errorCode); }
+            $f->catalog->db->execute("UPDATE resource_ledger SET ref_count=0,state='deleting' WHERE id=?",[$resource->id->value]);
+            try { $f->catalog->db->execute("UPDATE deletion_attempts SET object_version='forged'"); self::fail('Attempt coordinates were mutable'); }
+            catch (D\DomainFailure $e) { self::assertSame('storage_conflict',$e->errorCode); }
+            $forged=new D\AttemptId(BlobFixture::id(353));
+            $f->catalog->db->execute('INSERT INTO deletion_attempts(tenant_id,id,task_id,resource_id,in_flight,storage_key,object_version,staging_id) VALUES (?,?,?,?,true,?,?,?)',
+                [BlobFixture::id(1),$forged->value,BlobFixture::id(350),$resource->id->value,$f->row()['storage_key'],'forged',$f->row()['staging_id']]);
+            try { $f->store->delete($resource,$forged); self::fail('Mismatched exact coordinates deleted'); }
+            catch (D\DomainFailure $e) { self::assertSame('deletion_not_reserved',$e->errorCode); }
+            self::assertFileExists($f->path($ref));
             $receipt=$f->store->delete($resource,$attempt)->toWire(); self::assertSame('deleted',$receipt->get('result')); self::assertFileDoesNotExist($f->path($ref));
             self::assertSame('absent',$f->store->delete($resource,$attempt)->toWire()->get('result'));
             // P3.6 owns storing/aggregating this receipt. The adapter leaves metadata in deleting.
             self::assertSame('deleting',$f->row()['state']);
-            $ref=$f->put(310,311); $resource=$f->reservation(310,311)->resource; $attempt=new D\AttemptId(BlobFixture::id(352));
+            $ref=$nextRef; $resource=$f->reservation(310,311)->resource; $attempt=new D\AttemptId(BlobFixture::id(352));
             $inventory=json_encode([['resourceId'=>$resource->id->value,'digest'=>$ref->digest->value,'objectVersion'=>$ref->objectVersion]],JSON_THROW_ON_ERROR);
             $f->catalog->db->execute("INSERT INTO deletion_tasks VALUES (?,?,?,'pending',?::jsonb,0,?,NULL)",[BlobFixture::id(1),BlobFixture::id(360),BlobFixture::id(2),$inventory,str_repeat('b',64)]);
             $f->catalog->db->execute('INSERT INTO deletion_attempts(tenant_id,id,task_id,resource_id,in_flight,storage_key,object_version,staging_id) VALUES (?,?,?,?,true,?,?,?)',

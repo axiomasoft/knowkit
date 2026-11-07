@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "deletion-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "cases": [
+    {"id":"TRANSPORT-EXCEPTION","expected":{"receipt":"unknown","task":"unknown","error":"DELETION_TRANSPORT_EXCEPTION","calls":1}},
+    {"id":"UNKNOWN-RECEIPT","expected":{"task":"unknown"}},
+    {"id":"UNSUPPORTED","expected":{"task":"unsupported"}},
+    {"id":"TIMEOUT-AFTER-DELETE","expected":{"exists":false,"task":"unknown"}},
+    {"id":"CONFIRMED-ABSENT","expected":{"receipt":"absent","task":"done"}},
+    {"id":"LEGAL-HOLD","expected":{"task":"pending","calls":0,"access":"Deny"}},
+    {"id":"BACKUP-RETENTION","expected":{"task":"partial"}},
+    {"id":"BACKUP-EXPIRY","expected":{"task":"done"}},
+    {"id":"LATE-WRITER","expected":{"task":"partial","writer":"uncertain"}},
+    {"id":"LATE-ORPHAN","expected":{"task":"partial","resources":4}},
+    {"id":"R31-A01","expected":{"classes":["asset","canonical_slice","embedding","ir","original"],"members":5}},
+    {"id":"R31-A02","expected":{"task":"partial"}},
+    {"id":"DT-I15","expected":{"task":"unknown","resources":3,"attempts":3}}
+  ]
+}

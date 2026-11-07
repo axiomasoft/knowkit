@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "lifecycle:purge",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial P3.6 authored physical-deletion expectations. Outcomes assert canonical task/transport semantics, exact-object proof, durable replay, retention and frozen inventory blockers. External provider cases are contract doubles. F1 adds PostgreSQL regression checks for pre-006 deleted resources after upgrade and fresh retry after a later unknown; existing fixture expectations are unchanged.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic metadata; pinned private donor adaptations in tests/lifecycle/purge/evidence/P3.6-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "TRANSPORT-EXCEPTION",
+    "UNKNOWN-RECEIPT",
+    "UNSUPPORTED",
+    "TIMEOUT-AFTER-DELETE",
+    "CONFIRMED-ABSENT",
+    "LEGAL-HOLD",
+    "BACKUP-RETENTION",
+    "BACKUP-EXPIRY",
+    "LATE-WRITER",
+    "LATE-ORPHAN",
+    "R31-A01",
+    "R31-A02",
+    "DT-I15",
+    "ATTEMPT-INTERRUPTION",
+    "EXACT-VERSION-PROOF",
+    "PURGE-FIXTURE",
+    "RECEIPT-BINDING",
+    "PURGE-UPGRADE",
+    "RETRY-AFTER-UPGRADE",
+    "RETRY-AFTER-UNKNOWN"
+  ],
+  "testCaseMap": {
+    "TRANSPORT-EXCEPTION": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\AttemptsTest::testExceptionIsSafeUnknownAndReplayDoesNotRepeatIo"
+    ],
+    "UNKNOWN-RECEIPT": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\AttemptsTest::testUnknownAndUnsupportedRequiredResourcesNeverComplete"
+    ],
+    "UNSUPPORTED": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\AttemptsTest::testUnknownAndUnsupportedRequiredResourcesNeverComplete"
+    ],
+    "TIMEOUT-AFTER-DELETE": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\AttemptsTest::testTimeoutAfterDeletionNeedsNewVerificationAndPreservesOldAttempt"
+    ],
+    "CONFIRMED-ABSENT": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InventoryTest::testExactConfirmedMissingLocalObjectCompletesAndPreservesAuditIdentity"
+    ],
+    "LEGAL-HOLD": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InventoryTest::testLegalHoldRetainsBytesWithoutGrantingAccessAndLateHoldIsRejected"
+    ],
+    "BACKUP-RETENTION": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InventoryTest::testBackupExpiryRequiresSeparateExactProofAfterRetention"
+    ],
+    "BACKUP-EXPIRY": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InventoryTest::testBackupExpiryRequiresSeparateExactProofAfterRetention"
+    ],
+    "LATE-WRITER": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InventoryTest::testPreRevokeWriterAndUnfinalizedReservationBlockUntilExactAbsence"
+    ],
+    "LATE-ORPHAN": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InventoryTest::testLateOrphanInvalidatesDoneAndFrozenInventoryCannotBeRewritten"
+    ],
+    "R31-A01": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InventoryTest::testInventoryEnumeratesClassesAndExcludesOwnerManagedBytes"
+    ],
+    "R31-A02": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InventoryTest::testUncertainJobAndNoInventoryCannotBecomeDone"
+    ],
+    "DT-I15": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\AttemptsTest::testConfigDetachWithOrphanErrorRetainsLedgerObligations"
+    ],
+    "ATTEMPT-INTERRUPTION": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\AttemptsTest::testInterruptedAttemptReplayDoesNoIoAndUnresolvedFlightBlocksDone"
+    ],
+    "EXACT-VERSION-PROOF": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\AttemptsTest::testUnqualifiedAdapterAndWrongScopeCannotClaimErasure"
+    ],
+    "PURGE-FIXTURE": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\FixtureTest::testVersionedFixturesAndEveryRequiredCaseHaveExecutableAssertions"
+    ],
+    "RECEIPT-BINDING": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InvariantsTest::testMismatchedReceiptAndNoncanonicalStatusesFailClosed"
+    ],
+    "PURGE-UPGRADE": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InvariantsTest::testUpgradeInvalidatesUnprovenDoneAndPreservesTaskIdentity"
+    ],
+    "RETRY-AFTER-UPGRADE": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\InvariantsTest::testPre006DeletedResourcesCanObtainFreshVerificationAfterUpgrade"
+    ],
+    "RETRY-AFTER-UNKNOWN": [
+      "KnowKit\\Tests\\Lifecycle\\Purge\\AttemptsTest::testRetryAfterLaterUnknownRequiresFreshTransportAndPreservesAttemptReplay"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/deletion/v1/cases.json",
+      "sha256": "e04bafaffd598eaaf3a8ae628c60b5755dced3f99f7959a27b4c605200de3c96",
+      "expected": "Each versioned case executes assertions against PostgreSQL and canonical receipts; local missing-object case uses LocalBlobStore."
+    }
+  ]
+}

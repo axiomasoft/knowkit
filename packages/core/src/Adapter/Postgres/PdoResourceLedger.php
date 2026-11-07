@@ -239,10 +239,13 @@ final readonly class PdoResourceLedger
                 ' a ON a.tenant_id=r.tenant_id AND a.resource_id=r.id JOIN '.$this->db->table('deletion_tasks').
                 ' t ON t.tenant_id=r.tenant_id AND t.id=a.task_id AND t.source_id=r.source_id WHERE r.tenant_id=? AND r.id=? AND r.storage_id=? AND a.id=? AND a.in_flight AND a.result IS NULL'.
                 ' AND a.storage_key IS NOT DISTINCT FROM r.storage_key AND a.object_version IS NOT DISTINCT FROM r.object_version AND a.staging_id IS NOT DISTINCT FROM r.staging_id'.
+                ' AND EXISTS (SELECT 1 FROM '.$this->db->table('sources')." s WHERE s.tenant_id=r.tenant_id AND s.id=r.source_id AND s.lifecycle_state<>'active')".
+                ' AND EXISTS (SELECT 1 FROM '.$this->db->table('tombstones').' x WHERE x.tenant_id=r.tenant_id AND x.source_id=r.source_id)'.
                 ' AND EXISTS (SELECT 1 FROM '.$this->db->table('deletion_task_resources').' i WHERE i.tenant_id=r.tenant_id AND i.task_id=t.id AND i.resource_id=r.id)',
                 [$this->tenant->value,$resource->id->value,$this->storageId,$attempt->value]);
             if ($r===null) { throw new DomainFailure(Outcome::Denied,'deletion_not_reserved'); }
-            if ($r['owner_kind']==='owned' && ($r['state']!=='deleting' || $r['retention_hold'] || (string)$r['ref_count']!=='0' ||
+            if ($r['owner_kind']==='owned' && (!(($r['state']==='deleting') || ($r['state']==='unknown' && $r['digest']===null && $r['staging_id']!==null)) || $r['retention_hold'] || (string)$r['ref_count']!=='0' ||
+                ($r['retention_until']!==null && new \DateTimeImmutable($r['retention_until'])>new \DateTimeImmutable($this->clock->now()->value)) ||
                 $this->db->row('SELECT id FROM '.$this->db->table('resource_writers')." WHERE tenant_id=? AND resource_id=? AND state<>'closed' LIMIT 1",[$this->tenant->value,$resource->id->value])!==null ||
                 $this->db->row('SELECT id FROM '.$this->db->table('sources').' WHERE tenant_id=? AND id=? AND retention_hold',[$this->tenant->value,$r['source_id']])!==null)) {
                 throw new DomainFailure(Outcome::Denied,'resource_in_use');

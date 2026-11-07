@@ -4,6 +4,7 @@ namespace KnowKit\Adapter\Postgres\Lifecycle;
 
 use KnowKit\Adapter\Postgres\Catalog\{Connection, PdoCatalogTransaction};
 use KnowKit\Adapter\Postgres\Dependencies\PdoDependencyStore;
+use KnowKit\Adapter\Postgres\Deletion\Inventory;
 use KnowKit\Adapter\Postgres\PdoOutbox;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\{ContractValidator, HashDomain, Jcs, JsonObject, SemanticRules, StrictJson};
@@ -253,20 +254,7 @@ final readonly class PdoLifecycleStore implements LifecycleCommandStore
             " SET usability='revoked', event_id=? WHERE tenant_id=? AND usability='usable' AND id IN (SELECT id FROM ".$this->db->table('source_versions').' WHERE tenant_id=? AND source_id=?)',
             [$eventId, $this->tenant->value, $this->tenant->value, $sourceId->value]);
         $this->fenceJobsForSource($sourceId);
-        $resources = $this->db->execute('SELECT * FROM '.$this->db->table('resource_ledger').
-            " WHERE tenant_id=? AND source_id=? AND owner_kind='owned' AND state<>'deleted' ORDER BY id",
-            [$this->tenant->value, $sourceId->value])->fetchAll(\PDO::FETCH_ASSOC);
-        $required = array_map(function (array $r): JsonObject {
-            $class = 'provider_resource';
-            foreach (['source_versions'=>['blob_resource_id','original'], 'document_revisions'=>['ir_resource_id','ir'],
-                'segments'=>['text_resource_id','canonical_slice']] as $table => [$column, $resourceClass]) {
-                if ($this->db->row('SELECT id FROM '.$this->db->table($table).' WHERE tenant_id=? AND '.$column.'=? LIMIT 1',
-                    [$this->tenant->value, $r['id']]) !== null) { $class = $resourceClass; break; }
-            }
-            if ($r['staging_id'] !== null) { $class = 'upload_reservation'; }
-            return new JsonObject(['resourceId'=>$r['id'], 'resourceClass'=>$class, 'ownerKind'=>'owned',
-                'state'=>$r['state'] === 'unknown' ? 'unknown' : 'pending']);
-        }, $resources);
+        $required = Inventory::required($this->db, $this->tenant, $sourceId);
         $taskId = new D\DeletionTaskId($this->ids->next()->value);
         $inventoryDigest = HashDomain::ResourceInventory->digest($required);
         $holdReason = $source['retention_hold'] ? 'legal_hold' : null;
@@ -430,7 +418,7 @@ final readonly class PdoLifecycleStore implements LifecycleCommandStore
             [$this->tenant->value, $sourceId->value]) !== null) { return true; }
         if ($this->db->row('SELECT a.id FROM '.$this->db->table('deletion_attempts').' a JOIN '.
             $this->db->table('resource_ledger').' r ON r.tenant_id=a.tenant_id AND r.id=a.resource_id'.
-            " WHERE a.tenant_id=? AND r.source_id=? AND (a.in_flight OR a.result IN ('deleted','absent')) LIMIT 1",
+                " WHERE a.tenant_id=? AND r.source_id=? AND (a.in_flight OR a.result IN ('deleted','absent','unknown')) LIMIT 1",
             [$this->tenant->value, $sourceId->value]) !== null) { return true; }
         return $this->db->row('SELECT id FROM '.$this->db->table('deletion_tasks').
             " WHERE tenant_id=? AND source_id=? AND status IN ('done','partial') LIMIT 1",
