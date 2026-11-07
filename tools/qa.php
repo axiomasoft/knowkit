@@ -307,7 +307,9 @@ final class Qa
                 $relative = substr($file->getPathname(), strlen($source) + 1);
                 $layer = explode('/', $relative)[0];
                 $declared = false;
-                foreach (token_get_all(file_get_contents($file->getPathname()), TOKEN_PARSE) as $token) {
+                $tokens = token_get_all(file_get_contents($file->getPathname()), TOKEN_PARSE);
+                $aliases = self::namespaceAliases($tokens);
+                foreach ($tokens as $token) {
                     if (!is_array($token)) {
                         continue;
                     }
@@ -318,6 +320,11 @@ final class Qa
                         continue;
                     }
                     $name = ltrim($token[1], '\\');
+                    if ($token[0] === T_NAME_QUALIFIED) {
+                        $prefix = strstr($name, '\\', true);
+                        $resolved = $aliases[strtolower($prefix)] ?? null;
+                        if ($resolved !== null) { $name = $resolved . substr($name, strlen($prefix)); }
+                    }
                     if ($id === 'core') {
                         self::ensure(!preg_match('/^(Illuminate|Laravel|Chatom|AgenTools|AgenToolsPlatform|Python|Psr\\\\Http)(\\\\|$)/i', $name), 'forbidden core import: ' . $name);
                         self::ensure(!str_contains($name, '\\') || str_starts_with($name, 'KnowKit\\')
@@ -340,6 +347,31 @@ final class Qa
             }
         }
         return ['packages' => $installed, 'phpFiles' => $files];
+    }
+
+    /** Resolve explicit namespace aliases from PHP tokens, never comments or string literals.
+     * Unsupported import forms retain the existing fail-closed qualified-name checks.
+     * @return array<string,string> */
+    private static function namespaceAliases(array $tokens): array
+    {
+        $aliases = [];
+        foreach ($tokens as $i => $token) {
+            if (!is_array($token) || $token[0] !== T_USE) { continue; }
+            $parts = [];
+            for ($j = $i + 1; $j < count($tokens); $j++) {
+                $part = $tokens[$j];
+                if (is_array($part) && in_array($part[0], [T_WHITESPACE,T_COMMENT,T_DOC_COMMENT], true)) { continue; }
+                if ($part === ';') { break; }
+                $parts[] = $part;
+                if (count($parts) > 3 || !is_array($part)) { break; }
+            }
+            if (count($parts) === 3 && is_array($parts[0]) && is_array($parts[1]) && is_array($parts[2])
+                && in_array($parts[0][0], [T_NAME_QUALIFIED,T_NAME_FULLY_QUALIFIED,T_STRING], true)
+                && $parts[1][0] === T_AS && $parts[2][0] === T_STRING) {
+                $aliases[strtolower($parts[2][1])] = ltrim($parts[0][1], '\\');
+            }
+        }
+        return $aliases;
     }
 
     public function fixtures(array $manifest): void

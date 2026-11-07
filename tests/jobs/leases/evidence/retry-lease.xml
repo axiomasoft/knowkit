@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Jobs\Leases\LeaseTest" file="tests/jobs/leases/LeaseTest.php" tests="11" assertions="134" errors="0" failures="0" skipped="0" time="1.941688">
+    <testcase name="testTwoAcquireAndStaleFenceAfterTakeover" file="tests/jobs/leases/LeaseTest.php" line="18" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="20" time="0.185100"/>
+    <testcase name="testHeartbeatUsesDatabaseClockTokenAttemptEpochAndDeadline" file="tests/jobs/leases/LeaseTest.php" line="38" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="8" time="0.112324"/>
+    <testcase name="testStagesCheckpointIntegrityAndAllProcessingAxes" file="tests/jobs/leases/LeaseTest.php" line="53" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="19" time="0.191675"/>
+    <testcase name="testRetryBackoffAttemptsAndExplicitProviderUncertainty" file="tests/jobs/leases/LeaseTest.php" line="82" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="29" time="0.143539"/>
+    <testcase name="testCancelInvalidatesExtractionBeforeSupervisorStopAndKeepsUncertainWriters" file="tests/jobs/leases/LeaseTest.php" line="107" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="11" time="0.109287"/>
+    <testcase name="testLifecycleEpochTenantAndImmutableCheckpointGuards" file="tests/jobs/leases/LeaseTest.php" line="123" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="14" time="0.549235"/>
+    <testcase name="testMigrationIdentityBoundsEnqueueConflictAndFenceExhaustion" file="tests/jobs/leases/LeaseTest.php" line="152" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="7" time="0.109259"/>
+    <testcase name="testUncertainProviderRetrySucceedsOnceLocallyWithoutClearingUncertainty" file="tests/jobs/leases/LeaseTest.php" line="169" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="12" time="0.165143"/>
+    <testcase name="testHostScopeResourceOwnershipAndFinalResourceStateAreAuthoritative" file="tests/jobs/leases/LeaseTest.php" line="189" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="4" time="0.128418"/>
+    <testcase name="testLostCommitResponseIsUnknownAndReplaysDurableAcceptance" file="tests/jobs/leases/LeaseTest.php" line="207" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="4" time="0.125099"/>
+    <testcase name="testRelinquishingUnavailableAttemptRetainsOpenWriterUncertainty" file="tests/jobs/leases/LeaseTest.php" line="224" class="KnowKit\Tests\Jobs\Leases\LeaseTest" classname="KnowKit.Tests.Jobs.Leases.LeaseTest" assertions="6" time="0.122608"/>
+  </testsuite>
+</testsuites>

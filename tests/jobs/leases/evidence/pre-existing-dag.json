@@ -1,0 +1,18 @@
+{
+  "checkId": "DAG",
+  "command": "php tools/qa.php --check dag",
+  "exit": 1,
+  "error": "forbidden core layer edge",
+  "baseline": "319ff4109b2ac6fde0a3a2a222ec4a92e3ac8182",
+  "path": "packages/core/src/Adapter/Postgres/ChunkSets/PdoChunkSetStore.php",
+  "line": 6,
+  "baselineGitBlob": "fa0f661f883f2d831f5b482eeb393748aefd29ec",
+  "candidateGitBlob": "fa0f661f883f2d831f5b482eeb393748aefd29ec",
+  "unchanged": true,
+  "edge": "Adapter -> Application",
+  "approvedAllowedAdapterEdges": [
+    "Domain",
+    "Port"
+  ],
+  "resolution": "Owning P2.6 correction required; executor did not change this file."
+}

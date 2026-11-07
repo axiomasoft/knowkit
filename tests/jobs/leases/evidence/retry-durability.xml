@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Jobs\Leases\DurabilityTest" file="tests/jobs/leases/DurabilityTest.php" tests="8" assertions="133" errors="0" failures="0" skipped="0" time="1.778417">
+    <testcase name="testCompetingProcessesAcquireOnlyOneCapability" file="tests/jobs/leases/DurabilityTest.php" line="36" class="KnowKit\Tests\Jobs\Leases\DurabilityTest" classname="KnowKit.Tests.Jobs.Leases.DurabilityTest" assertions="17" time="0.180711"/>
+    <testcase name="testCompetingRecoveryAfterLostProcessStateRejectsOldTransitions" file="tests/jobs/leases/DurabilityTest.php" line="46" class="KnowKit\Tests\Jobs\Leases\DurabilityTest" classname="KnowKit.Tests.Jobs.Leases.DurabilityTest" assertions="23" time="0.168938"/>
+    <testcase name="testConcurrentEqualContentAttemptsAndStaleSharedTarget" file="tests/jobs/leases/DurabilityTest.php" line="61" class="KnowKit\Tests\Jobs\Leases\DurabilityTest" classname="KnowKit.Tests.Jobs.Leases.DurabilityTest" assertions="27" time="0.172333"/>
+    <testcase name="testSkipLockedAndTypedSemanticLockTimeout" file="tests/jobs/leases/DurabilityTest.php" line="79" class="KnowKit\Tests\Jobs\Leases\DurabilityTest" classname="KnowKit.Tests.Jobs.Leases.DurabilityTest" assertions="12" time="0.625297"/>
+    <testcase name="testKillBeforeCheckpointRetainsStagedArtifactsWithoutPublication" file="tests/jobs/leases/DurabilityTest.php" line="97" class="KnowKit\Tests\Jobs\Leases\DurabilityTest" classname="KnowKit.Tests.Jobs.Leases.DurabilityTest" assertions="16" time="0.134300"/>
+    <testcase name="testCancelWhileExtractionProcessIsRunningRejectsItsLateResult" file="tests/jobs/leases/DurabilityTest.php" line="115" class="KnowKit\Tests\Jobs\Leases\DurabilityTest" classname="KnowKit.Tests.Jobs.Leases.DurabilityTest" assertions="11" time="0.139339"/>
+    <testcase name="testKillBeforeCommitRollsBackJobPointerSnapshotAndOutbox" file="tests/jobs/leases/DurabilityTest.php" line="126" class="KnowKit\Tests\Jobs\Leases\DurabilityTest" classname="KnowKit.Tests.Jobs.Leases.DurabilityTest" assertions="14" time="0.193280"/>
+    <testcase name="testKillAfterCommitReplaysSameReceiptAndLeavesEventDispatchable" file="tests/jobs/leases/DurabilityTest.php" line="144" class="KnowKit\Tests\Jobs\Leases\DurabilityTest" classname="KnowKit.Tests.Jobs.Leases.DurabilityTest" assertions="13" time="0.164220"/>
+  </testsuite>
+</testsuites>

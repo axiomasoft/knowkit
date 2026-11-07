@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "jobs-leases-execution-evidence:1",
+  "status": "blocked",
+  "executorRoute": {
+    "provider": "codex",
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh"
+  },
+  "configuredReviewerRoute": {
+    "provider": "antigravity",
+    "model": "gemini-4-argon-high",
+    "effort": "high"
+  },
+  "reviewLaunched": false,
+  "acceptanceRun": false,
+  "checks": [
+    {
+      "id": "lease-complete",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/LeaseTest.php --log-junit tests/jobs/leases/.phpunit.cache/lease-complete.xml",
+      "exit": 0,
+      "tests": 11,
+      "assertions": 134,
+      "evidence": "tests/jobs/leases/evidence/lease-complete.txt"
+    },
+    {
+      "id": "durability-complete",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/DurabilityTest.php --log-junit tests/jobs/leases/.phpunit.cache/durability-complete.xml",
+      "exit": 0,
+      "tests": 8,
+      "assertions": 133,
+      "evidence": "tests/jobs/leases/evidence/durability-complete.txt"
+    },
+    {
+      "id": "fixture-complete",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/FixtureTest.php --log-junit tests/jobs/leases/.phpunit.cache/fixture-complete.xml",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 109,
+      "evidence": "tests/jobs/leases/evidence/fixture-complete.txt"
+    },
+    {
+      "id": "schema",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php --log-junit tests/jobs/leases/.phpunit.cache/schema.xml",
+      "exit": 0,
+      "tests": 9,
+      "assertions": 347,
+      "evidence": "tests/jobs/leases/evidence/schema.txt"
+    },
+    {
+      "id": "boundary",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/BoundaryTest.php --log-junit tests/jobs/leases/.phpunit.cache/boundary.xml",
+      "exit": 0,
+      "tests": 5,
+      "assertions": 182,
+      "evidence": "tests/jobs/leases/evidence/boundary.txt"
+    },
+    {
+      "id": "dag",
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 1,
+      "evidence": "tests/jobs/leases/evidence/dag-fixed.txt"
+    },
+    {
+      "id": "syntax",
+      "cmd": "php -l (16 changed/new PHP files; enumerated in evidence)",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/syntax.txt"
+    },
+    {
+      "id": "whitespace",
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/whitespace.txt"
+    },
+    {
+      "id": "phpstan",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/phpstan.txt"
+    }
+  ],
+  "blockedBy": {
+    "checkId": "DAG",
+    "command": "php tools/qa.php --check dag",
+    "exit": 1,
+    "error": "forbidden core layer edge",
+    "baseline": "319ff4109b2ac6fde0a3a2a222ec4a92e3ac8182",
+    "path": "packages/core/src/Adapter/Postgres/ChunkSets/PdoChunkSetStore.php",
+    "line": 6,
+    "baselineGitBlob": "fa0f661f883f2d831f5b482eeb393748aefd29ec",
+    "candidateGitBlob": "fa0f661f883f2d831f5b482eeb393748aefd29ec",
+    "unchanged": true,
+    "edge": "Adapter -> Application",
+    "approvedAllowedAdapterEdges": [
+      "Domain",
+      "Port"
+    ],
+    "resolution": "Owning P2.6 correction required; executor did not change this file."
+  },
+  "testLimits": "R11 exercises queue SQL acceptance/CAS/PdoOutbox with synthetic metadata. No production Publishing, dispatcher, provider or subprocess supervisor qualification is claimed.",
+  "localReuseReceipt": "tests/jobs/leases/evidence/P2.7-reuse.json",
+  "planArtifactRegistrationOwner": "coordinator"
+}

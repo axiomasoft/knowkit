@@ -15,7 +15,10 @@ migration set from the same directory. `001_metadata.sql` and its stored checksu
 remain unchanged; `002_metadata_uint32.sql` upgrades existing pages and blocks to
 bigint storage with the wire uint32 limits (physical number 1…4294967295,
 reading order 0…4294967295). Existing rows and migration history are retained.
-Fresh installs apply both migrations. No extension or vector backend is needed.
+`003_jobs.sql` adds the P2.7 durable job bindings, stage progress, acceptance
+receipts and explicit uncertainty. Legacy jobs without these bindings remain
+intact and cannot be leased. Fresh installs apply all three migrations. No
+extension or vector backend is needed.
 
 Wire the same `Connection` into `PdoCatalogTransaction`, `PdoCatalogRepository`
 and `KnowKit\Adapter\Postgres\PdoOutbox`. Inject a host `AccessPolicy`, local

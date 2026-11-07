@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "jobs-leases-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial P2.7 corpus for approved additive Jobs protocol. Literal source/artifact/result hashes and typed JCS processing/inventory/checkpoint digests independently calculated with Python hashlib; no snapshot rewrite or provider qualification.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic jobs/staging corpus, P2.7 Q1=a; donor regression provenance in evidence/P2.7-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "digests": {
+    "source": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d",
+    "artifact": "086b1be59b28116e4af4936ded036af896bb90bd20446b0aa4c7610e302b7850",
+    "result": "f6a214f7a5fcda0c2cee9660b7fc29f5649e3c68aad48e20e950137c98913a68",
+    "processing": "00c91fc8d4ba309d8d12c2b773d193180c373c178650d3573ecee19e9b7ab978",
+    "inventory": "94590ee889c857ec8045e4ff2fabc6ad28d7bfb158c6ddc987d1978b98b40765",
+    "checkpoint": "13260450d72ebaf58fcf4def469a0de898b7c8688150e4c573a5685cf86cbd4e"
+  },
+  "cases": [
+    {
+      "id": "ACQUIRE-TWO",
+      "expected": "one live capability"
+    },
+    {
+      "id": "STALE-TOKEN-TAKEOVER",
+      "expected": "stale checkpoint/heartbeat/result rejected"
+    },
+    {
+      "id": "CANCEL-EXTRACTION",
+      "expected": "cancel increments fence before process stop; late result rejected"
+    },
+    {
+      "id": "PROVIDER-TIMEOUT-ACCEPTED",
+      "expected": "external duplicates explicit, local acceptance once, uncertainty retained"
+    },
+    {
+      "id": "KILL-BEFORE-CHECKPOINT",
+      "expected": "no reusable checkpoint; staged artifact discoverable"
+    },
+    {
+      "id": "KILL-AFTER-COMMIT",
+      "expected": "original receipt replays; effect not repeated"
+    },
+    {
+      "id": "R11-A01",
+      "expected": "partial generation never active; staged resource identified"
+    },
+    {
+      "id": "R11-A02",
+      "expected": "job/snapshot/pointer/outbox atomic; pending event survives dispatcher interruption"
+    },
+    {
+      "id": "R17-A01",
+      "expected": "old capability cannot accept or run publication hook after takeover"
+    },
+    {
+      "id": "R17-A02",
+      "expected": "possible duplicate external execution, one local acceptance"
+    },
+    {
+      "id": "DT-I03",
+      "expected": "equal content uses distinct job/attempt identities; stale shared ready write refused"
+    },
+    {
+      "id": "DT-R09",
+      "expected": "fresh process and competing recovery use durable state; stale transitions refused"
+    },
+    {
+      "id": "DT-Q01",
+      "expected": "all source/parser/OCR/chunker/IR/index/space axes required"
+    },
+    {
+      "id": "JOB-HEARTBEAT",
+      "expected": "DB clock, attempt, token, source epoch and hard deadline enforced"
+    },
+    {
+      "id": "JOB-RETRY",
+      "expected": "five attempts, 5/10/20/40/80-second backoff"
+    },
+    {
+      "id": "JOB-LIFECYCLE",
+      "expected": "tenant/epoch/tombstone/usability/serving-state guards enforced"
+    },
+    {
+      "id": "JOB-MIGRATION",
+      "expected": "additive migration, immutable identity, no fence wrap"
+    },
+    {
+      "id": "JOB-LOCKS",
+      "expected": "SKIP LOCKED after semantic guards; unavailable lock timeout"
+    },
+    {
+      "id": "JOB-RESOURCE-GUARDS",
+      "expected": "host scope, source ownership and writer state authoritative"
+    },
+    {
+      "id": "JOB-FIXTURE",
+      "expected": "closed metadata, immutable authored digest expectations and fail-closed executed IDs"
+    },
+    {
+      "id": "JOB-COMMIT-UNKNOWN",
+      "expected": "unknown commit response; durable acceptance replays idempotently"
+    },
+    {
+      "id": "JOB-WRITER-UNCERTAINTY",
+      "expected": "relinquished open writer becomes durably uncertain and blocks GC even for unavailable outcome"
+    }
+  ]
+}

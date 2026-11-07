@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Tooling\BoundaryTest" file="tests/tooling/baseline/BoundaryTest.php" tests="5" assertions="182" errors="0" failures="0" skipped="0" time="0.014645">
+    <testcase name="testRejectsForbiddenCoreImportsAndInstallHooks" file="tests/tooling/baseline/BoundaryTest.php" line="12" class="KnowKit\Tests\Tooling\BoundaryTest" classname="KnowKit.Tests.Tooling.BoundaryTest" assertions="15" time="0.005168"/>
+    <testcase name="testActualCoreGraphAndRegistryDoNotRequireOptionalInstalls" file="tests/tooling/baseline/BoundaryTest.php" line="32" class="KnowKit\Tests\Tooling\BoundaryTest" classname="KnowKit.Tests.Tooling.BoundaryTest" assertions="155" time="0.001759"/>
+    <testcase name="testNamespaceAliasesPreserveVendorAndLayerChecks" file="tests/tooling/baseline/BoundaryTest.php" line="57" class="KnowKit\Tests\Tooling\BoundaryTest" classname="KnowKit.Tests.Tooling.BoundaryTest" assertions="5" time="0.001037"/>
+    <testcase name="testCoreDependencyFloorAndPackageDagMutationsAreRejected" file="tests/tooling/baseline/BoundaryTest.php" line="73" class="KnowKit\Tests\Tooling\BoundaryTest" classname="KnowKit.Tests.Tooling.BoundaryTest" assertions="4" time="0.000690"/>
+    <testcase name="testPortableConfigurationRejectsHostPathsAndPublicDatabasePorts" file="tests/tooling/baseline/BoundaryTest.php" line="92" class="KnowKit\Tests\Tooling\BoundaryTest" classname="KnowKit.Tests.Tooling.BoundaryTest" assertions="3" time="0.005992"/>
+  </testsuite>
+</testsuites>

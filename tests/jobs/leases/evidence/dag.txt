@@ -1,0 +1,1 @@
+{"outcome":"failure","error":"forbidden vendor namespace in core: D\\Lease"}

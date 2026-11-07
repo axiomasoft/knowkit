@@ -1,0 +1,121 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "jobs:leases",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial P2.7 corpus for approved additive Jobs protocol. Literal source/artifact/result hashes and typed JCS processing/inventory/checkpoint digests independently calculated with Python hashlib; no snapshot rewrite or provider qualification.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic jobs/staging corpus, P2.7 Q1=a; donor regression provenance in evidence/P2.7-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "ACQUIRE-TWO",
+    "STALE-TOKEN-TAKEOVER",
+    "CANCEL-EXTRACTION",
+    "PROVIDER-TIMEOUT-ACCEPTED",
+    "KILL-BEFORE-CHECKPOINT",
+    "KILL-AFTER-COMMIT",
+    "R11-A01",
+    "R11-A02",
+    "R17-A01",
+    "R17-A02",
+    "DT-I03",
+    "DT-R09",
+    "DT-Q01",
+    "JOB-HEARTBEAT",
+    "JOB-RETRY",
+    "JOB-LIFECYCLE",
+    "JOB-MIGRATION",
+    "JOB-LOCKS",
+    "JOB-RESOURCE-GUARDS",
+    "JOB-FIXTURE",
+    "JOB-COMMIT-UNKNOWN",
+    "JOB-WRITER-UNCERTAINTY"
+  ],
+  "testCaseMap": {
+    "ACQUIRE-TWO": [
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testCompetingProcessesAcquireOnlyOneCapability"
+    ],
+    "STALE-TOKEN-TAKEOVER": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testTwoAcquireAndStaleFenceAfterTakeover"
+    ],
+    "CANCEL-EXTRACTION": [
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testCancelWhileExtractionProcessIsRunningRejectsItsLateResult",
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testCancelInvalidatesExtractionBeforeSupervisorStopAndKeepsUncertainWriters"
+    ],
+    "PROVIDER-TIMEOUT-ACCEPTED": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testRetryBackoffAttemptsAndExplicitProviderUncertainty",
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testUncertainProviderRetrySucceedsOnceLocallyWithoutClearingUncertainty"
+    ],
+    "KILL-BEFORE-CHECKPOINT": [
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillBeforeCheckpointRetainsStagedArtifactsWithoutPublication"
+    ],
+    "KILL-AFTER-COMMIT": [
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillAfterCommitReplaysSameReceiptAndLeavesEventDispatchable"
+    ],
+    "R11-A01": [
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillBeforeCheckpointRetainsStagedArtifactsWithoutPublication"
+    ],
+    "R11-A02": [
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillBeforeCommitRollsBackJobPointerSnapshotAndOutbox",
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillAfterCommitReplaysSameReceiptAndLeavesEventDispatchable"
+    ],
+    "R17-A01": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testTwoAcquireAndStaleFenceAfterTakeover",
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testConcurrentEqualContentAttemptsAndStaleSharedTarget"
+    ],
+    "R17-A02": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testUncertainProviderRetrySucceedsOnceLocallyWithoutClearingUncertainty"
+    ],
+    "DT-I03": [
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testConcurrentEqualContentAttemptsAndStaleSharedTarget"
+    ],
+    "DT-R09": [
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillBeforeCommitRollsBackJobPointerSnapshotAndOutbox",
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testTwoAcquireAndStaleFenceAfterTakeover",
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testCompetingRecoveryAfterLostProcessStateRejectsOldTransitions"
+    ],
+    "DT-Q01": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testStagesCheckpointIntegrityAndAllProcessingAxes"
+    ],
+    "JOB-HEARTBEAT": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testHeartbeatUsesDatabaseClockTokenAttemptEpochAndDeadline"
+    ],
+    "JOB-RETRY": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testRetryBackoffAttemptsAndExplicitProviderUncertainty"
+    ],
+    "JOB-LIFECYCLE": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testLifecycleEpochTenantAndImmutableCheckpointGuards"
+    ],
+    "JOB-MIGRATION": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testMigrationIdentityBoundsEnqueueConflictAndFenceExhaustion"
+    ],
+    "JOB-LOCKS": [
+      "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testSkipLockedAndTypedSemanticLockTimeout"
+    ],
+    "JOB-RESOURCE-GUARDS": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testHostScopeResourceOwnershipAndFinalResourceStateAreAuthoritative"
+    ],
+    "JOB-FIXTURE": [
+      "KnowKit\\Tests\\Jobs\\Leases\\FixtureTest::testVersionedDigestsClosedCheckpointAndRequiredCaseReportsFailClosed"
+    ],
+    "JOB-COMMIT-UNKNOWN": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testLostCommitResponseIsUnknownAndReplaysDurableAcceptance"
+    ],
+    "JOB-WRITER-UNCERTAINTY": [
+      "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testRelinquishingUnavailableAttemptRetainsOpenWriterUncertainty"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/jobs/leases/fixtures/v1/cases.json",
+      "sha256": "7f5e5e225f47cb02a442de6a60822c3d6a8d94a13b984816740e5e4eadf3ebdb",
+      "expected": "versioned scenario outcomes and literal digests"
+    },
+    {
+      "path": "tests/jobs/leases/fixtures/v1/checkpoint.json",
+      "sha256": "ed80d758e4a00d4fd378c247746bd8a9c65efa7f6d20245ddb89f43390eeaaf8",
+      "expected": "closed checkpoint; independently verified typed digest"
+    }
+  ]
+}

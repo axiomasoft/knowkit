@@ -1,0 +1,371 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P2.7",
+  "targetBaseline": "21c5317cb571df8e66372614cfb6331471bdee46",
+  "sources": [
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Pipeline.php",
+      "sha256": "60ece3f8ec434cde5f6d9678afc8b66169b3c18cfcc13dd6bee78c8f569f2a3d",
+      "decision": "adapt",
+      "symbols": [
+        "Pipeline::ingest"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Jobs/VerifiedCheckpoints.php"
+      ],
+      "reason": "Verification before acceptance; external work outside SQL, without donor runtime dependencies.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "qualificationRef": "Pinned git object/raw GitHub bytes restored and hashed before implementation; relevant source/test bodies inspected; upstream suites not run.",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Pipeline.php",
+      "license": "Proprietary; private local reuse per licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Adapters/Postgres/Repository.php",
+      "sha256": "740e1f5f43a93b60e3002387afc3270c731ecfa918e189a3e5d851f70788928e",
+      "decision": "adapt",
+      "symbols": [
+        "Repository::publish",
+        "Repository::transaction"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/Postgres/Jobs/PdoJobQueue.php"
+      ],
+      "reason": "Immutable replay comparison and rollback discipline adapted to tenant-qualified ordered lease guards and DB-clock predicates.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "qualificationRef": "Pinned git object/raw GitHub bytes restored and hashed before implementation; relevant source/test bodies inspected; upstream suites not run.",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Adapters/Postgres/Repository.php",
+      "license": "Proprietary; private local reuse per licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/DurableTest.php",
+      "sha256": "966b3254bf0e32509495c720ab04455b430844b4e62f0107d056ad8e13e78ee1",
+      "decision": "adapt",
+      "symbols": [
+        "testCompetingConnections",
+        "testCrashBeforeAndAfterCommitRestart"
+      ],
+      "targetPaths": [
+        "tests/jobs/leases/DurabilityTest.php"
+      ],
+      "reason": "Port competing-process barriers, SIGKILL and committed receipt replay assertions.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "qualificationRef": "Pinned git object/raw GitHub bytes restored and hashed before implementation; relevant source/test bodies inspected; upstream suites not run.",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/DurableTest.php",
+      "license": "Proprietary; private local reuse per licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/knowledge/indexing_run.py",
+      "sha256": "94fa970ef03199bdd70fe17158df6131214d841bd190a2be7ab9ff8401e4767c",
+      "decision": "adapt",
+      "symbols": [
+        "IndexingRun.check",
+        "IndexingRun.source_receipts",
+        "IndexingRun.verify_sources",
+        "IndexingRun.finish"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/Postgres/Jobs/PdoJobQueue.php"
+      ],
+      "reason": "Source-bound recovery and stale-owner rejection; PostgreSQL is sole durable owner, no file journal or volatile authority.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "qualificationRef": "Pinned git object/raw GitHub bytes restored and hashed before implementation; relevant source/test bodies inspected; upstream suites not run.",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/indexing_run.py",
+      "license": "Conceptual regression adaptation only; no Python source copied"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/knowledge/manifest.py",
+      "sha256": "f1c43b63ce0b222b32e758a1f252f24dafe37ce5977e1c538f98d3fb4f9f51e3",
+      "decision": "reject",
+      "symbols": [
+        "build_manifest"
+      ],
+      "targetPaths": [
+        "packages/core/src/Application/Jobs/VerifiedCheckpoints.php"
+      ],
+      "reason": "Filesystem inventory/display counts do not prove exact resource ownership/digests; use immutable ResourceLedger refs.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "qualificationRef": "Pinned git object/raw GitHub bytes restored and hashed before implementation; relevant source/test bodies inspected; upstream suites not run.",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/manifest.py",
+      "license": "Conceptual regression adaptation only; no Python source copied"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/index_versioning.py",
+      "sha256": "5d5ecd07716b7ea81f5483a3fa62f1024aed3f01fd707f7d0b99d40aff829eeb",
+      "decision": "adapt",
+      "symbols": [
+        "resolve_storage_dir_for_rebuild",
+        "_entry_from_flat_version"
+      ],
+      "targetPaths": [
+        "tests/jobs/leases/DurabilityTest.php"
+      ],
+      "reason": "Adapt unpublished candidate isolation regression. Reject shortened fingerprints, legacy fallback and provider-specific readiness.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "qualificationRef": "Pinned git object/raw GitHub bytes restored and hashed before implementation; relevant source/test bodies inspected; upstream suites not run.",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/index_versioning.py",
+      "license": "Conceptual regression adaptation only; no Python source copied"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/knowledge/test_indexing_run.py",
+      "sha256": "a7be5766b82ef292b7cea15cff61b999733cc65b767f442a07513f85a6f725cc",
+      "decision": "adapt",
+      "symbols": [
+        "test_retry_retains_source_identity_and_verified_parse_receipt",
+        "test_cancel_is_owned_by_task_and_preserves_newer_worker",
+        "test_restart_projection_is_read_only_and_retains_completed_sources",
+        "test_incomplete_version_is_not_queryable_and_previous_version_survives"
+      ],
+      "targetPaths": [
+        "tests/jobs/leases/LeaseTest.php",
+        "tests/jobs/leases/DurabilityTest.php"
+      ],
+      "reason": "Port assertions to real PostgreSQL, complete ProcessingIdentity and explicit uncertainty.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "qualificationRef": "Pinned git object/raw GitHub bytes restored and hashed before implementation; relevant source/test bodies inspected; upstream suites not run.",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_indexing_run.py",
+      "license": "Conceptual regression adaptation only; no Python source copied"
+    }
+  ],
+  "rights": "AgenTools private local adaptation: licenses/local-reuse-authorization.md and licenses/notices/agentools-LICENSE.txt. DeepTutor conceptual adaptation only; no Python code copied.",
+  "reusedTests": [
+    "competing connections",
+    "crash before/after commit",
+    "cancel newer-owner protection",
+    "verified source recovery",
+    "unpublished candidate isolation"
+  ],
+  "addedGapTests": [
+    "DB-clock predicates",
+    "five attempts/backoff",
+    "all processing axes",
+    "epoch/tombstone/tenant guards",
+    "fence exhaustion",
+    "uncertain provider acceptance"
+  ],
+  "checks": [
+    {
+      "id": "retry-lease",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/LeaseTest.php --log-junit tests/jobs/leases/.phpunit.cache/retry-lease.xml",
+      "exit": 0,
+      "tests": 11,
+      "assertions": 134,
+      "evidence": "tests/jobs/leases/evidence/retry-lease.txt",
+      "junit": "tests/jobs/leases/evidence/retry-lease.xml"
+    },
+    {
+      "id": "retry-durability",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/DurabilityTest.php --log-junit tests/jobs/leases/.phpunit.cache/retry-durability.xml",
+      "exit": 0,
+      "tests": 8,
+      "assertions": 133,
+      "evidence": "tests/jobs/leases/evidence/retry-durability.txt",
+      "junit": "tests/jobs/leases/evidence/retry-durability.xml"
+    },
+    {
+      "id": "retry-fixture",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/FixtureTest.php --log-junit tests/jobs/leases/.phpunit.cache/retry-fixture.xml",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 109,
+      "evidence": "tests/jobs/leases/evidence/retry-fixture.txt",
+      "junit": "tests/jobs/leases/evidence/retry-fixture.xml"
+    },
+    {
+      "id": "retry-schema",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php --log-junit tests/jobs/leases/.phpunit.cache/retry-schema.xml",
+      "exit": 0,
+      "tests": 9,
+      "assertions": 347,
+      "evidence": "tests/jobs/leases/evidence/retry-schema.txt",
+      "junit": "tests/jobs/leases/evidence/retry-schema.xml"
+    },
+    {
+      "id": "retry-boundary",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/BoundaryTest.php --log-junit tests/jobs/leases/.phpunit.cache/retry-boundary.xml",
+      "exit": 0,
+      "tests": 5,
+      "assertions": 182,
+      "evidence": "tests/jobs/leases/evidence/retry-boundary.txt",
+      "junit": "tests/jobs/leases/evidence/retry-boundary.xml"
+    },
+    {
+      "id": "DAG",
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/retry-dag.txt"
+    },
+    {
+      "id": "syntax",
+      "procedure": "php -l on all 16 changed/new PHP files enumerated in the output",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/retry-syntax.txt"
+    },
+    {
+      "id": "whitespace",
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/retry-whitespace.txt"
+    },
+    {
+      "id": "phpstan",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/retry-phpstan.txt"
+    }
+  ],
+  "unresolved": [],
+  "targetCandidateDigest": "f1ab4b0bc67a1ad45d4b72fd469dbeae46245d2324d8a3b00ccb4780619a209b",
+  "candidateDigestRecipe": "SHA256(UTF8(sorted compact JSON mapping repository-relative product/test/docs/fixture paths to SHA256(bytes))); evidence files excluded to avoid self-reference.",
+  "candidateFiles": {
+    "packages/core/migrations/postgres/003_jobs.sql": "fc44de104ad21e240071e448b7a8c6f1454c62f3e62cb3d4c034769d9cec60db",
+    "packages/core/src/Adapter/Postgres/Catalog/Connection.php": "21a44aa29c79315977b8d9176bab875bf02fd8dec0e95112148c9e568d662376",
+    "packages/core/src/Adapter/Postgres/Catalog/Migrate.php": "e975e47299c8036152d15ce13432ecba2257936cf6cf3ef33e776152b1e537ca",
+    "packages/core/src/Adapter/Postgres/Catalog/README.md": "db24be14133c52be796a147b4484a6a4f55385262c6707bbf621a784fa2a6e4d",
+    "packages/core/src/Adapter/Postgres/Catalog/migrate.php": "6d920eee1cc2d582fc7cd2e1147ba856265524585be41916d4b74b2ddd13a80d",
+    "packages/core/src/Adapter/Postgres/Jobs/PdoJobQueue.php": "7cbec757e9459a476701b64897b6a83c56b5bb9a0710afa20f8cbf1b2f07856a",
+    "packages/core/src/Adapter/Postgres/Jobs/README.md": "b30a35635af0e74723ce1dfdba25658a2517ec0dc4201624a3c77065b19c1f78",
+    "packages/core/src/Application/Jobs/CancelJob.php": "dffbf694ec73321146639625e26b5416a56cb640807666637bcbaf40bdd8c590",
+    "packages/core/src/Application/Jobs/VerifiedCheckpoints.php": "03f764af5eda5fd8e3ca5e8d3bcabfb601f9a7c49cd8e2844feaee4b3a22403d",
+    "packages/core/src/Domain/JobCheckpointManifest.php": "078ada41f67d16d8d13b326b67f65a38d5fd1b2221a895935e002d3b1ea62f3d",
+    "phpunit.xml": "13d98aa9419718459d0d5e65352b7ddbcb8fd2e4bae4b27bb7b46858e9bc0f41",
+    "tests/fixtures/check-groups/jobs-leases.json": "790f35088f9decda28c124784b4485b790ec12b70a8885a74a12d14e672336f4",
+    "tests/jobs/leases/DurabilityTest.php": "82e8633b39f417f36ee2c82b8c4796930737d6604ae036172502c099f39fa38a",
+    "tests/jobs/leases/Fixture.php": "46f0b08722073e562d7a8f91a1a88c649c84e8e67a3b97c4efb243f643536512",
+    "tests/jobs/leases/FixtureTest.php": "3de11ac478cd0b5c67202be5a97339a3b483f3e9441f11180453121df1a54111",
+    "tests/jobs/leases/LeaseTest.php": "25363add8513c4d71b4523da6472ed078f49c9050e6272503f9f60656ca92921",
+    "tests/jobs/leases/PublicationFixture.php": "e4a177c737f601132a50f750afc716701e44166439bd218b6ade6d01ef31a584",
+    "tests/jobs/leases/fixtures/v1/cases.json": "7f5e5e225f47cb02a442de6a60822c3d6a8d94a13b984816740e5e4eadf3ebdb",
+    "tests/jobs/leases/fixtures/v1/checkpoint.json": "ed80d758e4a00d4fd378c247746bd8a9c65efa7f6d20245ddb89f43390eeaaf8",
+    "tests/jobs/leases/worker.php": "2cbbc8c7b6a6aef12e0afee40994312dbfb7c20ae560692de5ce504015bd4f1d",
+    "tests/storage/catalog/SchemaTest.php": "985f761fd8db04f8119bbfbc101d8ae1a0349a5e07cef3e597d8f24d26b018c0",
+    "tests/tooling/baseline/BoundaryTest.php": "3d58fb4108009237eff4e27d6b3fd4ee3e08b337a00f5c426396c785f72f5876",
+    "tools/qa.php": "770e82b642103ab5ab040f9c7f287fcbe94934f44b1289682057bc12608365e1"
+  },
+  "implementationBaseline": "319ff4109b2ac6fde0a3a2a222ec4a92e3ac8182",
+  "historicalChecks": [
+    {
+      "id": "lease-complete",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/LeaseTest.php --log-junit tests/jobs/leases/.phpunit.cache/lease-complete.xml",
+      "exit": 0,
+      "tests": 11,
+      "assertions": 134,
+      "evidence": "tests/jobs/leases/evidence/lease-complete.txt"
+    },
+    {
+      "id": "durability-complete",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/DurabilityTest.php --log-junit tests/jobs/leases/.phpunit.cache/durability-complete.xml",
+      "exit": 0,
+      "tests": 8,
+      "assertions": 133,
+      "evidence": "tests/jobs/leases/evidence/durability-complete.txt"
+    },
+    {
+      "id": "fixture-complete",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/FixtureTest.php --log-junit tests/jobs/leases/.phpunit.cache/fixture-complete.xml",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 109,
+      "evidence": "tests/jobs/leases/evidence/fixture-complete.txt"
+    },
+    {
+      "id": "schema",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php --log-junit tests/jobs/leases/.phpunit.cache/schema.xml",
+      "exit": 0,
+      "tests": 9,
+      "assertions": 347,
+      "evidence": "tests/jobs/leases/evidence/schema.txt"
+    },
+    {
+      "id": "boundary",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/BoundaryTest.php --log-junit tests/jobs/leases/.phpunit.cache/boundary.xml",
+      "exit": 0,
+      "tests": 5,
+      "assertions": 182,
+      "evidence": "tests/jobs/leases/evidence/boundary.txt"
+    },
+    {
+      "id": "dag",
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 1,
+      "evidence": "tests/jobs/leases/evidence/dag-fixed.txt"
+    },
+    {
+      "id": "syntax",
+      "cmd": "php -l (16 changed/new PHP files; enumerated in evidence)",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/syntax.txt"
+    },
+    {
+      "id": "whitespace",
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/whitespace.txt"
+    },
+    {
+      "id": "phpstan",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/phpstan.txt"
+    }
+  ],
+  "resolvedIssues": [
+    {
+      "checkId": "DAG",
+      "command": "php tools/qa.php --check dag",
+      "exit": 1,
+      "error": "forbidden core layer edge",
+      "baseline": "319ff4109b2ac6fde0a3a2a222ec4a92e3ac8182",
+      "path": "packages/core/src/Adapter/Postgres/ChunkSets/PdoChunkSetStore.php",
+      "line": 6,
+      "baselineGitBlob": "fa0f661f883f2d831f5b482eeb393748aefd29ec",
+      "candidateGitBlob": "fa0f661f883f2d831f5b482eeb393748aefd29ec",
+      "unchanged": true,
+      "edge": "Adapter -> Application",
+      "approvedAllowedAdapterEdges": [
+        "Domain",
+        "Port"
+      ],
+      "resolution": {
+        "ownerCommit": "21c5317cb571df8e66372614cfb6331471bdee46",
+        "ownerCommitInHead": true,
+        "ownerReviewEvidence": ".swissknifeman/orch-artifacts/cnd-20261107T100214Z-dda70b/P2.6/review-verdict.json",
+        "ownerReviewVerdict": "GREEN",
+        "candidateProductFiles": 23,
+        "candidateProductHashesUnchanged": true,
+        "candidateProductDigest": "f1ab4b0bc67a1ad45d4b72fd469dbeae46245d2324d8a3b00ccb4780619a209b",
+        "currentDag": {
+          "exit": 0,
+          "phpFiles": 275,
+          "evidence": "tests/jobs/leases/evidence/retry-dag.txt"
+        },
+        "historicalBlockerEvidence": "tests/jobs/leases/evidence/pre-existing-dag.json"
+      }
+    }
+  ],
+  "historicalReceipt": {
+    "path": "tests/jobs/leases/evidence/P2.7-reuse-blocked.json",
+    "sha256": "af0ae8be2e84a84214ee0b5fa739cf4b3c4b5e80db6dc9bc3f0fd427aa435608"
+  },
+  "sourceHashesReverified": true
+}

@@ -54,6 +54,22 @@ final class BoundaryTest extends Support
         }
     }
 
+    public function testNamespaceAliasesPreserveVendorAndLayerChecks(): void
+    {
+        $qa = $this->candidate();
+        $this->put('packages/core/src/Application/Allowed.php', '<?php namespace KnowKit\\Application; use KnowKit\\Domain as D; final class Allowed { public function run(d\\Lease $lease): void {} }');
+        self::assertSame(1, $qa->dag()['phpFiles']);
+        foreach ([
+            'use Vendor as D; final class Allowed { public function run(D\\Lease $lease): void {} }',
+            'use KnowKit as K; final class Allowed { public function run(K\\Adapter\\Store $store): void {} }',
+            'use KnowKit\\Domain as D; final class Allowed { public function run(\\D\\Lease $lease): void {} }',
+            '/* use KnowKit\\Domain as D; */ final class Allowed { public function run(D\\Lease $lease): void {} }'
+        ] as $body) {
+            $this->put('packages/core/src/Application/Allowed.php', '<?php namespace KnowKit\\Application; '.$body);
+            $this->rejects(static fn() => $qa->dag(), 'forbidden');
+        }
+    }
+
     public function testCoreDependencyFloorAndPackageDagMutationsAreRejected(): void
     {
         $qa = $this->candidate();

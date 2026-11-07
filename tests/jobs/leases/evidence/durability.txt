@@ -1,0 +1,75 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: phpunit.xml
+
+.....FF                                                             7 / 7 (100%)
+
+Time: 00:01.684, Memory: 10.00 MB
+
+There were 2 failures:
+
+1) KnowKit\Tests\Jobs\Leases\DurabilityTest::testKillBeforeCommitRollsBackJobPointerSnapshotAndOutbox
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-''
++'KnowKit\Domain\Contract\ContractViolation: enum at /type
++'
+
+tests/jobs/leases/DurabilityTest.php:32
+tests/jobs/leases/DurabilityTest.php:117
+tests/jobs/leases/Fixture.php:47
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/jobs/leases/Fixture.php:47
+tests/jobs/leases/DurabilityTest.php:113
+
+Caused by
+Worker barrier missing
+Failed asserting that false is not false.
+
+tests/jobs/leases/DurabilityTest.php:25
+tests/jobs/leases/DurabilityTest.php:116
+tests/jobs/leases/Fixture.php:47
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/jobs/leases/Fixture.php:47
+tests/jobs/leases/DurabilityTest.php:113
+
+2) KnowKit\Tests\Jobs\Leases\DurabilityTest::testKillAfterCommitReplaysSameReceiptAndLeavesEventDispatchable
+Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-''
++'KnowKit\Domain\Contract\ContractViolation: enum at /type
++'
+
+tests/jobs/leases/DurabilityTest.php:32
+tests/jobs/leases/DurabilityTest.php:135
+tests/jobs/leases/Fixture.php:47
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/jobs/leases/Fixture.php:47
+tests/jobs/leases/DurabilityTest.php:131
+
+Caused by
+Worker barrier missing
+Failed asserting that false is not false.
+
+tests/jobs/leases/DurabilityTest.php:25
+tests/jobs/leases/DurabilityTest.php:134
+tests/jobs/leases/Fixture.php:47
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/jobs/leases/Fixture.php:47
+tests/jobs/leases/DurabilityTest.php:131
+
+FAILURES!
+Tests: 7, Assertions: 93, Failures: 2.

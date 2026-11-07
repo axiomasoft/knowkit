@@ -1,0 +1,359 @@
+{
+  "schemaVersion": "jobs-leases-execution-evidence:1",
+  "status": "done_with_deviations",
+  "currentBaseline": "21c5317cb571df8e66372614cfb6331471bdee46",
+  "resolution": {
+    "ownerCommit": "21c5317cb571df8e66372614cfb6331471bdee46",
+    "ownerCommitInHead": true,
+    "ownerReviewEvidence": ".swissknifeman/orch-artifacts/cnd-20261107T100214Z-dda70b/P2.6/review-verdict.json",
+    "ownerReviewVerdict": "GREEN",
+    "candidateProductFiles": 23,
+    "candidateProductHashesUnchanged": true,
+    "candidateProductDigest": "f1ab4b0bc67a1ad45d4b72fd469dbeae46245d2324d8a3b00ccb4780619a209b",
+    "currentDag": {
+      "exit": 0,
+      "phpFiles": 275,
+      "evidence": "tests/jobs/leases/evidence/retry-dag.txt"
+    },
+    "historicalBlockerEvidence": "tests/jobs/leases/evidence/pre-existing-dag.json"
+  },
+  "historicalExecution": "tests/jobs/leases/evidence/execution.json",
+  "executorRoute": {
+    "provider": "codex",
+    "model": "gpt-6.1-sol",
+    "effort": "xhigh"
+  },
+  "configuredReviewerRoute": {
+    "provider": "antigravity",
+    "model": "gemini-4-argon-high",
+    "effort": "high"
+  },
+  "reviewLaunched": false,
+  "acceptanceRun": false,
+  "checks": [
+    {
+      "id": "retry-lease",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/LeaseTest.php --log-junit tests/jobs/leases/.phpunit.cache/retry-lease.xml",
+      "exit": 0,
+      "tests": 11,
+      "assertions": 134,
+      "evidence": "tests/jobs/leases/evidence/retry-lease.txt",
+      "junit": "tests/jobs/leases/evidence/retry-lease.xml"
+    },
+    {
+      "id": "retry-durability",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/DurabilityTest.php --log-junit tests/jobs/leases/.phpunit.cache/retry-durability.xml",
+      "exit": 0,
+      "tests": 8,
+      "assertions": 133,
+      "evidence": "tests/jobs/leases/evidence/retry-durability.txt",
+      "junit": "tests/jobs/leases/evidence/retry-durability.xml"
+    },
+    {
+      "id": "retry-fixture",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/jobs/leases/FixtureTest.php --log-junit tests/jobs/leases/.phpunit.cache/retry-fixture.xml",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 109,
+      "evidence": "tests/jobs/leases/evidence/retry-fixture.txt",
+      "junit": "tests/jobs/leases/evidence/retry-fixture.xml"
+    },
+    {
+      "id": "retry-schema",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php --log-junit tests/jobs/leases/.phpunit.cache/retry-schema.xml",
+      "exit": 0,
+      "tests": 9,
+      "assertions": 347,
+      "evidence": "tests/jobs/leases/evidence/retry-schema.txt",
+      "junit": "tests/jobs/leases/evidence/retry-schema.xml"
+    },
+    {
+      "id": "retry-boundary",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/BoundaryTest.php --log-junit tests/jobs/leases/.phpunit.cache/retry-boundary.xml",
+      "exit": 0,
+      "tests": 5,
+      "assertions": 182,
+      "evidence": "tests/jobs/leases/evidence/retry-boundary.txt",
+      "junit": "tests/jobs/leases/evidence/retry-boundary.xml"
+    },
+    {
+      "id": "DAG",
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/retry-dag.txt"
+    },
+    {
+      "id": "syntax",
+      "procedure": "php -l on all 16 changed/new PHP files enumerated in the output",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/retry-syntax.txt"
+    },
+    {
+      "id": "whitespace",
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/retry-whitespace.txt"
+    },
+    {
+      "id": "phpstan",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress",
+      "exit": 0,
+      "evidence": "tests/jobs/leases/evidence/retry-phpstan.txt"
+    }
+  ],
+  "jobTests": 20,
+  "jobAssertions": 376,
+  "sourceHashesReverified": 7,
+  "proofLimits": "R11 proves queue SQL acceptance/CAS/PdoOutbox composition using synthetic generation metadata. No production Publishing, dispatcher, provider adapter or process supervisor qualification is claimed.",
+  "phaseP2StopPreserved": true,
+  "planMutation": false,
+  "commitCreated": false,
+  "planArtifactRegistrationOwner": "coordinator",
+  "executedRequiredCases": [
+    {
+      "id": "ACQUIRE-TWO",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testCompetingProcessesAcquireOnlyOneCapability",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        }
+      ]
+    },
+    {
+      "id": "STALE-TOKEN-TAKEOVER",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testTwoAcquireAndStaleFenceAfterTakeover",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "CANCEL-EXTRACTION",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testCancelWhileExtractionProcessIsRunningRejectsItsLateResult",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        },
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testCancelInvalidatesExtractionBeforeSupervisorStopAndKeepsUncertainWriters",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "PROVIDER-TIMEOUT-ACCEPTED",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testRetryBackoffAttemptsAndExplicitProviderUncertainty",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        },
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testUncertainProviderRetrySucceedsOnceLocallyWithoutClearingUncertainty",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "KILL-BEFORE-CHECKPOINT",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillBeforeCheckpointRetainsStagedArtifactsWithoutPublication",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        }
+      ]
+    },
+    {
+      "id": "KILL-AFTER-COMMIT",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillAfterCommitReplaysSameReceiptAndLeavesEventDispatchable",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        }
+      ]
+    },
+    {
+      "id": "R11-A01",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillBeforeCheckpointRetainsStagedArtifactsWithoutPublication",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        }
+      ]
+    },
+    {
+      "id": "R11-A02",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillBeforeCommitRollsBackJobPointerSnapshotAndOutbox",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        },
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillAfterCommitReplaysSameReceiptAndLeavesEventDispatchable",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        }
+      ]
+    },
+    {
+      "id": "R17-A01",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testTwoAcquireAndStaleFenceAfterTakeover",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        },
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testConcurrentEqualContentAttemptsAndStaleSharedTarget",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        }
+      ]
+    },
+    {
+      "id": "R17-A02",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testUncertainProviderRetrySucceedsOnceLocallyWithoutClearingUncertainty",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "DT-I03",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testConcurrentEqualContentAttemptsAndStaleSharedTarget",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        }
+      ]
+    },
+    {
+      "id": "DT-R09",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testKillBeforeCommitRollsBackJobPointerSnapshotAndOutbox",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        },
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testTwoAcquireAndStaleFenceAfterTakeover",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        },
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testCompetingRecoveryAfterLostProcessStateRejectsOldTransitions",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        }
+      ]
+    },
+    {
+      "id": "DT-Q01",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testStagesCheckpointIntegrityAndAllProcessingAxes",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "JOB-HEARTBEAT",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testHeartbeatUsesDatabaseClockTokenAttemptEpochAndDeadline",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "JOB-RETRY",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testRetryBackoffAttemptsAndExplicitProviderUncertainty",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "JOB-LIFECYCLE",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testLifecycleEpochTenantAndImmutableCheckpointGuards",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "JOB-MIGRATION",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testMigrationIdentityBoundsEnqueueConflictAndFenceExhaustion",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "JOB-LOCKS",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\DurabilityTest::testSkipLockedAndTypedSemanticLockTimeout",
+          "evidence": "tests/jobs/leases/evidence/retry-durability.xml"
+        }
+      ]
+    },
+    {
+      "id": "JOB-RESOURCE-GUARDS",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testHostScopeResourceOwnershipAndFinalResourceStateAreAuthoritative",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "JOB-FIXTURE",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\FixtureTest::testVersionedDigestsClosedCheckpointAndRequiredCaseReportsFailClosed",
+          "evidence": "tests/jobs/leases/evidence/retry-fixture.xml"
+        }
+      ]
+    },
+    {
+      "id": "JOB-COMMIT-UNKNOWN",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testLostCommitResponseIsUnknownAndReplaysDurableAcceptance",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    },
+    {
+      "id": "JOB-WRITER-UNCERTAINTY",
+      "status": "passed",
+      "junitCases": [
+        {
+          "id": "KnowKit\\Tests\\Jobs\\Leases\\LeaseTest::testRelinquishingUnavailableAttemptRetainsOpenWriterUncertainty",
+          "evidence": "tests/jobs/leases/evidence/retry-lease.xml"
+        }
+      ]
+    }
+  ],
+  "requiredCaseCount": 22
+}

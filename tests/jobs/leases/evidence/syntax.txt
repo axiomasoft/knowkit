@@ -1,0 +1,16 @@
+No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/Connection.php
+No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/Migrate.php
+No syntax errors detected in packages/core/src/Adapter/Postgres/Catalog/migrate.php
+No syntax errors detected in packages/core/src/Adapter/Postgres/Jobs/PdoJobQueue.php
+No syntax errors detected in packages/core/src/Application/Jobs/CancelJob.php
+No syntax errors detected in packages/core/src/Application/Jobs/VerifiedCheckpoints.php
+No syntax errors detected in packages/core/src/Domain/JobCheckpointManifest.php
+No syntax errors detected in tests/jobs/leases/DurabilityTest.php
+No syntax errors detected in tests/jobs/leases/Fixture.php
+No syntax errors detected in tests/jobs/leases/FixtureTest.php
+No syntax errors detected in tests/jobs/leases/LeaseTest.php
+No syntax errors detected in tests/jobs/leases/PublicationFixture.php
+No syntax errors detected in tests/jobs/leases/worker.php
+No syntax errors detected in tests/storage/catalog/SchemaTest.php
+No syntax errors detected in tests/tooling/baseline/BoundaryTest.php
+No syntax errors detected in tools/qa.php

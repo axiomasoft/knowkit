@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Jobs\Leases\FixtureTest" file="tests/jobs/leases/FixtureTest.php" tests="1" assertions="109" errors="0" failures="0" skipped="0" time="0.136963">
+    <testcase name="testVersionedDigestsClosedCheckpointAndRequiredCaseReportsFailClosed" file="tests/jobs/leases/FixtureTest.php" line="15" class="KnowKit\Tests\Jobs\Leases\FixtureTest" classname="KnowKit.Tests.Jobs.Leases.FixtureTest" assertions="109" time="0.136963"/>
+  </testsuite>
+</testsuites>

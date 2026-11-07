@@ -34,6 +34,7 @@ final readonly class Connection
             $statement->execute(); return $statement;
         } catch (\PDOException $error) {
             // Never propagate SQL detail (bound metadata, host refs or credentials).
+            if ($error->getCode()==='55P03') { throw new DomainFailure(Outcome::Unavailable,'RETRYABLE_LOCK_TIMEOUT'); }
             throw new DomainFailure(str_starts_with((string)$error->getCode(),'23') ? Outcome::Incompatible : Outcome::Unavailable,
                 str_starts_with((string)$error->getCode(),'23') ? 'storage_conflict' : 'storage_unavailable');
         }
