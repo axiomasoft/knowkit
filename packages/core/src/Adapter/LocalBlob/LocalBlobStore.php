@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace KnowKit\Adapter\LocalBlob;
 
-use KnowKit\Domain as D;
+use KnowKit\Domain\{AttemptId, BlobRef, BlobWriteReservation, Cursor, DeletionReceipt, DeletionTaskId, DomainFailure, Outcome, ResourceId, ResourcePage, ResourceRef, Sha256, SourceId, TenantId, Uint64, Ulid, UtcInstant};
 use KnowKit\Domain\Contract\{ContractValidator,JsonObject};
 use KnowKit\Port\{BlobStore,Clock,IdGenerator,ReadableStream};
 
@@ -11,7 +11,7 @@ final readonly class LocalBlobStore implements BlobStore
 {
     private PrivateFilesystem $fs;
     /** @param array<string,\Closure> $ledger Bound methods of a tenant/storage-specific durable ledger. */
-    public function __construct(private D\TenantId $tenant,string $root,private string $storageId,private int $maxBytes,
+    public function __construct(private TenantId $tenant,string $root,private string $storageId,private int $maxBytes,
         private array $ledger,private \Closure $authorizeRead,private \Closure $deletionBinding,
         private IdGenerator $ids,private Clock $clock,private ContractValidator $validator,?\Closure $sync=null)
     {
@@ -21,24 +21,24 @@ final readonly class LocalBlobStore implements BlobStore
         }
         $this->fs=new PrivateFilesystem($root,$sync);
     }
-    private function scoped(D\TenantId $tenant): void
-    { if (!$this->tenant->equals($tenant)) { throw new D\DomainFailure(D\Outcome::Denied,'scope_mismatch'); } }
-    private function key(D\BlobRef $ref): string
+    private function scoped(TenantId $tenant): void
+    { if (!$this->tenant->equals($tenant)) { throw new DomainFailure(Outcome::Denied,'scope_mismatch'); } }
+    private function key(BlobRef $ref): string
     {
         $this->scoped($ref->tenantId);
-        if ($ref->storageId!==$this->storageId || $ref->ownerKind!=='owned') { throw new D\DomainFailure(D\Outcome::Incompatible,'blob_store_mismatch'); }
-        $version=new D\ResourceId($ref->objectVersion);
+        if ($ref->storageId!==$this->storageId || $ref->ownerKind!=='owned') { throw new DomainFailure(Outcome::Incompatible,'blob_store_mismatch'); }
+        $version=new ResourceId($ref->objectVersion);
         return $this->tenant->value.'/'.$ref->sourceId->value.'/sha256/'.$ref->digest->value.'/'.$version->value;
     }
-    private function staging(D\BlobWriteReservation $r): string
+    private function staging(BlobWriteReservation $r): string
     { return $this->tenant->value.'/'.$r->sourceId->value.'/staging/'.($r->stagingId->value??$r->resource->id->value); }
     private function readChunk(ReadableStream $stream,int $bound): string
     {
         $chunk=$stream->read($bound);
-        if (strlen($chunk)>$bound || ($chunk==='' && !$stream->eof())) { throw new D\DomainFailure(D\Outcome::Incompatible,'stream_contract'); }
+        if (strlen($chunk)>$bound || ($chunk==='' && !$stream->eof())) { throw new DomainFailure(Outcome::Incompatible,'stream_contract'); }
         return $chunk;
     }
-    private function authorize(D\BlobRef $ref): void
+    private function authorize(BlobRef $ref): void
     {
         $this->scoped($ref->tenantId);
         ($this->ledger['requireAccepted'])($ref);
@@ -46,7 +46,7 @@ final readonly class LocalBlobStore implements BlobStore
         // Repeat the local authoritative barrier after the current owner's possible remote I/O.
         ($this->ledger['requireAccepted'])($ref);
     }
-    public function putImmutable(D\BlobWriteReservation $r,ReadableStream $stream): D\BlobRef
+    public function putImmutable(BlobWriteReservation $r,ReadableStream $stream): BlobRef
     {
         $this->scoped($r->resource->tenantId); $handle=null; $lock=null; $active=false;
         try {
@@ -58,23 +58,23 @@ final readonly class LocalBlobStore implements BlobStore
             while (!$stream->eof()) {
                 $bound=min(65536,$this->maxBytes-$length+1); $chunk=$this->readChunk($stream,$bound);
                 $length+=strlen($chunk);
-                if ($length>$this->maxBytes) { throw new D\DomainFailure(D\Outcome::Incompatible,'blob_size_limit'); }
+                if ($length>$this->maxBytes) { throw new DomainFailure(Outcome::Incompatible,'blob_size_limit'); }
                 hash_update($hash,$chunk);
                 if ($handle!==null) {
                     $offset=0;
                     while ($offset<strlen($chunk)) {
                         $written=@fwrite($handle,substr($chunk,$offset));
-                        if ($written===false || $written===0) { throw new D\DomainFailure(D\Outcome::Unavailable,'blob_io_failed'); }
+                        if ($written===false || $written===0) { throw new DomainFailure(Outcome::Unavailable,'blob_io_failed'); }
                         $offset+=$written;
                     }
                 }
             }
-            $digest=new D\Sha256(hash_final($hash)); $size=new D\Uint64((string)$length);
+            $digest=new Sha256(hash_final($hash)); $size=new Uint64((string)$length);
             if (($r->digest!==null && ($r->digest->value!==$digest->value || $r->byteLength->value!==$size->value)) ||
                 ($state['resource']['digest']!==null && ($state['resource']['digest']!==$digest->value || (string)$state['resource']['byte_length']!==$size->value))) {
-                throw new D\DomainFailure(D\Outcome::Incompatible,'blob_digest_mismatch');
+                throw new DomainFailure(Outcome::Incompatible,'blob_digest_mismatch');
             }
-            $ref=new D\BlobRef($this->tenant,$r->sourceId,$digest,$size,$this->storageId,$r->resource->id->value,'owned');
+            $ref=new BlobRef($this->tenant,$r->sourceId,$digest,$size,$this->storageId,$r->resource->id->value,'owned');
             $key=$this->key($ref);
             if ($handle!==null) {
                 $this->fs->syncFile($handle); fclose($handle); $handle=null;
@@ -92,7 +92,7 @@ final readonly class LocalBlobStore implements BlobStore
             // Concurrent reservations finish outside the file lock; no writer is presumed dead.
             $deadline=hrtime(true)+5_000_000_000;
             while ($accepted===null && hrtime(true)<$deadline) { usleep(10000); $accepted=($this->ledger['closeWriter'])($r); }
-            if (!$accepted instanceof D\BlobRef || $accepted!=$ref) { throw new D\DomainFailure(D\Outcome::Unknown,'acceptance_pending'); }
+            if (!$accepted instanceof BlobRef || $accepted!=$ref) { throw new DomainFailure(Outcome::Unknown,'acceptance_pending'); }
             return $accepted;
         } catch (\Throwable $e) {
             if ($handle!==null) { fclose($handle); $handle=null; }
@@ -105,29 +105,29 @@ final readonly class LocalBlobStore implements BlobStore
             $stream->close();
         }
     }
-    public function open(D\BlobRef $ref): ReadableStream
+    public function open(BlobRef $ref): ReadableStream
     {
         $key=$this->key($ref); $this->authorize($ref); $h=$this->fs->open($key);
         try { return new VerifiedStream($h,$this->fs,$ref,$this->maxBytes,$this->authorize(...)); }
         catch (\Throwable $e) { fclose($h); throw $e; }
     }
-    public function exists(D\BlobRef $ref): bool
+    public function exists(BlobRef $ref): bool
     {
         try { $stream=$this->open($ref); $stream->close(); return true; }
-        catch (D\DomainFailure $e) { if ($e->errorCode==='blob_missing') { return false; } throw $e; }
+        catch (DomainFailure $e) { if ($e->errorCode==='blob_missing') { return false; } throw $e; }
     }
-    public function listUnreferenced(D\UtcInstant $before,D\Cursor $cursor): D\ResourcePage
+    public function listUnreferenced(UtcInstant $before,Cursor $cursor): ResourcePage
     {
         $this->scoped($cursor->tenantId);
         foreach ($this->fs->inventory($this->tenant->value) as $key) {
             $parts=explode('/',$key);
-            $source=new D\SourceId($parts[1]); $staging=null;
-            if (($parts[2]??'')==='staging' && count($parts)===4 && preg_match('/\A[0-7][0-9A-HJKMNP-TV-Z]{25}\z/D',$parts[3])===1) { $staging=new D\Ulid($parts[3]); }
-            ($this->ledger['quarantine'])($source,$key,new D\ResourceId($this->ids->next()->value),$staging);
+            $source=new SourceId($parts[1]); $staging=null;
+            if (($parts[2]??'')==='staging' && count($parts)===4 && preg_match('/\A[0-7][0-9A-HJKMNP-TV-Z]{25}\z/D',$parts[3])===1) { $staging=new Ulid($parts[3]); }
+            ($this->ledger['quarantine'])($source,$key,new ResourceId($this->ids->next()->value),$staging);
         }
         return ($this->ledger['listUnreferenced'])($before,$cursor);
     }
-    public function reconcileWriter(D\BlobWriteReservation $r,\Closure $proveRunnerStopped): ?D\BlobRef
+    public function reconcileWriter(BlobWriteReservation $r,\Closure $proveRunnerStopped): ?BlobRef
     {
         $this->scoped($r->resource->tenantId);
         return ($this->ledger['reconcileWriter'])($r,$proveRunnerStopped,function() use($r) {
@@ -137,21 +137,21 @@ final readonly class LocalBlobStore implements BlobStore
             finally { flock($lock,LOCK_UN); fclose($lock); }
         });
     }
-    public function delete(D\ResourceRef $resource,D\AttemptId $attemptId): D\DeletionReceipt
+    public function delete(ResourceRef $resource,AttemptId $attemptId): DeletionReceipt
     {
         $this->scoped($resource->tenantId);
-        if ($resource->kind!=='resource') { throw new D\DomainFailure(D\Outcome::Denied,'scope_mismatch'); }
+        if ($resource->kind!=='resource') { throw new DomainFailure(Outcome::Denied,'scope_mismatch'); }
         // Host resolves the exact durable attempt/task and deleting state, never a raw object key from a request.
         $binding=($this->deletionBinding)($resource,$attemptId);
-        if (!isset($binding['taskId']) || !$binding['taskId'] instanceof D\DeletionTaskId) { throw new D\DomainFailure(D\Outcome::Denied,'deletion_not_reserved'); }
+        if (!isset($binding['taskId']) || !$binding['taskId'] instanceof DeletionTaskId) { throw new DomainFailure(Outcome::Denied,'deletion_not_reserved'); }
         $result='unsupported';
         if (($binding['ownerKind']??null)==='owned' && ($binding['allowed']??false)===true) {
             $key=$binding['storageKey']??'';
-            if (!str_starts_with($key,$this->tenant->value.'/')) { throw new D\DomainFailure(D\Outcome::Denied,'scope_mismatch'); }
+            if (!str_starts_with($key,$this->tenant->value.'/')) { throw new DomainFailure(Outcome::Denied,'scope_mismatch'); }
             try { $result=$this->fs->remove($key)?'deleted':'absent'; }
-            catch (D\DomainFailure) { $result='unknown'; }
+            catch (DomainFailure) { $result='unknown'; }
         }
-        return new D\DeletionReceipt(new JsonObject(['attemptId'=>$attemptId->value,'taskId'=>$binding['taskId']->value,
+        return new DeletionReceipt(new JsonObject(['attemptId'=>$attemptId->value,'taskId'=>$binding['taskId']->value,
             'resourceId'=>$resource->id->value,'inFlight'=>false,'result'=>$result,'providerReceipt'=>in_array($result,['deleted','absent'],true)?'local-fsync-v1':null,'knownExpiry'=>null,
             'observedAt'=>$this->clock->now()->value]),$this->validator);
     }

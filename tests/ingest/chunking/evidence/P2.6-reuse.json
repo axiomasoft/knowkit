@@ -212,6 +212,22 @@
   "acceptance": "V1 is coordinator-owned and was not run. Only the changed test files, focused static analysis, syntax checks, diff whitespace and discovery were executed.",
   "unresolved": [],
   "registration": "Product-side staging only; coordinator registers @plan/artifacts/implementation/P2.6-reuse.json. No native plan mutation by executor.",
+  "dagCorrection": {
+    "scope": "P2.6 correction only: remove Adapter dependence on Application without changing the approved DAG or chunk identity/representation algorithms.",
+    "reuse": [
+      "Move the existing project ChunkingResult implementation unchanged into Domain; retain the Application result as a compatibility subtype. Final inherited methods preserve its frozen manifest and digest behavior.",
+      "Expose the existing revision-bound builder behavior through ChunkSetBuilder; retain StructuralChunker build/chunk inputs and Application result type. Reuse catalog immutable insert/resource checks and real PostgreSQL fixtures.",
+      "Replace pre-existing Domain namespace aliases in LocalBlobStore and PdoResourceLedger with equivalent explicit class imports because the unchanged DAG checker rejects qualified aliases. No storage algorithm or resolved type changes."
+    ],
+    "sourceQualification": "No new external donor or dependency was introduced. The six original donor decisions above are historical qualification, not a claim of a fresh upstream read or test run in this correction.",
+    "gapTests": [
+      "Persistence accepts a different trusted builder returning the shared Domain value and preserves the original structural manifest/digest.",
+      "Returned revision, profile and per-chunk document mismatch reject before inserting any chunkset; existing history, tenant and canonical-resource checks remain exercised."
+    ],
+    "verification": "tests/ingest/chunking/evidence/dag-correction-checks.json",
+    "output": "tests/ingest/chunking/evidence/dag-correction-checks.txt",
+    "acceptance": "V1 and independent review remain coordinator-owned; neither was started by the executor."
+  },
   "scopeNotes": [
     "phpunit.xml receives the necessary Core test-directory registration under the explicit write-fence exception; reported as write_set deviation.",
     "Chunker keeps its existing signature: trusted revision/document bindings are constructor inputs; metadata/followups use an application sidecar following P2.4.",

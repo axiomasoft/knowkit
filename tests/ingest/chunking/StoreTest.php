@@ -6,6 +6,7 @@ use KnowKit\Adapter\Postgres\ChunkSets\PdoChunkSetStore;
 use KnowKit\Application\Chunking\StructuralChunker;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\{Jcs, StrictJson};
+use KnowKit\Port\ChunkSetBuilder;
 use KnowKit\Tests\Ingest\Validation\{StorageFixture, ValidationFixture};
 use KnowKit\Tests\Storage\Catalog\CatalogFixture;
 use PHPUnit\Framework\Attributes\Group;
@@ -16,6 +17,53 @@ require_once dirname(__DIR__) . '/validation/StorageFixture.php';
 #[Group('ingest:chunking')]
 final class StoreTest extends TestCase
 {
+    public function testStoreUsesBuilderPortAndRejectsMismatchedReturnedBindings(): void
+    {
+        StorageFixture::run(function(StorageFixture $f, D\IrDocument $ir): void {
+            $storage = $f->storage($ir); $f->write($ir, $storage);
+            $revision = $f->input->revision; $tenant = $revision->sourceRef->tenantId;
+            $profile = ChunkingFixture::profile();
+            $structural = new StructuralChunker($revision, $storage->documentId);
+            self::assertInstanceOf(ChunkSetBuilder::class, $structural);
+            self::assertSame($revision, $structural->revision()); self::assertSame($storage->documentId, $structural->documentId());
+            $candidate = $structural->build($ir, $profile);
+            self::assertInstanceOf(\KnowKit\Application\Chunking\ChunkingResult::class, $candidate);
+            $resources = [];
+            foreach ($candidate->chunkSet->chunks as $chunk) { $resources[$chunk->ref->chunkId->value] = $f->resource($chunk->text()); }
+            $store = new PdoChunkSetStore($f->catalog->db, $f->catalog->tx, $f->catalog->repo);
+            // A different trusted builder can return the shared Domain value without any Application type.
+            $save = function(D\ChunkingResult $result) use ($f, $store, $tenant, $revision, $storage, $ir, $profile, $resources): D\ChunkingResult {
+                $builder = new class($revision, $storage->documentId, $result) implements ChunkSetBuilder {
+                    public function __construct(private D\DocumentRevisionRef $revision, private D\DocumentId $documentId, private D\ChunkingResult $result) {}
+                    public function revision(): D\DocumentRevisionRef { return $this->revision; }
+                    public function documentId(): D\DocumentId { return $this->documentId; }
+                    public function build(D\IrDocument $document, D\ChunkerProfile $profile): D\ChunkingResult { return $this->result; }
+                    public function chunk(D\IrDocument $document, D\ChunkerProfile $profile): D\ChunkSet { return $this->build($document, $profile)->chunkSet; }
+                };
+                return $f->catalog->tx->run(function() use ($f, $store, $tenant, $revision, $builder, $ir, $profile, $resources): D\ChunkingResult {
+                    $f->catalog->tx->lockTenant($tenant, D\LockMode::Update);
+                    $f->catalog->tx->lockSources([$revision->sourceRef->sourceId], D\LockMode::Update);
+                    return $store->save($tenant, $builder, $ir, $profile, $resources);
+                });
+            };
+            $set = $candidate->chunkSet;
+            $otherRevision = new D\DocumentRevisionRef($revision->sourceRef, $revision->documentRevisionId, new D\IrDigest(str_repeat('f', 64)), $revision->parserSignature);
+            $wrongRevision = new D\ChunkSet($otherRevision, $set->chunkSetId, $set->chunkerSignature, []);
+            $wrongProfile = new D\ChunkSet($revision, $set->chunkSetId, ChunkingFixture::profile(['maxBytes' => 1199])->signature, $set->chunks);
+            $wrongChunks = array_map(static fn(D\Chunk $c): D\Chunk => new D\Chunk($c->ref, new D\DocumentId(ValidationFixture::id(999)), $c->spans, $c->text()), $set->chunks);
+            $wrongDocument = new D\ChunkSet($revision, $set->chunkSetId, $set->chunkerSignature, $wrongChunks);
+            foreach ([$wrongRevision, $wrongProfile, $wrongDocument] as $bad) {
+                ChunkingFixture::failure(fn() => $save(new D\ChunkingResult($bad, $candidate->manifest())), 'binding_mismatch');
+                self::assertSame(0, $f->catalog->count('chunk_sets'));
+            }
+            $shared = new D\ChunkingResult($set, $candidate->manifest());
+            self::assertSame($shared, $save($shared));
+            self::assertSame($candidate->canonicalManifest(), $shared->canonicalManifest());
+            self::assertEquals($candidate->manifestDigest, $shared->manifestDigest);
+            self::assertSame(1, $f->catalog->count('chunk_sets'));
+        });
+    }
+
     public function testHistoricalChunksetsAndMetadataAreImmutableAndTenantQualified(): void
     {
         StorageFixture::run(function(StorageFixture $f, D\IrDocument $ir): void {

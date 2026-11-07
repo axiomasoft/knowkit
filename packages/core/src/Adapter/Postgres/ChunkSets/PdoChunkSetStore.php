@@ -3,9 +3,9 @@ declare(strict_types=1);
 namespace KnowKit\Adapter\Postgres\ChunkSets;
 
 use KnowKit\Adapter\Postgres\Catalog\{ChunkMetadata, ChunkSetMetadata, Connection, PdoCatalogRepository, PdoCatalogTransaction};
-use KnowKit\Application\Chunking\{ChunkingResult, StructuralChunker};
-use KnowKit\Domain\{ChunkerProfile, DomainFailure, IrDocument, Outcome, ResourceId, TenantId};
+use KnowKit\Domain\{ChunkerProfile, ChunkingResult, DomainFailure, IrDocument, Outcome, ResourceId, TenantId};
 use KnowKit\Domain\Contract\JsonObject;
+use KnowKit\Port\ChunkSetBuilder;
 
 /** Internal persistence, never a disclosure API. Caller preloads accepted payload resources and owns the transaction. */
 final readonly class PdoChunkSetStore
@@ -19,14 +19,18 @@ final readonly class PdoChunkSetStore
      * Rebuild from pinned inputs rather than accepting self-signed chunk metadata.
      * @param array<array-key,mixed> $resources Checked here as exact chunk ID => accepted ResourceId.
      */
-    public function save(TenantId $tenant, StructuralChunker $chunker, IrDocument $ir, ChunkerProfile $profile, array $resources): ChunkingResult
+    public function save(TenantId $tenant, ChunkSetBuilder $chunker, IrDocument $ir, ChunkerProfile $profile, array $resources): ChunkingResult
     {
         $this->tx->requireTenant($tenant, true);
-        if ($chunker->revision->sourceRef->tenantId != $tenant) { self::fail('scope_mismatch', Outcome::Denied); }
+        $revision = $chunker->revision(); $documentId = $chunker->documentId();
+        if ($revision->sourceRef->tenantId != $tenant) { self::fail('scope_mismatch', Outcome::Denied); }
         $result = $chunker->build($ir, $profile);
-        $revision = $chunker->revision;
+        if ($result->chunkSet->revisionRef != $revision || $result->chunkSet->chunkerSignature != $profile->signature) { self::fail('binding_mismatch'); }
+        foreach ($result->chunkSet->chunks as $chunk) {
+            if ($chunk->documentId != $documentId) { self::fail('binding_mismatch'); }
+        }
         if ($this->db->row('SELECT id FROM ' . $this->db->table('documents') . ' WHERE tenant_id=? AND id=? AND revision_id=?',
-            [$tenant->value, $chunker->documentId->value, $revision->documentRevisionId->value]) === null) { self::fail('binding_mismatch'); }
+            [$tenant->value, $documentId->value, $revision->documentRevisionId->value]) === null) { self::fail('binding_mismatch'); }
         $expected = array_map(static fn($c): string => $c->ref->chunkId->value, $result->chunkSet->chunks);
         $actual = array_keys($resources); sort($expected, SORT_STRING); sort($actual, SORT_STRING);
         if ($actual !== $expected) { self::fail('chunk_metadata_required'); }

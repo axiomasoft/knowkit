@@ -1,0 +1,8 @@
+No syntax errors detected in packages/core/src/Domain/ChunkingResult.php
+No syntax errors detected in packages/core/src/Port/ChunkSetBuilder.php
+No syntax errors detected in packages/core/src/Application/Chunking/ChunkingResult.php
+No syntax errors detected in packages/core/src/Application/Chunking/StructuralChunker.php
+No syntax errors detected in packages/core/src/Adapter/Postgres/ChunkSets/PdoChunkSetStore.php
+No syntax errors detected in packages/core/src/Adapter/LocalBlob/LocalBlobStore.php
+No syntax errors detected in packages/core/src/Adapter/Postgres/PdoResourceLedger.php
+No syntax errors detected in tests/ingest/chunking/StoreTest.php

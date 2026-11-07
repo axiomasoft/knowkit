@@ -4,16 +4,19 @@ namespace KnowKit\Application\Chunking;
 
 use KnowKit\Domain\{Chunk, ChunkId, ChunkRef, ChunkSet, ChunkSetId, ChunkerProfile, DocumentId, DocumentRevisionRef, IrDocument, Sha256};
 use KnowKit\Domain\Contract\{HashDomain, Jcs, JsonObject};
-use KnowKit\Port\{Chunker, Tokenizer};
+use KnowKit\Port\{ChunkSetBuilder, Tokenizer};
 
 /**
  * Revision-bound implementation of the existing port. build() additionally returns
  * the immutable metadata sidecar needed by persistence and bounded read followups.
  * Reuses SpanAssembler (P2.5 adaptation of AgenTools GenericValidator); no donor runtime.
  */
-final readonly class StructuralChunker implements Chunker
+final readonly class StructuralChunker implements ChunkSetBuilder
 {
     public function __construct(public DocumentRevisionRef $revision, public DocumentId $documentId, private ?Tokenizer $tokenizer = null) {}
+
+    public function revision(): DocumentRevisionRef { return $this->revision; }
+    public function documentId(): DocumentId { return $this->documentId; }
 
     public function chunk(IrDocument $document, ChunkerProfile $profile): ChunkSet { return $this->build($document, $profile)->chunkSet; }
 

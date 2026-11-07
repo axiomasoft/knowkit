@@ -1,0 +1,124 @@
+{
+  "schemaVersion": "focused-verification:1",
+  "item": "P2.6",
+  "checks": [
+    {
+      "id": "DAG",
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 0
+    },
+    {
+      "id": "structural",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/chunking/StructuralTest.php",
+      "exit": 0,
+      "tests": 12,
+      "assertions": 798
+    },
+    {
+      "id": "fixtures",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/chunking/FixtureTest.php",
+      "exit": 0,
+      "tests": 2,
+      "assertions": 130
+    },
+    {
+      "id": "chunk-store",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/chunking/StoreTest.php",
+      "exit": 0,
+      "tests": 2,
+      "assertions": 88
+    },
+    {
+      "id": "contract-ports-PortContractsTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/PortContractsTest.php",
+      "exit": 0,
+      "tests": 7,
+      "assertions": 818
+    },
+    {
+      "id": "storage-catalog-BoundaryTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/BoundaryTest.php",
+      "exit": 0,
+      "tests": 4,
+      "assertions": 42
+    },
+    {
+      "id": "storage-catalog-IntegrityTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/IntegrityTest.php",
+      "exit": 0,
+      "tests": 5,
+      "assertions": 41
+    },
+    {
+      "id": "storage-catalog-CatalogTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/CatalogTest.php",
+      "exit": 0,
+      "tests": 11,
+      "assertions": 127
+    },
+    {
+      "id": "storage-catalog-SchemaTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php",
+      "exit": 0,
+      "tests": 9,
+      "assertions": 344
+    },
+    {
+      "id": "storage-catalog-DurabilityTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/DurabilityTest.php",
+      "exit": 0,
+      "tests": 4,
+      "assertions": 63
+    },
+    {
+      "id": "storage-blobs-LocalBlobTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/LocalBlobTest.php",
+      "exit": 0,
+      "tests": 8,
+      "assertions": 89
+    },
+    {
+      "id": "storage-blobs-LedgerTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/LedgerTest.php",
+      "exit": 0,
+      "tests": 5,
+      "assertions": 54
+    },
+    {
+      "id": "storage-blobs-AuditTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/AuditTest.php",
+      "exit": 0,
+      "tests": 4,
+      "assertions": 32
+    },
+    {
+      "id": "storage-blobs-ExternalContractTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/ExternalContractTest.php",
+      "exit": 0,
+      "tests": 3,
+      "assertions": 33
+    },
+    {
+      "id": "storage-blobs-FixtureTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/FixtureTest.php",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 72
+    },
+    {
+      "id": "ingest-validation-StoreTest",
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/ingest/validation/StoreTest.php",
+      "exit": 0,
+      "tests": 8,
+      "assertions": 113
+    },
+    {
+      "id": "phpstan",
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/ingest/chunking/bootstrap.php --no-progress packages/core/src/Application/Chunking packages/core/src/Adapter/Postgres/ChunkSets packages/core/src/Domain/ChunkingResult.php packages/core/src/Port/ChunkSetBuilder.php packages/core/src/Adapter/LocalBlob/LocalBlobStore.php packages/core/src/Adapter/Postgres/PdoResourceLedger.php",
+      "exit": 0
+    }
+  ],
+  "tests": 85,
+  "assertions": 2844,
+  "acceptance": "V1 deliberately not executed: coordinator-owned; no whole suite or acceptance command run."
+}

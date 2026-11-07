@@ -1,0 +1,2 @@
+./vendor/autoload.php: contained
+vendor/bin/phpunit: contained

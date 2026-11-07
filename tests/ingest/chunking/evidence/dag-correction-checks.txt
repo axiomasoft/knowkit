@@ -1,0 +1,235 @@
+P2.6 DAG correction focused verification. Machine paths replaced by portable placeholders; all other output retained.
+
+Initial DAG probe after inversion (failure output, before existing alias normalization):
+{"outcome":"failure","error":"forbidden vendor namespace in core: D\\TenantId"}
+
+$ php tools/qa.php --check dag
+{
+    "outcome": "success",
+    "check": "dag",
+    "details": {
+        "packages": 1,
+        "phpFiles": 271
+    }
+}
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/ingest/chunking/StructuralTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+............                                                      12 / 12 (100%)
+
+Time: 00:00.158, Memory: 12.00 MB
+
+OK (12 tests, 798 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/ingest/chunking/FixtureTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+..                                                                  2 / 2 (100%)
+
+Time: 00:00.042, Memory: 10.00 MB
+
+OK (2 tests, 130 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/ingest/chunking/StoreTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+..                                                                  2 / 2 (100%)
+
+Time: 00:00.368, Memory: 10.00 MB
+
+OK (2 tests, 88 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/contract/ports/PortContractsTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+.......                                                             7 / 7 (100%)
+
+Time: 00:00.038, Memory: 12.00 MB
+
+OK (7 tests, 818 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/BoundaryTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+....                                                                4 / 4 (100%)
+
+Time: 00:00.266, Memory: 10.00 MB
+
+OK (4 tests, 42 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/IntegrityTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+.....                                                               5 / 5 (100%)
+
+Time: 00:00.550, Memory: 10.00 MB
+
+OK (5 tests, 41 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/CatalogTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+...........                                                       11 / 11 (100%)
+
+Time: 00:00.914, Memory: 10.00 MB
+
+OK (11 tests, 127 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+.........                                                           9 / 9 (100%)
+
+Time: 00:00.888, Memory: 10.00 MB
+
+OK (9 tests, 344 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/DurabilityTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+....                                                                4 / 4 (100%)
+
+Time: 00:00.745, Memory: 10.00 MB
+
+OK (4 tests, 63 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/LocalBlobTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+........                                                            8 / 8 (100%)
+
+Time: 00:01.332, Memory: 10.00 MB
+
+OK (8 tests, 89 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/LedgerTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+.....                                                               5 / 5 (100%)
+
+Time: 00:00.759, Memory: 10.00 MB
+
+OK (5 tests, 54 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/AuditTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+....                                                                4 / 4 (100%)
+
+Time: 00:00.508, Memory: 10.00 MB
+
+OK (4 tests, 32 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/ExternalContractTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+...                                                                 3 / 3 (100%)
+
+Time: 00:00.356, Memory: 10.00 MB
+
+OK (3 tests, 33 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/FixtureTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+.                                                                   1 / 1 (100%)
+
+Time: 00:00.110, Memory: 10.00 MB
+
+OK (1 test, 72 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpunit --configuration phpunit.xml tests/ingest/validation/StoreTest.php
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: <repository>/phpunit.xml
+
+........                                                            8 / 8 (100%)
+
+Time: 00:01.321, Memory: 204.03 MB
+
+OK (8 tests, 113 assertions)
+
+Observed exit: 0
+
+$ vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/ingest/chunking/bootstrap.php --no-progress packages/core/src/Application/Chunking packages/core/src/Adapter/Postgres/ChunkSets packages/core/src/Domain/ChunkingResult.php packages/core/src/Port/ChunkSetBuilder.php packages/core/src/Adapter/LocalBlob/LocalBlobStore.php packages/core/src/Adapter/Postgres/PdoResourceLedger.php
+
+Warning: PHP Startup: Unable to load dynamic library '<vendor>/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so' (tried: <vendor>/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so (Dynamic loading not supported), <php-extensions>/<vendor>/phpstan/phpstan/turbo-ext/linux-gnu-x86_64/phpstan_turbo-8.4.so.so (Dynamic loading not supported)) in Unknown on line 0
+
+ [OK] No errors                                                                 
+
+
+Observed exit: 0

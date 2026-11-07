@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "environment-fix:1",
+  "item": "P2.6",
+  "cause": "External vendor symlink violates the unchanged QA repository containment guard.",
+  "fix": "Replace only the environment vendor symlink with a checkout-local copy of the same installed dependencies. No tracked product or checker changes.",
+  "before": {
+    "vendorSymlink": true,
+    "autoloadContained": false
+  },
+  "after": {
+    "vendorSymlink": false,
+    "autoloadContained": true
+  },
+  "identicalFilesSha256": {
+    "autoload.php": "3f1dafc862cb8e6e6e2d4a9c3b40906ae953a0dd78edd5fd2559bad620c8f2c5",
+    "composer/installed.json": "89f91cccda35259eba331a9514e7c975ec6c8a6f4c1a741c1f366ce1c2fe568d",
+    "bin/phpunit": "1fb9d47c7f192da01d06d1574b85a7e1c02b959cc03a969df1a8c0422abfc574"
+  },
+  "acceptance": "V1 not rerun; coordinator-owned.",
+  "acceptanceFailure": {
+    "stage": "checks.1",
+    "check": "V1",
+    "group": "ingest:chunking",
+    "error": "missing/escaping file: ./vendor/autoload.php",
+    "source": "Conductor V1 log, lines 62-64; tests had not started."
+  },
+  "proof": {
+    "before": "tests/ingest/chunking/evidence/executor2-vendor-guard-before.txt",
+    "beforeExit": 1,
+    "after": "tests/ingest/chunking/evidence/executor2-vendor-guard-after.txt",
+    "afterExit": 0
+  },
+  "focusedTests": [
+    {
+      "path": "tests/ingest/chunking/StructuralTest.php",
+      "exit": 0
+    },
+    {
+      "path": "tests/ingest/chunking/FixtureTest.php",
+      "exit": 0
+    },
+    {
+      "path": "tests/ingest/chunking/StoreTest.php",
+      "exit": 0
+    }
+  ]
+}

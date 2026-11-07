@@ -1,0 +1,1 @@
+path_guard: fail; missing/escaping file: ./vendor/autoload.php

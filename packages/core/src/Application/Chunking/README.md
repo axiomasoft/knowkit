@@ -10,8 +10,9 @@ Use `build(IR, profile)` when persisting or consuming evidence: its immutable
 structure path, ordered block IDs, explicit joiner, table cells and read requirements.
 The port's `chunk()` returns that same ChunkSet for existing index consumers.
 Metadata must accompany chunks into disclosure; text equality alone does not turn
-a generated description into a source quotation. This is an application sidecar,
-following the text extraction pattern, without changing the IR/citation schemas.
+a generated description into a source quotation. The shared sidecar value lives
+in Domain; the Application class remains a compatible result subtype, without
+changing the IR/citation schemas.
 
 Engine signature is `structural` / `1`. Semantic options are `maxBytes` (default
 1200, range 1..1048576), `overlapBlocks` (default 1, allowed 0 or 1), optional
@@ -58,8 +59,12 @@ participates, even when a changed profile emits identical text. Display profile
 ID does not alter semantics. Persistence compares full immutable payloads, so a
 truncated-ID collision fails rather than overwriting earlier content.
 
-`PdoChunkSetStore` rebuilds the result from exact inputs under the caller's guarded
-transaction and delegates immutable inserts/resource checks to the existing
+`StructuralChunker` also implements the revision-bound `ChunkSetBuilder` port.
+`PdoChunkSetStore` uses that port and the Domain result value to rebuild from
+exact inputs under the caller's guarded transaction, without depending on an
+Application implementation. The trusted composition root supplies the builder;
+the store rechecks its returned revision, profile and document bindings and
+delegates immutable inserts/resource checks to the existing
 catalog. Accepted canonical resource IDs must match the complete chunk inventory.
 It additionally verifies the exact persisted document/revision binding. Context
 text is removed from JSONB metadata; its locators and roles remain. It performs
