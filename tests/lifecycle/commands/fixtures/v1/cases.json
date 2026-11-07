@@ -1,0 +1,185 @@
+{
+  "schemaVersion": "lifecycle-commands-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial P3.2 authored outcomes. Python hashlib over sorted compact JSON independently derives typed digests; expectations are normative lifecycle outcomes, not production snapshots. Initial qualification also fixes synthetic IDs to the existing 01J fixture namespace and requires negative checks for unaffected snapshot members, missing authority and bounded transaction rollback.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic metadata and pinned private donor adaptations recorded in evidence/P3.2-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "digests": {
+    "sourceContent": "f16fb750ae98412628f0ba5bca16606e2d8553d753fb7c249288a158fabde64e",
+    "replacementContent": "6cbd67b5a238a4c3002bb04d20d3354f359e823d32aef6519afaddb3d738516c",
+    "revokePayload": "876089c58275259fdd24e0bea1178c9a2b6ae7ee11f2662623731dcd11abf162",
+    "sourceIdentity": "d53e0c1ca96e57befc96379e6d12a9d775f755c84e3d2c5edc5383b0a83e4d8d"
+  },
+  "cases": [
+    {
+      "id": "R29-A01",
+      "expected": {
+        "activeSnapshot": "v2",
+        "historicVersion": "v1",
+        "historicUsability": "usable",
+        "citationVersion": "v1"
+      }
+    },
+    {
+      "id": "R29-A02",
+      "expected": {
+        "oldVersion": "corrected",
+        "replacement": "usable",
+        "historyUnchanged": true,
+        "markerVersion": "v1"
+      }
+    },
+    {
+      "id": "R29-A03",
+      "expected": {
+        "oldVersionUse": "denied",
+        "source": "active",
+        "replacementReady": false
+      }
+    },
+    {
+      "id": "R30-A01",
+      "expected": {
+        "lateRegistration": "rejected",
+        "sourceExists": false,
+        "appliesTo": "future_versions"
+      }
+    },
+    {
+      "id": "R30-A02",
+      "expected": {
+        "publishThenRevoke": "denied_final_use",
+        "revokeThenPublish": "denied_publication",
+        "ownerAtomicity": "local_only"
+      }
+    },
+    {
+      "id": "PUBLISH-THEN-REVOKE",
+      "expected": {
+        "finalUse": "denied"
+      }
+    },
+    {
+      "id": "REVOKE-THEN-PUBLISH",
+      "expected": {
+        "latePublish": "denied"
+      }
+    },
+    {
+      "id": "STALE-WORKER",
+      "expected": {
+        "job": "cancelled",
+        "accept": false,
+        "fenceAdvanced": true
+      }
+    },
+    {
+      "id": "ORDINARY-HISTORY",
+      "expected": {
+        "oldCitationUnchanged": true
+      }
+    },
+    {
+      "id": "URGENT-BEFORE-REPLACEMENT",
+      "expected": {
+        "oldVersionUse": "denied"
+      }
+    },
+    {
+      "id": "LEGAL-HOLD-REVOKE",
+      "expected": {
+        "bytesRetained": true,
+        "use": "denied",
+        "purge": "pending"
+      }
+    },
+    {
+      "id": "REPEAT-EVENT-ID",
+      "expected": {
+        "sameDigest": "one_effect",
+        "changedDigest": "idempotency_conflict"
+      }
+    },
+    {
+      "id": "ATOMIC-ACCEPT-CORRECT",
+      "expected": {
+        "unready": "rollback_all",
+        "ready": "accepted_corrected_activated"
+      }
+    },
+    {
+      "id": "ACCESS-REVOKE",
+      "expected": {
+        "sourcePolicyEpoch": "1",
+        "lifecycleEpoch": "1",
+        "reason": "consent_revoked"
+      }
+    },
+    {
+      "id": "LIFECYCLE-ROLLBACK",
+      "expected": {
+        "failedTransaction": "no_catalog_tombstone_outbox_receipt_effect"
+      }
+    },
+    {
+      "id": "CROSS-KB-REVOKE",
+      "expected": {
+        "allMemberships": "denied",
+        "futureVersion": "denied"
+      }
+    },
+    {
+      "id": "DELETE-UNKNOWN",
+      "expected": {
+        "status": "unknown",
+        "externalOwnedInventory": false,
+        "done": false
+      }
+    },
+    {
+      "id": "HOLD-TOO-LATE",
+      "expected": {
+        "inFlightDeletion": "HOLD_TOO_LATE",
+        "staleOwnerReceipt": "unknown"
+      }
+    },
+    {
+      "id": "CORRECTION-PRESERVES-OTHER-MEMBERS",
+      "expected": {
+        "dropsUnaffectedMember": "no_pointer_switch",
+        "keepsUnaffectedMember": "replacement_activated"
+      }
+    },
+    {
+      "id": "LIFECYCLE-AUTHORITY",
+      "expected": {
+        "missingAuthority": "unknown",
+        "staleEpoch": "denied",
+        "effect": false
+      }
+    },
+    {
+      "id": "LIFECYCLE-DEADLINE",
+      "expected": {
+        "wallDeadline": "unavailable",
+        "catalogTombstoneOutbox": "rollback"
+      }
+    },
+    {
+      "id": "LIFECYCLE-LOCK-TIMEOUT",
+      "expected": {
+        "timeout": "unavailable:RETRYABLE_LOCK_TIMEOUT",
+        "effect": false
+      }
+    },
+    {
+      "id": "LIFECYCLE-FIXTURE",
+      "expected": {
+        "missingSkippedFailedEmptyDuplicate": "rejected"
+      }
+    }
+  ]
+}

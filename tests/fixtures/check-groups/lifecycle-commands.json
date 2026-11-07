@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "lifecycle:commands",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial P3.2 authored outcomes. Python hashlib over sorted compact JSON independently derives typed digests; expectations are normative lifecycle outcomes, not production snapshots. Initial qualification also fixes synthetic IDs to the existing 01J fixture namespace and requires negative checks for unaffected snapshot members, missing authority and bounded transaction rollback.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic metadata and pinned private donor adaptations recorded in evidence/P3.2-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "R29-A01",
+    "R29-A02",
+    "R29-A03",
+    "R30-A01",
+    "R30-A02",
+    "PUBLISH-THEN-REVOKE",
+    "REVOKE-THEN-PUBLISH",
+    "STALE-WORKER",
+    "ORDINARY-HISTORY",
+    "URGENT-BEFORE-REPLACEMENT",
+    "LEGAL-HOLD-REVOKE",
+    "REPEAT-EVENT-ID",
+    "ATOMIC-ACCEPT-CORRECT",
+    "ACCESS-REVOKE",
+    "LIFECYCLE-ROLLBACK",
+    "CROSS-KB-REVOKE",
+    "DELETE-UNKNOWN",
+    "HOLD-TOO-LATE",
+    "CORRECTION-PRESERVES-OTHER-MEMBERS",
+    "LIFECYCLE-AUTHORITY",
+    "LIFECYCLE-DEADLINE",
+    "LIFECYCLE-LOCK-TIMEOUT",
+    "LIFECYCLE-FIXTURE"
+  ],
+  "testCaseMap": {
+    "R29-A01": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testOrdinaryVersionPreservesAuthorizedHistoryAndExactCitation"
+    ],
+    "R29-A02": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testCorrectionChangesOnlyExactVersionAndMarkersPreserveHistory"
+    ],
+    "R29-A03": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testUrgentCorrectionBlocksBeforeReplacementAndKeepsSourceActive"
+    ],
+    "R30-A01": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\ConcurrencyTest::testUnseenSourceTombstoneWinsAgainstDelayedRegistration"
+    ],
+    "R30-A02": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\ConcurrencyTest::testPublishAndRevokeSerializeInBothOrdersWithDelayedOwner"
+    ],
+    "PUBLISH-THEN-REVOKE": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\ConcurrencyTest::testPublishAndRevokeSerializeInBothOrdersWithDelayedOwner"
+    ],
+    "REVOKE-THEN-PUBLISH": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\ConcurrencyTest::testPublishAndRevokeSerializeInBothOrdersWithDelayedOwner"
+    ],
+    "STALE-WORKER": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testStaleWorkerIsFencedBeforeItCanAcceptResults"
+    ],
+    "ORDINARY-HISTORY": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testOrdinaryVersionPreservesAuthorizedHistoryAndExactCitation"
+    ],
+    "URGENT-BEFORE-REPLACEMENT": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testUrgentCorrectionBlocksBeforeReplacementAndKeepsSourceActive"
+    ],
+    "LEGAL-HOLD-REVOKE": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testLegalHoldRevokeDeleteAndReleaseNeverGrantReadsOrEraseBytes"
+    ],
+    "REPEAT-EVENT-ID": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testEventReplayAndConflictingEventIdPreserveOneEffect"
+    ],
+    "ATOMIC-ACCEPT-CORRECT": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testAcceptAndCorrectIsAtomicAndRejectsUnreadyReplacement"
+    ],
+    "ACCESS-REVOKE": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testAccessRevokeAtomicallyInvalidatesEpochAndConsentIdentity"
+    ],
+    "LIFECYCLE-ROLLBACK": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testRollbackAndUnknownDeniedUnavailableIncompatibleRemainDistinct"
+    ],
+    "CROSS-KB-REVOKE": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testCrossKbRevocationBlocksEveryMembershipAndFutureVersion"
+    ],
+    "DELETE-UNKNOWN": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testDirectDeleteIncludesUnknownOwnedInventoryAndExcludesExternalBytes"
+    ],
+    "HOLD-TOO-LATE": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testHoldTooLateAndFreshnessBoundsFailClosed"
+    ],
+    "LIFECYCLE-FIXTURE": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\FixtureTest::testVersionedOutcomesDigestsAndRequiredCaseMappingsFailClosed"
+    ],
+    "CORRECTION-PRESERVES-OTHER-MEMBERS": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testCorrectionCannotSwitchToSnapshotDroppingUnaffectedMembers"
+    ],
+    "LIFECYCLE-AUTHORITY": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testMissingOwnerAuthorityAndStaleEpochCannotMutate"
+    ],
+    "LIFECYCLE-DEADLINE": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\LifecycleTest::testTransactionDeadlineRollsBackCatalogTombstoneAndOutbox"
+    ],
+    "LIFECYCLE-LOCK-TIMEOUT": [
+      "KnowKit\\Tests\\Lifecycle\\Commands\\ConcurrencyTest::testLockTimeoutIsUnavailableAndCommitsNoLifecycleEffect"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/lifecycle/commands/fixtures/v1/cases.json",
+      "sha256": "d9026d1e4db49b5a3368a1c3040c6b982f7d23ce9a71c1ad7677d480357c5c36",
+      "expected": "All mandatory lifecycle scenarios execute with real PostgreSQL; exact literal source and typed event/identity digests."
+    }
+  ]
+}

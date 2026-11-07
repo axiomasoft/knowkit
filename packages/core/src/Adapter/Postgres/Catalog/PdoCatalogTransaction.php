@@ -19,10 +19,15 @@ final class PdoCatalogTransaction implements CatalogTransaction
     {
         if ($this->db->pdo->inTransaction()) { throw new \LogicException('Caller transaction already active'); }
         $this->tenant=null; $this->tenantMode=null; $this->stage=0; $this->last=[]; $this->held=[];
+        $started=hrtime(true);
         $this->db->pdo->beginTransaction();
         try {
-            $this->db->execute("SET LOCAL lock_timeout='5s'");
-            $result=$operation(); $this->db->pdo->commit(); return $result;
+            $this->db->execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
+            $this->db->execute("SET LOCAL lock_timeout='500ms'");
+            $this->db->execute("SET LOCAL statement_timeout='2s'");
+            $result=$operation();
+            if (hrtime(true)-$started>=2_000_000_000) { throw new DomainFailure(Outcome::Unavailable,'transaction_deadline'); }
+            $this->db->pdo->commit(); return $result;
         } catch (\Throwable $error) {
             $this->rollbackIfActive();
             if ($error instanceof \PDOException) { throw new DomainFailure(Outcome::Unavailable,'storage_unavailable'); }

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P3.2",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "afdfaecf1f2246cf4f4a8e1ab70bc1da1d89926c8aab11740c0a47d6a841bd7f",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local adaptation only, licenses/local-reuse-authorization.md",
+      "decision": "adapt",
+      "reason": "Reuse identity-wide tombstones, exact-version markers, immutable history and transactional append through the existing P3.1 dependency store.",
+      "targetPaths": [
+        "packages/core/src/Adapter/Postgres/Lifecycle/PdoLifecycleStore.php",
+        "tests/lifecycle/commands/LifecycleTest.php",
+        "tests/lifecycle/commands/ConcurrencyTest.php"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Dependencies/DeletionWorker.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "0b1cf97507a8357b431dfa6dfaf8e6ae48c5501336292fd8dddeb9d2ae9a06af",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local adaptation only, licenses/local-reuse-authorization.md",
+      "decision": "adapt",
+      "reason": "Preserve unknown deletion and durable explicit intent; provider transport and retry delivery are outside this item.",
+      "targetPaths": [
+        "packages/core/src/Adapter/Postgres/Lifecycle/PdoLifecycleStore.php",
+        "tests/lifecycle/commands/LifecycleTest.php",
+        "tests/lifecycle/commands/ConcurrencyTest.php"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Invalidation/ConcurrencyTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "ff5dd8ff9f09dea8b9ca025f733d1cf206bdcb768dd30fa8c01521a46d75f347",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local adaptation only, licenses/local-reuse-authorization.md",
+      "decision": "adapt",
+      "reason": "Real PostgreSQL connections contend on the tenant barrier and verify both publish/revoke orders with delayed external owner response.",
+      "targetPaths": [
+        "packages/core/src/Adapter/Postgres/Lifecycle/PdoLifecycleStore.php",
+        "tests/lifecycle/commands/LifecycleTest.php",
+        "tests/lifecycle/commands/ConcurrencyTest.php"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Invalidation/CrashTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "4222d7a980d09921653bf54a167fbf57653a162aa1e010125e8a0b62e2c90f8d",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local adaptation only, licenses/local-reuse-authorization.md",
+      "decision": "adapt",
+      "reason": "Inject failure after outbox append and require rollback; stale worker acceptance remains fenced. No donor process crash or transport dispatcher imported.",
+      "targetPaths": [
+        "packages/core/src/Adapter/Postgres/Lifecycle/PdoLifecycleStore.php",
+        "tests/lifecycle/commands/LifecycleTest.php",
+        "tests/lifecycle/commands/ConcurrencyTest.php"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Invalidation/DeletionTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "b9500c993cf23036598f5048b572089fcb49cd94fd486b7f546a2328b2cfb597",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local adaptation only, licenses/local-reuse-authorization.md",
+      "decision": "adapt",
+      "reason": "Separate logical blocking from physical erasure; unknown inventory and held bytes cannot be reported done.",
+      "targetPaths": [
+        "packages/core/src/Adapter/Postgres/Lifecycle/PdoLifecycleStore.php",
+        "tests/lifecycle/commands/LifecycleTest.php",
+        "tests/lifecycle/commands/ConcurrencyTest.php"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/runtime/coordination/recovery.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "bf79e3b37d2fb417603d83a35cf9e646624566176a6aad4131ffa43691d38bdf",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0; evaluated only, no code imported",
+      "decision": "reject",
+      "reason": "Turn/session recovery and Python coordinator leases do not implement the approved PHP source lifecycle contract. Existing PostgreSQL job fences are reused instead.",
+      "targetPaths": []
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/runtime/coordination/test_journal_recovery.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0; evaluated only, no code imported",
+      "decision": "reject",
+      "reason": "Turn journal sequences and in-memory coordinator fixtures are incompatible with source/version tombstones; no journal recovery guarantee is claimed in P3.2.",
+      "targetPaths": []
+    }
+  ],
+  "existingReuse": [
+    "PdoDependencyStore.invalidate/checkAncestors",
+    "PdoCatalogRepository.insertSourceVersion/acceptSourceVersion",
+    "PdoOutbox.append",
+    "DomainEventFactory.create",
+    "PdoJobQueue.accept and durable fences",
+    "inventory_resources database trigger",
+    "MutationAuthorizer and PdoPolicyEpoch"
+  ],
+  "newCodeRationale": "Donors lack tenant-qualified immutable identities, Source/SourceVersion/RetentionHold separation, source policy/lifecycle CAS epochs, sorted multi-KB guards and the event-1.0 envelope. Add only the PHP lifecycle command/store composition and real PostgreSQL qualification for those approved contracts.",
+  "sourceGaps": [
+    "No provider deletion, recovery archive or external owner distributed transaction guarantee.",
+    "DeepTutor recovery candidates are evaluated and rejected; PHP core has no donor runtime dependency."
+  ],
+  "route": {
+    "executor": "codex/gpt-6.1-sol/xhigh",
+    "reviewer": "antigravity/gemini-4-argon-high/high",
+    "verifiedAgainst": "conductor item-routes/v1 routes.json and current run process record"
+  },
+  "planMirror": "Not written: native plan mutation belongs to coordinator/registrar."
+}
