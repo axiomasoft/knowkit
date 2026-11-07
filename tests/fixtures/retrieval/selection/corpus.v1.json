@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "selection-corpus:1",
+  "fixtureVersion": "1.0.0",
+  "queryVector": {
+    "payload": {
+      "originalQuery": "  Найди DOC-2026/0042 foo_bar.v2  ",
+      "normalizedQuery": "Найди DOC-2026/0042 foo_bar.v2",
+      "normalizationRevision": "whitespace:1",
+      "sourceVersionIds": null,
+      "collectionIds": null,
+      "effectiveProfileDigest": "7251376a857e45378cebfcd04858137754ed652e864b2ee4240443349e7327d5",
+      "limits": {
+        "profile": "compact",
+        "maxFragments": 4,
+        "maxBytes": 4096,
+        "maxBytesPerFragment": 1024,
+        "maxAssets": 0,
+        "tokenBudget": null
+      },
+      "spaceFingerprint": null
+    },
+    "digest": "3a51d0185a416a7e98f1c91cb09f482e053a28b6441ae6a563dea3e652b78702"
+  },
+  "documents": [
+    {
+      "name": "plain",
+      "text": "DOC-2026/0042 foo_bar.v2 gravity.",
+      "kind": "text",
+      "textDigest": "8c34aacf5c56231a7fcb06e7b3a81d5994a4b4f77ae7049ddfb0ca1b05773675"
+    },
+    {
+      "name": "multibyte",
+      "text": "Привет 世界 😀",
+      "kind": "text",
+      "textDigest": "218b6ae69229d1bab12fff9a60c4046ca878976c9ba270e2c6175bd247e9d98a"
+    },
+    {
+      "name": "overlap",
+      "text": "aaaabbbbcccc",
+      "kind": "overlap",
+      "textDigest": "11c85195ae99540ac07f80e2905e6e39aaefc4ac94cd380f366e79ba83560566"
+    },
+    {
+      "name": "table",
+      "text": "Heading\nMass\nЗначениеЗначениеЗначениеЗначениеЗначениеЗначениеЗначениеЗначение\nnote",
+      "kind": "table",
+      "textDigest": "d8599d44d43c0615bd1daa5d19bef1791b792ee45e96352474fb2f727e4342de"
+    },
+    {
+      "name": "visual",
+      "text": "Figure one.\nFigure two.\nFigure three.",
+      "kind": "visual",
+      "textDigest": "71f096a699a71c50ce3c786ad14fd7c0fb8b23940e81d5e856d9997b4870de93"
+    }
+  ],
+  "expectedOutcomes": [
+    "success",
+    "empty",
+    "denied",
+    "unknown",
+    "unavailable",
+    "incompatible"
+  ],
+  "scenarios": {
+    "expired": {
+      "ttl": 30,
+      "advance": 30,
+      "expected": "denied",
+      "code": "selection_expired"
+    },
+    "audience": {
+      "before": "teacher",
+      "after": "student",
+      "expected": "denied"
+    },
+    "rewrite": {
+      "original": "Найди DOC-2026/0042 foo_bar.v2 tenant:alpha",
+      "valid": "Find DOC-2026/0042 foo_bar.v2 tenant:alpha",
+      "invalid": "Find DOC-2026/0043 foo_bar.v2 tenant:alpha",
+      "expectedInvalid": "incompatible"
+    },
+    "overlap": {
+      "expectedSelected": 1,
+      "warning": "overlap_omitted"
+    },
+    "table": {
+      "maxBytes": 32,
+      "maxBytesPerFragment": 32,
+      "warning": "table_read_required"
+    }
+  }
+}

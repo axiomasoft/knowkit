@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "selection-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored query-binding golden vector, exact expiry boundary, audience/rewrite, whole-row context, overlap and all six typed outcomes; expectations are independent of backend snapshots.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic data; SHA256/JCS-compatible vector authored with Python standard library.",
+    "redistributionAllowed": false
+  },
+  "files": [
+    {
+      "id": "selection-corpus-v1",
+      "path": "tests/fixtures/retrieval/selection/corpus.v1.json",
+      "sha256": "94637dee04f8e6de1b4a0a2ab5ef4dd8eeee2d19027400818d875671fe3e38d2",
+      "schemaId": "selection-corpus:1",
+      "expected": "valid; exact binding digest, canonical text digests and six outcomes"
+    },
+    {
+      "id": "corpus.v1",
+      "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+      "sha256": "81e4e03b5b7c8521e118a6de49419682f9f2e5acc1a6f8cc3c73a0859168c9ff",
+      "schemaId": "lexical-corpus:1",
+      "expected": "Pinned P2.8 PostgreSQL multilingual/exact evidence; no pseudo matches"
+    },
+    {
+      "id": "manifest.v1",
+      "path": "tests/fixtures/retrieval/lexical/manifest.v1.json",
+      "sha256": "956eb3c0be51224b54b9e6906aeae839afe7840baf85e638c0cf742d91a0c56c",
+      "schemaId": "lexical-fixtures:1",
+      "expected": "Pinned P2.8 PostgreSQL multilingual/exact evidence; no pseudo matches"
+    }
+  ]
+}

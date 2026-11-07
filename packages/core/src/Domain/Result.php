@@ -28,7 +28,15 @@ final readonly class Result
         foreach ($warnings as $warning) { ValueGuard::text($warning, 128); }
         return new self(Outcome::Success, $data, null, false, $degraded, $effectiveProfile, $warnings);
     }
-    public static function empty(): self { return new self(Outcome::Empty, null, null, false, false, null, []); }
+    /** @param list<string> $warnings */
+    public static function empty(?string $effectiveProfile = null, array $warnings = []): self
+    {
+        foreach ($warnings as $warning) {
+            ValueGuard::text($warning, 128);
+        }
+
+        return new self(Outcome::Empty, null, null, false, false, $effectiveProfile, $warnings);
+    }
     public static function failure(DomainFailure $failure, bool $retryable = false): self
     {
         return new self($failure->outcome, null, $failure->errorCode, $retryable, false, null, []);

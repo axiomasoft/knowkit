@@ -1,0 +1,104 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.1",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/Service.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "observedSha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Service.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Immutable binding and cache validation; new core keeps reference selection separate from guarded disclosure.",
+      "qualificationRef": "tests/retrieval/selection/SelectionTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Selection/Selections.php",
+        "tests/retrieval/selection/SelectionTest.php"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/Selector.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "3b2fbd68477f86744e577054c8bfebc0dcd1b94b00da7e5fc9480ac7974a3bb1",
+      "observedSha256": "3b2fbd68477f86744e577054c8bfebc0dcd1b94b00da7e5fc9480ac7974a3bb1",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Selector.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Stable dedupe and canonical overlap; reject donor sentence slicing and diversity ordering in favour of complete structural units and stable chunk IDs.",
+      "qualificationRef": "tests/retrieval/selection/SelectionTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Selection/Selections.php",
+        "tests/retrieval/selection/SelectionTest.php"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/Query.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "c537dc9c8f3ad19f60b2e1a56615de32792cce80429164a2b9f971778016159d",
+      "observedSha256": "c537dc9c8f3ad19f60b2e1a56615de32792cce80429164a2b9f971778016159d",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Query.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Versioned normalization and bound query identity; preserve original exact identifier case and bind typed filters plus effective profile.",
+      "qualificationRef": "tests/retrieval/selection/SelectionTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Selection/Selections.php",
+        "tests/retrieval/selection/SelectionTest.php"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Retrieval/SelectionTest.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "df2a12b1956a531476fba1102767cc5fba4bf1dd0ea91158202c8e184f95dd1f",
+      "observedSha256": "df2a12b1956a531476fba1102767cc5fba4bf1dd0ea91158202c8e184f95dd1f",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/SelectionTest.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Expiry, query binding, overlap, UTF-8, cache poison and owner change regression patterns.",
+      "qualificationRef": "tests/retrieval/selection/SelectionTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Selection/Selections.php",
+        "tests/retrieval/selection/SelectionTest.php"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/pipelines/llamaindex/retrievers.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "c974d313438af7a584cab96d1f3279ea5236165a24b3de7bb8d36299d6d0f178",
+      "observedSha256": "c974d313438af7a584cab96d1f3279ea5236165a24b3de7bb8d36299d6d0f178",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/pipelines/llamaindex/retrievers.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "LlamaIndex/BM25 runtime, fallback and global ranking do not meet the PostgreSQL prefilter contract. Existing P2.8 positive-only SQL remains authoritative.",
+      "qualificationRef": "tests/retrieval/selection/SelectionTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Selection/Selections.php",
+        "tests/retrieval/selection/SelectionTest.php"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/services/rag/test_llamaindex_bm25_fusion.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "60b6f91062af843ceaf8f638ebe82c11190e96a436fdb18a76379ee1fd68e8cf",
+      "observedSha256": "60b6f91062af843ceaf8f638ebe82c11190e96a436fdb18a76379ee1fd68e8cf",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/test_llamaindex_bm25_fusion.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "No-match/CJK must remain empty rather than accepting zero-score pseudo matches; asserted against actual P2.8 PostgreSQL path.",
+      "qualificationRef": "tests/retrieval/selection/SelectionTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Selection/Selections.php",
+        "tests/retrieval/selection/SelectionTest.php"
+      ]
+    }
+  ],
+  "newCodeRationale": "Approved core immutable refs, hash domains, canonical SpanAssembler and ManifestCandidate take precedence. New query binding, opaque token store boundary and whole-unit budget types are needed because donor release IDs and text-bearing disclosure are incompatible. No donor runtime dependency or upstream test pass is claimed.",
+  "sourceGaps": []
+}

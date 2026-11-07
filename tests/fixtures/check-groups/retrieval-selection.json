@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "retrieval:selection",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored query-binding golden vector, exact expiry boundary, audience/rewrite, whole-row context, overlap and all six typed outcomes; expectations are independent of backend snapshots.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic data; SHA256/JCS-compatible vector authored with Python standard library.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "R06-A01",
+    "R06-A02",
+    "R24-A01",
+    "R24-A02",
+    "R24-A03",
+    "R25-A01",
+    "R25-A02",
+    "R27-A01",
+    "R27-A02",
+    "EXPIRED-SELECTION",
+    "AUDIENCE-CHANGE",
+    "REWRITE-EXACT-ID",
+    "OVERLAP",
+    "LARGE-TABLE-READ",
+    "PROFILE-DEFAULTS-AND-BOUNDS",
+    "IMMUTABLE-SERVER-RECORD",
+    "EXACT-SNAPSHOT-CATALOG",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES",
+    "OUTCOME-SUCCESS",
+    "OUTCOME-EMPTY",
+    "OUTCOME-DENIED",
+    "OUTCOME-UNKNOWN",
+    "OUTCOME-UNAVAILABLE",
+    "OUTCOME-INCOMPATIBLE"
+  ],
+  "testCaseMap": {
+    "R06-A01": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testPinnedHistoryAndConcurrentActivationDoNotRetargetSelection",
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testNewSnapshotRefsCannotBeMixedAndBackendExceptionsFailClosed"
+    ],
+    "R06-A02": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testPinnedHistoryAndConcurrentActivationDoNotRetargetSelection",
+      "KnowKit\\Tests\\Retrieval\\Selection\\PostgresTest::testPostgresRoundTripPinsExactSnapshotAndStoresOnlyTokenHash"
+    ],
+    "R24-A01": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\PostgresTest::testActualLexicalExactAndMultilingualEvidenceHasNoPseudoMatches"
+    ],
+    "R24-A02": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\PostgresTest::testActualLexicalExactAndMultilingualEvidenceHasNoPseudoMatches"
+    ],
+    "R24-A03": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testRewriteKeepsOriginalExactIdentifiersAndTypedFilters"
+    ],
+    "R25-A01": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testSelectionIsNotAuthorityAfterRevokeAndEveryUseNeedsFreshPolicy",
+      "KnowKit\\Tests\\Retrieval\\Selection\\PostgresTest::testPostgresRoundTripPinsExactSnapshotAndStoresOnlyTokenHash"
+    ],
+    "R25-A02": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testExpiredSelectionAndOpaqueToken",
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testQueryRunSnapshotProfileAndSpaceBindings",
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testSelectionIsNotAuthorityAfterRevokeAndEveryUseNeedsFreshPolicy",
+      "KnowKit\\Tests\\Retrieval\\Selection\\PostgresTest::testPostgresRoundTripPinsExactSnapshotAndStoresOnlyTokenHash"
+    ],
+    "R27-A01": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testTableRowsRetainHeadersUnitsNotesOrRequireSeparateRead"
+    ],
+    "R27-A02": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testWholeUtf8ByteAndExactTokenBudgets",
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testFragmentAndAssetLimitsAreIndependent",
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testCanonicalSelectionRejectsUtf8ContinuationOffsets"
+    ],
+    "EXPIRED-SELECTION": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testExpiredSelectionAndOpaqueToken"
+    ],
+    "AUDIENCE-CHANGE": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testAudienceHostScopeActorPurposeAndGrantChangesAreDenied"
+    ],
+    "REWRITE-EXACT-ID": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testRewriteKeepsOriginalExactIdentifiersAndTypedFilters"
+    ],
+    "OVERLAP": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testDeterministicDedupeOverlapAndForgedRefs"
+    ],
+    "LARGE-TABLE-READ": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testTableRowsRetainHeadersUnitsNotesOrRequireSeparateRead"
+    ],
+    "PROFILE-DEFAULTS-AND-BOUNDS": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testApprovedProfilesAndTtlBounds"
+    ],
+    "IMMUTABLE-SERVER-RECORD": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testRecordRoundTripImmutableStoreAndCacheBinding",
+      "KnowKit\\Tests\\Retrieval\\Selection\\PostgresTest::testPostgresRoundTripPinsExactSnapshotAndStoresOnlyTokenHash"
+    ],
+    "EXACT-SNAPSHOT-CATALOG": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\PostgresTest::testCatalogRejectsMembershipDigestAndForeignScope"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\FixtureTest::testVersionedCorpusGoldenDigestsAndDonorReceipt"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\FixtureTest::testRequiredManifestMapsRealCasesAndRejectsMissingSkippedOrEmpty"
+    ],
+    "OUTCOME-SUCCESS": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testSixTypedOutcomesAndNoPartialPayload"
+    ],
+    "OUTCOME-EMPTY": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testSixTypedOutcomesAndNoPartialPayload"
+    ],
+    "OUTCOME-DENIED": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testSixTypedOutcomesAndNoPartialPayload"
+    ],
+    "OUTCOME-UNKNOWN": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testSixTypedOutcomesAndNoPartialPayload"
+    ],
+    "OUTCOME-UNAVAILABLE": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testSixTypedOutcomesAndNoPartialPayload"
+    ],
+    "OUTCOME-INCOMPATIBLE": [
+      "KnowKit\\Tests\\Retrieval\\Selection\\SelectionTest::testSixTypedOutcomesAndNoPartialPayload"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/retrieval/selection/corpus.v1.json",
+      "sha256": "94637dee04f8e6de1b4a0a2ab5ef4dd8eeee2d19027400818d875671fe3e38d2",
+      "expected": "valid versioned selection corpus and authored exact outcomes"
+    },
+    {
+      "path": "tests/fixtures/retrieval/selection/manifest.v1.json",
+      "sha256": "41a256c3d8ab8518998810dda970c26cbada7b5256c96acc9bb5893067d481d9",
+      "expected": "valid versioned selection corpus and authored exact outcomes"
+    },
+    {
+      "id": "corpus.v1",
+      "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+      "sha256": "81e4e03b5b7c8521e118a6de49419682f9f2e5acc1a6f8cc3c73a0859168c9ff",
+      "schemaId": "lexical-corpus:1",
+      "expected": "Pinned P2.8 PostgreSQL multilingual/exact evidence; no pseudo matches"
+    },
+    {
+      "id": "manifest.v1",
+      "path": "tests/fixtures/retrieval/lexical/manifest.v1.json",
+      "sha256": "956eb3c0be51224b54b9e6906aeae839afe7840baf85e638c0cf742d91a0c56c",
+      "schemaId": "lexical-fixtures:1",
+      "expected": "Pinned P2.8 PostgreSQL multilingual/exact evidence; no pseudo matches"
+    }
+  ]
+}
