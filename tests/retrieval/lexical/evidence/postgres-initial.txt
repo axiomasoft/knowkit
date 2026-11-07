@@ -1,0 +1,25 @@
+PHPUnit 11.5.57 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.4.1
+Configuration: phpunit.xml
+
+........E.                                                        10 / 10 (100%)
+
+Time: 00:04.780, Memory: 12.00 MB
+
+There was 1 error:
+
+1) KnowKit\Tests\Retrieval\Lexical\PostgresTest::testBackendFailureIsUnavailableAndNeverEmpty
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+packages/core/src/Adapter/Postgres/Catalog/Connection.php:38
+tests/retrieval/lexical/PostgresTest.php:158
+tests/retrieval/lexical/LexicalFixture.php:30
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/retrieval/lexical/LexicalFixture.php:26
+tests/retrieval/lexical/PostgresTest.php:157
+
+ERRORS!
+Tests: 10, Assertions: 302, Errors: 1.

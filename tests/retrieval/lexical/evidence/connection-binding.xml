@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Retrieval\Lexical\PostgresTest" file="tests/retrieval/lexical/PostgresTest.php" tests="1" assertions="39" errors="0" failures="0" skipped="0" time="0.393373">
+    <testcase name="testIndexReceiptReplayAndSealedWriteRejection" file="tests/retrieval/lexical/PostgresTest.php" line="124" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="39" time="0.393373"/>
+  </testsuite>
+</testsuites>

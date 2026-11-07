@@ -1,0 +1,72 @@
+[
+  {
+    "path": "packages/core/src/Adapter/Lexical/CanonicalChunkSets.php",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "packages/core/src/Adapter/Lexical/LiteralQuery.php",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "packages/core/src/Adapter/Lexical/PdoLexicalIndex.php",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "packages/core/src/Adapter/Lexical/README.md",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "packages/core/src/Adapter/Lexical/SearchSql.php",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "tests/fixtures/check-groups/retrieval-lexical.json",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "tests/fixtures/retrieval/lexical/author-v1.py",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "tests/fixtures/retrieval/lexical/manifest.v1.json",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "tests/retrieval/lexical/FixtureTest.php",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "tests/retrieval/lexical/LexicalFixture.php",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "tests/retrieval/lexical/PostgresTest.php",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "tests/retrieval/lexical/bootstrap.php",
+    "exit": 1,
+    "output": ""
+  },
+  {
+    "path": "tracked changes",
+    "exit": 0,
+    "output": ""
+  }
+]

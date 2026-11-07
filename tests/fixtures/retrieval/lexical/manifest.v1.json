@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "lexical-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored tenant/snapshot/crowding, exact ID/phrase, SQL-like, Cyrillic/CJK, no-match and rogue-ID expectations; no backend snapshots.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic corpus; independent Python SHA256/JCS-compatible literal oracles.",
+    "redistributionAllowed": false
+  },
+  "files": [
+    {
+      "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+      "sha256": "81e4e03b5b7c8521e118a6de49419682f9f2e5acc1a6f8cc3c73a0859168c9ff",
+      "expected": "exact immutable references and positive-only scoped matches"
+    }
+  ]
+}

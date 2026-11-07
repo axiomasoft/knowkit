@@ -1,0 +1,20 @@
+[
+  {
+    "cmd": [
+      "php",
+      "-l",
+      "packages/core/src/Adapter/Lexical/PdoLexicalIndex.php"
+    ],
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Lexical/PdoLexicalIndex.php\n"
+  },
+  {
+    "cmd": [
+      "php",
+      "-l",
+      "tests/retrieval/lexical/PostgresTest.php"
+    ],
+    "exit": 0,
+    "output": "No syntax errors detected in tests/retrieval/lexical/PostgresTest.php\n"
+  }
+]

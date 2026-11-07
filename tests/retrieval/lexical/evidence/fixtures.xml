@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Retrieval\Lexical\FixtureTest" file="tests/retrieval/lexical/FixtureTest.php" tests="2" assertions="87" errors="0" failures="0" skipped="0" time="0.003692">
+    <testcase name="testIndependentDigestsVersionAndRequiredCases" file="tests/retrieval/lexical/FixtureTest.php" line="14" class="KnowKit\Tests\Retrieval\Lexical\FixtureTest" classname="KnowKit.Tests.Retrieval.Lexical.FixtureTest" assertions="81" time="0.003620"/>
+    <testcase name="testMissingSkippedAndEmptyCasesAreRejected" file="tests/retrieval/lexical/FixtureTest.php" line="39" class="KnowKit\Tests\Retrieval\Lexical\FixtureTest" classname="KnowKit.Tests.Retrieval.Lexical.FixtureTest" assertions="6" time="0.000072"/>
+  </testsuite>
+</testsuites>

@@ -1,0 +1,42 @@
+[
+  {
+    "path": "packages/core/src/Adapter/Lexical/CanonicalChunkSets.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Lexical/CanonicalChunkSets.php\n"
+  },
+  {
+    "path": "packages/core/src/Adapter/Lexical/LiteralQuery.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Lexical/LiteralQuery.php\n"
+  },
+  {
+    "path": "packages/core/src/Adapter/Lexical/PdoLexicalIndex.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Lexical/PdoLexicalIndex.php\n"
+  },
+  {
+    "path": "packages/core/src/Adapter/Lexical/SearchSql.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Lexical/SearchSql.php\n"
+  },
+  {
+    "path": "tests/retrieval/lexical/FixtureTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/retrieval/lexical/FixtureTest.php\n"
+  },
+  {
+    "path": "tests/retrieval/lexical/LexicalFixture.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/retrieval/lexical/LexicalFixture.php\n"
+  },
+  {
+    "path": "tests/retrieval/lexical/PostgresTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/retrieval/lexical/PostgresTest.php\n"
+  },
+  {
+    "path": "tests/retrieval/lexical/bootstrap.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/retrieval/lexical/bootstrap.php\n"
+  }
+]

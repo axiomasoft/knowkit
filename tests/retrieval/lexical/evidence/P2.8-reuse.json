@@ -1,0 +1,249 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P2.8",
+  "baseline": "0ad23feb95fd0a2241520a8ba7cf961275208548",
+  "targetCandidate": {
+    "algorithm": "SHA256(JCS sorted file inventory), excludes evidence/receipt outputs",
+    "sha256": "87a74ca2bd2b1a0437f4b948a9c1db76376e9940cd3b4624faf490cc887cbdd3",
+    "files": [
+      {
+        "path": "packages/core/src/Adapter/Lexical/CanonicalChunkSets.php",
+        "sha256": "a75030feab90ee0963c641483ddc2bf437400dfb4f16b6fa0cb88a1252e30c69"
+      },
+      {
+        "path": "packages/core/src/Adapter/Lexical/LiteralQuery.php",
+        "sha256": "1af222312fcdfb959c2ef98ce694bc42689bd6a66cdc0fa6d39c8231dace1fb7"
+      },
+      {
+        "path": "packages/core/src/Adapter/Lexical/PdoLexicalIndex.php",
+        "sha256": "2bea272d4c536ab3f3c3597730eacce1ca4323559bf3c4d01dfb507a77f88b13"
+      },
+      {
+        "path": "packages/core/src/Adapter/Lexical/README.md",
+        "sha256": "d4869b485f41ee01867e37b32700c1cd2dd30465c7de272fdf27fcbdf380db95"
+      },
+      {
+        "path": "packages/core/src/Adapter/Lexical/SearchSql.php",
+        "sha256": "83457b32d6763868516323f5ecffc32d20645258fef0a24a741903c2dfed3d66"
+      },
+      {
+        "path": "phpunit.xml",
+        "sha256": "d59044030d3bd4779def5e061433700e579b0dda0864b9843743d292b7920619"
+      },
+      {
+        "path": "tests/fixtures/check-groups/retrieval-lexical.json",
+        "sha256": "1f7130695396b71ed75611bce313bf15f2a8c495b45c9ddaa0cff9e0b498ff57"
+      },
+      {
+        "path": "tests/fixtures/retrieval/lexical/author-v1.py",
+        "sha256": "ae4e475e573739e78d305fdda11856b9b7f7526e3ce88852142eac744e8b5fc7"
+      },
+      {
+        "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+        "sha256": "81e4e03b5b7c8521e118a6de49419682f9f2e5acc1a6f8cc3c73a0859168c9ff"
+      },
+      {
+        "path": "tests/fixtures/retrieval/lexical/manifest.v1.json",
+        "sha256": "956eb3c0be51224b54b9e6906aeae839afe7840baf85e638c0cf742d91a0c56c"
+      },
+      {
+        "path": "tests/retrieval/lexical/FixtureTest.php",
+        "sha256": "d5579cfc5f094ebdf399eef0d8ed88a111858a93080a0fcba3afacb6aae0459d"
+      },
+      {
+        "path": "tests/retrieval/lexical/LexicalFixture.php",
+        "sha256": "2548cd5ddd7901c4d52860633bcea7140b6768fbb63c3b1dca38b63dbfe05aa6"
+      },
+      {
+        "path": "tests/retrieval/lexical/PostgresTest.php",
+        "sha256": "55a6dfcd69036dea04de3e2194588e1876338b8667a23761515dcd03e625faf9"
+      },
+      {
+        "path": "tests/retrieval/lexical/bootstrap.php",
+        "sha256": "bc1cef4ccdecf94dbd99092f5322a936e889db9ea86eca332b1668502b87c59a"
+      }
+    ]
+  },
+  "sources": [
+    {
+      "repo": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Retrieval/Service.php",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Service.php",
+      "sha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "observedSha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "verification": "Whole pinned blob opened and SHA256 checked before implementation; AgenTools via local git object, DeepTutor via pinned raw URL.",
+      "span": "whole file",
+      "decision": "adapt",
+      "symbols": [
+        "resolve",
+        "retrieve deterministic tie-break and bounded results"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/Lexical/PdoLexicalIndex.php"
+      ],
+      "reason": "Adapt immutable candidate resolution, bounded top-k and stable chunk-ID ordering. Release/artifact DTOs, cached grants, postselection and disclosure workflow do not replace SQL prefilter or exact generation/chunkset manifests.",
+      "qualificationRef": "licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Retrieval/Selector.php",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Selector.php",
+      "sha256": "3b2fbd68477f86744e577054c8bfebc0dcd1b94b00da7e5fc9480ac7974a3bb1",
+      "observedSha256": "3b2fbd68477f86744e577054c8bfebc0dcd1b94b00da7e5fc9480ac7974a3bb1",
+      "verification": "Whole pinned blob opened and SHA256 checked before implementation; AgenTools via local git object, DeepTutor via pinned raw URL.",
+      "span": "whole file",
+      "decision": "reject",
+      "symbols": [
+        "choose",
+        "minimal",
+        "terms"
+      ],
+      "targetPaths": [],
+      "reason": "Excerpt budgets, overlap and diversity belong to later evidence selection. Substring term matching splits technical identifiers and cannot implement PostgreSQL literal lexemes or mandatory pre-LIMIT membership. No selector code copied.",
+      "qualificationRef": "licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Retrieval/Query.php",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Query.php",
+      "sha256": "c537dc9c8f3ad19f60b2e1a56615de32792cce80429164a2b9f971778016159d",
+      "observedSha256": "c537dc9c8f3ad19f60b2e1a56615de32792cce80429164a2b9f971778016159d",
+      "verification": "Whole pinned blob opened and SHA256 checked before implementation; AgenTools via local git object, DeepTutor via pinned raw URL.",
+      "span": "whole file",
+      "decision": "adapt",
+      "symbols": [
+        "__construct normalization"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/Lexical/LiteralQuery.php"
+      ],
+      "reason": "Adapt Unicode-whitespace collapse and ASCII-only folding for the declared literal channel; preserve the original Query and typed security filters. Exact identifiers and quote/CJK compilation are new adapter glue; donor release/locale/cache binding shape cannot replace approved Query.",
+      "qualificationRef": "licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/Retrieval/SelectionTest.php",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/SelectionTest.php",
+      "sha256": "df2a12b1956a531476fba1102767cc5fba4bf1dd0ea91158202c8e184f95dd1f",
+      "observedSha256": "df2a12b1956a531476fba1102767cc5fba4bf1dd0ea91158202c8e184f95dd1f",
+      "verification": "Whole pinned blob opened and SHA256 checked before implementation; AgenTools via local git object, DeepTutor via pinned raw URL.",
+      "span": "whole file",
+      "decision": "adapt",
+      "symbols": [
+        "testPoisonedCacheAndRerank",
+        "testUtf8AndBudgets",
+        "testQueryAndSelectionLimits"
+      ],
+      "targetPaths": [
+        "tests/retrieval/lexical/PostgresTest.php"
+      ],
+      "reason": "Adapt foreign/forged candidate rejection and UTF-8 canonical identity assertions to real PostgreSQL sealed-generation fixtures. Cache/reranker/budget behavior is outside this adapter item.",
+      "qualificationRef": "licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/pipelines/llamaindex/retrievers.py",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/pipelines/llamaindex/retrievers.py",
+      "sha256": "c974d313438af7a584cab96d1f3279ea5236165a24b3de7bb8d36299d6d0f178",
+      "observedSha256": "c974d313438af7a584cab96d1f3279ea5236165a24b3de7bb8d36299d6d0f178",
+      "verification": "Whole pinned blob opened and SHA256 checked before implementation; AgenTools via local git object, DeepTutor via pinned raw URL.",
+      "span": "whole file",
+      "decision": "adapt",
+      "symbols": [
+        "_MatchedOnlyRetriever._retrieve",
+        "retrieve_scoped_nodes",
+        "_scoped_index"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/Lexical/PdoLexicalIndex.php",
+        "packages/core/src/Adapter/Lexical/SearchSql.php"
+      ],
+      "reason": "Adapt positive-only matches and constructing the authorized corpus before top-k. Python/LlamaIndex/FAISS/BM25 runtime, implicit vector fallback and postfilter alone are incompatible with vendor-free PHP/PostgreSQL simple contract. Implement SQL joins against exact canonical manifests instead.",
+      "qualificationRef": "docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/services/rag/test_llamaindex_bm25_fusion.py",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/test_llamaindex_bm25_fusion.py",
+      "sha256": "60b6f91062af843ceaf8f638ebe82c11190e96a436fdb18a76379ee1fd68e8cf",
+      "observedSha256": "60b6f91062af843ceaf8f638ebe82c11190e96a436fdb18a76379ee1fd68e8cf",
+      "verification": "Whole pinned blob opened and SHA256 checked before implementation; AgenTools via local git object, DeepTutor via pinned raw URL.",
+      "span": "whole file",
+      "decision": "adapt",
+      "symbols": [
+        "test_a_query_with_no_shared_term_adds_nothing_from_bm25",
+        "test_unmatched_hits_are_dropped_and_matched_ones_kept"
+      ],
+      "targetPaths": [
+        "tests/retrieval/lexical/PostgresTest.php",
+        "tests/fixtures/retrieval/lexical/corpus.v1.json"
+      ],
+      "reason": "Adapt no-shared-term and CJK zero-score regressions to mandatory PostgreSQL FTS plus CJK exact-literal channel. No dependency skip or BM25 score claim is retained.",
+      "qualificationRef": "docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    }
+  ],
+  "rights": {
+    "localUseAllowed": true,
+    "redistributionAllowed": false,
+    "agentoolsNotice": "licenses/notices/agentools-LICENSE.txt",
+    "authority": "licenses/local-reuse-authorization.md",
+    "deeptutorLicense": "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+    "deeptutorNotices": "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md",
+    "noDonorRuntimeOrAssetsImported": true
+  },
+  "reusedTests": [
+    "AgenTools forged foreign/candidate integrity and UTF-8 canonical content patterns",
+    "DeepTutor zero lexical match/CJK no pseudo-hit regression",
+    "KnowKit CatalogFixture, DatabaseSandbox, ContractValidator, immutable ChunkingResult and QA fixture/case validator"
+  ],
+  "addedGapTests": [
+    "real SQL prefilter EXPLAIN with denied crowding and foreign same IDs",
+    "exact immutable snapshot membership",
+    "DOC-2026/0042, foo_bar.v2, KB-2026-001 and canonical phrase mismatch",
+    "typed collection/source filters and exact multilingual revision query",
+    "rogue persisted ID absent from canonical manifest cannot consume top-k",
+    "index-before-seal receipt/replay and cross-tenant/sealed-write rejection",
+    "mandatory backend failure unavailable instead of empty",
+    "versioned independent digests and missing/skipped/empty/duplicate runner negatives"
+  ],
+  "newGlueRationale": "No donor implements the approved PHP LexicalIndex port, baseline SQL schema or exact canonical chunkset/generation manifest boundary. New adapter-local glue validates canonical buffers, compiles literal syntax and parameterizes tenant/snapshot/rights/manifest predicates before SQL rank/LIMIT. Existing core contracts and canonical hashing are reused; no public port, wire schema, runtime dependency or migration changed.",
+  "checks": [
+    {
+      "cmd": "LEXICAL_PLAN_EVIDENCE=tests/retrieval/lexical/evidence/prefilter-plan.json vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/retrieval/lexical/evidence/postgres.xml tests/retrieval/lexical/PostgresTest.php",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/postgres.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/retrieval/lexical/bootstrap.php --no-progress packages/core/src/Adapter/Lexical",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/phpstan.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/retrieval/lexical/evidence/fixtures-final.xml tests/retrieval/lexical/FixtureTest.php",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/fixtures-final.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml --filter testIndexReceiptReplayAndSealedWriteRejection --log-junit tests/retrieval/lexical/evidence/connection-binding.xml tests/retrieval/lexical/PostgresTest.php",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/connection-binding.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/retrieval/lexical/bootstrap.php --no-progress packages/core/src/Adapter/Lexical/PdoLexicalIndex.php",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/phpstan-final.txt"
+    }
+  ],
+  "unresolved": [],
+  "registration": "Repository-side staging only; coordinator registers @plan/artifacts/implementation/P2.8-reuse.json through native plan API.",
+  "technicalReferences": [
+    "https://www.postgresql.org/docs/16/textsearch-controls.html",
+    "https://www.postgresql.org/docs/16/queries-with.html#QUERIES-WITH-CTE-MATERIALIZATION"
+  ]
+}

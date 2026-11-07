@@ -1,0 +1,6 @@
+{
+  "procedure": "Inspect git diff --check diagnostics for tracked changes and git diff --no-index --check /dev/null for each new product/test/fixture file. --no-index exit 1 denotes new-file differences; whitespace failures would produce diagnostics.",
+  "verdict": "pass",
+  "rawEvidence": "tests/retrieval/lexical/evidence/whitespace.json",
+  "trackedDiffCheckExit": 0
+}

@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "executor-evidence:1",
+  "item": "P2.8",
+  "status": "done_with_deviations",
+  "acceptance": {
+    "V1": "not run; withheld command, owned by conductor"
+  },
+  "changedPaths": [
+    "packages/core/src/Adapter/Lexical/CanonicalChunkSets.php",
+    "packages/core/src/Adapter/Lexical/LiteralQuery.php",
+    "packages/core/src/Adapter/Lexical/PdoLexicalIndex.php",
+    "packages/core/src/Adapter/Lexical/README.md",
+    "packages/core/src/Adapter/Lexical/SearchSql.php",
+    "phpunit.xml",
+    "tests/fixtures/check-groups/retrieval-lexical.json",
+    "tests/fixtures/retrieval/lexical/author-v1.py",
+    "tests/fixtures/retrieval/lexical/corpus.v1.json",
+    "tests/fixtures/retrieval/lexical/manifest.v1.json",
+    "tests/retrieval/lexical/FixtureTest.php",
+    "tests/retrieval/lexical/LexicalFixture.php",
+    "tests/retrieval/lexical/PostgresTest.php",
+    "tests/retrieval/lexical/bootstrap.php",
+    "tests/retrieval/lexical/evidence/P2.8-reuse.json",
+    "tests/retrieval/lexical/evidence/connection-binding.txt",
+    "tests/retrieval/lexical/evidence/connection-binding.xml",
+    "tests/retrieval/lexical/evidence/fixtures-final.txt",
+    "tests/retrieval/lexical/evidence/fixtures-final.xml",
+    "tests/retrieval/lexical/evidence/fixtures.txt",
+    "tests/retrieval/lexical/evidence/fixtures.xml",
+    "tests/retrieval/lexical/evidence/handoff.json",
+    "tests/retrieval/lexical/evidence/phpstan-final.txt",
+    "tests/retrieval/lexical/evidence/phpstan.txt",
+    "tests/retrieval/lexical/evidence/postgres-initial.txt",
+    "tests/retrieval/lexical/evidence/postgres-initial.xml",
+    "tests/retrieval/lexical/evidence/postgres.txt",
+    "tests/retrieval/lexical/evidence/postgres.xml",
+    "tests/retrieval/lexical/evidence/prefilter-plan.json",
+    "tests/retrieval/lexical/evidence/syntax-final.json",
+    "tests/retrieval/lexical/evidence/syntax.json",
+    "tests/retrieval/lexical/evidence/whitespace-verdict.json",
+    "tests/retrieval/lexical/evidence/whitespace.json",
+    "tests/retrieval/lexical/evidence/whitespace.txt"
+  ],
+  "candidate": {
+    "algorithm": "SHA256(JCS sorted file inventory), excludes evidence/receipt outputs",
+    "sha256": "87a74ca2bd2b1a0437f4b948a9c1db76376e9940cd3b4624faf490cc887cbdd3",
+    "files": [
+      {
+        "path": "packages/core/src/Adapter/Lexical/CanonicalChunkSets.php",
+        "sha256": "a75030feab90ee0963c641483ddc2bf437400dfb4f16b6fa0cb88a1252e30c69"
+      },
+      {
+        "path": "packages/core/src/Adapter/Lexical/LiteralQuery.php",
+        "sha256": "1af222312fcdfb959c2ef98ce694bc42689bd6a66cdc0fa6d39c8231dace1fb7"
+      },
+      {
+        "path": "packages/core/src/Adapter/Lexical/PdoLexicalIndex.php",
+        "sha256": "2bea272d4c536ab3f3c3597730eacce1ca4323559bf3c4d01dfb507a77f88b13"
+      },
+      {
+        "path": "packages/core/src/Adapter/Lexical/README.md",
+        "sha256": "d4869b485f41ee01867e37b32700c1cd2dd30465c7de272fdf27fcbdf380db95"
+      },
+      {
+        "path": "packages/core/src/Adapter/Lexical/SearchSql.php",
+        "sha256": "83457b32d6763868516323f5ecffc32d20645258fef0a24a741903c2dfed3d66"
+      },
+      {
+        "path": "phpunit.xml",
+        "sha256": "d59044030d3bd4779def5e061433700e579b0dda0864b9843743d292b7920619"
+      },
+      {
+        "path": "tests/fixtures/check-groups/retrieval-lexical.json",
+        "sha256": "1f7130695396b71ed75611bce313bf15f2a8c495b45c9ddaa0cff9e0b498ff57"
+      },
+      {
+        "path": "tests/fixtures/retrieval/lexical/author-v1.py",
+        "sha256": "ae4e475e573739e78d305fdda11856b9b7f7526e3ce88852142eac744e8b5fc7"
+      },
+      {
+        "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+        "sha256": "81e4e03b5b7c8521e118a6de49419682f9f2e5acc1a6f8cc3c73a0859168c9ff"
+      },
+      {
+        "path": "tests/fixtures/retrieval/lexical/manifest.v1.json",
+        "sha256": "956eb3c0be51224b54b9e6906aeae839afe7840baf85e638c0cf742d91a0c56c"
+      },
+      {
+        "path": "tests/retrieval/lexical/FixtureTest.php",
+        "sha256": "d5579cfc5f094ebdf399eef0d8ed88a111858a93080a0fcba3afacb6aae0459d"
+      },
+      {
+        "path": "tests/retrieval/lexical/LexicalFixture.php",
+        "sha256": "2548cd5ddd7901c4d52860633bcea7140b6768fbb63c3b1dca38b63dbfe05aa6"
+      },
+      {
+        "path": "tests/retrieval/lexical/PostgresTest.php",
+        "sha256": "55a6dfcd69036dea04de3e2194588e1876338b8667a23761515dcd03e625faf9"
+      },
+      {
+        "path": "tests/retrieval/lexical/bootstrap.php",
+        "sha256": "bc1cef4ccdecf94dbd99092f5322a936e889db9ea86eca332b1668502b87c59a"
+      }
+    ]
+  },
+  "focusedChecks": [
+    {
+      "cmd": "LEXICAL_PLAN_EVIDENCE=tests/retrieval/lexical/evidence/prefilter-plan.json vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/retrieval/lexical/evidence/postgres.xml tests/retrieval/lexical/PostgresTest.php",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/postgres.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/retrieval/lexical/bootstrap.php --no-progress packages/core/src/Adapter/Lexical",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/phpstan.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/retrieval/lexical/evidence/fixtures-final.xml tests/retrieval/lexical/FixtureTest.php",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/fixtures-final.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml --filter testIndexReceiptReplayAndSealedWriteRejection --log-junit tests/retrieval/lexical/evidence/connection-binding.xml tests/retrieval/lexical/PostgresTest.php",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/connection-binding.txt"
+    },
+    {
+      "cmd": "vendor/bin/phpstan analyse --configuration phpstan.neon --autoload-file tests/retrieval/lexical/bootstrap.php --no-progress packages/core/src/Adapter/Lexical/PdoLexicalIndex.php",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/phpstan-final.txt"
+    }
+  ],
+  "initialChecks": [
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/retrieval/lexical/evidence/fixtures.xml tests/retrieval/lexical/FixtureTest.php",
+      "exit": 0,
+      "evidence": "tests/retrieval/lexical/evidence/fixtures.txt"
+    },
+    {
+      "cmd": "LEXICAL_PLAN_EVIDENCE=tests/retrieval/lexical/evidence/prefilter-plan.json vendor/bin/phpunit --configuration phpunit.xml --log-junit tests/retrieval/lexical/evidence/postgres.xml tests/retrieval/lexical/PostgresTest.php",
+      "exit": 2,
+      "evidence": "tests/retrieval/lexical/evidence/postgres-initial.txt",
+      "resolution": "Failure fixture tried ALTER TABLE under restricted role. Replaced preparation with admin-side REVOKE SELECT; assertion still requires unavailable(storage_unavailable)."
+    }
+  ],
+  "syntax": {
+    "initial": "tests/retrieval/lexical/evidence/syntax.json",
+    "finalChangedFiles": "tests/retrieval/lexical/evidence/syntax-final.json",
+    "phpFiles": 8,
+    "allExits": 0,
+    "pythonAst": "pass"
+  },
+  "whitespace": {
+    "procedure": "Inspect git diff --check diagnostics for tracked changes and git diff --no-index --check /dev/null for each new product/test/fixture file. --no-index exit 1 denotes new-file differences; whitespace failures would produce diagnostics.",
+    "verdict": "pass",
+    "rawEvidence": "tests/retrieval/lexical/evidence/whitespace.json",
+    "trackedDiffCheckExit": 0
+  },
+  "evidenceNormalization": "Only checkout and local PHP extension directory prefixes were replaced with portable relative paths/placeholders in captured text/JUnit evidence; outcomes and case identities are unchanged.",
+  "explain": "tests/retrieval/lexical/evidence/prefilter-plan.json",
+  "scopeDeviation": {
+    "path": "phpunit.xml",
+    "reason": "Register lexical tests in explicitly enumerated Core suite; authorized by run write-fence exception."
+  },
+  "assumptions": [
+    "IndexReceipt.manifestDigest binds the indexed chunkset manifest available before generation seal; port signatures and wire schemas remain unchanged.",
+    "CanonicalChunkSets is a trusted canonical-storage preload seam. It contains no authorization; application must load exact immutable buffers and perform fresh lifecycle/access checks at disclosure."
+  ],
+  "limitations": [
+    "Per-search verified JSON inventory and canonical literal verification grow with the authorized corpus; no large-corpus performance qualification is claimed."
+  ],
+  "contextReadIssue": {
+    "ref": "context/P2.8",
+    "api": "swissknifeman planner get PLAN1 context/P2.8",
+    "exit": 1,
+    "code": "REF_INVALID",
+    "resolution": "Used all four required documents supplied in input; read reuse-policy, architecture and persistence through allowed get API. No direct native plan reads/writes."
+  },
+  "phpstanWarning": "Optional turbo extension cannot load in this PHP build; both focused analyses exited 0 with no code errors.",
+  "review": "SQL isolation, canonical manifest bindings and the discovery change deserve the mandated independent review; no reviewer or alternate model was launched."
+}

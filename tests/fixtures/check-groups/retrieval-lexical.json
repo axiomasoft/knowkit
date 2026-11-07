@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "retrieval:lexical",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored tenant/snapshot/crowding, exact ID/phrase, SQL-like, Cyrillic/CJK, no-match and rogue-ID expectations; no backend snapshots.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic corpus; independent Python SHA256/JCS-compatible literal oracles.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "TENANT-ISOLATION",
+    "SNAPSHOT-ISOLATION",
+    "DENIED-TOP-K",
+    "R20-A01",
+    "R20-A02",
+    "R24-A01",
+    "KB-2026-001",
+    "R24-A02",
+    "R24-A03",
+    "CYRILLIC-CJK",
+    "NO-MATCH",
+    "SQL-LIKE-INPUT",
+    "ROGUE-CANDIDATE-ID",
+    "INDEX-BEFORE-SEAL",
+    "CANONICAL-BOUNDARY",
+    "MANDATORY-BACKEND",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "TENANT-ISOLATION": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testTenantSnapshotAndDeniedCompetitionArePrefilteredWithExplain"
+    ],
+    "SNAPSHOT-ISOLATION": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testTenantSnapshotAndDeniedCompetitionArePrefilteredWithExplain"
+    ],
+    "DENIED-TOP-K": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testTenantSnapshotAndDeniedCompetitionArePrefilteredWithExplain"
+    ],
+    "R20-A01": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testTenantSnapshotAndDeniedCompetitionArePrefilteredWithExplain"
+    ],
+    "R20-A02": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testUnsupportedPrefilterProfileRejectsBeforeFactoryAndTransmission"
+    ],
+    "R24-A01": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testExactIdentifiersPhrasesAndKbIdDoNotBroaden"
+    ],
+    "KB-2026-001": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testExactIdentifiersPhrasesAndKbIdDoNotBroaden"
+    ],
+    "R24-A02": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testCyrillicCjkMixedAndNoMatchHaveLiteralExpectedEvidence"
+    ],
+    "R24-A03": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testOriginalRevisionAndTypedFiltersRemainExact"
+    ],
+    "CYRILLIC-CJK": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testCyrillicCjkMixedAndNoMatchHaveLiteralExpectedEvidence"
+    ],
+    "NO-MATCH": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testCyrillicCjkMixedAndNoMatchHaveLiteralExpectedEvidence"
+    ],
+    "SQL-LIKE-INPUT": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testSqlLikeInputIsDataAndCannotChangeTheCorpus"
+    ],
+    "ROGUE-CANDIDATE-ID": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testRogueCandidateOutsideManifestCannotCrowdTopK"
+    ],
+    "INDEX-BEFORE-SEAL": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testIndexReceiptReplayAndSealedWriteRejection"
+    ],
+    "CANONICAL-BOUNDARY": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testCanonicalAndManifestTamperingFailClosed"
+    ],
+    "MANDATORY-BACKEND": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\PostgresTest::testBackendFailureIsUnavailableAndNeverEmpty"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\FixtureTest::testIndependentDigestsVersionAndRequiredCases"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Retrieval\\Lexical\\FixtureTest::testMissingSkippedAndEmptyCasesAreRejected"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+      "sha256": "81e4e03b5b7c8521e118a6de49419682f9f2e5acc1a6f8cc3c73a0859168c9ff",
+      "expected": "exact immutable references and positive-only scoped matches"
+    },
+    {
+      "path": "tests/fixtures/retrieval/lexical/manifest.v1.json",
+      "sha256": "956eb3c0be51224b54b9e6906aeae839afe7840baf85e638c0cf742d91a0c56c",
+      "expected": "valid versioned expectations and provenance"
+    }
+  ]
+}

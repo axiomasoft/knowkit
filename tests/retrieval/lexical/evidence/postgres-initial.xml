@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="KnowKit\Tests\Retrieval\Lexical\PostgresTest" file="tests/retrieval/lexical/PostgresTest.php" tests="10" assertions="302" errors="1" failures="0" skipped="0" time="4.778381">
+    <testcase name="testTenantSnapshotAndDeniedCompetitionArePrefilteredWithExplain" file="tests/retrieval/lexical/PostgresTest.php" line="17" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="36" time="0.760847"/>
+    <testcase name="testExactIdentifiersPhrasesAndKbIdDoNotBroaden" file="tests/retrieval/lexical/PostgresTest.php" line="58" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="42" time="0.742578"/>
+    <testcase name="testCyrillicCjkMixedAndNoMatchHaveLiteralExpectedEvidence" file="tests/retrieval/lexical/PostgresTest.php" line="66" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="45" time="1.108956"/>
+    <testcase name="testOriginalRevisionAndTypedFiltersRemainExact" file="tests/retrieval/lexical/PostgresTest.php" line="78" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="32" time="0.552595"/>
+    <testcase name="testSqlLikeInputIsDataAndCannotChangeTheCorpus" file="tests/retrieval/lexical/PostgresTest.php" line="95" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="28" time="0.635453"/>
+    <testcase name="testRogueCandidateOutsideManifestCannotCrowdTopK" file="tests/retrieval/lexical/PostgresTest.php" line="106" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="27" time="0.259826"/>
+    <testcase name="testIndexReceiptReplayAndSealedWriteRejection" file="tests/retrieval/lexical/PostgresTest.php" line="115" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="36" time="0.378078"/>
+    <testcase name="testCanonicalAndManifestTamperingFailClosed" file="tests/retrieval/lexical/PostgresTest.php" line="131" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="28" time="0.176358"/>
+    <testcase name="testBackendFailureIsUnavailableAndNeverEmpty" file="tests/retrieval/lexical/PostgresTest.php" line="155" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="24" time="0.163100">
+      <error type="KnowKit\Domain\DomainFailure">KnowKit\Tests\Retrieval\Lexical\PostgresTest::testBackendFailureIsUnavailableAndNeverEmpty
+KnowKit\Domain\DomainFailure: storage_unavailable
+
+packages/core/src/Adapter/Postgres/Catalog/Connection.php:38
+tests/retrieval/lexical/PostgresTest.php:158
+tests/retrieval/lexical/LexicalFixture.php:30
+tests/storage/catalog/CatalogFixture.php:85
+tests/tooling/baseline/DatabaseSandbox.php:31
+tests/storage/catalog/CatalogFixture.php:77
+tests/retrieval/lexical/LexicalFixture.php:26
+tests/retrieval/lexical/PostgresTest.php:157</error>
+    </testcase>
+    <testcase name="testUnsupportedPrefilterProfileRejectsBeforeFactoryAndTransmission" file="tests/retrieval/lexical/PostgresTest.php" line="162" class="KnowKit\Tests\Retrieval\Lexical\PostgresTest" classname="KnowKit.Tests.Retrieval.Lexical.PostgresTest" assertions="4" time="0.000589"/>
+  </testsuite>
+</testsuites>
