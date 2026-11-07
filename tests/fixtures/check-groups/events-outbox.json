@@ -1,0 +1,116 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "events:outbox",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial durable delivery and inbox regression corpus; immutable v1 event hashes are computed independently, and expected outcome changes require a new fixture version with behavior rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic events and PostgreSQL failure scenarios adapted from the pinned AgenTools/DeepTutor regression logic; no document text or copied donor implementation.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "KILL-BEFORE-COMMIT",
+    "KILL-AFTER-COMMIT",
+    "R11-A01",
+    "R11-A02",
+    "DUPLICATE",
+    "OUT-OF-ORDER",
+    "POISON-CONSUMER",
+    "POISON-DISPATCH",
+    "TIMEOUT-AFTER-APPLY",
+    "LEASE-FENCE",
+    "SKIP-LOCKED",
+    "KILL-LEASE",
+    "EVENT-ID-CONFLICT",
+    "SEQUENCE-CONFLICT",
+    "ATOMIC-INBOX",
+    "GAP-AUTHORITY",
+    "TENANT-ISOLATION",
+    "LIFECYCLE-ATOMIC",
+    "PROGRESS-NOT-PUBLICATION",
+    "OPERATIONS",
+    "DT-R10",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "KILL-BEFORE-COMMIT": [
+      "KnowKit\\Tests\\Events\\Outbox\\DurabilityTest::testKillBeforeAndAfterPublicationCommitKeepsOutboxAtomic"
+    ],
+    "KILL-AFTER-COMMIT": [
+      "KnowKit\\Tests\\Events\\Outbox\\DurabilityTest::testKillBeforeAndAfterPublicationCommitKeepsOutboxAtomic"
+    ],
+    "R11-A01": [
+      "KnowKit\\Tests\\Events\\Outbox\\DurabilityTest::testInterruptedUploadedStagingAndProgressCannotPublish"
+    ],
+    "R11-A02": [
+      "KnowKit\\Tests\\Events\\Outbox\\DurabilityTest::testKillBeforeAndAfterPublicationCommitKeepsOutboxAtomic"
+    ],
+    "DUPLICATE": [
+      "KnowKit\\Tests\\Events\\Outbox\\ConsumerTest::testDuplicateAndReorderedEpochsNeverReviveSourceOrGeneration"
+    ],
+    "OUT-OF-ORDER": [
+      "KnowKit\\Tests\\Events\\Outbox\\ConsumerTest::testDuplicateAndReorderedEpochsNeverReviveSourceOrGeneration"
+    ],
+    "POISON-CONSUMER": [
+      "KnowKit\\Tests\\Events\\Outbox\\ConsumerTest::testPoisonUnknownTypeVersionDigestAndSensitivePayloadQuarantine"
+    ],
+    "POISON-DISPATCH": [
+      "KnowKit\\Tests\\Events\\Outbox\\DeliveryTest::testPoisonOutboxIsQuarantinedAndDoesNotStarveHealthyEvent"
+    ],
+    "TIMEOUT-AFTER-APPLY": [
+      "KnowKit\\Tests\\Events\\Outbox\\DeliveryTest::testTimeoutAfterConsumerCommitRetriesWithoutRepeatingEffect"
+    ],
+    "LEASE-FENCE": [
+      "KnowKit\\Tests\\Events\\Outbox\\DeliveryTest::testLeaseCommitFencesTokensExpiryAndTenantScope"
+    ],
+    "SKIP-LOCKED": [
+      "KnowKit\\Tests\\Events\\Outbox\\DeliveryTest::testSkipLockedAndBoundedBatches"
+    ],
+    "KILL-LEASE": [
+      "KnowKit\\Tests\\Events\\Outbox\\DurabilityTest::testDeliveryLeaseSurvivesDispatcherKill"
+    ],
+    "EVENT-ID-CONFLICT": [
+      "KnowKit\\Tests\\Events\\Outbox\\ConsumerTest::testEventIdConflictDurablyBlocksConsumerAcrossRestart"
+    ],
+    "SEQUENCE-CONFLICT": [
+      "KnowKit\\Tests\\Events\\Outbox\\ConsumerTest::testSameSequenceDifferentPayloadBlocksInsteadOfOverwriting"
+    ],
+    "ATOMIC-INBOX": [
+      "KnowKit\\Tests\\Events\\Outbox\\ConsumerTest::testInboxAndProjectionRollbackTogetherOnFailure"
+    ],
+    "GAP-AUTHORITY": [
+      "KnowKit\\Tests\\Events\\Outbox\\ConsumerTest::testGapLoadsCommittedAuthorityAndUnavailableRemainsStale"
+    ],
+    "TENANT-ISOLATION": [
+      "KnowKit\\Tests\\Events\\Outbox\\ConsumerTest::testTenantIdentityCheckedAtConsumerAndPersistenceBoundaries"
+    ],
+    "LIFECYCLE-ATOMIC": [
+      "KnowKit\\Tests\\Events\\Outbox\\DurabilityTest::testKillLifecycleMutationAndEventShareTheCommit"
+    ],
+    "PROGRESS-NOT-PUBLICATION": [
+      "KnowKit\\Tests\\Events\\Outbox\\DurabilityTest::testInterruptedUploadedStagingAndProgressCannotPublish"
+    ],
+    "OPERATIONS": [
+      "KnowKit\\Tests\\Events\\Outbox\\DeliveryTest::testLagTransportErrorsAndImmutableEventIdentity"
+    ],
+    "DT-R10": [
+      "KnowKit\\Tests\\Events\\Outbox\\DurabilityTest::testKillBeforeAndAfterPublicationCommitKeepsOutboxAtomic",
+      "KnowKit\\Tests\\Events\\Outbox\\ConsumerTest::testSameSequenceDifferentPayloadBlocksInsteadOfOverwriting",
+      "KnowKit\\Tests\\Events\\Outbox\\DurabilityTest::testInterruptedUploadedStagingAndProgressCannotPublish"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Events\\Outbox\\FixtureTest::testVersionedManifestAndIndependentlyComputedDigests"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Events\\Outbox\\FixtureTest::testRunnerRejectsEmptyMissingSkippedAndNestedFailure"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/events/outbox/fixtures/v1/cases.json",
+      "sha256": "a7a55774fdf64661dd15ddba25a6b824bb27eded86f80fbb929ea8050390808f",
+      "expected": "Authored kill before/after metadata commit, duplicate, reordered epochs, poison, post-apply timeout, lease fencing, sequence conflict, tenant isolation and fail-closed required-case outcomes; independent payload and envelope digests."
+    }
+  ]
+}

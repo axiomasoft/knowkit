@@ -8,7 +8,7 @@ use KnowKit\Domain\{DomainEvent,DomainFailure,Outcome,TenantId};
 use KnowKit\Domain\Contract\{Jcs,StrictJson};
 use KnowKit\Port\Outbox;
 
-/** Append only, caller transaction. Delivery/inbox belong to the later delivery item. */
+/** Append only, caller transaction. Delivery owns separate short transactions. */
 final readonly class PdoOutbox implements Outbox
 {
     public function __construct(private Connection $db,private PdoCatalogTransaction $transaction)

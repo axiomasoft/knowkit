@@ -1,0 +1,132 @@
+{
+  "schemaVersion": "events-outbox-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored failure outcomes and synthetic event. Expected payload/envelope hashes computed independently with Python hashlib over sorted integer-free JSON; no product snapshot rewrite.",
+  "event": {
+    "eventId": "01J00000000000000000000500",
+    "schemaVersion": "event-1.0",
+    "tenantId": "01J00000000000000000000001",
+    "aggregateType": "source",
+    "aggregateId": "01J00000000000000000000002",
+    "aggregateVersion": "1",
+    "type": "source.revoked",
+    "occurredAt": "2026-11-06T12:00:00Z",
+    "causationId": null,
+    "correlationId": null,
+    "payload": {
+      "sourceId": "01J00000000000000000000002",
+      "reason": "source_revoked",
+      "lifecycleEpoch": "1",
+      "appliesTo": "future_versions"
+    },
+    "payloadDigest": "876089c58275259fdd24e0bea1178c9a2b6ae7ee11f2662623731dcd11abf162"
+  },
+  "payloadDigest": "876089c58275259fdd24e0bea1178c9a2b6ae7ee11f2662623731dcd11abf162",
+  "canonicalEnvelopeSha256": "aba5ff3840cdaffc45e2b0fada266c1eea4f27123ec8bdb1eda213657eb0e29f",
+  "outcomes": {
+    "KILL-BEFORE-COMMIT": {
+      "publicationVisible": false,
+      "eventVisible": false
+    },
+    "KILL-AFTER-COMMIT": {
+      "publicationVisible": true,
+      "eventDispatchable": true
+    },
+    "R11-A01": {
+      "partialActive": false,
+      "stagedArtifactsIdentifiable": true,
+      "retryPublished": true
+    },
+    "R11-A02": {
+      "rollbackExposesNeither": true,
+      "committedSnapshotConsistent": true,
+      "durablyDispatchable": true
+    },
+    "DUPLICATE": {
+      "effects": 1,
+      "repeatedEffect": false
+    },
+    "OUT-OF-ORDER": {
+      "epoch": "3",
+      "invalidated": true,
+      "reactivated": false
+    },
+    "POISON-CONSUMER": {
+      "quarantined": 5,
+      "rawInputsStored": false,
+      "healthyApplied": true
+    },
+    "POISON-DISPATCH": {
+      "quarantined": 1,
+      "healthyDelivered": 1
+    },
+    "TIMEOUT-AFTER-APPLY": {
+      "effects": 1,
+      "deliveries": 2,
+      "transportErrors": "1"
+    },
+    "LEASE-FENCE": {
+      "staleAck": false,
+      "forgedAck": false,
+      "attempts": "2",
+      "delivered": true
+    },
+    "SKIP-LOCKED": {
+      "lockedRowSkipped": true,
+      "batchBound": 64
+    },
+    "KILL-LEASE": {
+      "redelivered": true,
+      "fence": "2"
+    },
+    "EVENT-ID-CONFLICT": {
+      "blocked": true,
+      "inboxCount": 1
+    },
+    "SEQUENCE-CONFLICT": {
+      "blocked": true,
+      "overwritten": false
+    },
+    "ATOMIC-INBOX": {
+      "rollbackEffects": 0,
+      "rollbackInbox": 0,
+      "retryEffects": 1
+    },
+    "GAP-AUTHORITY": {
+      "authorityLoaded": true,
+      "unavailableStale": true,
+      "olderReadClearsGap": false
+    },
+    "TENANT-ISOLATION": {
+      "crossTenant": "denied",
+      "foreignProjectionVisible": false
+    },
+    "LIFECYCLE-ATOMIC": {
+      "rollbackExposesNeither": true,
+      "replayEpoch": "1",
+      "eventCount": 1
+    },
+    "PROGRESS-NOT-PUBLICATION": {
+      "progress100Publishes": false
+    },
+    "OPERATIONS": {
+      "lagVisible": true,
+      "transportErrors": "1",
+      "immutable": true
+    },
+    "DT-R10": {
+      "authority": "metadata_commit",
+      "sequenceConflict": "blocked",
+      "progress100Publishes": false
+    },
+    "FIXTURE-INTEGRITY": {
+      "digests": "verified"
+    },
+    "RUNNER-NEGATIVES": {
+      "missing": "fail",
+      "skipped": "fail",
+      "empty": "fail",
+      "nestedFailure": "fail"
+    }
+  }
+}

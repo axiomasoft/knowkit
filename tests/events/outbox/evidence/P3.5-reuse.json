@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P3.5",
+  "sources": [
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Pipeline.php",
+      "sha256": "60ece3f8ec434cde5f6d9678afc8b66169b3c18cfcc13dd6bee78c8f569f2a3d",
+      "observedSha256": "60ece3f8ec434cde5f6d9678afc8b66169b3c18cfcc13dd6bee78c8f569f2a3d",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Pipeline.php",
+      "decision": "adapt",
+      "rationale": "Retain fresh publish authorization and a single metadata owner. Existing P3.4 publication path already owns this; do not add another acceptance path."
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Adapters/Postgres/Repository.php",
+      "sha256": "740e1f5f43a93b60e3002387afc3270c731ecfa918e189a3e5d851f70788928e",
+      "observedSha256": "740e1f5f43a93b60e3002387afc3270c731ecfa918e189a3e5d851f70788928e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Adapters/Postgres/Repository.php",
+      "decision": "adapt",
+      "rationale": "Adapt local transaction rollback, immutable replay and source guards to tenant-qualified PostgreSQL delivery/inbox transactions; donor has no approved outbox lease/fence/inbox implementation."
+    },
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/DurableTest.php",
+      "sha256": "966b3254bf0e32509495c720ab04455b430844b4e62f0107d056ad8e13e78ee1",
+      "observedSha256": "966b3254bf0e32509495c720ab04455b430844b4e62f0107d056ad8e13e78ee1",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/DurableTest.php",
+      "decision": "adapt",
+      "rationale": "Adapt real process death before/after commit, restart, conflicting immutable identity and tenant isolation tests."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/knowledge/indexing_run.py",
+      "sha256": "94fa970ef03199bdd70fe17158df6131214d841bd190a2be7ab9ff8401e4767c",
+      "observedSha256": "94fa970ef03199bdd70fe17158df6131214d841bd190a2be7ab9ff8401e4767c",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/indexing_run.py",
+      "decision": "adapt",
+      "rationale": "Preserve committed state despite notification failure and identify interrupted staged work; replace file ownership with committed PostgreSQL leases and fences. Progress and transport success cannot publish."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/knowledge/manifest.py",
+      "sha256": "f1c43b63ce0b222b32e758a1f252f24dafe37ce5977e1c538f98d3fb4f9f51e3",
+      "observedSha256": "f1c43b63ce0b222b32e758a1f252f24dafe37ce5977e1c538f98d3fb4f9f51e3",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/manifest.py",
+      "decision": "adapt",
+      "rationale": "Preserve unknown/unavailable and incomplete inventory semantics. Expose operational delivery lag/errors without treating them as authority or copying document inventory."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/index_versioning.py",
+      "sha256": "5d5ecd07716b7ea81f5483a3fa62f1024aed3f01fd707f7d0b99d40aff829eeb",
+      "observedSha256": "5d5ecd07716b7ea81f5483a3fa62f1024aed3f01fd707f7d0b99d40aff829eeb",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/index_versioning.py",
+      "decision": "adapt",
+      "rationale": "Retain prior immutable published identities across failed rebuilds. Reject filesystem readiness/latest fallback and short digest identity; invalidation events never reactivate a generation."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/knowledge/test_indexing_run.py",
+      "sha256": "a7be5766b82ef292b7cea15cff61b999733cc65b767f442a07513f85a6f725cc",
+      "observedSha256": "a7be5766b82ef292b7cea15cff61b999733cc65b767f442a07513f85a6f725cc",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_indexing_run.py",
+      "decision": "adapt",
+      "rationale": "Adapt interrupted candidate, identity retention, no publication from progress, and notification failure scenarios to PostgreSQL metadata/outbox and executable fixtures."
+    }
+  ],
+  "reuseScope": "Algorithm and regression adaptation only; no donor runtime dependency, source code copying, file-journal owner or exactly-once external I/O claim.",
+  "licenses": {
+    "agentools": "Private source reuse authority from the execution-input; no donor implementation copied.",
+    "deeptutor": "Apache-2.0; existing retained license/notices in docs/architecture/third-party/DeepTutor-LICENSE.txt and DeepTutor-THIRD_PARTY_NOTICES.md."
+  },
+  "newCodeRationale": "The approved existing PdoOutbox append and publication/lifecycle transactions remain the owners. Donors lack tenant-qualified lease capability hashes, conditional delivery fences, atomic inbox invalidation, sequence conflict blocking and the closed event-1.0 protocol. Small vendor-free ports/application and PostgreSQL implementations fill those gaps without changing the approved wire schema.",
+  "sourceGaps": [
+    "No plan read API is exposed; required normative reads were supplied inline. Optional full reuse-policy context was not loaded.",
+    "Plan receipt mirror is not written because result_contract.plan_mutation is forbidden; the tracked tests/events/outbox/evidence/P3.5-reuse.json is the executor handoff.",
+    "No external transport or optional remote authoritative reader is implemented or qualified. PostgreSQL integration tests exercise real metadata, delivery and inbox; in-process transport doubles model timeout/poison behavior.",
+    "Invalidation projections are always stale and cannot grant access; resolving a gap does not assert a rebuilt projection. Unknown authoritative aggregates retain their gap.",
+    "For pre-existing outbox rows, operational enqueue-age starts at migration application; historical commit timestamps were not stored."
+  ],
+  "validation": {
+    "donorHashes": "All seven shortlisted local SHA-256 hashes matched the pinned execution-input; relevant algorithm/test sections inspected before implementation.",
+    "upstreamTestsRun": false
+  }
+}

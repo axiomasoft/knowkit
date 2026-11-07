@@ -9,7 +9,7 @@ use PDO;
 final readonly class Migrate
 {
     /** Ordered core set; the baseline path remains the entry point for existing callers. */
-    private const MIGRATIONS=['001_metadata','002_metadata_uint32','003_jobs','004_generation_checks'];
+    private const MIGRATIONS=['001_metadata','002_metadata_uint32','003_jobs','004_generation_checks','005_outbox_delivery'];
     public function __construct(private PDO $pdo,private string $schema) { Connection::schema($schema); }
     public function apply(string $file): void
     {
