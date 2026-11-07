@@ -104,6 +104,45 @@ final readonly class PdoStagingGenerations
         foreach ($candidate->manifest->toWire()->get('members') as $member) { $ids[$member->get('sourceId')] = new D\SourceId($member->get('sourceId')); }
         ksort($ids, SORT_STRING); return array_values($ids);
     }
+    /** Publication reuses seal's exact guards; caller holds the tenant UPDATE barrier. SQL only.
+     * @return list<string> Locked generations affected by activation/retirement.
+     */
+    public function checkPublication(D\ActivationRequest $request, PdoCatalogTransaction $transaction): array
+    {
+        if ($transaction !== $this->tx) { throw new \InvalidArgumentException('Shared publication transaction required'); }
+        $lease = $request->lease; $candidate = $request->candidate;
+        $this->tx->requireTenant($lease->scope->tenantId, true);
+        $this->scope($lease, $candidate);
+        $s = $lease->scope; $w = $candidate->manifest->toWire();
+        $this->tx->lockKb($s->kbId, D\LockMode::Update);
+        $this->tx->lockSources($request->sources(), D\LockMode::Update);
+        // Retirement also writes metadata: acquire every affected generation before the job lock.
+        $generations = $this->db->execute('SELECT g.id FROM '.$this->db->table('index_generations').
+            " g WHERE g.tenant_id=? AND g.kb_id=? AND (g.id=? OR g.state='active' OR EXISTS (SELECT 1 FROM ".
+            $this->db->table('snapshot_generations').' sg JOIN '.$this->db->table('knowledge_bases').
+            ' k ON k.tenant_id=sg.tenant_id AND k.id=sg.kb_id AND k.active_snapshot_id=sg.snapshot_id
+                WHERE sg.tenant_id=g.tenant_id AND sg.kb_id=g.kb_id AND sg.generation_id=g.id)) ORDER BY g.id',
+            [$s->tenantId->value,$s->kbId->value,$w->get('generationId')])->fetchAll(\PDO::FETCH_COLUMN);
+        foreach ($generations as $id) { $this->tx->lockGeneration(new D\GenerationId($id), D\LockMode::Update); }
+        $this->tx->lockJob($lease->jobId, D\LockMode::Update);
+        $tenant = $this->db->row('SELECT serving_state FROM '.$this->db->table('tenants').' WHERE id=?', [$s->tenantId->value]);
+        if ($tenant === null || $tenant['serving_state'] !== 'ready') { throw new D\DomainFailure(D\Outcome::Unavailable, 'tenant_blocked'); }
+        $binding = $this->current($lease, $candidate); $this->allow($lease, $candidate, $binding);
+        $g = $this->generation($lease, $candidate); $check = $this->check($lease, $candidate);
+        if (!in_array($g['state'], ['sealed','active','retired'], true) || $check === null || $check['receipt_json'] === null) {
+            throw new D\DomainFailure(D\Outcome::Unavailable, 'generation_not_ready');
+        }
+        $receipt = StrictJson::decode($check['receipt_json']);
+        if ($g['manifest_digest'] !== $candidate->digest->value || $check['manifest_digest'] !== $candidate->digest->value
+            || $check['job_id'] !== $lease->jobId->value || $receipt->get('manifestDigest') !== $candidate->digest->value
+            || Jcs::canonicalize(StrictJson::decode($g['manifest_json'])) !== $candidate->manifest->canonical()
+            || Jcs::canonicalize(StrictJson::decode($check['source_epochs'])) !== Jcs::canonicalize($binding->get('sources'))
+            || Jcs::canonicalize($receipt->get('resources')) !== Jcs::canonicalize($candidate->resources)) { self::fail('staging_conflict'); }
+        $this->inventory->assertExact($candidate); $this->coverage($lease->scope, $candidate->manifest->toWire());
+        ($this->verifyBackend)($candidate);
+        return $generations;
+    }
+
     private function locks(D\Lease $lease, Candidate $candidate, bool $create = false): void
     {
         $s = $lease->scope; $w = $candidate->manifest->toWire();

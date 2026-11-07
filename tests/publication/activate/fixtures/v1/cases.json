@@ -1,0 +1,230 @@
+{
+  "schemaVersion": "publication-activate-fixtures:1",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Initial atomic activation scenarios. Snapshot and v2 IR/chunkset expected digests computed independently using Python hashlib over integer-only JCS-compatible payloads; no product-output snapshots. Digest changes require a new fixture version and behavior rationale. Version 1.0.1 adds explicit sealed-current-pointer retirement interoperability with lifecycle publication; existing expected content/snapshot digests are unchanged.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic versioned activation corpus; extends P3.3 synthetic IR with a distinct v2 version/revision/chunkset. No real document content.",
+    "redistributionAllowed": false
+  },
+  "firstSnapshotDigest": "c677c3528ec6bd6399995ebc2c6bfa36b2fbcb91c1f78e6256d5e398731e1e1b",
+  "secondChunkSetDigest": "7b1c2e0f9836c055141d57d9689138f1906831692fe0f170d8a69984d4a3ee9a",
+  "second": {
+    "ir": {
+      "schemaVersion": "ir-1.0",
+      "tenantId": "01J00000000000000000000001",
+      "sourceVersionId": "01J00000000000000000000030",
+      "parserSignature": {
+        "name": "synthetic-manifest",
+        "version": "1",
+        "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "pages": [],
+      "segments": [
+        {
+          "segmentId": "s1",
+          "text": "gravity.",
+          "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+          "status": "ok"
+        },
+        {
+          "segmentId": "s2",
+          "text": "資料庫.",
+          "textDigest": "2fb10827eeab35d283feeba2d643a56032d3864a190bfba055c94da1885b7ee9",
+          "status": "ok"
+        }
+      ],
+      "blocks": [
+        {
+          "blockId": "b1",
+          "kind": "text",
+          "parentId": null,
+          "order": 0,
+          "origin": "source",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 8
+            }
+          ],
+          "provenance": {
+            "kind": "verbatim",
+            "supportingRefs": []
+          }
+        },
+        {
+          "blockId": "b2",
+          "kind": "text",
+          "parentId": null,
+          "order": 1,
+          "origin": "source",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s2",
+              "blockId": "b2",
+              "byteStart": 0,
+              "byteEnd": 10
+            }
+          ],
+          "provenance": {
+            "kind": "verbatim",
+            "supportingRefs": []
+          }
+        }
+      ],
+      "assets": [
+        {
+          "assetId": "a1",
+          "mediaType": "image/png",
+          "digest": "c054eec0ca71070d8406b12c9e0b1745c861d337f4818c5fe8334e1b4c0dc425",
+          "byteLength": "68",
+          "pageId": null
+        }
+      ],
+      "coverage": {
+        "state": "complete",
+        "counts": {
+          "expected": 2,
+          "processed": 2,
+          "empty": 0,
+          "failed": 0,
+          "skipped": 0
+        },
+        "missingFeatures": [],
+        "diagnostics": []
+      }
+    },
+    "chunkSetManifest": {
+      "schemaVersion": "synthetic-chunkset:1",
+      "chunkSetId": "01J00000000000000000005101",
+      "revisionRef": {
+        "tenantId": "01J00000000000000000000001",
+        "sourceId": "01J00000000000000000000002",
+        "sourceVersionId": "01J00000000000000000000030",
+        "sourceDigest": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d",
+        "documentRevisionId": "01J00000000000000000000044",
+        "irDigest": "8ffdbf0c8c3894be1720dcaa48e84a6fa75353109bb36a9dbca6fc494e80a4d5",
+        "parserSignature": {
+          "name": "synthetic-manifest",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      },
+      "documentId": "01J00000000000000000000055",
+      "chunkerSignature": {
+        "name": "synthetic-manifest",
+        "version": "1",
+        "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "chunks": [
+        {
+          "chunkId": "01J00000000000000000006101",
+          "chunkDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+          "byteLength": 8,
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 8,
+              "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9"
+            }
+          ]
+        },
+        {
+          "chunkId": "01J00000000000000000006102",
+          "chunkDigest": "2fb10827eeab35d283feeba2d643a56032d3864a190bfba055c94da1885b7ee9",
+          "byteLength": 10,
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s2",
+              "blockId": "b2",
+              "byteStart": 0,
+              "byteEnd": 10,
+              "textDigest": "2fb10827eeab35d283feeba2d643a56032d3864a190bfba055c94da1885b7ee9"
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "outcomes": {
+    "TWO-INGESTS": {
+      "initialSuccesses": 1,
+      "loser": "POINTER_CONFLICT",
+      "replannedPointer": "2"
+    },
+    "PUBLISH-THEN-REVOKE": {
+      "snapshotCommitted": true,
+      "finalUsability": "denied"
+    },
+    "REVOKE-THEN-PUBLISH": {
+      "snapshotCommitted": false,
+      "finalUsability": "denied"
+    },
+    "STALE-EPOCH": {
+      "accepted": false
+    },
+    "MISSING-REQUIRED-PROJECTION": {
+      "accepted": false,
+      "partialActive": false
+    },
+    "R06-A01": {
+      "selectedVersion": "01J00000000000000000000003",
+      "mixedNewRefs": false
+    },
+    "R06-A02": {
+      "pinnedUnchanged": true,
+      "revokedHistory": "denied"
+    },
+    "R11-A01": {
+      "partialActive": false,
+      "stagingInventory": "durable",
+      "retry": "published"
+    },
+    "R11-A02": {
+      "rollbackSnapshotCount": 0,
+      "committedEvent": "pending",
+      "pointerConsistent": true
+    },
+    "R12-A01": {
+      "read": "allowed",
+      "egress": "denied",
+      "providerObservedBytes": 0
+    },
+    "R12-A02": {
+      "freshAuthorization": "denied",
+      "publicationCount": 0
+    },
+    "R30-A01": {
+      "lateRegistration": "rejected",
+      "futureVersions": "blocked",
+      "stalePublication": "rejected"
+    },
+    "R30-A02": {
+      "serialization": "local_postgres",
+      "ownerAtomicity": "local_only"
+    },
+    "REPLAY": {
+      "pointerVersion": "1",
+      "sameReceipt": true,
+      "duplicateEvents": false
+    },
+    "PREPARED-EPOCH": "stale prepared receipts rejected",
+    "LOCKED-READINESS": "projection loss after preflight rejected",
+    "TENANT-IDEMPOTENCY": "cross-tenant and cross-operation inputs rejected",
+    "FIXTURE-INTEGRITY": "independent digests match",
+    "RUNNER-NEGATIVES": "missing skipped failed and zero test inventories rejected",
+    "GENERATION-RETIREMENT": {
+      "old": "retired",
+      "new": "active",
+      "history": "pinned"
+    }
+  }
+}

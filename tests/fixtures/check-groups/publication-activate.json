@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "publication:activate",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Initial atomic activation scenarios. Snapshot and v2 IR/chunkset expected digests computed independently using Python hashlib over integer-only JCS-compatible payloads; no product-output snapshots. Digest changes require a new fixture version and behavior rationale. Version 1.0.1 adds explicit sealed-current-pointer retirement interoperability with lifecycle publication; existing expected content/snapshot digests are unchanged.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic versioned activation corpus; extends P3.3 synthetic IR with a distinct v2 version/revision/chunkset. No real document content.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "TWO-INGESTS",
+    "PUBLISH-THEN-REVOKE",
+    "REVOKE-THEN-PUBLISH",
+    "STALE-EPOCH",
+    "MISSING-REQUIRED-PROJECTION",
+    "R06-A01",
+    "R06-A02",
+    "R11-A01",
+    "R11-A02",
+    "R12-A01",
+    "R12-A02",
+    "R30-A01",
+    "R30-A02",
+    "REPLAY",
+    "PREPARED-EPOCH",
+    "LOCKED-READINESS",
+    "TENANT-IDEMPOTENCY",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES",
+    "GENERATION-RETIREMENT"
+  ],
+  "testCaseMap": {
+    "TWO-INGESTS": [
+      "KnowKit\\Tests\\Publication\\Activate\\ConcurrencyTest::testTwoIngestsWithTheSameExpectedPointerHaveOneWinner"
+    ],
+    "PUBLISH-THEN-REVOKE": [
+      "KnowKit\\Tests\\Publication\\Activate\\ConcurrencyTest::testPublicationAndRevokeSerializeInBothCommitOrdersWithDelayedOwner"
+    ],
+    "REVOKE-THEN-PUBLISH": [
+      "KnowKit\\Tests\\Publication\\Activate\\ConcurrencyTest::testPublicationAndRevokeSerializeInBothCommitOrdersWithDelayedOwner"
+    ],
+    "STALE-EPOCH": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testFreshRightsAndEpochFenceChecksRejectLateAcceptance"
+    ],
+    "MISSING-REQUIRED-PROJECTION": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testMissingRequiredProjectionAndUnsealedGenerationCannotPublish"
+    ],
+    "R06-A01": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testResolveLatestOnceAndPinnedHistoryKeepExactRefsAndCurrentRights"
+    ],
+    "R06-A02": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testResolveLatestOnceAndPinnedHistoryKeepExactRefsAndCurrentRights"
+    ],
+    "R11-A01": [
+      "KnowKit\\Tests\\Publication\\Activate\\ConcurrencyTest::testInterruptedStagingCannotBecomeActiveAndRemainsRecoverable"
+    ],
+    "R11-A02": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testOutboxRollbackAndInterruptedDispatchNeverSplitPublication"
+    ],
+    "R12-A01": [
+      "KnowKit\\Tests\\Publication\\Activate\\FixtureTest::testReadPermissionCannotAuthorizeProviderEgress"
+    ],
+    "R12-A02": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testFreshRightsAndEpochFenceChecksRejectLateAcceptance"
+    ],
+    "R30-A01": [
+      "KnowKit\\Tests\\Publication\\Activate\\FixtureTest::testUnseenTombstoneRejectsDelayedRegistrationAndStalePublication"
+    ],
+    "R30-A02": [
+      "KnowKit\\Tests\\Publication\\Activate\\ConcurrencyTest::testPublicationAndRevokeSerializeInBothCommitOrdersWithDelayedOwner"
+    ],
+    "REPLAY": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testAtomicSnapshotAndReplayReturnTheFirstReceipt"
+    ],
+    "PREPARED-EPOCH": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testPreparedOwnerReceiptCannotSurviveAnEpochChange"
+    ],
+    "LOCKED-READINESS": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testReadinessIsRecheckedInsideTheTransaction"
+    ],
+    "TENANT-IDEMPOTENCY": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testTenantAndCrossOperationIdempotencyCannotBeConfused"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Publication\\Activate\\FixtureTest::testVersionedFixturesAndIndependentDigests"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Publication\\Activate\\FixtureTest::testRequiredCaseRunnerRejectsMissingSkippedAndEmptyCases"
+    ],
+    "GENERATION-RETIREMENT": [
+      "KnowKit\\Tests\\Publication\\Activate\\ActivationTest::testPreviousPointerGenerationIsRetiredEvenWhenItStillHasSealedState"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/publication/activate/fixtures/v1/cases.json",
+      "sha256": "d9744da2091bcc707e637b24b5ee01392aafcd4c24ab5b34221f7653e8391b08",
+      "expected": "Immutable digest and explicit outcomes for both ingest commit orders, both publication/revoke commit orders, stale epochs, required projections, pinned history, and all required audit IDs."
+    }
+  ]
+}
