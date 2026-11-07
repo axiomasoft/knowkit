@@ -88,7 +88,8 @@ final readonly class PdoDependencyStore implements DependencyStore
     /** The disclosure writer inserts evidence_usages first; this primitive stores only its immutable lineage. */
     public function recordUsage(D\Usage $usage): void
     {
-        $w=$usage->toWire(); $this->guard(new D\TenantId($w->get('tenantId')),true);
+        // Usage insertion holds tenant/KB/source shared guards; it never mutates the dependency DAG.
+        $w=$usage->toWire(); $this->guard(new D\TenantId($w->get('tenantId')));
         $u=$this->db->row('SELECT * FROM '.$this->db->table('evidence_usages').' WHERE tenant_id=? AND id=?',[$this->tenant->value,$w->get('usageId')]);
         if ($u===null) { self::fail('usage_not_prepared'); }
         foreach (['disclosureAttemptId'=>'disclosure_attempt_id','selectionId'=>'selection_id','actorId'=>'actor_id','purpose'=>'purpose',
@@ -109,6 +110,7 @@ final readonly class PdoDependencyStore implements DependencyStore
             $expected[$id]=Jcs::canonicalize(new JsonObject(['fragmentRefs'=>$fragments]));
         }
         ksort($expected,SORT_STRING); $actual=[];
+        $this->tx->requireUsageGuards($this->tenant, new D\KbId($u['kb_id']), $this->usageSources(array_keys($expected)));
         foreach ($this->db->execute('SELECT node_id,exact_version_ref FROM '.$this->db->table('usage_refs').' WHERE tenant_id=? AND usage_id=? ORDER BY node_id',
             [$this->tenant->value,$w->get('usageId')])->fetchAll(\PDO::FETCH_ASSOC) as $r) { $actual[$r['node_id']]=Jcs::canonicalize(StrictJson::decode($r['exact_version_ref'])); }
         if ($actual!==[]) {
@@ -120,6 +122,18 @@ final readonly class PdoDependencyStore implements DependencyStore
             $this->db->execute('INSERT INTO '.$this->db->table('usage_refs').' VALUES (?,?,?,?,?::jsonb)',
                 [$this->tenant->value,$this->ids->next()->value,$w->get('usageId'),$id,$wire]);
         }
+    }
+
+    /** @param list<string> $chunks @return list<string> */
+    private function usageSources(array $chunks): array
+    {
+        $rows = $this->db->execute('WITH RECURSIVE ancestors(id) AS (SELECT value::text COLLATE "C" FROM jsonb_array_elements_text(?::jsonb)'
+            . ' UNION SELECT e.parent_id::text FROM ' . $this->db->table('dependency_edges')
+            . ' e JOIN ancestors a ON a.id=e.child_id WHERE e.tenant_id=?) SELECT DISTINCT n.source_id FROM '
+            . $this->db->table('dependency_nodes') . ' n JOIN ancestors a ON a.id=n.id WHERE n.tenant_id=? ORDER BY n.source_id',
+            [json_encode($chunks, JSON_THROW_ON_ERROR), $this->tenant->value, $this->tenant->value])->fetchAll(\PDO::FETCH_COLUMN);
+
+        return $rows;
     }
 
     public function invalidate(D\LifecycleEvent $event): void

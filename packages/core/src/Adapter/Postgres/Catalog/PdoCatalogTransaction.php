@@ -21,15 +21,27 @@ final class PdoCatalogTransaction implements CatalogTransaction
         $this->tenant=null; $this->tenantMode=null; $this->stage=0; $this->last=[]; $this->held=[];
         $started=hrtime(true);
         $this->db->pdo->beginTransaction();
+        $committing = false;
         try {
             $this->db->execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
             $this->db->execute("SET LOCAL lock_timeout='500ms'");
             $this->db->execute("SET LOCAL statement_timeout='2s'");
             $result=$operation();
             if (hrtime(true)-$started>=2_000_000_000) { throw new DomainFailure(Outcome::Unavailable,'transaction_deadline'); }
-            $this->db->pdo->commit(); return $result;
+            $committing = true;
+            if (!$this->db->pdo->commit()) {
+                throw new DomainFailure(Outcome::Unknown, 'commit_unknown');
+            }
+            return $result;
         } catch (\Throwable $error) {
-            $this->rollbackIfActive();
+            try {
+                $this->rollbackIfActive();
+            } catch (\Throwable) {
+                // A lost connection must never replace an ambiguous commit with response bytes.
+            }
+            if ($committing) {
+                throw new DomainFailure(Outcome::Unknown, 'commit_unknown');
+            }
             if ($error instanceof \PDOException) { throw new DomainFailure(Outcome::Unavailable,'storage_unavailable'); }
             throw $error;
         } finally { $this->tenant=null; $this->tenantMode=null; $this->last=[]; $this->held=[]; }
@@ -41,6 +53,23 @@ final class PdoCatalogTransaction implements CatalogTransaction
             throw new DomainFailure(Outcome::Denied,'scope_mismatch');
         }
         if ($write && $this->tenantMode!==LockMode::Update) { throw new \LogicException('Tenant update guard required'); }
+    }
+
+    /** A tenant update barrier is sufficient; shared usage writes require every affected source guard. */
+    public function requireUsageGuards(TenantId $tenant, KbId $kb, array $sources): void
+    {
+        $this->requireTenant($tenant);
+        if ($this->tenantMode === LockMode::Update) {
+            return;
+        }
+        if (!isset($this->held[1][$kb->value])) {
+            throw new \LogicException('Usage KB guard required');
+        }
+        foreach ($sources as $source) {
+            if (!isset($this->held[2][$source])) {
+                throw new \LogicException('Usage ancestor source guard required');
+            }
+        }
     }
     public function lockTenant(TenantId $tenantId, LockMode $mode): void
     {

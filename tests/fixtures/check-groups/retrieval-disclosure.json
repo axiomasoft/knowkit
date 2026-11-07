@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "retrieval:disclosure",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial explicit executed-case contract for fresh disclosure, canonical integrity, revoke serialization, usage/replay and audit regressions. Each required ID maps to executable assertions; skipped or absent methods fail the runner.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic disclosure vectors; donor qualification is private local reuse.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "R03-A01",
+    "R03-A02",
+    "R09-A01",
+    "R09-A02",
+    "R12-A01",
+    "R12-A02",
+    "R25-A01",
+    "R25-A02",
+    "R34-A01",
+    "R34-A02",
+    "REVOKE-AFTER-SEARCH",
+    "REVOKE-AFTER-RERANK",
+    "REVOKE-BEFORE-DISCLOSURE",
+    "CORRUPT-CANONICAL",
+    "UNKNOWN-OWNER",
+    "CITATION-AFTER-REOCR",
+    "PROMPT-INJECTION",
+    "PAYLOAD-PURGED-AUDIT-RETAINED",
+    "AMBIGUOUS-COMMIT",
+    "ATTEMPT-REPLAY",
+    "ALL-OR-NOTHING",
+    "DB-CLOCK-EXPIRY",
+    "KB-POLICY-CHANGE",
+    "LOCAL-COMMIT-HANDOFF",
+    "LOCK-TIMEOUT",
+    "PRELOAD-AND-USAGE-GUARDS",
+    "BYTE-LIMITS",
+    "GENERATED-PROVENANCE",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES",
+    "USAGE-LINEAGE-BINDING",
+    "PUBLIC-DISCLOSURE-CONTRACT",
+    "PRE-COMMIT-EXPIRY",
+    "RECEIPT-DEADLINE-REQUIRED"
+  ],
+  "testCaseMap": {
+    "RECEIPT-DEADLINE-REQUIRED": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CommitTest::testPersistenceRejectsBufferWithoutCheckedReceiptDeadline"
+    ],
+    "PRE-COMMIT-EXPIRY": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CommitTest::testExpiryDuringSqlWorkRollsBackUsageBeforeCommit"
+    ],
+    "PUBLIC-DISCLOSURE-CONTRACT": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\PublicBoundaryTest::testApprovedPublicContractUsesTrustedBindingsAndReplayNeedsNoOldToken"
+    ],
+    "USAGE-LINEAGE-BINDING": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testUsageLineageMustMatchCanonicalEvidenceAndCurrentAttempt"
+    ],
+    "R03-A01": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testProjectionRebuildKeepsSourceRevisionAndCitationIdentity"
+    ],
+    "R03-A02": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testCorruptOrMissingCanonicalObjectNeverUsesForgedBackendText",
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testMissingCanonicalChunkFailsDespiteIntactIrAndCachedSelection"
+    ],
+    "R09-A01": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testPdfByteOffsetsAndNormalizedMappingReturnExactCanonicalSpelling"
+    ],
+    "R09-A02": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testPdfByteOffsetsAndNormalizedMappingReturnExactCanonicalSpelling"
+    ],
+    "R12-A01": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testReadPermissionDoesNotAuthorizeExternalProviderBytes"
+    ],
+    "R12-A02": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testRightsChangeBeforePublishCannotReuseExtractionAdmission"
+    ],
+    "R25-A01": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testRevokeAfterSearchAndAfterRerankRejectsCachedSelection",
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testRevokeImmediatelyBeforeUsageCommitRejectsPreloadedBuffer",
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\ConcurrencyTest::testRevokeCommitsWhileDisclosureWaitsAndWaiterRechecksEpochs"
+    ],
+    "R25-A02": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testFreshCanonicalDisclosureCommitsExactUsageBeforeReturning",
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testBindingsExpiryAndRequiredAttemptFailWithoutBytes",
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testAttemptReplayReturnsMetadataOnlyAndNewAttemptRechecksRevoke"
+    ],
+    "R34-A01": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testPromptInjectionAndApprovedDocumentRemainUntrustedWithoutContextMutation"
+    ],
+    "R34-A02": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testPromptInjectionAndApprovedDocumentRemainUntrustedWithoutContextMutation",
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testApprovedInstructionMetadataCannotPromoteEvidenceOrActivateMemory"
+    ],
+    "REVOKE-AFTER-SEARCH": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testRevokeAfterSearchAndAfterRerankRejectsCachedSelection"
+    ],
+    "REVOKE-AFTER-RERANK": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testRevokeAfterSearchAndAfterRerankRejectsCachedSelection"
+    ],
+    "REVOKE-BEFORE-DISCLOSURE": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testRevokeImmediatelyBeforeUsageCommitRejectsPreloadedBuffer"
+    ],
+    "CORRUPT-CANONICAL": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testCorruptOrMissingCanonicalObjectNeverUsesForgedBackendText"
+    ],
+    "UNKNOWN-OWNER": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testUnknownOwnerAndUnavailableOwnerRemainDistinct"
+    ],
+    "CITATION-AFTER-REOCR": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testHistoricalCitationAfterReOcrNeverRedirectsToLatest"
+    ],
+    "PROMPT-INJECTION": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testPromptInjectionAndApprovedDocumentRemainUntrustedWithoutContextMutation"
+    ],
+    "PAYLOAD-PURGED-AUDIT-RETAINED": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testDirectUsageHasNullRunAndPurgeRetainsAuditFact"
+    ],
+    "AMBIGUOUS-COMMIT": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CommitTest::testAmbiguousCommitNeverReleasesTextAndReplayReturnsOnlyMetadata"
+    ],
+    "ATTEMPT-REPLAY": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testAttemptReplayReturnsMetadataOnlyAndNewAttemptRechecksRevoke"
+    ],
+    "ALL-OR-NOTHING": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\DisclosureTest::testOneMissingRequiredFragmentRejectsWholePayload"
+    ],
+    "DB-CLOCK-EXPIRY": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CommitTest::testDatabaseClockRejectsSelectionThatExpiresDuringPreload",
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CommitTest::testDatabaseClockRejectsExpiredReceiptAndCurrentLifecycleMarkers"
+    ],
+    "KB-POLICY-CHANGE": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CommitTest::testPolicyChangeDuringCanonicalReadBlocksAllText"
+    ],
+    "LOCAL-COMMIT-HANDOFF": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\ConcurrencyTest::testDisclosureCommitWinsThenRevokeCannotRewriteHistoricalEvidence"
+    ],
+    "LOCK-TIMEOUT": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\ConcurrencyTest::testLockTimeoutIsUnavailableWithoutUsageOrText"
+    ],
+    "PRELOAD-AND-USAGE-GUARDS": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CommitTest::testCanonicalPreloadBoundRejectsBeforeReadingAndUsageNeedsSemanticGuards"
+    ],
+    "BYTE-LIMITS": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testDisclosureRechecksByteLimitsAndRejectsInvalidRepresentationUtf8"
+    ],
+    "GENERATED-PROVENANCE": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\CanonicalTest::testGeneratedEvidenceRetainsOriginAndSupportingReferences"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\FixtureTest::testVersionedFixtureDigestsAndPinnedReuseReceipt"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\FixtureTest::testRequiredCaseMapRejectsMissingSkippedEmptyAndFailed",
+      "KnowKit\\Tests\\Retrieval\\Disclosure\\FixtureTest::testUnknownGroupMissingFileAndNestedFailureCannotPass"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/evidence/v1/corpus.json",
+      "sha256": "d9dc717e614daad039ba67c272c13665270d411939450c3c741e1e8069705f46",
+      "expected": "All authored disclosure scenarios, exact canonical spelling and normalized source mapping"
+    },
+    {
+      "path": "tests/fixtures/evidence/v1/manifest.json",
+      "sha256": "efb37ae716e68f511b80e12ad1629fc8a4802ee9594b9ce56ee1ebb4852392d7",
+      "expected": "Versioned immutable-input digests and provenance"
+    },
+    {
+      "path": "tests/retrieval/disclosure/evidence/P4.2-reuse.json",
+      "sha256": "c28405129bdf24b9fea6fbe9e6ce8567b92380b4f01c2d34b3db8c70b0974d1a",
+      "expected": "Six reviewed pinned donor source decisions with actual SHA256 qualification"
+    }
+  ]
+}

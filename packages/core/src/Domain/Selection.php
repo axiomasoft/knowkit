@@ -3,9 +3,16 @@ declare(strict_types=1);
 
 namespace KnowKit\Domain;
 
+use KnowKit\Domain\Contract\JsonObject;
+
 final readonly class Selection extends SchemaValue
 {
     protected const SCHEMA = 'selection';
+
+    public function policyBinding(): JsonObject
+    {
+        return $this->toWire()->get('policyBinding');
+    }
 
     public function id(): SelectionId
     {

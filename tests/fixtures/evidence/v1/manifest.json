@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "disclosure-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored canonical PDF/UTF-8, whitespace map, injection, re-OCR, revoke and attempt vectors. Expected digest values identify authored immutable inputs; no implementation snapshots are accepted.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic disclosure vectors; donor qualification is private local reuse.",
+    "redistributionAllowed": false
+  },
+  "files": [
+    {
+      "path": "tests/fixtures/evidence/v1/corpus.json",
+      "sha256": "d9dc717e614daad039ba67c272c13665270d411939450c3c741e1e8069705f46",
+      "expected": "All authored disclosure scenarios, exact canonical spelling and normalized source mapping"
+    }
+  ],
+  "expectedDigests": {
+    "pdfBytes": "9436ae5308cf24f19bf39b6f379b6a15cece6653cf46605c05085974441f3932",
+    "canonicalPage": "a583cc6f49cec2638f49a9b96888871a26a1d1a1cb1168ede4af14b385d07a27",
+    "quote": "e3eac7647bc7318621173ad93bf3c7bafa596fb7e87bda2cf876ce7f0ecadaec",
+    "injection": "9c6b53e79b53d7627946c18ebe795f120dba8bb58299c4db1175d866dbeda2de"
+  }
+}

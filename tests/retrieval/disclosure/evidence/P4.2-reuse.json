@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.2",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/Service.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "observedSha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Service.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Fresh owner/lifecycle checks, all-or-nothing buffering; replace donor release lookup with exact core refs and a serialized usage COMMIT.",
+      "qualificationRef": "tests/retrieval/disclosure/DisclosureTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Disclosure",
+        "packages/core/src/Adapter/Postgres/Usages",
+        "tests/retrieval/disclosure"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/EvidenceSet.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "d84404e2ea497a9558d4839bd55848b1440c1f383c0f2d27c0ac6f5037b900f9",
+      "observedSha256": "d84404e2ea497a9558d4839bd55848b1440c1f383c0f2d27c0ac6f5037b900f9",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/EvidenceSet.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Immutable historical evidence and untrusted/no-memory labels; keep approved core wire schema and typed usage metadata.",
+      "qualificationRef": "tests/retrieval/disclosure/DisclosureTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Disclosure",
+        "packages/core/src/Adapter/Postgres/Usages",
+        "tests/retrieval/disclosure"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+      "observedSha256": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt revoke, tenant, expiry, unknown-owner and immutable historical hash regressions.",
+      "qualificationRef": "tests/retrieval/disclosure/DisclosureTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Disclosure",
+        "packages/core/src/Adapter/Postgres/Usages",
+        "tests/retrieval/disclosure"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/source_pages.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "1f0f17f41bd3d87a8e20c21a325b2ea9de02b6b623640c9dc47ccfef589c10d6",
+      "observedSha256": "1f0f17f41bd3d87a8e20c21a325b2ea9de02b6b623640c9dc47ccfef589c10d6",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/source_pages.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt fresh resolution and digest validation; reject path identity, public URLs and latest-page redirection.",
+      "qualificationRef": "tests/retrieval/disclosure/DisclosureTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Disclosure",
+        "packages/core/src/Adapter/Postgres/Usages",
+        "tests/retrieval/disclosure"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/reading/_grounding.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "2890d7146df08f0ce7a6ce1c243373e9ee9ec03f9672a9e15f52c66403cd6cf8",
+      "observedSha256": "2890d7146df08f0ce7a6ce1c243373e9ee9ec03f9672a9e15f52c66403cd6cf8",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/reading/_grounding.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt explicit normalized-to-canonical mapping test; use stored exact byte spans rather than ambiguous first-hit lookup or clamped quote.",
+      "qualificationRef": "tests/retrieval/disclosure/DisclosureTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Disclosure",
+        "packages/core/src/Adapter/Postgres/Usages",
+        "tests/retrieval/disclosure"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/reading/test_grounding.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "a9393b1aeaed63bee38e76aa206fbc87ab9e83f8cdf04d15ccb2139d38ebb1a7",
+      "observedSha256": "a9393b1aeaed63bee38e76aa206fbc87ab9e83f8cdf04d15ccb2139d38ebb1a7",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/reading/test_grounding.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt canonical spelling/whitespace regression; assertions use immutable offsets, never fuzzy source ranges.",
+      "qualificationRef": "tests/retrieval/disclosure/DisclosureTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/Retrieval/Disclosure",
+        "packages/core/src/Adapter/Postgres/Usages",
+        "tests/retrieval/disclosure"
+      ]
+    }
+  ],
+  "newCodeRationale": "Approved exact core refs, SpanAssembler, PolicyChecks and PostgreSQL semantic locks take precedence. Donors do not implement tenant/KB/source shared guards, database-clock receipt checks, attempt replay metadata or atomic usage lineage; new narrow core ports and adapters supply those boundaries without vendor runtime dependencies.",
+  "sourceGaps": []
+}

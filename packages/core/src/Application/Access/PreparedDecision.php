@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace KnowKit\Application\Access;
 
-use KnowKit\Domain\{DecisionReceipt, DomainFailure, Operation, Outcome, ResourceRef, Sha256, UtcInstant};
+use KnowKit\Domain\{DecisionReceipt, DisclosureDeadline, DomainFailure, Operation, Outcome, ResourceRef, Sha256, UtcInstant};
 use KnowKit\Domain\Access\OwnerFreshness;
 use KnowKit\Domain\Contract\{HashDomain, JsonObject};
 
@@ -30,5 +30,23 @@ final class PreparedDecision
             $this->freshness?->requireFresh($receipt, $databaseNow);
             $receipt->requireAllow($current->scope(), $resource, $this->operation, $databaseNow, $digest);
         }
+    }
+
+    public function disclosureDeadline(): DisclosureDeadline
+    {
+        $deadline = null;
+        $window = $this->freshness === null ? 5 : $this->freshness->maxWindowSeconds;
+        foreach ($this->receipts as [$resource, $receipt]) {
+            $wire = $receipt->toWire();
+            $checked = new UtcInstant($wire->get('checkedAt'));
+            $windowEnd = $checked->plusSeconds($window);
+            $expires = new UtcInstant($wire->get('expiresAt'));
+            $candidate = $windowEnd->compare($expires) < 0 ? $windowEnd : $expires;
+            if ($deadline === null || $candidate->compare($deadline) < 0) {
+                $deadline = $candidate;
+            }
+        }
+
+        return new DisclosureDeadline($deadline ?? throw new \LogicException('Nonempty receipt set required'), $this->freshness !== null);
     }
 }
