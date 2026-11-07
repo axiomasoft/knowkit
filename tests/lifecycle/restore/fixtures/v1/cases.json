@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "restore-fixtures:1",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "F1 adds replay over existing version rows with post-backup event/replacement metadata absent, and invalid replacement shape checks. F3 captures headers before object loss/appearance, retains actual finding identities, and completes remaining scans before a blocked result without changing the baseline ledger digest. Existing expected outcomes and the fixed delete journal digest are unchanged; the fixture file digest changes for these explicit additional regression cases.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic immutable metadata; private donor pattern adaptation in ../evidence/P3.7-reuse.json",
+    "redistributionAllowed": false
+  },
+  "payloadDigest": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+  "deleteMark": {
+    "tenantId": "01J00000000000000000000001",
+    "sequence": "1",
+    "sourceId": "01J00000000000000000000002",
+    "lifecycleEpoch": "1",
+    "sourcePolicyEpoch": "1",
+    "lifecycleState": "revoked",
+    "retentionHold": false,
+    "tombstone": {
+      "reason": "source_deleted",
+      "eventId": "01J00000000000000000004000",
+      "lifecycleEpoch": "1"
+    },
+    "versions": []
+  },
+  "expectedDeleteJournalDigest": "254e8a80e26e496c090ba14c6ea1fa3a6d9618144c8374adf4b99d3f4998eebc",
+  "cases": [
+    {
+      "id": "BACKUP-OLDER-DELETE",
+      "expected": {
+        "serving": "ready",
+        "bytesRetained": true,
+        "payload": "denied"
+      }
+    },
+    {
+      "id": "R32-A02",
+      "expected": {
+        "tombstones": 1,
+        "payload": "denied",
+        "replayedSequence": "1"
+      }
+    },
+    {
+      "id": "TOMBSTONE-BEFORE-SOURCE",
+      "expected": {
+        "tombstones": 1,
+        "restoredSource": "rejected"
+      }
+    },
+    {
+      "id": "R32-A01",
+      "expected": {
+        "bytesRetained": true,
+        "history": "denied",
+        "payload": "denied",
+        "audit": "minimal"
+      }
+    },
+    {
+      "id": "OBJECT-WITHOUT-METADATA",
+      "expected": {
+        "serving": "blocked",
+        "orphan": "unknown",
+        "bytesRetained": true
+      }
+    },
+    {
+      "id": "METADATA-WITHOUT-OBJECT",
+      "expected": {
+        "serving": "blocked",
+        "receipt": "missing_object"
+      }
+    },
+    {
+      "id": "UNKNOWN-EXTERNAL-RECEIPT",
+      "expected": {
+        "serving": "blocked",
+        "external": "unknown",
+        "deletionReceipts": 0
+      }
+    },
+    {
+      "id": "INCOMPLETE-JOURNAL",
+      "expected": {
+        "serving": "blocked",
+        "proof": "unknown"
+      }
+    },
+    {
+      "id": "INCOMPLETE-BACKUP",
+      "expected": {
+        "serving": "blocked",
+        "readyReceipts": 0
+      }
+    },
+    {
+      "id": "DENIED-CANARY",
+      "expected": {
+        "serving": "blocked",
+        "readyReceipts": 0
+      }
+    },
+    {
+      "id": "CHECKPOINT-SCOPE",
+      "expected": {
+        "serving": "blocked",
+        "staleCheckpoint": "rejected",
+        "writer": "frozen"
+      }
+    },
+    {
+      "id": "KILL-RECONCILIATION",
+      "expected": {
+        "signal": 9,
+        "checkpointBeforeKill": 0,
+        "servingAfterRestart": "ready"
+      }
+    },
+    {
+      "id": "LIFECYCLE-HIGH-WATER",
+      "expected": {
+        "sourceEpoch": "7",
+        "sourcePolicyEpoch": "8",
+        "lateVersion": "rejected"
+      }
+    },
+    {
+      "id": "REQUIRED-BACKEND",
+      "expected": {
+        "serving": "blocked",
+        "outcome": "unavailable"
+      }
+    },
+    {
+      "id": "PROJECTION-REBUILD",
+      "expected": {
+        "serving": "ready",
+        "sameManifest": true,
+        "sameMemberships": true,
+        "readback": "verified"
+      }
+    },
+    {
+      "id": "MANIFEST-TAMPER",
+      "expected": {
+        "serving": "blocked",
+        "outcome": "incompatible"
+      }
+    },
+    {
+      "id": "EXISTING-VERSION-REPLAY",
+      "expected": {"serving": "ready", "usability": "corrected", "eventMetadata": "absent", "versionRows": 1}
+    },
+    {
+      "id": "POST-BACKUP-REPLACEMENT",
+      "expected": {"serving": "ready", "replacement": "preserved", "replacementMetadata": "absent", "eventMetadata": "absent"}
+    },
+    {
+      "id": "RECOVERY-MARK-INVARIANTS",
+      "expected": {"selfReplacement": "rejected", "revokedReplacement": "rejected", "checkpoint": "unchanged"}
+    },
+    {
+      "id": "OBJECT-INVENTORY-DRIFT",
+      "expected": {"serving": "blocked", "remainingStages": "verified", "baselineLedger": "unchanged"}
+    },
+    {
+      "id": "FINDING-IDENTITY",
+      "expected": {"serving": "blocked", "resourceId": "retained", "generationId": "retained"}
+    }
+  ]
+}

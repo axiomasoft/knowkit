@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P3.7",
+  "authority": "Private local adaptation under licenses/local-reuse-authorization.md; no publication/relicensing. Source and expected SHA-256 pins are supplied by knowledge/reuse-p3#P3-7.",
+  "sources": [
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "afdfaecf1f2246cf4f4a8e1ab70bc1da1d89926c8aab11740c0a47d6a841bd7f",
+      "sha256Verified": true,
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "decision": "adapt",
+      "rationale": "Tenant serialization, tombstone-before-registration and transaction/replay identity checks adapted to typed tenant/source IDs and monotone source/version recovery marks. No donor namespaces or whole-run usage model imported."
+    },
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/src/Dependencies/DeletionWorker.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "0b1cf97507a8357b431dfa6dfaf8e6ae48c5501336292fd8dddeb9d2ae9a06af",
+      "sha256Verified": true,
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/src/Dependencies/DeletionWorker.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Dependencies/DeletionWorker.php",
+      "decision": "adapt",
+      "rationale": "Preserve unknown/unsupported and do not infer receipt success from transport/config absence. Reconciliation records findings and leaves purge receipts untouched."
+    },
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/tests/Invalidation/ConcurrencyTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "ff5dd8ff9f09dea8b9ca025f733d1cf206bdcb768dd30fa8c01521a46d75f347",
+      "sha256Verified": true,
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/tests/Invalidation/ConcurrencyTest.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Invalidation/ConcurrencyTest.php",
+      "decision": "adapt-test-pattern",
+      "rationale": "Real PostgreSQL tenant serialization and revalidation adapted as checkpoint CAS, frozen writers, tenant mismatch and SQL high-water guards; a second real connection is used by the killed recovery worker."
+    },
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/tests/Invalidation/CrashTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "4222d7a980d09921653bf54a167fbf57653a162aa1e010125e8a0b62e2c90f8d",
+      "sha256Verified": true,
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/tests/Invalidation/CrashTest.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Invalidation/CrashTest.php",
+      "decision": "adapt-test-pattern",
+      "rationale": "SIGKILL after actual object verification and before checkpoint; checkpoint equality and repeat verification after restart, plus idempotent projection reconstruction."
+    },
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/tests/Invalidation/DeletionTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "b9500c993cf23036598f5048b572089fcb49cd94fd486b7f546a2328b2cfb597",
+      "sha256Verified": true,
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/tests/Invalidation/DeletionTest.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Invalidation/DeletionTest.php",
+      "decision": "adapt-test-pattern",
+      "rationale": "Uncertain observations cannot become successful receipts or serving readiness. Unknown external receipt is an explicit fixture and findings remain durable."
+    },
+    {
+      "repository": "deeptutor",
+      "path": "deeptutor/runtime/coordination/recovery.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "bf79e3b37d2fb417603d83a35cf9e646624566176a6aad4131ffa43691d38bdf",
+      "sha256Verified": true,
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/deeptutor/runtime/coordination/recovery.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/coordination/recovery.py",
+      "decision": "adapt-control-flow",
+      "rationale": "Persist-before-publish and recheck authority at recovery time adapted into PHP page commits and readiness. Python turn runtime, leases and content logging are not imported."
+    },
+    {
+      "repository": "deeptutor",
+      "path": "tests/runtime/coordination/test_journal_recovery.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "sha256Verified": true,
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/tests/runtime/coordination/test_journal_recovery.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_journal_recovery.py",
+      "decision": "adapt-test-pattern",
+      "rationale": "Wrong tenant, stale checkpoint, required-backend failure and crash recovery assertions; no live lease or absent configuration is treated as completion."
+    }
+  ],
+  "existingCoreReuse": [
+    "Adapter/Postgres/Catalog/PdoCatalogTransaction: tenant serialization and bounded transactions",
+    "Adapter/LocalBlob/PrivateFilesystem: private root, symlink/owner checks and streaming digest verification; directory enumeration now stops without materializing an unbounded scandir result",
+    "Adapter/Postgres/IndexGenerations/ResourceInventory and PdoReadBackend: exact immutable manifests/resources and complete FTS readback",
+    "Domain/ManifestCandidate and IndexManifest: unchanged approved index-manifest wire schema",
+    "Existing restore_receipts/tombstones/serving_state: restore proof and disclosure barriers",
+    "Existing P3.6 resource/deletion ledger: unknown obligations invalidate done; reconciliation does not fabricate erasure receipts"
+  ],
+  "sourceGaps": [
+    {
+      "gap": "Neither donor implements the KnowKit backup header or object/ledger/manifest/outbox bounded recovery protocol.",
+      "resolution": "New vendor-free typed RecoveryPlan/RecoveryEvidence/ReconciliationStore and one-page PHP application orchestration preserve the existing package boundaries."
+    },
+    {
+      "gap": "Authoritative external journal, provider exact-version verification and host disclosure canary cannot be invented by core.",
+      "resolution": "Mandatory host callbacks/port contract; missing external verifier returns unknown, missing/incomplete journal or failed canary leaves readiness blocked. Canonical set loading is outside SQL."
+    },
+    {
+      "gap": "Local inventory is the established compact profile, not an unbounded provider enumeration.",
+      "resolution": "Explicit 10,000-entry/depth-5 cap with <=100 returned rows and durable keyset checkpoints; overflow fails closed. Larger stores need a stable bounded inventory adapter."
+    },
+    {
+      "gap": "A projection can be absent in a backup while historical identities must remain immutable.",
+      "resolution": "Only derived lexical rows may be rebuilt inside the matching blocked restore transaction; verify exact manifest/resources and full readback, retain immutable memberships/snapshots/citations."
+    }
+  ],
+  "licenseNotices": [
+    "licenses/notices/agentools-LICENSE.txt",
+    "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+    "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md"
+  ],
+  "fixtures": {
+    "version": "1.1.0",
+    "manifest": "tests/fixtures/check-groups/lifecycle-restore.json",
+    "path": "tests/lifecycle/restore/fixtures/v1/cases.json",
+    "sha256": "9d694f1b296a4442f75f86dcc989737fd8b91506e4d08e6a643b1ae66f216b37",
+    "goldenJournalDigest": "254e8a80e26e496c090ba14c6ea1fa3a6d9618144c8374adf4b99d3f4998eebc",
+    "rationale": "F1/F3 add replay over existing version metadata, absent post-backup FK targets, replacement shape rejection, header-before-object-drift and exact finding IDs. Existing expected outcomes and the fixed delete journal digest are unchanged; the fixture file digest binds these explicit new cases. All mandatory scenario and R32 audit IDs remain required."
+  },
+  "verification": [
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/restore/RestoreTest.php",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/restore-ready.out"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/restore/DurabilityTest.php",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/durability-complete.out"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/restore/ProjectionTest.php",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/projection-ready.out"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/restore/FixtureTest.php",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/fixtures.out"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/catalog/SchemaTest.php",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/schema.out"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/events/outbox/MigrationTest.php",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/migration.out"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/lifecycle/purge/InvariantsTest.php",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/purge-invariants.out"
+    },
+    {
+      "cmd": "vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/LocalBlobTest.php",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/local-blobs.out"
+    },
+    {
+      "cmd": "vendor/bin/phpstan analyse --no-progress --level=5 --autoload-file=tests/lifecycle/restore/bootstrap.php packages/core/src/Application/Reconciliation packages/core/src/Adapter/Postgres/Reconciliation packages/core/src/Adapter/LocalBlob/RecoveryEvidence.php packages/core/src/Domain/RecoveryPlan.php packages/core/src/Domain/RecoveryDigest.php packages/core/src/Port/ReconciliationStore.php packages/core/src/Port/RecoveryEvidence.php tests/lifecycle/restore",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/phpstan-ready.out"
+    },
+    {
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/dag-final.out"
+    },
+    {
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P3.7/whitespace.out"
+    }
+  ],
+  "correction2": {
+    "focus": [
+      "F1",
+      "F3"
+    ],
+    "fixtureVersion": "1.1.0",
+    "publicInterfacesChanged": false,
+    "fixes": {
+      "F1": "Persist authoritative version invalidation identities independently of missing post-backup FK targets; immediately invalidate existing version rows, preserve exact logical event/replacement identities in lifecycle reads, and reject invalid replacement shapes in domain and SQL.",
+      "F3": "Keep current-run quarantined resources outside the backup ledger baseline, preserve existing resource/generation IDs, and record inventory mismatches while completing remaining scans with readiness blocked."
+    },
+    "reproducedBeforeFix": [
+      {
+        "cmd": "vendor/bin/phpunit --configuration phpunit.xml --do-not-cache-result tests/lifecycle/restore/DurabilityTest.php --filter 'testExistingVersionReplay|testPostBackupReplacement|testInvalidRecoveryReplacementMarks'",
+        "exit": 2,
+        "evidence": ".phpunit.cache/P3.7-correction2/f1-red.out"
+      },
+      {
+        "cmd": "vendor/bin/phpunit --configuration phpunit.xml --do-not-cache-result tests/lifecycle/restore/RestoreTest.php --filter 'testObjectWithoutMetadata|testMetadataWithoutObject|testInventoryDrift|testFindingsRetain'",
+        "exit": 2,
+        "evidence": ".phpunit.cache/P3.7-correction2/f3-red.out"
+      }
+    ],
+    "verification": [
+      {
+        "cmd": "vendor/bin/phpunit --configuration phpunit.xml --do-not-cache-result tests/lifecycle/restore/DurabilityTest.php",
+        "exit": 0,
+        "evidence": ".phpunit.cache/P3.7-correction2/durability-fixed.out"
+      },
+      {
+        "cmd": "vendor/bin/phpunit --configuration phpunit.xml --do-not-cache-result tests/lifecycle/restore/RestoreTest.php",
+        "exit": 0,
+        "evidence": ".phpunit.cache/P3.7-correction2/restore.out"
+      },
+      {
+        "cmd": "vendor/bin/phpunit --configuration phpunit.xml --do-not-cache-result tests/lifecycle/restore/FixtureTest.php",
+        "exit": 0,
+        "evidence": ".phpunit.cache/P3.7-correction2/fixtures.out"
+      },
+      {
+        "cmd": "vendor/bin/phpunit --configuration phpunit.xml --do-not-cache-result tests/lifecycle/commands/LifecycleTest.php",
+        "exit": 0,
+        "evidence": ".phpunit.cache/P3.7-correction2/lifecycle.out"
+      },
+      {
+        "cmd": "vendor/bin/phpunit --configuration phpunit.xml --do-not-cache-result tests/lifecycle/restore/ProjectionTest.php",
+        "exit": 0,
+        "evidence": ".phpunit.cache/P3.7-correction2/projection.out"
+      },
+      {
+        "cmd": "vendor/bin/phpunit --configuration phpunit.xml --do-not-cache-result tests/lifecycle/restore/RestoreTest.php --filter testInventoryDriftKeepsBaselineAndVerifiesRemainingStagesBeforeBlocking",
+        "exit": 0,
+        "evidence": ".phpunit.cache/P3.7-correction2/inventory-index.out"
+      },
+      {
+        "cmd": "vendor/bin/phpstan analyse --no-progress --level=5 --autoload-file=tests/lifecycle/restore/bootstrap.php packages/core/src/Application/Reconciliation packages/core/src/Adapter/Postgres/Reconciliation packages/core/src/Adapter/Postgres/Lifecycle/PdoLifecycleStore.php tests/lifecycle/restore",
+        "exit": 0,
+        "evidence": ".phpunit.cache/P3.7-correction2/phpstan.out"
+      },
+      {
+        "cmd": "php tools/qa.php --check dag",
+        "exit": 0,
+        "evidence": ".phpunit.cache/P3.7-correction2/dag.out"
+      },
+      {
+        "cmd": "git diff --check",
+        "exit": 0,
+        "evidence": ".phpunit.cache/P3.7-correction2/whitespace.out"
+      }
+    ]
+  },
+  "acceptance": {
+    "id": "V1",
+    "executed": false,
+    "owner": "coordinator"
+  },
+  "planReceipt": {
+    "written": false,
+    "reason": "plan_mutation is forbidden; native plan.json is present. Coordinator/registrar owns the native implementation receipt."
+  }
+}

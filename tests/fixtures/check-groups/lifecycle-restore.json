@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "lifecycle:restore",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "F1/F3 corrections add existing-version/FK-target and recovery-mark invariant regressions, plus object drift after the backup header and stable finding IDs. Inventory discrepancies must complete scans with readiness blocked. The existing expected delete journal digest and outcomes are unchanged; the fixture file digest binds the explicitly added cases.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures; pinned private adaptations in tests/lifecycle/restore/evidence/P3.7-reuse.json",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "BACKUP-OLDER-DELETE",
+    "R32-A02",
+    "TOMBSTONE-BEFORE-SOURCE",
+    "R32-A01",
+    "OBJECT-WITHOUT-METADATA",
+    "METADATA-WITHOUT-OBJECT",
+    "UNKNOWN-EXTERNAL-RECEIPT",
+    "INCOMPLETE-JOURNAL",
+    "INCOMPLETE-BACKUP",
+    "DENIED-CANARY",
+    "CHECKPOINT-SCOPE",
+    "KILL-RECONCILIATION",
+    "LIFECYCLE-HIGH-WATER",
+    "REQUIRED-BACKEND",
+    "PROJECTION-REBUILD",
+    "MANIFEST-TAMPER",
+    "EXISTING-VERSION-REPLAY",
+    "POST-BACKUP-REPLACEMENT",
+    "RECOVERY-MARK-INVARIANTS",
+    "OBJECT-INVENTORY-DRIFT",
+    "FINDING-IDENTITY"
+  ],
+  "testCaseMap": {
+    "BACKUP-OLDER-DELETE": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testBackupOlderThanDeleteReplaysBeforeReadinessAndNeverDiscloses"
+    ],
+    "R32-A02": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testBackupOlderThanDeleteReplaysBeforeReadinessAndNeverDiscloses"
+    ],
+    "TOMBSTONE-BEFORE-SOURCE": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testTombstoneBeforeSourceRestoreBlocksLateRegistration"
+    ],
+    "R32-A01": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testLegalHoldRetainsBytesAndMinimalAuditWithoutReadPermission"
+    ],
+    "OBJECT-WITHOUT-METADATA": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testObjectWithoutMetadataBecomesUnknownObligationWithoutDeletion"
+    ],
+    "METADATA-WITHOUT-OBJECT": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testMetadataWithoutObjectCannotOpenReadiness"
+    ],
+    "UNKNOWN-EXTERNAL-RECEIPT": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testUnknownExternalReceiptStaysUnknownAndBlocksReadiness"
+    ],
+    "INCOMPLETE-JOURNAL": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testIncompleteJournalAndWrongDigestFailClosed"
+    ],
+    "INCOMPLETE-BACKUP": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testIncompleteBackupAndCanaryFailureCannotProduceReadyReceipt"
+    ],
+    "DENIED-CANARY": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testIncompleteBackupAndCanaryFailureCannotProduceReadyReceipt"
+    ],
+    "CHECKPOINT-SCOPE": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testTenantBindingIdempotentHeaderAndCheckpointCasAndWriterFreeze"
+    ],
+    "KILL-RECONCILIATION": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\DurabilityTest::testSigkillBetweenVerificationAndCheckpointReplaysTheSameBoundedPage"
+    ],
+    "LIFECYCLE-HIGH-WATER": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\DurabilityTest::testLifecycleAndVersionHighWaterMarksSurviveBeforeTheirMetadata"
+    ],
+    "REQUIRED-BACKEND": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\DurabilityTest::testRequiredBackendFailurePreservesUnavailableAndDoesNotAdvance"
+    ],
+    "PROJECTION-REBUILD": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\ProjectionTest::testVerifiedManifestRebuildsLostProjectionWithoutChangingHistoricalIdentities"
+    ],
+    "MANIFEST-TAMPER": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\ProjectionTest::testVerifiedManifestRebuildsLostProjectionWithoutChangingHistoricalIdentities"
+    ],
+    "EXISTING-VERSION-REPLAY": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\DurabilityTest::testExistingVersionReplayRetainsTheAuthoritativeEventWithoutInventingMetadata"
+    ],
+    "POST-BACKUP-REPLACEMENT": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\DurabilityTest::testPostBackupReplacementIsRetainedWithoutCreatingAFakeVersionOrEvent"
+    ],
+    "RECOVERY-MARK-INVARIANTS": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\DurabilityTest::testInvalidRecoveryReplacementMarksAreRejectedInReplayAndStorage"
+    ],
+    "OBJECT-INVENTORY-DRIFT": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testInventoryDriftKeepsBaselineAndVerifiesRemainingStagesBeforeBlocking"
+    ],
+    "FINDING-IDENTITY": [
+      "KnowKit\\Tests\\Lifecycle\\Restore\\RestoreTest::testFindingsRetainExistingResourceAndGenerationIdentities"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/lifecycle/restore/fixtures/v1/cases.json",
+      "sha256": "9d694f1b296a4442f75f86dcc989737fd8b91506e4d08e6a643b1ae66f216b37",
+      "expected": "Tombstones and high-water marks precede readiness; incomplete inventories/receipts never open the gate; SIGKILL resumes the same page; verified manifests rebuild lexical projections while preserving immutable identities."
+    }
+  ]
+}

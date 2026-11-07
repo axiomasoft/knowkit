@@ -183,16 +183,16 @@ final readonly class PrivateFilesystem
         $this->directory($tenant,true); $found=[]; $seen=0;
         $walk=function(string $relative,int $depth) use(&$walk,&$found,&$seen): void {
             if ($depth>5) { throw new DomainFailure(Outcome::Unknown,'inventory_limit'); }
-            $dir=$this->directory($relative); $names=@scandir($dir);
-            if ($names===false) { throw new DomainFailure(Outcome::Unavailable,'blob_io_failed'); }
-            foreach ($names as $name) {
+            $dir=$this->directory($relative); $handle=@opendir($dir);
+            if ($handle===false) { throw new DomainFailure(Outcome::Unavailable,'blob_io_failed'); }
+            try { while (($name=readdir($handle))!==false) {
                 if ($name==='.' || $name==='..' || $name==='.locks') { continue; }
                 if (++$seen>10000) { throw new DomainFailure(Outcome::Unknown,'inventory_limit'); }
                 $key=$relative.'/'.$name; $this->parts($key); $s=@lstat($this->path($key));
                 if ($s===false) { continue; }
                 if (($s['mode']&0170000)===0040000) { $walk($key,$depth+1); }
                 else { $this->safeFile($s); $found[]=$key; }
-            }
+            } } finally { closedir($handle); }
         };
         $walk($tenant,0); return $found;
     }

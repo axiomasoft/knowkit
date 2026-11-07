@@ -61,7 +61,7 @@ final class InvariantsTest extends TestCase
             self::assertSame('done', $pdo->query('SELECT status FROM deletion_tasks')->fetchColumn());
             $migrate = new Migrate($pdo,$sandbox->schema); $migrate->apply($directory.'/001_metadata.sql');
             self::assertSame('unknown',$pdo->query('SELECT status FROM deletion_tasks')->fetchColumn());
-            self::assertSame(6,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
+            self::assertSame(7,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
             $migrate->apply($directory.'/001_metadata.sql');
             self::assertSame('unknown',$pdo->query('SELECT status FROM deletion_tasks')->fetchColumn());
             self::assertSame(Fixture::id(600),$pdo->query('SELECT id FROM deletion_tasks')->fetchColumn());

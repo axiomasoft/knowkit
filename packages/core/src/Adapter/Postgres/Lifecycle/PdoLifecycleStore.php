@@ -69,8 +69,10 @@ final readonly class PdoLifecycleStore implements LifecycleCommandStore
     public function getVersionState(D\Scope $scope, D\SourceVersionId $sourceVersionId): ?D\SourceVersionState
     {
         $this->guard($scope->tenantId, false);
-        $r = $this->db->row('SELECT st.* FROM '.$this->db->table('source_version_state').' st JOIN '.
-            $this->db->table('source_versions').' v ON v.tenant_id=st.tenant_id AND v.id=st.id WHERE st.tenant_id=? AND st.id=?',
+        $r = $this->db->row('SELECT st.tenant_id,st.id,COALESCE(m.usability,st.usability) usability,COALESCE(m.event_id,st.event_id) event_id,
+            CASE WHEN m.version_id IS NULL THEN st.corrected_by_version_id ELSE m.corrected_by_version_id END corrected_by_version_id FROM '.$this->db->table('source_version_state').' st JOIN '.
+            $this->db->table('source_versions').' v ON v.tenant_id=st.tenant_id AND v.id=st.id LEFT JOIN '.
+            $this->db->table('recovery_version_marks').' m ON m.tenant_id=v.tenant_id AND m.source_id=v.source_id AND m.version_id=v.id WHERE st.tenant_id=? AND st.id=?',
             [$this->tenant->value, $sourceVersionId->value]);
         if ($r === null) { return null; }
         $eventId = $r['event_id'];
