@@ -19,6 +19,7 @@ final readonly class Migrate
         '007_reconciliation',
         '008_selection_records',
         '009_empty_snapshot_members',
+        '010_navigation_usages',
     ];
     public function __construct(private PDO $pdo,private string $schema) { Connection::schema($schema); }
     public function apply(string $file): void

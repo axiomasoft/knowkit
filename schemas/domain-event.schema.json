@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "urn:knowkit:schema:domain-event:1.0",
   "title": "DomainEvent event-1.0 (transactional outbox)",
-  "description": "payloadDigest = SHA256('knowkit:event:v1' || 0x00 || JCS(payload)). Every fixed v1 type has one closed payload shape projected from its normative record (wire-contract.md#event-payloads); envelope members (tenantId, eventId) are not repeated in the payload. Payloads carry refs, epochs and digests only: no document text, secrets, signed URLs or raw provider input. Consumers quarantine unknown schemaVersion/type.",
+  "description": "payloadDigest = SHA256('knowkit:event:v1' || 0x00 || JCS(payload)). Every fixed v1 type has a closed payload shape; usage.prepared_disclosure also accepts the explicit kind=navigation revision/unit variant approved by Q1=a (specs/11-navigation.md). Envelope members (tenantId, eventId) are not repeated in the payload. Payloads carry refs, epochs and digests only: no document text, secrets, signed URLs or raw provider input. Consumers quarantine unknown schemaVersion/type.",
   "x-knowkit-maxDocumentBytes": 65536,
   "x-knowkit-schemaVersion": "event-1.0",
   "type": "object",
@@ -157,6 +157,221 @@
       "unevaluatedProperties": false
     },
     "usagePreparedDisclosure": {
+      "if": {"required": ["kind"], "properties": {"kind": {"const": "navigation"}}},
+      "then": {"$ref": "#/$defs/navigationUsage"},
+      "else": {"$ref": "#/$defs/chunkUsagePreparedDisclosure"}
+    },
+    "navigationUsage": {
+      "type": "object",
+      "required": [
+        "kind",
+        "usageId",
+        "disclosureAttemptId",
+        "kbId",
+        "actorId",
+        "purpose",
+        "hostScopeHash",
+        "revisionRef",
+        "documentId",
+        "unitRefs",
+        "checkedAt",
+        "policyBindingDigest"
+      ],
+      "properties": {
+        "kind": {
+          "const": "navigation"
+        },
+        "usageId": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"
+        },
+        "disclosureAttemptId": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"
+        },
+        "kbId": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"
+        },
+        "actorId": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"
+        },
+        "purpose": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/purpose"
+        },
+        "hostScopeHash": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/hostScopeHash"
+        },
+        "revisionRef": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/documentRevisionRef"
+        },
+        "documentId": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"
+        },
+        "unitRefs": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 24,
+          "items": {
+            "$ref": "#/$defs/navigationUnit"
+          }
+        },
+        "checkedAt": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"
+        },
+        "policyBindingDigest": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "navigationSourceUnit": {
+      "type": "object",
+      "required": [
+        "kind",
+        "id",
+        "textDigest"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "page",
+            "segment"
+          ]
+        },
+        "id": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"
+        },
+        "textDigest": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "navigationUnit": {
+      "type": "object",
+      "required": [
+        "kind",
+        "id",
+        "physicalNo",
+        "printedLabel",
+        "status",
+        "spans",
+        "joiner",
+        "sourceUnits",
+        "fragmentDigest",
+        "byteLength",
+        "origin",
+        "provenanceKind",
+        "supportingRefs"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "page",
+            "segment",
+            "block"
+          ]
+        },
+        "id": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"
+        },
+        "physicalNo": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 4294967295
+        },
+        "printedLabel": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 64
+        },
+        "status": {
+          "enum": [
+            "ok",
+            "empty"
+          ]
+        },
+        "spans": {
+          "type": "array",
+          "maxItems": 1024,
+          "items": {
+            "$ref": "#/$defs/navigationSpan"
+          }
+        },
+        "joiner": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1,
+          "maxLength": 16
+        },
+        "sourceUnits": {
+          "type": "array",
+          "maxItems": 1024,
+          "items": {
+            "$ref": "#/$defs/navigationSourceUnit"
+          }
+        },
+        "fragmentDigest": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8192
+        },
+        "origin": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "source",
+            "ocr",
+            "generated",
+            null
+          ]
+        },
+        "provenanceKind": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "verbatim",
+            "table_representation",
+            "description",
+            "summary",
+            null
+          ]
+        },
+        "supportingRefs": {
+          "type": "array",
+          "maxItems": 1024,
+          "items": {
+            "$ref": "urn:knowkit:schema:common:1.0#/$defs/localId"
+          }
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "navigationSpan": {
+      "$ref": "urn:knowkit:schema:common:1.0#/$defs/textLocatorFields",
+      "required": [
+        "textDigest"
+      ],
+      "properties": {
+        "textDigest": {
+          "$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"
+        }
+      },
+      "unevaluatedProperties": false
+    },
+    "chunkUsagePreparedDisclosure": {
       "description": "knowledge/disclosure Usage record without tenantId/status: refs and fragment digests only, never plaintext.",
       "type": "object",
       "required": ["usageId", "disclosureAttemptId", "selectionId", "actorId", "purpose", "hostScopeHash", "runRef", "fragmentRefs", "checkedAt", "policyBindingDigest"],

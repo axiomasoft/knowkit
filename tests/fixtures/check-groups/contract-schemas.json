@@ -1,8 +1,8 @@
 {
   "schemaVersion": "check-group:1",
   "group": "contract:schemas",
-  "fixtureVersion": "1.1.0",
-  "versionRationale": "1.1.0 (P1.4 correction round 2): 29 bundled schemas (new job record), 187-entry corpus, 67 hash, 21 locator and 14 binding vectors. New required cases: contract.selection-run-binding (Selection keeps the trusted runRef; other run, dropped run and run-on-direct-call are denied, direct call stays allowed), contract.event-payload-closed (one closed payload per event type; documentText, credentials and unknown members rejected with a correct payloadDigest), contract.evidence-revision-identity (one documentRevisionId never names two irDigests; the corpus fixtures were corrected), contract.error-code-case (POLICY_CHANGED, RETRYABLE_LOCK_TIMEOUT, POINTER_CONFLICT, HOLD_TOO_LATE keep their case) and contract.job-record (five job states, lease fields, decimal fence). Golden digests that changed (domain-event payload, evidence-set, binding vectors) changed because the contract changed, see the corpus versionRationale. 1.0.0: initial P1.4 version; golden digests cross-checked with the independent rfc8785 package and schema-stage outcomes with python-jsonschema 2020-12 (tests/contract/schemas/evidence/independent-verification.json). Any change to a schema, vector or expected outcome requires a new fixtureVersion with a substantive rationale, never a mechanical snapshot rewrite.",
+  "fixtureVersion": "1.2.0",
+  "versionRationale": "1.2.0 (P4.6, owner Q1=a): usage.prepared_disclosure gains a closed kind=navigation variant for exact revision/unit Usage without a fabricated search Selection. The old chunk payload and all existing valid/invalid vectors remain unchanged; navigation-specific closed-payload, tenant binding, empty-unit, immutable SQL identity and replay negatives are exercised in tests/reading/navigation/ProtocolTest.php and the reading:navigation manifest. This updates only the changed domain-event schema digest. 1.1.0 (P1.4 correction round 2): 29 bundled schemas (new job record), 187-entry corpus, 67 hash, 21 locator and 14 binding vectors. New required cases: contract.selection-run-binding (Selection keeps the trusted runRef; other run, dropped run and run-on-direct-call are denied, direct call stays allowed), contract.event-payload-closed (one closed payload per event type; documentText, credentials and unknown members rejected with a correct payloadDigest), contract.evidence-revision-identity (one documentRevisionId never names two irDigests; the corpus fixtures were corrected), contract.error-code-case (POLICY_CHANGED, RETRYABLE_LOCK_TIMEOUT, POINTER_CONFLICT, HOLD_TOO_LATE keep their case) and contract.job-record (five job states, lease fields, decimal fence). Golden digests that changed (domain-event payload, evidence-set, binding vectors) changed because the contract changed, see the corpus versionRationale. 1.0.0: initial P1.4 version; golden digests cross-checked with the independent rfc8785 package and schema-stage outcomes with python-jsonschema 2020-12 (tests/contract/schemas/evidence/independent-verification.json). Any change to a schema, vector or expected outcome requires a new fixtureVersion with a substantive rationale, never a mechanical snapshot rewrite.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private",
     "origin": "Project-authored synthetic contract corpus and schemas; invented IDs/digests, no third-party document text. Adapted donor patterns: @plan/artifacts/implementation/P1.4-reuse.json.",
@@ -167,7 +167,7 @@
   "fixtures": [
     {
       "path": "tests/fixtures/contracts/manifest.v1.json",
-      "sha256": "9426f0f300b6375672e1830689717724522981d6785967c7ebe515e79064897e",
+      "sha256": "e17a273e5a61649790bb228da8596927043483a7ecaa8173d3221a478f389e79",
       "expected": {
         "corpusVersion": "1.1.0",
         "entries": 187,
@@ -279,7 +279,7 @@
     },
     {
       "path": "schemas/domain-event.schema.json",
-      "sha256": "f8368a52c3b8a81cf1cb7ffbdc9c815f3a88a52755578acd17e44096089d19dc",
+      "sha256": "6109c01cf592d45eb51675dd7883d69c2efc152c1dd17db5d3ed056e39bcf163",
       "expected": {
         "schemaId": "urn:knowkit:schema:domain-event:1.0"
       }

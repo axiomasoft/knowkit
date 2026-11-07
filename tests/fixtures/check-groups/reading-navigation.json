@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "reading:navigation",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial explicit required-case mapping; actual runner receipts must contain every mapped test, with no skips or zero-test success.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored navigation fixtures and tests; donors qualified by P4.6 reuse receipt.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "R08-A01",
+    "R08-A02",
+    "DT-L01",
+    "DT-L02",
+    "NAV-NFC-NFD",
+    "NAV-NORMALIZER-READINESS",
+    "NAV-REPEATED-TRUNCATION",
+    "NAV-LATE-UTF8-WINDOW",
+    "NAV-RANGES-BUDGETS",
+    "NAV-IR-UNIT-CAP",
+    "NAV-REVOKED-METADATA-PREVIEW",
+    "NAV-PROJECT-ISOLATION",
+    "NAV-EXACT-UNIT-USAGE",
+    "NAV-POLICY-PURGE",
+    "NAV-COMMIT-UNKNOWN",
+    "NAV-REPLAY",
+    "NAV-SCHEMA-CLOSED",
+    "NAV-SQL-IDENTITY",
+    "NAV-DB-FRESHNESS",
+    "NAV-PLAIN-PHP",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "R08-A01": [
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testExactUnicodeSpansAndMultiplePagesRetainOriginalBytes"
+    ],
+    "R08-A02": [
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testPageConversionRequiresExplicitCoordinatesAndPreservesPrintedLabel"
+    ],
+    "DT-L01": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ServiceTest::testHistoricalRevisionNeverReanchorsAndTypedFailuresStaySeparate",
+      "KnowKit\\Tests\\Reading\\Navigation\\ServiceTest::testInvalidSparsePageRangesAndByteLimitsNeverClampOrReturnPartialText",
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testRepeatedQuotesStayAmbiguousWithExplicitTruncationAndInternalContextDisambiguation"
+    ],
+    "DT-L02": [
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testExactUnicodeSpansAndMultiplePagesRetainOriginalBytes",
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testWhitespaceMapsEveryRunToCanonicalUtf8WithoutUnicodeOrPunctuationFolding"
+    ],
+    "NAV-NFC-NFD": [
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testWhitespaceMapsEveryRunToCanonicalUtf8WithoutUnicodeOrPunctuationFolding",
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testOptionalActualIntlCapabilityMapsDecompositionAndRejectsPartialCharacters"
+    ],
+    "NAV-NORMALIZER-READINESS": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ExampleTest::testReadinessFollowsActualIntlAvailability",
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testOptionalActualIntlCapabilityMapsDecompositionAndRejectsPartialCharacters"
+    ],
+    "NAV-REPEATED-TRUNCATION": [
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testRepeatedQuotesStayAmbiguousWithExplicitTruncationAndInternalContextDisambiguation"
+    ],
+    "NAV-LATE-UTF8-WINDOW": [
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testLateWindowKeepsFullQuoteAndNeverSplitsUnicodeOrClampsRange"
+    ],
+    "NAV-RANGES-BUDGETS": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ServiceTest::testInvalidSparsePageRangesAndByteLimitsNeverClampOrReturnPartialText"
+    ],
+    "NAV-IR-UNIT-CAP": [
+      "KnowKit\\Tests\\Reading\\Navigation\\CanonicalTest::testCanonicalUnitHardCapRejectsBeforeMaterializingNavigation"
+    ],
+    "NAV-REVOKED-METADATA-PREVIEW": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ServiceTest::testRevokedMetadataQuoteAndPreviewFailBeforeReturningAnyPayload"
+    ],
+    "NAV-PROJECT-ISOLATION": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ServiceTest::testTenantProjectEligibilityAndHostChangesCannotLeakIdenticalCanonicalContent"
+    ],
+    "NAV-EXACT-UNIT-USAGE": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ServiceTest::testStructureAndReadsAreBoundedAndPersistExactUnitUsageWithoutSearch"
+    ],
+    "NAV-POLICY-PURGE": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ServiceTest::testPolicyEpochChangeAndUnitPurgeDuringPreloadPreventDisclosure"
+    ],
+    "NAV-COMMIT-UNKNOWN": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ServiceTest::testCommitAcknowledgementLossNeverReleasesBuffer"
+    ],
+    "NAV-REPLAY": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ProtocolTest::testReplayIsMetadataOnlyAndCannotCrossHostScope"
+    ],
+    "NAV-SCHEMA-CLOSED": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ProtocolTest::testNavigationEventPayloadIsClosedAndTenantBound"
+    ],
+    "NAV-SQL-IDENTITY": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ProtocolTest::testSqlRejectsMutableReceiptsAndCrossTenantIdentity"
+    ],
+    "NAV-DB-FRESHNESS": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ProtocolTest::testDatabaseClockRejectsStaleReceiptsWithoutWritingUsage"
+    ],
+    "NAV-PLAIN-PHP": [
+      "KnowKit\\Tests\\Reading\\Navigation\\ExampleTest::testPlainPhpExampleRechecksRightsBeforeSecondDeliveryAndMetadata"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Reading\\Navigation\\FixtureTest::testVersionedFixturesAndEveryPinnedDonorDigest"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Reading\\Navigation\\FixtureTest::testRequiredManifestRejectsMissingSkippedFailedAndZeroTestSuccess"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/navigation/v1/corpus.json",
+      "sha256": "b2dafebc32b3a69c0f00b442b3c2f716cc97980fd49eeae4bee9acb1b6b26f41",
+      "expected": "Original canonical UTF-8 bytes, golden half-open spans, repeated/late quotations, whitespace/NFD distinctions, sparse physical pages and printed labels. Updates require a new version and rationale."
+    }
+  ]
+}

@@ -77,7 +77,7 @@ final readonly class PdoUsages implements DisclosureStore
             $scope->assertTenant($source->tenantId);
             $sources[$source->sourceId->value] = $source->sourceId;
             $this->resource($resources, $scope, 'source_version', $source->sourceVersionId);
-            $this->ancestors($scope, $ref, $sources, $resources);
+            $this->ancestors($scope, new D\ResourceRef($scope->tenantId, 'chunk', $ref->chunkId), $sources, $resources);
             $this->collections($scope, $source->sourceId, $resources);
         }
         ksort($sources, SORT_STRING);
@@ -159,12 +159,23 @@ final readonly class PdoUsages implements DisclosureStore
     /** Historical reads use current policy epochs and exact refs, independently of Selection expiry. */
     public function readingPlan(D\Scope $scope, D\ChunkRef $ref): D\DisclosurePlan
     {
-        $source = $ref->revisionRef->sourceRef;
+        return $this->resourcePlan($scope, $ref->revisionRef->sourceRef,
+            new D\ResourceRef($scope->tenantId, 'chunk', $ref->chunkId));
+    }
+
+    public function revisionPlan(D\Scope $scope, D\DocumentRevisionRef $revision): D\DisclosurePlan
+    {
+        return $this->resourcePlan($scope, $revision->sourceRef,
+            new D\ResourceRef($scope->tenantId, 'document_revision', $revision->documentRevisionId));
+    }
+
+    private function resourcePlan(D\Scope $scope, D\ExactSourceRef $source, D\ResourceRef $root): D\DisclosurePlan
+    {
         $scope->assertTenant($source->tenantId);
         $sources = [$source->sourceId->value => $source->sourceId];
         $resources = [];
         $this->resource($resources, $scope, 'source_version', $source->sourceVersionId);
-        $this->ancestors($scope, $ref, $sources, $resources);
+        $this->ancestors($scope, $root, $sources, $resources);
         $this->collections($scope, $source->sourceId, $resources);
         ksort($sources, SORT_STRING);
         foreach ($sources as $id) {
@@ -186,6 +197,21 @@ final readonly class PdoUsages implements DisclosureStore
         $this->requireUsable($scope, [$ref]);
     }
 
+    public function requireRevisionReadable(D\Scope $scope, D\DocumentRevisionRef $revision): void
+    {
+        $scope->assertTenant($revision->sourceRef->tenantId);
+        $ref = new D\ResourceRef($scope->tenantId, 'document_revision', $revision->documentRevisionId);
+        $metadata = new NodeMetadata($this->db, $this->tx);
+        if ($metadata->resolve($ref)['identity'] != $revision->toWire()) {
+            throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
+        }
+        $report = $this->dependencies->checkAncestors(new D\NodeRefs($scope->tenantId, [$ref]));
+        if ($report->decision !== D\Decision::Allow) {
+            throw new D\DomainFailure($report->decision === D\Decision::Deny ? D\Outcome::Denied : D\Outcome::Unknown,
+                $report->decision === D\Decision::Deny ? 'ancestor_unusable' : 'ancestor_unknown');
+        }
+    }
+
     private function insert(D\Scope $scope, D\PreparedDisclosure $prepared): bool
     {
         $usage = $prepared->usage;
@@ -204,11 +230,11 @@ final readonly class PdoUsages implements DisclosureStore
     }
 
     /** @param array<string,D\SourceId> $sources @param array<string,D\ResourceRef> $resources */
-    private function ancestors(D\Scope $scope, D\ChunkRef $ref, array &$sources, array &$resources): void
+    private function ancestors(D\Scope $scope, D\ResourceRef $ref, array &$sources, array &$resources): void
     {
         $sql = sprintf(self::ANCESTORS_SQL, $this->db->table('dependency_nodes'),
             $this->db->table('dependency_edges'), $this->db->table('dependency_nodes'));
-        $rows = $this->db->execute($sql, [$scope->tenantId->value, $ref->chunkId->value,
+        $rows = $this->db->execute($sql, [$scope->tenantId->value, $ref->id->value,
             $scope->tenantId->value, $scope->tenantId->value])->fetchAll(\PDO::FETCH_ASSOC);
         if (count($rows) > 1024) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');

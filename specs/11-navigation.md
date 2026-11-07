@@ -1,0 +1,45 @@
+# Bounded canonical navigation
+
+`KnowKit\Application\SourceNavigation` is the public service:
+
+```php
+listStructure(Scope $scope, DocumentRevisionRef $revision, int $depth, int $limit): StructureOutline;
+readUnits(Scope $scope, DocumentRevisionRef $revision, UnitRange $range, int $maxBytes): DisclosureOutcome;
+locateQuote(Scope $scope, DocumentRevisionRef $revision, string $quote, MatchMode $mode): QuoteLocation;
+```
+
+The revision includes tenant, source/version/digest, revision ID, IR digest and parser signature. Every call uses that exact immutable identity. A newer publication, matching digest elsewhere, prior location, previous disclosure or historical citation grants no permission. Navigation never edits citations or resolves a latest pointer. The configured host identity must equal the supplied Scope, including actor, business purpose and verbatim `hostScopeHash`.
+
+## Bounds and selectors
+
+The default `Navigation\Limits` caps are 24 units, inclusive range width 24, 16 candidate locations and 8192 returned text bytes. Configuration and caller limits can only lower these caps. Structure depth is 1–24; its limit counts all returned block nodes, with explicit truncation for depth/count omissions. Heading titles share the text budget. Oversized text fails as `incompatible(limit_exceeded)` without a partial quote or silent clipping.
+
+`UnitRange::pages(first, last)` addresses inclusive **physical** page numbers, starting at 1. Every requested number must exist: page 900, page 0, missing page 2 in a 1/3/4 document, and a range spanning that gap cannot clamp or jump to another page. `printedLabel` remains separate and may reset. `segments(first, last)` addresses 1-based ordinals in the immutable segment array and never invents physical pages. `blocks(first, last)` addresses 1-based ordinals sorted by IR reading order and local ID. `section(headingId)` selects the heading and its explicit descendants; no publisher chapter heuristic is inferred. Range width is checked before IR loading; section expansion stops at the unit cap.
+
+Canonical IR preload has an 8 MiB hard cap and a 1024-unit hard cap. A revision must identify exactly one persisted document; an ambiguous multi-document revision returns `incompatible(single_document_required)`. These explicit failures avoid guessing the document or allowing unbounded projection/metadata work. Coverage from the exact IR accompanies successful results; failures/skipped units do not become empty units. Whole-unit reads bind the complete unit text digest and source-unit identity. Their `spans` array is empty because reading a whole page/segment does not fabricate a block citation. Block reads retain original spans and an explicit newline joiner for discontinuous spans.
+
+## Exact and normalized locations
+
+`MatchMode::Exact` searches the original immutable UTF-8 bytes. A unique block-backed interval yields `unique_exact`; repeated matches yield `ambiguous`, including overlapping occurrences. Results retain total candidate count even when the returned locations truncate at 16. No first-hit default or approximate recovery is used. Locations are references, not newly issued persisted citations. The internal `TextQuoteSelector` can restrict a search by exact prefix/suffix or a verified canonical byte position plus source-unit digest; it is not another public service.
+
+`MatchMode::Whitespace` explicitly selects `normalized-candidate-v1`. It folds only Unicode WhiteSpace: U+0009–000D, U+0020, U+0085, U+00A0, U+1680, U+2000–200A, U+2028, U+2029, U+202F, U+205F, U+3000. Each run becomes one ASCII space, including leading/trailing runs. Its packed map records each projected codepoint's projected UTF-8 byte interval and full canonical UTF-8 byte interval. No trimming, case folding, hyphen/punctuation/number deletion, NFC or NFD conversion occurs. Cyrillic, CJK, emoji, ZWJ and combining sequences retain original canonical bytes. PHP byte positions, Python character positions and JavaScript UTF-16 positions are never interchangeable.
+
+A normalized hit yields `candidate_normalized`, or `ambiguous` for several intervals, even when one candidate happens to have identical original spelling. Reprojecting the canonical interval must reproduce the complete projected quote; partial decompositions and noncontiguous reorderings cannot silently expand it. A later use requires a fresh canonical disclosure and separate quotation verification. The internal context window preserves the whole selected interval and adjusts only surrounding bounds at UTF-8 boundaries; a quote wider than the budget fails.
+
+`MatchMode::UnicodeNfd` selects only an explicitly injected `NfdNormalizerAdapter`, named `unicode-nfd-intl-v1`. Its fingerprint binds ICU version, Unicode version, NFD form and whitespace-preserving settings. It decomposes with original codepoint byte spans, stably reorders combining marks and verifies each mapped cluster against ICU. Absent capability or absent ext-intl gives `incompatible(normalizer_unavailable)` and failed readiness, with no whitespace fallback. Core's mandatory Composer extensions remain unchanged. The normalizer bounds one grapheme cluster at 8192 bytes and the packed projection map at 128 MiB.
+
+## Fresh disclosure and Usage (owner answer Q1=a)
+
+Structure metadata, title/count information and quote locations use fresh host checks before preload and again before final delivery. The current QueryGrant limits eligible source versions; its epoch and expiry are checked again with DB time. It may describe a wider source universe than this one revision. Fresh `decide(Navigate)` / `decide(Disclose)` receipts bind the exact resource plan, including KB, applicable collections, source/version and required ancestors. Trusted host exclusions remain authoritative.
+
+Canonical bytes load outside transactions. A short transaction takes the existing tenant, KB and sorted source shared guards, rediscovers the plan, rechecks exact revision/document identity, policy epochs, source/version/ancestor usability, accepted IR/unit resources and digests, then validates receipt freshness using the database clock. Metadata returns after confirmed commit. Unit reads insert `navigation_usages` and the transactional outbox event atomically, validate the deadline once more and return the prepared buffer only after confirmed COMMIT. An uncertain COMMIT returns `unknown(commit_unknown)` with no buffer. Denied, unknown, unavailable, incompatible and not-found remain distinct.
+
+Q1=a adds `Navigation\UnitDisclosure` as a success variant of `DisclosureOutcome`. It carries exact revision/document, units, usage/attempt IDs, checked time, coverage and unchanged host scope hash. Empty canonical units are valid and retain `status=empty`. No search, chunkset, vector index, Selection or fake citation is needed. Each public read creates a fresh attempt through the host's injected ID generator. Repeated internal attempts return `DisclosureReplay` metadata only; scope/request conflicts deny.
+
+Migration 010 adds immutable, tenant-qualified revision/unit Usage receipts. `usage.prepared_disclosure` retains its existing chunk payload and also accepts the closed `kind=navigation` payload. It contains exact revision/unit/span references, digests of source text and fragments, byte lengths, actor/purpose, host scope hash and checked policy binding; it contains no plaintext. Block results retain their origin, provenance kind and supporting references; whole-unit reads make no block provenance claim. Navigation receipts are separate from chunk Selection usages and cannot be passed to the chunk-specific provider-acceptance or usage-invalidation APIs. Their immutable revision references and checked epochs remain auditable after lifecycle changes; every subsequent navigation independently rechecks current lifecycle and access.
+
+## Example and qualification
+
+Run `php examples/plain-php/navigation.php` with the disposable PostgreSQL environment used by the existing standalone walkthrough. It composes actual PostgreSQL and LocalBlob adapters, prepares a TXT source, reads structure/units, locates an exact quote, revokes the source, and demonstrates fresh denial for both another read and metadata. Each host resource receipt uses a freshly discovered plan. Output contains statuses and IDs, not source text. The example remains a local, single-process host.
+
+`tests/fixtures/navigation/v1/corpus.json` and `tests/fixtures/check-groups/reading-navigation.json` version and map all required cases, including R08-A01/A02 and DT-L01/L02. Tests exercise exact Unicode spans, actual optional ICU projection where installed, missing configured capability, whitespace maps, contextual ambiguity, late windows, sparse/invalid/huge ranges, lower caps, old revisions, scope isolation, revoke/purge/policy changes, SQL identity/immutability, metadata-only replay and ambiguous COMMIT. The source reuse receipt is `tests/reading/navigation/evidence/P4.6-reuse.json`. No external optional storage/worker adapter is qualified by a contract double.

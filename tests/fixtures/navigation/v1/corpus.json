@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "navigation-corpus:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored canonical UTF-8, sparse-page, ambiguity and scope regressions.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic text; donor logic adapted without copying source text.",
+    "redistributionAllowed": false
+  },
+  "texts": {
+    "p1": "Глава xii\nПривет мир 😀. DOC-2026/0042, 10-20.\nwrap-\nword 12\nneedle before; context needle after.",
+    "p3": "中文引用。 é и й; café; 👩‍💻.",
+    "empty": "",
+    "s1": "логический сегмент 日本語",
+    "repeated": "echo echo echo echo echo echo echo echo echo echo echo echo echo echo echo echo echo echo echo echo",
+    "late": "",
+    "reordered": "qȩ́!"
+  },
+  "late": {
+    "prefix": "前😀 ",
+    "prefixCount": 2000,
+    "quote": "поздняя цитата",
+    "suffix": " 終",
+    "suffixCount": 2000
+  },
+  "whitespace": {
+    "canonical": "Кириллица  \t\n中文　😀 é",
+    "quote": "Кириллица 中文 😀 é"
+  },
+  "unicode": {
+    "nfc": "café",
+    "nfd": "café"
+  },
+  "hyphens": {
+    "canonical": "wrap-\nword 12",
+    "absent": [
+      "wrapword 12",
+      "wrap-word 12",
+      "DOC20260042",
+      "10–20"
+    ]
+  },
+  "exact": [
+    {
+      "unit": "p1",
+      "quote": "Привет мир 😀",
+      "byteStart": 15,
+      "byteEnd": 39
+    },
+    {
+      "unit": "p1",
+      "quote": "DOC-2026/0042",
+      "byteStart": 41,
+      "byteEnd": 54
+    },
+    {
+      "unit": "p1",
+      "quote": "10-20",
+      "byteStart": 56,
+      "byteEnd": 61
+    },
+    {
+      "unit": "p3",
+      "quote": "中文引用",
+      "byteStart": 0,
+      "byteEnd": 12
+    },
+    {
+      "unit": "p3",
+      "quote": "é",
+      "byteStart": 16,
+      "byteEnd": 19
+    },
+    {
+      "unit": "p3",
+      "quote": "й",
+      "byteStart": 23,
+      "byteEnd": 27
+    },
+    {
+      "unit": "p3",
+      "quote": "👩‍💻",
+      "byteStart": 36,
+      "byteEnd": 47
+    },
+    {
+      "unit": "s1",
+      "quote": "日本語",
+      "byteStart": 36,
+      "byteEnd": 45
+    }
+  ]
+}

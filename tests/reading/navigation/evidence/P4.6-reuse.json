@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.6",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/Service.php",
+      "sha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "observedSha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Service.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt fresh authorization before materialization and immediately before disclosure; retain core SQL guards and Usage commit instead of donor repository callbacks.",
+      "qualificationRef": "tests/reading/navigation/ServiceTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/SourceNavigation",
+        "packages/core/src/Domain/Navigation",
+        "tests/reading/navigation"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/EvidenceSet.php",
+      "sha256": "d84404e2ea497a9558d4839bd55848b1440c1f383c0f2d27c0ac6f5037b900f9",
+      "observedSha256": "d84404e2ea497a9558d4839bd55848b1440c1f383c0f2d27c0ac6f5037b900f9",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/EvidenceSet.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt immutable historical-result semantics: an earlier disclosure/location is never authority for another send.",
+      "qualificationRef": "tests/reading/navigation/ServiceTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/SourceNavigation",
+        "packages/core/src/Domain/Navigation",
+        "tests/reading/navigation"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "sha256": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+      "observedSha256": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt tenant/project isolation, revoked metadata and denied/unknown regressions; exercise actual core PostgreSQL boundaries.",
+      "qualificationRef": "tests/reading/navigation/ServiceTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/SourceNavigation",
+        "packages/core/src/Domain/Navigation",
+        "tests/reading/navigation"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/source_pages.py",
+      "sha256": "1f0f17f41bd3d87a8e20c21a325b2ea9de02b6b623640c9dc47ccfef589c10d6",
+      "observedSha256": "1f0f17f41bd3d87a8e20c21a325b2ea9de02b6b623640c9dc47ccfef589c10d6",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/source_pages.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt physical page_index + 1 and exact source digest intent. Retain core LocatorConversion with explicit bbox coordinates; reject path identities and clamping.",
+      "qualificationRef": "tests/reading/navigation/CanonicalTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/SourceNavigation",
+        "packages/core/src/Domain/Navigation",
+        "tests/reading/navigation"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/reading/_grounding.py",
+      "sha256": "2890d7146df08f0ce7a6ce1c243373e9ee9ec03f9672a9e15f52c66403cd6cf8",
+      "observedSha256": "2890d7146df08f0ce7a6ce1c243373e9ee9ec03f9672a9e15f52c66403cd6cf8",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/reading/_grounding.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt projection-to-canonical mapping and late-window intent. Replace Python character indexes, first-hit selection and source reanchor with UTF-8 byte maps and explicit ambiguity.",
+      "qualificationRef": "tests/reading/navigation/CanonicalTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/SourceNavigation",
+        "packages/core/src/Domain/Navigation",
+        "tests/reading/navigation"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/reading/test_grounding.py",
+      "sha256": "a9393b1aeaed63bee38e76aa206fbc87ab9e83f8cdf04d15ccb2139d38ebb1a7",
+      "observedSha256": "a9393b1aeaed63bee38e76aa206fbc87ab9e83f8cdf04d15ccb2139d38ebb1a7",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/reading/test_grounding.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt collapsed-whitespace and late-selection regressions; add Cyrillic/CJK/emoji/NFD and canonical byte interval negatives.",
+      "qualificationRef": "tests/reading/navigation/CanonicalTest.php",
+      "targetPaths": [
+        "packages/core/src/Application/SourceNavigation",
+        "packages/core/src/Domain/Navigation",
+        "tests/reading/navigation"
+      ]
+    }
+  ],
+  "newCodeRationale": "Reuse PolicyChecks, CanonicalDocuments/SpanAssembler, exact TextLocator/LocatorConversion, PdoUsages resource/ancestor plans and PdoCatalogTransaction. Donors lack the approved PHP byte-coordinate and unit disclosure contracts. Owner Q1=a authorizes a distinct UnitDisclosure and reference-only revision/unit Usage with confirmed COMMIT and metadata-only replay.",
+  "sourceGaps": [
+    "Donor character maps and first-hit/fuzzy evidence keys cannot be reused as canonical byte identity; no source code was copied.",
+    "Donors do not provide tenant-qualified revision/unit Usage, authoritative SQL shared guards, DB-clock freshness, atomic outbox or ambiguous-COMMIT handling. These reuse core primitives with migration 010.",
+    "Optional unicode-nfd-intl-v1 is implemented by an explicit ICU adapter; whitespace baseline never canonical-normalizes. No optional external storage/worker adapter is claimed qualified by a contract double."
+  ]
+}

@@ -32,6 +32,11 @@ final class SemanticRules
                 if (HashDomain::DomainEventPayload->digest($doc->get('payload')) !== $doc->get('payloadDigest')) {
                     $errors[] = self::error('digest_mismatch', '/payloadDigest');
                 }
+                $payload = $doc->get('payload');
+                if ($doc->get('type') === 'usage.prepared_disclosure' && $payload->get('kind') === 'navigation'
+                    && $payload->get('revisionRef')->get('tenantId') !== $doc->get('tenantId')) {
+                    $errors[] = self::error('binding_mismatch', '/payload/revisionRef/tenantId');
+                }
                 break;
             case 'job-envelope':
                 if ($doc->get('profileFingerprint') !== $doc->get('parserSignature')->get('profileDigest')) {
