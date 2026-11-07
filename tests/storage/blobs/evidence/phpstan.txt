@@ -1,0 +1,2 @@
+
+Warning: PHP Startup: optional extension could not load (runtime paths redacted).

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "blob-fixtures:1",
+  "version": "1.0.0",
+  "versionRationale": "Initial authored synthetic bytes and fail-closed outcomes. abc SHA256 is a published SHA256 example, independently verified before implementation; no adapter snapshot is used.",
+  "rights": {"license": "LicenseRef-KnowKit-Private", "provenance": "Project-authored synthetic bytes and identities; no provider data or credentials."},
+  "payload": {"base64": "YWJj", "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad", "byteLength": "3"},
+  "outcomes": {
+    "wrongDigest": "incompatible", "concurrentIdentical": "one_accepted_identity_closed_writers",
+    "traversalSymlinkHardlink": "denied", "providerTimeoutAfterUpload": "unknown_resource_uncertain_writer",
+    "missingCanonical": "incompatible", "orphanStaging": "quarantined_unknown_retention_hold",
+    "unsupportedDelete": "unsupported_bytes_retained", "fsyncFailure": "unavailable_not_accepted",
+    "ownerDeny": "denied", "ownerUnknown": "unknown", "externalRemoval": "detach_only",
+    "projectionRebuild": "same_exact_identity", "forgedIndexText": "canonical_required"
+  }
+}

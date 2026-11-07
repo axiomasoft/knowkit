@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "storage:blobs",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored LocalBlob streaming/reservation/immutability fixtures, physical-path and fsync negatives, process concurrency, recovery and external BlobStore fault doubles. Expected byte digest/outcomes are independently authored; no snapshot rewrite. R03 projection tests are a disposable consumer harness at the real canonical boundary, not a production search workflow.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures. AgenTools private adaptation and DeepTutor streamed-hash pattern qualification: tests/storage/blobs/evidence/P2.2-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "BLOB-RESERVATION",
+    "BLOB-DIGEST",
+    "BLOB-LIMIT",
+    "BLOB-CONCURRENT",
+    "BLOB-PATH",
+    "BLOB-TIMEOUT",
+    "BLOB-MISSING",
+    "BLOB-ORPHAN",
+    "BLOB-UNSUPPORTED-DELETE",
+    "BLOB-DELETION-RECEIPTS",
+    "BLOB-LEDGER-GUARDS",
+    "BLOB-RECONCILE",
+    "R02-A01",
+    "R02-A02",
+    "R03-A01",
+    "R03-A02",
+    "DT-I06",
+    "DT-R13",
+    "BLOB-FIXTURE"
+  ],
+  "testCaseMap": {
+    "BLOB-RESERVATION": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LocalBlobTest::testReservationExistsBeforeFirstByteAndFinalizesOnce"
+    ],
+    "BLOB-DIGEST": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LocalBlobTest::testWrongDigestSizeLimitAndBrokenStreamFailClosed"
+    ],
+    "BLOB-LIMIT": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LocalBlobTest::testWrongDigestSizeLimitAndBrokenStreamFailClosed",
+      "KnowKit\\Tests\\Storage\\Blobs\\LocalBlobTest::testEmptyAndMultiChunkStreamsHaveExactBoundedIdentity"
+    ],
+    "BLOB-CONCURRENT": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LedgerTest::testConcurrentIdenticalWritersUseOneImmutableAcceptedIdentity"
+    ],
+    "BLOB-PATH": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LocalBlobTest::testTraversalSymlinkHardlinkAndForeignTenantAreRejected"
+    ],
+    "BLOB-TIMEOUT": [
+      "KnowKit\\Tests\\Storage\\Blobs\\ExternalContractTest::testProviderTimeoutAfterUploadLeavesDurableUncertainWriterEvenWithoutDigest",
+      "KnowKit\\Tests\\Storage\\Blobs\\LedgerTest::testObjectBeforeMetadataTimeoutNeedsQuiescenceAndVerifiedReconciliation"
+    ],
+    "BLOB-MISSING": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LocalBlobTest::testMissingAndCorruptObjectsNeverReleasePartialBytes"
+    ],
+    "BLOB-ORPHAN": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LocalBlobTest::testOrphanStagingIsQuarantinedAndInventoryGrantsNoAuthority"
+    ],
+    "BLOB-UNSUPPORTED-DELETE": [
+      "KnowKit\\Tests\\Storage\\Blobs\\ExternalContractTest::testUnsupportedAndUnknownExternalDeletionReceiptsNeverClaimRemoval"
+    ],
+    "BLOB-DELETION-RECEIPTS": [
+      "KnowKit\\Tests\\Storage\\Blobs\\ExternalContractTest::testLocalDeleteRequiresExactAttemptAndReportsDeletedAbsentAndDurabilityUnknownHonestly"
+    ],
+    "BLOB-LEDGER-GUARDS": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LedgerTest::testPersistenceBoundariesRejectForgedReservationFencesEpochsAndDeletingReuse",
+      "KnowKit\\Tests\\Storage\\Blobs\\LedgerTest::testAcceptedReferenceRequiresExactlyOneMatchingLedgerIdentity"
+    ],
+    "BLOB-RECONCILE": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LedgerTest::testInterruptedPromotionRecoversOnlyAfterRunnerQuiescenceWithoutOverwrite"
+    ],
+    "R02-A01": [
+      "KnowKit\\Tests\\Storage\\Blobs\\AuditTest::testCurrentOwnerDenyAndUnknownOverrideStaleLocalAllowBeforeEveryBuffer"
+    ],
+    "R02-A02": [
+      "KnowKit\\Tests\\Storage\\Blobs\\AuditTest::testKnowledgeBaseRemovalIntendsManagedDeletionAndOnlyDetachesExternalObjects"
+    ],
+    "R03-A01": [
+      "KnowKit\\Tests\\Storage\\Blobs\\AuditTest::testProjectionRebuildUsesCanonicalContentWithoutChangingSourceRevisionOrCitation"
+    ],
+    "R03-A02": [
+      "KnowKit\\Tests\\Storage\\Blobs\\AuditTest::testForgedIndexTextCannotReplaceMissingOrCorruptCanonicalObject"
+    ],
+    "DT-I06": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LocalBlobTest::testReservationExistsBeforeFirstByteAndFinalizesOnce",
+      "KnowKit\\Tests\\Storage\\Blobs\\LedgerTest::testConcurrentIdenticalWritersUseOneImmutableAcceptedIdentity"
+    ],
+    "DT-R13": [
+      "KnowKit\\Tests\\Storage\\Blobs\\LocalBlobTest::testFileAndDirectoryFsyncFailureNeverReportsDurabilitySuccess",
+      "KnowKit\\Tests\\Storage\\Blobs\\LocalBlobTest::testFinalFileAndPromotionDirectoryFsyncFailureLeaveRecoverableObligations",
+      "KnowKit\\Tests\\Storage\\Blobs\\ExternalContractTest::testProviderTimeoutAfterUploadLeavesDurableUncertainWriterEvenWithoutDigest"
+    ],
+    "BLOB-FIXTURE": [
+      "KnowKit\\Tests\\Storage\\Blobs\\FixtureTest::testVersionedFixtureDigestsProvenanceOutcomesAndCaseBindings"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/blobs/v1/cases.json",
+      "sha256": "8e3de76cd18004c54007139a7a7c0905eb0c42286681bca294d43ba118d27e62",
+      "expected": {
+        "sha256": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+        "byteLength": "3",
+        "wrongDigest": "incompatible",
+        "providerTimeoutAfterUpload": "unknown_resource_uncertain_writer",
+        "unsupportedDelete": "unsupported_bytes_retained",
+        "orphanStaging": "quarantined_unknown_retention_hold",
+        "projectionRebuild": "same_exact_identity",
+        "forgedIndexText": "canonical_required"
+      }
+    }
+  ]
+}

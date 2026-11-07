@@ -1,0 +1,14 @@
+{
+  "schemaVersion": "blob-handoff:1",
+  "candidateDigestVerified": "43af89ed911d38613e253b410ea98bc555c5cb3705a5883c77afce8d461cc1e8",
+  "sourceCandidateFiles": 22,
+  "donorHashesVerified": 5,
+  "targetedTests": 21,
+  "targetedAssertions": 280,
+  "requiredCaseIds": 19,
+  "syntaxPhpFiles": 17,
+  "gitDiffCheckExit": 0,
+  "acceptanceRun": false,
+  "planMutated": false,
+  "commitCreated": false
+}

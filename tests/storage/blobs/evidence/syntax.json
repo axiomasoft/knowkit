@@ -1,0 +1,87 @@
+[
+  {
+    "path": "packages/core/src/Adapter/LocalBlob/VerifiedStream.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/LocalBlob/VerifiedStream.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/LocalBlob/LocalBlobStore.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/LocalBlob/LocalBlobStore.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/LocalBlob/PrivateFilesystem.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/LocalBlob/PrivateFilesystem.php"
+  },
+  {
+    "path": "packages/core/src/Application/Resources/Upload.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Resources/Upload.php"
+  },
+  {
+    "path": "packages/core/src/Application/Resources/CanonicalContent.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Resources/CanonicalContent.php"
+  },
+  {
+    "path": "packages/core/src/Application/Resources/ReadAuthority.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Application/Resources/ReadAuthority.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/Resources/WriterReservations.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/Resources/WriterReservations.php"
+  },
+  {
+    "path": "tests/storage/blobs/BlobFixture.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/blobs/BlobFixture.php"
+  },
+  {
+    "path": "tests/storage/blobs/worker.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/blobs/worker.php"
+  },
+  {
+    "path": "tests/storage/blobs/LocalBlobTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/blobs/LocalBlobTest.php"
+  },
+  {
+    "path": "tests/storage/blobs/bootstrap.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/blobs/bootstrap.php"
+  },
+  {
+    "path": "tests/storage/blobs/ExternalContractTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/blobs/ExternalContractTest.php"
+  },
+  {
+    "path": "tests/storage/blobs/LedgerTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/blobs/LedgerTest.php"
+  },
+  {
+    "path": "tests/storage/blobs/ExternalStoreDouble.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/blobs/ExternalStoreDouble.php"
+  },
+  {
+    "path": "tests/storage/blobs/FixtureTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/blobs/FixtureTest.php"
+  },
+  {
+    "path": "tests/storage/blobs/AuditTest.php",
+    "exit": 0,
+    "output": "No syntax errors detected in tests/storage/blobs/AuditTest.php"
+  },
+  {
+    "path": "packages/core/src/Adapter/Postgres/PdoResourceLedger.php",
+    "exit": 0,
+    "output": "No syntax errors detected in packages/core/src/Adapter/Postgres/PdoResourceLedger.php"
+  }
+]

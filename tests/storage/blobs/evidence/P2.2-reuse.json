@@ -1,0 +1,337 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P2.2",
+  "status": "implemented_unreviewed",
+  "targetBaseline": "5f9f7d2b4a2bea42406500edb97a7e902ddb5f37",
+  "candidateDigest": "43af89ed911d38613e253b410ea98bc555c5cb3705a5883c77afce8d461cc1e8",
+  "candidateDigestAlgorithm": "SHA256 of sorted UTF8(path)||NUL||ASCII(file SHA256)||LF records in candidateFiles. Excludes this receipt and generated evidence outputs. Native acceptance/review must bind its own full final candidate.",
+  "candidateFiles": [
+    {
+      "path": "packages/core/src/Adapter/LocalBlob/LocalBlobStore.php",
+      "sha256": "f543a1f26adc2b049a465a2b1a7494a23f451a731959674fcaac5655ec9ff7e8"
+    },
+    {
+      "path": "packages/core/src/Adapter/LocalBlob/PrivateFilesystem.php",
+      "sha256": "87ab445de251e56c46d0d8d4af752268b9b93c0be22ce1bf756854bc27b3066e"
+    },
+    {
+      "path": "packages/core/src/Adapter/LocalBlob/README.md",
+      "sha256": "7ec0397f8504d4d07dde4df4dd614e86aac6c584f57885d9f58763126f755f42"
+    },
+    {
+      "path": "packages/core/src/Adapter/LocalBlob/VerifiedStream.php",
+      "sha256": "f0fea62f97957efa3e643023f315ffcc64759ea863d3989015c85a06acb5b14a"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/PdoResourceLedger.php",
+      "sha256": "42a33992ad0fe1154af942435dd3bd68da13759ebdfaf60582a4fae067a9516a"
+    },
+    {
+      "path": "packages/core/src/Adapter/Postgres/Resources/WriterReservations.php",
+      "sha256": "855ddd65a528057538eefc0906f24cb9a67665ddf8cc871383261630709c7fbe"
+    },
+    {
+      "path": "packages/core/src/Application/Resources/CanonicalContent.php",
+      "sha256": "4918c2a276eb29f2be2d8cf6cce772556e6c7ab903126324dd10902407f677ae"
+    },
+    {
+      "path": "packages/core/src/Application/Resources/ReadAuthority.php",
+      "sha256": "fc75eb6a17f86d87bb1eb76872ccee2feb39dd13fb3e1f8b653c28ac43dbe812"
+    },
+    {
+      "path": "packages/core/src/Application/Resources/Upload.php",
+      "sha256": "d5ba284fbd4ad3510cbf18ada7b86c659719ff39d8eec6fda5f58f6ee9cdc4ab"
+    },
+    {
+      "path": "phpunit.xml",
+      "sha256": "77cbc77ff8c2b43f270d646f3343659c9c87a968a33cba7f02de7c312c43b1fc"
+    },
+    {
+      "path": "tests/fixtures/blobs/v1/cases.json",
+      "sha256": "8e3de76cd18004c54007139a7a7c0905eb0c42286681bca294d43ba118d27e62"
+    },
+    {
+      "path": "tests/fixtures/check-groups/storage-blobs.json",
+      "sha256": "b20290db8479f2bc420717fdb2bc65c194ec5bd7d8a1eb64df38eaa4bf7d8592"
+    },
+    {
+      "path": "tests/storage/blobs/AuditTest.php",
+      "sha256": "c43c652a97c89be7aa74e0b0ba9d256227696db5f890630453bb76954267b1fe"
+    },
+    {
+      "path": "tests/storage/blobs/BlobFixture.php",
+      "sha256": "dd945dbc25d9605bf03199203973c2e22fd85c9c736536d2f66b530c7fb15e0c"
+    },
+    {
+      "path": "tests/storage/blobs/ExternalContractTest.php",
+      "sha256": "30a803e9b30ae28c9ea415e0f616a59556b2848e44037e7ca398b53ba9ce4647"
+    },
+    {
+      "path": "tests/storage/blobs/ExternalStoreDouble.php",
+      "sha256": "4ac3a3bc9f7fb1086221c0385d04e3098eea67779faea6cb47388a8f47b474ee"
+    },
+    {
+      "path": "tests/storage/blobs/FixtureTest.php",
+      "sha256": "0e76a0deb9961ff1bd7d9b2ab50549cd392a4611bc6cf5d30676c75d8f8855f4"
+    },
+    {
+      "path": "tests/storage/blobs/LedgerTest.php",
+      "sha256": "410c512f98b15a67aa16f3531c8b6fb1f066364fd61e226f8d5e94f7b88467ca"
+    },
+    {
+      "path": "tests/storage/blobs/LocalBlobTest.php",
+      "sha256": "0919eb1ead9232d7e550963909cf980ebae96ffd737042f57c663a33d08fb4df"
+    },
+    {
+      "path": "tests/storage/blobs/bootstrap.php",
+      "sha256": "10feab127c91939f2bc8d8fb98951461a43fa6848e2e51611729dd8142d9879d"
+    },
+    {
+      "path": "tests/storage/blobs/run-check.py",
+      "sha256": "c62a57bf48677b96d6a3cba5fae3d580b4d2b2a6e0e0de55e1497c887830aea9"
+    },
+    {
+      "path": "tests/storage/blobs/worker.php",
+      "sha256": "e5f8d6ccc5ca57727386c58d2ba8a3e1adfd8ea41dea2c219e5dd48849f562fb"
+    }
+  ],
+  "sources": [
+    {
+      "repository": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Adapters/Postgres/Repository.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Adapters/Postgres/Repository.php",
+      "sha256": "740e1f5f43a93b60e3002387afc3270c731ecfa918e189a3e5d851f70788928e",
+      "lineSpan": [
+        1,
+        232
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub content fetched, then PHP hash('sha256', content) compared with the supplied expected digest; all five comparisons exited 0 before implementation.",
+      "decision": "adapt",
+      "symbols": [
+        "Repository::transaction",
+        "Repository::lock",
+        "Repository::publish"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/Postgres/PdoResourceLedger.php",
+        "packages/core/src/Adapter/Postgres/Resources/WriterReservations.php"
+      ],
+      "reason": "Reuse already adapted PdoCatalogTransaction/Connection unchanged; adapt tenant-qualified replay/conflict and guarded persistence patterns to durable ResourceWriter reservations. Donor releases have no staging ledger or source/job fences."
+    },
+    {
+      "repository": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Adapters/Postgres/schema.sql",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Adapters/Postgres/schema.sql",
+      "sha256": "5e672cd9e466a84f18939d57b499ff161c2a66f31669d6d326c92188023b8287",
+      "lineSpan": [
+        1,
+        42
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub content fetched, then PHP hash('sha256', content) compared with the supplied expected digest; all five comparisons exited 0 before implementation.",
+      "decision": "reject",
+      "symbols": [
+        "knowledge_immutable",
+        "tenant-qualified foreign key"
+      ],
+      "targetPaths": [],
+      "reason": "P2.1 already supplies the approved ledger/writer schema and triggers. The single-release donor schema cannot replace it; no donor DDL or new baseline migration is added."
+    },
+    {
+      "repository": "axiomasoft/agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/DurableTest.php",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/DurableTest.php",
+      "sha256": "966b3254bf0e32509495c720ab04455b430844b4e62f0107d056ad8e13e78ee1",
+      "lineSpan": [
+        1,
+        157
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub content fetched, then PHP hash('sha256', content) compared with the supplied expected digest; all five comparisons exited 0 before implementation.",
+      "decision": "adapt",
+      "symbols": [
+        "testCompetingConnections",
+        "testCrashBeforeAndAfterCommitRestart",
+        "testTenantCurrentRightsAndUnknown"
+      ],
+      "targetPaths": [
+        "tests/storage/blobs/worker.php",
+        "tests/storage/blobs/LedgerTest.php",
+        "tests/storage/blobs/AuditTest.php"
+      ],
+      "reason": "Adapt real competing process connections, immutable replay and current-owner deny/unknown assertions. Fault injection covers object-before-metadata and interrupted promotion. No real power-loss or SIGKILL experiment is claimed."
+    },
+    {
+      "repository": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/file_io.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/file_io.py",
+      "sha256": "942e4ed3197ccc1e3417f72befcc6236a15eb049304f44b17a9fa4a59adad21f",
+      "lineSpan": [
+        1,
+        133
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub content fetched, then PHP hash('sha256', content) compared with the supplied expected digest; all five comparisons exited 0 before implementation.",
+      "decision": "reject",
+      "symbols": [
+        "atomic_write_text",
+        "atomic_write_json",
+        "_sync_to_disk"
+      ],
+      "targetPaths": [],
+      "reason": "Atomic replacement can overwrite immutable identity and soft fsync warnings return weakened success. LocalBlob requires no-clobber promotion and mandatory file/directory fsync."
+    },
+    {
+      "repository": "HKUDS/DeepTutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/knowledge/staging.py",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/staging.py",
+      "sha256": "7cf99fa7ff2b4f1ff7c036171afe40e155e1ed2217047fb2092888e08460e0cf",
+      "lineSpan": [
+        1,
+        73
+      ],
+      "sourceRead": true,
+      "hashVerified": true,
+      "hashVerification": "Whole pinned GitHub content fetched, then PHP hash('sha256', content) compared with the supplied expected digest; all five comparisons exited 0 before implementation.",
+      "decision": "adapt",
+      "symbols": [
+        "content_hash"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/LocalBlob/LocalBlobStore.php",
+        "packages/core/src/Adapter/LocalBlob/PrivateFilesystem.php",
+        "tests/storage/blobs/LocalBlobTest.php"
+      ],
+      "reason": "Adapt streamed 65536-byte SHA256 to bounded PHP ReadableStream. Reject basename collision scans and copy2: they lack tenant/source CAS, pre-PUT reservations and concurrent no-overwrite promotion."
+    }
+  ],
+  "qualifications": {
+    "agentools": {
+      "codeLicense": "proprietary",
+      "localUseAllowed": true,
+      "redistributionAllowed": false,
+      "ownerAuthority": "licenses/local-reuse-authorization.md",
+      "notice": "licenses/notices/agentools-LICENSE.txt",
+      "modificationAttribution": "AgenTools patterns (c) 2026 Dmitry Vostrikov privately adapted to durable reservations, immutable identity and process tests."
+    },
+    "deeptutor": {
+      "codeLicense": "Apache-2.0",
+      "notice": "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+      "thirdPartyNotices": "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md",
+      "modificationAttribution": "DeepTutor content_hash pattern translated to bounded PHP stream hashing. File replacement, path collision and soft-fsync implementations rejected; no Python runtime imported."
+    }
+  },
+  "localReuse": {
+    "decision": "reuse-as-is",
+    "paths": [
+      "packages/core/src/Domain",
+      "packages/core/src/Port/BlobStore.php",
+      "packages/core/src/Port/ReadableStream.php",
+      "packages/core/src/Adapter/Postgres/Catalog/Connection.php",
+      "packages/core/src/Adapter/Postgres/Catalog/PdoCatalogTransaction.php",
+      "packages/core/migrations/postgres/001_metadata.sql",
+      "packages/core/src/Application/Catalog/RemoveKnowledgeBase.php",
+      "tests/storage/catalog/CatalogFixture.php",
+      "tests/tooling/baseline/DatabaseSandbox.php",
+      "tests/contract/ports/PortFixture.php",
+      "tests/contract/ports/bootstrap.php",
+      "tools/qa.php"
+    ],
+    "reason": "Preserve accepted ports, schemas, vendor-free core and approved DAG; reuse restricted-role disposable PostgreSQL, offline validator, canonical receipts and existing QA runner unchanged."
+  },
+  "newGlue": [
+    "Durable resource/writer reservation before bytes, once-only digest/length finalization, source/job/fence checks, counted acceptance reference and uncertain/quiescent recovery are absent from the donor.",
+    "Private staging, bounded verification, no-overwrite promotion, mandatory file/directory fsync and link-safe paths; recovery of interrupted two-link promotion.",
+    "Fresh per-buffer owner policy and authoritative lifecycle/serving checks; bounded exact canonical artifact consumer boundary; honest exact-task deletion receipts.",
+    "Synthetic negative fixtures, concurrent real processes and provider timeout/unsupported doubles. R03 uses a disposable search projection harness at the implemented canonical boundary."
+  ],
+  "fixtureManifest": "tests/fixtures/check-groups/storage-blobs.json",
+  "caseEvidence": "tests/storage/blobs/evidence/executed-cases.json",
+  "checks": [
+    {
+      "id": "local",
+      "cmd": "python3 tests/storage/blobs/run-check.py local.txt vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/LocalBlobTest.php",
+      "exit": 0,
+      "tests": 8,
+      "assertions": 89,
+      "evidence": "tests/storage/blobs/evidence/local.txt"
+    },
+    {
+      "id": "ledger",
+      "cmd": "python3 tests/storage/blobs/run-check.py ledger.txt vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/LedgerTest.php",
+      "exit": 0,
+      "tests": 5,
+      "assertions": 54,
+      "evidence": "tests/storage/blobs/evidence/ledger.txt"
+    },
+    {
+      "id": "external",
+      "cmd": "python3 tests/storage/blobs/run-check.py external.txt vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/ExternalContractTest.php",
+      "exit": 0,
+      "tests": 3,
+      "assertions": 33,
+      "evidence": "tests/storage/blobs/evidence/external.txt"
+    },
+    {
+      "id": "audit",
+      "cmd": "python3 tests/storage/blobs/run-check.py audit.txt vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/AuditTest.php",
+      "exit": 0,
+      "tests": 4,
+      "assertions": 32,
+      "evidence": "tests/storage/blobs/evidence/audit.txt"
+    },
+    {
+      "id": "fixtures",
+      "cmd": "python3 tests/storage/blobs/run-check.py fixtures.txt vendor/bin/phpunit --configuration phpunit.xml tests/storage/blobs/FixtureTest.php",
+      "exit": 0,
+      "tests": 1,
+      "assertions": 72,
+      "evidence": "tests/storage/blobs/evidence/fixtures.txt"
+    },
+    {
+      "id": "phpstan",
+      "cmd": "python3 tests/storage/blobs/run-check.py phpstan.txt vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --error-format=raw --autoload-file=tests/contract/ports/bootstrap.php packages/core/src/Adapter/LocalBlob packages/core/src/Application/Resources packages/core/src/Adapter/Postgres/PdoResourceLedger.php packages/core/src/Adapter/Postgres/Resources/WriterReservations.php",
+      "exit": 0,
+      "evidence": "tests/storage/blobs/evidence/phpstan.txt"
+    },
+    {
+      "id": "syntax",
+      "cmd": "php -l each of the 17 candidate PHP files",
+      "exit": 0,
+      "evidence": "tests/storage/blobs/evidence/syntax.json"
+    },
+    {
+      "id": "whitespace",
+      "cmd": "git diff --check plus trailing-whitespace inspection of new candidate files",
+      "exit": 0,
+      "evidence": "tests/storage/blobs/evidence/whitespace.json"
+    }
+  ],
+  "runtime": {
+    "php": "8.4.1",
+    "postgresServerVersionNum": 160014,
+    "optionalPhpstanTurboExtension": "unavailable; analysis completed with exit 0"
+  },
+  "scopeDeviations": [
+    {
+      "path": "phpunit.xml",
+      "reason": "Add tests/storage/blobs to Core discovery so the existing mandatory storage:blobs group executes its cases."
+    }
+  ],
+  "unresolved": [
+    "Coordinator registers this local receipt as @plan/artifacts/implementation/P2.2-reuse.json. No native plan is read directly or mutated.",
+    "V1, independent P2.2 review and commit are coordinator-owned and are not claimed.",
+    "No production external object-storage adapter, full retrieval/index workflow, public disclosure/Usage workflow or actual power-loss experiment is claimed.",
+    "P3.6 lifecycle/deletion owns releasing the counted acceptance reference after resolving consumers/pending acceptance, and storing/aggregating deletion receipts."
+  ]
+}
