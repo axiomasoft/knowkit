@@ -218,8 +218,18 @@ final readonly class GroundedAnswerService implements GroundedAnswering
 
     private function unused(A\InvocationRecord $record, A\AnswerOutcome $outcome, A\BudgetReservation $reservation): A\AnswerOutcome
     {
-        $result = $this->complete($record, $outcome);
-        if ($result->certainty === A\DispatchCertainty::KnownNotSent) {
+        try {
+            $this->ledger->complete($record->claim, $outcome);
+        } catch (\Throwable) {
+            if ($record->state === A\InvocationState::Sending) {
+                return $this->unknown($record, new A\AnswerOutcome(A\OutcomeCode::TransportUnknown, $record->invocationRef, A\DispatchCertainty::Unknown));
+            }
+
+            return new A\AnswerOutcome(A\OutcomeCode::Unavailable, $record->invocationRef, A\DispatchCertainty::KnownNotSent,
+                component: A\UnavailableComponent::Ledger);
+        }
+
+        if ($outcome->certainty === A\DispatchCertainty::KnownNotSent) {
             try {
                 $reason = $outcome->code === A\OutcomeCode::Cancelled ? A\ReleaseReason::CancelledBeforeSend : A\ReleaseReason::DeniedBeforeSend;
                 $this->budget->release($reservation, $reason);
@@ -228,7 +238,7 @@ final readonly class GroundedAnswerService implements GroundedAnswering
             }
         }
 
-        return $result;
+        return $outcome;
     }
 
     private function complete(A\InvocationRecord $record, A\AnswerOutcome $outcome): A\AnswerOutcome
