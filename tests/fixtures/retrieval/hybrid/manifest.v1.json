@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "hybrid-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial explicit rank oracles and strict provider-subset outcomes. Expected digest changes require a fixture version change and a behavior rationale, never automatic snapshot replacement.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic rank/policy fixtures; canonical text and refs reused from pinned local lexical/selection fixtures. No external provider calls.",
+    "redistributionAllowed": false
+  },
+  "entries": [
+    {
+      "path": "tests/fixtures/retrieval/hybrid/corpus.v1.json",
+      "sha256": "4b8501baf99ede73a161d7b70e138e69c03a6ef37eefcaeee7f837c5318826e7",
+      "expected": "Rank-score oracle and explicit strict rerank/failure outcomes."
+    },
+    {
+      "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+      "sha256": "81e4e03b5b7c8521e118a6de49419682f9f2e5acc1a6f8cc3c73a0859168c9ff",
+      "expected": "Immutable PostgreSQL exact identifiers, no-match and canonical byte provenance."
+    },
+    {
+      "path": "tests/fixtures/retrieval/selection/corpus.v1.json",
+      "sha256": "94637dee04f8e6de1b4a0a2ab5ef4dd8eeee2d19027400818d875671fe3e38d2",
+      "expected": "Canonical overlapping bounded spans are omitted without merging citations."
+    }
+  ]
+}

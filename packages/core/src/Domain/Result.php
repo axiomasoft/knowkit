@@ -29,13 +29,16 @@ final readonly class Result
         return new self(Outcome::Success, $data, null, false, $degraded, $effectiveProfile, $warnings);
     }
     /** @param list<string> $warnings */
-    public static function empty(?string $effectiveProfile = null, array $warnings = []): self
+    public static function empty(?string $effectiveProfile = null, array $warnings = [], bool $degraded = false): self
     {
+        if ($degraded && ($effectiveProfile === null || $warnings === [])) {
+            throw new \InvalidArgumentException('Explicit degraded profile and warnings required');
+        }
         foreach ($warnings as $warning) {
             ValueGuard::text($warning, 128);
         }
 
-        return new self(Outcome::Empty, null, null, false, false, $effectiveProfile, $warnings);
+        return new self(Outcome::Empty, null, null, false, $degraded, $effectiveProfile, $warnings);
     }
     public static function failure(DomainFailure $failure, bool $retryable = false): self
     {

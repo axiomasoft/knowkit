@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "semantic:hybrid",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial explicit rank oracles and strict provider-subset outcomes. Expected digest changes require a fixture version change and a behavior rationale, never automatic snapshot replacement.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic rank/policy fixtures; canonical text and refs reused from pinned local lexical/selection fixtures. No external provider calls.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "R21-A01",
+    "R21-A02",
+    "R23-A01",
+    "R23-A02",
+    "DT-Q08",
+    "no-lexical-match",
+    "exact-id-vs-semantic-noise",
+    "duplicate-tie",
+    "invented-id-widened-span",
+    "timeout",
+    "allowed-lexical-degradation",
+    "forbidden-fallback",
+    "fresh-processing-host",
+    "lexical-default-no-egress",
+    "fixture-integrity",
+    "runner-negatives",
+    "scoped-boundaries"
+  ],
+  "testCaseMap": {
+    "R21-A01": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\FusionTest::testForgedAndWrongRevisionRefsAreRejectedEvenWhenTheyWouldBeOmitted"
+    ],
+    "R21-A02": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\FusionTest::testRanksIgnoreScoreScalesAndTiesUseChunkId",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\PostgresTest::testPostgresExactIdentifierOutranksSemanticNoiseThroughRanks"
+    ],
+    "R23-A01": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\RerankTest::testInventedIdExpandedSpanChangedCitationDuplicatesAndMalformedOutputsAreIncompatible",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\RerankTest::testRerankerOnlyReordersOrRemovesBoundedCanonicalCandidates"
+    ],
+    "R23-A02": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\RerankTest::testReadPermissionDoesNotConsentToProviderEgress"
+    ],
+    "DT-Q08": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\FusionTest::testZeroLexicalOverlapContributesNothing",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\DegradationTest::testVectorTimeoutRequiresExplicitDegradationAndRetainsEmptyMetadata",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\RerankTest::testRerankerOnlyReordersOrRemovesBoundedCanonicalCandidates"
+    ],
+    "no-lexical-match": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\FusionTest::testZeroLexicalOverlapContributesNothing",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\PostgresTest::testPostgresNoLexicalMatchContributesNoPseudoHit"
+    ],
+    "exact-id-vs-semantic-noise": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\PostgresTest::testPostgresExactIdentifierOutranksSemanticNoiseThroughRanks"
+    ],
+    "duplicate-tie": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\FusionTest::testExactDuplicatesContributeOncePerChannelAndInputOrderIsIrrelevant",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\FusionTest::testRanksIgnoreScoreScalesAndTiesUseChunkId",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\FusionTest::testOverlappingCanonicalSpansAreOmittedWithoutWidening"
+    ],
+    "invented-id-widened-span": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\RerankTest::testInventedIdExpandedSpanChangedCitationDuplicatesAndMalformedOutputsAreIncompatible"
+    ],
+    "timeout": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\RerankTest::testTimeoutOnlyDegradesWhenExplicitlyAllowedAndStageIsOptional",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\DegradationTest::testVectorTimeoutRequiresExplicitDegradationAndRetainsEmptyMetadata"
+    ],
+    "allowed-lexical-degradation": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\DegradationTest::testVectorTimeoutRequiresExplicitDegradationAndRetainsEmptyMetadata",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\RerankTest::testTimeoutOnlyDegradesWhenExplicitlyAllowedAndStageIsOptional"
+    ],
+    "forbidden-fallback": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\DegradationTest::testPinnedSpaceMismatchIsRejectedBeforeLexicalEvenWithDegradation",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\DegradationTest::testDeniedUnknownAndIncompatibleNeverBecomeLexicalSuccess",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\DegradationTest::testMissingPinnedCorpusAndRequiredRerankerNeverFallback",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\DegradationTest::testMandatoryLexicalFailureCannotDegradeToVector"
+    ],
+    "fresh-processing-host": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\RerankTest::testProcessingDenialStopsBeforeEgressAndHostChangesStopAfterRerank"
+    ],
+    "lexical-default-no-egress": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\FusionTest::testDefaultProfileCallsOnlyLexicalAndReturnsReferences"
+    ],
+    "fixture-integrity": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\FixtureTest::testVersionedFixtureDigestsAndVerifiedReuseReceipt"
+    ],
+    "runner-negatives": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\FixtureTest::testRequiredCasesRejectMissingSkippedFailedDuplicateAndEmptyExecution"
+    ],
+    "scoped-boundaries": [
+      "KnowKit\\Tests\\Semantic\\Hybrid\\BoundaryTest::testExplicitProfileAndCorpusBindingsRejectInvalidInput",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\BoundaryTest::testInconsistentPairRejectsBeforeBackendAndEligibilityOrderIsIrrelevant",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\BoundaryTest::testInvalidLimitAndQueryProfileRejectBeforeBackend",
+      "KnowKit\\Tests\\Semantic\\Hybrid\\BoundaryTest::testOversizedCanonicalUnitIsNeverSentAndDocumentDigestCannotChange"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/retrieval/hybrid/corpus.v1.json",
+      "sha256": "4b8501baf99ede73a161d7b70e138e69c03a6ef37eefcaeee7f837c5318826e7",
+      "expected": "Pinned rank-only score and strict mutation/fallback outcomes."
+    },
+    {
+      "path": "tests/fixtures/retrieval/hybrid/manifest.v1.json",
+      "sha256": "4462760baa4a9f4b5aeb7d855f4331853ec81afe58a9975792e5571d7d34eb81",
+      "expected": "Versioned provenance and canonical fixture digest inventory."
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "hybrid-corpus:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial explicit rank oracles and strict provider-subset outcomes. Expected digest changes require a fixture version change and a behavior rationale, never automatic snapshot replacement.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic rank/policy fixtures; canonical text and refs reused from pinned local lexical/selection fixtures. No external provider calls.",
+    "redistributionAllowed": false
+  },
+  "rrfTieScore": 0.03252247488101534,
+  "rerankMutations": [
+    {
+      "span": {
+        "byteStart": 0,
+        "byteEnd": 999999
+      }
+    },
+    {
+      "citation": "generated quotation"
+    },
+    {
+      "text": "generated quotation"
+    },
+    {
+      "ref": {
+        "revision": "latest"
+      }
+    },
+    {
+      "sourceVersionId": "invented"
+    }
+  ],
+  "expectedOutcomes": {
+    "no-lexical-match": "Lexical rank contribution zero; semantic-only ranking or empty when both channels empty.",
+    "exact-id-vs-semantic-noise": "PostgreSQL exact identifier plus rank-2 semantic hit outranks rank-1 semantic-only noise regardless of score scale.",
+    "duplicate-tie": "One contribution per exact ref per channel; score ties sorted by stable chunk ID; overlaps omitted without widening.",
+    "invented-id-widened-span": "incompatible/adapter_contract_violation, no partial data",
+    "timeout": "unavailable unless explicit allowDegrade and optional stage",
+    "allowed-lexical-degradation": "degraded=true; effectiveProfile=lexical-v1; warnings identify failed stage, including empty results",
+    "forbidden-fallback": "Denied/unknown/incompatible, required-stage failure and pinned full-space mismatch remain failures."
+  }
+}
