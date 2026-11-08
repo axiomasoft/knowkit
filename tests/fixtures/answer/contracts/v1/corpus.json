@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "answer-contracts:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial immutable answer contracts and independently calculated Python SHA-256/JCS golden identity.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic contract data; no provider or customer content.",
+    "redistributionAllowed": false
+  },
+  "scope": {
+    "tenantId": "01JC0000000000000000000001",
+    "kbId": "01JC0000000000000000000002",
+    "actorId": "01JC0000000000000000000003",
+    "purpose": "lesson.read",
+    "policyEpoch": "42",
+    "hostScopeHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "question": "Что означает 漢字 🙂?",
+  "turns": [
+    {
+      "role": "user",
+      "text": "Ранее 漢字"
+    },
+    {
+      "role": "assistant",
+      "text": "Ответ é 🙂"
+    }
+  ],
+  "retrievalProfile": {
+    "id": "retrieval:lesson",
+    "revision": "7",
+    "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "defaults": {
+    "questionBytes": 4096,
+    "priorTurns": 12,
+    "priorBytes": 16384,
+    "inputBytes": 32768,
+    "evidenceBytes": 16384,
+    "outputTokens": 2048,
+    "outputBytes": 65536,
+    "deadlineSeconds": 120,
+    "inputTokens": null
+  },
+  "bindingDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "invocationKey": "lesson-001",
+  "citation": {
+    "citationId": "01JC0000000000000000000004",
+    "tenantId": "01JC0000000000000000000001",
+    "sourceId": "01JC0000000000000000000005",
+    "sourceVersionId": "01JC0000000000000000000006",
+    "documentRevisionId": "01JC0000000000000000000007",
+    "documentId": "01JC0000000000000000000008",
+    "spans": [
+      {
+        "kind": "segment",
+        "segmentId": "s1",
+        "blockId": "b1",
+        "byteStart": 0,
+        "byteEnd": 6,
+        "textDigest": "c6d297713595d2f5127b438aa2ec2cb3049bb096cff7fe128f620a609c32a00f"
+      }
+    ],
+    "sourceDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "irDigest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "contentDigest": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "origin": "source"
+  },
+  "variants": [
+    "Answered",
+    "NoEvidence",
+    "Refused",
+    "Denied",
+    "EgressDenied",
+    "BudgetDenied",
+    "Cancelled",
+    "Unavailable",
+    "TransportUnknown",
+    "PolicyUnknown"
+  ],
+  "golden": {
+    "originalPayload": {
+      "operationVersion": "answer:v1",
+      "tenant": "01JC0000000000000000000001",
+      "kb": "01JC0000000000000000000002",
+      "actor": "01JC0000000000000000000003",
+      "businessPurpose": "lesson.read",
+      "policyEpoch": "42",
+      "hostScopeHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "questionDigest": "747fbf876c4637ca77d2e068b763dafeca4501ae84f315ec3c011d6ad1a31ede",
+      "orderedTurnsDigest": "a957ed6a7d0f6d71beb54d6d7256e82936a5b6c270ed334d7ff3e92494739272",
+      "requestedBindingRef": "tutor:lesson",
+      "exactRetrievalProfileRef": {
+        "id": "retrieval:lesson",
+        "revision": "7",
+        "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "limits": {
+        "questionBytes": 4096,
+        "priorTurns": 12,
+        "priorBytes": 16384,
+        "inputBytes": 32768,
+        "evidenceBytes": 16384,
+        "outputTokens": 2048,
+        "outputBytes": 65536,
+        "deadlineSeconds": 120,
+        "inputTokens": null
+      }
+    },
+    "originalRequestDigest": "22f075de74bd89665b1e212c5d6b29d0e0e570940bd1ffbc1b0d09c38f05de37",
+    "fingerprintPayload": {
+      "operationVersion": "answer:v1",
+      "tenant": "01JC0000000000000000000001",
+      "kb": "01JC0000000000000000000002",
+      "actor": "01JC0000000000000000000003",
+      "businessPurpose": "lesson.read",
+      "policyEpoch": "42",
+      "hostScopeHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "questionDigest": "747fbf876c4637ca77d2e068b763dafeca4501ae84f315ec3c011d6ad1a31ede",
+      "orderedTurnsDigest": "a957ed6a7d0f6d71beb54d6d7256e82936a5b6c270ed334d7ff3e92494739272",
+      "requestedBindingRef": "tutor:lesson",
+      "exactRetrievalProfileRef": {
+        "id": "retrieval:lesson",
+        "revision": "7",
+        "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "limits": {
+        "questionBytes": 4096,
+        "priorTurns": 12,
+        "priorBytes": 16384,
+        "inputBytes": 32768,
+        "evidenceBytes": 16384,
+        "outputTokens": 2048,
+        "outputBytes": 65536,
+        "deadlineSeconds": 120,
+        "inputTokens": null
+      },
+      "pinnedBindingDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "requestFingerprint": "c7d5b17f4234206a21da72fb5b93a8b4c4655b3fdc6ca7fec711007a5370fb93",
+    "orderedTurnsDigest": "a957ed6a7d0f6d71beb54d6d7256e82936a5b6c270ed334d7ff3e92494739272"
+  },
+  "utf8": [
+    {
+      "text": "Я",
+      "bytes": 2
+    },
+    {
+      "text": "漢字",
+      "bytes": 6
+    },
+    {
+      "text": "é",
+      "bytes": 3
+    },
+    {
+      "text": "🙂",
+      "bytes": 4
+    }
+  ]
+}

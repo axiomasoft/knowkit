@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "answer:contracts",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial six required contract cases, bound to actual PHPUnit test identities. Missing, skipped, failed and zero-case results must fail.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic contract data; no provider or customer content.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "answer-contracts:variants",
+    "bounds-and-utf8",
+    "missing-configuration-no-io",
+    "scripted-rejected-production",
+    "full-host-scope",
+    "model-vs-embedding-binding-independent"
+  ],
+  "testCaseMap": {
+    "answer-contracts:variants": [
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testEveryOutcomeVariantHasExactMetadataAndNoErrorPayload",
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testMalformedVariantsAndPartialTransportOutputCannotBecomeAnswered",
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testLedgerAndBudgetContractsPinTenantKeyAndNullableUsage",
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testCheckpointCannotReplaceOriginalRequestDigestOrPinnedTenant"
+    ],
+    "bounds-and-utf8": [
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testUtf8ByteBoundsDefaultsAndLowerHostLimitsRejectWithoutClamping",
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testTokenLimitsRequireExactPinnedTokenizerAndKeepByteLimits",
+      "KnowKit\\Tests\\Answer\\Contracts\\FixtureTest::testVersionedFixturesAndPinnedDonorDigests",
+      "KnowKit\\Tests\\Answer\\Contracts\\FixtureTest::testRequiredManifestRejectsMissingSkippedFailedAndZeroCases",
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testInvalidUtf8AndByteBoundsNeverClampOrRaiseDefaults",
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testPinnedModelWindowAndOutputByteCeilingRemainIndependent"
+    ],
+    "missing-configuration-no-io": [
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testMissingConfigurationAndReadinessPerformZeroModelIo"
+    ],
+    "scripted-rejected-production": [
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testScriptedTransportIsTestOnlyAndAlwaysMarksFixturesWithoutRetries"
+    ],
+    "full-host-scope": [
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testFingerprintGoldenAndEveryOriginalFieldPreserveFullHostScope",
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testModelCallIdentityBindsRawBytesDeploymentAndAllAuditMetadata",
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testHistoryNeedsCurrentFullScopeAttestationAndCannotBorrowAnotherSlice",
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testOriginalFieldsAndPinnedDigestChangeAdmissionFingerprint",
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testOutboundTamperingCrossTenantDependenciesAndSecretPersistenceReject"
+    ],
+    "model-vs-embedding-binding-independent": [
+      "KnowKit\\Tests\\Answer\\Contracts\\ContractsTest::testModelAndEmbeddingBindingsAreIndependentAndPackageDagStaysOptional"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/answer/contracts/v1/corpus.json",
+      "sha256": "fbed5ab616b26099674c0eb9c504304cb42a704ff829a99a3eb64c9594c44ed4",
+      "expected": "Immutable full-host model binding; exact variants and bounds; independently computed JCS fingerprint; explicit tokenizer and fixture-only transport; zero model IO on readiness and missing configuration."
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.7",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-core/src/Models/ModelTransport.php",
+      "sha256": "2070d302d0e39facb0a362f2444455d6754d56470d8ef425cf395824704e9844",
+      "observedSha256": "2070d302d0e39facb0a362f2444455d6754d56470d8ef425cf395824704e9844",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Models/ModelTransport.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Keep one-exchange proposal-only separation; replace generation/stream methods with bounded typed send and immutable observations, without tool execution.",
+      "qualificationRef": "tests/answer/contracts/ContractsTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "tests/answer/contracts"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-core/src/Runtime/InvocationJournal.php",
+      "sha256": "e9db6652c7ebc58a1a4f5b06f5d2efd77954213d805d6877c8b965fd6f559475",
+      "observedSha256": "e9db6652c7ebc58a1a4f5b06f5d2efd77954213d805d6877c8b965fd6f559475",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Runtime/InvocationJournal.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt narrow fenced journal mutation contracts and nullable usage; define only the approved direct-answer ledger port, without copying native Agentools runtime or journal.",
+      "qualificationRef": "tests/answer/contracts/ContractsTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "tests/answer/contracts"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "observedSha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextComposition.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt separation of current host context, immutable deployment, history dependencies and a bounded exchange; do not copy Chatom intake, persistence or AdvanceRun.",
+      "qualificationRef": "tests/answer/contracts/ContractsTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "tests/answer/contracts"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/runtime/coordination/journal.py",
+      "sha256": "1e252727fb2f5adb314d90826468f433611713537185dce573a6a459e6c3526f",
+      "observedSha256": "1e252727fb2f5adb314d90826468f433611713537185dce573a6a459e6c3526f",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/coordination/journal.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "Live stream batching and merged journal replay are outside immutable direct-answer contracts; no second transcript journal or recovery loop is introduced.",
+      "qualificationRef": "tests/answer/contracts/ContractsTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "tests/answer/contracts"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/embedding/adapters/openai_compatible.py",
+      "sha256": "34f84c680a4798500f252cc6b7b6ce00fad3aeae42ed6fdeadc7b4fec4452be0",
+      "observedSha256": "34f84c680a4798500f252cc6b7b6ce00fad3aeae42ed6fdeadc7b4fec4452be0",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/embedding/adapters/openai_compatible.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "An embedding protocol, model heuristics, credential rotation and automatic retries cannot implement a pinned single chat dispatch. PSR HTTP interfaces are installed separately; a production HTTP adapter is not claimed here.",
+      "qualificationRef": "tests/answer/contracts/ContractsTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "tests/answer/contracts"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/runtime/coordination/test_journal_recovery.py",
+      "sha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "observedSha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_journal_recovery.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt negative intent around lost work and mismatched ownership into reference-only unknown-state/claim identity contract tests. Durable crash-window qualification belongs to the later ledger implementation; no recovery runtime is copied.",
+      "qualificationRef": "tests/answer/contracts/ContractsTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "tests/answer/contracts"
+      ]
+    }
+  ],
+  "newCodeRationale": "Reuse core Scope, immutable CitationRef, integer-profile JCS, HashDomain, CredentialRef and exact Tokenizer. Donors do not implement the approved optional PHP answer contract. New typed values adapt the single-exchange and fenced-checkpoint boundaries without importing donor code or duplicating an agent loop, transcript or production ledger.",
+  "sourceGaps": [
+    "Production HTTP transport, fresh retrieval/disclosure/egress orchestration, durable SQL ledger and payload custody are subsequent runtime milestones; this receipt qualifies contracts and fixture transport only.",
+    "Host binding and hostScopeHash digests remain opaque trusted values. Fixture readiness establishes local configuration only, never provider availability or authorization."
+  ],
+  "handoff": "Product-side receipt only. Coordinator mirrors to @plan/artifacts/implementation/P4.7-reuse.json; executor does not mutate plan state."
+}
