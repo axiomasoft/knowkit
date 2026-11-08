@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "worker-e2e-fixtures-1.0",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "v1.1 adds frozen fresh-run IR/chunk-manifest digests binding tenant/source/version/revision/document and exact profiles, so fresh processing and replay are independently compared without a redundant OCR run. Original OCR and 9/10 failure oracle bytes are unchanged. No recognition snapshot rewritten; future updates require a versioned semantic rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic PDFs and parser-failure oracle; qualified OCR corpus reused unchanged."
+  },
+  "fixtures": [
+    {
+      "path": "tests/worker/e2e/fixtures/v1/ten-pages.pdf",
+      "sha256": "3982372436cad9355c569e96dbadba63979a90aaef4f10ff2cffbf36b106fe9b",
+      "expected": {
+        "outcome": "ten-page-source"
+      }
+    },
+    {
+      "path": "tests/worker/e2e/fixtures/v1/nine-of-ten.ir.json",
+      "sha256": "c875ee345eab6cc255126ca5bdebf909e2fb4feb21329405f51fa296aa17cfe5",
+      "expected": {
+        "outcome": "partial-9-of-10-failed-page-10"
+      }
+    },
+    {
+      "path": "tests/worker/e2e/fixtures/v1/profiles.json",
+      "sha256": "bd1b515374e5d4b607425db29b65c39c3ccd4ca9288ea65d29811a6ee706f159",
+      "expected": {
+        "outcome": "exact-qualified-profile-identities"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/approved-eng.pdf",
+      "sha256": "73d6a1d4604eb875b69f71a852550a10650d58e4446cd93131275eef0e1f76ec",
+      "expected": {
+        "outcome": "complete-ocr-with-preview"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/approved-eng.ir.json",
+      "sha256": "7df8db3d537abe35b9132b004eb7e72d3f0d4e000a28c7fad40f529d2e0d3cf3",
+      "expected": {
+        "outcome": "qualified-ocr-oracle"
+      }
+    }
+  ],
+  "expected": {
+    "missingPages": [
+      10
+    ],
+    "processed": 9,
+    "failed": 1,
+    "strict": "blocked",
+    "partial": "published-partial",
+    "batch": "source-results-separated",
+    "freshIrDigest": "416e8067236a7bcb55526d619627b3bef0663bc6d1b27044913da0693277b761",
+    "freshChunkManifestDigest": "0d849e4649f284421d38d1cae7cf4eb7eb795da1b4b1d1e3c2158f2fb1f18d2c"
+  }
+}

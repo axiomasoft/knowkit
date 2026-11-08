@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "knowkit-reuse-receipt-1.0",
+  "item": "P6.6",
+  "correction3": "Reproduced stale_lease in cold retry polling. Host composition now uses fenced JobQueue::heartbeat every 15 seconds. Cold fixture qualification runs before the leased crash cases with a separate synthetic job ID, no catalog job capability and a bounded dispatch window. Same worker limits and full ProcessingIdentity/manifest/bytes validation apply; preparation cannot checkpoint or publish. Original supervisor/Python envelope expiry checks, queue predicates and wire schemas are preserved.",
+  "correction2": "Reuse existing ExtractionCacheEntry, TechnicalValidator and WorkerIngressBundleValidator in a private FailureTest-only extraction fixture cache. Each test-class invocation starts empty and must execute a real qualified producer on its first miss. Repeated host upload/checkpoint/publication cases verify cached identity, manifests and bytes; live walkthrough/parser-change/OCR revocation remain uncached. No fixture digests, assertions or timeout limits changed.",
+  "sources": [
+    {
+      "source": "agentools:extensions/knowledge/src/GenericValidator.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "aa447e7fcca2ac1644181eee560607edddc51bbdf9aa4fa98cd39b50a3763d94",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/GenericValidator.php",
+      "decision": "reuse_existing",
+      "rationale": "Use existing TechnicalValidator and WorkerIngressBundleValidator; assert immutable tenant/source identities and independent digest/resource validation through the whole lifecycle.",
+      "license": "LicenseRef-AgenTools-Private",
+      "verifiedFrom": "local pinned donor cache"
+    },
+    {
+      "source": "deeptutor:deeptutor/runtime/isolated_worker.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "4e4ff89db42c25cfb5cf793da67da905ba48bc378f171e2b4e54608478115169",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/isolated_worker.py",
+      "decision": "reuse_existing",
+      "rationale": "Reuse production WorkerProcess timeout, cgroup stop and reap. Test process barriers inject SIGKILL around uploads/checkpoints/publication.",
+      "license": "AGPL-3.0-only",
+      "verifiedFrom": "local pinned donor cache"
+    },
+    {
+      "source": "deeptutor:deeptutor/runtime/worker_process.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "eee26ba9d8bf856142094e8ab20f6e8253a1b9d385e1320abcdad67773bcac4a",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/worker_process.py",
+      "decision": "reject_transport",
+      "rationale": "Reject pickle, arbitrary callable resolution and remote traceback forwarding. Product wire remains bounded strict JSON and staged files.",
+      "license": "AGPL-3.0-only",
+      "verifiedFrom": "local pinned donor cache"
+    },
+    {
+      "source": "deeptutor:deeptutor/services/parsing/engines/docling/local_worker.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "c8db5930951f39ff4fde2251efcf6196fa1de166f13e3fa42cddb6894ce55c80",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/local_worker.py",
+      "decision": "reuse_existing",
+      "rationale": "Use qualified pinned Docling/OCR engine through production subprocess supervisor; no upstream-default fallback, stdout document forwarding or runtime model downloads.",
+      "license": "AGPL-3.0-only",
+      "verifiedFrom": "local pinned donor cache"
+    },
+    {
+      "source": "deeptutor:tests/runtime/test_isolated_worker.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "cb6af12ad4ef899fe3730cc5529c7916fb0ef016c121609894f1de3003a25f89",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_isolated_worker.py",
+      "decision": "adapt_tests",
+      "rationale": "Adapt cancellation/crash/resource-measurement invariants to real PostgreSQL/LocalBlob and bwrap/cgroup lifecycle, with required-case accounting. No donor pass or recognition accuracy claim.",
+      "license": "AGPL-3.0-only",
+      "verifiedFrom": "local pinned donor cache"
+    }
+  ],
+  "scope": "All five P6.6 candidates read; each SHA-256 verified from pinned cache. Reuse production KnowKit validation/supervisor/ledger/queue/chunker/publication/disclosure/reading composition, not donor runtime.",
+  "newCodeRationale": "E2e host composition, private process crash barriers and required-case fixtures connect existing production adapters. Donors lack tenant/fence/immutable-citation contracts; no pickle transport, dynamic dispatch, remote traceback logging or parser fallback is carried into the product.",
+  "qualification": "Real qualified docling-pdf-ocr-eng-v1 and docling-pdf-text-v1 through production bwrap/cgroups supervisor; synthetic nine-of-ten parser failure injection is separately labelled and exercises independent ingress and persisted publication gates.",
+  "bounds": "Client lowers maxAssets to126 so canonical IR, result and each independent asset fit the unchanged 128-resource checkpoint contract.",
+  "checks": "Focused test logs and resource measurements are ignored local files in python/knowkit-worker/.local-checks/e2e; coordinator owns V1.",
+  "planReceipt": "Not mirrored because plan_mutation=forbidden; coordinator owns registration."
+}

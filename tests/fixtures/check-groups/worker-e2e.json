@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "worker:e2e",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "v1.1 adds frozen fresh-run IR/chunk-manifest digests binding tenant/source/version/revision/document and exact profiles, so fresh processing and replay are independently compared without a redundant OCR run. Original OCR and 9/10 failure oracle bytes are unchanged. No recognition snapshot rewritten; future updates require a versioned semantic rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic PDFs and parser-failure oracle; qualified OCR corpus reused unchanged."
+  },
+  "requiredCaseIds": [
+    "PDF-WORKER-PUBLISH-SEARCH-DISCLOSE-PREVIEW",
+    "KILL-BEFORE-UPLOAD",
+    "KILL-AFTER-UPLOAD",
+    "KILL-BEFORE-CHECKPOINT",
+    "KILL-AFTER-CHECKPOINT",
+    "FRESH-VS-REPLAY",
+    "KILL-BEFORE-PUBLICATION-COMMIT",
+    "KILL-AFTER-PUBLICATION-COMMIT",
+    "STALE-LEASE",
+    "REVOKE-DURING-OCR",
+    "CORRUPT-MANIFEST",
+    "NEW-PARSER",
+    "OLD-CITATION",
+    "STRICT-PARTIAL",
+    "NETWORK-DENIED",
+    "R16-A01",
+    "R16-A02",
+    "R16-A03",
+    "VERSIONED-FIXTURES",
+    "REQUIRED-CASES-FAIL-CLOSED",
+    "RUN-LOCAL-EXTRACTION-REUSE",
+    "HOST-LEASE-HEARTBEAT"
+  ],
+  "testCaseMap": {
+    "HOST-LEASE-HEARTBEAT": [
+      "KnowKit\\Tests\\Worker\\E2e\\LeaseHeartbeatTest::testHostRenewsEveryFifteenSecondsWithoutRenewingOnEveryPoll",
+      "KnowKit\\Tests\\Worker\\E2e\\LeaseHeartbeatTest::testExpiredAndTakenOverLeasesCannotBeResurrected",
+      "KnowKit\\Tests\\Worker\\E2e\\LeaseHeartbeatTest::testWorkerPollingRenewsTheHostLeaseBeforeItsFreshGuard"
+    ],
+    "RUN-LOCAL-EXTRACTION-REUSE": [
+      "KnowKit\\Tests\\Worker\\E2e\\ExtractionFixtureCacheTest::testWarmEntryRevalidatesBytesAndRebindsOnlyAttemptFields",
+      "KnowKit\\Tests\\Worker\\E2e\\ExtractionFixtureCacheTest::testFullIdentityKeyAndCopiedReceiptRejectIncompatibleReuse",
+      "KnowKit\\Tests\\Worker\\E2e\\ExtractionFixtureCacheTest::testColdCachePropagatesMandatoryProducerUnavailability"
+    ],
+    "PDF-WORKER-PUBLISH-SEARCH-DISCLOSE-PREVIEW": [
+      "KnowKit\\Tests\\Worker\\E2e\\LifecycleTest::testRealPdfWorkerPublishSearchDisclosureAndProtectedPreview"
+    ],
+    "KILL-BEFORE-UPLOAD": [
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testKillBeforeUploadRequiresFreshExtraction"
+    ],
+    "KILL-AFTER-UPLOAD": [
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testKillAfterUploadRequiresFreshExtraction"
+    ],
+    "KILL-BEFORE-CHECKPOINT": [
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testKillBeforeCheckpointRequiresFreshExtraction"
+    ],
+    "KILL-AFTER-CHECKPOINT": [
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testKillAfterCheckpointReplaysIdenticalIrAssetsAndChunks"
+    ],
+    "FRESH-VS-REPLAY": [
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testKillAfterCheckpointReplaysIdenticalIrAssetsAndChunks",
+      "KnowKit\\Tests\\Worker\\E2e\\LifecycleTest::testRealPdfWorkerPublishSearchDisclosureAndProtectedPreview"
+    ],
+    "KILL-BEFORE-PUBLICATION-COMMIT": [
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testKillBeforePublicationCommitRollsBack"
+    ],
+    "KILL-AFTER-PUBLICATION-COMMIT": [
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testKillAfterPublicationCommitReplaysReceipt"
+    ],
+    "STALE-LEASE": [
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testStaleLeaseCannotCheckpointCompleteOrPublishAfterTakeover"
+    ],
+    "REVOKE-DURING-OCR": [
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testRevokeWhileRealOcrIsRunningStopsProcessAndRejectsOutput"
+    ],
+    "CORRUPT-MANIFEST": [
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testCorruptManifestIsRejectedBeforeCheckpointOrPublication",
+      "KnowKit\\Tests\\Worker\\E2e\\FailureTest::testCorruptCheckpointCannotResumeDespiteMatchingSourceBytes"
+    ],
+    "NEW-PARSER": [
+      "KnowKit\\Tests\\Worker\\E2e\\LifecycleTest::testNewParserCannotReuseOldCheckpointOrRedirectHistoricalCitation",
+      "tests.e2e.test_lifecycle::test_parser_change_is_exact_and_never_falls_back_to_old_signature"
+    ],
+    "OLD-CITATION": [
+      "KnowKit\\Tests\\Worker\\E2e\\LifecycleTest::testNewParserCannotReuseOldCheckpointOrRedirectHistoricalCitation"
+    ],
+    "STRICT-PARTIAL": [
+      "KnowKit\\Tests\\Worker\\E2e\\LifecycleTest::testStrictNineOfTenCannotStageOrPublishAsComplete",
+      "KnowKit\\Tests\\Worker\\E2e\\LifecycleTest::testExplicitPartialPublishesExactMissingPageAndCompleteQueryExcludesIt"
+    ],
+    "NETWORK-DENIED": [
+      "tests.e2e.test_lifecycle::test_network_denied_in_real_runtime_namespace_and_seccomp"
+    ],
+    "R16-A01": [
+      "KnowKit\\Tests\\Worker\\E2e\\LifecycleTest::testStrictNineOfTenCannotStageOrPublishAsComplete",
+      "tests.e2e.test_lifecycle::test_native_mapper_preserves_absent_tenth_page_as_failure_not_complete"
+    ],
+    "R16-A02": [
+      "KnowKit\\Tests\\Worker\\E2e\\LifecycleTest::testExplicitPartialPublishesExactMissingPageAndCompleteQueryExcludesIt"
+    ],
+    "R16-A03": [
+      "KnowKit\\Tests\\Worker\\E2e\\LifecycleTest::testBatchSuccessDoesNotUpgradeFailedSourceReadiness"
+    ],
+    "VERSIONED-FIXTURES": [
+      "KnowKit\\Tests\\Worker\\E2e\\FixtureTest::testVersionedFixturesAndAllRequiredCasesAreBound",
+      "tests.e2e.test_lifecycle::test_versioned_fixtures_pin_provenance_digests_and_failure_outcomes"
+    ],
+    "REQUIRED-CASES-FAIL-CLOSED": [
+      "KnowKit\\Tests\\Worker\\E2e\\FixtureTest::testRequiredCaseAccountingRejectsMissingSkippedFailedEmptyAndDuplicateExecutions"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/worker/e2e/fixtures/v1/ten-pages.pdf",
+      "sha256": "3982372436cad9355c569e96dbadba63979a90aaef4f10ff2cffbf36b106fe9b",
+      "expected": {
+        "outcome": "ten-page-source"
+      }
+    },
+    {
+      "path": "tests/worker/e2e/fixtures/v1/nine-of-ten.ir.json",
+      "sha256": "c875ee345eab6cc255126ca5bdebf909e2fb4feb21329405f51fa296aa17cfe5",
+      "expected": {
+        "outcome": "partial-9-of-10-failed-page-10"
+      }
+    },
+    {
+      "path": "tests/worker/e2e/fixtures/v1/profiles.json",
+      "sha256": "bd1b515374e5d4b607425db29b65c39c3ccd4ca9288ea65d29811a6ee706f159",
+      "expected": {
+        "outcome": "exact-qualified-profile-identities"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/approved-eng.pdf",
+      "sha256": "73d6a1d4604eb875b69f71a852550a10650d58e4446cd93131275eef0e1f76ec",
+      "expected": {
+        "outcome": "complete-ocr-with-preview"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/approved-eng.ir.json",
+      "sha256": "7df8db3d537abe35b9132b004eb7e72d3f0d4e000a28c7fad40f529d2e0d3cf3",
+      "expected": {
+        "outcome": "qualified-ocr-oracle"
+      }
+    },
+    {
+      "path": "tests/worker/e2e/fixtures/v1/manifest.json",
+      "sha256": "f498b75148a67b502476a86459a8d5063d8d6a3a9947fd56cc466e43fedb77a2",
+      "expected": {
+        "outcome": "versioned-lifecycle-corpus"
+      }
+    }
+  ]
+}
