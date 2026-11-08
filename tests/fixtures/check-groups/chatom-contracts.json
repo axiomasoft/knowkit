@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "chatom:contracts",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial six route contracts bound to real PHPUnit identities; every required test must execute, without missing/skip/zero cases.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic route ownership data; no customer or provider content.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "chatom-route:same-binding-double-relay-rejected",
+    "distinct-bots-supported",
+    "route-mismatch-noeffects",
+    "changed-binding",
+    "dependency-dag",
+    "explicit-laravel-profile"
+  ],
+  "testCaseMap": {
+    "chatom-route:same-binding-double-relay-rejected": [
+      "KnowKit\\Tests\\Chatom\\Contracts\\RoutesTest::testSameBindingRejectsEveryPairOfRouteOwnersIncludingDuplicateSameRoute"
+    ],
+    "distinct-bots-supported": [
+      "KnowKit\\Tests\\Chatom\\Contracts\\RoutesTest::testDistinctBotsAndEveryOtherTupleAxisSupportIndependentOwners",
+      "KnowKit\\Tests\\Chatom\\Contracts\\RoutesTest::testTupleEncodingCannotCollideOnOpaqueIdentifierSeparators"
+    ],
+    "route-mismatch-noeffects": [
+      "KnowKit\\Tests\\Chatom\\Contracts\\RoutesTest::testRouteMismatchHasNoResolverHistoryLedgerModelOrDeliveryEffects",
+      "KnowKit\\Tests\\Chatom\\Contracts\\RoutesTest::testAuthoritativeRouteOrIdentityMismatchCannotBorrowARegistration",
+      "KnowKit\\Tests\\Chatom\\Contracts\\RoutesTest::testMissingOrUnknownConfigurationDoesNoWorkAndLeaksNoHostDiagnostic"
+    ],
+    "changed-binding": [
+      "KnowKit\\Tests\\Chatom\\Contracts\\RoutesTest::testChangedBindingRechecksAllHostPinsAfterOwnerIoWithoutAdoptingNewModel",
+      "KnowKit\\Tests\\Chatom\\Contracts\\RoutesTest::testBindingRejectsCrossTenantOrKbScopeAndMalformedReferences"
+    ],
+    "dependency-dag": [
+      "KnowKit\\Tests\\Chatom\\Contracts\\PackageTest::testDependencyDagKeepsCoreVendorFreeAndBothRoutePackagesIndependent"
+    ],
+    "explicit-laravel-profile": [
+      "KnowKit\\Tests\\Chatom\\Contracts\\PackageTest::testExplicitLaravelProfileLoadsRealPinnedContractsWithoutBootingAListener",
+      "KnowKit\\Tests\\Chatom\\Contracts\\PackageTest::testVersionedFixturesAndReuseReceiptBindInspectedSources",
+      "KnowKit\\Tests\\Chatom\\Contracts\\PackageTest::testRequiredManifestRejectsMissingSkippedFailedAndZeroCases"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/chatom/routes/v1/cases.json",
+      "sha256": "39e6e6fbf5e9b2a54e6720dbb3852bc68a46b509b7511c357704a4f9a79021b9",
+      "expected": "Exactly one owner per full tuple; distinct bots/routes coexist; mismatched/changed/unknown bindings return metadata-only NotHandled with zero protected effects. Explicit isolated native Chatom/Laravel install and exact SPI hashes."
+    }
+  ],
+  "components": {
+    "composerLock": {
+      "path": "packages/chatom/composer.lock",
+      "sha256": "7599acbe41c907977a845bc142c0ef6286b80bce92d82458e47f07cc12907e3c"
+    }
+  }
+}

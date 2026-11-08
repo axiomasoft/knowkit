@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "chatom-routes:1",
+  "fixtureVersion": "1.0.0",
+  "fixture": true,
+  "qualification": "HOST QUALIFICATION PENDING",
+  "versionRationale": "Initial per-binding route ownership and immutable full host binding contract corpus.",
+  "rights": {"license": "LicenseRef-KnowKit-Private", "origin": "Project-authored synthetic identifiers; no customer history or provider content.", "redistributionAllowed": false},
+  "conversation": {"tenantId": "01ARZ3NDEKTSV4RRFFQ69G5FAV", "spaceId": "space:one", "channelId": "channel:one", "botId": "bot:one", "bindingId": "binding:lesson"},
+  "binding": {"route": "direct_chatom", "kbId": "01ARZ3NDEKTSV4RRFFQ69G5FAW", "modelBindingRef": "model:tutor-original", "actorId": "01ARZ3NDEKTSV4RRFFQ69G5FAX", "purpose": "lesson.read", "policyEpoch": "1", "hostScopeHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "viewerBindingRef": "viewer:learner-class-a", "bindingRevision": "revision:1"},
+  "distinctConversations": [
+    {"botId": "bot:two"},
+    {"tenantId": "01ARZ3NDEKTSV4RRFFQ69G5FAZ"},
+    {"spaceId": "space:two"},
+    {"channelId": "channel:two"},
+    {"bindingId": "binding:other-lesson"}
+  ],
+  "changedPins": [
+    {"bindingRevision": "revision:2"},
+    {"kbId": "01ARZ3NDEKTSV4RRFFQ69G5FAZ"},
+    {"modelBindingRef": "model:tutor-new"},
+    {"viewerBindingRef": "viewer:other-learner"},
+    {"actorId": "01ARZ3NDEKTSV4RRFFQ69G5FAZ"},
+    {"purpose": "lesson.publish"},
+    {"policyEpoch": "2"},
+    {"hostScopeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"}
+  ],
+  "requiredCaseIds": ["chatom-route:same-binding-double-relay-rejected", "distinct-bots-supported", "route-mismatch-noeffects", "changed-binding", "dependency-dag", "explicit-laravel-profile"],
+  "chatomProfile": {
+    "package": "axiomasoft/chatom",
+    "revision": "909d11e148ec9991bc83527891f8c3b4f5552f8f",
+    "php": ">=8.4",
+    "laravel": "^13.0",
+    "contracts": {
+      "Chatom\\Agents\\Contracts\\DurableAgentHandler": "b17fb838b15833a67c24d0fe71f813fd8cbffcadd7a159c7f0ad913aae6a452a",
+      "Chatom\\Agents\\Contracts\\DurableAgentReply": "33f14f4cff41a221df265428f1b7137a4155ac08ecf2a58bfcc96e8ccb676435",
+      "Chatom\\Messages\\Contracts\\ViewerMessageReader": "eac248784aed4011d4a6ba5c6f5abe4dd7d3065df29cd718b5cb4c2cc1485995",
+      "Chatom\\Messages\\Data\\ViewerMessageHistory": "a0a49be458f50126a3f5ac6f03f4371feb80766867e8537ce5ff58fead4098d6"
+    }
+  }
+}

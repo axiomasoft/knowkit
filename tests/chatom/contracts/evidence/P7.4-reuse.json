@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P7.4",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "reject",
+      "reason": "Existing native intake/Run/model/response journals remain the sole orchestrated owners. A direct binding guard cannot import this composition, relay or runtime; no native storage or loop was copied.",
+      "observedSha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextComposition.php",
+      "qualificationRef": "tests/chatom/contracts/RoutesTest.php",
+      "targetPaths": [
+        "packages/chatom/src",
+        "tests/chatom/contracts"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextContextAuthority.php",
+      "sha256": "e80acb10becbff1a770c6c74d841dae4ed92314b96e4666498220c03e93b0dc2",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt the current-authority and exact-version recheck pattern into immutable full host binding comparison after owner IO, without importing native authority, SQL or Agentools types.",
+      "observedSha256": "e80acb10becbff1a770c6c74d841dae4ed92314b96e4666498220c03e93b0dc2",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextContextAuthority.php",
+      "qualificationRef": "tests/chatom/contracts/RoutesTest.php",
+      "targetPaths": [
+        "packages/chatom/src",
+        "tests/chatom/contracts"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/reading/test_references.py",
+      "sha256": "2c25c0679879f1c3055687befb1fec7b275dcd9c0b8fb9a240c60c9bad78f067",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "Python store lookup, reference normalization and silent ignored missing material do not implement route ownership. Existing immutable citation handling stays in core/answer; no reference code or tests were copied.",
+      "observedSha256": "2c25c0679879f1c3055687befb1fec7b275dcd9c0b8fb9a240c60c9bad78f067",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/reading/test_references.py",
+      "qualificationRef": "tests/chatom/contracts/RoutesTest.php",
+      "targetPaths": [
+        "packages/chatom/src",
+        "tests/chatom/contracts"
+      ]
+    }
+  ],
+  "nativeContracts": {
+    "package": "axiomasoft/chatom",
+    "pin": "909d11e148ec9991bc83527891f8c3b4f5552f8f",
+    "sourceUrl": "https://github.com/axiomasoft/chatom/tree/909d11e148ec9991bc83527891f8c3b4f5552f8f/packages/core",
+    "composerSha256": "5de47df22e819110981d90b19511c6721480716380149a668942517f2e8a7dd8",
+    "decision": "reuse",
+    "reason": "Install the actual native PHP8.4/Laravel13 contracts through this optional Composer project; qualify installed SPI hashes using the versioned fixture, without copying Chatom persistence or runtime.",
+    "qualificationRef": "tests/chatom/contracts/PackageTest.php"
+  },
+  "newCodeRationale": "The shortlist has no vendor-free per-binding route enum, complete owner assertion or host-owned KnowKit full-scope binding contract. New typed composition glue reuses core TenantId/KbId/Scope and answer ModelBindingRef and separates routing from current authorization. No model resolver, transport, history store or delivery loop is introduced.",
+  "sourceGaps": [
+    "Path-repository installation needs the existing sibling Chatom checkout at the recorded revision; Composer path installs do not fetch that revision. This package's lock and installed SPI hashes qualify the local contract lane only.",
+    "Native durable handler, authorized history hydration and checked reply mapping are subsequent milestones. No live host, Chatom PostgreSQL17/18 or provider qualification is claimed.",
+    "The host must supply one complete registration list before listener startup and authoritative resolver facts at each boundary; the guard cannot detect registrations hidden in a separate host composition or make remote authorization atomic."
+  ],
+  "handoff": "Tracked product receipt only. Coordinator mirrors it to @plan/artifacts/implementation/P7.4-reuse.json; plan_mutation is forbidden for the executor."
+}

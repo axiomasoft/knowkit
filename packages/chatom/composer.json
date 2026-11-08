@@ -1,0 +1,77 @@
+{
+  "name": "knowkit/chatom",
+  "description": "Optional explicit Chatom binding and route ownership contracts",
+  "type": "library",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.4",
+    "axiomasoft/chatom": "dev-main",
+    "illuminate/contracts": "^13.0",
+    "knowkit/answer": "dev-main",
+    "knowkit/core": "dev-main"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.5"
+  },
+  "conflict": {
+    "symfony/mime": "<7.4.22 || >=8.0 <8.1.10",
+    "symfony/routing": "<7.4.23 || >=8.0 <8.1.11"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../core",
+      "options": {"symlink": false, "versions": {"knowkit/core": "dev-main"}}
+    },
+    {
+      "type": "path",
+      "url": "../answer",
+      "options": {"symlink": false, "versions": {"knowkit/answer": "dev-main"}}
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "axiomasoft/chatom",
+        "version": "dev-main",
+        "type": "library",
+        "license": "MIT",
+        "dist": {
+          "type": "path",
+          "url": "../../../chatom/packages/core",
+          "reference": "909d11e148ec9991bc83527891f8c3b4f5552f8f"
+        },
+        "require": {
+          "php": "^8.4",
+          "ext-filter": "*",
+          "ext-mbstring": "*",
+          "illuminate/auth": "^13.0",
+          "illuminate/bus": "^13.0",
+          "illuminate/collections": "^13.0",
+          "illuminate/console": "^13.0",
+          "illuminate/container": "^13.0",
+          "illuminate/contracts": "^13.0",
+          "illuminate/database": "^13.0",
+          "illuminate/filesystem": "^13.0",
+          "illuminate/http": "^13.0",
+          "illuminate/pagination": "^13.0",
+          "illuminate/routing": "^13.0",
+          "illuminate/support": "^13.0",
+          "illuminate/validation": "^13.0",
+          "laravel/framework": "^13.0",
+          "nesbot/carbon": "^3.0",
+          "opis/json-schema": "^2.3",
+          "ramsey/uuid": "^4.9",
+          "symfony/console": "^7.0|^8.0",
+          "symfony/http-foundation": "^7.0|^8.1",
+          "symfony/http-kernel": "^7.0|^8.1"
+        },
+        "autoload": {"psr-4": {"Chatom\\": "src/"}},
+        "transport-options": {"symlink": false}
+      }
+    }
+  ],
+  "autoload": {"psr-4": {"KnowKit\\Chatom\\": "src/"}},
+  "config": {"allow-plugins": false, "sort-packages": true, "platform": {"php": "8.4.0"}},
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
