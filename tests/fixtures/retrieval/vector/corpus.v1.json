@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "vector-corpus:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial independent Python SHA256 and float32 byte oracles; denied/foreign/other-snapshot nearest vectors must never compete with the permitted corpus. Any changed oracle requires a new version and behavior rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic vectors; canonical document fixtures reused from retrieval lexical and publication manifest. No external provider or Python runtime.",
+    "redistributionAllowed": false
+  },
+  "space": {
+    "provider": "fixture",
+    "model": "asymmetric-vector",
+    "revision": "r1",
+    "dimensions": 3,
+    "normalization": "none",
+    "indexVersion": "l2-v1",
+    "documentRole": "passage",
+    "queryRole": "question"
+  },
+  "spaceDigest": "ec4ccd8d3e66a8944b2a94081964d12e24f41780f1d467f40a416bb34fc08947",
+  "mutations": {
+    "provider": {
+      "value": "another",
+      "expected": "incompatible",
+      "digest": "93f8771a1e7698aa16e994d5730ef2331d7c8358023a0d3b08cce6293c048553"
+    },
+    "model": {
+      "value": "another",
+      "expected": "incompatible",
+      "digest": "c4bae336a673da91d5455966e998ef0afb7ade70e0cf6cdaf7bffcab02f83f6d"
+    },
+    "revision": {
+      "value": "r2",
+      "expected": "incompatible",
+      "digest": "8fc1fe71adb381815f4deb786fbea1b74996727a42db6563296708ab05e4fccd"
+    },
+    "normalization": {
+      "value": "l2",
+      "expected": "incompatible",
+      "digest": "86ea7865f7da16e6404501310eef377c1b6103cba7bbefd08b9b4c9180003bfc"
+    },
+    "indexVersion": {
+      "value": "l2-v2",
+      "expected": "incompatible",
+      "digest": "84571a740e6395d7d0cdadf7f25acec3a1a11e6455f5846bf7341d4269ececee"
+    },
+    "documentRole": {
+      "value": "document-v2",
+      "expected": "incompatible",
+      "digest": "a50d8251d45c08f35d9bca7bbbac76a8ae9e116f8f1f79c7422230b7f9b0a48c"
+    },
+    "queryRole": {
+      "value": "query-v2",
+      "expected": "incompatible",
+      "digest": "e55021ca667d3fe20981dde354caef8bc2e5e843d9963e5d8b8d02f66e8a447e"
+    }
+  },
+  "vectors": {
+    "allowed": [
+      1,
+      0,
+      0
+    ],
+    "tie": [
+      2,
+      0,
+      0
+    ],
+    "denied": [
+      0,
+      0,
+      0
+    ],
+    "other-snapshot": [
+      0,
+      0,
+      0
+    ],
+    "foreign": [
+      0,
+      0,
+      0
+    ]
+  },
+  "vectorDigests": {
+    "allowed": "ff1d4a938c2ab004fb88af891cdbfc695783e1f5ff1c11906b59b2bb24b6ceae",
+    "tie": "0d42dd08f5eb41526a981ea31591378e1d3e00f8423921c42d4d7618808d7ca1",
+    "denied": "4961f17ccfe822f34d358da6aa3630afa9c503f2623ee5ef021c1b3e47d64b8f",
+    "other-snapshot": "4961f17ccfe822f34d358da6aa3630afa9c503f2623ee5ef021c1b3e47d64b8f",
+    "foreign": "4961f17ccfe822f34d358da6aa3630afa9c503f2623ee5ef021c1b3e47d64b8f"
+  },
+  "query": [
+    0,
+    0,
+    0
+  ],
+  "expected": {
+    "restrictedTop1": [
+      "allowed"
+    ],
+    "restrictedTop2": [
+      "allowed",
+      "tie"
+    ],
+    "unrestrictedTop1": [
+      "denied"
+    ],
+    "annLowEf": {
+      "efSearch": 1,
+      "k": 2,
+      "recallNumerator": 1,
+      "recallDenominator": 2,
+      "effectiveMode": "exact",
+      "fallbackUsed": true
+    },
+    "missingVector": "incompatible",
+    "nonfinite": "incompatible",
+    "rogueId": "incompatible",
+    "rebuildCrash": "old-pointer-active",
+    "spaceChange": "incompatible",
+    "changedOriginal": "incompatible",
+    "unsupportedFilter": "incompatible",
+    "reprocessingAxes": {
+      "reocr": [
+        "documentRevisionId",
+        "chunkSetId",
+        "generationId"
+      ],
+      "rechunk": [
+        "chunkSetId",
+        "generationId"
+      ],
+      "reembed": [
+        "generationId"
+      ]
+    }
+  }
+}

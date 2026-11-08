@@ -9,7 +9,7 @@
     <testsuite name="Answer"><directory>tests/answer/contracts</directory><directory>tests/answer/ledger</directory><directory>tests/answer/transport</directory><directory>tests/answer/grounding</directory><directory>tests/answer/conformance</directory><directory>tests/concurrency/answer</directory><directory>tests/adoption/edufy</directory></testsuite>
     <testsuite name="Chatom"><directory>packages/chatom/tests</directory></testsuite>
     <testsuite name="Bridge"><directory>packages/agentools-bridge/tests/unit</directory></testsuite>
-    <testsuite name="Semantic"><directory>tests/semantic/embedding</directory></testsuite>
+    <testsuite name="Semantic"><directory>tests/semantic/embedding</directory><directory>tests/semantic/vector</directory></testsuite>
     <testsuite name="Worker"><directory>tests/worker</directory></testsuite>
     <testsuite name="Evaluation"><directory>tests/evaluation</directory></testsuite>
     <testsuite name="Ops"><directory>tests/ops</directory></testsuite>

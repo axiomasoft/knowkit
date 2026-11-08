@@ -235,8 +235,16 @@ final readonly class PdoStagingGenerations
             || array_intersect($policy->get('requiredFeatures'), $coverage->get('missingFeatures')) !== [] || $coverage->get('state') === 'unknown') {
             throw new D\DomainFailure(D\Outcome::Unavailable, 'coverage_required');
         }
-        if ($manifest->get('profile')->get('kind') !== 'lexical' || $manifest->get('profile')->get('id') !== 'postgres-fts-simple-v1'
-            || $manifest->get('embeddingSpaceDigest') !== null) { self::fail('profile_incompatible'); }
+        $profile = $manifest->get('profile');
+        $lexical = $profile->get('kind') === 'lexical'
+            && $profile->get('id') === 'postgres-fts-simple-v1'
+            && $manifest->get('embeddingSpaceDigest') === null;
+        $vector = $profile->get('kind') === 'vector' && $manifest->get('embeddingSpaceDigest') !== null;
+        // The injected mandatory backend verifier owns the optional vector profile implementation.
+        // Core validates its manifest/processing binding without depending on the optional package.
+        if (!$lexical && !$vector) {
+            self::fail('profile_incompatible');
+        }
     }
     private function failBuild(D\Lease $lease, Candidate $candidate, D\DomainFailure $failure): void
     {

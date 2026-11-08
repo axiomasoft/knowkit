@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "vector-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial independent Python SHA256 and float32 byte oracles; denied/foreign/other-snapshot nearest vectors must never compete with the permitted corpus. Any changed oracle requires a new version and behavior rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic vectors; canonical document fixtures reused from retrieval lexical and publication manifest. No external provider or Python runtime.",
+    "redistributionAllowed": false
+  },
+  "entries": [
+    {
+      "path": "tests/fixtures/retrieval/vector/corpus.v1.json",
+      "sha256": "d42f896f81306df9b35295a7f9bffa36783f175d12e1a28f1bf4b289d8fd1f4d",
+      "expected": "Immutable reference and independently authored vector/processing outcomes."
+    },
+    {
+      "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+      "sha256": "81e4e03b5b7c8521e118a6de49419682f9f2e5acc1a6f8cc3c73a0859168c9ff",
+      "expected": "Immutable reference and independently authored vector/processing outcomes."
+    },
+    {
+      "path": "tests/publication/manifest/fixtures/v1/cases.json",
+      "sha256": "0fed63dba8da4ce850b266a5f8ca69122a24b51ee63a72cab2acd79192cf29a9",
+      "expected": "Immutable reference and independently authored vector/processing outcomes."
+    }
+  ]
+}
