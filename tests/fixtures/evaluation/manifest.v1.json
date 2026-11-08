@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "evaluation-corpus:1",
+  "version": "1.0.1",
+  "annotationVersion": "1.0.1",
+  "versionRationale": "Initial corpus plus annotation correction: TextLocator::segment/page and CanonicalMap::wire omit absent bbox; remove the invented nullable bbox key. Identity fields, text bytes, offsets, grades and outcomes remain unchanged. This follows the locator serialization definition, not an engine snapshot rewrite.",
+  "rights": {
+    "approved": true,
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+    "redistributionAllowed": false
+  },
+  "seed": 54,
+  "profiles": {
+    "baseline": {
+      "id": "postgres-fts-simple-v1",
+      "qualified": true,
+      "analyzer": "PostgreSQL pg_catalog.simple + exact identifiers/phrases + CJK literals; no stemming, semantic providers or translation"
+    },
+    "optional": [
+      {
+        "id": "pdf-ocr",
+        "qualified": false,
+        "reason": "Extraction adapter not qualified"
+      },
+      {
+        "id": "semantic",
+        "qualified": false,
+        "reason": "External adapters not qualified by contract doubles"
+      }
+    ]
+  },
+  "thresholds": {
+    "recallAt10": 0.9,
+    "ndcgAt10": 0.8,
+    "exactRecallAt10": 1.0,
+    "locatorAccuracy": 1.0,
+    "utf8Validity": 1.0,
+    "coverageAccuracy": 1.0,
+    "tableRetention": 0.95,
+    "refusalCorrectness": 0.95,
+    "tenantLeaks": 0,
+    "provenanceViolations": 0,
+    "postRevokeViolations": 0,
+    "deniedCitations": 0,
+    "unavailableCitations": 0,
+    "errors": 0
+  },
+  "files": [
+    {
+      "path": "corpus.v1.json",
+      "sha256": "7f8dd7195237c4410ae3a4b1afbe0d11450d465226f0ff947319d2903e6208f2",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "extraction.v1.json",
+      "sha256": "2c3a14ca2a247e93fbfdc753256612506ba66aa3ec606a29f8370fc106db8fa5",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/allowed.txt",
+      "sha256": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/cjk.txt",
+      "sha256": "b7611aefe044b17286a1a76e4f4b8a3ca9a7bcffbdebb5d93e516c06b51c94fa",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/cross-language.txt",
+      "sha256": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/current-version.txt",
+      "sha256": "54d81f388e9a79912001d7dba93f14bca8ca880991d8b89f9b2cb6606267ea97",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/denied.txt",
+      "sha256": "0e96549c45dd6a8910659bb6d9b0cad07b1869d9953c71e7b6e0e3c6faa9e12f",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/english.txt",
+      "sha256": "1ab5fde6a21ff73870c1e78ad7ab7ada890c945aca864cca48bd7b13cb4cfc98",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/exact.txt",
+      "sha256": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/foreign.txt",
+      "sha256": "90342f367a45a2fbfcc5d261c3ed5e772f0f81a7206f0227fc8933fffed23cf5",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/neighbor.txt",
+      "sha256": "8b0ddf4835ddac245933449b5c9a48a3367d589efa0734f37b6d8bbaa8617615",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/old-version.txt",
+      "sha256": "590424861e22e55aef849aa0b00eecfdf1293a9d0e288f83487af93fa09b345c",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/other-snapshot.txt",
+      "sha256": "e115916ea3ca6134ac9e9e55995435738fb66f8889485ed38f9a34bd28e6bcd2",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/page-coordinate.txt",
+      "sha256": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/rare-ru.txt",
+      "sha256": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/revision-eight.txt",
+      "sha256": "1c733515624e0096b7a5eb6f0ef993e93d6b76c701f8bfe07c291c24e45f122a",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/revision-seven.txt",
+      "sha256": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/sql.txt",
+      "sha256": "f4a5729ab80576bca5022b66f95579caab5e4d5b65f11a3162ed09265ca6b8b1",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/structure.pdf",
+      "sha256": "b06f39a5c2bc271c49977e1d3dcbdf7f03239a54ff0e7456c0acade9c571a038",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/table.md",
+      "sha256": "952445a3e8ab9d0fde863747d4e688274c78344227e7ee4abd5a35d80403b3bc",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    },
+    {
+      "path": "sources/tie.txt",
+      "sha256": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+      "license": "LicenseRef-KnowKit-Private",
+      "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+      "expected": "Pinned original bytes and manually specified evidence/outcomes."
+    }
+  ],
+  "expectedIrSchema": "ir-1.0",
+  "annotationMethod": "Project-authored golden source/version/revision/page/span ranges; not regenerated from evaluator output."
+}

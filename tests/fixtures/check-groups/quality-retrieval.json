@@ -1,0 +1,146 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "quality:retrieval",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Initial corpus plus annotation correction: TextLocator::segment/page and CanonicalMap::wire omit absent bbox; remove the invented nullable bbox key. Identity fields, text bytes, offsets, grades and outcomes remain unchanged. This follows the locator serialization definition, not an engine snapshot rewrite.",
+  "rights": {
+    "approved": true,
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic evaluation corpus; lexical v1 originals reused locally, no third-party source text.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "exact-document",
+    "exact-function",
+    "exact-phrase",
+    "cyrillic",
+    "cjk-literal",
+    "english",
+    "mixed-identifier",
+    "rare-term",
+    "cross-language",
+    "table-units",
+    "page-span",
+    "wrong-version-phrase",
+    "denied-hard-negative",
+    "no-evidence",
+    "unavailable-basis",
+    "unknown-owner",
+    "denied-owner",
+    "post-revoke",
+    "R24-A01",
+    "R24-A02",
+    "R24-A03",
+    "DT-Q09",
+    "fixture-integrity",
+    "runner-negatives",
+    "metric-oracles"
+  ],
+  "testCaseMap": {
+    "exact-document": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "exact-function": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "exact-phrase": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "cyrillic": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "cjk-literal": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "english": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "mixed-identifier": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "rare-term": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "cross-language": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "table-units": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "page-span": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "wrong-version-phrase": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "denied-hard-negative": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "no-evidence": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "unavailable-basis": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "unknown-owner": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "denied-owner": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "post-revoke": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "R24-A01": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "R24-A02": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend"
+    ],
+    "R24-A03": [
+      "KnowKit\\Tests\\Evaluation\\FixtureTest::testMultilingualRewriteRetainsOriginalRevisionAndExactSecurityFilters"
+    ],
+    "DT-Q09": [
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testProductionBaselineQualifiesEveryMandatoryCaseWithoutSkippedBackend",
+      "KnowKit\\Tests\\Evaluation\\MetricsTest::testNormalizedTextWrongRevisionAndForgedLocatorsNeverProveProvenance",
+      "KnowKit\\Tests\\Evaluation\\MetricsTest::testEmptyErrorsAndForbiddenCitationsAreSeparate"
+    ],
+    "fixture-integrity": [
+      "KnowKit\\Tests\\Evaluation\\FixtureTest::testVersionRightsDigestsAnnotationsAndDonorReceipt",
+      "KnowKit\\Tests\\Evaluation\\FixtureTest::testChangedSourceDigestOrRightsCannotLoad"
+    ],
+    "runner-negatives": [
+      "KnowKit\\Tests\\Evaluation\\FixtureTest::testRequiredCasesRejectMissingSkippedDuplicateFailedAndEmptyExecution",
+      "KnowKit\\Tests\\Evaluation\\FixtureTest::testRunnerRejectsUnknownGroupMissingTestsAndNestedFailure",
+      "KnowKit\\Tests\\Evaluation\\BaselineTest::testCliRejectsUnknownProfileMissingCorpusAndBadOptions"
+    ],
+    "metric-oracles": [
+      "KnowKit\\Tests\\Evaluation\\MetricsTest::testHandComputedRankDiscountDuplicatesAndCutoff",
+      "KnowKit\\Tests\\Evaluation\\MetricsTest::testCanonicalHardNegativeCannotHideBehindPerfectRecallAndRanking",
+      "KnowKit\\Tests\\Evaluation\\MetricsTest::testMissingTableUnitAndNoteReduceRetention",
+      "KnowKit\\Tests\\Evaluation\\MetricsTest::testEveryApprovedThresholdAndEmptyMeasurementsRejectQualification"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/evaluation/manifest.v1.json",
+      "sha256": "a088e5e36d2458731ff5296353c6d16e21d4feb09e799ce7486da0112030c812",
+      "expected": "Pinned corpus rights, exact evidence IDs, extraction qualification and outcomes."
+    },
+    {
+      "path": "tests/fixtures/evaluation/corpus.v1.json",
+      "sha256": "7f8dd7195237c4410ae3a4b1afbe0d11450d465226f0ff947319d2903e6208f2",
+      "expected": "Pinned corpus rights, exact evidence IDs, extraction qualification and outcomes."
+    },
+    {
+      "path": "tests/fixtures/evaluation/extraction.v1.json",
+      "sha256": "2c3a14ca2a247e93fbfdc753256612506ba66aa3ec606a29f8370fc106db8fa5",
+      "expected": "Pinned corpus rights, exact evidence IDs, extraction qualification and outcomes."
+    },
+    {
+      "path": "tests/evaluation/evidence/P5.4-reuse.json",
+      "sha256": "5e4507889a4d77e71ad1e604d7defaef9666a499c1d01824dcc0739634f096b4",
+      "expected": "Pinned corpus rights, exact evidence IDs, extraction qualification and outcomes."
+    }
+  ]
+}

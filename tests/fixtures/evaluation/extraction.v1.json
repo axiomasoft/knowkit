@@ -1,0 +1,192 @@
+{
+  "schemaVersion": "evaluation-extraction:1",
+  "profile": "pdf-ocr",
+  "qualified": false,
+  "reason": "No PDF/OCR engine is qualified by the PHP lexical baseline.",
+  "pages": [
+    {
+      "physicalNo": 1,
+      "type": "text",
+      "expectedStatus": "ok",
+      "readingOrder": "top to bottom",
+      "knownUncertainty": null,
+      "tableContext": null,
+      "expectedText": "KnowKit approved text PDF",
+      "originalPageRef": {
+        "file": "sources/structure.pdf",
+        "physicalNo": 1
+      },
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "byteStart": 0,
+          "byteEnd": 25,
+          "textDigest": "20888ae1380b6df9b5f2f5350dc9ca68ff2478233e731dfc0f3d29025902bc02"
+        }
+      ],
+      "qualityFlags": []
+    },
+    {
+      "physicalNo": 2,
+      "type": "scan",
+      "expectedStatus": "ok",
+      "readingOrder": "top to bottom",
+      "knownUncertainty": "synthetic checkerboard has no semantic text; OCR must declare uncertainty",
+      "tableContext": null,
+      "expectedText": null,
+      "originalPageRef": {
+        "file": "sources/structure.pdf",
+        "physicalNo": 2
+      },
+      "spans": [],
+      "qualityFlags": [
+        "ocr_semantics_unqualified"
+      ]
+    },
+    {
+      "physicalNo": 3,
+      "type": "mixed",
+      "expectedStatus": "ok",
+      "readingOrder": "top to bottom",
+      "knownUncertainty": "synthetic checkerboard has no semantic text; OCR must declare uncertainty",
+      "tableContext": null,
+      "expectedText": "Mixed text and scan",
+      "originalPageRef": {
+        "file": "sources/structure.pdf",
+        "physicalNo": 3
+      },
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p3",
+          "physicalNo": 3,
+          "byteStart": 0,
+          "byteEnd": 19,
+          "textDigest": "af1f4d42ae6cd52656f1d87a230f7522a954a09ea8a03d20e241d2a1518c2bcb"
+        }
+      ],
+      "qualityFlags": [
+        "ocr_semantics_unqualified"
+      ]
+    },
+    {
+      "physicalNo": 4,
+      "type": "columns",
+      "expectedStatus": "ok",
+      "readingOrder": "left then right",
+      "knownUncertainty": null,
+      "tableContext": null,
+      "expectedText": "Column left first\nColumn right second",
+      "originalPageRef": {
+        "file": "sources/structure.pdf",
+        "physicalNo": 4
+      },
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p4",
+          "physicalNo": 4,
+          "byteStart": 0,
+          "byteEnd": 37,
+          "textDigest": "e117346399703c1060a94e6b5377723bb6b7b16ac83775c45013d80570adaf33"
+        }
+      ],
+      "qualityFlags": []
+    },
+    {
+      "physicalNo": 5,
+      "type": "rotation",
+      "expectedStatus": "ok",
+      "readingOrder": "top to bottom",
+      "knownUncertainty": null,
+      "tableContext": null,
+      "expectedText": "Rotated page",
+      "originalPageRef": {
+        "file": "sources/structure.pdf",
+        "physicalNo": 5
+      },
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p5",
+          "physicalNo": 5,
+          "byteStart": 0,
+          "byteEnd": 12,
+          "textDigest": "f9a27968e8ec19471e5c4a99acc867ea91a89c21eebac99087a30582bd3aa7b9"
+        }
+      ],
+      "qualityFlags": []
+    },
+    {
+      "physicalNo": 6,
+      "type": "blank",
+      "expectedStatus": "empty",
+      "readingOrder": "top to bottom",
+      "knownUncertainty": null,
+      "tableContext": null,
+      "expectedText": "",
+      "originalPageRef": {
+        "file": "sources/structure.pdf",
+        "physicalNo": 6
+      },
+      "spans": [],
+      "qualityFlags": []
+    },
+    {
+      "physicalNo": 7,
+      "type": "multipage-table",
+      "expectedStatus": "ok",
+      "readingOrder": "top to bottom",
+      "knownUncertainty": null,
+      "tableContext": "Mass (kg); dry sample; pages 7-8",
+      "expectedText": "Mass kg: basalt 12; continued on page 8",
+      "originalPageRef": {
+        "file": "sources/structure.pdf",
+        "physicalNo": 7
+      },
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p7",
+          "physicalNo": 7,
+          "byteStart": 0,
+          "byteEnd": 39,
+          "textDigest": "e3164d4fe1265ae81898944dc85f34879cb79fbc16484d2532ceaafea70985e1"
+        }
+      ],
+      "qualityFlags": []
+    },
+    {
+      "physicalNo": 8,
+      "type": "multipage-table",
+      "expectedStatus": "ok",
+      "readingOrder": "top to bottom",
+      "knownUncertainty": null,
+      "tableContext": "Mass (kg); dry sample; pages 7-8",
+      "expectedText": "Mass kg: quartz 8; note dry sample",
+      "originalPageRef": {
+        "file": "sources/structure.pdf",
+        "physicalNo": 8
+      },
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p8",
+          "physicalNo": 8,
+          "byteStart": 0,
+          "byteEnd": 34,
+          "textDigest": "82f393e73dc539fd020efa0c4320f2fdf3e5c12f27a45abff24f4e20b995381d"
+        }
+      ],
+      "qualityFlags": []
+    }
+  ],
+  "expectedCoverage": {
+    "expected": 8,
+    "empty": 1,
+    "knownImageOnly": 1,
+    "qualification": "annotations only; not measured extractor output"
+  }
+}

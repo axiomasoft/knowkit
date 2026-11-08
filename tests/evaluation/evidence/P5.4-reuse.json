@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P5.4",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Retrieval/HybridTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "8d0a488c5c3019ce5fc425833f7b740a6a35e39299242a4f16c5172ace08e25f",
+      "observedSha256": "8d0a488c5c3019ce5fc425833f7b740a6a35e39299242a4f16c5172ace08e25f",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/HybridTest.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "read": true,
+      "verified": true,
+      "decision": "adapt",
+      "rationale": "Adapt strict identity and hostile candidate regression patterns; production citation guards remain authoritative."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/eval/metrics.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "4082684a67eb9a3c43cbc818f2aa93c77d1a1b330e96f5f96e7aa6b2303932de",
+      "observedSha256": "4082684a67eb9a3c43cbc818f2aa93c77d1a1b330e96f5f96e7aa6b2303932de",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/eval/metrics.py",
+      "license": "Apache-2.0",
+      "read": true,
+      "verified": true,
+      "decision": "adapt",
+      "rationale": "Adapt unique-gold recall and rank discounts; use graded gain and exact immutable evidence instead of text overlap."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/eval/matching.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "19ae5bde484b6b76f594aa0cac1c6574f82b00d8374c013da94159637bf28c76",
+      "observedSha256": "19ae5bde484b6b76f594aa0cac1c6574f82b00d8374c013da94159637bf28c76",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/eval/matching.py",
+      "license": "Apache-2.0",
+      "read": true,
+      "verified": true,
+      "decision": "reject",
+      "rationale": "Normalized token/substring overlap is not canonical provenance. Match full source/version/revision/document/page/span/digests."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/eval/runner.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "d3fe7726cda1829460fa815c5005361935d227c17a6894633fba37b13be7978b",
+      "observedSha256": "d3fe7726cda1829460fa815c5005361935d227c17a6894633fba37b13be7978b",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/eval/runner.py",
+      "license": "Apache-2.0",
+      "read": true,
+      "verified": true,
+      "decision": "adapt",
+      "rationale": "Adapt per-case production search and error separation. Mandatory errors fail qualification instead of being excluded from quality denominator."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/services/rag/eval/test_eval_metrics.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "9ed9d2cf8bdae1d8de99cc9b3f41dad4ed24b894a4ca8d2e5698747fe001339a",
+      "observedSha256": "9ed9d2cf8bdae1d8de99cc9b3f41dad4ed24b894a4ca8d2e5698747fe001339a",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/eval/test_eval_metrics.py",
+      "license": "Apache-2.0",
+      "read": true,
+      "verified": true,
+      "decision": "adapt",
+      "rationale": "Adapt hand-computed perfect/discounted/duplicate/cutoff negative oracles."
+    }
+  ],
+  "localReuse": [
+    "P2.8 PostgreSQL lexical/tenant fixture",
+    "P4.1 canonical units/selection",
+    "P4.2 authoritative disclosure and committed revoke fixture"
+  ],
+  "newCodeRationale": "KnowKit immutable evidence matching, graded metrics, corpus validation and report orchestration have no exact donor equivalent.",
+  "sourceGaps": [
+    "PDF/OCR and external semantic adapters remain explicitly unqualified; no external adapter implementation is claimed."
+  ]
+}

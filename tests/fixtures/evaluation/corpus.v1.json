@@ -1,0 +1,3513 @@
+{
+  "schemaVersion": "evaluation-annotations:1",
+  "documents": [
+    {
+      "tenant": 1,
+      "number": 1,
+      "name": "allowed",
+      "text": "gravity.",
+      "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002001",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "gravity.",
+            "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 8
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001001",
+          "sourceVersionId": "01J00000000000000000002001",
+          "sourceDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+          "documentRevisionId": "01J00000000000000000003001",
+          "irDigest": "fa7278c4fabe88adc11be3eabd8e29edf91bc5d265bfe92a22afb91dd0a203eb",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004001",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005001",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006001",
+            "chunkDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+            "byteLength": 8,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 8,
+                "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "c533149c660d8752e48222fab3cebc3dc45c7ced1481d9b39bddef89d0592836",
+      "language": "en",
+      "type": "text",
+      "file": "sources/allowed.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 2,
+      "name": "denied",
+      "text": "gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity ",
+      "textDigest": "0e96549c45dd6a8910659bb6d9b0cad07b1869d9953c71e7b6e0e3c6faa9e12f",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002002",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity ",
+            "textDigest": "0e96549c45dd6a8910659bb6d9b0cad07b1869d9953c71e7b6e0e3c6faa9e12f",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 320
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001002",
+          "sourceVersionId": "01J00000000000000000002002",
+          "sourceDigest": "0e96549c45dd6a8910659bb6d9b0cad07b1869d9953c71e7b6e0e3c6faa9e12f",
+          "documentRevisionId": "01J00000000000000000003002",
+          "irDigest": "c9724ed597ebe8ae38381943427f3db4a0a64e2a8288aa09ab9ccb40cec30f7b",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004002",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005002",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006002",
+            "chunkDigest": "0e96549c45dd6a8910659bb6d9b0cad07b1869d9953c71e7b6e0e3c6faa9e12f",
+            "byteLength": 320,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 320,
+                "textDigest": "0e96549c45dd6a8910659bb6d9b0cad07b1869d9953c71e7b6e0e3c6faa9e12f"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "3484ed52d307c73770b00d18db37f3b2429f4d63996ccb7fe03fef3489c74e4a",
+      "language": "en",
+      "type": "text",
+      "file": "sources/denied.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 3,
+      "name": "other-snapshot",
+      "text": "gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity ",
+      "textDigest": "e115916ea3ca6134ac9e9e55995435738fb66f8889485ed38f9a34bd28e6bcd2",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002003",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity ",
+            "textDigest": "e115916ea3ca6134ac9e9e55995435738fb66f8889485ed38f9a34bd28e6bcd2",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 480
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001003",
+          "sourceVersionId": "01J00000000000000000002003",
+          "sourceDigest": "e115916ea3ca6134ac9e9e55995435738fb66f8889485ed38f9a34bd28e6bcd2",
+          "documentRevisionId": "01J00000000000000000003003",
+          "irDigest": "c32cb65c88ce3c10e1dddde2cb223705ba38beec9623c891e6cefc3d36642482",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004003",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005003",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006003",
+            "chunkDigest": "e115916ea3ca6134ac9e9e55995435738fb66f8889485ed38f9a34bd28e6bcd2",
+            "byteLength": 480,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 480,
+                "textDigest": "e115916ea3ca6134ac9e9e55995435738fb66f8889485ed38f9a34bd28e6bcd2"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "f7320ce7e1cc4fe9514da860ad7f3ebc31a152c9bd4d9889d24256f74bf3d0dc",
+      "language": "en",
+      "type": "text",
+      "file": "sources/other-snapshot.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 4,
+      "name": "exact",
+      "text": "DOC-2026/0042 uses foo_bar.v2. KB-2026-001 revision 7. Гравитация притягивает массы. Quick brown fox.",
+      "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002004",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "DOC-2026/0042 uses foo_bar.v2. KB-2026-001 revision 7. Гравитация притягивает массы. Quick brown fox.",
+            "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 127
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001004",
+          "sourceVersionId": "01J00000000000000000002004",
+          "sourceDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+          "documentRevisionId": "01J00000000000000000003004",
+          "irDigest": "6c49dd2ee225ce2b8bc8a1476243e924033a0ea2ea7d3d8990b60650f6109313",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004004",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005004",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006004",
+            "chunkDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+            "byteLength": 127,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 127,
+                "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "792a0c88e2bb50ee21f1c7915efbe07766b6f3698862682fad8c5531c8d98068",
+      "language": "en",
+      "type": "text",
+      "file": "sources/exact.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 5,
+      "name": "neighbor",
+      "text": "DOC-2026/0043 uses foo_bar.v20. KB-2026-0010 revision 8. Гравитации. Quick brown-fox.",
+      "textDigest": "8b0ddf4835ddac245933449b5c9a48a3367d589efa0734f37b6d8bbaa8617615",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002005",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "DOC-2026/0043 uses foo_bar.v20. KB-2026-0010 revision 8. Гравитации. Quick brown-fox.",
+            "textDigest": "8b0ddf4835ddac245933449b5c9a48a3367d589efa0734f37b6d8bbaa8617615",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 95
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001005",
+          "sourceVersionId": "01J00000000000000000002005",
+          "sourceDigest": "8b0ddf4835ddac245933449b5c9a48a3367d589efa0734f37b6d8bbaa8617615",
+          "documentRevisionId": "01J00000000000000000003005",
+          "irDigest": "1f64edff00b677dfffbdf9b8fed4d503dd4514db1124f71eef8d5c4d2b4d8a4b",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004005",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005005",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006005",
+            "chunkDigest": "8b0ddf4835ddac245933449b5c9a48a3367d589efa0734f37b6d8bbaa8617615",
+            "byteLength": 95,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 95,
+                "textDigest": "8b0ddf4835ddac245933449b5c9a48a3367d589efa0734f37b6d8bbaa8617615"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "8657b11a3bbd2b4d4515a15fefb811f077f687e56a8a94f97441f173ee4d19cb",
+      "language": "en",
+      "type": "text",
+      "file": "sources/neighbor.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 6,
+      "name": "tie",
+      "text": "gravity.",
+      "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002006",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "gravity.",
+            "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 8
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001006",
+          "sourceVersionId": "01J00000000000000000002006",
+          "sourceDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+          "documentRevisionId": "01J00000000000000000003006",
+          "irDigest": "b10a5fd6d6b9a2c74c7d79c4f227d7b68e5c6ef9170e4a104669ddbb678d2b85",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004006",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005006",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006006",
+            "chunkDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+            "byteLength": 8,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 8,
+                "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "bded32a1eb6d2271fc931a6cf298d96785a080b9f576ebfcbdb69563635bb0be",
+      "language": "en",
+      "type": "text",
+      "file": "sources/tie.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 7,
+      "name": "revision-seven",
+      "text": "Инструкция foo_bar.v2 ревизия 7.",
+      "textDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002007",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "Инструкция foo_bar.v2 ревизия 7.",
+            "textDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 49
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001007",
+          "sourceVersionId": "01J00000000000000000002007",
+          "sourceDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3",
+          "documentRevisionId": "01J00000000000000000003007",
+          "irDigest": "e9705100474ab6544da9bcbf52d6228947095f96022c14ecd8a10a174a4eb9af",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004007",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005007",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006007",
+            "chunkDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3",
+            "byteLength": 49,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 49,
+                "textDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "f1658690040d055572a7d9cf2585f83a536524de6aa7aec23d6b51a82767754a",
+      "language": "ru",
+      "type": "text",
+      "file": "sources/revision-seven.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 8,
+      "name": "revision-eight",
+      "text": "Инструкция foo_bar.v2 ревизия 8.",
+      "textDigest": "1c733515624e0096b7a5eb6f0ef993e93d6b76c701f8bfe07c291c24e45f122a",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002008",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "Инструкция foo_bar.v2 ревизия 8.",
+            "textDigest": "1c733515624e0096b7a5eb6f0ef993e93d6b76c701f8bfe07c291c24e45f122a",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 49
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001008",
+          "sourceVersionId": "01J00000000000000000002008",
+          "sourceDigest": "1c733515624e0096b7a5eb6f0ef993e93d6b76c701f8bfe07c291c24e45f122a",
+          "documentRevisionId": "01J00000000000000000003008",
+          "irDigest": "c3b683dbeb9da636a4090f256ad642ffa29bf86d27ae4211c22d6bf1906030a2",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004008",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005008",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006008",
+            "chunkDigest": "1c733515624e0096b7a5eb6f0ef993e93d6b76c701f8bfe07c291c24e45f122a",
+            "byteLength": 49,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 49,
+                "textDigest": "1c733515624e0096b7a5eb6f0ef993e93d6b76c701f8bfe07c291c24e45f122a"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "5a136fd92748234ad6dea4d524600b609c71244579688fd5417d3345bded9576",
+      "language": "ru",
+      "type": "text",
+      "file": "sources/revision-eight.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 9,
+      "name": "sql",
+      "text": "literal x'; DROP TABLE lexical_documents; --",
+      "textDigest": "f4a5729ab80576bca5022b66f95579caab5e4d5b65f11a3162ed09265ca6b8b1",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002009",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "literal x'; DROP TABLE lexical_documents; --",
+            "textDigest": "f4a5729ab80576bca5022b66f95579caab5e4d5b65f11a3162ed09265ca6b8b1",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 44
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001009",
+          "sourceVersionId": "01J00000000000000000002009",
+          "sourceDigest": "f4a5729ab80576bca5022b66f95579caab5e4d5b65f11a3162ed09265ca6b8b1",
+          "documentRevisionId": "01J00000000000000000003009",
+          "irDigest": "05d6a8a402339e44c9b663ce10a377bd406c2682e91f1f7d36f66c8a5b7f9c8d",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004009",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005009",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006009",
+            "chunkDigest": "f4a5729ab80576bca5022b66f95579caab5e4d5b65f11a3162ed09265ca6b8b1",
+            "byteLength": 44,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 44,
+                "textDigest": "f4a5729ab80576bca5022b66f95579caab5e4d5b65f11a3162ed09265ca6b8b1"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "1f0a37eb8119c647ec796aa3bd0fcd3ccb78935d163b895ce1196dc33eca72e1",
+      "language": "en",
+      "type": "text",
+      "file": "sources/sql.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 10,
+      "name": "cjk",
+      "text": "固定資料庫測試。量子力学。",
+      "textDigest": "b7611aefe044b17286a1a76e4f4b8a3ca9a7bcffbdebb5d93e516c06b51c94fa",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002010",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "固定資料庫測試。量子力学。",
+            "textDigest": "b7611aefe044b17286a1a76e4f4b8a3ca9a7bcffbdebb5d93e516c06b51c94fa",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 39
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001010",
+          "sourceVersionId": "01J00000000000000000002010",
+          "sourceDigest": "b7611aefe044b17286a1a76e4f4b8a3ca9a7bcffbdebb5d93e516c06b51c94fa",
+          "documentRevisionId": "01J00000000000000000003010",
+          "irDigest": "582aac89dcf3e8dce4f5b16dcf008de2ef894c0bf317848715f3dde96b29a825",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004010",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005010",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006010",
+            "chunkDigest": "b7611aefe044b17286a1a76e4f4b8a3ca9a7bcffbdebb5d93e516c06b51c94fa",
+            "byteLength": 39,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 39,
+                "textDigest": "b7611aefe044b17286a1a76e4f4b8a3ca9a7bcffbdebb5d93e516c06b51c94fa"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "a2d00ea126b159ddb269c419c6cf165f7d8fbc786687674586086090856e4aeb",
+      "language": "zh",
+      "type": "text",
+      "file": "sources/cjk.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 11,
+      "name": "english",
+      "text": "running runners",
+      "textDigest": "1ab5fde6a21ff73870c1e78ad7ab7ada890c945aca864cca48bd7b13cb4cfc98",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002011",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "running runners",
+            "textDigest": "1ab5fde6a21ff73870c1e78ad7ab7ada890c945aca864cca48bd7b13cb4cfc98",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 15
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001011",
+          "sourceVersionId": "01J00000000000000000002011",
+          "sourceDigest": "1ab5fde6a21ff73870c1e78ad7ab7ada890c945aca864cca48bd7b13cb4cfc98",
+          "documentRevisionId": "01J00000000000000000003011",
+          "irDigest": "39c90715e57bd429311763e776005546c9a9cb722b8e935c42351ffdc9a53641",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004011",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005011",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006011",
+            "chunkDigest": "1ab5fde6a21ff73870c1e78ad7ab7ada890c945aca864cca48bd7b13cb4cfc98",
+            "byteLength": 15,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 15,
+                "textDigest": "1ab5fde6a21ff73870c1e78ad7ab7ada890c945aca864cca48bd7b13cb4cfc98"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "fa65101df250d2232fba6f28549f07ee5260f2788d18d64fd2f3a9dfe2b1635f",
+      "language": "en",
+      "type": "text",
+      "file": "sources/english.txt"
+    },
+    {
+      "tenant": 2,
+      "number": 1,
+      "name": "foreign",
+      "text": "gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity ",
+      "textDigest": "90342f367a45a2fbfcc5d261c3ed5e772f0f81a7206f0227fc8933fffed23cf5",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000002",
+        "sourceVersionId": "01J00000000000000000002001",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity gravity ",
+            "textDigest": "90342f367a45a2fbfcc5d261c3ed5e772f0f81a7206f0227fc8933fffed23cf5",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 640
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000002",
+          "sourceId": "01J00000000000000000001001",
+          "sourceVersionId": "01J00000000000000000002001",
+          "sourceDigest": "90342f367a45a2fbfcc5d261c3ed5e772f0f81a7206f0227fc8933fffed23cf5",
+          "documentRevisionId": "01J00000000000000000003001",
+          "irDigest": "e62c081638d444aad2517e05a3e0ed441ed42fd6a5caa925870fcc064742429f",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004001",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005001",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006001",
+            "chunkDigest": "90342f367a45a2fbfcc5d261c3ed5e772f0f81a7206f0227fc8933fffed23cf5",
+            "byteLength": 640,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 640,
+                "textDigest": "90342f367a45a2fbfcc5d261c3ed5e772f0f81a7206f0227fc8933fffed23cf5"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "bdb7a29e43b8b8d94d2f8f8454c490cdc5baa6b502d2c9a3323a7c967a77d70f",
+      "language": "en",
+      "type": "text",
+      "file": "sources/foreign.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 20,
+      "name": "rare-ru",
+      "text": "Сверхпроводимость: квазикристалл фононный. Quantum gravity: гравитация.\n",
+      "textDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002020",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "Сверхпроводимость: квазикристалл фононный. Quantum gravity: гравитация.\n",
+            "textDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 120
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001020",
+          "sourceVersionId": "01J00000000000000000002020",
+          "sourceDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+          "documentRevisionId": "01J00000000000000000003020",
+          "irDigest": "b347a0e334d274968dc29a8b53b60c8e7f29225658f426c440ccc55994e9a7fd",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004020",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005020",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006020",
+            "chunkDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+            "byteLength": 120,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 120,
+                "textDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "f00cfdd33c25535bb5897eefd5abf2ec41f94bdab72f0316e10b6bfa303f4e44",
+      "language": "ru",
+      "type": "text",
+      "file": "sources/rare-ru.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 21,
+      "name": "cross-language",
+      "text": "Quantum 量子力学 means quantum mechanics. Гравитация means gravity.\n",
+      "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002021",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "Quantum 量子力学 means quantum mechanics. Гравитация means gravity.\n",
+            "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 82
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001021",
+          "sourceVersionId": "01J00000000000000000002021",
+          "sourceDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+          "documentRevisionId": "01J00000000000000000003021",
+          "irDigest": "3d3cf885d56de6b6cf6329ec1bd4e1b44c650011651be04d5f4cf0667dd29a36",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004021",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005021",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006021",
+            "chunkDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+            "byteLength": 82,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 82,
+                "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "bb7559243f75673fdcb5804cc1ed629aaf0ad2de7de82f2da3bc36743c9e7030",
+      "language": "en",
+      "type": "text",
+      "file": "sources/cross-language.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 22,
+      "name": "table",
+      "text": "| Specimen | Mass (kg) |\n| --- | --- |\n| basalt | 12 |\nNote: dry sample, uncertainty ±1 kg.\n",
+      "textDigest": "952445a3e8ab9d0fde863747d4e688274c78344227e7ee4abd5a35d80403b3bc",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002022",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "| Specimen | Mass (kg) |\n| --- | --- |\n| basalt | 12 |\nNote: dry sample, uncertainty ±1 kg.\n",
+            "textDigest": "952445a3e8ab9d0fde863747d4e688274c78344227e7ee4abd5a35d80403b3bc",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 93
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001022",
+          "sourceVersionId": "01J00000000000000000002022",
+          "sourceDigest": "952445a3e8ab9d0fde863747d4e688274c78344227e7ee4abd5a35d80403b3bc",
+          "documentRevisionId": "01J00000000000000000003022",
+          "irDigest": "144da31a5f1c6c76cf16185320d8b25622b6aa6ab2ace001fd00f94f06975a26",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004022",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005022",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006022",
+            "chunkDigest": "952445a3e8ab9d0fde863747d4e688274c78344227e7ee4abd5a35d80403b3bc",
+            "byteLength": 93,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 93,
+                "textDigest": "952445a3e8ab9d0fde863747d4e688274c78344227e7ee4abd5a35d80403b3bc"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "2848fc9e644c1bd218376cc9f7a5252d09696d498255a27dfeb2866c3ab61130",
+      "language": "en",
+      "type": "table",
+      "file": "sources/table.md"
+    },
+    {
+      "tenant": 1,
+      "number": 23,
+      "name": "old-version",
+      "text": "Manual revision 7: obsolete violet pressure protocol.\n",
+      "textDigest": "590424861e22e55aef849aa0b00eecfdf1293a9d0e288f83487af93fa09b345c",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002023",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "Manual revision 7: obsolete violet pressure protocol.\n",
+            "textDigest": "590424861e22e55aef849aa0b00eecfdf1293a9d0e288f83487af93fa09b345c",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 54
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001023",
+          "sourceVersionId": "01J00000000000000000002023",
+          "sourceDigest": "590424861e22e55aef849aa0b00eecfdf1293a9d0e288f83487af93fa09b345c",
+          "documentRevisionId": "01J00000000000000000003023",
+          "irDigest": "5d2ba3d10f69c32077a761e6dbd409d46349807ea5af9649d2d416e2de4d8526",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004023",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005023",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006023",
+            "chunkDigest": "590424861e22e55aef849aa0b00eecfdf1293a9d0e288f83487af93fa09b345c",
+            "byteLength": 54,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 54,
+                "textDigest": "590424861e22e55aef849aa0b00eecfdf1293a9d0e288f83487af93fa09b345c"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "ca79e5c5d22c974ac77230d73165f842b62288c82efd8e1992772b1d235eb2be",
+      "language": "en",
+      "type": "version",
+      "file": "sources/old-version.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 24,
+      "name": "current-version",
+      "text": "Manual revision 8: current amber pressure protocol.\n",
+      "textDigest": "54d81f388e9a79912001d7dba93f14bca8ca880991d8b89f9b2cb6606267ea97",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002024",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [],
+        "segments": [
+          {
+            "segmentId": "s1",
+            "text": "Manual revision 8: current amber pressure protocol.\n",
+            "textDigest": "54d81f388e9a79912001d7dba93f14bca8ca880991d8b89f9b2cb6606267ea97",
+            "status": "ok"
+          }
+        ],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 52
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001024",
+          "sourceVersionId": "01J00000000000000000002024",
+          "sourceDigest": "54d81f388e9a79912001d7dba93f14bca8ca880991d8b89f9b2cb6606267ea97",
+          "documentRevisionId": "01J00000000000000000003024",
+          "irDigest": "7f54a29515e864e5315844a01c2d93d976958d5f742281306df9d15b6d8bd672",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004024",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005024",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006024",
+            "chunkDigest": "54d81f388e9a79912001d7dba93f14bca8ca880991d8b89f9b2cb6606267ea97",
+            "byteLength": 52,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 52,
+                "textDigest": "54d81f388e9a79912001d7dba93f14bca8ca880991d8b89f9b2cb6606267ea97"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "3e261ed877f3d11e28f4e13224c7688ecceed3e71168d9c5c196e7fcf39e8e7d",
+      "language": "en",
+      "type": "version",
+      "file": "sources/current-version.txt"
+    },
+    {
+      "tenant": 1,
+      "number": 25,
+      "name": "page-coordinate",
+      "text": "Страница i: 固定量子 DOC-2026/0042.\n",
+      "textDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e",
+      "ir": {
+        "schemaVersion": "ir-1.0",
+        "tenantId": "01J00000000000000000000001",
+        "sourceVersionId": "01J00000000000000000002025",
+        "parserSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "pages": [
+          {
+            "pageId": "p1",
+            "physicalNo": 1,
+            "printedLabel": "i",
+            "text": "Страница i: 固定量子 DOC-2026/0042.\n",
+            "textDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e",
+            "status": "ok"
+          }
+        ],
+        "segments": [],
+        "blocks": [
+          {
+            "blockId": "b1",
+            "kind": "text",
+            "parentId": null,
+            "order": 0,
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": "i",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 48
+              }
+            ],
+            "provenance": {
+              "kind": "verbatim",
+              "supportingRefs": []
+            }
+          }
+        ],
+        "assets": [],
+        "coverage": {
+          "state": "complete",
+          "counts": {
+            "expected": 1,
+            "processed": 1,
+            "empty": 0,
+            "failed": 0,
+            "skipped": 0
+          },
+          "missingFeatures": [],
+          "diagnostics": []
+        }
+      },
+      "chunkSetManifest": {
+        "representationVersion": "structural-chunkset:1",
+        "revisionRef": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000001025",
+          "sourceVersionId": "01J00000000000000000002025",
+          "sourceDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e",
+          "documentRevisionId": "01J00000000000000000003025",
+          "irDigest": "7b368e6e937b3b08f7a8500d7f94beadf09d578c25058c57418a79b1e06b6ac2",
+          "parserSignature": {
+            "name": "synthetic-lexical",
+            "version": "1",
+            "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+          }
+        },
+        "documentId": "01J00000000000000000004025",
+        "chunkerSignature": {
+          "name": "synthetic-lexical",
+          "version": "1",
+          "profileDigest": "0000000000000000000000000000000000000000000000000000000000000000"
+        },
+        "chunkSetId": "01J00000000000000000005025",
+        "chunks": [
+          {
+            "chunkId": "01J00000000000000000006025",
+            "chunkDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e",
+            "byteLength": 48,
+            "ordinal": 0,
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": "i",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 48,
+                "textDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e"
+              }
+            ],
+            "origin": "source",
+            "kind": "verbatim",
+            "supportingRefs": [],
+            "joiner": null,
+            "structurePath": [],
+            "blockIds": [
+              "b1"
+            ],
+            "context": [],
+            "table": null
+          }
+        ],
+        "followups": []
+      },
+      "chunkSetDigest": "da275b77a3dfbff4f5d1de37b5a694027792789ed688808632581b0c38f71829",
+      "language": "ru",
+      "type": "page",
+      "file": "sources/page-coordinate.txt"
+    }
+  ],
+  "questions": [
+    {
+      "id": "exact-document",
+      "query": "DOC-2026/0042",
+      "language": "en",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001004",
+            "sourceVersionId": "01J00000000000000000002004",
+            "sourceDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+            "documentRevisionId": "01J00000000000000000003004",
+            "irDigest": "6c49dd2ee225ce2b8bc8a1476243e924033a0ea2ea7d3d8990b60650f6109313",
+            "documentId": "01J00000000000000000004004",
+            "contentDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 127,
+                "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002004",
+          "documentRevisionId": "01J00000000000000000003004",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 127,
+              "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5"
+            }
+          ],
+          "grade": 3
+        },
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001025",
+            "sourceVersionId": "01J00000000000000000002025",
+            "sourceDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e",
+            "documentRevisionId": "01J00000000000000000003025",
+            "irDigest": "7b368e6e937b3b08f7a8500d7f94beadf09d578c25058c57418a79b1e06b6ac2",
+            "documentId": "01J00000000000000000004025",
+            "contentDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": "i",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 48,
+                "textDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002025",
+          "documentRevisionId": "01J00000000000000000003025",
+          "segmentId": "p1",
+          "spans": [
+            {
+              "kind": "page",
+              "pageId": "p1",
+              "physicalNo": 1,
+              "printedLabel": "i",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 48,
+              "textDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [
+        "neighbor"
+      ],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": true
+    },
+    {
+      "id": "exact-function",
+      "query": "foo_bar.v2",
+      "language": "en",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001004",
+            "sourceVersionId": "01J00000000000000000002004",
+            "sourceDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+            "documentRevisionId": "01J00000000000000000003004",
+            "irDigest": "6c49dd2ee225ce2b8bc8a1476243e924033a0ea2ea7d3d8990b60650f6109313",
+            "documentId": "01J00000000000000000004004",
+            "contentDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 127,
+                "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002004",
+          "documentRevisionId": "01J00000000000000000003004",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 127,
+              "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5"
+            }
+          ],
+          "grade": 3
+        },
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001007",
+            "sourceVersionId": "01J00000000000000000002007",
+            "sourceDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3",
+            "documentRevisionId": "01J00000000000000000003007",
+            "irDigest": "e9705100474ab6544da9bcbf52d6228947095f96022c14ecd8a10a174a4eb9af",
+            "documentId": "01J00000000000000000004007",
+            "contentDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 49,
+                "textDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002007",
+          "documentRevisionId": "01J00000000000000000003007",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 49,
+              "textDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3"
+            }
+          ],
+          "grade": 3
+        },
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001008",
+            "sourceVersionId": "01J00000000000000000002008",
+            "sourceDigest": "1c733515624e0096b7a5eb6f0ef993e93d6b76c701f8bfe07c291c24e45f122a",
+            "documentRevisionId": "01J00000000000000000003008",
+            "irDigest": "c3b683dbeb9da636a4090f256ad642ffa29bf86d27ae4211c22d6bf1906030a2",
+            "documentId": "01J00000000000000000004008",
+            "contentDigest": "1c733515624e0096b7a5eb6f0ef993e93d6b76c701f8bfe07c291c24e45f122a",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 49,
+                "textDigest": "1c733515624e0096b7a5eb6f0ef993e93d6b76c701f8bfe07c291c24e45f122a"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002008",
+          "documentRevisionId": "01J00000000000000000003008",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 49,
+              "textDigest": "1c733515624e0096b7a5eb6f0ef993e93d6b76c701f8bfe07c291c24e45f122a"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [
+        "neighbor"
+      ],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": true
+    },
+    {
+      "id": "exact-phrase",
+      "query": "\"Quick brown fox\"",
+      "language": "en",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001004",
+            "sourceVersionId": "01J00000000000000000002004",
+            "sourceDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+            "documentRevisionId": "01J00000000000000000003004",
+            "irDigest": "6c49dd2ee225ce2b8bc8a1476243e924033a0ea2ea7d3d8990b60650f6109313",
+            "documentId": "01J00000000000000000004004",
+            "contentDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 127,
+                "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002004",
+          "documentRevisionId": "01J00000000000000000003004",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 127,
+              "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [
+        "neighbor"
+      ],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": true
+    },
+    {
+      "id": "cyrillic",
+      "query": "Гравитация",
+      "language": "ru",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001004",
+            "sourceVersionId": "01J00000000000000000002004",
+            "sourceDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+            "documentRevisionId": "01J00000000000000000003004",
+            "irDigest": "6c49dd2ee225ce2b8bc8a1476243e924033a0ea2ea7d3d8990b60650f6109313",
+            "documentId": "01J00000000000000000004004",
+            "contentDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 127,
+                "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002004",
+          "documentRevisionId": "01J00000000000000000003004",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 127,
+              "textDigest": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5"
+            }
+          ],
+          "grade": 3
+        },
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001020",
+            "sourceVersionId": "01J00000000000000000002020",
+            "sourceDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+            "documentRevisionId": "01J00000000000000000003020",
+            "irDigest": "b347a0e334d274968dc29a8b53b60c8e7f29225658f426c440ccc55994e9a7fd",
+            "documentId": "01J00000000000000000004020",
+            "contentDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 120,
+                "textDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002020",
+          "documentRevisionId": "01J00000000000000000003020",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 120,
+              "textDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3"
+            }
+          ],
+          "grade": 3
+        },
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001021",
+            "sourceVersionId": "01J00000000000000000002021",
+            "sourceDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+            "documentRevisionId": "01J00000000000000000003021",
+            "irDigest": "3d3cf885d56de6b6cf6329ec1bd4e1b44c650011651be04d5f4cf0667dd29a36",
+            "documentId": "01J00000000000000000004021",
+            "contentDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 82,
+                "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002021",
+          "documentRevisionId": "01J00000000000000000003021",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 82,
+              "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": false
+    },
+    {
+      "id": "cjk-literal",
+      "query": "量子力学",
+      "language": "zh",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001010",
+            "sourceVersionId": "01J00000000000000000002010",
+            "sourceDigest": "b7611aefe044b17286a1a76e4f4b8a3ca9a7bcffbdebb5d93e516c06b51c94fa",
+            "documentRevisionId": "01J00000000000000000003010",
+            "irDigest": "582aac89dcf3e8dce4f5b16dcf008de2ef894c0bf317848715f3dde96b29a825",
+            "documentId": "01J00000000000000000004010",
+            "contentDigest": "b7611aefe044b17286a1a76e4f4b8a3ca9a7bcffbdebb5d93e516c06b51c94fa",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 39,
+                "textDigest": "b7611aefe044b17286a1a76e4f4b8a3ca9a7bcffbdebb5d93e516c06b51c94fa"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002010",
+          "documentRevisionId": "01J00000000000000000003010",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 39,
+              "textDigest": "b7611aefe044b17286a1a76e4f4b8a3ca9a7bcffbdebb5d93e516c06b51c94fa"
+            }
+          ],
+          "grade": 3
+        },
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001021",
+            "sourceVersionId": "01J00000000000000000002021",
+            "sourceDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+            "documentRevisionId": "01J00000000000000000003021",
+            "irDigest": "3d3cf885d56de6b6cf6329ec1bd4e1b44c650011651be04d5f4cf0667dd29a36",
+            "documentId": "01J00000000000000000004021",
+            "contentDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 82,
+                "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002021",
+          "documentRevisionId": "01J00000000000000000003021",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 82,
+              "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": true
+    },
+    {
+      "id": "english",
+      "query": "running",
+      "language": "en",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001011",
+            "sourceVersionId": "01J00000000000000000002011",
+            "sourceDigest": "1ab5fde6a21ff73870c1e78ad7ab7ada890c945aca864cca48bd7b13cb4cfc98",
+            "documentRevisionId": "01J00000000000000000003011",
+            "irDigest": "39c90715e57bd429311763e776005546c9a9cb722b8e935c42351ffdc9a53641",
+            "documentId": "01J00000000000000000004011",
+            "contentDigest": "1ab5fde6a21ff73870c1e78ad7ab7ada890c945aca864cca48bd7b13cb4cfc98",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 15,
+                "textDigest": "1ab5fde6a21ff73870c1e78ad7ab7ada890c945aca864cca48bd7b13cb4cfc98"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002011",
+          "documentRevisionId": "01J00000000000000000003011",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 15,
+              "textDigest": "1ab5fde6a21ff73870c1e78ad7ab7ada890c945aca864cca48bd7b13cb4cfc98"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": false
+    },
+    {
+      "id": "mixed-identifier",
+      "query": "Инструкция foo_bar.v2 ревизия 7",
+      "language": "ru",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001007",
+            "sourceVersionId": "01J00000000000000000002007",
+            "sourceDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3",
+            "documentRevisionId": "01J00000000000000000003007",
+            "irDigest": "e9705100474ab6544da9bcbf52d6228947095f96022c14ecd8a10a174a4eb9af",
+            "documentId": "01J00000000000000000004007",
+            "contentDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 49,
+                "textDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002007",
+          "documentRevisionId": "01J00000000000000000003007",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 49,
+              "textDigest": "4ce84950b0a4c14222d00f427321d9ea2f57055c948a0f3badf8e60851d8b1c3"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [
+        "revision-eight"
+      ],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": true
+    },
+    {
+      "id": "rare-term",
+      "query": "квазикристалл",
+      "language": "ru",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001020",
+            "sourceVersionId": "01J00000000000000000002020",
+            "sourceDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+            "documentRevisionId": "01J00000000000000000003020",
+            "irDigest": "b347a0e334d274968dc29a8b53b60c8e7f29225658f426c440ccc55994e9a7fd",
+            "documentId": "01J00000000000000000004020",
+            "contentDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 120,
+                "textDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002020",
+          "documentRevisionId": "01J00000000000000000003020",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 120,
+              "textDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": false
+    },
+    {
+      "id": "cross-language",
+      "query": "Quantum 量子力学",
+      "language": "en",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001021",
+            "sourceVersionId": "01J00000000000000000002021",
+            "sourceDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+            "documentRevisionId": "01J00000000000000000003021",
+            "irDigest": "3d3cf885d56de6b6cf6329ec1bd4e1b44c650011651be04d5f4cf0667dd29a36",
+            "documentId": "01J00000000000000000004021",
+            "contentDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 82,
+                "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002021",
+          "documentRevisionId": "01J00000000000000000003021",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 82,
+              "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": false
+    },
+    {
+      "id": "table-units",
+      "query": "basalt",
+      "language": "en",
+      "type": "table",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001022",
+            "sourceVersionId": "01J00000000000000000002022",
+            "sourceDigest": "952445a3e8ab9d0fde863747d4e688274c78344227e7ee4abd5a35d80403b3bc",
+            "documentRevisionId": "01J00000000000000000003022",
+            "irDigest": "144da31a5f1c6c76cf16185320d8b25622b6aa6ab2ace001fd00f94f06975a26",
+            "documentId": "01J00000000000000000004022",
+            "contentDigest": "952445a3e8ab9d0fde863747d4e688274c78344227e7ee4abd5a35d80403b3bc",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 93,
+                "textDigest": "952445a3e8ab9d0fde863747d4e688274c78344227e7ee4abd5a35d80403b3bc"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002022",
+          "documentRevisionId": "01J00000000000000000003022",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 93,
+              "textDigest": "952445a3e8ab9d0fde863747d4e688274c78344227e7ee4abd5a35d80403b3bc"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": false,
+      "requiredTableTerms": [
+        "Mass (kg)",
+        "basalt",
+        "12",
+        "dry sample",
+        "±1 kg"
+      ]
+    },
+    {
+      "id": "page-span",
+      "query": "固定量子",
+      "language": "zh",
+      "type": "page",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001025",
+            "sourceVersionId": "01J00000000000000000002025",
+            "sourceDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e",
+            "documentRevisionId": "01J00000000000000000003025",
+            "irDigest": "7b368e6e937b3b08f7a8500d7f94beadf09d578c25058c57418a79b1e06b6ac2",
+            "documentId": "01J00000000000000000004025",
+            "contentDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "page",
+                "pageId": "p1",
+                "physicalNo": 1,
+                "printedLabel": "i",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 48,
+                "textDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002025",
+          "documentRevisionId": "01J00000000000000000003025",
+          "segmentId": "p1",
+          "spans": [
+            {
+              "kind": "page",
+              "pageId": "p1",
+              "physicalNo": 1,
+              "printedLabel": "i",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 48,
+              "textDigest": "bf8d976bd46502a5be562097dd81d7b27386a18c6305daf33b58c4ce97f7330e"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": true
+    },
+    {
+      "id": "wrong-version-phrase",
+      "query": "\"obsolete violet pressure protocol\"",
+      "language": "en",
+      "type": "version",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [],
+      "hardNegatives": [
+        "old-version"
+      ],
+      "expectedOutcome": "empty",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": false
+    },
+    {
+      "id": "denied-hard-negative",
+      "query": "gravity",
+      "language": "en",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001001",
+            "sourceVersionId": "01J00000000000000000002001",
+            "sourceDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+            "documentRevisionId": "01J00000000000000000003001",
+            "irDigest": "fa7278c4fabe88adc11be3eabd8e29edf91bc5d265bfe92a22afb91dd0a203eb",
+            "documentId": "01J00000000000000000004001",
+            "contentDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 8,
+                "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002001",
+          "documentRevisionId": "01J00000000000000000003001",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 8,
+              "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9"
+            }
+          ],
+          "grade": 3
+        },
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001006",
+            "sourceVersionId": "01J00000000000000000002006",
+            "sourceDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+            "documentRevisionId": "01J00000000000000000003006",
+            "irDigest": "b10a5fd6d6b9a2c74c7d79c4f227d7b68e5c6ef9170e4a104669ddbb678d2b85",
+            "documentId": "01J00000000000000000004006",
+            "contentDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 8,
+                "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002006",
+          "documentRevisionId": "01J00000000000000000003006",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 8,
+              "textDigest": "2227454e86449b4ef3864ffdf8256d026afa8c4ec586f5105cc528ce618af7d9"
+            }
+          ],
+          "grade": 3
+        },
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001020",
+            "sourceVersionId": "01J00000000000000000002020",
+            "sourceDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+            "documentRevisionId": "01J00000000000000000003020",
+            "irDigest": "b347a0e334d274968dc29a8b53b60c8e7f29225658f426c440ccc55994e9a7fd",
+            "documentId": "01J00000000000000000004020",
+            "contentDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 120,
+                "textDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002020",
+          "documentRevisionId": "01J00000000000000000003020",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 120,
+              "textDigest": "ad102c61503ad63e97c65a7672c6107cca0c887bf377582447100a4f3eb770e3"
+            }
+          ],
+          "grade": 3
+        },
+        {
+          "evidence": {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000001021",
+            "sourceVersionId": "01J00000000000000000002021",
+            "sourceDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+            "documentRevisionId": "01J00000000000000000003021",
+            "irDigest": "3d3cf885d56de6b6cf6329ec1bd4e1b44c650011651be04d5f4cf0667dd29a36",
+            "documentId": "01J00000000000000000004021",
+            "contentDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2",
+            "origin": "source",
+            "spans": [
+              {
+                "kind": "segment",
+                "segmentId": "s1",
+                "blockId": "b1",
+                "byteStart": 0,
+                "byteEnd": 82,
+                "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2"
+              }
+            ]
+          },
+          "sourceVersionId": "01J00000000000000000002021",
+          "documentRevisionId": "01J00000000000000000003021",
+          "segmentId": "s1",
+          "spans": [
+            {
+              "kind": "segment",
+              "segmentId": "s1",
+              "blockId": "b1",
+              "byteStart": 0,
+              "byteEnd": 82,
+              "textDigest": "3ad98fc477033d57efee6b7f25b64247d173471fed4d2d18edb9c4e095d88cf2"
+            }
+          ],
+          "grade": 3
+        }
+      ],
+      "hardNegatives": [
+        "denied",
+        "foreign",
+        "other-snapshot"
+      ],
+      "expectedOutcome": "success",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": false
+    },
+    {
+      "id": "no-evidence",
+      "query": "存在しない語彙xyz",
+      "language": "zh",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [],
+      "hardNegatives": [],
+      "expectedOutcome": "empty",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "normal",
+      "exact": false
+    },
+    {
+      "id": "unavailable-basis",
+      "query": "DOC-2026/0042",
+      "language": "en",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [],
+      "hardNegatives": [],
+      "expectedOutcome": "unavailable",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "missing-object",
+      "exact": false
+    },
+    {
+      "id": "unknown-owner",
+      "query": "DOC-2026/0042",
+      "language": "en",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [],
+      "hardNegatives": [],
+      "expectedOutcome": "unknown",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "unknown",
+      "exact": false
+    },
+    {
+      "id": "denied-owner",
+      "query": "DOC-2026/0042",
+      "language": "en",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [],
+      "hardNegatives": [],
+      "expectedOutcome": "denied",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "denied",
+      "exact": false
+    },
+    {
+      "id": "post-revoke",
+      "query": "DOC-2026/0042",
+      "language": "en",
+      "type": "text",
+      "securityFixture": {
+        "tenant": 1,
+        "allowed": [
+          "allowed",
+          "exact",
+          "neighbor",
+          "tie",
+          "revision-seven",
+          "revision-eight",
+          "sql",
+          "cjk",
+          "english",
+          "rare-ru",
+          "cross-language",
+          "table",
+          "current-version",
+          "page-coordinate"
+        ]
+      },
+      "snapshotFixture": "sealed-v1",
+      "relevant": [],
+      "hardNegatives": [],
+      "expectedOutcome": "denied",
+      "requiredProfile": "postgres-fts-simple-v1",
+      "scenario": "revoke",
+      "exact": false
+    }
+  ]
+}

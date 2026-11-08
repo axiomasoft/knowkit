@@ -1,0 +1,1 @@
+literal x'; DROP TABLE lexical_documents; --
