@@ -13,7 +13,7 @@
     <testsuite name="Worker"><directory>tests/worker</directory></testsuite>
     <testsuite name="Evaluation"><directory>tests/evaluation</directory></testsuite>
     <testsuite name="Ops"><directory>tests/ops</directory></testsuite>
-    <testsuite name="Laravel"><directory>packages/laravel/tests</directory></testsuite>
+    <testsuite name="Laravel"><directory>tests/delivery/laravel</directory></testsuite>
     <testsuite name="Http"><directory>packages/http/tests</directory></testsuite>
     <testsuite name="BridgeInstalled"><directory>packages/agentools-bridge/tests/installed</directory></testsuite>
     <testsuite name="BridgeHostQualification"><directory>packages/agentools-bridge/tests/host</directory></testsuite>

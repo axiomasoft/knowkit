@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "laravel-delivery-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "provenance": "Project-authored synthetic host, identity and transport vectors; no real credentials or document data."
+  },
+  "httpSpoofFields": [
+    "tenant",
+    "tenantId",
+    "subject",
+    "subjectId",
+    "actorId",
+    "audience",
+    "grants",
+    "purpose",
+    "policyEpoch",
+    "hostScopeHash",
+    "scope",
+    "context",
+    "identity",
+    "accessContext",
+    "policyContext",
+    "scopes",
+    "egress"
+  ],
+  "outcomes": [
+    {
+      "outcome": "success",
+      "exit": 0,
+      "status": 200
+    },
+    {
+      "outcome": "empty",
+      "exit": 0,
+      "status": 200
+    },
+    {
+      "outcome": "denied",
+      "exit": 3,
+      "status": 403
+    },
+    {
+      "outcome": "unknown",
+      "exit": 4,
+      "status": 503
+    },
+    {
+      "outcome": "unavailable",
+      "exit": 4,
+      "status": 503
+    },
+    {
+      "outcome": "incompatible",
+      "exit": 5,
+      "status": 409
+    }
+  ]
+}

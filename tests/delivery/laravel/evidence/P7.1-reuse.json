@@ -1,0 +1,221 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P7.1",
+  "targetBaseline": "9f6d576ba65183b4b2d63b3aed1b5436c4328479",
+  "candidateDigest": {
+    "algorithm": "sha256-path-digest-lines",
+    "excludes": [
+      "tests/delivery/laravel/evidence/P7.1-reuse.json"
+    ],
+    "paths": [
+      "examples/laravel/README.md",
+      "examples/laravel/SearchController.php",
+      "examples/laravel/SearchRoutes.php",
+      "packages/laravel/composer.json",
+      "packages/laravel/composer.lock",
+      "packages/laravel/config/knowkit.php",
+      "packages/laravel/src/AdapterBindings.php",
+      "packages/laravel/src/ConsoleKernel.php",
+      "packages/laravel/src/EnvironmentCredentials.php",
+      "packages/laravel/src/HostApplication.php",
+      "packages/laravel/src/Http/AccessContextKey.php",
+      "packages/laravel/src/Http/AuthenticateContext.php",
+      "packages/laravel/src/Http/ContextFactory.php",
+      "packages/laravel/src/Http/HttpIdentity.php",
+      "packages/laravel/src/Http/RouteRegistrar.php",
+      "packages/laravel/src/Jobs/JobHandler.php",
+      "packages/laravel/src/Jobs/JobIdentity.php",
+      "packages/laravel/src/Jobs/Jobs.php",
+      "packages/laravel/src/Jobs/RunJob.php",
+      "packages/laravel/src/KnowKitCommand.php",
+      "packages/laravel/src/KnowKitServiceProvider.php",
+      "phpunit.xml",
+      "tests/delivery/laravel/ConsoleTest.php",
+      "tests/delivery/laravel/ContextTest.php",
+      "tests/delivery/laravel/Fixture.php",
+      "tests/delivery/laravel/FixtureTest.php",
+      "tests/delivery/laravel/IsolationTest.php",
+      "tests/delivery/laravel/JobsTest.php",
+      "tests/delivery/laravel/ProviderTest.php",
+      "tests/delivery/laravel/fixtures/v1/argv.json",
+      "tests/delivery/laravel/fixtures/v1/core-only.php",
+      "tests/delivery/laravel/fixtures/v1/invalid-profiles.json",
+      "tests/delivery/laravel/fixtures/v1/profile.json",
+      "tests/delivery/laravel/fixtures/v1/scenarios.json",
+      "tests/delivery/laravel/fixtures/v1/search.json",
+      "tests/fixtures/check-groups/delivery-laravel.json"
+    ],
+    "sha256": "ddce75b17b32ebb52f3549a6455d8925d0a689026116b7a04cd11393f3b4134d"
+  },
+  "sources": [
+    {
+      "repo": "axiomasoft/agentools",
+      "donor": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/tests/Golden/HostValidationTest.php",
+      "sha256": "aae68e7953fd27727b3b1080dbc018ceccce3a4ad3ef2fd1b40bfd2abf0cf91b",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "symbols": [
+        "testMissingAndUnavailableGoldStayUnknown",
+        "testTechnicalCoordinatesHashesAndUtf8CannotBeGoldOverridden"
+      ],
+      "targetPaths": [
+        "tests/delivery/laravel/ContextTest.php",
+        "tests/delivery/laravel/ProviderTest.php"
+      ],
+      "reason": "Adapt host-owned validation, rejection before execution and distinct unknown/unavailable assertions. Donor fixtures, providers and domain classes are not imported.",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "observedSha256": "aae68e7953fd27727b3b1080dbc018ceccce3a4ad3ef2fd1b40bfd2abf0cf91b",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Golden/HostValidationTest.php"
+    },
+    {
+      "repo": "axiomasoft/agentools",
+      "donor": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "packages/agentools-core/src/Security/ExecutionContext.php",
+      "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "symbols": [
+        "fromHost",
+        "assertCurrent"
+      ],
+      "targetPaths": [
+        "packages/laravel/src/Http/ContextFactory.php",
+        "packages/laravel/src/ConsoleKernel.php",
+        "packages/laravel/src/Jobs/Jobs.php"
+      ],
+      "reason": "Reuse the already adapted core AccessContext/RequestBoundary directly, retaining host construction and current-identity checks. No Laravel request, tool arguments or serialized scope becomes host authority; no Agentools runtime dependency or hash reconstruction.",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "observedSha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Security/ExecutionContext.php"
+    },
+    {
+      "repo": "HKUDS/DeepTutor",
+      "donor": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/runtime/test_import_layering.py",
+      "sha256": "f50d98ac585c4f8426acc7a8e709ca4bcd34176ca64e5b42862191481b9ebbe1",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "symbols": [
+        "test_registry_imports_without_a_provider_cycle"
+      ],
+      "targetPaths": [
+        "tests/delivery/laravel/IsolationTest.php",
+        "tests/delivery/laravel/fixtures/v1/core-only.php"
+      ],
+      "reason": "Adapt fresh-process import qualification to an actual offline core-only Composer installation and verify that no Illuminate classes or dependencies are available. No Python import/runtime implementation is transferred.",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "observedSha256": "f50d98ac585c4f8426acc7a8e709ca4bcd34176ca64e5b42862191481b9ebbe1",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_import_layering.py"
+    }
+  ],
+  "reusedTests": [
+    "Host-owned validation rejects forged scope before application calls",
+    "Unknown and unavailable remain distinct outcomes",
+    "Current host policy must match the immutable context before execution",
+    "Fresh-process core-only install without host/framework imports"
+  ],
+  "addedGapTests": [
+    "Real Laravel PackageManifest discovery and manual provider boot without side effects",
+    "Independent routes/migration publication/Artisan/jobs opt-ins",
+    "Immutable SQL publication copies rather than executes core migrations",
+    "Lazy explicit adapter bindings and unknown/kind/capability/secret negatives",
+    "Artisan versus core CLI exact envelopes, usage errors, exits and raw JSON output",
+    "Raw terminal argv retains duplicate flags and ordering for core grammar rejection before host/application dispatch",
+    "Queue payload contains only a durable reference; authorization is refreshed on execution/retry",
+    "Explicit environment-only credentials without secret-bearing profiles/debug output",
+    "Required-case missing/skipped/failed/empty/unknown and nested-exit negatives"
+  ],
+  "newCodeRationale": "The donors do not implement the approved optional Laravel boundary. New delivery code composes existing AccessContext, RequestBoundary, HostProfile, AdapterRegistry and CLI Kernel/Response rather than duplicating policy or application use cases. HostApplication, HttpIdentity, JobIdentity, JobHandler and RouteRegistrar are explicit host composition seams. No vendor dependency enters core/root, no autodiscovery metadata or install hook is added, and no worker/scheduler/model call starts at boot. The one-route host example is a delivery example; the optional HTTP package owns the full HTTP API.",
+  "checks": [
+    {
+      "cmd": "sha256sum three pinned local donor candidates",
+      "verdict": "pass"
+    },
+    {
+      "cmd": "KNOWKIT_QA_COMPOSER_PROJECT=packages/laravel packages/laravel/vendor/bin/phpunit --configuration phpunit.xml tests/delivery/laravel/ProviderTest.php",
+      "exit": 0,
+      "tests": 6,
+      "assertions": 58,
+      "evidence": ".phpunit.cache/P7.1-correction/provider.out"
+    },
+    {
+      "cmd": "KNOWKIT_QA_COMPOSER_PROJECT=packages/laravel packages/laravel/vendor/bin/phpunit --configuration phpunit.xml tests/delivery/laravel/ContextTest.php",
+      "exit": 0,
+      "tests": 5,
+      "assertions": 107,
+      "evidence": ".phpunit.cache/P7.1-correction/context.out"
+    },
+    {
+      "cmd": "KNOWKIT_QA_COMPOSER_PROJECT=packages/laravel packages/laravel/vendor/bin/phpunit --configuration phpunit.xml tests/delivery/laravel/JobsTest.php",
+      "exit": 0,
+      "tests": 2,
+      "assertions": 18,
+      "evidence": ".phpunit.cache/P7.1-correction/jobs.out"
+    },
+    {
+      "cmd": "KNOWKIT_QA_COMPOSER_PROJECT=packages/laravel packages/laravel/vendor/bin/phpunit --configuration phpunit.xml tests/delivery/laravel/ConsoleTest.php",
+      "exit": 0,
+      "tests": 6,
+      "assertions": 141,
+      "evidence": ".phpunit.cache/P7.1-correction/console.out"
+    },
+    {
+      "cmd": "KNOWKIT_QA_COMPOSER_PROJECT=packages/laravel packages/laravel/vendor/bin/phpunit --configuration phpunit.xml tests/delivery/laravel/IsolationTest.php",
+      "exit": 0,
+      "tests": 2,
+      "assertions": 75,
+      "evidence": ".phpunit.cache/P7.1-correction/isolation.out"
+    },
+    {
+      "cmd": "KNOWKIT_QA_COMPOSER_PROJECT=packages/laravel packages/laravel/vendor/bin/phpunit --configuration phpunit.xml tests/delivery/laravel/FixtureTest.php",
+      "exit": 0,
+      "tests": 2,
+      "assertions": 85,
+      "evidence": ".phpunit.cache/P7.1-correction/fixture.out"
+    },
+    {
+      "cmd": "composer validate --strict --working-dir=packages/laravel",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P7.1-correction/composer.out"
+    },
+    {
+      "cmd": "php tools/qa.php --check dag",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P7.1-correction/dag.out"
+    },
+    {
+      "cmd": "vendor/bin/phpstan analyse packages/laravel/src examples/laravel --autoload-file=packages/laravel/vendor/autoload.php --level=5 --no-progress --memory-limit=1G --debug",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P7.1-correction/phpstan.out"
+    },
+    {
+      "cmd": "php -l on all 26 changed/new PHP files",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P7.1-correction/syntax.json"
+    },
+    {
+      "cmd": "git diff --check",
+      "exit": 0,
+      "evidence": ".phpunit.cache/P7.1-correction/whitespace.out"
+    }
+  ],
+  "unresolved": [],
+  "planMirror": "Coordinator-owned. Executor plan mutation is forbidden; copy this tracked receipt during registration.",
+  "qualificationLimits": [
+    "Local PHP 8.4.1 and locked Illuminate/Laravel 12 graph only; PHP 8.3/8.5 qualification is not claimed.",
+    "Delivery tests need no external database/model backend: SQL is published without execution. Existing core application/lifecycle/disclosure persistence remains responsible for authoritative tenant and immutable identity checks.",
+    "Host applications must bind real authentication, route, application and durable job handlers. The optional HTTP package's full endpoint/schema surface is not implemented by this provider item.",
+    "The host starts queue workers/outbox scheduling explicitly. Python worker subprocess execution remains in existing core application adapters.",
+    "V1, independent review, plan recording and commit are coordinator-owned and were not launched."
+  ],
+  "correction": {
+    "finding": "Artisan normalized duplicate options and command/option ordering before core validation, allowing invalid terminal arguments to reach application dispatch.",
+    "resolution": "Forward raw ArgvInput tokens after the Artisan command name. Retain existing structured input handling for programmatic calls. Fixture version 1.1.0 adds four authored negative argv cases; all previous expected outcomes/digests stay unchanged.",
+    "negativeProof": ".phpunit.cache/P7.1-correction/argv-red.out",
+    "positiveProof": ".phpunit.cache/P7.1-correction/console.out"
+  }
+}

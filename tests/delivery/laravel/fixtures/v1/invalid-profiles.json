@@ -1,0 +1,114 @@
+[
+  {
+    "expected": "unknown_adapter",
+    "profile": {
+      "schemaVersion": "host-profile:1",
+      "id": "laravel-fixture",
+      "version": "1.0.0",
+      "adapterBindings": {
+        "clock": {
+          "adapterId": "missing.clock",
+          "config": {},
+          "capabilities": [],
+          "featureClaims": []
+        }
+      },
+      "parserProfiles": {},
+      "searchProfiles": {},
+      "coveragePolicy": {
+        "version": "1",
+        "state": "complete"
+      },
+      "quotas": {
+        "maxBytes": 4096,
+        "maxFragments": 32,
+        "maxAssets": 0
+      }
+    }
+  },
+  {
+    "expected": "unsupported_capability",
+    "profile": {
+      "schemaVersion": "host-profile:1",
+      "id": "laravel-fixture",
+      "version": "1.0.0",
+      "adapterBindings": {
+        "clock": {
+          "adapterId": "fixture.clock",
+          "config": {},
+          "capabilities": [
+            "storage.immutable"
+          ],
+          "featureClaims": []
+        }
+      },
+      "parserProfiles": {},
+      "searchProfiles": {},
+      "coveragePolicy": {
+        "version": "1",
+        "state": "complete"
+      },
+      "quotas": {
+        "maxBytes": 4096,
+        "maxFragments": 32,
+        "maxAssets": 0
+      }
+    }
+  },
+  {
+    "expected": "adapter_kind_mismatch",
+    "profile": {
+      "schemaVersion": "host-profile:1",
+      "id": "laravel-fixture",
+      "version": "1.0.0",
+      "adapterBindings": {
+        "blob_store": {
+          "adapterId": "fixture.clock",
+          "config": {},
+          "capabilities": [],
+          "featureClaims": []
+        }
+      },
+      "parserProfiles": {},
+      "searchProfiles": {},
+      "coveragePolicy": {
+        "version": "1",
+        "state": "complete"
+      },
+      "quotas": {
+        "maxBytes": 4096,
+        "maxFragments": 32,
+        "maxAssets": 0
+      }
+    }
+  },
+  {
+    "expected": "unsafe_profile_setting",
+    "profile": {
+      "schemaVersion": "host-profile:1",
+      "id": "laravel-fixture",
+      "version": "1.0.0",
+      "adapterBindings": {
+        "clock": {
+          "adapterId": "fixture.clock",
+          "config": {
+            "password": "synthetic-invalid-literal"
+          },
+          "capabilities": [],
+          "featureClaims": []
+        }
+      },
+      "parserProfiles": {},
+      "searchProfiles": {},
+      "coveragePolicy": {
+        "version": "1",
+        "state": "complete"
+      },
+      "quotas": {
+        "maxBytes": 4096,
+        "maxFragments": 32,
+        "maxAssets": 0
+      }
+    }
+  }
+]

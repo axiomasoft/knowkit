@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "delivery:laravel",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "Add authored raw argv negatives for duplicate flags and invalid command/option ordering: Artisan must preserve core grammar rejection before dispatch. Existing expected digests/outcomes are unchanged. Initial opt-in, host identity and CLI vectors derive from approved API/delivery contracts; profile JSON preserves empty objects for core validation.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic request/host/profile fixtures. Donor patterns and provenance are recorded separately in P7.1-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "DISCOVERY-ONLY",
+    "EXPLICIT-ROUTES-MIGRATIONS-COMMANDS",
+    "EXPLICIT-JOBS",
+    "REQUEST-TENANT-SPOOF",
+    "UNKNOWN-ADAPTER",
+    "EXPLICIT-CAPABILITIES",
+    "CORE-WITHOUT-ILLUMINATE",
+    "CLI-PARITY",
+    "R18-A01",
+    "R18-A02",
+    "CURRENT-HOST-CONTEXT",
+    "JOB-REAUTHORIZATION",
+    "ENVIRONMENT-SECRETS",
+    "DISTINCT-OUTCOMES",
+    "APPLICATION-DELEGATION",
+    "INVALID-OPT-IN",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "DISCOVERY-ONLY": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ProviderTest::testPackageDiscoveryAndManualBootHaveNoInstallEffects"
+    ],
+    "EXPLICIT-ROUTES-MIGRATIONS-COMMANDS": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ProviderTest::testRoutesMigrationsAndCommandsRequireIndependentOptIns",
+      "KnowKit\\Tests\\Delivery\\Laravel\\ProviderTest::testEachCapabilityCanBeEnabledAlone"
+    ],
+    "EXPLICIT-JOBS": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\JobsTest::testJobsOptInNeverDispatchesUntilHostRequestsWork"
+    ],
+    "REQUEST-TENANT-SPOOF": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ContextTest::testUntrustedHttpIdentityNeverReachesApplication"
+    ],
+    "UNKNOWN-ADAPTER": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ProviderTest::testUnknownAdapterAndUnsupportedCapabilitiesFailBeforeFactory"
+    ],
+    "EXPLICIT-CAPABILITIES": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ProviderTest::testUnknownAdapterAndUnsupportedCapabilitiesFailBeforeFactory",
+      "KnowKit\\Tests\\Delivery\\Laravel\\ProviderTest::testValidExplicitAdapterBindsLazilyAndOnlyOnce"
+    ],
+    "CORE-WITHOUT-ILLUMINATE": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\IsolationTest::testCoreLoadsInFreshProcessWithoutIlluminate"
+    ],
+    "CLI-PARITY": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ConsoleTest::testArtisanAndCoreCliKeepEveryOutcomeEnvelopeAndExit",
+      "KnowKit\\Tests\\Delivery\\Laravel\\ConsoleTest::testArtisanSyntaxErrorsKeepCoreUsageExitAndSafeEnvelope",
+      "KnowKit\\Tests\\Delivery\\Laravel\\ConsoleTest::testTerminalArgumentsPreserveCoreGrammarBeforeDispatch"
+    ],
+    "R18-A01": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ConsoleTest::testForgedToolIdentityCannotEnlargeHostScope",
+      "KnowKit\\Tests\\Delivery\\Laravel\\ContextTest::testHostContextPrevailsAndIsRecheckedBeforeApplication"
+    ],
+    "R18-A02": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ContextTest::testUntrustedHttpIdentityNeverReachesApplication"
+    ],
+    "CURRENT-HOST-CONTEXT": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ContextTest::testHostContextPrevailsAndIsRecheckedBeforeApplication",
+      "KnowKit\\Tests\\Delivery\\Laravel\\ConsoleTest::testCurrentHostIdentityAndInternalErrorRedaction",
+      "KnowKit\\Tests\\Delivery\\Laravel\\ConsoleTest::testUnconfiguredConsoleCompositionReturnsRedactedInternalEnvelope"
+    ],
+    "JOB-REAUTHORIZATION": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\JobsTest::testQueuedJobReauthorizesAndCannotReplaySerializedPrivileges"
+    ],
+    "ENVIRONMENT-SECRETS": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\IsolationTest::testCredentialsResolveOnlyExplicitEnvironmentReferences"
+    ],
+    "DISTINCT-OUTCOMES": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ContextTest::testHostFailuresRemainDistinctAndRedacted",
+      "KnowKit\\Tests\\Delivery\\Laravel\\ContextTest::testHttpOutcomesPreserveCliTaxonomyWithoutContentOnFailure"
+    ],
+    "APPLICATION-DELEGATION": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ContextTest::testExampleRouteDelegatesToHostApplicationWithTrustedContext"
+    ],
+    "INVALID-OPT-IN": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\ProviderTest::testInvalidOptInFlagsAndMissingRegistrarFailClosed"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\FixtureTest::testVersionedFixturesAndReuseBindCandidate"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Delivery\\Laravel\\FixtureTest::testRequiredCasesFailForMissingSkippedFailedEmptyAndUnknown"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/delivery/laravel/fixtures/v1/argv.json",
+      "sha256": "2737097685db770dc4fae7965c308b25ce7f83e7050944f3dfecd8b914f1d536",
+      "expected": "Duplicate flags and invalid command/option ordering are rejected with usage exit 2 before host identity or application dispatch, equally by core CLI and terminal Artisan input."
+    },
+    {
+      "path": "tests/delivery/laravel/fixtures/v1/core-only.php",
+      "sha256": "d68106c6f230f601fdd6e535f51173cc7941f4a31d54e255f572379abf6ca56f",
+      "expected": "Offline core-only Composer install boots registry and CLI in a fresh process with no Illuminate autoloader."
+    },
+    {
+      "path": "tests/delivery/laravel/fixtures/v1/invalid-profiles.json",
+      "sha256": "b8627f96a7e270a33c81ba139be9d48b8acc47eeedf0b8c7a98f0dc56381c430",
+      "expected": "Unknown adapter, unsupported capability, wrong kind and literal password each fail with the specified incompatible code before any factory call."
+    },
+    {
+      "path": "tests/delivery/laravel/fixtures/v1/profile.json",
+      "sha256": "f06aeadcf3a333e01b27ac05574d50cd5616193564d29656ca2ddb4c56685194",
+      "expected": "Explicit clock binding is validated offline and resolved lazily as a singleton; no ambient defaults."
+    },
+    {
+      "path": "tests/delivery/laravel/fixtures/v1/scenarios.json",
+      "sha256": "8cc8b5d3ec27eae2678886af84c8295b1798fd5802f24f927147181056378112",
+      "expected": "Every forged identity field is refused; all six outcomes retain authored HTTP statuses and CLI exits."
+    },
+    {
+      "path": "tests/delivery/laravel/fixtures/v1/search.json",
+      "sha256": "f9bc8aeb48d367c96ef67974e5ee6f9dd9544e5212c1a4edc1d5f82943884e2f",
+      "expected": "Closed, synthetic search payload read through the same file/stdin grammar in both CLI deliveries."
+    }
+  ],
+  "components": {
+    "phpFloor": "8.3",
+    "illuminate": "^12.0",
+    "qualifiedLocalPhp": "8.4.1",
+    "requiredBackend": "No external database or model provider required: delivery registration is inert, SQL publication copies core files without executing them. Core-only install uses an offline path Composer repository.",
+    "composerLock": {
+      "path": "packages/laravel/composer.lock",
+      "sha256": "b12add8c96b6e37f7cb22f512c448efe65a42b619c2428dd49578b2a7413767d"
+    }
+  }
+}

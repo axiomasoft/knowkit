@@ -1,0 +1,22 @@
+[
+  {
+    "id": "duplicate-input",
+    "arguments": ["search", "--input=<input>", "--input=<input>"],
+    "exit": 2
+  },
+  {
+    "id": "duplicate-json",
+    "arguments": ["search", "--input=<input>", "--json", "--json"],
+    "exit": 2
+  },
+  {
+    "id": "option-before-command",
+    "arguments": ["--input=<input>", "search"],
+    "exit": 2
+  },
+  {
+    "id": "words-after-option",
+    "arguments": ["source", "--idempotency-key=fixture", "register"],
+    "exit": 2
+  }
+]
