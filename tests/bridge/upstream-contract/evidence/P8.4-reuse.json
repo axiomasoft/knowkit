@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P8.4",
+  "reviewedBeforeImplementation": true,
+  "authority": "Owner-authorized private local adaptation only; no publication or relicensing.",
+  "notices": [
+    "AgenTools copyright 2026 Dmitry Vostrikov, private local reuse authority.",
+    "DeepTutor Apache-2.0 copyright 2025 Data Intelligence Lab, The University of Hong Kong; no DeepTutor code copied."
+  ],
+  "candidates": [
+    {
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextComposition.php",
+      "decision": "adapt",
+      "rationale": "Adapt constructor prefix and native buildPlan/finalize/save order into versioned change request; synthetic empty-default fixture never claims native compiler parity."
+    },
+    {
+      "path": "packages/agentools-chatom/src/TextContextAuthority.php",
+      "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "e80acb10becbff1a770c6c74d841dae4ed92314b96e4666498220c03e93b0dc2",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextContextAuthority.php",
+      "decision": "adapt",
+      "rationale": "Adapt fail-closed current exact-source checks as required boundary contracts; do not port native SQL/history owners."
+    },
+    {
+      "path": "packages/agentools-core/src/Security/ExecutionContext.php",
+      "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Security/ExecutionContext.php",
+      "decision": "dependency",
+      "rationale": "Use the actual installed platform-core ExecutionContext and current HostAuthorization; preserve full scope hash and business purpose."
+    },
+    {
+      "path": "extensions/knowledge/src/Retrieval/EvidenceSet.php",
+      "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "d84404e2ea497a9558d4839bd55848b1440c1f383c0f2d27c0ac6f5037b900f9",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/EvidenceSet.php",
+      "decision": "adapt",
+      "rationale": "Adapt immutable historic result, separate model view and outcome rules into fixture-only contribution receipt; historic evidence is not a grant."
+    },
+    {
+      "path": "extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "afdfaecf1f2246cf4f4a8e1ab70bc1da1d89926c8aab11740c0a47d6a841bd7f",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "decision": "reject",
+      "rationale": "No graph/runtime/journal implementation needed for contract qualification; retain owner IO outside transactions and ancestor lifecycle requirements."
+    },
+    {
+      "path": "docs-for-dev/KNOWLEDGE_MIGRATION.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "ad61c73a2675694447a693612898ac6168a6da847b2614ad1fe00c7024b01990",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/KNOWLEDGE_MIGRATION.md",
+      "decision": "reject",
+      "rationale": "Live vault pointers and flattened filename copies do not provide this exact immutable tenant/version/IR/span compiler and current-authority seam."
+    }
+  ],
+  "verification": "Six cached source SHA-256 values independently verified before implementation.",
+  "newGlue": "No donor implements EvidenceContextContributor or CurrentSourceAuthority. New versioned DTO schemas, exact reflection/hash pins, test-only compiler scenarios and a nonmutating installed probe are necessary; no donor runtime duplicated.",
+  "sourceGaps": [
+    "Pinned TextComposition lacks the proposed seam.",
+    "No merged upstream task/PR, installed platform-chatom seam or real owner/compiler/runtime/relay evidence supplied."
+  ],
+  "qualification": {
+    "tier": "contract-scripted",
+    "upstream_seam": "pending",
+    "production": false,
+    "runtimeQualified": false
+  },
+  "planReceipt": "Not written: plan_mutation forbidden. Coordinator may mirror this tracked receipt through the permitted plan API."
+}

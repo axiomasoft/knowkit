@@ -1,0 +1,148 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "bridge:upstream-contract",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial exact KAT-EVIDENCE-CONTEXT-1 proposal. Local A01-A18 are scripted seam obligations; installed native tests remain pending. Any signature/schema/hash change requires explicit version and qualification.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic contract fixtures with pinned private Agentools source witnesses; no real student data.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "bridge-upstream:strict-fixture-schema",
+    "bridge-upstream:no-production-fixture",
+    "bridge-upstream:no-real-fqn-shadow",
+    "bridge-upstream:empty-contributor-defaultcompatibility",
+    "bridge-upstream:missing-installed-seam-nonzero",
+    "bridge-upstream:pin-signature-mismatch",
+    "bridge-upstream:currentauthority-required",
+    "bridge-upstream:A01-A18-manifest-complete",
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05",
+    "A06",
+    "A07",
+    "A08",
+    "A09",
+    "A10",
+    "A11",
+    "A12",
+    "A13",
+    "A14",
+    "A15",
+    "A16",
+    "A17",
+    "A18"
+  ],
+  "testCaseMap": {
+    "A01": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA01ExactSignaturesSchemasAndPins"
+    ],
+    "A02": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA02EmptyDefaultPreservesBytesAndHash"
+    ],
+    "A03": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA03PermittedBytesAreCompiled"
+    ],
+    "A04": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA04TrustedScopeAndOperation"
+    ],
+    "A05": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA05BoundedAggregate"
+    ],
+    "A06": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA06CurrentAuthorityRequired"
+    ],
+    "A07": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA07DeniedUnknownNeverSend"
+    ],
+    "A08": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA08EpochAndLifecycleChangesRefuse"
+    ],
+    "A09": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA09ExpiryRefuses"
+    ],
+    "A10": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA10ExactSourceAndModelDigest"
+    ],
+    "A11": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA11RestoreDoesNotRecollect"
+    ],
+    "A12": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA12BeforeModelIoRechecks"
+    ],
+    "A13": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA13AfterIntentRechecks"
+    ],
+    "A14": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA14BothDeliveryBoundariesRecheck"
+    ],
+    "A15": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA15HostGuardStillApplies"
+    ],
+    "A16": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA16DependenciesAndRetentionBindings"
+    ],
+    "A17": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA17NoRetryOrFallback"
+    ],
+    "A18": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA18ManifestCompleteAndRunnerNegatives"
+    ],
+    "bridge-upstream:strict-fixture-schema": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testStrictFixtureSchemaRejectsUnknownNestedAndInvalidTypes"
+    ],
+    "bridge-upstream:no-production-fixture": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testFixtureCannotRunInProductionOrProductionAutoload"
+    ],
+    "bridge-upstream:no-real-fqn-shadow": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testNoRealFqnShadowOrAlias"
+    ],
+    "bridge-upstream:empty-contributor-defaultcompatibility": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA02EmptyDefaultPreservesBytesAndHash"
+    ],
+    "bridge-upstream:missing-installed-seam-nonzero": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testMissingInstalledSeamIsNonzero"
+    ],
+    "bridge-upstream:pin-signature-mismatch": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testPinSignatureSchemaAndHashMismatchRefused"
+    ],
+    "bridge-upstream:currentauthority-required": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA06CurrentAuthorityRequired"
+    ],
+    "bridge-upstream:A01-A18-manifest-complete": [
+      "KnowKit\\Tests\\Bridge\\UpstreamContract\\SeamTest::testA18ManifestCompleteAndRunnerNegatives"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "contracts/agentools/evidence-context/change-request.v1.json",
+      "sha256": "95cec91c7183c9d10647c218f91e13dc14127e5c7a29aac5def25949f6324536",
+      "expected": "Immutable versioned proposal, strict test fixture, reuse provenance and signature/schema/source/request pin bindings; upstream remains pending."
+    },
+    {
+      "path": "contracts/agentools/evidence-context/fixture.v1.json",
+      "sha256": "f74eef46022ac01bc90f7b66692997700361721cd5aaa760eee187a53e2395ca",
+      "expected": "Immutable versioned proposal, strict test fixture, reuse provenance and signature/schema/source/request pin bindings; upstream remains pending."
+    },
+    {
+      "path": "tests/bridge/upstream-contract/evidence/P8.4-reuse.json",
+      "sha256": "bef89eb0cffe511849788fd142284f6e407268b00ad0468fb8ee108d54a71a73",
+      "expected": "Immutable versioned proposal, strict test fixture, reuse provenance and signature/schema/source/request pin bindings; upstream remains pending."
+    },
+    {
+      "path": "contracts/agentools/pin-matrix.json",
+      "sha256": "da3c7af1be10b3d827db92c507ff7351121f351ae3e19fe425659faaed1d71e0",
+      "expected": "Pending upstream cannot qualify as merged+installed; exact source, signature, schema and artifact hashes are immutable."
+    }
+  ],
+  "components": {
+    "qualificationTier": "contract-scripted",
+    "production": false,
+    "upstream_seam": "pending",
+    "runtimeQualified": false,
+    "owningTask": "KAT-EVIDENCE-CONTEXT-1"
+  }
+}

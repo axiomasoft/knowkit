@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "agentools-pin-matrix:1",
+  "contract": "KAT-EVIDENCE-CONTEXT-1",
+  "upstream_seam": "pending",
+  "hashAlgorithm": "SHA-256; structured signature/schema values use RFC8785 JCS UTF-8 bytes; source/request/artifact values hash exact bytes. Pin digest hashes the complete ContributionPin with the same JCS domain.",
+  "signatureDigest": "389e7eaae9bcb8cb3115f3290e1d98ef990beb02fb5e471db17deab859c108a6",
+  "schemaDigest": "e620fd08b9a61784a9688ed1e3be604635aac7463b71c9982439ed48a702e4cd",
+  "sourcePins": [
+    {
+      "repository": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97"
+    },
+    {
+      "repository": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "packages/agentools-chatom/src/TextContextAuthority.php",
+      "sha256": "e80acb10becbff1a770c6c74d841dae4ed92314b96e4666498220c03e93b0dc2"
+    },
+    {
+      "repository": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "packages/agentools-core/src/Security/ExecutionContext.php",
+      "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c"
+    },
+    {
+      "repository": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Retrieval/EvidenceSet.php",
+      "sha256": "d84404e2ea497a9558d4839bd55848b1440c1f383c0f2d27c0ac6f5037b900f9"
+    },
+    {
+      "repository": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "sha256": "afdfaecf1f2246cf4f4a8e1ab70bc1da1d89926c8aab11740c0a47d6a841bd7f"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "contracts/agentools/evidence-context/change-request.v1.json",
+      "sha256": "95cec91c7183c9d10647c218f91e13dc14127e5c7a29aac5def25949f6324536"
+    },
+    {
+      "path": "contracts/agentools/evidence-context/fixture.v1.json",
+      "sha256": "f74eef46022ac01bc90f7b66692997700361721cd5aaa760eee187a53e2395ca"
+    },
+    {
+      "path": "tests/bridge/upstream-contract/evidence/P8.4-reuse.json",
+      "sha256": "bef89eb0cffe511849788fd142284f6e407268b00ad0468fb8ee108d54a71a73"
+    }
+  ],
+  "upstreamDelivery": {
+    "status": "pending",
+    "owningTask": "KAT-EVIDENCE-CONTEXT-1",
+    "pullRequest": null,
+    "mergedCommit": null,
+    "packageVersion": null,
+    "signatureDigest": null,
+    "schemaDigest": null,
+    "sourceFiles": [],
+    "schemaManifest": null
+  },
+  "qualification": {
+    "local": "contract-scripted only",
+    "installed": "unavailable",
+    "host": "unavailable",
+    "runtimeQualified": false
+  },
+  "contractDigest": "95cec91c7183c9d10647c218f91e13dc14127e5c7a29aac5def25949f6324536",
+  "emptyDefaultRequestHash": "428c5db2b3837990937a93b35598130ef92f02025e3c2b579195db20fdb08b73"
+}

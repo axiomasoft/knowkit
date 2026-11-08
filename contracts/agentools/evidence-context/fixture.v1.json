@@ -1,0 +1,858 @@
+{
+  "$schema": "urn:knowkit:agentools-evidence-context-contract:1.0",
+  "schemaVersion": "1.0.0",
+  "production": false,
+  "fixture": true,
+  "qualificationTier": "contract-scripted",
+  "environment": "test",
+  "namespace": "KnowKit\\Bridge\\AgenTools\\Testing\\ContractFixture",
+  "upstream_seam": "pending",
+  "signatures": {
+    "AgenToolsPlatform\\Chatom\\EvidenceContextContributor": {
+      "kind": "interface",
+      "methods": {
+        "pin": {
+          "returnType": "AgenToolsPlatform\\Chatom\\ContributionPin",
+          "parameters": []
+        },
+        "collect": {
+          "returnType": "AgenToolsPlatform\\Chatom\\EvidenceContribution",
+          "parameters": [
+            {
+              "name": "context",
+              "type": "AgenToolsPlatform\\Core\\Security\\ExecutionContext",
+              "optional": false
+            },
+            {
+              "name": "input",
+              "type": "AgenTools\\Chatom\\Data\\IncomingInput",
+              "optional": false
+            },
+            {
+              "name": "request",
+              "type": "AgenToolsPlatform\\Chatom\\EvidenceContextRequest",
+              "optional": false
+            }
+          ]
+        }
+      }
+    },
+    "AgenToolsPlatform\\Chatom\\CurrentSourceAuthority": {
+      "kind": "interface",
+      "methods": {
+        "id": {
+          "returnType": "string",
+          "parameters": []
+        },
+        "authorizeBlock": {
+          "returnType": "void",
+          "parameters": [
+            {
+              "name": "context",
+              "type": "AgenToolsPlatform\\Core\\Security\\ExecutionContext",
+              "optional": false
+            },
+            {
+              "name": "block",
+              "type": "AgenToolsPlatform\\Core\\Context\\ContextBlock",
+              "optional": false
+            },
+            {
+              "name": "receipt",
+              "type": "AgenToolsPlatform\\Chatom\\ContributionReceipt",
+              "optional": false
+            },
+            {
+              "name": "stage",
+              "type": "AgenToolsPlatform\\Chatom\\BoundaryStage",
+              "optional": false
+            }
+          ]
+        },
+        "authorizeSnapshot": {
+          "returnType": "void",
+          "parameters": [
+            {
+              "name": "context",
+              "type": "AgenToolsPlatform\\Core\\Security\\ExecutionContext",
+              "optional": false
+            },
+            {
+              "name": "snapshot",
+              "type": "AgenToolsPlatform\\Core\\Context\\ContextSnapshot",
+              "optional": false
+            },
+            {
+              "name": "receipt",
+              "type": "AgenToolsPlatform\\Chatom\\ContributionReceipt",
+              "optional": false
+            },
+            {
+              "name": "stage",
+              "type": "AgenToolsPlatform\\Chatom\\BoundaryStage",
+              "optional": false
+            }
+          ]
+        }
+      }
+    },
+    "AgenToolsPlatform\\Chatom\\ContributionPin": {
+      "kind": "class",
+      "properties": {
+        "id": "string",
+        "version": "string",
+        "contractDigest": "string",
+        "configDigest": "string"
+      }
+    },
+    "AgenToolsPlatform\\Chatom\\ContributionReceipt": {
+      "kind": "class",
+      "properties": {
+        "schema": "string",
+        "id": "string",
+        "pinDigest": "string",
+        "hostScopeHash": "string",
+        "selectionRefs": "array",
+        "evidenceSetIds": "array",
+        "sourceEpochs": "array",
+        "expiresAt": "string",
+        "modelViewDigests": "array"
+      }
+    },
+    "AgenToolsPlatform\\Chatom\\EvidenceContextRequest": {
+      "kind": "class",
+      "properties": {
+        "turnId": "string",
+        "runId": "string",
+        "invocationUseRef": "string",
+        "snapshotUseRef": "string",
+        "bundleRef": "string",
+        "bundleHash": "string",
+        "hostScopeHash": "string",
+        "maxFragments": "int",
+        "maxBytes": "int",
+        "operation": "string",
+        "now": "string"
+      }
+    },
+    "AgenToolsPlatform\\Chatom\\EvidenceContribution": {
+      "kind": "class",
+      "properties": {
+        "pin": "AgenToolsPlatform\\Chatom\\ContributionPin",
+        "blocks": "array",
+        "dependencies": "array",
+        "receipt": "AgenToolsPlatform\\Chatom\\ContributionReceipt"
+      }
+    },
+    "AgenToolsPlatform\\Chatom\\BoundaryStage": {
+      "kind": "enum",
+      "cases": {
+        "Compilation": "compilation",
+        "Restore": "restore",
+        "BeforeModelIo": "before-model-io",
+        "AfterDurableIntent": "after-durable-intent",
+        "BufferedDelivery": "buffered-delivery",
+        "ActualDelivery": "actual-delivery"
+      }
+    },
+    "AgenToolsPlatform\\Chatom\\TextComposition": {
+      "kind": "class",
+      "methods": {
+        "__construct": {
+          "returnType": "",
+          "parameters": [
+            {
+              "name": "environment",
+              "type": "AgenToolsPlatform\\Postgres\\Runtime\\RepositoryContext",
+              "optional": false
+            },
+            {
+              "name": "context",
+              "type": "Closure",
+              "optional": false
+            },
+            {
+              "name": "profile",
+              "type": "AgenToolsPlatform\\Chatom\\TextProfile",
+              "optional": false
+            },
+            {
+              "name": "history",
+              "type": "AgenToolsPlatform\\Chatom\\NativeHistory",
+              "optional": false
+            },
+            {
+              "name": "compiler",
+              "type": "AgenToolsPlatform\\Core\\Context\\ReadContextCompiler",
+              "optional": false
+            },
+            {
+              "name": "snapshots",
+              "type": "AgenToolsPlatform\\Postgres\\Context\\SnapshotRepository",
+              "optional": false
+            },
+            {
+              "name": "counter",
+              "type": "AgenToolsPlatform\\Core\\Context\\TokenCounter",
+              "optional": false
+            },
+            {
+              "name": "payloads",
+              "type": "AgenToolsPlatform\\Core\\Runtime\\InvocationPayloads",
+              "optional": false
+            },
+            {
+              "name": "exports",
+              "type": "AgenToolsPlatform\\Core\\Runtime\\InvocationPayloads",
+              "optional": false
+            },
+            {
+              "name": "invocations",
+              "type": "AgenToolsPlatform\\Postgres\\Models\\InvocationRepository",
+              "optional": false
+            },
+            {
+              "name": "model",
+              "type": "AgenToolsPlatform\\Core\\Models\\ModelTransport",
+              "optional": false
+            },
+            {
+              "name": "budget",
+              "type": "AgenToolsPlatform\\Core\\Budget\\BudgetPort",
+              "optional": false
+            },
+            {
+              "name": "guard",
+              "type": "AgenToolsPlatform\\Core\\Runtime\\InvocationGuard",
+              "optional": false
+            },
+            {
+              "name": "actions",
+              "type": "AgenToolsPlatform\\Core\\Runtime\\ProposalDispatcher",
+              "optional": false
+            },
+            {
+              "name": "deliveries",
+              "type": "AgenToolsPlatform\\Postgres\\Delivery\\DeliveryRepository",
+              "optional": false
+            },
+            {
+              "name": "owner",
+              "type": "AgenTools\\Chatom\\Platform\\PostgresDeliveryOwner",
+              "optional": false
+            },
+            {
+              "name": "expiresAt",
+              "type": "AgenToolsPlatform\\Core\\Common\\UtcInstant",
+              "optional": false
+            },
+            {
+              "name": "claims",
+              "type": "AgenToolsPlatform\\Postgres\\Claims\\ClaimPolicy",
+              "optional": false
+            },
+            {
+              "name": "lineage",
+              "type": "?AgenToolsPlatform\\Chatom\\TextPayloadLineage",
+              "optional": true,
+              "default": null
+            },
+            {
+              "name": "evidenceContributors",
+              "type": "array",
+              "optional": true,
+              "default": []
+            }
+          ]
+        }
+      }
+    },
+    "AgenToolsPlatform\\Chatom\\TextContextAuthority": {
+      "kind": "class",
+      "methods": {
+        "__construct": {
+          "returnType": "",
+          "parameters": [
+            {
+              "name": "db",
+              "type": "AgenToolsPlatform\\Postgres\\Runtime\\Connection",
+              "optional": false
+            },
+            {
+              "name": "authorization",
+              "type": "AgenToolsPlatform\\Core\\Security\\HostAuthorization",
+              "optional": false
+            },
+            {
+              "name": "history",
+              "type": "AgenToolsPlatform\\Chatom\\NativeHistory",
+              "optional": false
+            },
+            {
+              "name": "profile",
+              "type": "AgenToolsPlatform\\Chatom\\TextProfile",
+              "optional": false
+            },
+            {
+              "name": "hasher",
+              "type": "AgenToolsPlatform\\Core\\Common\\CanonicalHasher",
+              "optional": false
+            },
+            {
+              "name": "currentSourceAuthorities",
+              "type": "array",
+              "optional": true,
+              "default": []
+            }
+          ]
+        }
+      }
+    }
+  },
+  "schemas": {
+    "ContributionPin": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "urn:knowkit:agentools-evidence-context:ContributionPin:1.0",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "version",
+        "contractDigest",
+        "configDigest"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "contractDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "configDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "ContributionReceipt": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "urn:knowkit:agentools-evidence-context:ContributionReceipt:1.0",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema",
+        "id",
+        "pinDigest",
+        "hostScopeHash",
+        "selectionRefs",
+        "evidenceSetIds",
+        "sourceEpochs",
+        "expiresAt",
+        "modelViewDigests"
+      ],
+      "properties": {
+        "schema": {
+          "const": "urn:knowkit:agentools-contribution-receipt:1.0"
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "pinDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "hostScopeHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "selectionRefs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "evidenceSetIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "sourceEpochs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "epoch"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "epoch": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$"
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "expiresAt": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        },
+        "modelViewDigests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "hash"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "hash": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "minItems": 1,
+          "maxItems": 32,
+          "uniqueItems": true
+        }
+      }
+    },
+    "EvidenceContextRequest": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "urn:knowkit:agentools-evidence-context:EvidenceContextRequest:1.0",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "turnId",
+        "runId",
+        "invocationUseRef",
+        "snapshotUseRef",
+        "bundleRef",
+        "bundleHash",
+        "hostScopeHash",
+        "maxFragments",
+        "maxBytes",
+        "operation",
+        "now"
+      ],
+      "properties": {
+        "turnId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "runId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "invocationUseRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "snapshotUseRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "bundleRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "bundleHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "hostScopeHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "maxFragments": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "maxBytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8192
+        },
+        "operation": {
+          "const": "ModelEgressContext"
+        },
+        "now": {
+          "type": "string",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+        }
+      }
+    },
+    "ContextBlock": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "urn:knowkit:agentools-evidence-context:ContextBlock:1.0",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sourceRef",
+        "sourceVersion",
+        "sourceHash",
+        "irDigest",
+        "spanRef",
+        "modelView"
+      ],
+      "properties": {
+        "sourceRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "sourceVersion": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "sourceHash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "irDigest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "spanRef": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "modelView": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 8192
+        }
+      }
+    },
+    "EvidenceContribution": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "urn:knowkit:agentools-evidence-context:EvidenceContribution:1.0",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pin",
+        "blocks",
+        "dependencies",
+        "receipt"
+      ],
+      "properties": {
+        "pin": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "version",
+            "contractDigest",
+            "configDigest"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "contractDigest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "configDigest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          }
+        },
+        "blocks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "sourceRef",
+              "sourceVersion",
+              "sourceHash",
+              "irDigest",
+              "spanRef",
+              "modelView"
+            ],
+            "properties": {
+              "sourceRef": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "sourceVersion": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "sourceHash": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "irDigest": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "spanRef": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "modelView": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 8192
+              }
+            }
+          },
+          "minItems": 0,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "ref",
+              "version",
+              "hash"
+            ],
+            "properties": {
+              "ref": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "version": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "hash": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            }
+          },
+          "minItems": 0,
+          "maxItems": 32,
+          "uniqueItems": true
+        },
+        "receipt": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "schema",
+            "id",
+            "pinDigest",
+            "hostScopeHash",
+            "selectionRefs",
+            "evidenceSetIds",
+            "sourceEpochs",
+            "expiresAt",
+            "modelViewDigests"
+          ],
+          "properties": {
+            "schema": {
+              "const": "urn:knowkit:agentools-contribution-receipt:1.0"
+            },
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256
+            },
+            "pinDigest": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "hostScopeHash": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "selectionRefs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "minItems": 1,
+              "maxItems": 32,
+              "uniqueItems": true
+            },
+            "evidenceSetIds": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              "minItems": 1,
+              "maxItems": 32,
+              "uniqueItems": true
+            },
+            "sourceEpochs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "ref",
+                  "epoch"
+                ],
+                "properties": {
+                  "ref": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "epoch": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)$"
+                  }
+                }
+              },
+              "minItems": 1,
+              "maxItems": 32,
+              "uniqueItems": true
+            },
+            "expiresAt": {
+              "type": "string",
+              "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$"
+            },
+            "modelViewDigests": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "ref",
+                  "hash"
+                ],
+                "properties": {
+                  "ref": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "hash": {
+                    "type": "string",
+                    "pattern": "^[0-9a-f]{64}$"
+                  }
+                }
+              },
+              "minItems": 1,
+              "maxItems": 32,
+              "uniqueItems": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "golden": {
+    "requestBytes": "{\"messages\":[{\"role\":\"user\",\"content\":\"Question\"}],\"system\":\"Policy\",\"maxOutputTokens\":64}",
+    "requestHash": "428c5db2b3837990937a93b35598130ef92f02025e3c2b579195db20fdb08b73",
+    "sourcePins": [
+      {
+        "repository": "agentools",
+        "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+        "path": "packages/agentools-chatom/src/TextComposition.php",
+        "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97"
+      },
+      {
+        "repository": "agentools",
+        "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+        "path": "packages/agentools-chatom/src/TextContextAuthority.php",
+        "sha256": "e80acb10becbff1a770c6c74d841dae4ed92314b96e4666498220c03e93b0dc2"
+      },
+      {
+        "repository": "agentools",
+        "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+        "path": "packages/agentools-core/src/Security/ExecutionContext.php",
+        "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c"
+      },
+      {
+        "repository": "agentools",
+        "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+        "path": "extensions/knowledge/src/Retrieval/EvidenceSet.php",
+        "sha256": "d84404e2ea497a9558d4839bd55848b1440c1f383c0f2d27c0ac6f5037b900f9"
+      },
+      {
+        "repository": "agentools",
+        "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+        "path": "extensions/knowledge/src/Dependencies/PostgresGraph.php",
+        "sha256": "afdfaecf1f2246cf4f4a8e1ab70bc1da1d89926c8aab11740c0a47d6a841bd7f"
+      }
+    ],
+    "expectedOutcomes": {
+      "allowed": {
+        "sendCount": 1,
+        "deliveryCount": 1
+      },
+      "denied": {
+        "sendCount": 0,
+        "deliveryCount": 0
+      },
+      "unknown": {
+        "sendCount": 0,
+        "deliveryCount": 0
+      },
+      "stale": {
+        "sendCount": 0,
+        "deliveryCount": 0
+      }
+    }
+  }
+}

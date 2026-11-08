@@ -29,6 +29,7 @@
     }
   ],
   "autoload": {"psr-4": {"KnowKit\\Bridge\\AgenTools\\": "src/"}},
+  "autoload-dev": {"psr-4": {"KnowKit\\Bridge\\AgenTools\\Testing\\ContractFixture\\": "tests/ContractFixture/"}},
   "config": {"allow-plugins": false, "sort-packages": true, "platform": {"php": "8.4.0"}},
   "minimum-stability": "stable",
   "prefer-stable": true
