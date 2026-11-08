@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "semantic:embedding",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Mandatory audit and DeepTutor scenarios bound to executable PHPUnit methods. Doubles prove contracts, not optional external adapter implementation.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "R12-A01",
+    "R12-A02",
+    "R22-A01",
+    "R22-A02",
+    "DT-Q02",
+    "model-revision",
+    "normalization",
+    "denied-egress",
+    "timeout-after-acceptance",
+    "nonfinite-malformed-vector",
+    "batch-input-limits",
+    "distinct-typed-failures",
+    "idempotent-local-acceptance",
+    "scoped-persistence",
+    "fixture-integrity"
+  ],
+  "testCaseMap": {
+    "R12-A01": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testReadPermissionDoesNotAuthorizeEgressAndEveryCallIsFresh"
+    ],
+    "R12-A02": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testFreshPublishDenialOrChangedBindingRejectsRemoteResult",
+      "KnowKit\\Tests\\Semantic\\Embedding\\PostgresTest::testProviderPersistsRemoteTimeoutAndFreshPublishDenial"
+    ],
+    "R22-A01": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testFullFingerprintAndExplicitRegistryNeverMixEqualDimensions",
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testChangedObservedSpaceAndLaterInvalidBatchCannotBecomeSuccess"
+    ],
+    "R22-A02": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testAsymmetricDocumentAndQueryRolesAreSentAndObservedExactly"
+    ],
+    "DT-Q02": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testEveryBatchAndHostSuppliedVectorUsesTheSameStrictValidation",
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testL2UnitNormToleranceAndUnnormalizedFiniteVectors",
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testChangedObservedSpaceAndLaterInvalidBatchCannotBecomeSuccess"
+    ],
+    "model-revision": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testFullFingerprintAndExplicitRegistryNeverMixEqualDimensions"
+    ],
+    "normalization": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testL2UnitNormToleranceAndUnnormalizedFiniteVectors"
+    ],
+    "denied-egress": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testReadPermissionDoesNotAuthorizeEgressAndEveryCallIsFresh"
+    ],
+    "timeout-after-acceptance": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testTimeoutAfterRemoteAcceptanceKeepsUnknownReceiptAndExplicitRetry",
+      "KnowKit\\Tests\\Semantic\\Embedding\\PostgresTest::testDurableIntentAmbiguousTimeoutAndIdempotentLocalAcceptance"
+    ],
+    "nonfinite-malformed-vector": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testEveryBatchAndHostSuppliedVectorUsesTheSameStrictValidation"
+    ],
+    "batch-input-limits": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testLimitsAndManifestMismatchBlockBeforeAnyTransmission"
+    ],
+    "distinct-typed-failures": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\ProviderTest::testTypedFailuresRedactExceptionsAndNeverRetry"
+    ],
+    "idempotent-local-acceptance": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\PostgresTest::testDurableIntentAmbiguousTimeoutAndIdempotentLocalAcceptance",
+      "KnowKit\\Tests\\Semantic\\Embedding\\PostgresTest::testConcurrentWriterCannotReuseAnAttemptOrOverwriteATerminalReceipt"
+    ],
+    "scoped-persistence": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\PostgresTest::testEveryPersistenceBoundaryBindsTenantKbFullScopeAndImmutableSpace"
+    ],
+    "fixture-integrity": [
+      "KnowKit\\Tests\\Semantic\\Embedding\\FixtureTest::testVersionedFixtureDigestsAndReuseEvidence",
+      "KnowKit\\Tests\\Semantic\\Embedding\\FixtureTest::testRequiredCasesRejectMissingSkippedFailedDuplicateAndZeroExecutions"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/embeddings/corpus.v1.json",
+      "sha256": "683e022ac3c731d57beda0bec83a84bf1dab93bd7e8802dbedf897e03356d15f",
+      "expected": "Pinned complete-space digest, incompatible mutations, strict vector and policy outcomes."
+    },
+    {
+      "path": "tests/fixtures/embeddings/manifest.v1.json",
+      "sha256": "72988c197a6c5159bd4a31df01031943283ba59c53a0011b228e90c3177e8852",
+      "expected": "Versioned fixture inventory with provenance and expected digest/outcomes."
+    }
+  ]
+}

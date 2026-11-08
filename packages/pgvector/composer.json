@@ -1,0 +1,17 @@
+{
+  "name": "knowkit/pgvector",
+  "description": "Optional PostgreSQL embedding receipt and vector adapters for KnowKit",
+  "type": "library",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.3",
+    "ext-pdo_pgsql": "*",
+    "knowkit/core": "@dev"
+  },
+  "require-dev": {"phpunit/phpunit": "^11.5"},
+  "repositories": [{"type": "path", "url": "../core", "options": {"symlink": true, "versions": {"knowkit/core": "dev-main"}}}],
+  "autoload": {"psr-4": {"KnowKit\\PgVector\\": "src/"}},
+  "config": {"allow-plugins": false, "platform": {"php": "8.3.0"}, "sort-packages": true},
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

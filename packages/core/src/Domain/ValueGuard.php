@@ -70,13 +70,16 @@ final class ValueGuard
         if (!array_is_list($values) || count($values) !== $space->dimensions) {
             throw new DomainFailure(Outcome::Incompatible, 'space_mismatch');
         }
-        $nonzero = false;
+        $norm = 0.0;
         foreach ($values as $value) {
             if ((!is_int($value) && !is_float($value)) || !is_finite((float) $value)) {
                 throw new DomainFailure(Outcome::Incompatible, 'adapter_contract_violation');
             }
-            $nonzero = $nonzero || $value != 0;
+            // hypot avoids overflow for otherwise finite provider coordinates.
+            $norm = hypot($norm, (float) $value);
         }
-        if ($space->normalization === 'l2' && !$nonzero) { throw new DomainFailure(Outcome::Incompatible, 'space_mismatch'); }
+        if ($space->normalization === 'l2' && (!is_finite($norm) || abs($norm - 1.0) > 1.0e-6)) {
+            throw new DomainFailure(Outcome::Incompatible, 'space_mismatch');
+        }
     }
 }

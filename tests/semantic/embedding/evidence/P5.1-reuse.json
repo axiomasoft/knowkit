@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P5.1",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/EmbeddingSpace.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "bc82526a84558ff7536c81774bb6e2f42ad39336ecb3f16f6ffa56118437a23a",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/EmbeddingSpace.php",
+      "decision": "adapt",
+      "rationale": "Keep existing core JCS domain-separated fingerprint and explicit pair roles; donor six-field format cannot replace the approved eight-field contract.",
+      "verified": true,
+      "read": true
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/Vector.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "c26d30df921de78b35a14a66c8339b7047164e4000b1d0759a9b3563dc52fffc",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Vector.php",
+      "decision": "adapt",
+      "rationale": "Reuse existing numeric nonbool finite shape checks; add overflow-safe L2 unit-norm validation. Unnormalized finite values remain unchanged.",
+      "verified": true,
+      "read": true
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Retrieval/Service.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "f2b06b71cb11f6d3f7a5dd859062b4343dae45af2f945c2bbfcc59ae4606e275",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/Service.php",
+      "decision": "adapt",
+      "rationale": "Repeated boundary checks and full-space fail-closed logic; RRF/retrieval stay outside P5.1.",
+      "verified": true,
+      "read": true
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Retrieval/HybridTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "8d0a488c5c3019ce5fc425833f7b740a6a35e39299242a4f16c5172ace08e25f",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/HybridTest.php",
+      "decision": "adapt",
+      "rationale": "Equal-dimension mutation and no-call assertions adapted to registry and observed output.",
+      "verified": true,
+      "read": true
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/embedding_binding.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "e9abba5b17ef64fcb3f09d165e85f71e3872d067edf15ae285958406eb57f70f",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/embedding_binding.py",
+      "decision": "adapt",
+      "rationale": "Pin immutable per-call space; do not use global model settings or legacy fallback.",
+      "verified": true,
+      "read": true
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/pipelines/llamaindex/ingestion.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "88d6d15a0a3ee6a01fa15115dcd95ee91c69597633c64cfb08cad398e3fe3450",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/pipelines/llamaindex/ingestion.py",
+      "decision": "adapt",
+      "rationale": "Host precomputed vectors use the same validation pipeline; no Python/LlamaIndex runtime import.",
+      "verified": true,
+      "read": true
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/pipelines/llamaindex/retrievers.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "c974d313438af7a584cab96d1f3279ea5236165a24b3de7bb8d36299d6d0f178",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/pipelines/llamaindex/retrievers.py",
+      "decision": "defer",
+      "rationale": "Scoped retrieval and fusion belong to subsequent items; no FAISS/LlamaIndex import or automatic degradation.",
+      "verified": true,
+      "read": true
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/services/rag/test_llamaindex_embedding_resume.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "fa3305b1db007f0b8fbe9ea530a5ec61eec7c7a9d3e635a8dc061877c204f542",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/test_llamaindex_embedding_resume.py",
+      "decision": "adapt",
+      "rationale": "Checkpoint recovery/exact identity patterns adapted to pre-send durable unknown receipts, explicit attempts, and atomic idempotent acceptance.",
+      "verified": true,
+      "read": true
+    }
+  ],
+  "rights": {
+    "agentools": "Private local reuse authority; copyright 2026 Dmitry Vostrikov; no external redistribution claimed.",
+    "deeptutor": "Apache-2.0; copyright 2025 Data Intelligence Lab, The University of Hong Kong. Algorithm and test-pattern adaptation only; no Python code imported. Pinned LICENSE inspected locally."
+  },
+  "sourceGaps": [
+    "Donors do not implement the approved eight-field role-aware fingerprint, vendor-free PHP registry, fresh policy checks or tenant-bound atomic receipts. Missing pieces authored against scoped contracts.",
+    "No optional external HTTP adapter is implemented or inferred from a contract double."
+  ],
+  "localReuse": [
+    "EmbeddingSpace/HashDomain/Jcs, EmbeddingAccess, Vector/ValueGuard, DecisionReceipt/requireAllow, Result and PostgreSQL Connection."
+  ],
+  "planReceipt": "Not written because plan_mutation is forbidden; registrar can copy the tracked receipt."
+}

@@ -1,0 +1,316 @@
+{
+  "schemaVersion": "embedding-corpus:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Authored boundary fixtures; expected digest independently computed from normative prefix plus canonical JSON, not a snapshot rewrite.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "space": {
+    "provider": "recorded",
+    "model": "deterministic",
+    "revision": "r1",
+    "dimensions": 3,
+    "normalization": "none",
+    "indexVersion": "index-v1",
+    "documentRole": "search_document",
+    "queryRole": "search_query"
+  },
+  "spaceDigest": "6544dd8f1d975b82a5b3a6df402fa9206ee220c0a7176754a5788e8b322f5f80",
+  "spaceMutations": [
+    {
+      "id": "provider",
+      "changes": {
+        "provider": "other"
+      },
+      "expected": "incompatible"
+    },
+    {
+      "id": "model",
+      "changes": {
+        "model": "other-model"
+      },
+      "expected": "incompatible"
+    },
+    {
+      "id": "revision",
+      "changes": {
+        "revision": "r2"
+      },
+      "expected": "incompatible"
+    },
+    {
+      "id": "normalization",
+      "changes": {
+        "normalization": "l2"
+      },
+      "expected": "incompatible"
+    },
+    {
+      "id": "indexVersion",
+      "changes": {
+        "indexVersion": "index-v2"
+      },
+      "expected": "incompatible"
+    },
+    {
+      "id": "documentRole",
+      "changes": {
+        "documentRole": "wrong-document"
+      },
+      "expected": "incompatible"
+    },
+    {
+      "id": "queryRole",
+      "changes": {
+        "queryRole": "wrong-query"
+      },
+      "expected": "incompatible"
+    },
+    {
+      "id": "dimensions",
+      "changes": {
+        "dimensions": 4
+      },
+      "expected": "incompatible"
+    }
+  ],
+  "invalidVectors": [
+    {
+      "id": "bool",
+      "vectors": [
+        [
+          true,
+          0,
+          0
+        ]
+      ],
+      "spaceChanges": {},
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "numeric-string",
+      "vectors": [
+        [
+          "1",
+          0,
+          0
+        ]
+      ],
+      "spaceChanges": {},
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "nan",
+      "vectors": [
+        [
+          "__NAN__",
+          0,
+          0
+        ]
+      ],
+      "spaceChanges": {},
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "infinity",
+      "vectors": [
+        [
+          "__INF__",
+          0,
+          0
+        ]
+      ],
+      "spaceChanges": {},
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "negative-infinity",
+      "vectors": [
+        [
+          "__NEG_INF__",
+          0,
+          0
+        ]
+      ],
+      "spaceChanges": {},
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "dimension",
+      "vectors": [
+        [
+          1,
+          0
+        ]
+      ],
+      "spaceChanges": {},
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "sparse",
+      "vectors": [
+        [
+          1,
+          0,
+          0
+        ],
+        {
+          "1": 1,
+          "2": 0,
+          "3": 0
+        }
+      ],
+      "spaceChanges": {},
+      "inputCount": 2,
+      "expected": "incompatible"
+    },
+    {
+      "id": "scalar",
+      "vectors": [
+        1
+      ],
+      "spaceChanges": {},
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "cardinality",
+      "vectors": [],
+      "spaceChanges": {},
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "extra-vector",
+      "vectors": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          1,
+          0,
+          0
+        ]
+      ],
+      "spaceChanges": {},
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "second-vector-invalid",
+      "vectors": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          false,
+          0,
+          0
+        ]
+      ],
+      "spaceChanges": {},
+      "inputCount": 2,
+      "expected": "incompatible"
+    },
+    {
+      "id": "l2-zero",
+      "vectors": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "spaceChanges": {
+        "normalization": "l2"
+      },
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "l2-not-unit",
+      "vectors": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "spaceChanges": {
+        "normalization": "l2"
+      },
+      "inputCount": 1,
+      "expected": "incompatible"
+    },
+    {
+      "id": "l2-overflow",
+      "vectors": [
+        [
+          1e+308,
+          1e+308,
+          1e+308
+        ]
+      ],
+      "spaceChanges": {
+        "normalization": "l2"
+      },
+      "inputCount": 1,
+      "expected": "incompatible"
+    }
+  ],
+  "validVectors": [
+    {
+      "normalization": "l2",
+      "values": [
+        0.6,
+        0.8,
+        0
+      ]
+    },
+    {
+      "normalization": "l2",
+      "values": [
+        1.0000001,
+        0,
+        0
+      ]
+    },
+    {
+      "normalization": "none",
+      "values": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "normalization": "none",
+      "values": [
+        1e+308,
+        -1e+308,
+        0
+      ]
+    }
+  ],
+  "expectedOutcomes": {
+    "deniedEgress": "denied",
+    "unknownEgress": "unknown",
+    "unavailablePolicy": "unavailable",
+    "timeoutAfterAcceptance": "unknown",
+    "revokedPublish": "denied",
+    "changedBinding": "denied",
+    "malformed": "incompatible"
+  }
+}

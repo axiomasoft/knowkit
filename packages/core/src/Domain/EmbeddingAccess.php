@@ -47,6 +47,42 @@ final readonly class EmbeddingAccess
         }
     }
 
+    public function operation(): Operation
+    {
+        return Operation::from($this->request->toWire()->get('operation'));
+    }
+
+    /** @return non-empty-list<ResourceRef> Exact KB/source/version policy intersection. */
+    public function resources(): array
+    {
+        $resources = [new ResourceRef($this->scope->tenantId, 'knowledge_base', $this->scope->kbId)];
+        $seen = [];
+        foreach ($this->request->toWire()->get('items') as $item) {
+            foreach ($item->get('sourceVersionRefs') as $source) {
+                $sourceId = $source->get('sourceId');
+                $versionId = $source->get('sourceVersionId');
+                foreach (['source' => $sourceId, 'source_version' => $versionId] as $kind => $id) {
+                    if (isset($seen[$kind . ':' . $id])) {
+                        continue;
+                    }
+                    $seen[$kind . ':' . $id] = true;
+                    $typedId = $kind === 'source' ? new SourceId($id) : new SourceVersionId($id);
+                    $resources[] = new ResourceRef($this->scope->tenantId, $kind, $typedId);
+                }
+            }
+        }
+
+        return $resources;
+    }
+
+    /** @return non-empty-list<ResourceRef> */
+    public function egressResources(): array
+    {
+        $versions = array_values(array_filter($this->resources(), static fn(ResourceRef $r): bool => $r->kind === 'source_version'));
+
+        return $versions === [] ? [$this->resources()[0]] : $versions;
+    }
+
     private function assertDestination(SpaceRef $space): void
     {
         $destination = $this->request->toWire()->get('destination');

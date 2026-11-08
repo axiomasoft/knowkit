@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "embedding-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "versionRationale": "Authored boundary fixtures; expected digest independently computed from normative prefix plus canonical JSON, not a snapshot rewrite.",
+  "entries": [
+    {
+      "path": "tests/fixtures/embeddings/corpus.v1.json",
+      "sha256": "683e022ac3c731d57beda0bec83a84bf1dab93bd7e8802dbedf897e03356d15f",
+      "expected": "Pinned complete-space digest, incompatible mutations, strict vector and policy outcomes."
+    }
+  ]
+}
