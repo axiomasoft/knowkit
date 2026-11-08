@@ -5,16 +5,16 @@ namespace KnowKit\Adapter\Postgres\Jobs;
 use KnowKit\Adapter\Postgres\Catalog\{Connection, PdoCatalogTransaction};
 use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\{HashDomain, Jcs, JsonObject, StrictJson};
-use KnowKit\Port\{IdGenerator, JobQueue};
+use KnowKit\Port\{IdGenerator, WorkerJobs};
 
 /**
  * Durable tenant/KB partition. AgenTools immutable replay/rollback and DeepTutor recovery
  * patterns adapted to PostgreSQL fencing; see tests/jobs/leases/evidence/P2.7-reuse.json.
  * (c) 2026 Dmitry Vostrikov, private local reuse. No donor runtime dependency.
  */
-final readonly class PdoJobQueue implements JobQueue
+final readonly class PdoJobQueue implements WorkerJobs
 {
-    /** @param array<string,list<string>> $stagePlans Trusted registered type -> ordered stages.
+    /** @param array<string,array<array-key,string>> $stagePlans Trusted registered type -> ordered stages.
      *  @param \Closure(D\Lease,D\Checkpoint): D\JobCheckpointManifest $verifiedCheckpoint
      *  The callback must independently read/hash immutable manifest/resources outside SQL. */
     public function __construct(private Connection $db, private PdoCatalogTransaction $tx,
@@ -229,6 +229,24 @@ final readonly class PdoJobQueue implements JobQueue
             'stage'=>$row['stage'],'inputDigest'=>$row['stage_input_digest'],'processingIdentity'=>StrictJson::decode($row['processing_identity_json']),
             'uncertainExternalEffect'=>$row['uncertain_external_effect']]));
         return $value===false?null:$value;
+    }
+
+    public function workerContext(D\Lease $lease): ?D\WorkerJobContext
+    {
+        $context = $this->withLease($lease, function (array $row) use ($lease): D\WorkerJobContext|false {
+            if (!$this->current($lease)) {
+                return false;
+            }
+            $plan = json_decode($row['stage_plan_json'], true, 512, JSON_THROW_ON_ERROR);
+            return new D\WorkerJobContext(
+                new D\JobType($row['stage']),
+                new D\Sha256($row['stage_input_digest']),
+                new D\Fingerprint(HashDomain::ProcessingIdentity->digest(StrictJson::decode($row['processing_identity_json']))),
+                $row['uncertain_external_effect'],
+                (int) $row['completed_stage_count'] + 1 === count($plan),
+            );
+        });
+        return $context === false ? null : $context;
     }
 
     public static function backoff(int $attempt): int

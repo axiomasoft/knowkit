@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "worker-acceptance-fixtures-1.0",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial P6.2 acceptance corpus 1.0.0. Golden bytes deliberately reuse P6.1 protocol fixture 1.0.0 unchanged; SQL tests bind runtime tenant/source/lease IDs and recompute expected envelope digests. Mutations and expected outcomes are versioned here. Digest changes require a new fixture version and a semantic rationale; never automatic snapshots.",
+  "license": "LicenseRef-KnowKit-Private",
+  "provenance": "Project-authored synthetic fixtures with reused P6.1 golden wire. No PDF, Docling, OCR or remote adapter qualification.",
+  "expectedDigests": {
+    "source": "9948f723030218c0a068ea46acf54a329662547ebeaad8e1222bc1d4d5bea22b",
+    "ir": "6604116e5ea7f1dad4bb1a1e03664edfe71dcf1c5c775877301c73fe2861d0da",
+    "result": "5659820ea1432e85e81d2163e4d469cfdac3ba5de39c72fb5e3b21cc9d6a1b14"
+  },
+  "cases": [
+    {
+      "id": "VALID",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testValidResultIsIndependentlyImportedAndAcceptedWithCoverage",
+      "expected": "success; independent hashes; exact resources; coverage persisted; no publication"
+    },
+    {
+      "id": "FOREIGN-SOURCE",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testForeignSourceAndWrongSchemaAreRejectedBeforeImport",
+      "expected": "denied/worker_identity_mismatch"
+    },
+    {
+      "id": "BAD-DIGEST",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testBadResultIrAndResourceDigestsAreRejected",
+      "expected": "rejected before checkpoint/import"
+    },
+    {
+      "id": "OLD-LEASE",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testStaleLeaseTokenAndEpochCannotAcceptAfterTakeover",
+      "expected": "denied/stale_lease; current token succeeds; old acceptance rejected"
+    },
+    {
+      "id": "REVOKE-IN-FLIGHT",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testSourceRevokeAndCancellationInFlightRejectOutput",
+      "expected": "denied; revoke/cancel before validation, checkpoint and result barriers"
+    },
+    {
+      "id": "UNSUPPORTED-EXPLICIT-PARSER",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testUnsupportedExplicitAndNetworkAndUnqualifiedProfilesDoNotStartWorker",
+      "expected": "incompatible; no process or fallback"
+    },
+    {
+      "id": "MISSING-PAGE",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testMissingUnitCannotClaimCompleteAndPartialQualityRemainsVisible",
+      "expected": "missing expected unit rejected; honest partial accepted for extraction with quality deny"
+    },
+    {
+      "id": "EXTRA-ARTIFACT",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\IngressTest::testFullInventoryRejectsExtraSymlinkHardlinkNonregularEscapeAndDuplicate",
+      "expected": "inventory mismatch"
+    },
+    {
+      "id": "DENIED-NETWORK-PARSER",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testUnsupportedExplicitAndNetworkAndUnqualifiedProfilesDoNotStartWorker",
+      "expected": "denied/network_parser_denied; no process"
+    },
+    {
+      "id": "R15-A01",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testReuseBindsFullIdentityAndExcludesTransientSecrets",
+      "expected": "verified cache reuse; parser revision/OCR signature change requires documentRevisionId"
+    },
+    {
+      "id": "R15-A02",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testReuseBindsFullIdentityAndExcludesTransientSecrets",
+      "expected": "semantic identity excludes transient credentials; current access rechecked; private bytes redacted"
+    },
+    {
+      "id": "R17-A01",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testStaleLeaseTokenAndEpochCannotAcceptAfterTakeover",
+      "expected": "new fence succeeds; old fence/token/epoch cannot accept"
+    },
+    {
+      "id": "R17-A02",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testExternalUploadUncertaintyIsDurableAndRetryDoesNotClaimExactlyOnce",
+      "expected": "unknown effect persisted through retry; local acceptance idempotent"
+    },
+    {
+      "id": "R37-A01",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\SandboxAcceptanceTest::testRealSupervisorNegotiatesAndClientAcceptsOnlyScopedPrivateOutput",
+      "expected": "real namespace/seccomp denial of other input/metadata/network/publish; private readonly mounts"
+    },
+    {
+      "id": "R37-A02",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testForeignSourceAndWrongSchemaAreRejectedBeforeImport",
+      "expected": "PHP rejects foreign/schema/fence; valid result independently checked"
+    },
+    {
+      "id": "DT-Q06",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\IngressTest::testFullInventoryRejectsExtraSymlinkHardlinkNonregularEscapeAndDuplicate",
+      "expected": "symlink/hardlink/nonregular/escape/duplicate/extra rejected; exact asset digests"
+    },
+    {
+      "id": "DT-R04",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testRevokedProfileAndCapabilityAfterRegistrationDenyOutput",
+      "expected": "profile/capability revoke after registration denies output and checkpoint"
+    },
+    {
+      "id": "SANDBOX-UNAVAILABLE",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\SandboxAcceptanceTest::testMissingSandboxNeverStartsAnUnsandboxedFallback",
+      "expected": "unavailable/sandbox_unavailable; no checkpoint"
+    },
+    {
+      "id": "EXACT-NEGOTIATION",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\SandboxAcceptanceTest::testRuntimeCannotNegotiateAnUnsupportedOrUnqualifiedProfile",
+      "expected": "unknown incompatible; unqualified Docling unavailable; no implicit fallback"
+    },
+    {
+      "id": "QA-FAIL-CLOSED",
+      "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\FixtureTest::testRunnerRejectsMissingUnknownEmptySkippedAndNestedFailure",
+      "expected": "missing/unknown/empty/skipped/nested failure return failure"
+    }
+  ]
+}

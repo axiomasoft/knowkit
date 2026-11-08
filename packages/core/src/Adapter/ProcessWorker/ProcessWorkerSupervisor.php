@@ -7,8 +7,12 @@ namespace KnowKit\Adapter\ProcessWorker;
 use KnowKit\Domain\DomainFailure;
 use KnowKit\Domain\JobEnvelope;
 use KnowKit\Domain\Outcome;
+use KnowKit\Domain\Capability;
+use KnowKit\Domain\Contract\StrictJson;
+use KnowKit\Domain\ParserCapabilities;
+use KnowKit\Port\WorkerRunner;
 
-final readonly class ProcessWorkerSupervisor
+final readonly class ProcessWorkerSupervisor implements WorkerRunner
 {
     public function __construct(
         private SandboxRuntime $runtime,
@@ -33,8 +37,11 @@ final readonly class ProcessWorkerSupervisor
             $this->stage($stage, $job, $source);
             $deadline = hrtime(true) + (int) (min($limits->wallSeconds, $job->secondsRemaining()) * 1_000_000_000);
             $this->execute($stage, $group, $job, $deadline, $cancel, true);
+            $this->execute($stage, $group, $job, $deadline, $cancel, false, 'negotiate');
+            $capabilities = $this->negotiated($stage, $job);
             $this->execute($stage, $group, $job, $deadline, $cancel, false);
-            return $this->validator->verify($job, $stage . '/output');
+            $bundle = $this->validator->verify($job, $stage . '/output');
+            return new WorkerBundle($bundle->result, $bundle->ir, $bundle->assets, $capabilities);
         } finally {
             // Keep staging if quiescence cannot be proved; never race a live writer.
             $group->close();
@@ -65,11 +72,11 @@ final readonly class ProcessWorkerSupervisor
     }
 
     private function execute(string $stage, WorkerCgroup $group, JobEnvelope $job,
-        int $deadline, ?\Closure $cancel, bool $probe): void
+        int $deadline, ?\Closure $cancel, bool $probe, string $command = 'run'): void
     {
         $limits = $job->limits();
         $seconds = max(0.0, ($deadline - hrtime(true)) / 1_000_000_000);
-        $exit = WorkerProcess::run($this->runtime->argv($stage, $group->path, $limits, $probe),
+        $exit = WorkerProcess::run($this->runtime->argv($stage, $group->path, $limits, $probe, $command),
             $this->runtime->runtimeRoot . '/seccomp.bpf', $group, $limits, $stage . '/output', $seconds, $cancel);
         if ($exit !== 0) {
             if ($probe) {
@@ -82,5 +89,31 @@ final readonly class ProcessWorkerSupervisor
             };
             throw new DomainFailure($outcome, 'worker_failed');
         }
+    }
+
+    private function negotiated(string $stage, JobEnvelope $job): ParserCapabilities
+    {
+        $out = $stage . '/output';
+        if ($job->outputRelativePath() !== '') {
+            $out .= '/' . $job->outputRelativePath();
+        }
+        $wire = StrictJson::decode(WorkerFiles::read($out, 'negotiated.json', 65536));
+        $expected = $job->toWire();
+        if ($wire->get('schemaVersion') !== 'worker-negotiation-1.0' || $wire->get('transport') !== 'subprocess'
+            || $wire->get('jobSchema') !== 'job-envelope-1.0' || $wire->get('resultSchema') !== 'worker-result-1.0'
+            || $wire->get('irSchema') !== 'ir-1.0' || $wire->get('network') !== false
+            || $wire->get('parserProfile') !== $expected->get('parserProfile')
+            || $wire->get('parserSignature') != $expected->get('parserSignature')
+            || !is_array($wire->get('capabilities')) || count($wire->get('capabilities')) > 64) {
+            throw new DomainFailure(Outcome::Incompatible, 'capabilities_mismatch');
+        }
+        $capabilities = [];
+        foreach ($wire->get('capabilities') as $name) {
+            $capabilities[] = is_string($name) ? (Capability::tryFrom($name)
+                ?? throw new DomainFailure(Outcome::Incompatible, 'unsupported_capability'))
+                : throw new DomainFailure(Outcome::Incompatible, 'unsupported_capability');
+        }
+        unlink($out . '/negotiated.json');
+        return new ParserCapabilities($capabilities, ['ir-1.0']);
     }
 }

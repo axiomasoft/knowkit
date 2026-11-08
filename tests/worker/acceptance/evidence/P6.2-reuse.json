@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "knowkit-reuse-receipt-1.0",
+  "item": "P6.2",
+  "sources": [
+    {
+      "source": "agentools:extensions/knowledge/src/GenericValidator.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "aa447e7fcca2ac1644181eee560607edddc51bbdf9aa4fa98cd39b50a3763d94",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/GenericValidator.php",
+      "decision": "adapt_existing",
+      "rationale": "Reuse TechnicalValidator/ValidationInput and immutable ExtractionCacheEntry, not a second validator.",
+      "license": "LicenseRef-AgenTools-Private"
+    },
+    {
+      "source": "deeptutor:deeptutor/runtime/isolated_worker.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "4e4ff89db42c25cfb5cf793da67da905ba48bc378f171e2b4e54608478115169",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/isolated_worker.py",
+      "decision": "adapt_existing",
+      "rationale": "Preserve P6.1 argv, timeout, process-group kill/reap and private stages. Add exact in-sandbox profile negotiation before run.",
+      "license": "AGPL-3.0-only"
+    },
+    {
+      "source": "deeptutor:deeptutor/runtime/worker_process.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "eee26ba9d8bf856142094e8ab20f6e8253a1b9d385e1320abcdad67773bcac4a",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/worker_process.py",
+      "decision": "reject_transport",
+      "rationale": "Reject pickle, dynamic callable resolution and remote traceback forwarding. Keep strict bounded JSON and fixed worker entrypoints.",
+      "license": "AGPL-3.0-only"
+    },
+    {
+      "source": "deeptutor:deeptutor/services/parsing/engines/docling/local_worker.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "c8db5930951f39ff4fde2251efcf6196fa1de166f13e3fa42cddb6894ce55c80",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/local_worker.py",
+      "decision": "adapt_boundary",
+      "rationale": "Keep local subprocess separation; reject upstream-default fallback and runtime downloads. Explicit unqualified Docling stays unavailable.",
+      "license": "AGPL-3.0-only"
+    },
+    {
+      "source": "deeptutor:tests/runtime/test_isolated_worker.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "cb6af12ad4ef899fe3730cc5529c7916fb0ef016c121609894f1de3003a25f89",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_isolated_worker.py",
+      "decision": "adapt_tests",
+      "rationale": "Test lifecycle and result-boundary refusals with real bwrap/cgroup/PG plus clearly identified untrusted-result doubles. No donor test pass inferred.",
+      "license": "AGPL-3.0-only"
+    }
+  ],
+  "scope": "All five scoped candidates read and SHA256 verified from pinned local cache. No donor runtime dependency.",
+  "newCodeRationale": "PHP application coordination, exact profile registry/negotiation, typed worker context/output/acceptance and immutable upload composition are KnowKit-specific security boundaries absent from the donors. Existing technical/quality validation, resource ledger, uploads and conditional job writes are reused.",
+  "qualification": "Synthetic parser proves transport and acceptance only. Docling/PDF/OCR/network adapters are not implemented or qualified.",
+  "bounds": "Client lowers maxAssets to126 so canonical IR, result and each independent asset fit the unchanged 128-resource checkpoint contract.",
+  "checks": "Targeted test output is retained outside tests/evidence in .phpunit.cache/P6.2; acceptance is coordinator-owned.",
+  "planReceipt": "Not mirrored: result_contract.plan_mutation=forbidden; coordinator may register this tracked receipt."
+}

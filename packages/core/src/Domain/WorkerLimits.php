@@ -46,4 +46,17 @@ final readonly class WorkerLimits
             $limits->get('maxAssets'),
         );
     }
+
+    public function toWire(int $assetCeiling = 2000): JsonObject
+    {
+        return new JsonObject([
+            'wallSeconds' => $this->wallSeconds,
+            'cpuSeconds' => $this->cpuSeconds,
+            'memoryBytes' => (string) $this->memoryBytes,
+            'tempBytes' => (string) $this->tempBytes,
+            'maxPages' => $this->maxPages,
+            'maxOutputBytes' => (string) $this->maxOutputBytes,
+            'maxAssets' => min($this->maxAssets, $assetCeiling),
+        ]);
+    }
 }

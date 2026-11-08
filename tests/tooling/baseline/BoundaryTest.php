@@ -70,6 +70,19 @@ final class BoundaryTest extends Support
         }
     }
 
+    public function testMemberNamesAreNotImportsButPythonClassReferencesAreRejected(): void
+    {
+        $qa = $this->candidate();
+        $this->put('packages/core/src/Adapter/Allowed.php', '<?php namespace KnowKit\\Adapter; final class Allowed { public function run($runtime): void { $runtime->python; $runtime?->Python(); self::Python(); } }');
+        self::assertSame(1, $qa->dag()['phpFiles']);
+        foreach (['use Python; final class Allowed {}',
+            'final class Allowed { public function run(): void { new \\Python(); } }',
+            'final class Allowed { public function run(): void { Python::run(); } }'] as $body) {
+            $this->put('packages/core/src/Adapter/Allowed.php', '<?php namespace KnowKit\\Adapter; ' . $body);
+            $this->rejects(static fn () => $qa->dag(), 'forbidden');
+        }
+    }
+
     public function testCoreDependencyFloorAndPackageDagMutationsAreRejected(): void
     {
         $qa = $this->candidate();

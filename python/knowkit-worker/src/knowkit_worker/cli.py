@@ -60,12 +60,29 @@ def run_job(path: str, profiles: dict, contracts: Contracts) -> None:
     write_new(Path(job["outDir"]), "result.json", result_bytes)
 
 
+def negotiate(path: str, profiles: dict, contracts: Contracts) -> None:
+    if path != "/input/job.json":
+        raise Refusal("path_escape", "denied")
+    job = Envelope.parse(read_regular(Path("/input"), "job.json", 65536, True), contracts).value
+    profile = lookup(job["parserProfile"], job["parserSignature"], profiles)
+    if profile.options.get("network", False) is not False:
+        raise Refusal("network_parser_denied", "denied")
+    write_new(Path(job["outDir"]), "negotiated.json", canonical({
+        "schemaVersion": "worker-negotiation-1.0", "transport": "subprocess",
+        "jobSchema": "job-envelope-1.0", "resultSchema": "worker-result-1.0",
+        "parserProfile": profile.id, "parserSignature": profile.signature,
+        "irSchema": "ir-1.0", "network": False, "capabilities": list(profile.capabilities),
+    }))
+
+
 def main(argv: list[str] | None = None, *, profiles: dict | None = None) -> int:
     parser = argparse.ArgumentParser(prog="knowkit-worker")
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("capabilities")
     run = commands.add_parser("run")
     run.add_argument("--envelope", required=True)
+    negotiation = commands.add_parser("negotiate")
+    negotiation.add_argument("--envelope", required=True)
     args = parser.parse_args(argv)
     if args.command == "capabilities":
         print(canonical({"schemaVersion": "worker-capabilities-1.0", "transport": "subprocess",
@@ -78,8 +95,9 @@ def main(argv: list[str] | None = None, *, profiles: dict | None = None) -> int:
     signal.signal(signal.SIGINT, _cancel)
     os.umask(0o077)
     try:
-        run_job(args.envelope, PROFILES if profiles is None else profiles,
-                Contracts(Path(__file__).parent / "schemas"))
+        operation = negotiate if args.command == "negotiate" else run_job
+        operation(args.envelope, PROFILES if profiles is None else profiles,
+                  Contracts(Path(__file__).parent / "schemas"))
     except Refusal as exc:
         print(canonical({"outcome": exc.outcome, "code": exc.code}).decode(), file=sys.stderr)
         return {"denied": 3, "unavailable": 4, "incompatible": 5}[exc.outcome]

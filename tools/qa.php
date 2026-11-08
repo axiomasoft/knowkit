@@ -309,7 +309,7 @@ final class Qa
                 $declared = false;
                 $tokens = token_get_all(file_get_contents($file->getPathname()), TOKEN_PARSE);
                 $aliases = self::namespaceAliases($tokens);
-                foreach ($tokens as $token) {
+                foreach ($tokens as $tokenIndex => $token) {
                     if (!is_array($token)) {
                         continue;
                     }
@@ -317,6 +317,9 @@ final class Qa
                         $declared = true;
                     }
                     if (!in_array($token[0], [T_NAME_QUALIFIED, T_NAME_FULLY_QUALIFIED, T_STRING], true)) {
+                        continue;
+                    }
+                    if ($token[0] === T_STRING && self::isMemberName($tokens, $tokenIndex)) {
                         continue;
                     }
                     $name = ltrim($token[1], '\\');
@@ -347,6 +350,19 @@ final class Qa
             }
         }
         return ['packages' => $installed, 'phpFiles' => $files];
+    }
+
+    /** Member names such as $runtime->python are not imports or class references. */
+    private static function isMemberName(array $tokens, int $index): bool
+    {
+        for ($previous = $index - 1; $previous >= 0; $previous--) {
+            $token = $tokens[$previous];
+            if (is_array($token) && in_array($token[0], [T_WHITESPACE, T_COMMENT, T_DOC_COMMENT], true)) {
+                continue;
+            }
+            return is_array($token) && in_array($token[0], [T_OBJECT_OPERATOR, T_NULLSAFE_OBJECT_OPERATOR, T_DOUBLE_COLON], true);
+        }
+        return false;
     }
 
     /** Resolve explicit namespace aliases from PHP tokens, never comments or string literals.

@@ -1,0 +1,139 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "worker:acceptance",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial P6.2 acceptance corpus 1.0.0. Golden bytes deliberately reuse P6.1 protocol fixture 1.0.0 unchanged; SQL tests bind runtime tenant/source/lease IDs and recompute expected envelope digests. Mutations and expected outcomes are versioned here. Digest changes require a new fixture version and a semantic rationale; never automatic snapshots.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures with reused P6.1 golden wire. No PDF, Docling, OCR or remote adapter qualification."
+  },
+  "requiredCaseIds": [
+    "VALID",
+    "FOREIGN-SOURCE",
+    "BAD-DIGEST",
+    "OLD-LEASE",
+    "REVOKE-IN-FLIGHT",
+    "UNSUPPORTED-EXPLICIT-PARSER",
+    "MISSING-PAGE",
+    "EXTRA-ARTIFACT",
+    "DENIED-NETWORK-PARSER",
+    "R15-A01",
+    "R15-A02",
+    "R17-A01",
+    "R17-A02",
+    "R37-A01",
+    "R37-A02",
+    "DT-Q06",
+    "DT-R04",
+    "SANDBOX-UNAVAILABLE",
+    "EXACT-NEGOTIATION",
+    "QA-FAIL-CLOSED"
+  ],
+  "testCaseMap": {
+    "VALID": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testValidResultIsIndependentlyImportedAndAcceptedWithCoverage",
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testExtractionCheckpointLeavesFollowingIngestStagesPending"
+    ],
+    "FOREIGN-SOURCE": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testForeignSourceAndWrongSchemaAreRejectedBeforeImport"
+    ],
+    "BAD-DIGEST": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testBadResultIrAndResourceDigestsAreRejected"
+    ],
+    "OLD-LEASE": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testStaleLeaseTokenAndEpochCannotAcceptAfterTakeover"
+    ],
+    "REVOKE-IN-FLIGHT": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testSourceRevokeAndCancellationInFlightRejectOutput"
+    ],
+    "UNSUPPORTED-EXPLICIT-PARSER": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testUnsupportedExplicitAndNetworkAndUnqualifiedProfilesDoNotStartWorker"
+    ],
+    "MISSING-PAGE": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testMissingUnitCannotClaimCompleteAndPartialQualityRemainsVisible"
+    ],
+    "EXTRA-ARTIFACT": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\IngressTest::testFullInventoryRejectsExtraSymlinkHardlinkNonregularEscapeAndDuplicate"
+    ],
+    "DENIED-NETWORK-PARSER": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testUnsupportedExplicitAndNetworkAndUnqualifiedProfilesDoNotStartWorker"
+    ],
+    "R15-A01": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testReuseBindsFullIdentityAndExcludesTransientSecrets"
+    ],
+    "R15-A02": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testReuseBindsFullIdentityAndExcludesTransientSecrets",
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testCredentialRotationKeepsFingerprintAndRechecksCurrentAccess"
+    ],
+    "R17-A01": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testStaleLeaseTokenAndEpochCannotAcceptAfterTakeover"
+    ],
+    "R17-A02": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testExternalUploadUncertaintyIsDurableAndRetryDoesNotClaimExactlyOnce",
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testCheckpointResourceBoundAndCurrentUncertaintyRemainExplicit"
+    ],
+    "R37-A01": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\SandboxAcceptanceTest::testRealSupervisorNegotiatesAndClientAcceptsOnlyScopedPrivateOutput"
+    ],
+    "R37-A02": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testForeignSourceAndWrongSchemaAreRejectedBeforeImport",
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testValidResultIsIndependentlyImportedAndAcceptedWithCoverage",
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testBadResultIrAndResourceDigestsAreRejected"
+    ],
+    "DT-Q06": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\IngressTest::testFullInventoryRejectsExtraSymlinkHardlinkNonregularEscapeAndDuplicate",
+      "KnowKit\\Tests\\Worker\\Acceptance\\IngressTest::testAssetsAreHashedAndMappedToImmutableIrIdsIndependently"
+    ],
+    "DT-R04": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\ClientTest::testRevokedProfileAndCapabilityAfterRegistrationDenyOutput"
+    ],
+    "SANDBOX-UNAVAILABLE": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\SandboxAcceptanceTest::testMissingSandboxNeverStartsAnUnsandboxedFallback"
+    ],
+    "EXACT-NEGOTIATION": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\SandboxAcceptanceTest::testRuntimeCannotNegotiateAnUnsupportedOrUnqualifiedProfile"
+    ],
+    "QA-FAIL-CLOSED": [
+      "KnowKit\\Tests\\Worker\\Acceptance\\FixtureTest::testRunnerRejectsMissingUnknownEmptySkippedAndNestedFailure",
+      "KnowKit\\Tests\\Worker\\Acceptance\\FixtureTest::testVersionedFixturesAndRequiredCaseBindingsAreExact"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/worker/acceptance/v1/cases.json",
+      "sha256": "4dfb92e6528055ee5c87797bef065d6c81b098f31f43d6b3020889ad6460a0fe",
+      "expected": {
+        "outcome": "versioned_required_cases"
+      }
+    },
+    {
+      "path": "tests/fixtures/worker/acceptance/v1/envelope.json",
+      "sha256": "4c2028c5330bd9965d163dd1ad4e4e2b6511ffd01867338d6c291f550ef1cc92",
+      "expected": {
+        "outcome": "valid"
+      }
+    },
+    {
+      "path": "tests/fixtures/worker/acceptance/v1/ir.json",
+      "sha256": "6604116e5ea7f1dad4bb1a1e03664edfe71dcf1c5c775877301c73fe2861d0da",
+      "expected": {
+        "outcome": "valid"
+      }
+    },
+    {
+      "path": "tests/fixtures/worker/acceptance/v1/result.json",
+      "sha256": "627cff3dd721bb3a4f226ce334d40cc2ca09ec0da262afda9e21c0821179952f",
+      "expected": {
+        "outcome": "valid"
+      }
+    },
+    {
+      "path": "tests/fixtures/worker/acceptance/v1/source.txt",
+      "sha256": "9948f723030218c0a068ea46acf54a329662547ebeaad8e1222bc1d4d5bea22b",
+      "expected": {
+        "outcome": "valid",
+        "digest": "9948f723030218c0a068ea46acf54a329662547ebeaad8e1222bc1d4d5bea22b"
+      }
+    }
+  ]
+}

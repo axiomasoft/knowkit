@@ -26,6 +26,7 @@ class Profile:
     version: str
     options: dict[str, Any]
     parse: Callable | None = None
+    capabilities: tuple[str, ...] = ()
 
     @property
     def signature(self) -> dict[str, str]:

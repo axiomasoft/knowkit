@@ -30,6 +30,11 @@ final readonly class WorkerResult extends SchemaValue
         return new Sha256($this->toWire()->get('resultDigest'));
     }
 
+    public function coverage(): Coverage
+    {
+        return new Coverage($this->toWire()->get('coverage'));
+    }
+
     /** @return list<WorkerAsset> */
     public function assets(): array
     {

@@ -58,11 +58,14 @@ final readonly class SandboxRuntime
     }
 
     /** @return list<string> */
-    public function argv(string $stage, string $group, WorkerLimits $limits, bool $probe): array
+    public function argv(string $stage, string $group, WorkerLimits $limits, bool $probe, string $command = 'run'): array
     {
+        if (!in_array($command, ['run', 'negotiate'], true)) {
+            throw new DomainFailure(Outcome::Incompatible, 'unsupported_worker_command');
+        }
         $command = $probe
             ? ['/runtime/bin/knowkit-worker-probe']
-            : ['/runtime/bin/knowkit-worker', 'run', '--envelope', '/input/job.json'];
+            : ['/runtime/bin/knowkit-worker', $command, '--envelope', '/input/job.json'];
         return [
             $this->python, '-I', $this->launcher, $group, (string) $limits->cpuSeconds,
             (string) $limits->maxOutputBytes, $this->bubblewrap,
