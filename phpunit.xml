@@ -14,7 +14,7 @@
     <testsuite name="Evaluation"><directory>tests/evaluation</directory></testsuite>
     <testsuite name="Ops"><directory>tests/ops</directory></testsuite>
     <testsuite name="Laravel"><directory>tests/delivery/laravel</directory></testsuite>
-    <testsuite name="Http"><directory>tests/delivery/http</directory></testsuite>
+    <testsuite name="Http"><directory>tests/delivery/http</directory><directory>tests/delivery/client</directory><directory>tests/conformance/http</directory></testsuite>
     <testsuite name="BridgeInstalled"><directory>packages/agentools-bridge/tests/installed</directory></testsuite>
     <testsuite name="BridgeHostQualification"><directory>packages/agentools-bridge/tests/host</directory></testsuite>
   </testsuites>

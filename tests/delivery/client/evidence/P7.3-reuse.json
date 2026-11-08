@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P7.3",
+  "sources": [
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/tests/Golden/HostValidationTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "aae68e7953fd27727b3b1080dbc018ceccce3a4ad3ef2fd1b40bfd2abf0cf91b",
+      "observedSha256": "aae68e7953fd27727b3b1080dbc018ceccce3a4ad3ef2fd1b40bfd2abf0cf91b",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Golden/HostValidationTest.php",
+      "inspection": "Full local pinned candidate inspected before implementation; digest verified against the supplied pin.",
+      "decision": "adapt",
+      "license": "proprietary; private local pattern adaptation only",
+      "reason": "Adapt host validation and explicit Unknown semantics to deterministic shared conformance scenarios. The donor domain and payload schema do not satisfy the approved scoped core contracts.",
+      "target": "tests/conformance/http/Host.php; tests/conformance/http/CorpusTest.php"
+    },
+    {
+      "repository": "agentools",
+      "path": "packages/agentools-core/src/Security/ExecutionContext.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+      "observedSha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Security/ExecutionContext.php",
+      "inspection": "Full local pinned candidate inspected before implementation; digest verified against the supplied pin.",
+      "decision": "adapt",
+      "license": "proprietary; private local pattern adaptation only",
+      "reason": "Reuse existing core AccessContext and hostScopeHash binding; current host authorization remains at every disclosure and replay boundary. HTTP content cannot supply trusted identity or policy. No Agentools type enters the runtime.",
+      "target": "packages/http/src/Client/Call.php; tests/conformance/http/Host.php"
+    },
+    {
+      "repository": "deeptutor",
+      "path": "tests/runtime/test_import_layering.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "f50d98ac585c4f8426acc7a8e709ca4bcd34176ca64e5b42862191481b9ebbe1",
+      "observedSha256": "f50d98ac585c4f8426acc7a8e709ca4bcd34176ca64e5b42862191481b9ebbe1",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_import_layering.py",
+      "inspection": "Full local pinned candidate inspected before implementation; digest verified against the supplied pin.",
+      "decision": "adapt",
+      "license": "Apache-2.0; existing docs/architecture/third-party/DeepTutor-LICENSE.txt and DeepTutor-THIRD_PARTY_NOTICES.md retained",
+      "reason": "Adapt fresh-process layering canary to a PHP library/CLI TXT journey with no Composer, Laravel, Agentools, Python or model service. This qualifies independent runtime, not optional external adapters.",
+      "target": "tests/conformance/http/independent.php; tests/delivery/client/FixtureTest.php"
+    }
+  ],
+  "reuse": [
+    "Core immutable typed values, offline HTTP Contract and Envelope, host RequestBoundary and AccessContext.",
+    "Core real PostgreSQL Selections/Usages/Reading stores, reference-only cache and hybrid degradation policy.",
+    "Existing independent TXT ingestion/CLI host and required-case Qa runner; one parameterized corpus over in-process, CLI and real loopback HTTP."
+  ],
+  "newCodeRationale": "Pinned donors do not implement the approved KnowKit HTTP client, schema acknowledgment, total deadline or idempotent retry contracts. New vendor-free client glue uses existing scoped core identities and application seams; no alternative state owner or policy authority is introduced.",
+  "sourceGaps": [
+    "No donor supplies the approved versioned client or immutable KnowKit disclosure DTO; local transport/version/retry glue is new.",
+    "Optional vector/provider failures are contract fixtures exercising real core policy, not proof that an external adapter is implemented.",
+    "PostgreSQL authoritative commit guards intentionally retain database UTC time; client retry time and discovery fixture policy/clock are deterministic."
+  ],
+  "candidateDigest": {
+    "algorithm": "sha256(path NUL sha256(bytes) LF), sorted paths, receipt excluded",
+    "paths": [
+      "examples/http-client/README.md",
+      "examples/http-client/SearchAndDisclose.php",
+      "packages/http/src/Client/Call.php",
+      "packages/http/src/Client/Client.php",
+      "packages/http/src/Client/Options.php",
+      "packages/http/src/Client/ProtocolFailure.php",
+      "packages/http/src/Client/Response.php",
+      "packages/http/src/Client/StreamTransport.php",
+      "packages/http/src/Client/SystemTime.php",
+      "packages/http/src/Client/Time.php",
+      "packages/http/src/Client/Transport.php",
+      "packages/http/src/Client/TransportFailure.php",
+      "packages/http/src/Client/VersionMismatch.php",
+      "packages/http/src/Server/Response.php",
+      "phpunit.xml",
+      "tests/conformance/http/CorpusTest.php",
+      "tests/conformance/http/Host.php",
+      "tests/conformance/http/Mode.php",
+      "tests/conformance/http/Remote.php",
+      "tests/conformance/http/independent.php",
+      "tests/conformance/http/v1/cases.json",
+      "tests/conformance/http/worker.php",
+      "tests/delivery/client/ClientTest.php",
+      "tests/delivery/client/FixtureTest.php",
+      "tests/delivery/client/StreamTransportTest.php",
+      "tests/delivery/client/Support.php",
+      "tests/fixtures/check-groups/delivery-client.json"
+    ],
+    "sha256": "b9f070c32cf6635e17e682dd11d9fa19c6f4d82fffc12cdeeb79ab823cc43eee"
+  },
+  "planMirror": "Coordinator records the tracked receipt; plan_mutation=forbidden takes precedence over the requested optional plan artifact mirror."
+}

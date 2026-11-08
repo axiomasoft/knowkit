@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "http-client-conformance:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial synthetic corpus; exact identities are compared across delivery modes, not rewritten response snapshots. Expected outcome semantics and source digests come from independently authored core fixtures.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic queries and fault scenarios; no personal data or credentials.",
+    "redistributionAllowed": false
+  },
+  "hostScopeHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "expectedDigests": {
+    "selectionSource": "8c34aacf5c56231a7fcb06e7b3a81d5994a4b4f77ae7049ddfb0ca1b05773675",
+    "disclosureSource": "46507cab3eae71d3513005d9c6199ce6e2b2170bf1701ccc00b15eb84b193af5"
+  },
+  "outcomes": [
+    {"scenario": "success", "outcome": "success", "status": 200, "errorCode": null},
+    {"scenario": "empty", "outcome": "empty", "status": 200, "errorCode": null},
+    {"scenario": "denied", "outcome": "denied", "status": 403, "errorCode": "access_denied"},
+    {"scenario": "unknown", "outcome": "unknown", "status": 503, "errorCode": "policy_unknown"},
+    {"scenario": "unavailable", "outcome": "unavailable", "status": 503, "errorCode": "provider_unavailable"},
+    {"scenario": "incompatible", "outcome": "incompatible", "status": 409, "errorCode": "space_mismatch"}
+  ],
+  "regressions": {
+    "committedWriteTimeout": {"expectedWrites": 1, "expectedAttempts": 2, "preserve": ["requestId", "idempotencyKey", "expectedEpoch", "expectedRevision", "body"]},
+    "replay": {"expected": "metadata_only", "newUsage": false},
+    "quota": {"status": 429, "errorCode": "rate_quota", "maxAttempts": 3},
+    "version": {"requested": "1.0", "unsupported": "2.0", "expected": "VersionMismatch"},
+    "cachedSearchRevoke": {"cacheHits": 1, "afterRevoke": "denied", "newPlaintext": false},
+    "degraded": {"outcome": "success", "degraded": true, "effectiveProfile": "lexical-v1", "warning": "vector:vector_timeout"}
+  }
+}

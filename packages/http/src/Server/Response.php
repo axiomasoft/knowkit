@@ -68,6 +68,7 @@ final readonly class Response
             status: $status,
             body: (new Envelope(envelope: $envelope, exit: 0))->json(),
             headers: ['Content-Type' => 'application/json', 'Request-ID' => $requestId->value,
+                'KnowKit-Schema-Version' => '1.0',
                 'Cache-Control' => 'no-store', 'X-Content-Type-Options' => 'nosniff'],
         );
     }

@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "delivery:client",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial synthetic corpus. Expected source digests come from pinned canonical input bytes; outcomes are explicit normative assertions, not mechanically rewritten response snapshots. Future digest changes require a new version and rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic corpus with existing private canonical source fixtures. No credentials, personal data or provider inputs.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "TIMEOUT-AFTER-COMMITTED-WRITE", "IDEMPOTENCY-REPLAY", "QUOTA-RESPONSE",
+    "INCOMPATIBLE-VERSION", "SIX-OUTCOMES", "REMOTE-CACHED-SEARCH-REVOKE",
+    "R01-A01", "R01-A02", "R28-A01", "R28-A02", "DT-R14",
+    "IMMUTABLE-RETRY-HEADERS", "DEADLINE-ATTEMPT-LIMIT", "NO-AUTO-PLAINTEXT-RETRY",
+    "TRUSTED-HOST-ONLY", "NATIVE-HTTP", "SOCKET-TIMEOUT",
+    "REDIRECT-BUFFER-HEADER-NEGATIVES", "CREDENTIAL-REDACTION", "EXECUTABLE-EXAMPLE",
+    "FIXTURE-INTEGRITY", "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "TIMEOUT-AFTER-COMMITTED-WRITE": ["KnowKit\\Tests\\Delivery\\Client\\ClientTest::testTimeoutAfterCommittedWriteRetriesOneImmutableMutationAndReplayReauthorizes"],
+    "IDEMPOTENCY-REPLAY": [
+      "KnowKit\\Tests\\Delivery\\Client\\ClientTest::testTimeoutAfterCommittedWriteRetriesOneImmutableMutationAndReplayReauthorizes",
+      "KnowKit\\Tests\\Conformance\\Http\\CorpusTest::testCachedSearchReplayCitationAndRevocationUseSameCoreStateInBothModes"
+    ],
+    "QUOTA-RESPONSE": ["KnowKit\\Tests\\Delivery\\Client\\ClientTest::testQuotaResponseRetriesWithinDeadlineAndNeverHidesFinalQuota"],
+    "INCOMPATIBLE-VERSION": ["KnowKit\\Tests\\Delivery\\Client\\ClientTest::testVersionNegotiationAndProtocolFailuresStopWithoutRetryOrContentLeak"],
+    "SIX-OUTCOMES": ["KnowKit\\Tests\\Conformance\\Http\\CorpusTest::testSixOutcomesAndExactReferencesUseOneCorpusInBothModes"],
+    "REMOTE-CACHED-SEARCH-REVOKE": ["KnowKit\\Tests\\Conformance\\Http\\CorpusTest::testCachedSearchReplayCitationAndRevocationUseSameCoreStateInBothModes"],
+    "R01-A01": ["KnowKit\\Tests\\Delivery\\Client\\FixtureTest::testIndependentLibraryAndCliCreateIngestSearchResolveAndRevokeWithoutOptionalServices"],
+    "R01-A02": [
+      "KnowKit\\Tests\\Conformance\\Http\\CorpusTest::testSixOutcomesAndExactReferencesUseOneCorpusInBothModes",
+      "KnowKit\\Tests\\Conformance\\Http\\CorpusTest::testCachedSearchReplayCitationAndRevocationUseSameCoreStateInBothModes"
+    ],
+    "R28-A01": ["KnowKit\\Tests\\Conformance\\Http\\CorpusTest::testSixOutcomesAndExactReferencesUseOneCorpusInBothModes"],
+    "R28-A02": ["KnowKit\\Tests\\Conformance\\Http\\CorpusTest::testConfiguredDegradationAndSpaceMismatchSurviveBothModes"],
+    "DT-R14": [
+      "KnowKit\\Tests\\Delivery\\Client\\FixtureTest::testIndependentLibraryAndCliCreateIngestSearchResolveAndRevokeWithoutOptionalServices",
+      "KnowKit\\Tests\\Conformance\\Http\\CorpusTest::testSixOutcomesAndExactReferencesUseOneCorpusInBothModes",
+      "KnowKit\\Tests\\Conformance\\Http\\CorpusTest::testCachedSearchReplayCitationAndRevocationUseSameCoreStateInBothModes"
+    ],
+    "IMMUTABLE-RETRY-HEADERS": ["KnowKit\\Tests\\Delivery\\Client\\ClientTest::testExpectedHeadersAndExactBodyCannotChangeBetweenRetries"],
+    "DEADLINE-ATTEMPT-LIMIT": ["KnowKit\\Tests\\Delivery\\Client\\ClientTest::testDeadlineAndAttemptLimitBoundTransportFailure"],
+    "NO-AUTO-PLAINTEXT-RETRY": ["KnowKit\\Tests\\Delivery\\Client\\ClientTest::testPlaintextOperationsNeverRetryAutomatically"],
+    "TRUSTED-HOST-ONLY": ["KnowKit\\Tests\\Delivery\\Client\\ClientTest::testTypedSearchPreservesFiltersAndDoesNotAcceptIdentityOrTrustedUsage"],
+    "NATIVE-HTTP": ["KnowKit\\Tests\\Delivery\\Client\\StreamTransportTest::testNativeHttpTypedSearchAndImmutableSelection"],
+    "SOCKET-TIMEOUT": ["KnowKit\\Tests\\Delivery\\Client\\StreamTransportTest::testNativeSocketTimeoutIsBoundedAndHasNoPlaintext"],
+    "REDIRECT-BUFFER-HEADER-NEGATIVES": ["KnowKit\\Tests\\Delivery\\Client\\StreamTransportTest::testRedirectOversizeAndAmbiguousHeadersFailClosed"],
+    "CREDENTIAL-REDACTION": ["KnowKit\\Tests\\Delivery\\Client\\StreamTransportTest::testCredentialAndHeaderInjectionAreRejectedLocally"],
+    "EXECUTABLE-EXAMPLE": ["KnowKit\\Tests\\Delivery\\Client\\FixtureTest::testExampleUsesTypedRemoteClientAndPreservesImmutableCitation"],
+    "FIXTURE-INTEGRITY": ["KnowKit\\Tests\\Delivery\\Client\\FixtureTest::testVersionedFixtureDigestsRightsAndReuseBindTheCandidate"],
+    "RUNNER-NEGATIVES": ["KnowKit\\Tests\\Delivery\\Client\\FixtureTest::testRequiredCaseRunnerRejectsMissingSkippedFailedZeroUnknownAndNestedFailure"]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/http/v1/cases.json",
+      "sha256": "5777dde77a2ebf92760cd1f3a960f581bc44d5c889800b34f531587afe7360ca",
+      "expected": "Pinned approved HTTP request shapes, including all seven plaintext operation regression inputs."
+    },
+    {
+      "path": "tests/conformance/http/v1/cases.json",
+      "sha256": "d7488e9b150c8503d7728703e60f007fa976e80511244b61f96a425f5694129f",
+      "expected": "Six outcomes, committed-write timeout, replay, quota, version mismatch, degradation and remote cache/revoke assertions."
+    },
+    {
+      "path": "tests/fixtures/retrieval/selection/corpus.v1.json",
+      "sha256": "94637dee04f8e6de1b4a0a2ab5ef4dd8eeee2d19027400818d875671fe3e38d2",
+      "expected": "Pinned synthetic canonical selection identities and deterministic fixture clock/policy."
+    },
+    {
+      "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+      "sha256": "81e4e03b5b7c8521e118a6de49419682f9f2e5acc1a6f8cc3c73a0859168c9ff",
+      "expected": "Pinned TXT source/version/IR/chunk identity for real PostgreSQL discovery and disclosure."
+    },
+    {
+      "path": "tests/fixtures/citations/v1/corpus.json",
+      "sha256": "d7ab1a7a3799b9a7d0482bd57bac4e75b2ee536e4e8fcdc7c788b8911917bf99",
+      "expected": "Historical immutable citation fixtures retained by the reused PostgreSQL reading setup."
+    },
+    {
+      "path": "examples/plain-php/fixtures/v1/support.txt",
+      "sha256": "d97adf8ea2240ae1e75446977a9829de147bc5b296ff9cccb545ac3dd011c8f7",
+      "expected": "Independent library/CLI ingestion source; digest agrees with resolved citation."
+    }
+  ],
+  "components": {
+    "composerLock": {"path": "packages/http/composer.lock", "sha256": "5b9c11ca88970c8324c29675518f77ab838f3638e58b3c70d3cd83401f561611"},
+    "phpFloor": "8.3",
+    "requiredBackend": "PostgreSQL and local loopback HTTP; missing backend is failure, never skip",
+    "modes": ["in-process", "cli", "remote"],
+    "optionalAdapters": "Hybrid failure fixtures exercise core policy only; no external vector/model adapter qualification."
+  }
+}
