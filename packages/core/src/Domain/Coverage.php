@@ -52,4 +52,19 @@ final readonly class Coverage
         $this->value = new FrozenJson($value);
     }
     public function toWire(): JsonObject { return $this->value->toWire(); }
+
+    /** Operational export deliberately omits free-form diagnostic codes and segment identities. */
+    public function operationalSummary(): JsonObject
+    {
+        $value = $this->value->toWire();
+        $severities = ['info' => 0, 'warning' => 0, 'error' => 0];
+        foreach ($value->get('diagnostics') as $diagnostic) {
+            ++$severities[$diagnostic->get('severity')];
+        }
+        return new JsonObject([
+            'state' => $value->get('state'), 'counts' => $value->get('counts'),
+            'missingFeatureCount' => count($value->get('missingFeatures')),
+            'diagnosticCounts' => new JsonObject($severities),
+        ]);
+    }
 }

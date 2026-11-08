@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "ops-observability:1",
+  "fixtureVersion": "1.0.0",
+  "provenance": "Project-authored synthetic metadata; contract doubles are not qualification of external adapters.",
+  "license": "LicenseRef-KnowKit-Private",
+  "secretCanary": "SECRET_CANARY_P91",
+  "contentCanary": "DOCUMENT_CONTENT_CANARY_P91",
+  "expected": {
+    "providerTimeout": "unknown",
+    "staleLease": "incompatible",
+    "deniedDisclosure": "denied",
+    "optionalOcrDown": {"ready": true, "degraded": true, "capabilities": ["lexical.prefilter"]},
+    "purgeReceipt": "unknown",
+    "corruptIndex": "unavailable",
+    "outboxLagSeconds": 17
+  }
+}

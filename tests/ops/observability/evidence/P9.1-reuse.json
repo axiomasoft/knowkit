@@ -1,0 +1,80 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P9.1",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/EmbeddingSpace.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/EmbeddingSpace.php",
+      "sha256": "bc82526a84558ff7536c81774bb6e2f42ad39336ecb3f16f6ffa56118437a23a",
+      "observedSha256": "bc82526a84558ff7536c81774bb6e2f42ad39336ecb3f16f6ffa56118437a23a",
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/src/EmbeddingSpace.php",
+      "decision": "reject",
+      "reason": "Existing core exact space binds both roles and full immutable identity; avoid a duplicate or weaker identity.",
+      "license": "Proprietary; private local reuse only",
+      "inspection": "Targeted source sections inspected; complete blob SHA-256 verified. Upstream suites not run."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/plugins/manifest.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/plugins/manifest.py",
+      "sha256": "0cc506f69c0587f2baee85596367f9a386a988b8fe272715cbed58eecef000ab",
+      "observedSha256": "0cc506f69c0587f2baee85596367f9a386a988b8fe272715cbed58eecef000ab",
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/deeptutor/plugins/manifest.py",
+      "decision": "adapt",
+      "reason": "Adapt static typed metadata; retain existing PHP registry/schemas. Exclude imports, scans and installation.",
+      "license": "Apache-2.0",
+      "inspection": "Targeted source sections inspected; complete blob SHA-256 verified. Upstream suites not run."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/plugins/registry.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/plugins/registry.py",
+      "sha256": "601125a4569f8bea3c123ed541bb5a45069001d5098448c6caa944836e5576f5",
+      "observedSha256": "601125a4569f8bea3c123ed541bb5a45069001d5098448c6caa944836e5576f5",
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/deeptutor/plugins/registry.py",
+      "decision": "adapt",
+      "reason": "Adapt independent installed/enabled/compatible state and metadata discovery; exclude ambient global registry and installer.",
+      "license": "Apache-2.0",
+      "inspection": "Targeted source sections inspected; complete blob SHA-256 verified. Upstream suites not run."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/config/readiness.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/config/readiness.py",
+      "sha256": "43d0449863e791868a45218dbca1b7ccf691f713fb2a022a15552d0af42cb56e",
+      "observedSha256": "43d0449863e791868a45218dbca1b7ccf691f713fb2a022a15552d0af42cb56e",
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/deeptutor/services/config/readiness.py",
+      "decision": "adapt",
+      "reason": "Adapt value-free required/optional readiness to scoped host observations and full-profile verification. Exclude provider values and probes.",
+      "license": "Apache-2.0",
+      "inspection": "Targeted source sections inspected; complete blob SHA-256 verified. Upstream suites not run."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/plugins/test_manifest_discovery_cost.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/plugins/test_manifest_discovery_cost.py",
+      "sha256": "9446089e512e49d8d32c3eb96b0752e1ed552a6836fcb81dbaeb9c1192d5a02e",
+      "observedSha256": "9446089e512e49d8d32c3eb96b0752e1ed552a6836fcb81dbaeb9c1192d5a02e",
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/tests/plugins/test_manifest_discovery_cost.py",
+      "decision": "adapt",
+      "reason": "Adapt lazy negative assertions to zero PHP factory calls and no heavy construction. Upstream tests were not run.",
+      "license": "Apache-2.0",
+      "inspection": "Targeted source sections inspected; complete blob SHA-256 verified. Upstream suites not run."
+    }
+  ],
+  "adaptation": "Project-authored PHP typed observations, finite metric labels, HMAC tenant/run linkage and metadata-only diagnostics. No runtime dependency or donor source code copied.",
+  "sourceGaps": [],
+  "newCodeRationale": "Neither donor supplies KnowKit scope/profile fingerprints, leases/committed usage outcomes or approved HTTP composition. Existing registry, exact embedding space, outbox and purge are reused; fresh host diagnostic state is an explicit metadata port.",
+  "qualificationLimits": [
+    "Only five assigned blobs and targeted source sections qualified; upstream suites not run.",
+    "Optional OCR/provider/vector doubles are not qualification of external adapters.",
+    "Telemetry is best effort and separate from durable audit/usage records."
+  ],
+  "planReceipt": "Not written: execution contract forbids plan mutation; coordinator owns that artifact."
+}

@@ -5,17 +5,29 @@ namespace KnowKit\Application\Deletion;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\{ContractValidator, JsonObject};
 use KnowKit\Port\{Clock, DeletionStore, DeletionTransport};
+use KnowKit\Application\Observability\Telemetry;
+use KnowKit\Domain\Observability as O;
 
 /** Privately adapted AgenTools DeletionWorker; canonical outcomes and exact-object proof are KnowKit-specific. */
 final readonly class DeletionWorker
 {
-    public function __construct(private DeletionStore $store, private DeletionTransport $transport,
-        private Clock $clock, private ContractValidator $validator) {}
+    public function __construct(
+        private DeletionStore $store,
+        private DeletionTransport $transport,
+        private Clock $clock,
+        private ContractValidator $validator,
+        private ?Telemetry $telemetry = null,
+    ) {}
 
     public function attempt(D\TenantId $tenant, D\DeletionTaskId $task, D\ResourceId $resource, D\AttemptId $attempt): D\DeletionReceipt
     {
+        $this->telemetry?->trace->assertTenant($tenant);
         $start = $this->store->beginAttempt($tenant, $task, $resource, $attempt);
-        if ($start->replay !== null) { return $start->replay; }
+        if ($start->replay !== null) {
+            $this->observe($start->replay);
+
+            return $start->replay;
+        }
         $error = null;
         try {
             $proof = $this->transport->provesExactVersion($start->target);
@@ -34,6 +46,22 @@ final readonly class DeletionWorker
                 'resourceId'=>$resource->value, 'inFlight'=>false, 'result'=>'unknown', 'providerReceipt'=>null,
                 'knownExpiry'=>null, 'observedAt'=>$this->clock->now()->value]), $this->validator);
         }
-        return $this->store->finishAttempt($start->target, $attempt, $receipt, $error);
+        $receipt = $this->store->finishAttempt($start->target, $attempt, $receipt, $error);
+        $this->observe($receipt);
+
+        return $receipt;
+    }
+
+    private function observe(D\DeletionReceipt $receipt): void
+    {
+        $outcome = $receipt->operationalOutcome();
+        $this->telemetry?->emit(
+            event: O\Event::Purge, stage: O\Stage::Delete, outcome: $outcome,
+            reason: match ($outcome) {
+                D\Outcome::Unknown => O\Reason::PurgeUnknown,
+                D\Outcome::Incompatible => O\Reason::Incompatible,
+                default => O\Reason::None,
+            },
+        );
     }
 }

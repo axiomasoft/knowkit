@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "ops:observability",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial synthetic metadata/failure corpus; independently authored expected outcomes. Canary profile contains unsafe display/config values which operational exports must omit. No generated response snapshots.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures; no real documents, personal data or credentials.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "PROVIDER-TIMEOUT",
+    "STALE-LEASE",
+    "DENIED-DISCLOSURE",
+    "OPTIONAL-OCR-DOWN",
+    "UNKNOWN-PURGE-RECEIPT",
+    "CANARY-REDACTION",
+    "TRACE-PROPAGATION",
+    "DT-Q10",
+    "REQUIRED-READINESS",
+    "SCOPED-PROFILE",
+    "AUTHENTICATED-HTTP",
+    "OUTBOX-LAG",
+    "QUOTAS",
+    "SINK-ISOLATION",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "PROVIDER-TIMEOUT": [
+      "KnowKit\\Tests\\Ops\\Observability\\TelemetryTest::testProviderTimeoutPreservesUnknownAndOriginalExceptionWithoutRawInput"
+    ],
+    "STALE-LEASE": [
+      "KnowKit\\Tests\\Ops\\Observability\\TelemetryTest::testStaleLeaseDoesNotRetryOrBecomeSuccessfulAndKeepsFence"
+    ],
+    "DENIED-DISCLOSURE": [
+      "KnowKit\\Tests\\Ops\\Observability\\TelemetryTest::testDeniedDisclosureNeverLoadsContentAndPreservesFailure"
+    ],
+    "OPTIONAL-OCR-DOWN": [
+      "KnowKit\\Tests\\Ops\\Observability\\DiagnosticsTest::testOptionalOcrDownDegradesActualCapabilitiesWithoutBlockingRequiredProfile"
+    ],
+    "UNKNOWN-PURGE-RECEIPT": [
+      "KnowKit\\Tests\\Ops\\Observability\\OperationsTest::testUnknownPurgeReceiptIsObservedWithoutChangingOrDisclosingReceipt"
+    ],
+    "CANARY-REDACTION": [
+      "KnowKit\\Tests\\Ops\\Observability\\TelemetryTest::testJsonLogsAndMetricsRejectContentByConstructionAndKeepDistinctOutcomes",
+      "KnowKit\\Tests\\Ops\\Observability\\DiagnosticsTest::testCoverageAndProfileExportContainOnlyCountsEnumsAndFingerprints"
+    ],
+    "TRACE-PROPAGATION": [
+      "KnowKit\\Tests\\Ops\\Observability\\TelemetryTest::testTracePropagationLinksRunUsageAndLeaseWithoutTenantOrSecret",
+      "KnowKit\\Tests\\Ops\\Observability\\TelemetryTest::testSuccessfulDisclosureLinksCommittedUsageWithoutMaterializingReplayText"
+    ],
+    "DT-Q10": [
+      "KnowKit\\Tests\\Ops\\Observability\\DiagnosticsTest::testUnavailableProviderAndCorruptIndexStayDistinctAndMetadataIsLazy",
+      "KnowKit\\Tests\\Ops\\Observability\\DiagnosticsTest::testUnavailableMetadataIsNotRewrittenIntoEmptyCoverage"
+    ],
+    "REQUIRED-READINESS": [
+      "KnowKit\\Tests\\Ops\\Observability\\DiagnosticsTest::testRequiredSchemaTombstonesAndMissingVerificationFailClosed",
+      "KnowKit\\Tests\\Ops\\Observability\\DiagnosticsTest::testDisabledOptionalAndOldVerificationCannotAdvertiseCapabilities",
+      "KnowKit\\Tests\\Ops\\Observability\\DiagnosticsTest::testInvalidMeasurementsAndAmbiguousDependencyStateAreRejected"
+    ],
+    "SCOPED-PROFILE": [
+      "KnowKit\\Tests\\Ops\\Observability\\DiagnosticsTest::testCrossScopeAndStaleProfileCannotExportAnotherSnapshot",
+      "KnowKit\\Tests\\Ops\\Observability\\TelemetryTest::testCrossTenantTraceFailsBeforeQueueWrite"
+    ],
+    "AUTHENTICATED-HTTP": [
+      "KnowKit\\Tests\\Ops\\Observability\\DiagnosticsTest::testHttpDiagnosticsAuthenticateAndRecheckAuthorityBeforeExport"
+    ],
+    "OUTBOX-LAG": [
+      "KnowKit\\Tests\\Ops\\Observability\\OperationsTest::testOutboxLagUsesTenantBoundStoreAndUnavailableStatusDoesNotUndoDispatch"
+    ],
+    "QUOTAS": [
+      "KnowKit\\Tests\\Ops\\Observability\\DiagnosticsTest::testHttpQuotaFailureIsObservedAndCannotBeRewrittenAsEmpty"
+    ],
+    "SINK-ISOLATION": [
+      "KnowKit\\Tests\\Ops\\Observability\\TelemetryTest::testTelemetrySinkFailureCannotChangeCommittedResultOrExposeException"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Ops\\Observability\\FixtureTest::testVersionedFixturesAndFivePinnedReuseDecisions"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Ops\\Observability\\FixtureTest::testRequiredCaseRunnerRejectsMissingSkippedFailedDuplicateAndZeroTests"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/ops/observability/fixtures/v1/cases.json",
+      "sha256": "21f704a5eeb9ba9914687c099eb37f2c1810a847f81163329f3bbfcea3f0f04b",
+      "expected": "Synthetic metadata: timeout unknown, stale lease incompatible, disclosure denied, optional OCR degraded/ready, purge unknown, canaries absent, trace/usage linked, corrupt index unavailable, outbox lag 17."
+    },
+    {
+      "path": "tests/ops/observability/fixtures/v1/profile.json",
+      "sha256": "d3f9013721a66ddb16266fd4f3244d6587077d160ac7853a09af3e5fb26f0c00",
+      "expected": "Synthetic metadata: timeout unknown, stale lease incompatible, disclosure denied, optional OCR degraded/ready, purge unknown, canaries absent, trace/usage linked, corrupt index unavailable, outbox lag 17."
+    }
+  ]
+}

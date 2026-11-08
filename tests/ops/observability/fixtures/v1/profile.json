@@ -1,0 +1,13 @@
+{
+  "schemaVersion": "host-profile:1",
+  "id": "DOCUMENT_CONTENT_CANARY_P91",
+  "version": "1",
+  "adapterBindings": {
+    "lexical": {"adapterId": "fixture.lexical", "config": {"label": "SECRET_CANARY_P91"}, "capabilities": ["lexical.prefilter"], "featureClaims": []},
+    "parser": {"adapterId": "fixture.ocr", "config": {"label": "DOCUMENT_CONTENT_CANARY_P91"}, "capabilities": ["parser.ocr"], "featureClaims": []}
+  },
+  "parserProfiles": {},
+  "searchProfiles": {},
+  "coveragePolicy": {"version": "1", "state": "partial"},
+  "quotas": {"maxBytes": 67108864, "maxFragments": 64, "maxAssets": 16}
+}
