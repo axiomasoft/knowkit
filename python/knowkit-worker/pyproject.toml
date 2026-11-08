@@ -1,0 +1,25 @@
+[build-system]
+requires = ["hatchling==1.32.4"]
+build-backend = "hatchling.build"
+
+[project]
+name = "knowkit-worker"
+version = "0.4.0"
+description = "Offline staged-file subprocess runtime for KnowKit"
+requires-python = ">=3.12,<3.13"
+license = "LicenseRef-KnowKit-Private"
+dependencies = ["jsonschema==4.26.0"]
+
+[project.scripts]
+knowkit-worker = "knowkit_worker.cli:main"
+
+[dependency-groups]
+dev = ["packaging==26.3", "pytest==9.1.1"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests/protocol"]
+addopts = "--strict-markers"
+junit_family = "xunit2"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/knowkit_worker"]

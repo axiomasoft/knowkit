@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "worker-protocol-fixtures-1.0",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored protocol corpus 1.0.0: synthetic UTF-8 input and integer-only RFC8785 IR/result, independently calculated with Python hashlib and verified by PHP core contracts. Future expected digest changes require a fixture version and semantic rationale, never a blind snapshot rewrite.",
+  "license": "LicenseRef-KnowKit-Private",
+  "provenance": "Project-authored synthetic protocol corpus. DeepTutor lifecycle and AgenTools integrity regression adaptations; pinned provenance in evidence/P6.1-reuse.json. No real provider/PDF/OCR qualification.",
+  "expectedDigests": {
+    "source": "9948f723030218c0a068ea46acf54a329662547ebeaad8e1222bc1d4d5bea22b",
+    "ir": "6604116e5ea7f1dad4bb1a1e03664edfe71dcf1c5c775877301c73fe2861d0da",
+    "result": "5659820ea1432e85e81d2163e4d469cfdac3ba5de39c72fb5e3b21cc9d6a1b14"
+  },
+  "cases": [
+    {
+      "id": "STALE-LEASE",
+      "expected": "denied/stale_lease"
+    },
+    {
+      "id": "STALE-FENCE",
+      "expected": "denied/worker_identity_mismatch"
+    },
+    {
+      "id": "INPUT-PATH-ESCAPE",
+      "expected": "rejected"
+    },
+    {
+      "id": "OUTPUT-PATH-ESCAPE",
+      "expected": "rejected"
+    },
+    {
+      "id": "FORGED-OUTPUT-PATH",
+      "expected": "rejected"
+    },
+    {
+      "id": "SCHEMA-MISMATCH",
+      "expected": "incompatible"
+    },
+    {
+      "id": "TIMEOUT",
+      "expected": "unavailable/worker_timeout; cgroup quiescent; stage removed"
+    },
+    {
+      "id": "OOM",
+      "expected": "unavailable/worker_oom; cgroup quiescent; stage removed"
+    },
+    {
+      "id": "OVERSIZED-MANIFEST",
+      "expected": "rejected before acceptance"
+    },
+    {
+      "id": "CANCEL",
+      "expected": "denied/cancelled; cgroup quiescent; stage removed"
+    },
+    {
+      "id": "FORBIDDEN-NETWORK",
+      "expected": "IPv4/IPv6/Unix socket EPERM; job completes only after denial assertion"
+    },
+    {
+      "id": "R15-A01",
+      "expected": "same identity reuses verified IR; revision or OCR language changes allocate documentRevisionId"
+    },
+    {
+      "id": "R15-A02",
+      "expected": "transient paths excluded; credential settings refused; raw output never exposed; PHP access remains caller-owned"
+    },
+    {
+      "id": "R37-A01",
+      "expected": "readonly input/runtime; private output; no other source, metadata, network, publish or credentials"
+    },
+    {
+      "id": "R37-A02",
+      "expected": "independent PHP schema/digest/length/IR/coverage/identity verification; late fence rejected"
+    },
+    {
+      "id": "DT-I05",
+      "expected": "quiet work survives; total deadline, descendant pipes and stdout/stderr floods bounded"
+    },
+    {
+      "id": "DT-R07",
+      "expected": "missing bwrap/cgroup unavailable; actual namespace/seccomp/cgroup required; no fallback or skips"
+    },
+    {
+      "id": "DT-R08",
+      "expected": "oversize/malformed/EOF/cancel cannot succeed"
+    },
+    {
+      "id": "RESOURCE-BUDGETS",
+      "expected": "CPU/tmpfs/output limits enforced and cleaned"
+    },
+    {
+      "id": "CLI-CAPABILITIES",
+      "expected": "subprocess only; exact profiles; Docling2.148.0/PDF/OCR unqualified; redacted error"
+    },
+    {
+      "id": "GOLDEN-TERMINAL",
+      "expected": "exit0 plus valid result; PHP/Python digests equal; UTF16 JCS ordering"
+    },
+    {
+      "id": "QA-FAIL-CLOSED",
+      "expected": "unknown/missing/zero/skipped/nested failure reject"
+    }
+  ]
+}

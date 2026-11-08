@@ -1,0 +1,177 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "worker:protocol",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial authored protocol corpus 1.0.0: synthetic UTF-8 input and integer-only RFC8785 IR/result, independently calculated with Python hashlib and verified by PHP core contracts. Future expected digest changes require a fixture version and semantic rationale, never a blind snapshot rewrite.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic protocol corpus. DeepTutor lifecycle and AgenTools integrity regression adaptations; pinned provenance in evidence/P6.1-reuse.json. No real provider/PDF/OCR qualification.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "STALE-LEASE",
+    "STALE-FENCE",
+    "INPUT-PATH-ESCAPE",
+    "OUTPUT-PATH-ESCAPE",
+    "FORGED-OUTPUT-PATH",
+    "SCHEMA-MISMATCH",
+    "TIMEOUT",
+    "OOM",
+    "OVERSIZED-MANIFEST",
+    "CANCEL",
+    "FORBIDDEN-NETWORK",
+    "R15-A01",
+    "R15-A02",
+    "R37-A01",
+    "R37-A02",
+    "DT-I05",
+    "DT-R07",
+    "DT-R08",
+    "RESOURCE-BUDGETS",
+    "CLI-CAPABILITIES",
+    "GOLDEN-TERMINAL",
+    "QA-FAIL-CLOSED"
+  ],
+  "testCaseMap": {
+    "STALE-LEASE": [
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testExpiredLeaseRefusesLateValidOutput",
+      "KnowKit\\Tests\\Worker\\Protocol\\JobBoundaryTest::testDatabaseExpiryAndCancellationRejectVerifiedArtifacts"
+    ],
+    "STALE-FENCE": [
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testStaleFenceAndEpochAndSource",
+      "KnowKit\\Tests\\Worker\\Protocol\\JobBoundaryTest::testVerifiedArtifactCannotBypassConditionalFenceAfterTakeover"
+    ],
+    "INPUT-PATH-ESCAPE": [
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testInputAndOutputEscape",
+      "tests.protocol.test_contracts::test_paths_reject_symlinks_hardlinks_fifo_and_escape"
+    ],
+    "OUTPUT-PATH-ESCAPE": [
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testInputAndOutputEscape"
+    ],
+    "FORGED-OUTPUT-PATH": [
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testForgedOutputPathAndDuplicates",
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testLinksAndUnlistedFilesAreRejected"
+    ],
+    "SCHEMA-MISMATCH": [
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testSchemaMismatchAndWrongDigest",
+      "tests.protocol.test_contracts::test_strict_schema_and_json_negative_examples"
+    ],
+    "TIMEOUT": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testTimeoutKillsAndReapsWholeCgroup"
+    ],
+    "OOM": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testOomKillsAndReapsWholeCgroup"
+    ],
+    "OVERSIZED-MANIFEST": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testMalformedOversizeAndEofAreNotSuccess"
+    ],
+    "CANCEL": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testCancelWhileBlockedKillsAndJoins",
+      "KnowKit\\Tests\\Worker\\Protocol\\JobBoundaryTest::testDatabaseExpiryAndCancellationRejectVerifiedArtifacts",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testCancelBeforeLauncherJoinsCannotBlockReap"
+    ],
+    "FORBIDDEN-NETWORK": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testForbiddenNetworkAndLeastPrivilege"
+    ],
+    "R15-A01": [
+      "KnowKit\\Tests\\Worker\\Protocol\\IdentityTest::testReuseRequiresFullSemanticIdentityAndValidatedOutput"
+    ],
+    "R15-A02": [
+      "KnowKit\\Tests\\Worker\\Protocol\\IdentityTest::testTemporaryStagingAndHandlesCannotBecomeSemanticIdentity",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testFloodsCannotLeakRawOutputOrBlock"
+    ],
+    "R37-A01": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testForbiddenNetworkAndLeastPrivilege"
+    ],
+    "R37-A02": [
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testGoldenIndependentValidation",
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testStaleFenceAndEpochAndSource",
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testSchemaMismatchAndWrongDigest",
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testCoverageAndAssetInventoryAreIndependent",
+      "KnowKit\\Tests\\Worker\\Protocol\\JobBoundaryTest::testVerifiedArtifactCannotBypassConditionalFenceAfterTakeover",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testAssetInventoryIsIndependentlyVerified",
+      "KnowKit\\Tests\\Worker\\Protocol\\JobBoundaryTest::testCurrentSourceEpochRejectsAnOtherwiseValidLeaseAndArtifact"
+    ],
+    "DT-I05": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testQuietInferenceAndDescendantStdoutHaveBoundedJoin",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testFloodsCannotLeakRawOutputOrBlock",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testCancelBeforeLauncherJoinsCannotBlockReap"
+    ],
+    "DT-R07": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testMissingSandboxOrCgroupNeverFallsBack",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testRealSandboxGoldenTerminalResult",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testPidsAreBoundedAndRuntimeTamperingIsUnavailable"
+    ],
+    "DT-R08": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testMalformedOversizeAndEofAreNotSuccess",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testCancelWhileBlockedKillsAndJoins",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testCancelBeforeLauncherJoinsCannotBlockReap"
+    ],
+    "RESOURCE-BUDGETS": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testCpuBudgetIsEnforced",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testTempAndOutputBudgets",
+      "KnowKit\\Tests\\Worker\\Protocol\\ProtocolTest::testInventoryRefreshesExternalWrites",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testPidsAreBoundedAndRuntimeTamperingIsUnavailable"
+    ],
+    "CLI-CAPABILITIES": [
+      "tests.protocol.test_contracts::test_profiles_are_exact_and_capabilities_do_not_qualify_pdf"
+    ],
+    "GOLDEN-TERMINAL": [
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testRealSandboxGoldenTerminalResult",
+      "tests.protocol.test_contracts::test_schema_copies_and_golden_wire",
+      "tests.protocol.test_contracts::test_jcs_uses_utf16_and_typed_result_domain",
+      "KnowKit\\Tests\\Worker\\Protocol\\SandboxTest::testNestedSandboxPathsRemainPrivateAndValid"
+    ],
+    "QA-FAIL-CLOSED": [
+      "KnowKit\\Tests\\Worker\\Protocol\\FixtureTest::testRunnerRejectsUnknownEmptyMissingSkippedAndNestedFailure",
+      "KnowKit\\Tests\\Worker\\Protocol\\FixtureTest::testVersionedManifestBindsAllRequiredCasesAndGoldenDigests"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/worker/protocol/fixtures/v1/cases.json",
+      "sha256": "ed1bdac93a1a46affd6016c19d685a46f942ff538da11740522b8ac292b807f9",
+      "expected": {
+        "outcome": "versioned_required_cases"
+      }
+    },
+    {
+      "path": "tests/worker/protocol/fixtures/v1/source.txt",
+      "sha256": "9948f723030218c0a068ea46acf54a329662547ebeaad8e1222bc1d4d5bea22b",
+      "expected": {
+        "outcome": "valid",
+        "digest": "9948f723030218c0a068ea46acf54a329662547ebeaad8e1222bc1d4d5bea22b"
+      }
+    },
+    {
+      "path": "tests/worker/protocol/fixtures/v1/envelope.json",
+      "sha256": "4c2028c5330bd9965d163dd1ad4e4e2b6511ffd01867338d6c291f550ef1cc92",
+      "expected": {
+        "outcome": "valid",
+        "digest": "4c2028c5330bd9965d163dd1ad4e4e2b6511ffd01867338d6c291f550ef1cc92"
+      }
+    },
+    {
+      "path": "tests/worker/protocol/fixtures/v1/ir.json",
+      "sha256": "6604116e5ea7f1dad4bb1a1e03664edfe71dcf1c5c775877301c73fe2861d0da",
+      "expected": {
+        "outcome": "valid",
+        "digest": "6604116e5ea7f1dad4bb1a1e03664edfe71dcf1c5c775877301c73fe2861d0da"
+      }
+    },
+    {
+      "path": "tests/worker/protocol/fixtures/v1/result.json",
+      "sha256": "627cff3dd721bb3a4f226ce334d40cc2ca09ec0da262afda9e21c0821179952f",
+      "expected": {
+        "outcome": "valid",
+        "digest": "627cff3dd721bb3a4f226ce334d40cc2ca09ec0da262afda9e21c0821179952f"
+      }
+    }
+  ],
+  "components": {
+    "workerLock": {
+      "path": "python/knowkit-worker/uv.lock",
+      "sha256": "94fc769048a42c04e40348da134e760e468c4d3611febccea5c19ea4212eac86"
+    }
+  }
+}

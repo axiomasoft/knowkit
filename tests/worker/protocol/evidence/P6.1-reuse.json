@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P6.1",
+  "sources": [
+    {
+      "repo": "agentools",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "path": "extensions/knowledge/src/GenericValidator.php",
+      "sha256": "aa447e7fcca2ac1644181eee560607edddc51bbdf9aa4fa98cd39b50a3763d94",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/GenericValidator.php",
+      "decision": "adapt",
+      "symbols": [
+        "GenericValidator::validate"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/ProcessWorker/WorkerIngressBundleValidator.php",
+        "packages/core/src/Domain/WorkerResult.php"
+      ],
+      "reason": "Integrity and source mapping before acceptance. Reuse the existing KnowKit schema/IR semantic validator; no donor package dependency.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Proprietary; private local reuse authority in licenses/local-reuse-authorization.md"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/runtime/isolated_worker.py",
+      "sha256": "4e4ff89db42c25cfb5cf793da67da905ba48bc378f171e2b4e54608478115169",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/isolated_worker.py",
+      "decision": "adapt",
+      "symbols": [
+        "run_in_isolated_process_sync",
+        "run_in_isolated_process",
+        "_stop_async_process"
+      ],
+      "targetPaths": [
+        "packages/core/src/Adapter/ProcessWorker/WorkerProcess.php",
+        "packages/core/src/Adapter/ProcessWorker/WorkerCgroup.php"
+      ],
+      "reason": "Short-lived job, total timeout, cancel/kill/join. Replace unbounded communicate and parent-only kill with bounded stream counters, cgroup kill/quiescence and namespace/seccomp isolation. No silence timeout.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "AGPL-3.0-only; private adaptation; docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/runtime/worker_process.py",
+      "sha256": "eee26ba9d8bf856142094e8ab20f6e8253a1b9d385e1320abcdad67773bcac4a",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/worker_process.py",
+      "decision": "reject",
+      "symbols": [
+        "_resolve",
+        "_execute",
+        "main"
+      ],
+      "targetPaths": [
+        "python/knowkit-worker/src/knowkit_worker/cli.py",
+        "python/knowkit-worker/src/knowkit_worker/protocol.py"
+      ],
+      "reason": "Pickle, caller-selected import paths and raw exception forwarding violate the scoped protocol. New closed JSON, exact profiles, staged files and redacted machine codes instead.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "AGPL-3.0-only; private adaptation; docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/parsing/engines/docling/local_worker.py",
+      "sha256": "c8db5930951f39ff4fde2251efcf6196fa1de166f13e3fa42cddb6894ce55c80",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/local_worker.py",
+      "decision": "reject",
+      "symbols": [
+        "parse_local",
+        "_build_converter",
+        "_stop_worker"
+      ],
+      "targetPaths": [
+        "python/knowkit-worker/src/knowkit_worker/profiles.py"
+      ],
+      "reason": "Upstream option fallback, unbounded line read and Markdown-only success do not qualify canonical IR or sandbox. Keep only an unqualified Docling2.148.0 descriptor; implementation/model BOM/PDF/OCR qualification belongs to later parser items.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "AGPL-3.0-only; private adaptation; docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/runtime/test_isolated_worker.py",
+      "sha256": "cb6af12ad4ef899fe3730cc5529c7916fb0ef016c121609894f1de3003a25f89",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_isolated_worker.py",
+      "decision": "adapt",
+      "symbols": [
+        "test_worker_timeout_terminates_the_child",
+        "test_worker_cancellation_terminates_the_child",
+        "test_sync_worker_returns_a_pickled_result"
+      ],
+      "targetPaths": [
+        "tests/worker/protocol/SandboxTest.php",
+        "python/knowkit-worker/tests/protocol/test_contracts.py"
+      ],
+      "reason": "Adapt timeout/cancellation/terminal-result regressions to real bwrap+seccomp+cgroup and strict JSON. Add flood, descendant, OOM, stale identity, path and unavailable-capability negatives; no importorskip on mandatory backends.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "AGPL-3.0-only; private adaptation; docs/architecture/third-party/DeepTutor-LICENSE.txt"
+    }
+  ],
+  "sourceGaps": [
+    {
+      "gap": "No donor implements the approved strict staged JSON plus Linux sandbox boundary.",
+      "resolution": "New offline runtime builder/BOM, descriptor-relative worker I/O, seccomp/network isolation and cgroup v2 limits. Existing KnowKit schemas and PHP JCS/semantic/ProcessingIdentity/JobQueue implementations are reused."
+    },
+    {
+      "gap": "Docling/PDF/OCR model qualification and PHP resource import/publication orchestration are separate items.",
+      "resolution": "Capabilities stay false/unavailable. Synthetic fixture parser is injected only into disposable test runtimes. Verified bundle exposes no acceptance/publication operation; real PostgreSQL tests exercise the existing conditional fence/lease gate."
+    }
+  ],
+  "qualification": {
+    "donorHashVerification": "All five pinned cached files SHA-256 verified before implementation; source bodies inspected.",
+    "upstreamTestSuitesRun": false,
+    "localEvidence": "Targeted product/test checks only; V1 is reserved for the coordinator.",
+    "fixtureVersion": "1.0.0",
+    "goldenRationale": "Initial authored protocol corpus 1.0.0: synthetic UTF-8 input and integer-only RFC8785 IR/result, independently calculated with Python hashlib and verified by PHP core contracts. Future expected digest changes require a fixture version and semantic rationale, never a blind snapshot rewrite.",
+    "securityRegressions": [
+      "Early cancellation before cgroup attachment kills/reaps the trusted launcher within a bound.",
+      "Real sandbox regression with an open PHP metadata canary verifies inherited host FDs and credential environment do not enter the worker."
+    ]
+  },
+  "planReceiptOwner": "Coordinator/registrar; executor does not mutate native plan artifacts."
+}
