@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "knowkit-structure-fixtures-1.0",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial retention oracle: one multi-page table with actual repeated headers, kg units, per-page notes and merged spans; uncertain symbol stays U+FFFD; intentionally contradictory generated description retains its own provenance. This is a source-reported mapping corpus, not qualification of table/formula recognition.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored text, geometry, PNG/JPEG and ReportLab PDF; no external corpus or model assets."
+  },
+  "expected": {
+    "irDigest": "170657f3d159ae649b13df38e3703e880e2412849139a69f2da8b7772042f06e",
+    "pages": 2,
+    "segments": 1,
+    "originalDigest": "78a96b9fb97057057671f92f827d347a24c95bad1386b5e92b975641e7e1087e",
+    "previewDigest": "8b9f4fa685efb10649dabd257cef4181a2d7c048e9da22cc29c03814ab9d36c9",
+    "formulaRepresentation": "E = m � c²",
+    "formulaConfidence": 250
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/documents/structure/v1/original.png",
+      "sha256": "78a96b9fb97057057671f92f827d347a24c95bad1386b5e92b975641e7e1087e",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/preview.jpg",
+      "sha256": "8b9f4fa685efb10649dabd257cef4181a2d7c048e9da22cc29c03814ab9d36c9",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/source.json",
+      "sha256": "b8be45d53bf7415fbc732d803a979cc6fa59ade06e9ca27b8acc13fd8c73008e",
+      "expected": {
+        "outcome": "source-oracle"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/structured.ir.json",
+      "sha256": "170657f3d159ae649b13df38e3703e880e2412849139a69f2da8b7772042f06e",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/structured.pdf",
+      "sha256": "bc3feb3365c8e885f13ca4e66882da829491beae5df8bc124e49c6f1cef79c3a",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/uncertain-ocr.ir.json",
+      "sha256": "2be29ccf121be4a6b2e12485519a7362ce04b2eabf3f0bba2e99b8d228aa4201",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/unpaginated.ir.json",
+      "sha256": "19e2dca4cdf2e7fdba5cd06a77dca05aa8cb8854a9cebf0e72be29daf1ab9544",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    }
+  ]
+}

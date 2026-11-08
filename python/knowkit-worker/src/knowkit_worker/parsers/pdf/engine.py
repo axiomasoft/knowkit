@@ -14,6 +14,8 @@ from pathlib import Path
 from ...profiles import Asset, ParsedDocument
 from ...protocol import Envelope, Refusal, canonical, sha256
 from ...rendering.pdf import bbox, open_pdf, page_png
+from ...structure.docling import map_table
+from ...structure.formulas import retain_formula
 from .qualification import ROOT, verify_dependencies, verify_models
 
 MODEL_REVISION = "8f39ad3c0b4c58e9c2d2c84a38465abf757272d8"
@@ -86,7 +88,7 @@ def preflight(document) -> list[dict]:
     return pages
 
 
-def map_document(native, document, metadata: list[dict], job: dict) -> ParsedDocument:
+def map_document(native, document, metadata: list[dict], job: dict, structured: bool = False) -> ParsedDocument:
     pages = [dict(pageId=f"page-{i + 1}", physicalNo=i + 1, printedLabel=m["label"],
                   text="", textDigest=sha256(b""), status="ok") for i, m in enumerate(metadata)]
     blocks, assets, refs, diagnostics = [], [], [], []
@@ -95,10 +97,22 @@ def map_document(native, document, metadata: list[dict], job: dict) -> ParsedDoc
     missing = set()
     seen_pages = set(native.pages)
     for item, _level in native.iterate_items():
+        if structured and str(item.label) == "table" and map_table(
+                item, pages, metadata, blocks, int(job["limits"]["maxOutputBytes"]), missing, diagnostics):
+            # Pinned Docling cells do not report explicit unit/note/header
+            # associations or cross-item continuity. Do not invent them.
+            missing.update(("table_header_associations", "table_units", "table_notes", "table_continuity"))
+            diagnostics.append(diagnostic("table_associations_unavailable"))
+            continue
         text = getattr(item, "text", "")
         if not text:
             if str(item.label) == "table":
                 missing.add("table_structure")
+                if structured:
+                    diagnostics.append(diagnostic("table_structure_unavailable"))
+            if structured and str(item.label) == "formula":
+                missing.add("formula_transcription")
+                diagnostics.append(diagnostic("formula_representation_unavailable"))
             continue
         if str(item.label) in ("table", "formula"):
             missing.add("table_structure" if str(item.label) == "table" else "formula_structure")
@@ -126,7 +140,7 @@ def map_document(native, document, metadata: list[dict], job: dict) -> ParsedDoc
                         physicalNo=page["physicalNo"], printedLabel=page["printedLabel"],
                         byteStart=start, byteEnd=start + len(piece.encode("utf-8")), bbox=geometry)
             blocks.append(dict(blockId=block_id, kind="heading" if str(item.label) in
-                               ("title", "section_header") else "text", parentId=None,
+                               ("title", "section_header") else "formula" if structured and str(item.label) == "formula" else "text", parentId=None,
                                order=len(blocks), origin="source", spans=[span],
                                provenance=dict(kind="verbatim", supportingRefs=[])))
             page["text"] += "\n"
@@ -169,9 +183,16 @@ def map_document(native, document, metadata: list[dict], job: dict) -> ParsedDoc
             assets.append(Asset(f"{asset_id}.png", png, "image/png"))
             refs.append(dict(assetId=asset_id, mediaType="image/png", digest=sha256(png),
                              byteLength=str(len(png)), pageId=page["pageId"]))
+            if structured:
+                refs[-1]["bbox"] = bbox((0, 0, *meta["size"]), *meta["size"])
+                missing.add("original_visual_bytes")
+                diagnostics.append(dict(code="rendered_preview_not_original", severity="warning",
+                                        segmentId=page["pageId"]))
             blocks.append(dict(blockId=f"image-{index + 1}", kind="image", parentId=None,
-                               order=len(blocks), origin="source", spans=[], assetRefs=[asset_id],
-                               provenance=dict(kind="verbatim", supportingRefs=[])))
+                               order=len(blocks), origin="generated" if structured else "source",
+                               spans=[], assetRefs=[asset_id], provenance=dict(
+                                   kind="description" if structured else "verbatim",
+                                   supportingRefs=[asset_id] if structured else [])))
         page["textDigest"] = sha256(page["text"].encode("utf-8"))
     asset_pages = {a["assetId"]: int(a["pageId"].removeprefix("page-")) for a in refs}
     blocks.sort(key=lambda b: b["spans"][0]["physicalNo"] if b["spans"] else asset_pages[b["assetRefs"][0]])
@@ -186,12 +207,15 @@ def map_document(native, document, metadata: list[dict], job: dict) -> ParsedDoc
     ir = dict(schemaVersion="ir-1.0", tenantId=job["tenantId"], sourceVersionId=job["sourceVersionId"],
               parserSignature=job["parserSignature"], pages=pages, segments=[], blocks=blocks,
               assets=refs, coverage=coverage)
+    for block in blocks:
+        if block["kind"] == "formula":
+            retain_formula(ir, block["blockId"])
     if len(assets) > job["limits"]["maxAssets"] or len(canonical(ir)) + sum(len(a.data) for a in assets) > int(job["limits"]["maxOutputBytes"]):
         raise Refusal("output_limit")
     return ParsedDocument(ir, tuple(assets))
 
 
-def parse(source: bytes, envelope: Envelope, model_root: Path = ROOT / "models") -> ParsedDocument:
+def parse(source: bytes, envelope: Envelope, model_root: Path = ROOT / "models", structured: bool = False) -> ParsedDocument:
     # The supervisor clears the environment and mounts no host passwd/home.
     # Docling computes Path.home() at import even with explicit local artifacts.
     os.environ.setdefault("HOME", "/tmp")
@@ -200,15 +224,19 @@ def parse(source: bytes, envelope: Envelope, model_root: Path = ROOT / "models")
     for variable in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
         os.environ[variable] = "2"
     from docling.datamodel.base_models import DocumentStream
-    from ...profiles import DOCLING
+    from ...profiles import DOCLING, STRUCTURE
 
     job = envelope.value
-    if job["parserProfile"] != DOCLING.id or job["parserSignature"] != DOCLING.signature:
+    profile = STRUCTURE if structured else DOCLING
+    if job["parserProfile"] != profile.id or job["parserSignature"] != profile.signature:
         raise Refusal("profile_mismatch")
     if sha256(source) != job["inputDigest"]:
         raise Refusal("input_digest_mismatch", "denied")
     verify_dependencies()
     verify_models(model_root)
+    if structured:
+        from ...structure.qualification import verify
+        verify()
     # Library messages/progress/errors must never disclose document content.
     previous_logging = logging.root.manager.disable
     logging.disable(logging.CRITICAL)
@@ -220,7 +248,7 @@ def parse(source: bytes, envelope: Envelope, model_root: Path = ROOT / "models")
                     engine = converter(model_root, job["limits"]["wallSeconds"])
                     converted = engine.convert(DocumentStream(name="source.pdf", stream=BytesIO(source)),
                                                raises_on_error=False, max_num_pages=job["limits"]["maxPages"])
-                    return map_document(converted.document, document, metadata, job)
+                    return map_document(converted.document, document, metadata, job, structured=structured)
                 except (AttributeError, TypeError, ValueError, ImportError):
                     raise Refusal("docling_api_incompatible") from None
     finally:

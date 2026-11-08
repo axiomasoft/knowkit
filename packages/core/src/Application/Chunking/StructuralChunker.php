@@ -152,13 +152,14 @@ final readonly class StructuralChunker implements ChunkSetBuilder
     /** Rowspan closure creates indivisible row groups. Referenced headers/notes are separate search context. */
     private function tableUnits(CanonicalMap $map, JsonObject $block): array
     {
-        $table = $block->get('table'); $cells = $byId = [];
-        foreach ($map->blocks as $candidate) {
-            if ($candidate->get('kind') === 'table') {
-                foreach ($candidate->get('table')->get('cells') as $cell) { $byId[$cell->get('cellId')] = $cell; }
-            }
+        $table = $block->get('table');
+        $cells = [];
+        $byId = [];
+        // IR headerRefs are local to this table, not a document-wide cell namespace.
+        foreach ($table->get('cells') as $cell) {
+            $cells[] = $cell;
+            $byId[$cell->get('cellId')] = $cell;
         }
-        foreach ($table->get('cells') as $cell) { $cells[] = $cell; }
         usort($cells, static fn(JsonObject $a, JsonObject $b): int => [$a->get('row'), $a->get('column'), $a->get('cellId')] <=> [$b->get('row'), $b->get('column'), $b->get('cellId')]);
         $units = []; $row = 0;
         while ($row < $table->get('rows')) {

@@ -32,6 +32,11 @@ final readonly class IrDocument extends SchemaValue
         return OcrMetadata::fromDocument($this, $id);
     }
 
+    public function formulaMetadata(LocalId $id): FormulaMetadata
+    {
+        return FormulaMetadata::fromDocument($this, $id);
+    }
+
     public function block(LocalId $id): JsonObject
     {
         foreach ($this->toWire()->get('blocks') as $block) {

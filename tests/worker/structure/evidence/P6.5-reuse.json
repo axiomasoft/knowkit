@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "knowkit-reuse-receipt-1.0",
+  "item": "P6.5",
+  "sources": [
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/parsing/engines/docling/engine.py",
+      "sha256": "2503fbdceba65e83efcead84c199f62f6375d3704074b211ed036e482e0549d7",
+      "verifiedSha256": "2503fbdceba65e83efcead84c199f62f6375d3704074b211ed036e482e0549d7",
+      "decision": "adapt",
+      "rationale": "Retain existing pinned Docling converter/options; use native cells instead of donor Markdown. No default converter fallback.",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/engine.py"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/parsing/engines/docling/local_worker.py",
+      "sha256": "c8db5930951f39ff4fde2251efcf6196fa1de166f13e3fa42cddb6894ce55c80",
+      "verifiedSha256": "c8db5930951f39ff4fde2251efcf6196fa1de166f13e3fa42cddb6894ce55c80",
+      "decision": "adapt",
+      "rationale": "Preserve existing isolated subprocess; reject donor exception/log forwarding and implicit option fallback.",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/local_worker.py"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/source_visuals.py",
+      "sha256": "d09dffee95171ad3b908b88aa69f72e13a503f005cb2a8a27cef994d75912a87",
+      "verifiedSha256": "d09dffee95171ad3b908b88aa69f72e13a503f005cb2a8a27cef994d75912a87",
+      "decision": "adapt",
+      "rationale": "Exact original asset identity, source region and separate reencoded preview lineage; no current-source substitution or caption-based identity.",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/source_visuals.py"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/visual_coverage.py",
+      "sha256": "eb82ecd1d945490558dbeddfc8e324160eea0cf979f9813f4b6e4d604da2217f",
+      "verifiedSha256": "eb82ecd1d945490558dbeddfc8e324160eea0cf979f9813f4b6e4d604da2217f",
+      "decision": "adapt",
+      "rationale": "No emitted assets does not prove no visuals. Preserve failed/unsupported/skipped/budget diagnostics, no whole-document completeness inference.",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/visual_coverage.py"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/services/parsing/test_mineru_slicer.py",
+      "sha256": "72434ad51012a3b58a175c4bf4e0d344da59ed23f4e2a89453a155f2721aa295",
+      "verifiedSha256": "72434ad51012a3b58a175c4bf4e0d344da59ed23f4e2a89453a155f2721aa295",
+      "decision": "test-adapt",
+      "rationale": "Rebase multi-page continuity and physical locators onto exact source-declared table ID. MinerU slicing/cloud runtime rejected.",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/parsing/test_mineru_slicer.py"
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/services/rag/test_source_visual_grounding.py",
+      "sha256": "956bc835755dc872f3137a16398fe654716a98155a80d1f946d2719589ce5a53",
+      "verifiedSha256": "956bc835755dc872f3137a16398fe654716a98155a80d1f946d2719589ce5a53",
+      "decision": "test-adapt",
+      "rationale": "Rebase explicit headers/units/notes and caption-versus-generated descriptions; separate original/preview byte digests and dependency refs.",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/test_source_visual_grounding.py"
+    }
+  ],
+  "newCodeRationale": "The donor deliberately defers structured Docling IR. KnowKit needs schema-closed immutable spans, explicit source-reported continuity, bounded nonoverlapping cells, confidence metadata without guessing symbols, and separately labelled generated assets. The exact docling-pdf-structure-v1 profile binds retention mapping and inherited code/weights qualification without changing the old text-profile fingerprint. Existing structural chunking is reused for indivisible row-group budgets; header IDs are corrected to resolve within their own IR table.",
+  "gaps": [
+    "Docling text profile retains table/formula recognition disabled; mapping native API fixtures does not qualify a recognition capability.",
+    "Rich cells and ambiguous multi-page Docling cell geometry remain unsupported. Multi-page continuity is retained only when explicitly supplied by the source adapter.",
+    "Rendered source-page previews are generated assets with exact page regions; original embedded visual bytes are explicitly unavailable in the native profile. The retention API separately preserves supplied original and reencoded preview bytes.",
+    "No optional external adapter is implemented or qualified by these contract fixtures."
+  ],
+  "planMirror": "Plan mutation is forbidden by result_contract; the coordinator/registrar owns the plan receipt mirror."
+}

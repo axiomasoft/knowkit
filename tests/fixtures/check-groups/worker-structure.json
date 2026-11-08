@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "worker:structure",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial source-reported structure retention and real qualified text-PDF limitations. Digests may change only with a new fixture version and semantic rationale; native API mapping is not table/formula extraction qualification.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored two-page source oracle, assets and PDF; see documents/structure/v1/manifest.json."
+  },
+  "requiredCaseIds": [
+    "MULTI-PAGE-TABLE",
+    "REPEATED-HEADERS-UNITS-NOTES",
+    "MERGED-CELL",
+    "UNCERTAIN-EQUATION",
+    "CAPTION-VS-GENERATED-DESCRIPTION",
+    "WHOLE-ROW-BUDGET",
+    "R07-A01",
+    "R07-A02",
+    "R10-A01",
+    "R10-A02",
+    "DT-I18",
+    "DT-Q05-ASSET",
+    "NONPAGINATED-STRUCTURE",
+    "STRUCTURE-NEGATIVE-CASES",
+    "NATIVE-DOCLING-UNSUPPORTED",
+    "REQUIRED-CASES-FAIL-CLOSED",
+    "TABLE-LOCAL-HEADER-IDS",
+    "NATIVE-STRUCTURE-ENTRYPOINT",
+    "NATIVE-EMPTY-OR-INVALID-CELLS",
+    "EXACT-STRUCTURE-PROFILE"
+  ],
+  "testCaseMap": {
+    "EXACT-STRUCTURE-PROFILE": [
+      "tests.structure.test_docling::test_structure_retention_has_exact_distinct_profile_identity_and_no_fallback"
+    ],
+    "NATIVE-STRUCTURE-ENTRYPOINT": [
+      "tests.structure.test_docling::test_native_entrypoint_retains_table_and_formula_and_reports_missing_associations"
+    ],
+    "NATIVE-EMPTY-OR-INVALID-CELLS": [
+      "tests.structure.test_docling::test_native_empty_cell_and_invalid_overlap_have_explicit_diagnostics"
+    ],
+    "TABLE-LOCAL-HEADER-IDS": [
+      "KnowKit\\Tests\\Worker\\Structure\\StructuralTest::testHeaderIdsAreResolvedWithinTheirOwnTable"
+    ],
+    "MULTI-PAGE-TABLE": [
+      "tests.structure.test_retention::test_source_reported_multipage_table_keeps_cells_headers_units_notes_and_regions"
+    ],
+    "REPEATED-HEADERS-UNITS-NOTES": [
+      "tests.structure.test_retention::test_source_reported_multipage_table_keeps_cells_headers_units_notes_and_regions",
+      "KnowKit\\Tests\\Worker\\Structure\\StructuralTest::testWholeMergedRowGroupsKeepRepeatedHeadersUnitsNotesAndFollowupBudget"
+    ],
+    "MERGED-CELL": [
+      "tests.structure.test_retention::test_source_reported_multipage_table_keeps_cells_headers_units_notes_and_regions"
+    ],
+    "UNCERTAIN-EQUATION": [
+      "tests.structure.test_retention::test_uncertain_equation_keeps_unknown_symbol_accessible_text_region_and_confidence",
+      "KnowKit\\Tests\\Worker\\Structure\\FixtureTest::testFormulaConfidenceAndUnknownSymbolsAreAccessibleWithoutSchemaExtension"
+    ],
+    "CAPTION-VS-GENERATED-DESCRIPTION": [
+      "tests.structure.test_retention::test_original_preview_caption_and_generated_description_have_separate_provenance"
+    ],
+    "WHOLE-ROW-BUDGET": [
+      "KnowKit\\Tests\\Worker\\Structure\\StructuralTest::testWholeMergedRowGroupsKeepRepeatedHeadersUnitsNotesAndFollowupBudget"
+    ],
+    "R07-A01": [
+      "tests.structure.test_retention::test_source_reported_multipage_table_keeps_cells_headers_units_notes_and_regions",
+      "tests.structure.test_docling::test_real_qualified_pdf_preserves_source_locators_or_declares_unavailable_structure"
+    ],
+    "R07-A02": [
+      "KnowKit\\Tests\\Worker\\Structure\\FixtureTest::testVersionedDigestsAndExactIrRoundTripRetainDiagnosticsAndRelationships"
+    ],
+    "R10-A01": [
+      "KnowKit\\Tests\\Worker\\Structure\\StructuralTest::testGeneratedDescriptionIndexHitRetainsOriginAssetDependenciesAndImmutableBindings"
+    ],
+    "R10-A02": [
+      "KnowKit\\Tests\\Worker\\Structure\\StructuralTest::testDigestConsistentOcrErrorNeverBecomesSemanticOrEntailmentProof"
+    ],
+    "DT-I18": [
+      "tests.structure.test_retention::test_no_assets_never_means_no_visuals_and_all_exclusion_reasons_remain_explicit"
+    ],
+    "DT-Q05-ASSET": [
+      "tests.structure.test_retention::test_original_preview_caption_and_generated_description_have_separate_provenance",
+      "tests.structure.test_retention::test_visual_retention_enforces_identity_dependencies_geometry_and_byte_budgets"
+    ],
+    "NONPAGINATED-STRUCTURE": [
+      "tests.structure.test_retention::test_unpaginated_structure_keeps_segments_without_fake_pages",
+      "KnowKit\\Tests\\Worker\\Structure\\FixtureTest::testUnpaginatedStructureDoesNotAcquirePagesOrGeometry"
+    ],
+    "STRUCTURE-NEGATIVE-CASES": [
+      "tests.structure.test_retention::test_table_rejects_overlap_bad_refs_shape_and_noncanonical_source_spans",
+      "tests.structure.test_retention::test_missing_cell_locator_is_unavailable_not_invented",
+      "tests.structure.test_retention::test_formula_metadata_requires_one_confidence_and_an_original_region",
+      "KnowKit\\Tests\\Worker\\Structure\\FixtureTest::testDuplicateFormulaConfidenceIsRejectedByTypedReader"
+    ],
+    "NATIVE-DOCLING-UNSUPPORTED": [
+      "tests.structure.test_docling::test_pinned_native_table_api_retains_available_cells_without_qualifying_recognition",
+      "tests.structure.test_docling::test_native_ambiguous_multipage_or_missing_geometry_never_guesses_a_cell_page"
+    ],
+    "REQUIRED-CASES-FAIL-CLOSED": [
+      "KnowKit\\Tests\\Worker\\Structure\\FixtureTest::testRequiredCaseManifestRejectsMissingSkippedFailedEmptyAndDuplicateReports"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/documents/structure/v1/original.png",
+      "sha256": "78a96b9fb97057057671f92f827d347a24c95bad1386b5e92b975641e7e1087e",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/preview.jpg",
+      "sha256": "8b9f4fa685efb10649dabd257cef4181a2d7c048e9da22cc29c03814ab9d36c9",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/source.json",
+      "sha256": "b8be45d53bf7415fbc732d803a979cc6fa59ade06e9ca27b8acc13fd8c73008e",
+      "expected": {
+        "outcome": "source-oracle"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/structured.ir.json",
+      "sha256": "170657f3d159ae649b13df38e3703e880e2412849139a69f2da8b7772042f06e",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/structured.pdf",
+      "sha256": "bc3feb3365c8e885f13ca4e66882da829491beae5df8bc124e49c6f1cef79c3a",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/uncertain-ocr.ir.json",
+      "sha256": "2be29ccf121be4a6b2e12485519a7362ce04b2eabf3f0bba2e99b8d228aa4201",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/unpaginated.ir.json",
+      "sha256": "19e2dca4cdf2e7fdba5cd06a77dca05aa8cb8854a9cebf0e72be29daf1ab9544",
+      "expected": {
+        "outcome": "retained-structure-or-explicit-unavailable"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/structure/v1/manifest.json",
+      "sha256": "ae83d112606acf08ceeffa46db1ffbb2a82f119e175747e5cc14d906656ed367",
+      "expected": {
+        "outcome": "versioned-manifest-with-rationale"
+      }
+    }
+  ]
+}
