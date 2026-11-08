@@ -27,6 +27,11 @@ final readonly class IrDocument extends SchemaValue
         return $this->toWire()->get('assets');
     }
 
+    public function ocrMetadata(LocalId $id): OcrMetadata
+    {
+        return OcrMetadata::fromDocument($this, $id);
+    }
+
     public function block(LocalId $id): JsonObject
     {
         foreach ($this->toWire()->get('blocks') as $block) {

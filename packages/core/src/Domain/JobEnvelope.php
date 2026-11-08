@@ -65,8 +65,12 @@ final readonly class JobEnvelope extends SchemaValue
                 throw new DomainFailure(Outcome::Denied, 'worker_identity_mismatch');
             }
         }
-        if (count($ir->pages()) > $this->limits()->maxPages) {
-            throw new DomainFailure(Outcome::Incompatible, 'output_limit');
+        // Preserve original-page references beyond the processing limit, but
+        // accept only an explicitly unprocessed, empty skipped suffix.
+        foreach (array_slice($ir->pages(), $this->limits()->maxPages) as $page) {
+            if ($page->get('status') !== 'skipped' || $page->get('text') !== '') {
+                throw new DomainFailure(Outcome::Incompatible, 'output_limit');
+            }
         }
     }
 }

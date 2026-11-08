@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "knowkit-reuse-receipt-1.0",
+  "item": "P6.4",
+  "sources": [
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/parsing/engines/docling/engine.py",
+      "sha256": "2503fbdceba65e83efcead84c199f62f6375d3704074b211ed036e482e0549d7",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/engine.py",
+      "verifiedSha256": "2503fbdceba65e83efcead84c199f62f6375d3704074b211ed036e482e0549d7",
+      "decision": "adapt",
+      "rationale": "Exact readiness, explicit OCR options; retain qualified KnowKit native IR instead of Markdown."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/parsing/engines/docling/local_worker.py",
+      "sha256": "c8db5930951f39ff4fde2251efcf6196fa1de166f13e3fa42cddb6894ce55c80",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/local_worker.py",
+      "verifiedSha256": "c8db5930951f39ff4fde2251efcf6196fa1de166f13e3fa42cddb6894ce55c80",
+      "decision": "adapt",
+      "rationale": "Existing subprocess boundary retained; reject upstream-default fallback and document-bearing logs."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/source_visuals.py",
+      "sha256": "d09dffee95171ad3b908b88aa69f72e13a503f005cb2a8a27cef994d75912a87",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/source_visuals.py",
+      "verifiedSha256": "d09dffee95171ad3b908b88aa69f72e13a503f005cb2a8a27cef994d75912a87",
+      "decision": "adapt",
+      "rationale": "Exact original-page raster crops and immutable-source binding through existing rendering mapper."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "deeptutor/services/rag/visual_coverage.py",
+      "sha256": "eb82ecd1d945490558dbeddfc8e324160eea0cf979f9813f4b6e4d604da2217f",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/visual_coverage.py",
+      "verifiedSha256": "eb82ecd1d945490558dbeddfc8e324160eea0cf979f9813f4b6e4d604da2217f",
+      "decision": "adapt",
+      "rationale": "Assets do not establish complete coverage; separate blank, illustration, unreadable and unknown."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/services/parsing/test_mineru_slicer.py",
+      "sha256": "72434ad51012a3b58a175c4bf4e0d344da59ed23f4e2a89453a155f2721aa295",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/parsing/test_mineru_slicer.py",
+      "verifiedSha256": "72434ad51012a3b58a175c4bf4e0d344da59ed23f4e2a89453a155f2721aa295",
+      "decision": "test-adapt",
+      "rationale": "Original physical page indices and processing-profile invalidation; no MinerU engine or cloud slicing."
+    },
+    {
+      "repo": "deeptutor",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "path": "tests/services/rag/test_source_visual_grounding.py",
+      "sha256": "956bc835755dc872f3137a16398fe654716a98155a80d1f946d2719589ce5a53",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/test_source_visual_grounding.py",
+      "verifiedSha256": "956bc835755dc872f3137a16398fe654716a98155a80d1f946d2719589ce5a53",
+      "decision": "test-adapt",
+      "rationale": "Exact historical source/page references, changed-source rejection, distinct unknown visual coverage."
+    }
+  ],
+  "newCodeRationale": "Donor exports Markdown without immutable IR spans or OCR metadata. KnowKit adds page-selective orchestration around the frozen Docling TesseractCli engine, explicit qualification, typed metadata helpers and real offline regression fixtures. No donor OCR engine is rewritten.",
+  "gaps": [
+    "No external OCR adapter implemented; existing PolicyChecks transmission gate tested independently.",
+    "Tables and rotated raster reading order remain explicit incomplete coverage."
+  ],
+  "planMirror": "Coordinator owns plan writes; tracked receipt is authoritative input for registrar."
+}

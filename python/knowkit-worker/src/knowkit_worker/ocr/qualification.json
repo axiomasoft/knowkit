@@ -1,0 +1,287 @@
+{
+  "id": "ocr",
+  "version": "docling-tesseract-page-selective-v1.1",
+  "sourceUrl": "https://github.com/tesseract-ocr/tesseract",
+  "sourceRevision": "7e548e6eff172f38f97664afe7f7ce40db36c8d6",
+  "codeLicense": "Apache-2.0",
+  "licenseFileDigest": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+  "notices": [
+    {
+      "path": "python/knowkit-worker/third_party/ocr/Leptonica-copyright",
+      "sha256": "cff4f0cb5db14528a8b84f4a3389012d5c6e0f5a75a882509367b2147c05a83e"
+    },
+    {
+      "path": "python/knowkit-worker/third_party/ocr/Tesseract-LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "path": "python/knowkit-worker/third_party/ocr/build-bom.json",
+      "sha256": "3c0b9712082b1b8d5577f38ebb5018d395506036c8283203070a73c8bc5fdbd4"
+    },
+    {
+      "path": "python/knowkit-worker/third_party/ocr/tessdata-LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    }
+  ],
+  "engine": {
+    "docling": "2.148.0",
+    "options": "TesseractCliOcrOptions",
+    "tesseract": "5.5.4",
+    "sourceRevision": "7e548e6eff172f38f97664afe7f7ce40db36c8d6",
+    "sourceTagObject": "c5065e4",
+    "tessdataRevision": "65727574dfcd264acbb0c3e07860e4e9e9b22185",
+    "tessdataTagObject": "a8ba506",
+    "nativeBuildDigest": "3c0b9712082b1b8d5577f38ebb5018d395506036c8283203070a73c8bc5fdbd4"
+  },
+  "languages": [
+    "eng",
+    "rus"
+  ],
+  "orientationLanguage": "osd",
+  "modelAssets": [
+    {
+      "id": "eng",
+      "version": "4.1.0",
+      "sourceRevision": "65727574dfcd264acbb0c3e07860e4e9e9b22185",
+      "path": "tessdata/eng.traineddata",
+      "sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "byteLength": 4113088,
+      "license": "Apache-2.0",
+      "source": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/65727574dfcd264acbb0c3e07860e4e9e9b22185/eng.traineddata"
+    },
+    {
+      "id": "rus",
+      "version": "4.1.0",
+      "sourceRevision": "65727574dfcd264acbb0c3e07860e4e9e9b22185",
+      "path": "tessdata/rus.traineddata",
+      "sha256": "e16e5e036cce1d9ec2b00063cf8b54472625b9e14d893a169e2b0dedeb4df225",
+      "byteLength": 3861738,
+      "license": "Apache-2.0",
+      "source": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/65727574dfcd264acbb0c3e07860e4e9e9b22185/rus.traineddata"
+    },
+    {
+      "id": "osd",
+      "version": "4.1.0",
+      "sourceRevision": "65727574dfcd264acbb0c3e07860e4e9e9b22185",
+      "path": "tessdata/osd.traineddata",
+      "sha256": "9cf5d576fcc47564f11265841e5ca839001e7e6f38ff7f7aacf46d15a96b00ff",
+      "byteLength": 10562727,
+      "license": "Apache-2.0",
+      "source": "https://raw.githubusercontent.com/tesseract-ocr/tessdata_fast/65727574dfcd264acbb0c3e07860e4e9e9b22185/osd.traineddata"
+    }
+  ],
+  "files": [
+    {
+      "path": "bin/tesseract",
+      "sha256": "c1a5d2b955483efdc701f47ef90a66978ae8e41d1876cde994d38d7b7601b3cc",
+      "byteLength": 4331472
+    },
+    {
+      "path": "build-packages.bom",
+      "sha256": "56d1b0c32549a4faf17fe7f0bebf80cd3e4894dced94c978a211d9d66085c990",
+      "byteLength": 5932
+    },
+    {
+      "path": "compiler.bom",
+      "sha256": "8854612eaf6fea7cbba6da95264f0cc26bf09d0a9b8bbc09e20e16cde2ef31eb",
+      "byteLength": 240
+    },
+    {
+      "path": "lib/libLerc.so.4",
+      "sha256": "6b465f547b06f1b3ac7aef08d4f2233f1417417c3e4e5a5f80f8dec806b0e2c7",
+      "byteLength": 616464
+    },
+    {
+      "path": "lib/libdeflate.so.0",
+      "sha256": "7a20781883ba5f05bdf0a259b026109142b9d9af9169e489af608b51c4e233d5",
+      "byteLength": 149384
+    },
+    {
+      "path": "lib/libgcc_s.so.1",
+      "sha256": "2bd1552c47799ef67e701e81d4383061fd76059868e446e63560f0dd0d5ec14e",
+      "byteLength": 125312
+    },
+    {
+      "path": "lib/libgif.so.7",
+      "sha256": "0df633fac4ababc59518fb41c476e296af70abd4b3bee4883a5980075c296492",
+      "byteLength": 38752
+    },
+    {
+      "path": "lib/libjbig.so.0",
+      "sha256": "92f86d0ba0b9c6e342d61abe8edec5810d0d9cedad41e28a61fa1ecdbc040710",
+      "byteLength": 66240
+    },
+    {
+      "path": "lib/libjpeg.so.62",
+      "sha256": "dad87949ccad2be7e40a02986306087fdcfb35ccaadd59aea923a3f96d290eec",
+      "byteLength": 600128
+    },
+    {
+      "path": "lib/liblept.so.5",
+      "sha256": "8bc9d7fc7246b0d38de2fd99ff0273bfce35158f83279bbd03464c40736d3501",
+      "byteLength": 2876488
+    },
+    {
+      "path": "lib/liblzma.so.5",
+      "sha256": "5de60ec1bf90cd3d699188eb9ebb333c22b531394e0b030b55048edbd729ed17",
+      "byteLength": 190456
+    },
+    {
+      "path": "lib/libopenjp2.so.7",
+      "sha256": "a666217fc2c9835acff70422584d9947e8c43c97c23f2a95dc581e64e3f2ca5f",
+      "byteLength": 408000
+    },
+    {
+      "path": "lib/libpng16.so.16",
+      "sha256": "8a6b5ae14e223d7c01bf09988ea9631c38fd5c898df6d330c343654b76414897",
+      "byteLength": 219056
+    },
+    {
+      "path": "lib/libstdc++.so.6",
+      "sha256": "e7848e32af4932840ba775169041759a2a8dd5a008af360e5c55bce506eebcf4",
+      "byteLength": 2190440
+    },
+    {
+      "path": "lib/libtiff.so.6",
+      "sha256": "4cadf3729e353ef2eb5a2bb3bac9c5d1acdba859cb50c28036d79b0e878966c5",
+      "byteLength": 571400
+    },
+    {
+      "path": "lib/libwebp.so.7",
+      "sha256": "4fedb320592cad963eab7f598d3acf3fa9054a2ccffac95bc97085b134ffdc3e",
+      "byteLength": 453240
+    },
+    {
+      "path": "lib/libwebpmux.so.3",
+      "sha256": "0ef03d06bdb13d3f5be6140e87365ff381bb60aed9a11c6bca201594b43dd875",
+      "byteLength": 43272
+    },
+    {
+      "path": "lib/libz.so.1",
+      "sha256": "7e2a72b4c4b38c61e6962de6e3f4a5e9ae692e732c68deead10a7ce2135a7f68",
+      "byteLength": 121280
+    },
+    {
+      "path": "lib/libzstd.so.1",
+      "sha256": "37412b7ac11063c25a375bdff6f4fdb340362f926cd9c3a55962e8a9c9bc702e",
+      "byteLength": 763816
+    },
+    {
+      "path": "notices/Leptonica-copyright",
+      "sha256": "cff4f0cb5db14528a8b84f4a3389012d5c6e0f5a75a882509367b2147c05a83e",
+      "byteLength": 1766
+    },
+    {
+      "path": "notices/Tesseract-LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "byteLength": 11358
+    },
+    {
+      "path": "notices/tessdata-LICENSE",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "byteLength": 11358
+    },
+    {
+      "path": "source.sha256",
+      "sha256": "86995ca1dce0a2122641dc4c238453265f751cef1071b9061af3530f35662c05",
+      "byteLength": 83
+    },
+    {
+      "path": "tessdata/configs/tsv",
+      "sha256": "59d079bb75d8b3d7c839a3564580cb559e362c93a9d70f234e421c0c3e767e04",
+      "byteLength": 22
+    },
+    {
+      "path": "tessdata/eng.traineddata",
+      "sha256": "7d4322bd2a7749724879683fc3912cb542f19906c83bcc1a52132556427170b2",
+      "byteLength": 4113088
+    },
+    {
+      "path": "tessdata/osd.traineddata",
+      "sha256": "9cf5d576fcc47564f11265841e5ca839001e7e6f38ff7f7aacf46d15a96b00ff",
+      "byteLength": 10562727
+    },
+    {
+      "path": "tessdata/rus.traineddata",
+      "sha256": "e16e5e036cce1d9ec2b00063cf8b54472625b9e14d893a169e2b0dedeb4df225",
+      "byteLength": 3861738
+    }
+  ],
+  "transitiveComponents": [
+    {
+      "id": "docling",
+      "version": "2.148.0",
+      "codeLicense": "MIT",
+      "licenseFileDigest": "edb765d1e3e60d0c7a7d5fba5f2bb2c3c29f7465cecb5c22cf1185c884954e4c",
+      "sourceUrl": "https://github.com/docling-project/docling",
+      "notices": [
+        "licenses/notices/docling-LICENSE.txt"
+      ]
+    },
+    {
+      "id": "leptonica",
+      "version": "1.82.0",
+      "codeLicense": "BSD-2-Clause",
+      "licenseFileDigest": "cff4f0cb5db14528a8b84f4a3389012d5c6e0f5a75a882509367b2147c05a83e",
+      "sourceUrl": "https://github.com/DanBloomberg/leptonica",
+      "notices": [
+        "python/knowkit-worker/third_party/ocr/Leptonica-copyright"
+      ]
+    }
+  ],
+  "datasets": [
+    {
+      "id": "knowkit-ocr-fixtures-v1",
+      "license": "LicenseRef-KnowKit-Private; DejaVu font notice",
+      "source": "tests/fixtures/documents/scans/v1",
+      "restrictions": "Project authored synthetic scans only; no private uploaded corpus."
+    }
+  ],
+  "networkAtBuild": {
+    "required": true,
+    "destinations": [
+      "deb.debian.org",
+      "codeload.github.com",
+      "raw.githubusercontent.com",
+      "huggingface.co"
+    ],
+    "reason": "Explicit pinned source/weights build only; layout models use existing PDF qualification."
+  },
+  "networkAtRuntime": {
+    "required": false,
+    "destinations": [],
+    "reason": "Offline subprocess only. No external OCR adapter qualified."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": true,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "private-local-use-only",
+        "fulfilled": true,
+        "evidence": [
+          "licenses/local-reuse-authorization.md"
+        ]
+      },
+      {
+        "id": "p6-1-sandbox-required",
+        "fulfilled": true,
+        "evidence": [
+          "packages/core/src/Adapter/ProcessWorker/SandboxRuntime.php"
+        ]
+      }
+    ],
+    "notes": [
+      "Runtime binary and every traineddata hash verified before activation; unknown/missing assets never trigger download or engine/language fallback.",
+      "Native dependency versions/files are in build-bom.json. PDF code/layout weights inherit pdf.json qualification."
+    ]
+  },
+  "enabledProfiles": [
+    "docling-pdf-ocr-eng-v1",
+    "docling-pdf-ocr-rus-v1"
+  ],
+  "verdict": "restricted",
+  "reason": "Explicit local page/raster-region OCR, confidence is extraction quality. Native source spans retained, raster language/orientation/low confidence gaps remain partial. No redistribution or external provider implementation.",
+  "checkedAt": "2026-11-08",
+  "lockDigest": "720a3d4f0ebf8c206a72b516f8174dca4e73a6beadb6fb752056a221459f1fc2"
+}

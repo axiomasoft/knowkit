@@ -65,7 +65,7 @@ def preflight(document) -> list[dict]:
     for index in range(len(document)):
         page = document[index]
         try:
-            objects = list(page.get_objects())
+            objects = list(page.get_objects(max_depth=32))
             raster = any(obj.type == pdfium.raw.FPDF_PAGEOBJ_IMAGE for obj in objects)
             textpage = page.get_textpage()
             try:

@@ -32,7 +32,8 @@ def run_job(path: str, profiles: dict, contracts: Contracts) -> None:
         raise Refusal("identity_mismatch", "denied")
     if ir["parserSignature"] != job["parserSignature"]:
         raise Refusal("profile_mismatch")
-    if len(ir["pages"]) > job["limits"]["maxPages"] or len(parsed.assets) > job["limits"]["maxAssets"]:
+    if (any(p["status"] != "skipped" or p["text"] for p in ir["pages"][job["limits"]["maxPages"]:])
+            or len(parsed.assets) > job["limits"]["maxAssets"]):
         raise Refusal("output_limit")
     if ir["coverage"]["state"] not in ("complete", "partial"):
         raise Refusal("incomplete_result")
@@ -90,7 +91,7 @@ def main(argv: list[str] | None = None, *, profiles: dict | None = None) -> int:
                          "jobSchema": "job-envelope-1.0", "resultSchema": "worker-result-1.0",
                          "profiles": [{"id": p.id, "parserSignature": p.signature,
                                        "qualified": p.parse is not None, "pdf": "parser.text" in p.capabilities,
-                                       "ocr": False}
+                                       "ocr": "parser.ocr" in p.capabilities}
                                       for p in PROFILES.values()]}).decode())
         return 0
     signal.signal(signal.SIGTERM, _cancel)

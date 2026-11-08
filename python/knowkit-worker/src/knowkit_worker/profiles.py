@@ -5,6 +5,7 @@ from typing import Callable, Any
 
 from .protocol import Refusal, fingerprint
 from .parsers.pdf.qualification import ROOT as PDF_ROOT, ready as pdf_ready, record as pdf_record
+from .ocr.profile import ocr_profile
 
 
 @dataclass(frozen=True)
@@ -55,6 +56,11 @@ def pdf_profile(model_root=PDF_ROOT / "models") -> Profile:
 
 
 PROFILES = {DOCLING.id: pdf_profile() if pdf_ready() else DOCLING}
+
+# OCR is a separate exact profile; the text profile above always keeps OCR off.
+for _language in ("eng", "rus"):
+    _profile = ocr_profile(_language)
+    PROFILES[_profile.id] = _profile
 
 
 def lookup(id: str, signature: dict, profiles: dict[str, Profile]) -> Profile:
