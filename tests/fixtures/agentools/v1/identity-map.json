@@ -1,0 +1,181 @@
+{
+  "schemaVersion": "agentools-identity:1",
+  "fixtureVersion": "1.0.1",
+  "provenance": "Project-authored synthetic host-accepted references; proves identity mapping, not parser or storage durability. Canonical refs are explicit inputs, never derived from the old release hash.",
+  "old": {
+    "identity": {
+      "tenantId": "01JC0000000000000000000001",
+      "corpus": "corpus:physics",
+      "releaseId": "release:old",
+      "legacyHashKind": "agentools_release_sha256",
+      "legacyHash": "a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc"
+    },
+    "originalBytes": "Gravity attracts masses.",
+    "legacyLocator": {
+      "corpus": "corpus:physics",
+      "release": "release:old",
+      "release_hash": "a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc",
+      "material": "material:physics",
+      "version": "v1",
+      "fragment": "fragment:v1",
+      "page": 1,
+      "start": 0,
+      "end": 24,
+      "content_hash": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b"
+    },
+    "revision": {
+      "tenantId": "01JC0000000000000000000001",
+      "sourceId": "01JC000000000000000000000Y",
+      "sourceVersionId": "01JC000000000000000000000Z",
+      "sourceDigest": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b",
+      "documentRevisionId": "01JC0000000000000000000011",
+      "irDigest": "cde98ed2ea24a5b20c90bf256439a5adcd1ee350ddfd060f6e0aeed762a307ba",
+      "parserSignature": {
+        "name": "synthetic-host-parser",
+        "version": "1",
+        "profileDigest": "191229f117dc109425426e2d0b0b3e899e92812e37b1afaf7ee3cc351995588d"
+      }
+    },
+    "snapshot": {
+      "tenantId": "01JC0000000000000000000001",
+      "kbId": "01JC0000000000000000000002",
+      "snapshotId": "01JC0000000000000000000031",
+      "manifestDigest": "ed0baf13f9a5bcb30b84e3020e0b5b8a181ab71bc44ea5642304e9abcacc0836"
+    },
+    "citation": {
+      "tenantId": "01JC0000000000000000000001",
+      "sourceId": "01JC000000000000000000000Y",
+      "sourceVersionId": "01JC000000000000000000000Z",
+      "sourceDigest": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b",
+      "citationId": "01JC0000000000000000000021",
+      "documentId": "01JC0000000000000000000010",
+      "documentRevisionId": "01JC0000000000000000000011",
+      "irDigest": "cde98ed2ea24a5b20c90bf256439a5adcd1ee350ddfd060f6e0aeed762a307ba",
+      "contentDigest": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b",
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "b1",
+          "byteStart": 0,
+          "byteEnd": 24,
+          "textDigest": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b"
+        }
+      ]
+    },
+    "expectedVerificationLevel": "originals_verified"
+  },
+  "similarNew": {
+    "identity": {
+      "tenantId": "01JC0000000000000000000001",
+      "corpus": "corpus:physics",
+      "releaseId": "release:new",
+      "legacyHashKind": "agentools_release_sha256",
+      "legacyHash": "1c8f3a19aa665f248185a540e454644c371bf53aca5cdd9e79ed73eff1aec089"
+    },
+    "originalBytes": "Gravity corrected explanation.",
+    "legacyLocator": {
+      "corpus": "corpus:physics",
+      "release": "release:new",
+      "release_hash": "1c8f3a19aa665f248185a540e454644c371bf53aca5cdd9e79ed73eff1aec089",
+      "material": "material:physics",
+      "version": "v2",
+      "fragment": "fragment:v2",
+      "page": 1,
+      "start": 0,
+      "end": 30,
+      "content_hash": "d8dd6b1357a5bf38d264caf43626ea015c295dc227905e92f8dcbe3b8b1ed9d9"
+    },
+    "revision": {
+      "tenantId": "01JC0000000000000000000001",
+      "sourceId": "01JC000000000000000000000Y",
+      "sourceVersionId": "01JC000000000000000000000X",
+      "sourceDigest": "d8dd6b1357a5bf38d264caf43626ea015c295dc227905e92f8dcbe3b8b1ed9d9",
+      "documentRevisionId": "01JC0000000000000000000012",
+      "irDigest": "c0fe2f0e907796c461b302a399c46e75e6e17431b6cbba2f443450bb7d944cf8",
+      "parserSignature": {
+        "name": "synthetic-host-parser",
+        "version": "1",
+        "profileDigest": "191229f117dc109425426e2d0b0b3e899e92812e37b1afaf7ee3cc351995588d"
+      }
+    },
+    "snapshot": {
+      "tenantId": "01JC0000000000000000000001",
+      "kbId": "01JC0000000000000000000002",
+      "snapshotId": "01JC0000000000000000000032",
+      "manifestDigest": "c45654cb3e52974cc12fc37c985d7c55e0f47ba63e9b12adb66b3814e5886bd1"
+    },
+    "citation": {
+      "tenantId": "01JC0000000000000000000001",
+      "sourceId": "01JC000000000000000000000Y",
+      "sourceVersionId": "01JC000000000000000000000X",
+      "sourceDigest": "d8dd6b1357a5bf38d264caf43626ea015c295dc227905e92f8dcbe3b8b1ed9d9",
+      "citationId": "01JC0000000000000000000022",
+      "documentId": "01JC0000000000000000000010",
+      "documentRevisionId": "01JC0000000000000000000012",
+      "irDigest": "c0fe2f0e907796c461b302a399c46e75e6e17431b6cbba2f443450bb7d944cf8",
+      "contentDigest": "d8dd6b1357a5bf38d264caf43626ea015c295dc227905e92f8dcbe3b8b1ed9d9",
+      "origin": "source",
+      "spans": [
+        {
+          "kind": "page",
+          "pageId": "p1",
+          "physicalNo": 1,
+          "printedLabel": null,
+          "blockId": "b1",
+          "byteStart": 0,
+          "byteEnd": 30,
+          "textDigest": "d8dd6b1357a5bf38d264caf43626ea015c295dc227905e92f8dcbe3b8b1ed9d9"
+        }
+      ]
+    },
+    "expectedVerificationLevel": "originals_verified"
+  },
+  "missing": {
+    "identity": {
+      "tenantId": "01JC0000000000000000000001",
+      "corpus": "corpus:physics",
+      "releaseId": "release:missing",
+      "legacyHashKind": "agentools_release_sha256",
+      "legacyHash": "a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc"
+    },
+    "originalBytes": null,
+    "legacyLocator": {
+      "corpus": "corpus:physics",
+      "release": "release:missing",
+      "release_hash": "a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc",
+      "material": "material:physics",
+      "version": "v1",
+      "fragment": "fragment:v1",
+      "page": 1,
+      "start": 0,
+      "end": 24,
+      "content_hash": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b"
+    },
+    "resolverRef": "legacy:physics:missing:v1",
+    "expectedVerificationLevel": "legacy_unverified_evidence",
+    "expectedLimitations": [
+      "original_bytes_unavailable",
+      "provenance_uncertain",
+      "canonical_ir_not_validated"
+    ],
+    "expectedEvidence": {
+      "kind": "legacy",
+      "tenantId": "01JC0000000000000000000001",
+      "legacyHashType": "agentools_release_sha256",
+      "legacyReleaseHash": "a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc",
+      "provenance": "legacy_unverified",
+      "freshlyValidated": false,
+      "resolver": {
+        "system": "agentools",
+        "ref": "legacy:physics:missing:v1"
+      }
+    }
+  },
+  "expectedNoFallback": "unavailable",
+  "expectedForeignTenant": "denied",
+  "expectedConflict": "incompatible"
+}

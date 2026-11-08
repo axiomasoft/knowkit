@@ -1,0 +1,13 @@
+parameters:
+    level: 5
+    paths:
+        - src
+        - ../../tests/bridge/contracts
+    bootstrapFiles:
+        - vendor/autoload.php
+        - ../../tests/bridge/contracts/Support.php
+    scanDirectories:
+        - vendor/agentools/platform-core/extensions/knowledge/src
+    scanFiles:
+        - ../../tools/qa.php
+    tmpDir: vendor/.phpstan-cache

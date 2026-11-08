@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "bridge:contracts",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "1.0.1 corrects authored canonical CitationRef origin to approved schema value source (verbatim is provenanceKind, not origin), and aligns the golden old locator fragment:v1 with the exact identity-map locator. Independently authored outcomes and hash-domain expectations are unchanged. This is a pre-acceptance fixture contract correction, not a response snapshot rewrite. Future digest changes require a new version and explicit behavior/provenance rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic compatibility inputs and independently authored expectations, plus pinned private Agentools source digests. Donor copyright 2026 Dmitry Vostrikov retained. Private local reuse authority only.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "MODEL-SCOPE-SPOOF",
+    "PAYLOAD-HASH-SHAPES",
+    "MISSING-ORIGINAL",
+    "EXACT-OLD-RELEASE",
+    "RAW-USER-AUDIT-REFS",
+    "MEMORY-ACTIVATION-FALSE",
+    "R40-A01",
+    "R40-A02",
+    "SIX-OUTCOMES",
+    "TRUSTED-RUN-USAGE",
+    "HOST-SCOPE-HASH",
+    "CURRENT-HOST-AUTHORIZATION",
+    "LEGACY-LOCATORS",
+    "IMMUTABLE-MAP-CONFLICTS",
+    "PINNED-RUNTIME-PROVENANCE",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "MODEL-SCOPE-SPOOF": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\TrustedContextTest::testModelScopeSpoofCannotChangeTrustedTenantActorPurposeOrHash"
+    ],
+    "PAYLOAD-HASH-SHAPES": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\GoldenEnvelopeTest::testPayloadHashShapesArePinnedAndCannotRenameLegacyReleaseHash"
+    ],
+    "MISSING-ORIGINAL": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\IdentityMapTest::testMissingOriginalRetainsOnlyLimitedLegacyEvidenceR40A01"
+    ],
+    "EXACT-OLD-RELEASE": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\IdentityMapTest::testEveryCompositeKeyPartIsExactAndTenantAndKbAreIsolated",
+      "KnowKit\\Tests\\Bridge\\Contracts\\IdentityMapTest::testSimilarNewSourceNeverReplacesHistoricalCitationR40A02"
+    ],
+    "RAW-USER-AUDIT-REFS": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\GoldenEnvelopeTest::testNativeToolViewKeepsRawUserAuditRefsSeparateAndModelUntrusted",
+      "KnowKit\\Tests\\Bridge\\Contracts\\GoldenEnvelopeTest::testInvalidEvidenceAndCrossTenantOwnerViewsAreRejected"
+    ],
+    "MEMORY-ACTIVATION-FALSE": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\GoldenEnvelopeTest::testPinnedEnvelopesPreserveSixOutcomesAndMemoryActivationFalse"
+    ],
+    "R40-A01": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\IdentityMapTest::testMissingOriginalRetainsOnlyLimitedLegacyEvidenceR40A01"
+    ],
+    "R40-A02": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\IdentityMapTest::testSimilarNewSourceNeverReplacesHistoricalCitationR40A02"
+    ],
+    "SIX-OUTCOMES": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\GoldenEnvelopeTest::testPinnedEnvelopesPreserveSixOutcomesAndMemoryActivationFalse"
+    ],
+    "TRUSTED-RUN-USAGE": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\TrustedContextTest::testTrustedScopeAndRunMapWithoutChangingHostScopeHashOrUsageOwner",
+      "KnowKit\\Tests\\Bridge\\Contracts\\TrustedContextTest::testRunAndApplicationRefsCannotCrossTenant"
+    ],
+    "HOST-SCOPE-HASH": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\TrustedContextTest::testHashDriftIsDeniedAndScopeBindingChanges"
+    ],
+    "CURRENT-HOST-AUTHORIZATION": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\TrustedContextTest::testTrustedMappingRechecksRevocationAndPolicyDrift"
+    ],
+    "LEGACY-LOCATORS": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\IdentityMapTest::testLegacyLocatorsRequireExactHistoricalSpanAndCanonicalIdentity"
+    ],
+    "IMMUTABLE-MAP-CONFLICTS": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\IdentityMapTest::testConflictingOrCrossTenantCanonicalTargetsCannotBeImported"
+    ],
+    "PINNED-RUNTIME-PROVENANCE": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\FixtureTest::testVersionedFixturesAndInstalledRuntimeMatchPinnedProvenance"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Bridge\\Contracts\\FixtureTest::testRequiredCaseRunnerRejectsUnknownMissingSkippedZeroAndNestedFailures"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/agentools/v1/envelopes.json",
+      "sha256": "edeb36a7fda3c1262e01e41845cb940aab45c18bf01646eccbf80e5e8e5888d3",
+      "expected": "Actual pinned donor toolView equals all golden fields for success/empty/denied/unknown/unavailable/incompatible, separate owner refs, untrusted and memory_activation=false."
+    },
+    {
+      "path": "tests/fixtures/agentools/v1/hashes.json",
+      "sha256": "fd60aeec95818c431f526e21399228be59944a63883d2727608692df7e5beb68",
+      "expected": "Raw/scoped payload hashes preserve object/list shape and tenant/domain identity; legacy release hashes cannot be renamed into canonical digests."
+    },
+    {
+      "path": "tests/fixtures/agentools/v1/identity-map.json",
+      "sha256": "6f3ba3aa2059a4d9e33fb75896f89994cc61d6f971ecd05690ab83bfde7e0472",
+      "expected": "R40-A01 limited missing-original evidence; R40-A02 exact old refs or refusal; exact tenant/corpus/release/hash/locator identity and conflict rejection."
+    },
+    {
+      "path": "tests/fixtures/agentools/v1/source-pin.json",
+      "sha256": "d5cc0958b34cc68a8659390548665c87dd419ad2ee083ea11f40894711407cb6",
+      "expected": "Every inspected installed donor source/test has the exact expected SHA-256 at the immutable private pin."
+    },
+    {
+      "path": "tests/bridge/contracts/evidence/P8.1-reuse.json",
+      "sha256": "14d3d765575e36be6f67cf5bafbd2af4f5748827954413942d9f9b0b8ef86bc1",
+      "expected": "Six mandatory source candidates inspected and classified before implementation; authority and source gaps retained."
+    }
+  ],
+  "components": {
+    "composerLock": {
+      "path": "packages/agentools-bridge/composer.lock",
+      "sha256": "043c34b0583e98be5b51d0420ab3797602c08df9596dfeafd3aba6eecbeb429e"
+    },
+    "phpFloor": "8.4",
+    "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+    "runtime": "Actual Composer-installed platform-core; pinned legacy extension loaded only by tests from the same installed source.",
+    "requiredBackend": "No DB or model backend needed by this identity/envelope freeze. Missing pinned runtime is a failure, never skip.",
+    "pendingQualification": [
+      "P8.4 evidence-context seam",
+      "P8.2 installed host loop and library/remote disclosure conformance"
+    ]
+  }
+}

@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "agentools-envelopes:1",
+  "fixtureVersion": "1.0.1",
+  "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+  "tenant": "01JC0000000000000000000001",
+  "runRef": "run:golden",
+  "queryHash": "d4e3fc7b0477747da28f05c27af9f1ab8e70cd60f729a2813f410fd39eb466ac",
+  "checkedAt": 2000000000,
+  "expiresAt": 2000000030,
+  "ownerRefs": {
+    "raw": "raw:release-old",
+    "user": "user:release-old",
+    "audit": "audit:release-old"
+  },
+  "cases": [
+    {
+      "id": "WIRE-SUCCESS",
+      "input": {
+        "status": "success",
+        "code": "EVIDENCE_READY",
+        "fragments": [
+          {
+            "text": "Gravity attracts masses.",
+            "citation": {
+              "corpus": "corpus:physics",
+              "release": "release:old",
+              "release_hash": "a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc",
+              "material": "material:physics",
+              "version": "v1",
+              "fragment": "fragment:v1",
+              "page": 1,
+              "start": 0,
+              "end": 24,
+              "content_hash": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b"
+            },
+            "owner_ref": "library:physics",
+            "access_policy_ref": "policy:physics",
+            "license_ref": "license:physics",
+            "bytes_ref": "bytes:old",
+            "source_hash": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b",
+            "page_hash": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b",
+            "artifact_hash": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b",
+            "box": null,
+            "locale": "en",
+            "programs": [
+              "physics"
+            ],
+            "validation_status": "validated",
+            "trust_class": "untrusted",
+            "space": null
+          }
+        ]
+      },
+      "expected": {
+        "tenant": "01JC0000000000000000000001",
+        "run_ref": "run:golden",
+        "query_hash": "d4e3fc7b0477747da28f05c27af9f1ab8e70cd60f729a2813f410fd39eb466ac",
+        "status": "success",
+        "code": "EVIDENCE_READY",
+        "trust_class": "untrusted",
+        "raw_result_ref": "raw:release-old",
+        "user_view_ref": "user:release-old",
+        "audit_view_ref": "audit:release-old",
+        "model_view": "{\"status\":\"success\",\"code\":\"EVIDENCE_READY\",\"evidence\":[{\"text\":\"Gravity attracts masses.\",\"citation\":{\"corpus\":\"corpus:physics\",\"release\":\"release:old\",\"release_hash\":\"a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc\",\"material\":\"material:physics\",\"version\":\"v1\",\"fragment\":\"fragment:v1\",\"page\":1,\"start\":0,\"end\":24,\"content_hash\":\"a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b\"}}]}",
+        "evidence": [
+          {
+            "text": "Gravity attracts masses.",
+            "citation": {
+              "corpus": "corpus:physics",
+              "release": "release:old",
+              "release_hash": "a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc",
+              "material": "material:physics",
+              "version": "v1",
+              "fragment": "fragment:v1",
+              "page": 1,
+              "start": 0,
+              "end": 24,
+              "content_hash": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b"
+            },
+            "owner_ref": "library:physics",
+            "access_policy_ref": "policy:physics",
+            "license_ref": "license:physics",
+            "bytes_ref": "bytes:old",
+            "source_hash": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b",
+            "page_hash": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b",
+            "artifact_hash": "a7592835692e5515afad7dcac6355a678c38bf0df042be79624bc7acda92379b",
+            "box": null,
+            "locale": "en",
+            "programs": [
+              "physics"
+            ],
+            "validation_status": "validated",
+            "trust_class": "untrusted",
+            "space": null
+          }
+        ],
+        "freshness": {
+          "checked_at": 2000000000,
+          "expires_at": 2000000030
+        },
+        "memory_activation": false
+      }
+    },
+    {
+      "id": "WIRE-EMPTY",
+      "input": {
+        "status": "empty",
+        "code": "NO_EVIDENCE",
+        "fragments": []
+      },
+      "expected": {
+        "tenant": "01JC0000000000000000000001",
+        "run_ref": "run:golden",
+        "query_hash": "d4e3fc7b0477747da28f05c27af9f1ab8e70cd60f729a2813f410fd39eb466ac",
+        "status": "empty",
+        "code": "NO_EVIDENCE",
+        "trust_class": "untrusted",
+        "raw_result_ref": "raw:release-old",
+        "user_view_ref": "user:release-old",
+        "audit_view_ref": "audit:release-old",
+        "model_view": "{\"status\":\"empty\",\"code\":\"NO_EVIDENCE\",\"evidence\":[]}",
+        "evidence": [],
+        "freshness": {
+          "checked_at": 2000000000,
+          "expires_at": 2000000030
+        },
+        "memory_activation": false
+      }
+    },
+    {
+      "id": "WIRE-DENIED",
+      "input": {
+        "status": "denied",
+        "code": "ACCESS_DENIED",
+        "fragments": []
+      },
+      "expected": {
+        "tenant": "01JC0000000000000000000001",
+        "run_ref": "run:golden",
+        "query_hash": "d4e3fc7b0477747da28f05c27af9f1ab8e70cd60f729a2813f410fd39eb466ac",
+        "status": "denied",
+        "code": "ACCESS_DENIED",
+        "trust_class": "untrusted",
+        "raw_result_ref": "raw:release-old",
+        "user_view_ref": "user:release-old",
+        "audit_view_ref": "audit:release-old",
+        "model_view": "{\"status\":\"denied\",\"code\":\"ACCESS_DENIED\",\"evidence\":[]}",
+        "evidence": [],
+        "freshness": {
+          "checked_at": 2000000000,
+          "expires_at": 2000000030
+        },
+        "memory_activation": false
+      }
+    },
+    {
+      "id": "WIRE-UNKNOWN",
+      "input": {
+        "status": "unknown",
+        "code": "ACCESS_UNKNOWN",
+        "fragments": []
+      },
+      "expected": {
+        "tenant": "01JC0000000000000000000001",
+        "run_ref": "run:golden",
+        "query_hash": "d4e3fc7b0477747da28f05c27af9f1ab8e70cd60f729a2813f410fd39eb466ac",
+        "status": "unknown",
+        "code": "ACCESS_UNKNOWN",
+        "trust_class": "untrusted",
+        "raw_result_ref": "raw:release-old",
+        "user_view_ref": "user:release-old",
+        "audit_view_ref": "audit:release-old",
+        "model_view": "{\"status\":\"unknown\",\"code\":\"ACCESS_UNKNOWN\",\"evidence\":[]}",
+        "evidence": [],
+        "freshness": {
+          "checked_at": 2000000000,
+          "expires_at": 2000000030
+        },
+        "memory_activation": false
+      }
+    },
+    {
+      "id": "WIRE-UNAVAILABLE",
+      "input": {
+        "status": "unavailable",
+        "code": "BACKEND_UNAVAILABLE",
+        "fragments": []
+      },
+      "expected": {
+        "tenant": "01JC0000000000000000000001",
+        "run_ref": "run:golden",
+        "query_hash": "d4e3fc7b0477747da28f05c27af9f1ab8e70cd60f729a2813f410fd39eb466ac",
+        "status": "unavailable",
+        "code": "BACKEND_UNAVAILABLE",
+        "trust_class": "untrusted",
+        "raw_result_ref": "raw:release-old",
+        "user_view_ref": "user:release-old",
+        "audit_view_ref": "audit:release-old",
+        "model_view": "{\"status\":\"unavailable\",\"code\":\"BACKEND_UNAVAILABLE\",\"evidence\":[]}",
+        "evidence": [],
+        "freshness": {
+          "checked_at": 2000000000,
+          "expires_at": 2000000030
+        },
+        "memory_activation": false
+      }
+    },
+    {
+      "id": "WIRE-INCOMPATIBLE",
+      "input": {
+        "status": "incompatible",
+        "code": "SPACE_MISMATCH",
+        "fragments": []
+      },
+      "expected": {
+        "tenant": "01JC0000000000000000000001",
+        "run_ref": "run:golden",
+        "query_hash": "d4e3fc7b0477747da28f05c27af9f1ab8e70cd60f729a2813f410fd39eb466ac",
+        "status": "incompatible",
+        "code": "SPACE_MISMATCH",
+        "trust_class": "untrusted",
+        "raw_result_ref": "raw:release-old",
+        "user_view_ref": "user:release-old",
+        "audit_view_ref": "audit:release-old",
+        "model_view": "{\"status\":\"incompatible\",\"code\":\"SPACE_MISMATCH\",\"evidence\":[]}",
+        "evidence": [],
+        "freshness": {
+          "checked_at": 2000000000,
+          "expires_at": 2000000030
+        },
+        "memory_activation": false
+      }
+    }
+  ]
+}

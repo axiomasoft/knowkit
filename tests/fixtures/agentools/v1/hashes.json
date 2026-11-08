@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "agentools-hashes:1",
+  "fixtureVersion": "1.0.1",
+  "tenant": "01JC0000000000000000000001",
+  "domain": "golden-payload",
+  "vectors": [
+    {
+      "payloadJson": "{}",
+      "bytesHash": "sha-256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "scopedHash": "sha-256:0db794227d0a5c1f5c1dfc9978286ca1c0e15b415179d09d3e83d8ca873626cd"
+    },
+    {
+      "payloadJson": "[]",
+      "bytesHash": "sha-256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "scopedHash": "sha-256:8cb76ec82deee36b576332b1a52b9b48472f0f28ce100f083078186374e08670"
+    },
+    {
+      "payloadJson": "{\"b\":2,\"a\":1}",
+      "bytesHash": "sha-256:3fb75453225c732a76b7899ea2096dda1455189c89817239732182f73fe5a09f",
+      "scopedHash": "sha-256:e94a71b1ad8ac9c9339284ea805d6297bbce0c761e9d2f630c12f56d466d0e0e"
+    },
+    {
+      "payloadJson": "{\"a\":1,\"b\":2}",
+      "bytesHash": "sha-256:43258cff783fe7036d8a43033f830adfc60ec037382473548ac742b888292777",
+      "scopedHash": "sha-256:e94a71b1ad8ac9c9339284ea805d6297bbce0c761e9d2f630c12f56d466d0e0e"
+    },
+    {
+      "payloadJson": "\"hello\"",
+      "bytesHash": "sha-256:5aa762ae383fbb727af3c7a36d4940a5b8c40a989452d2304fc958ff3f354e7a",
+      "scopedHash": "sha-256:67043bc85c031651adacaab082cec0f7969532470dd81ee21c24f600e60cb225"
+    }
+  ],
+  "legacyReleaseHash": "a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc",
+  "legacyHashKind": "agentools_release_sha256",
+  "invalidPayloadHashes": [
+    "a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc",
+    "sha256:a801d6a6c361992a7bc38aff293a8ea723dc0930fd5e2a2cb7eb9947d2cf67dc",
+    "sha-256:A801D6A6C361992A7BC38AFF293A8EA723DC0930FD5E2A2CB7EB9947D2CF67DC",
+    "sha-256:abcd"
+  ],
+  "rationale": "Raw bytes and tenant/domain canonical envelope have different meanings even with identical algorithm; {} and [] remain distinct. Legacy release hashes never enter new digest domains."
+}

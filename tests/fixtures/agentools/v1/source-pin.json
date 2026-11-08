@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "agentools-source-pin:1",
+  "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+  "license": "LicenseRef-AgenTools-Private",
+  "authority": "Private local reuse only; no public relicensing or publication authorization.",
+  "files": [
+    {
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextComposition.php"
+    },
+    {
+      "path": "packages/agentools-chatom/src/TextContextAuthority.php",
+      "sha256": "e80acb10becbff1a770c6c74d841dae4ed92314b96e4666498220c03e93b0dc2",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextContextAuthority.php"
+    },
+    {
+      "path": "packages/agentools-core/src/Security/ExecutionContext.php",
+      "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Security/ExecutionContext.php"
+    },
+    {
+      "path": "packages/agentools-core/src/Context/ToolResultView.php",
+      "sha256": "c30865ade5c6429978b51971f042f10943ed94fcb6aef7cf9fdc4b884508b526",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Context/ToolResultView.php"
+    },
+    {
+      "path": "packages/agentools-core/src/Context/ContextBlock.php",
+      "sha256": "2984761f9d0e1d31f4ac3874bf8183729c0b95b0a7744791b4f59746decbf134",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Context/ContextBlock.php"
+    },
+    {
+      "path": "packages/agentools-core/src/Context/Provenance.php",
+      "sha256": "24a3adffade4dbd687acccf09c7e57d1182cefbb03a33d61434402449c6edbc0",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Context/Provenance.php"
+    },
+    {
+      "path": "packages/agentools-core/src/Common/PayloadHash.php",
+      "sha256": "7257e1d6c30da06e765371f5420778965ccf59331bed304cc72b260a52224c96",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Common/PayloadHash.php"
+    },
+    {
+      "path": "packages/agentools-core/src/Common/CanonicalHasher.php",
+      "sha256": "058c4d30188d316bad96c5565ad846ca6edf349540ba63e46c88901fa3b90209",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Common/CanonicalHasher.php"
+    },
+    {
+      "path": "extensions/knowledge/src/Retrieval/EvidenceSet.php",
+      "sha256": "d84404e2ea497a9558d4839bd55848b1440c1f383c0f2d27c0ac6f5037b900f9",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/EvidenceSet.php"
+    },
+    {
+      "path": "extensions/knowledge/src/Retrieval/OwnerViews.php",
+      "sha256": "2a9612d6e8005b3e25690eb0098ea389c36808ae1eeb16f242936be3aa11b7c2",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Retrieval/OwnerViews.php"
+    },
+    {
+      "path": "extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "sha256": "afdfaecf1f2246cf4f4a8e1ab70bc1da1d89926c8aab11740c0a47d6a841bd7f",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Dependencies/PostgresGraph.php"
+    },
+    {
+      "path": "extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "sha256": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/AccessTest.php"
+    },
+    {
+      "path": "extensions/knowledge/tests/Retrieval/Fixture.php",
+      "sha256": "ab6d477a577cc6d7b6e887b6f3075798189e81ce26c5eb047b8205e3bf6c4786",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/Fixture.php"
+    },
+    {
+      "path": "packages/agentools-core/tests/Common/context.php",
+      "sha256": "86da4f39160c490e2a73445749504a2e32c075480604d746d5230664e0ffa07f",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/tests/Common/context.php"
+    },
+    {
+      "path": "packages/agentools-core/tests/Common/TestHost.php",
+      "sha256": "1cd2a13a4f51d28aaa454d1ab9bf3f2d322a8175ec2a4c1d637b976d4abc3edf",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/tests/Common/TestHost.php"
+    },
+    {
+      "path": "packages/agentools-core/tests/Context/contract.php",
+      "sha256": "d1cbcfb0972126df717a7fbef3ce3d7fe67b6c6cfec791ed989a64fad0d2c004",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/tests/Context/contract.php"
+    }
+  ]
+}
