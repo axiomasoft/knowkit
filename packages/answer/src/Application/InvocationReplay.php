@@ -39,10 +39,11 @@ final readonly class InvocationReplay
         $record->requireOriginal($original);
         A\InvocationDecision::requireAudience($current, $record->pins->binding->scope);
         if (in_array($record->state, [A\InvocationState::Sending, A\InvocationState::Unknown], true)) {
-            return new A\AnswerOutcome(A\OutcomeCode::TransportUnknown, $record->invocationRef, A\DispatchCertainty::Unknown);
+            return new A\AnswerOutcome(A\OutcomeCode::TransportUnknown, $record->invocationRef, A\DispatchCertainty::Unknown,
+                fixture: !$record->pins->binding->transport->production);
         }
         if ($record->state !== A\InvocationState::Completed || $record->responsePayloadRef === null || $record->responsePayloadHash === null) {
-            return $this->unavailable($record->invocationRef);
+            return $this->unavailable($record->invocationRef, fixture: !$record->pins->binding->transport->production);
         }
         // No mutable binding lookup, credential refresh or model generation during replay.
         return $this->authorizedResponse($current, $record);
@@ -65,12 +66,18 @@ final readonly class InvocationReplay
 
     private function authorize(D\Scope $current, A\InvocationRecord $record): ?A\AnswerOutcome
     {
-        $denial = $this->authorization->beforeReplay($current, $record);
+        try {
+            $denial = $this->authorization->beforeReplay($current, $record);
+        } catch (\Throwable) {
+            // An unavailable current authority is not a historical grant. Do not load the response.
+            return new A\AnswerOutcome(A\OutcomeCode::PolicyUnknown, $record->invocationRef, $record->dispatchCertainty,
+                fixture: !$record->pins->binding->transport->production);
+        }
         if ($denial !== null) {
             A\InvocationDecision::requireMetadata($denial, $record->invocationRef);
 
             return new A\AnswerOutcome($denial->code, $record->invocationRef, $record->dispatchCertainty,
-                fixture: $denial->fixture, reason: $denial->reason);
+                fixture: $denial->fixture || !$record->pins->binding->transport->production, reason: $denial->reason);
         }
 
         return $denial;
@@ -82,7 +89,8 @@ final readonly class InvocationReplay
             $ref = new A\InvocationPayloadRef($scope->tenantId, new D\ResourceId($record->responsePayloadRef), $record->responsePayloadHash);
             $outcome = A\AnswerOutcome::fromWire(StrictJson::decode($this->payloads->read($scope, $ref)), $this->validator);
         } catch (D\DomainFailure) {
-            return $this->unavailable($record->invocationRef, $record->dispatchCertainty);
+            return $this->unavailable($record->invocationRef, $record->dispatchCertainty,
+                !$record->pins->binding->transport->production);
         }
         if ($outcome->invocationRef != $record->invocationRef || $outcome->code !== $record->outcomeCode
             || $outcome->certainty !== $record->dispatchCertainty) {
@@ -92,9 +100,10 @@ final readonly class InvocationReplay
         return $outcome;
     }
 
-    private function unavailable(A\InvocationRef $ref, A\DispatchCertainty $certainty = A\DispatchCertainty::KnownNotSent): A\AnswerOutcome
+    private function unavailable(A\InvocationRef $ref, A\DispatchCertainty $certainty = A\DispatchCertainty::KnownNotSent,
+        bool $fixture = false): A\AnswerOutcome
     {
         return new A\AnswerOutcome(A\OutcomeCode::Unavailable, $ref, $certainty,
-            component: A\UnavailableComponent::Payload);
+            fixture: $fixture, component: A\UnavailableComponent::Payload);
     }
 }

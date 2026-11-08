@@ -22,13 +22,15 @@ final readonly class PostgresAnswerMigrations
         if ($this->pdo->inTransaction()) {
             throw new \LogicException('Migration owns transaction');
         }
-        $sql = file_get_contents(dirname(__DIR__, 2) . '/migrations/postgres/001_answer_invocations.sql');
-        if ($sql === false) {
-            throw new \RuntimeException('Answer migration required');
-        }
         $this->pdo->beginTransaction();
         try {
-            $this->migrate($sql);
+            foreach (['001_answer_invocations', '002_observation_payloads'] as $migration) {
+                $sql = file_get_contents(dirname(__DIR__, 2) . "/migrations/postgres/{$migration}.sql");
+                if ($sql === false) {
+                    throw new \RuntimeException('Answer migration required');
+                }
+                $this->migrate('answer:' . substr($migration, 0, 3), $sql);
+            }
             $this->pdo->commit();
         } catch (\Throwable $error) {
             if ($this->pdo->inTransaction()) {
@@ -38,12 +40,13 @@ final readonly class PostgresAnswerMigrations
         }
     }
 
-    private function migrate(string $sql): void
+    private function migrate(string $id, string $sql): void
     {
         $lock = $this->pdo->prepare('SELECT pg_advisory_xact_lock(hashtextextended(?,0))');
         $lock->execute(['knowkit:migrations:' . $this->schema]);
         $this->pdo->exec('SET LOCAL search_path TO "' . $this->schema . '",pg_catalog');
-        $query = $this->pdo->query("SELECT checksum FROM schema_migrations WHERE id='answer:001'");
+        $query = $this->pdo->prepare('SELECT checksum FROM schema_migrations WHERE id=?');
+        $query->execute([$id]);
         $existing = $query->fetchColumn();
         $checksum = hash('sha256', $sql);
         if ($existing !== false && !hash_equals($existing, $checksum)) {
@@ -53,7 +56,7 @@ final readonly class PostgresAnswerMigrations
             return;
         }
         $this->pdo->exec($sql);
-        $statement = $this->pdo->prepare("INSERT INTO schema_migrations VALUES ('answer:001',?,clock_timestamp())");
-        $statement->execute([$checksum]);
+        $statement = $this->pdo->prepare('INSERT INTO schema_migrations VALUES (?,?,clock_timestamp())');
+        $statement->execute([$id, $checksum]);
     }
 }

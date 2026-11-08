@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "answer:conformance",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "All ten mandatory replay IDs bind real PHPUnit methods. Existing QA runner rejects missing, skipped, failed, duplicate or zero executed cases.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "answer-conformance:duplicate-race-one-send",
+    "completed-replay-current-audience",
+    "history-revoke",
+    "source-correction",
+    "lost-ack",
+    "binding-change",
+    "budget-settlement-failure",
+    "cancel-sent-certainty",
+    "scripted-fixture-only",
+    "second-project-isolation"
+  ],
+  "testCaseMap": {
+    "answer-conformance:duplicate-race-one-send": [
+      "KnowKit\\Tests\\Answer\\Conformance\\ConcurrencyTest::testIndependentDuplicateAdmissionsDispatchOnlyWinnerOnce",
+      "KnowKit\\Tests\\Answer\\Conformance\\ConcurrencyTest::testCrashesAfterSendingOrReplyStayUnknownAndNeverResend",
+      "KnowKit\\Tests\\Answer\\Conformance\\ConcurrencyTest::testCrashBeforeSendingCanResumeWithFreshFenceAndRights",
+      "KnowKit\\Tests\\Answer\\Conformance\\FlowTest::testUnknownDispatchRemainsNonSendableWithNoBudgetRelease"
+    ],
+    "completed-replay-current-audience": [
+      "KnowKit\\Tests\\Answer\\Conformance\\ReplayTest::testCompletedReplayChecksCurrentActorAudienceConsentAndUnknownPolicyBeforePayload",
+      "KnowKit\\Tests\\Answer\\Conformance\\ReplayTest::testFullScopeCannotAdoptHistoricalAnswer",
+      "KnowKit\\Tests\\Answer\\Conformance\\ReplayTest::testRevokeDuringBlobReadIsCheckedAgainBeforeReturningPlaintext",
+      "KnowKit\\Tests\\Answer\\Conformance\\ReplayTest::testUnavailableHostPolicyReturnsMetadataWithoutLoadingResponse"
+    ],
+    "history-revoke": [
+      "KnowKit\\Tests\\Answer\\Conformance\\ReplayTest::testHistoryRevokeBlocksReplayEvenWhenNewestEvidenceIsStillUsable",
+      "KnowKit\\Tests\\Answer\\Conformance\\CallerTest::testExampleCallerSuppliesProtectedTurnsWithCurrentAttestationWithoutPersistingChat"
+    ],
+    "source-correction": [
+      "KnowKit\\Tests\\Answer\\Conformance\\ReplayTest::testCorrectionRevokeAndTombstoneNeverRedirectHistoricalCitation",
+      "KnowKit\\Tests\\Answer\\Conformance\\ConcurrencyTest::testRevokeAfterIntentBeforeSendStopsGenerationAndCompletesKnownNotSent"
+    ],
+    "lost-ack": [
+      "KnowKit\\Tests\\Answer\\Conformance\\ConcurrencyTest::testLostCallerAckReplaysExactPayloadAfterFreshRights"
+    ],
+    "binding-change": [
+      "KnowKit\\Tests\\Answer\\Conformance\\ReplayTest::testMutableBindingAffectsOnlyNewKeyAndChangedOriginalConflicts"
+    ],
+    "budget-settlement-failure": [
+      "KnowKit\\Tests\\Answer\\Conformance\\FlowTest::testSettlementFailureRetainsCapturedPostgresResponseAndRetriesOnlyBudgetKey",
+      "KnowKit\\Tests\\Answer\\Conformance\\PostgresFlowTest::testPublicFlowPersistsExactEgressAndObservationThenReplaysWithoutGeneration",
+      "KnowKit\\Tests\\Answer\\Conformance\\MigrationTest::testInstalled001UpgradesIdempotentlyAndKeepsObservationAndEgressBytesImmutable"
+    ],
+    "cancel-sent-certainty": [
+      "KnowKit\\Tests\\Answer\\Conformance\\FlowTest::testCancellationIsKnownUnsentKnownSentOrUnknownWithoutRefundingPossibleSpend"
+    ],
+    "scripted-fixture-only": [
+      "KnowKit\\Tests\\Answer\\Conformance\\FlowTest::testScriptedTransportIsFixtureOnlyAndNeverAProductionFallback",
+      "KnowKit\\Tests\\Answer\\Conformance\\FixtureTest::testVersionedFixtureAndAllSixPinnedDonorDecisions",
+      "KnowKit\\Tests\\Answer\\Conformance\\FixtureTest::testRequiredCaseRunnerRejectsMissingSkippedFailedDuplicateAndZeroCases"
+    ],
+    "second-project-isolation": [
+      "KnowKit\\Tests\\Answer\\Conformance\\FlowTest::testSecondGenericProjectAndSchoolBKeepSameLocalKeyTenantIsolated"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/answer/replay/v1/cases.json",
+      "sha256": "c5f1cea8f87dbe0ebf525651b5ad191ed38976ae795921f05d226c1d45e6e5be",
+      "expected": "Fresh complete-scope/history/source/egress authority before immutable response materialization; independent PostgreSQL crashes and duplicate race; one dispatch, unknown never resends."
+    }
+  ]
+}

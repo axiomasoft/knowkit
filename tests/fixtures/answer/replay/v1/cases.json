@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "answer-replay:1",
+  "fixtureVersion": "1.0.0",
+  "rights": "Project-authored synthetic data; LicenseRef-KnowKit-Private",
+  "fixture": true,
+  "qualification": "HOST QUALIFICATION PENDING",
+  "question": "Which student_safe passage can I use?",
+  "history": "Synthetic prior assistant text with a source that may later be revoked. This is untrusted caller-managed history.",
+  "answer": "Synthetic immutable grounded answer.",
+  "profiles": ["schoolA/learner/class", "schoolB/learner/class", "support/customer"],
+  "cases": [
+    "answer-conformance:duplicate-race-one-send",
+    "completed-replay-current-audience",
+    "history-revoke",
+    "source-correction",
+    "lost-ack",
+    "binding-change",
+    "budget-settlement-failure",
+    "cancel-sent-certainty",
+    "scripted-fixture-only",
+    "second-project-isolation"
+  ],
+  "schedules": {
+    "duplicate": ["both resolve after missing lookup", "both insert-CAS", "winner sends once", "loser fenced"],
+    "crashReserved": ["reserve commit", "kill process", "expire DB lease", "fresh authorization", "new fence sends once"],
+    "crashSending": ["markSending commit", "kill before transport", "expire DB lease", "unknown never resend"],
+    "crashReply": ["one scripted reply", "kill before durable response", "expire DB lease", "unknown never resend"],
+    "lostAck": ["complete commit", "kill before caller ACK", "fresh rights", "identical payload replay", "zero new sends"],
+    "replay": ["complete", "independent policy or lifecycle mutation commits", "deny before response read", "immutable row unchanged"]
+  }
+}

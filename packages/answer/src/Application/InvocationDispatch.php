@@ -42,7 +42,8 @@ final readonly class InvocationDispatch
         $this->requireCurrent($request);
         $this->ledger->assertLive($sending->claim);
         if ($cancellation->isCancelled()) {
-            $cancelled = new A\AnswerOutcome(A\OutcomeCode::Cancelled, $sending->invocationRef, A\DispatchCertainty::KnownNotSent, sent: false);
+            $cancelled = new A\AnswerOutcome(A\OutcomeCode::Cancelled, $sending->invocationRef, A\DispatchCertainty::KnownNotSent,
+                fixture: !$this->transport->descriptor()->production, sent: false);
             $this->ledger->complete($sending->claim, $cancelled);
 
             return $cancelled;
@@ -81,6 +82,7 @@ final readonly class InvocationDispatch
             // Lease loss or uncertain SQL commit leaves sending/unknown for fenced recovery.
         }
 
-        return new A\AnswerOutcome(A\OutcomeCode::TransportUnknown, $sending->invocationRef, A\DispatchCertainty::Unknown);
+        return new A\AnswerOutcome(A\OutcomeCode::TransportUnknown, $sending->invocationRef, A\DispatchCertainty::Unknown,
+            fixture: !$this->transport->descriptor()->production);
     }
 }
