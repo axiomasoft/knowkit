@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.10",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-core/src/Models/ModelTransport.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "2070d302d0e39facb0a362f2444455d6754d56470d8ef425cf395824704e9844",
+      "observedSha256": "2070d302d0e39facb0a362f2444455d6754d56470d8ef425cf395824704e9844",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Models/ModelTransport.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Reuse the installed one-exchange ModelTransport contract; compose and bound exact bytes before its single send. No tools, streaming publication or model loop.",
+      "qualificationRef": "tests/answer/grounding/GroundingTest.php",
+      "targetPaths": [
+        "packages/answer/src/Application",
+        "tests/answer/grounding"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-core/src/Runtime/InvocationJournal.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "e9db6652c7ebc58a1a4f5b06f5d2efd77954213d805d6877c8b965fd6f559475",
+      "observedSha256": "e9db6652c7ebc58a1a4f5b06f5d2efd77954213d805d6877c8b965fd6f559475",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Runtime/InvocationJournal.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Reuse existing answer admission/ledger managed payloads and fenced markSending. Adapt capture-before-settlement ordering without copying or adding a runtime journal.",
+      "qualificationRef": "tests/answer/grounding/GroundingTest.php",
+      "targetPaths": [
+        "packages/answer/src/Application",
+        "tests/answer/grounding"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "observedSha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextComposition.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt separate trusted policy and untrusted history/input/evidence composition, bounded generation and saved-response settlement. Direct answer uses core fresh disclosure and full trusted Scope; no Chatom persistence imported.",
+      "qualificationRef": "tests/answer/grounding/GroundingTest.php",
+      "targetPaths": [
+        "packages/answer/src/Application",
+        "tests/answer/grounding"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/runtime/coordination/journal.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "1e252727fb2f5adb314d90826468f433611713537185dce573a6a459e6c3526f",
+      "observedSha256": "1e252727fb2f5adb314d90826468f433611713537185dce573a6a459e6c3526f",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/coordination/journal.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "Live event batching/replay does not implement bounded no-resend answer generation. Existing answer ledger remains the only direct-answer journal.",
+      "qualificationRef": "tests/answer/grounding/GroundingTest.php",
+      "targetPaths": [
+        "packages/answer/src/Application",
+        "tests/answer/grounding"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/embedding/adapters/openai_compatible.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "34f84c680a4798500f252cc6b7b6ce00fad3aeae42ed6fdeadc7b4fec4452be0",
+      "observedSha256": "34f84c680a4798500f252cc6b7b6ce00fad3aeae42ed6fdeadc7b4fec4452be0",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/embedding/adapters/openai_compatible.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "Embedding is not a chat transport. Automatic retry, key rotation, fallback and raw error logging contradict this flow. Reuse the already qualified local PSR18 request serializer instead.",
+      "qualificationRef": "tests/answer/grounding/GroundingTest.php",
+      "targetPaths": [
+        "packages/answer/src/Application",
+        "tests/answer/grounding"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/runtime/coordination/test_journal_recovery.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "observedSha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_journal_recovery.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt negative crash/recovery scenarios to immutable unknown dispatch, no resend and observation/response persistence failure; never reopen model generation for unknown work.",
+      "qualificationRef": "tests/answer/grounding/GroundingTest.php",
+      "targetPaths": [
+        "packages/answer/src/Application",
+        "tests/answer/grounding"
+      ]
+    }
+  ],
+  "newCodeRationale": "Thin adaptation over installed core Retrieval/Disclosure/Scope/Tokenizer/EgressPolicy and existing answer admission, ledger, replay, managed payloads and exact PSR18 serializer. No donor provides the complete scoped all-content grounding contract. New typed evidence views, citation subset validation and stable-key observation settlement connect these existing boundaries without importing donor runtimes.",
+  "sourceGaps": [
+    "Host binds the core retrieval implementation to the exact declared profile and owns current lifecycle/history/audience/policy decisions.",
+    "Last-check timestamps and owner revisions document the distributed policy race; no global atomicity is claimed.",
+    "Unknown observations retain actual nullable usage and reservation references in managed blobs; owning reconciliation never regenerates or refunds possibly spent work."
+  ],
+  "handoff": "Product-side receipt only. Coordinator mirrors to @plan/artifacts/implementation/P4.10-reuse.json; executor plan mutation is forbidden."
+}

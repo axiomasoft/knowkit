@@ -24,6 +24,13 @@ final readonly class CurrentModelEgress
 
     public function check(A\ModelCallIdentity $call, A\EgressContentManifest $manifest, D\Sha256 $currentPolicyBinding): ?A\AnswerOutcome
     {
+        $decision = $this->authorize($call, $manifest, $currentPolicyBinding);
+
+        return $decision instanceof A\AnswerOutcome ? $decision : null;
+    }
+
+    public function authorize(A\ModelCallIdentity $call, A\EgressContentManifest $manifest, D\Sha256 $currentPolicyBinding): D\DecisionReceipt|A\AnswerOutcome
+    {
         if ($call->digest() != $manifest->identity->digest()) {
             throw new \InvalidArgumentException('Egress must bind the exact admitted call');
         }
@@ -33,7 +40,7 @@ final readonly class CurrentModelEgress
                 $receipt->requireAllow($call->binding->scope, $resource, D\Operation::ModelEgressContext, $this->clock->now(), $currentPolicyBinding);
             }
 
-            return null;
+            return $receipt;
         } catch (D\DomainFailure $failure) {
             $code = $failure->outcome === D\Outcome::Denied ? A\OutcomeCode::EgressDenied : A\OutcomeCode::PolicyUnknown;
         } catch (\Throwable) {

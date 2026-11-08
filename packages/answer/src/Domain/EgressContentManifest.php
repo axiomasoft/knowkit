@@ -40,6 +40,11 @@ final readonly class EgressContentManifest
 
     public function toCore(ContractValidator $validator): EgressRequest
     {
+        return new EgressRequest($this->toWire(), $validator);
+    }
+
+    public function toWire(): JsonObject
+    {
         $binding = $this->identity->binding;
         $wire = new JsonObject([
             'operation' => 'model_egress_context',
@@ -53,7 +58,7 @@ final readonly class EgressContentManifest
         ]);
         $digest = hash('sha256', "knowkit:answer-egress:v1\0" . $this->identity->digest()->value . Jcs::canonicalize($wire));
 
-        return new EgressRequest($wire->with('manifestDigest', $digest), $validator);
+        return $wire->with('manifestDigest', $digest);
     }
 
     /** @return list<ResourceRef> */

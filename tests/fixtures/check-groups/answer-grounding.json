@@ -1,0 +1,79 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "answer:grounding",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Ten mandatory IDs mapped to real executed PHPUnit methods; existing QA runner rejects missing/skipped/failed/duplicate/zero cases.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "answer-grounding:canonical-text-in-request",
+    "history-egress-deny",
+    "question-egress-deny",
+    "revoke-before-send",
+    "invalid-citation",
+    "prompt-injection",
+    "budget-unknown",
+    "cancel-before-after-send",
+    "tokenizer-required",
+    "no-evidence-no-send"
+  ],
+  "testCaseMap": {
+    "answer-grounding:canonical-text-in-request": [
+      "KnowKit\\Tests\\Answer\\Grounding\\GroundingTest::testCanonicalTextIsInExactAdmittedRequestBeforeSingleSend",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testReplayUsesOriginalPinsAndRetriesSettlementByKeyWithoutRegeneration",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testRevocationAfterProviderReplyPreventsPlaintextPublication",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testObservationOrResponsePersistenceFailureNeverPublishesOrRefunds",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testEvidenceRequiresCommittedUsageAndMatchingFullScope",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testExactProfileMismatchCannotRetrieve",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testCanonicalSpanLengthSnapshotAndSelectedRevisionCannotBeSubstituted"
+    ],
+    "history-egress-deny": [
+      "KnowKit\\Tests\\Answer\\Grounding\\GroundingTest::testHistoryEgressDenialSendsZeroBodyBytes",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testHistoryNeedsCurrentFullScopeAttestationAtBothGuards"
+    ],
+    "question-egress-deny": [
+      "KnowKit\\Tests\\Answer\\Grounding\\GroundingTest::testQuestionEgressDenialSendsZeroBodyBytes",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testUnknownEgressAndExpiredPreSendDecisionFailClosed"
+    ],
+    "revoke-before-send": [
+      "KnowKit\\Tests\\Answer\\Grounding\\GroundingTest::testRevokeAfterMarkSendingPreventsDispatchAndReleasesConfirmedUnusedBudget",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testFreshDisclosureDeniedUnknownOrUnavailableNeverReachesModelOrBudget"
+    ],
+    "invalid-citation": [
+      "KnowKit\\Tests\\Answer\\Grounding\\GroundingTest::testInvalidCitationRefusesWithActualUsageAndNoRepair",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testMalformedOutputAndPartialOrWrongModelNeverBecomeAnswered"
+    ],
+    "prompt-injection": [
+      "KnowKit\\Tests\\Answer\\Grounding\\GroundingTest::testPromptInjectionStaysUntrustedDataAndCannotSetSystemPolicy",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testProductionCompositionRejectsScriptedTransportBeforeAnyWork"
+    ],
+    "budget-unknown": [
+      "KnowKit\\Tests\\Answer\\Grounding\\GroundingTest::testUnknownOrDeniedBudgetNeverSendsOrRefunds",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testStaticCeilingsRejectOverflowAndUnknownTokenEstimateWithStableTenantKey",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testKnownCompletionWithUnknownUsageSettlesNullObservations"
+    ],
+    "cancel-before-after-send": [
+      "KnowKit\\Tests\\Answer\\Grounding\\GroundingTest::testCancellationBeforeAndAfterSendPreservesDispatchAndNullableUsage",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testUnknownTransportPersistsActualNullableUsageAndNeverRefundsOrResends"
+    ],
+    "tokenizer-required": [
+      "KnowKit\\Tests\\Answer\\Grounding\\GroundingTest::testExplicitTokenBudgetRequiresExactPinnedTokenizerAndNoByteApproximation",
+      "KnowKit\\Tests\\Answer\\Grounding\\SafetyTest::testByteBudgetsRemainActiveWithoutTokenizer"
+    ],
+    "no-evidence-no-send": [
+      "KnowKit\\Tests\\Answer\\Grounding\\GroundingTest::testNoEvidenceNeverReservesOrSends",
+      "KnowKit\\Tests\\Answer\\Grounding\\FixtureTest::testVersionedFixturesAndVerifiedDonorDecisions",
+      "KnowKit\\Tests\\Answer\\Grounding\\FixtureTest::testRequiredManifestRejectsMissingSkippedFailedDuplicateAndZeroCases"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/answer/grounding/v1/cases.json",
+      "sha256": "196ed915b024d6ec43c0b85c070535d19bbe0629ba67a711be33bd31533d757b",
+      "expected": "Canonical exact request; all-content egress and fresh authority; one send, immutable citations, nullable usage and no unknown refund/retry."
+    }
+  ]
+}
