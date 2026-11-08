@@ -12,7 +12,7 @@
     <testsuite name="Semantic"><directory>tests/semantic/embedding</directory><directory>tests/semantic/vector</directory><directory>tests/semantic/hybrid</directory></testsuite>
     <testsuite name="Worker"><directory>tests/worker</directory></testsuite>
     <testsuite name="Evaluation"><directory>tests/evaluation</directory></testsuite>
-    <testsuite name="Ops"><directory>tests/ops/observability</directory></testsuite>
+    <testsuite name="Ops"><directory>tests/ops/observability</directory><directory>tests/ops/resilience</directory></testsuite>
     <testsuite name="Laravel"><directory>tests/delivery/laravel</directory></testsuite>
     <testsuite name="Http"><directory>tests/delivery/http</directory><directory>tests/delivery/client</directory><directory>tests/conformance/http</directory></testsuite>
     <testsuite name="BridgeInstalled"><directory>packages/agentools-bridge/tests/installed</directory></testsuite>

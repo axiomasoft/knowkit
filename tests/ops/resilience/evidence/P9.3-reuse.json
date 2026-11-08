@@ -1,0 +1,106 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P9.3",
+  "authority": "licenses/local-reuse-authorization.md",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/src/Dependencies/PostgresGraph.php",
+      "sha256": "afdfaecf1f2246cf4f4a8e1ab70bc1da1d89926c8aab11740c0a47d6a841bd7f",
+      "observedSha256": "afdfaecf1f2246cf4f4a8e1ab70bc1da1d89926c8aab11740c0a47d6a841bd7f",
+      "decision": "adapt",
+      "reason": "Exercise existing KnowKit graph guards, immutable parents and unseen tombstones; retain tenant/KB/source ordering and per-invocation usage. Do not copy donor schema or run-wide usage.",
+      "license": "Proprietary; private local reuse only; licenses/notices/agentools-LICENSE.txt"
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/src/Dependencies/DeletionWorker.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Dependencies/DeletionWorker.php",
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/src/Dependencies/DeletionWorker.php",
+      "sha256": "0b1cf97507a8357b431dfa6dfaf8e6ae48c5501336292fd8dddeb9d2ae9a06af",
+      "observedSha256": "0b1cf97507a8357b431dfa6dfaf8e6ae48c5501336292fd8dddeb9d2ae9a06af",
+      "decision": "adapt",
+      "reason": "Durable begin-before-I/O and same-attempt unknown replay, tested through existing KnowKit worker with exact-version proof.",
+      "license": "Proprietary; private local reuse only; licenses/notices/agentools-LICENSE.txt"
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Invalidation/ConcurrencyTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Invalidation/ConcurrencyTest.php",
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/tests/Invalidation/ConcurrencyTest.php",
+      "sha256": "ff5dd8ff9f09dea8b9ca025f733d1cf206bdcb768dd30fa8c01521a46d75f347",
+      "observedSha256": "ff5dd8ff9f09dea8b9ca025f733d1cf206bdcb768dd30fa8c01521a46d75f347",
+      "decision": "adapt",
+      "reason": "Independent interpreters/sessions and observable contention; replace sleep polling with bounded pg_blocking_pids observations and pipe barriers, force both serial orders.",
+      "license": "Proprietary; private local reuse only; licenses/notices/agentools-LICENSE.txt"
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Invalidation/CrashTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Invalidation/CrashTest.php",
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/tests/Invalidation/CrashTest.php",
+      "sha256": "4222d7a980d09921653bf54a167fbf57653a162aa1e010125e8a0b62e2c90f8d",
+      "observedSha256": "4222d7a980d09921653bf54a167fbf57653a162aa1e010125e8a0b62e2c90f8d",
+      "decision": "adapt",
+      "reason": "SIGKILL before/after actual commit and external effect, then reconnect and replay; record transaction outcomes without payloads.",
+      "license": "Proprietary; private local reuse only; licenses/notices/agentools-LICENSE.txt"
+    },
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Invalidation/DeletionTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Invalidation/DeletionTest.php",
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/tests/Invalidation/DeletionTest.php",
+      "sha256": "b9500c993cf23036598f5048b572089fcb49cd94fd486b7f546a2328b2cfb597",
+      "observedSha256": "b9500c993cf23036598f5048b572089fcb49cd94fd486b7f546a2328b2cfb597",
+      "decision": "adapt",
+      "reason": "Unknown interrupted attempt must not repeat transport; new explicit attempt requires exact proof and preserves uncertainty.",
+      "license": "Proprietary; private local reuse only; licenses/notices/agentools-LICENSE.txt"
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/runtime/coordination/recovery.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/coordination/recovery.py",
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/deeptutor/runtime/coordination/recovery.py",
+      "sha256": "bf79e3b37d2fb417603d83a35cf9e646624566176a6aad4131ffa43691d38bdf",
+      "observedSha256": "bf79e3b37d2fb417603d83a35cf9e646624566176a6aad4131ffa43691d38bdf",
+      "decision": "adapt",
+      "reason": "Recheck fence/live ownership at durable mutation; apply to PostgreSQL lease takeover and stale completion rather than copying Python runtime.",
+      "license": "Apache-2.0; behavioral adaptation; no Python source copied"
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/runtime/coordination/test_journal_recovery.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_journal_recovery.py",
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/tests/runtime/coordination/test_journal_recovery.py",
+      "sha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "observedSha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "decision": "adapt",
+      "reason": "Replay journal after reconnect and preserve existing terminal state. Replace time delays with explicit expired-lease SQL fault and deterministic IPC.",
+      "license": "Apache-2.0; behavioral adaptation; no Python source copied"
+    }
+  ],
+  "newCodeRationale": "No donor provides KnowKit's approved composite identity, lock order, fixture IDs or restore readiness API. New test-only orchestration binds existing production adapters without runtime dependencies or architectural changes.",
+  "localAdaptations": [
+    {
+      "path": "packages/core/migrations/postgres/011_recovery_shared_guard.sql",
+      "reason": "Real two-ingest regression exposed a recovery-trigger tenant UPDATE upgrade after subordinate locks. Additive SHARE guard preserves restore exclusion and existing migration checksums; deterministic old-trigger negative schedule fails with RETRYABLE_LOCK_TIMEOUT."
+    },
+    {
+      "path": "tests/ops/resilience",
+      "reason": "Reuse existing catalog/lifecycle/job/blob/disclosure fixtures and production adapters; new orchestration forces independent-process schedules and real metadata/blob backup restore without donor namespaces or runtime dependencies."
+    }
+  ],
+  "sourceGaps": [
+    "Transport crash fixtures qualify uncertainty semantics only, not any remote provider's retention guarantees.",
+    "Local fsync/SIGKILL tests do not simulate host power loss or storage-controller failure."
+  ]
+}

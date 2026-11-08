@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "ops:resilience",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "Initial authored resilience corpus. Expected states follow the approved lock/lifecycle/recovery contracts, not captured response snapshots. Both serialization orders, pre/post-COMMIT SIGKILL, uncertain external effects and repeated physical metadata/blob restore are executable. Digest changes require a new fixture version and explicit behavioral rationale. Version 1.1.0 adds the deterministic shared-writer negative schedule after two-ingest exposed a late tenant lock upgrade in the recovery trigger; prior expected outcomes and content/journal digests remain unchanged.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic metadata and three ASCII bytes abc; private donor behavior adaptation recorded in evidence/P9.3-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "PUBLISH-REVOKE",
+    "GRAPH-REGISTER-INVALIDATE",
+    "UNSEEN-ROOT-TOMBSTONE",
+    "LEASE-TAKEOVER-COMPLETE",
+    "PURGE-LATE-RESOURCE",
+    "CACHE-HIT-REVOKE",
+    "RESTORE-READINESS",
+    "KILL-BEFORE-COMMIT",
+    "KILL-AFTER-COMMIT",
+    "OBJECT-UNCERTAINTY",
+    "PROVIDER-BEFORE-EFFECT",
+    "PROVIDER-AFTER-EFFECT",
+    "DUPLICATE-OUTBOX",
+    "TWO-INGEST",
+    "SHARED-WRITER-RESTORE-GUARD",
+    "TWO-PUBLICATIONS",
+    "RESTORE-FAIL-CLOSED",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "PUBLISH-REVOKE": [
+      "KnowKit\\Tests\\Ops\\Resilience\\InterferenceTest::testPublishAndRevokeWaitAndRecheckInBothOrders"
+    ],
+    "GRAPH-REGISTER-INVALIDATE": [
+      "KnowKit\\Tests\\Ops\\Resilience\\InterferenceTest::testGraphRegistrationAndInvalidationSerializeInBothOrders"
+    ],
+    "UNSEEN-ROOT-TOMBSTONE": [
+      "KnowKit\\Tests\\Ops\\Resilience\\InterferenceTest::testUnseenRootRegistrationAndTombstoneSerializeInBothOrders"
+    ],
+    "LEASE-TAKEOVER-COMPLETE": [
+      "KnowKit\\Tests\\Ops\\Resilience\\JobsTest::testLeaseTakeoverRejectsOldCompletionHeartbeatCheckpointAndResume",
+      "KnowKit\\Tests\\Ops\\Resilience\\JobsTest::testCompletedJobCannotBeTakenOver"
+    ],
+    "PURGE-LATE-RESOURCE": [
+      "KnowKit\\Tests\\Ops\\Resilience\\StorageTest::testPurgeFencesLateObjectAcceptanceAndCapturesAlreadyAcceptedResource"
+    ],
+    "CACHE-HIT-REVOKE": [
+      "KnowKit\\Tests\\Ops\\Resilience\\CacheTest::testCacheHitRacesIndependentRevokeWithoutFreshBytesOrHistoricalCitationRewriting"
+    ],
+    "RESTORE-READINESS": [
+      "KnowKit\\Tests\\Ops\\Resilience\\RestoreTest::testActualBackupRestoreReplaysTombstonesBeforeReadinessAcrossKilledRunnerTwice"
+    ],
+    "KILL-BEFORE-COMMIT": [
+      "KnowKit\\Tests\\Ops\\Resilience\\CrashTest::testKillBeforeAndAfterCommitReconnectsWithoutPartialEffectsOrDuplicateEvents"
+    ],
+    "KILL-AFTER-COMMIT": [
+      "KnowKit\\Tests\\Ops\\Resilience\\CrashTest::testKillBeforeAndAfterCommitReconnectsWithoutPartialEffectsOrDuplicateEvents"
+    ],
+    "OBJECT-UNCERTAINTY": [
+      "KnowKit\\Tests\\Ops\\Resilience\\StorageTest::testObjectDurabilityBeforeAcceptanceNeedsConfirmedStoppedWriterAndDigestProof"
+    ],
+    "PROVIDER-BEFORE-EFFECT": [
+      "KnowKit\\Tests\\Ops\\Resilience\\StorageTest::testProviderCrashBeforeAndAfterEffectReplaysUnknownWithoutTransport"
+    ],
+    "PROVIDER-AFTER-EFFECT": [
+      "KnowKit\\Tests\\Ops\\Resilience\\StorageTest::testProviderCrashBeforeAndAfterEffectReplaysUnknownWithoutTransport"
+    ],
+    "DUPLICATE-OUTBOX": [
+      "KnowKit\\Tests\\Ops\\Resilience\\OutboxTest::testConcurrentDuplicateOutboxDeliveryAndConflictingReplayNeverReactivate"
+    ],
+    "TWO-INGEST": [
+      "KnowKit\\Tests\\Ops\\Resilience\\JobsTest::testTwoIndependentIngestsShareOneIdempotentJobAndOnlyOneLease"
+    ],
+    "SHARED-WRITER-RESTORE-GUARD": [
+      "KnowKit\\Tests\\Ops\\Resilience\\JobsTest::testOrdinaryWriterCannotUpgradeTenantAfterJobWhileAnotherSharedGuardIsHeld"
+    ],
+    "TWO-PUBLICATIONS": [
+      "KnowKit\\Tests\\Ops\\Resilience\\InterferenceTest::testCompetingIngestPublicationsCannotBothWinPointerCas"
+    ],
+    "RESTORE-FAIL-CLOSED": [
+      "KnowKit\\Tests\\Ops\\Resilience\\RestoreTest::testMissingJournalAndFailedCanaryRemainBlockedAfterReconnect"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Ops\\Resilience\\FixtureTest::testVersionProvenanceDigestsAndMandatoryCasesBindExecutableAssertions"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Ops\\Resilience\\FixtureTest::testRequiredCaseRunnerRejectsMissingSkippedFailedDuplicateEmptyAndUnknownChecks"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/ops/resilience/fixtures/v1/cases.json",
+      "sha256": "5a8a3daaf36d4268efd79ad9b00a1f2743ca69f0b7adbfb4f839617d27abf596",
+      "expected": "All declared outcomes must match real PostgreSQL, immutable local object and physical backup/restore assertions. No skipped case or unavailable mandatory backend is accepted."
+    }
+  ]
+}

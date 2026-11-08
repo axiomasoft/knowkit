@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "ops-resilience:1",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "Initial authored resilience corpus. Expected states follow the approved lock/lifecycle/recovery contracts, not captured response snapshots. Both serialization orders, pre/post-COMMIT SIGKILL, uncertain external effects and repeated physical metadata/blob restore are executable. Digest changes require a new fixture version and explicit behavioral rationale. Version 1.1.0 adds the deterministic shared-writer negative schedule after two-ingest exposed a late tenant lock upgrade in the recovery trigger; prior expected outcomes and content/journal digests remain unchanged.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic metadata and three ASCII bytes abc; private donor behavior adaptation recorded in evidence/P9.3-reuse.json.",
+    "redistributionAllowed": false
+  },
+  "payloadDigest": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+  "journalDigest": "254e8a80e26e496c090ba14c6ea1fa3a6d9618144c8374adf4b99d3f4998eebc",
+  "deleteMark": {
+    "tenantId": "01J00000000000000000000001",
+    "sequence": "1",
+    "sourceId": "01J00000000000000000000002",
+    "lifecycleEpoch": "1",
+    "sourcePolicyEpoch": "1",
+    "lifecycleState": "revoked",
+    "retentionHold": false,
+    "tombstone": {
+      "reason": "source_deleted",
+      "eventId": "01J00000000000000000004000",
+      "lifecycleEpoch": "1"
+    },
+    "versions": []
+  },
+  "outcomes": {
+    "PUBLISH-REVOKE-PUBLISH": {
+      "waiter": "committed",
+      "source": "revoked",
+      "epoch": "1",
+      "tombstones": 1,
+      "usable": "Deny"
+    },
+    "PUBLISH-REVOKE-REVOKE": {
+      "waiter": "rejected",
+      "source": "revoked",
+      "epoch": "1",
+      "tombstones": 1,
+      "usable": "Deny"
+    },
+    "GRAPH-INVALIDATE-GRAPH-REGISTER": {
+      "waiter": "committed",
+      "registered": true,
+      "invalidated": true,
+      "parent": "Deny"
+    },
+    "GRAPH-INVALIDATE-REVOKE": {
+      "waiter": "rejected",
+      "registered": false,
+      "invalidated": false,
+      "parent": "Deny"
+    },
+    "UNSEEN-TOMBSTONE-REGISTER": {
+      "registered": true,
+      "source": "revoked",
+      "epoch": "1",
+      "appliesTo": "future_versions",
+      "usable": "Deny"
+    },
+    "UNSEEN-TOMBSTONE-REVOKE": {
+      "registered": false,
+      "source": "absent",
+      "epoch": "1",
+      "appliesTo": "future_versions",
+      "usable": "Deny"
+    },
+    "TWO-PUBLICATIONS": {
+      "statuses": [
+        "committed",
+        "rejected"
+      ],
+      "pointerVersion": "1",
+      "receipts": 1
+    },
+    "KILL-BEFORE-COMMIT": {
+      "signal": 9,
+      "visibleAtKill": 0,
+      "epoch": "1",
+      "tombstones": 1,
+      "newEvents": 1,
+      "receipts": 1,
+      "usable": "Deny"
+    },
+    "KILL-AFTER-COMMIT": {
+      "signal": 9,
+      "visibleAtKill": 1,
+      "epoch": "1",
+      "tombstones": 1,
+      "newEvents": 1,
+      "receipts": 1,
+      "usable": "Deny"
+    },
+    "LEASE-TAKEOVER-COMPLETE": {
+      "heartbeat": false,
+      "checkpoint": false,
+      "resumed": false,
+      "completed": false
+    },
+    "COMPLETE-LEASE-TAKEOVER": {
+      "claimed": false
+    },
+    "SHARED-WRITER-RESTORE-GUARD": {
+      "statuses": ["committed", "committed"],
+      "writtenJobs": 2
+    },
+    "TWO-INGEST": {
+      "jobs": 1,
+      "receipts": 1,
+      "leases": 1,
+      "attempts": 1
+    },
+    "DUPLICATE-OUTBOX": {
+      "statuses": [
+        "applied",
+        "duplicate"
+      ],
+      "inbox": 1,
+      "sequences": 1,
+      "epoch": "1"
+    },
+    "OBJECT-UNCERTAINTY": {
+      "state": "accepted",
+      "writer": "closed",
+      "digest": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    },
+    "PURGE-LATE-RESOURCE": {
+      "source": "deletion_requested",
+      "resource": "unknown",
+      "writer": "uncertain",
+      "inventory": 1,
+      "aggregate": "unknown"
+    },
+    "RESOURCE-PURGE": {
+      "source": "deletion_requested",
+      "resource": "accepted",
+      "writer": "closed",
+      "inventory": 1,
+      "aggregate": "pending"
+    },
+    "PROVIDER-BEFORE-EFFECT": {
+      "replay": "unknown",
+      "replayedIo": 0,
+      "effects": 1,
+      "aggregate": "done"
+    },
+    "PROVIDER-AFTER-EFFECT": {
+      "replay": "unknown",
+      "replayedIo": 0,
+      "effects": 1,
+      "aggregate": "done"
+    },
+    "CACHE-HIT-REVOKE": {
+      "hits": 1,
+      "disclosure": "denied",
+      "newUsages": 0,
+      "historicalEvidence": "unchanged",
+      "freshReads": 0
+    },
+    "RESTORE-READINESS": {
+      "serving": "ready",
+      "source": "revoked",
+      "epoch": "1",
+      "tombstones": 1,
+      "receipts": 1,
+      "digest": "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
+      "disclosure": "denied"
+    },
+    "RESTORE-FAIL-CLOSED": {
+      "serving": "blocked",
+      "receipts": 0,
+      "missingJournal": "unknown",
+      "failedCanary": "unknown"
+    }
+  }
+}
