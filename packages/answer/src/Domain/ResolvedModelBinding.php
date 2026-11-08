@@ -90,4 +90,34 @@ final readonly class ResolvedModelBinding
             'bindingDigest' => $this->bindingDigest->value,
         ]);
     }
+
+    public static function fromWire(JsonObject $wire): self
+    {
+        $scope = $wire->get('scope');
+        $transport = $wire->get('transport');
+        $credential = $wire->get('credentialRef');
+        $settings = $wire->get('settings');
+
+        return new self(
+            new Scope(
+                new \KnowKit\Domain\TenantId($scope->get('tenantId')),
+                new \KnowKit\Domain\KbId($scope->get('kbId')),
+                new \KnowKit\Domain\ActorId($scope->get('actorId')),
+                $scope->get('purpose'),
+                new \KnowKit\Domain\Decimal($scope->get('policyEpoch')),
+                new Sha256($scope->get('hostScopeHash')),
+            ),
+            new ModelBindingRef($wire->get('requestedRef')),
+            $wire->get('provider'),
+            $wire->get('account'),
+            $wire->get('region'),
+            $wire->get('model'),
+            $wire->get('modelRevision'),
+            new TransportDescriptor(...iterator_to_array($transport)),
+            ModelCapabilities::fromWire($wire->get('capabilities')),
+            new \KnowKit\Domain\CredentialRef($credential->get('handle'), $credential->get('present')),
+            new GenerationSettings(...iterator_to_array($settings)),
+            new Sha256($wire->get('bindingDigest')),
+        );
+    }
 }

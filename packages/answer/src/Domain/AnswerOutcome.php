@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace KnowKit\Answer\Domain;
 
 use KnowKit\Domain\Contract\JsonObject;
+use KnowKit\Domain\Contract\ContractValidator;
+use KnowKit\Domain\CitationRef;
+use KnowKit\Domain\Sha256;
 
 /** Closed tagged union: protected payload is representable only in Answered. */
 final readonly class AnswerOutcome
@@ -80,5 +83,33 @@ final readonly class AnswerOutcome
         if ($this->sent !== null && $this->certainty !== ($this->sent ? DispatchCertainty::Sent : DispatchCertainty::KnownNotSent)) {
             throw new \InvalidArgumentException('Ambiguous cancellation is TransportUnknown');
         }
+    }
+
+    public static function fromWire(JsonObject $wire, ContractValidator $validator): self
+    {
+        $ref = $wire->get('invocationRef');
+        $code = OutcomeCode::from($wire->get('type'));
+
+        return new self(
+            $code,
+            new InvocationRef(new \KnowKit\Domain\TenantId($ref->get('tenantId')), new InvocationKey($ref->get('invocationKey'))),
+            DispatchCertainty::from($wire->get('certainty')),
+            $wire->get('observedModelRef'),
+            $wire->get('usageRef'),
+            $wire->get('fixture'),
+            $code !== OutcomeCode::Answered ? null : new AnsweredContent(
+                $wire->get('text'),
+                array_map(static fn (JsonObject $citation) => new CitationRef($citation, $validator), $wire->get('citations')),
+                new Sha256($wire->get('modelBindingDigest')),
+                new Sha256($wire->get('evidenceSetId')),
+            ),
+            match ($code) {
+                OutcomeCode::Denied => DenialReason::from($wire->get('reason')),
+                OutcomeCode::Refused => RefusalReason::from($wire->get('reason')),
+                default => null,
+            },
+            $code === OutcomeCode::Unavailable ? UnavailableComponent::from($wire->get('component')) : null,
+            $wire->get('sent'),
+        );
     }
 }

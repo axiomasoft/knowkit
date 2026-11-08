@@ -23,4 +23,9 @@ final readonly class ProfileRef
     {
         return new JsonObject(['id' => $this->id, 'revision' => $this->revision, 'digest' => $this->digest->value]);
     }
+
+    public static function fromWire(JsonObject $wire): self
+    {
+        return new self($wire->get('id'), $wire->get('revision'), new Sha256($wire->get('digest')));
+    }
 }

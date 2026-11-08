@@ -40,4 +40,22 @@ final readonly class ModelCapabilities
             'tokenizer' => $this->tokenizer?->toWire(),
         ]);
     }
+
+    public static function fromWire(JsonObject $wire): self
+    {
+        $tokenizer = $wire->get('tokenizer');
+
+        return new self(
+            new Sha256($wire->get('digest')),
+            new DateTimeImmutable($wire->get('expiresAt')),
+            $wire->get('textGeneration'),
+            $wire->get('inputTokenLimit'),
+            $wire->get('contextTokenLimit'),
+            $tokenizer === null ? null : new TokenizerIdentity(
+                new \KnowKit\Domain\AdapterId($tokenizer->get('tokenizerId')),
+                $tokenizer->get('tokenizerVersion'),
+                new Sha256($tokenizer->get('vocabularyDigest')),
+            ),
+        );
+    }
 }

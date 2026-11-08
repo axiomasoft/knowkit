@@ -8,6 +8,8 @@ use KnowKit\Domain\CitationRef;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Scope;
 use KnowKit\Domain\Sha256;
+use KnowKit\Domain\SourceId;
+use KnowKit\Domain\Contract\ContractValidator;
 
 /** Ordered immutable dependencies. No historical receipt grants current access. */
 final readonly class DependencyManifest
@@ -42,5 +44,32 @@ final readonly class DependencyManifest
             'evidence' => array_map(static fn (CitationRef $ref) => $ref->toWire(), $this->evidence),
             'history' => array_map(static fn (HistoryDependency $ref) => $ref->toWire(), $this->history),
         ]);
+    }
+
+    /** @return list<SourceId> */
+    public function sourceIds(): array
+    {
+        $sources = [];
+        foreach ($this->evidence as $citation) {
+            $id = new SourceId($citation->toWire()->get('sourceId'));
+            $sources[$id->value] = $id;
+        }
+        ksort($sources, SORT_STRING);
+
+        return array_values($sources);
+    }
+
+    public static function fromWire(JsonObject $wire, ContractValidator $validator): self
+    {
+        return new self(
+            new Sha256($wire->get('questionDigest')),
+            array_map(static fn (JsonObject $citation) => new CitationRef($citation, $validator), $wire->get('evidence')),
+            array_map(static fn (JsonObject $history) => new HistoryDependency(
+                new \KnowKit\Domain\TenantId($history->get('tenantId')),
+                $history->get('ref'),
+                $history->get('revision'),
+                new Sha256($history->get('contentDigest')),
+            ), $wire->get('history')),
+        );
     }
 }

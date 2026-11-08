@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "answer-ledger:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial immutable admission, real PostgreSQL CAS, deterministic two-connection interleaving and conservative crash-window qualification.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic questions/history/answers, no provider or customer content.",
+    "redistributionAllowed": false
+  },
+  "cases": [
+    {
+      "id": "answer-ledger:same-key-same-request",
+      "providerSends": 1,
+      "responseMaterializationAllowed": true,
+      "expected": "completed replay"
+    },
+    {
+      "id": "changed-request-conflict",
+      "providerSends": 0,
+      "responseMaterializationAllowed": false,
+      "expected": "conflict"
+    },
+    {
+      "id": "concurrent-first-binding-pin",
+      "providerSends": 0,
+      "responseMaterializationAllowed": false,
+      "expected": "winning immutable model pin"
+    },
+    {
+      "id": "changed-tutor-on-retry",
+      "providerSends": 0,
+      "responseMaterializationAllowed": false,
+      "expected": "pinned deployment denied after credential revoke"
+    },
+    {
+      "id": "crash-before-intent",
+      "providerSends": 1,
+      "responseMaterializationAllowed": true,
+      "expected": "reserved at higher fence"
+    },
+    {
+      "id": "crash-after-intent",
+      "providerSends": 0,
+      "responseMaterializationAllowed": false,
+      "expected": "terminal unknown before any send"
+    },
+    {
+      "id": "crash-after-response-before-commit",
+      "providerSends": 1,
+      "responseMaterializationAllowed": false,
+      "expected": "terminal unknown after one reply"
+    },
+    {
+      "id": "completed-replay-revoke",
+      "providerSends": 1,
+      "responseMaterializationAllowed": true,
+      "expected": "current authorization before response bytes"
+    },
+    {
+      "id": "payload-purged",
+      "providerSends": 1,
+      "responseMaterializationAllowed": false,
+      "expected": "unavailable with immutable ledger"
+    },
+    {
+      "id": "lease-fence",
+      "providerSends": 0,
+      "responseMaterializationAllowed": false,
+      "expected": "stale claim rejected"
+    }
+  ]
+}

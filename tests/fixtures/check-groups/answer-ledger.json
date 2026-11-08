@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "answer:ledger",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial ten mandatory ledger scenarios, backed by real PHPUnit cases. The runner rejects missing, skipped, failed and zero-case execution.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic ledger fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "answer-ledger:same-key-same-request",
+    "changed-request-conflict",
+    "concurrent-first-binding-pin",
+    "changed-tutor-on-retry",
+    "crash-before-intent",
+    "crash-after-intent",
+    "crash-after-response-before-commit",
+    "completed-replay-revoke",
+    "payload-purged",
+    "lease-fence"
+  ],
+  "testCaseMap": {
+    "answer-ledger:same-key-same-request": [
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testSameKeySameRequestReplaysOneCommittedResponseWithoutAnotherSend",
+      "KnowKit\\Tests\\Answer\\Ledger\\PersistenceTest::testPinnedBindingRoundTripsExactTokenizerSettingsAndNoSendCompletion"
+    ],
+    "changed-request-conflict": [
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testChangedOriginalBodyActorAudienceHistoryProfileAndLimitsConflict",
+      "KnowKit\\Tests\\Answer\\Ledger\\PersistenceTest::testConcurrentDifferentBodyCannotAdoptWinningAdmission"
+    ],
+    "concurrent-first-binding-pin": [
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testConcurrentFirstAdmissionsPinOnlyWinningBindingAcrossTwoConnections",
+      "KnowKit\\Tests\\Answer\\Ledger\\FixtureTest::testVersionedFixturesAndPinnedReuseReceipt"
+    ],
+    "changed-tutor-on-retry": [
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testChangedTutorAndCredentialHandlesOnRetryNeverResolveMutableBinding"
+    ],
+    "crash-before-intent": [
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testCrashBeforeIntentResumesKnownNotSentWithFreshPolicyAndHigherFence",
+      "KnowKit\\Tests\\Answer\\Ledger\\PersistenceTest::testPendingResourceReservationAndRetentionExistBeforePayloadIo",
+      "KnowKit\\Tests\\Answer\\Ledger\\PersistenceTest::testPreparingRecoveryRequiresFreshPolicyAndCannotBorrowAnotherTenantClaim"
+    ],
+    "crash-after-intent": [
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testCrashAfterIntentWithoutAnyDispatchBecomesUnknownAndNeverResends",
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testExactOutboundIdentityAndManagedPayloadCustodyNeverPersistProtectedPlaintextInSql",
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testPostIntentRevocationAndEgressDenialCompleteKnownNotSentWithZeroDispatch",
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testTransportExceptionOrUnknownResultNeverRetriesOrPublishesPartialBytes",
+      "KnowKit\\Tests\\Answer\\Ledger\\PersistenceTest::testFreshGuardIsLastExternalCallBeforeTransportAndNoTransactionSurroundsSend"
+    ],
+    "crash-after-response-before-commit": [
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testCrashAfterProviderReplyBeforeDurableCompletionDoesNotGenerateAgain"
+    ],
+    "completed-replay-revoke": [
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testCompletedReplayChecksCurrentHistoryEgressAudienceAndSourceBeforePayloadRead",
+      "KnowKit\\Tests\\Answer\\Ledger\\PersistenceTest::testRevocationDuringResponseMaterializationPreventsDisclosureWithoutChangingCompletion"
+    ],
+    "payload-purged": [
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testPurgedOrExpiredPayloadIsUnavailableWithoutResendOrResurrection"
+    ],
+    "lease-fence": [
+      "KnowKit\\Tests\\Answer\\Ledger\\LedgerTest::testLeaseVersionOwnerAndFenceRejectStaleOrForeignWorkAndSqlRewind",
+      "KnowKit\\Tests\\Answer\\Ledger\\FixtureTest::testManifestRejectsMissingSkippedFailedDuplicateAndZeroCases",
+      "KnowKit\\Tests\\Answer\\Ledger\\PersistenceTest::testSqlRejectsRewritingReservedBytesPinsAndManagedDependencyMetadata",
+      "KnowKit\\Tests\\Answer\\Ledger\\PersistenceTest::testOptionalMigrationIsExplicitIdempotentAndRejectsChangedChecksum"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/answer/ledger/v1/cases.json",
+      "sha256": "adff75a7e3f03bc5c394345528fce8b7fb561abf863def3c1a4546871535a883",
+      "expected": "Immutable admission, one winning binding across two PostgreSQL connections, crash-before-intent recovery, terminal uncertainty, fresh authorized replay, managed payload purge and lease/version/fence rejection."
+    }
+  ]
+}

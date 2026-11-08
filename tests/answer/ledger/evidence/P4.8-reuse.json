@@ -1,0 +1,115 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.8",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-core/src/Models/ModelTransport.php",
+      "sha256": "2070d302d0e39facb0a362f2444455d6754d56470d8ef425cf395824704e9844",
+      "observedSha256": "2070d302d0e39facb0a362f2444455d6754d56470d8ef425cf395824704e9844",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Models/ModelTransport.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Keep an explicit single exchange and host transport boundary; no production HTTP client is inferred.",
+      "qualificationRef": "tests/answer/ledger/LedgerTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "packages/answer/migrations/postgres/001_answer_invocations.sql",
+        "tests/answer/ledger"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-core/src/Runtime/InvocationJournal.php",
+      "sha256": "e9db6652c7ebc58a1a4f5b06f5d2efd77954213d805d6877c8b965fd6f559475",
+      "observedSha256": "e9db6652c7ebc58a1a4f5b06f5d2efd77954213d805d6877c8b965fd6f559475",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Runtime/InvocationJournal.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt immutable intent, current claim/version/fence checks and durable result boundaries into the approved direct-answer SQL ledger, without a second Agentools journal or runtime.",
+      "qualificationRef": "tests/answer/ledger/LedgerTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "packages/answer/migrations/postgres/001_answer_invocations.sql",
+        "tests/answer/ledger"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "observedSha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextComposition.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt immutable deployment pins and saved response materialization under current authorization. Do not copy Chatom persistence or AdvanceRun.",
+      "qualificationRef": "tests/answer/ledger/LedgerTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "packages/answer/migrations/postgres/001_answer_invocations.sql",
+        "tests/answer/ledger"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/runtime/coordination/journal.py",
+      "sha256": "1e252727fb2f5adb314d90826468f433611713537185dce573a6a459e6c3526f",
+      "observedSha256": "1e252727fb2f5adb314d90826468f433611713537185dce573a6a459e6c3526f",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/coordination/journal.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "Live-first event buffering and merged stream replay do not establish durable pre-dispatch intent or no-resend. No event loop or transcript journal is copied.",
+      "qualificationRef": "tests/answer/ledger/LedgerTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "packages/answer/migrations/postgres/001_answer_invocations.sql",
+        "tests/answer/ledger"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/embedding/adapters/openai_compatible.py",
+      "sha256": "34f84c680a4798500f252cc6b7b6ce00fad3aeae42ed6fdeadc7b4fec4452be0",
+      "observedSha256": "34f84c680a4798500f252cc6b7b6ce00fad3aeae42ed6fdeadc7b4fec4452be0",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/embedding/adapters/openai_compatible.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "Embedding heuristics, retry/fallback and credential rotation cannot satisfy pinned single chat dispatch.",
+      "qualificationRef": "tests/answer/ledger/LedgerTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "packages/answer/migrations/postgres/001_answer_invocations.sql",
+        "tests/answer/ledger"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/runtime/coordination/test_journal_recovery.py",
+      "sha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "observedSha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_journal_recovery.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt lost worker, rechecked lease, wrong-owner and terminal-transition tests; replace retryable recovery with terminal unknown and literal no-resend.",
+      "qualificationRef": "tests/answer/ledger/LedgerTest.php",
+      "targetPaths": [
+        "packages/answer/src",
+        "packages/answer/migrations/postgres/001_answer_invocations.sql",
+        "tests/answer/ledger"
+      ]
+    }
+  ],
+  "newCodeRationale": "The donors do not implement KnowKit immutable original-request admission, answer hash domain or managed ResourceLedger payload custody. Reuse core JCS, Scope, CitationRef, PdoCatalogTransaction, PdoResourceLedger, Upload and BlobStore; add the approved optional tenant-scoped direct-answer SQL adaptation and narrow host authorization seams.",
+  "sourceGaps": [
+    "A configured host must implement authoritative current source/history/lifecycle/audience/egress and pinned credential policy checks through InvocationAuthorization; historical receipt metadata never grants access.",
+    "Provider transport and budget settlement implementations remain with their designated ports/milestones. This item adds no network probe, provider fallback, automatic reconciliation or retry.",
+    "Cross-source/history deletion planning uses the immutable payload dependency manifests; physical owned payload retention/deletion obligations are tracked in core ResourceLedger."
+  ],
+  "handoff": "Executor writes only this product receipt. Coordinator mirrors it to @plan/artifacts/implementation/P4.8-reuse.json; plan mutation is forbidden for this run."
+}
