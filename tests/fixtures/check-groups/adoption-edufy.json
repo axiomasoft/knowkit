@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "adoption:edufy",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "First synthetic typed host corpus. Every required ID maps to actual PHPUnit methods. Existing QA runner validates JUnit execution and rejects missing, skipped, failed, duplicate and zero cases.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic text, bindings and authority state; no Edufy data.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "edufy:eligibility-override",
+    "additive-with-deny",
+    "age-topic-scope",
+    "current-passage-revision",
+    "teacher-only-deny",
+    "class-consent-revoke",
+    "model-change-newkey",
+    "lesson-vs-tutor-binding",
+    "non-school-profile",
+    "cross-project-leakage"
+  ],
+  "testCaseMap": {
+    "edufy:eligibility-override": [
+      "KnowKit\\Tests\\Adoption\\Edufy\\EligibilityTest::testOverrideRemovesDefaultBeforeTopKAndBroadReadCannotReintroduceIt"
+    ],
+    "additive-with-deny": [
+      "KnowKit\\Tests\\Adoption\\Edufy\\EligibilityTest::testAdditiveKeepsOrderButDenySurvivesLaterAdditionAndOverride"
+    ],
+    "age-topic-scope": [
+      "KnowKit\\Tests\\Adoption\\Edufy\\EligibilityTest::testAgeTopicAndScopeAreEligibilityNotRankingHints",
+      "KnowKit\\Tests\\Adoption\\Edufy\\EligibilityTest::testFullHostHashBindsEveryInputAndRevisionAndPreservesNativeHash"
+    ],
+    "current-passage-revision": [
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testCurrentPassageRequiresExactRevisionHashAndAllUnavailableVariantsDeny"
+    ],
+    "teacher-only-deny": [
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testTeacherOnlyIsExcludedForStudentButUsesSameCoreForTeacher"
+    ],
+    "class-consent-revoke": [
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testClassConsentAndUnknownPolicyRevokeBeforeSendAndCompletedReplay",
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testQuestionHistoryAndProcessingDenialsSendNoBytes",
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testSourceRevokeAndConsentRevokeAfterProviderBeforeReplyNeverPublish",
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testSourceRevokeAfterDurableSendingMarkStopsDispatch",
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testSavedAnswerDoesNotGrantPublicationHistoryOrNewAudience",
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testReplyOwnerRejectsAlteredCheckedBodyAndRevokeAtMutationBoundary"
+    ],
+    "model-change-newkey": [
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testModelChangeAffectsOnlyNewKeyAndLostAckUsesExactSavedReply",
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testPartialReplyAndOutOfOrderWorkerCannotRegenerate"
+    ],
+    "lesson-vs-tutor-binding": [
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testLessonConversationAndTutorModelAreSeparateBindings"
+    ],
+    "non-school-profile": [
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testNonSchoolProfileUsesIdenticalCoreWithoutSchoolState"
+    ],
+    "cross-project-leakage": [
+      "KnowKit\\Tests\\Adoption\\Edufy\\HostFlowTest::testCrossProjectSameIdsCannotLeakSelectionCitationUsageOrAnswer",
+      "KnowKit\\Tests\\Adoption\\Edufy\\FixtureTest::testVersionedFixturesAndPinnedReuse",
+      "KnowKit\\Tests\\Adoption\\Edufy\\FixtureTest::testRequiredRunnerRejectsMissingSkippedFailedDuplicateAndZeroCases"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/adoption/edufy/v1/cases.json",
+      "sha256": "b4f757bd1ba8eb65be0ca4d44fa3ff0577a493f7b1a4944715034e951b881c14",
+      "expected": "Typed host eligibility before top-k; immutable source/version/IR/span citations; fresh audience/consent/passage/publication and all-content egress; at most one scripted dispatch per admitted key."
+    },
+    {
+      "path": "tests/fixtures/adoption/edufy/v1/profiles.json",
+      "sha256": "7c80f22e23014cbdd2e3f17fd0d1db414e8a9dd2f4e575c4e3b2c6a867b5feb7",
+      "expected": "Typed host eligibility before top-k; immutable source/version/IR/span citations; fresh audience/consent/passage/publication and all-content egress; at most one scripted dispatch per admitted key."
+    },
+    {
+      "path": "tests/fixtures/adoption/edufy/v1/student.txt",
+      "sha256": "7436d91ab954ce8d4608820f28c37e69821b866f1624a09683f3c96bf1b8428c",
+      "expected": "Typed host eligibility before top-k; immutable source/version/IR/span citations; fresh audience/consent/passage/publication and all-content egress; at most one scripted dispatch per admitted key."
+    },
+    {
+      "path": "tests/fixtures/adoption/edufy/v1/teacher.txt",
+      "sha256": "489a8ff011aa5f40c1b1aa3f12f5098ba82ba92e4de7921bfd8945d1ce708ddf",
+      "expected": "Typed host eligibility before top-k; immutable source/version/IR/span citations; fresh audience/consent/passage/publication and all-content egress; at most one scripted dispatch per admitted key."
+    }
+  ]
+}

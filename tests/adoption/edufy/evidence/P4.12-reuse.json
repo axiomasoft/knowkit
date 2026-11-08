@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.12",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextComposition.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt separate trusted context/binding and immutable saved-response publication checks; reuse KnowKit answer ledger, never copy the Agentools journal, runtime or delivery persistence.",
+      "qualificationRef": "tests/adoption/edufy/HostFlowTest.php",
+      "observedSha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97"
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/learning/lesson_evidence.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "c65367ee1da592ca6b0690379a86bf6b58d4fb9518346d1a7200c12c98dc5969",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/learning/lesson_evidence.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "Inspected source-bound lesson and page identity, bounded context and repair paths. Page identity is weaker than immutable KnowKit source/version/IR/span identity; model suitability and recovery/repair calls cannot implement current Content authority. Reuse existing canonical KnowKit disclosure instead; no Python or donor code copied.",
+      "qualificationRef": "tests/adoption/edufy/HostFlowTest.php",
+      "observedSha256": "c65367ee1da592ca6b0690379a86bf6b58d4fb9518346d1a7200c12c98dc5969"
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/book/test_source_partitioning.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "cf9b65319ceebd5b46f3ba22722b938cdf44cfe3f4de036c35d0e825414c5057",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/book/test_source_partitioning.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt source partition and top-k crowding negative scenarios. Replace unreachable/searchable ranking with mandatory host eligibility and deny intersection; reject donor treatment of unresolvable refs as searchable authority. No literal code copied.",
+      "qualificationRef": "tests/adoption/edufy/EligibilityTest.php",
+      "observedSha256": "cf9b65319ceebd5b46f3ba22722b938cdf44cfe3f4de036c35d0e825414c5057"
+    }
+  ],
+  "localReuse": [
+    "examples/plain-php/Runtime.php",
+    "examples/plain-php/Host.php",
+    "examples/plain-php/Walkthrough.php",
+    "examples/plain-php/Storage.php",
+    "packages/core/src/Application/Retrieval/Selection/Selections.php",
+    "packages/core/src/Application/Retrieval/Disclosure/Disclosures.php",
+    "packages/answer/src/Application/GroundedAnswerService.php",
+    "packages/answer/src/Adapter/PostgresInvocationLedger.php",
+    "packages/answer/src/Adapter/PostgresInvocationPayloads.php",
+    "packages/answer/src/Testing/ScriptedTransport.php",
+    "tools/qa.php"
+  ],
+  "newCodeRationale": "Thin example-only typed ContentStudio/AiCore/Tutor/Lesson fakes and host composition. Existing core imports/publishes/retrieves/discloses canonical text with PostgreSQL fencing/usage; existing answer package owns immutable admissions, model pins, payloads, egress and one dispatch. New code maps host eligibility and current host authority without adding core business types or a runtime/persistence implementation.",
+  "sourceGaps": [
+    "Library/Files immutable originals, processing rights and Content/Files ownership callback are not accepted APIs; no grant or upload capability is invented.",
+    "Synthetic current owner state, test DB and ScriptedTransport do not qualify installed Edufy/Chatom/Laravel or a live provider.",
+    "Distributed host owner checks and external dispatch/publication cannot be globally atomic; current revisions/times bind receipts, and this fixture assumes local synchronous owner state."
+  ],
+  "handoff": "Product receipt only. Coordinator mirrors to @plan/artifacts/implementation/P4.12-reuse.json; executor does not mutate plan state."
+}

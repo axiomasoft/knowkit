@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "adoption-edufy:1",
+  "fixtureVersion": "1.0.0",
+  "fixture": true,
+  "qualification": "HOST QUALIFICATION PENDING",
+  "cases": [
+    "edufy:eligibility-override",
+    "additive-with-deny",
+    "age-topic-scope",
+    "current-passage-revision",
+    "teacher-only-deny",
+    "class-consent-revoke",
+    "model-change-newkey",
+    "lesson-vs-tutor-binding",
+    "non-school-profile",
+    "cross-project-leakage"
+  ],
+  "passageDenyStatuses": [
+    "empty",
+    "missing",
+    "unpublished",
+    "withdrawn",
+    "stale",
+    "denied",
+    "unavailable",
+    "unknown"
+  ],
+  "transport": "scripted",
+  "route": "caller_managed",
+  "publicationSlot": "final.v1",
+  "hostQualificationPending": [
+    "Library/Files immutable original file/version/hash",
+    "processing purpose/region/time rights",
+    "Content-to-Files callback/binding",
+    "current owner HTTP and tenant/account mapping",
+    "source visibility and installed package pins",
+    "PHP8.5/Laravel13.8 and PostgreSQL16 host lane"
+  ]
+}

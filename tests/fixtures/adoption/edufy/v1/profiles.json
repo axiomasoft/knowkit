@@ -1,0 +1,9 @@
+{
+  "fixtureVersion": "1.0.0",
+  "fixture": true,
+  "profiles": {
+    "schoolA": {"tenant": "schoolA", "subject": "learner:1", "learner": "learner:1", "class": "class:1", "lesson": "lesson:1", "topic": "topic:1", "consent": "consent:schoolA:1", "dataScopes": ["class:1"], "purpose": "lesson.read"},
+    "schoolB": {"tenant": "schoolB", "subject": "learner:1", "learner": "learner:1", "class": "class:1", "lesson": "lesson:1", "topic": "topic:1", "consent": "consent:schoolB:1", "dataScopes": ["class:1"], "purpose": "lesson.read"},
+    "workplace": {"tenant": "companyA", "subject": "employee:1", "learner": null, "class": null, "lesson": null, "topic": "handbook:1", "consent": "processing:internal:1", "dataScopes": ["team:1"], "purpose": "handbook.read"}
+  }
+}
