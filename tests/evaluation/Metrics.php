@@ -16,8 +16,13 @@ final class Metrics
         $seen = [];
         $sources = [];
         $dcg = 0.0;
-        $valid = $utf8 = $tenantLeaks = $denied = $unavailable = $hardNegatives = 0;
-        foreach (array_slice($actual['fragments'], 0, 10) as $rank => $fragment) {
+        $valid = 0;
+        $utf8 = 0;
+        $tenantLeaks = 0;
+        $denied = 0;
+        $unavailable = 0;
+        $hardNegatives = 0;
+        foreach ($actual['fragments'] as $rank => $fragment) {
             $citation = $fragment['citation'];
             unset($citation['citationId']);
             $match = self::match($citation, $fragment['text'], $case['relevant']);
@@ -30,7 +35,7 @@ final class Metrics
             $denied += (in_array($case['scenario'], ['denied', 'unknown'], true)
                 || ($name !== null && !in_array($name, $case['securityFixture']['allowed'], true))) ? 1 : 0;
             $unavailable += $case['scenario'] === 'missing-object' ? 1 : 0;
-            if ($match === null) {
+            if ($rank >= 10 || $match === null) {
                 continue;
             }
             $gold = $case['relevant'][$match];
