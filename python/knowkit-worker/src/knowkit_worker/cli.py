@@ -38,6 +38,7 @@ def run_job(path: str, profiles: dict, contracts: Contracts) -> None:
         raise Refusal("incomplete_result")
     ir_bytes = canonical(ir)
     result = envelope.result(ir, ir_bytes)
+    result["diagnostics"] = ir["coverage"]["diagnostics"]
     paths = {"ir.json", "result.json"}
     for asset in parsed.assets:
         if not relative_path(asset.relative_path) or asset.relative_path in paths:
@@ -88,7 +89,8 @@ def main(argv: list[str] | None = None, *, profiles: dict | None = None) -> int:
         print(canonical({"schemaVersion": "worker-capabilities-1.0", "transport": "subprocess",
                          "jobSchema": "job-envelope-1.0", "resultSchema": "worker-result-1.0",
                          "profiles": [{"id": p.id, "parserSignature": p.signature,
-                                       "qualified": False, "pdf": False, "ocr": False}
+                                       "qualified": p.parse is not None, "pdf": "parser.text" in p.capabilities,
+                                       "ocr": False}
                                       for p in PROFILES.values()]}).decode())
         return 0
     signal.signal(signal.SIGTERM, _cancel)

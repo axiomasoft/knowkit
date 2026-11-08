@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P6.3",
+  "sources": [
+    {
+      "repo": "deeptutor",
+      "path": "deeptutor/services/parsing/engines/docling/engine.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "2503fbdceba65e83efcead84c199f62f6375d3704074b211ed036e482e0549d7",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/engine.py",
+      "decision": "dependency",
+      "reason": "Use pinned Docling dependency; replace Markdown-only export with native IR mapping.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0",
+      "targetPaths": [
+        "python/knowkit-worker/src/knowkit_worker/parsers/pdf",
+        "python/knowkit-worker/src/knowkit_worker/rendering",
+        "python/knowkit-worker/tests/pdf"
+      ]
+    },
+    {
+      "repo": "deeptutor",
+      "path": "deeptutor/services/parsing/engines/docling/local_worker.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "c8db5930951f39ff4fde2251efcf6196fa1de166f13e3fa42cddb6894ce55c80",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/local_worker.py",
+      "decision": "adapt",
+      "reason": "Adapt explicit readiness/options; reject catch-and-default fallback (DT-I04).",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0",
+      "targetPaths": [
+        "python/knowkit-worker/src/knowkit_worker/parsers/pdf",
+        "python/knowkit-worker/src/knowkit_worker/rendering",
+        "python/knowkit-worker/tests/pdf"
+      ]
+    },
+    {
+      "repo": "deeptutor",
+      "path": "deeptutor/services/rag/source_visuals.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "d09dffee95171ad3b908b88aa69f72e13a503f005cb2a8a27cef994d75912a87",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/source_visuals.py",
+      "decision": "adapt",
+      "reason": "Adapt source-digest check and bounded page render; replace latest-path access with full immutable revision.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0",
+      "targetPaths": [
+        "python/knowkit-worker/src/knowkit_worker/parsers/pdf",
+        "python/knowkit-worker/src/knowkit_worker/rendering",
+        "python/knowkit-worker/tests/pdf"
+      ]
+    },
+    {
+      "repo": "deeptutor",
+      "path": "deeptutor/services/rag/visual_coverage.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "eb82ecd1d945490558dbeddfc8e324160eea0cf979f9813f4b6e4d604da2217f",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/visual_coverage.py",
+      "decision": "adapt",
+      "reason": "Adapt distinct unknown visual coverage; zero extracted images never proves absent visuals.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0",
+      "targetPaths": [
+        "python/knowkit-worker/src/knowkit_worker/parsers/pdf",
+        "python/knowkit-worker/src/knowkit_worker/rendering",
+        "python/knowkit-worker/tests/pdf"
+      ]
+    },
+    {
+      "repo": "deeptutor",
+      "path": "tests/services/parsing/test_mineru_slicer.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "72434ad51012a3b58a175c4bf4e0d344da59ed23f4e2a89453a155f2721aa295",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/parsing/test_mineru_slicer.py",
+      "decision": "adapt",
+      "reason": "Adapt physical-page rebasing regression; MinerU is not selected or imported.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0",
+      "targetPaths": [
+        "python/knowkit-worker/src/knowkit_worker/parsers/pdf",
+        "python/knowkit-worker/src/knowkit_worker/rendering",
+        "python/knowkit-worker/tests/pdf"
+      ]
+    },
+    {
+      "repo": "deeptutor",
+      "path": "tests/services/rag/test_source_visual_grounding.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "956bc835755dc872f3137a16398fe654716a98155a80d1f946d2719589ce5a53",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/test_source_visual_grounding.py",
+      "decision": "adapt",
+      "reason": "Adapt exact source identity, vector/image coverage and resource-bound regressions using real Docling/PDFium.",
+      "sourceRead": true,
+      "hashVerified": true,
+      "license": "Apache-2.0",
+      "targetPaths": [
+        "python/knowkit-worker/src/knowkit_worker/parsers/pdf",
+        "python/knowkit-worker/src/knowkit_worker/rendering",
+        "python/knowkit-worker/tests/pdf"
+      ]
+    }
+  ],
+  "newGlueReason": "Donor exports Markdown only, has no KnowKit IR locators/bbox quantization, code/weights qualification, immutable revision render binding, or fail-closed effective profile. New glue supplies those exact contracts without rewriting parsing/rendering engines.",
+  "notices": [
+    "python/knowkit-worker/third_party/DeepTutor-LICENSE"
+  ],
+  "limits": [
+    "Donor source/test inspection only, not an upstream suite pass. No MinerU/PyMuPDF/OCR capability claimed."
+  ],
+  "planMirror": "Coordinator-owned: native plan mutation forbidden in this execution.",
+  "qualification": "licenses/qualifications/pdf.json",
+  "independentEvidence": [
+    "python/knowkit-worker/.local-checks/pdf-extraction.txt",
+    "python/knowkit-worker/.local-checks/pdf-boundaries-final.txt",
+    "python/knowkit-worker/.local-checks/pdf-php-final.txt",
+    "python/knowkit-worker/.local-checks/pdf-supervisor-home.txt",
+    "python/knowkit-worker/.local-checks/pdf-coverage-final.txt",
+    "python/knowkit-worker/.local-checks/pdf-rotated-final.txt",
+    "python/knowkit-worker/.local-checks/pdf-runtime-inventory-final.txt",
+    "python/knowkit-worker/.local-checks/pdf-fixtures-complete.txt",
+    "python/knowkit-worker/.local-checks/pdf-mixed-coverage.txt",
+    "python/knowkit-worker/.local-checks/pdf-phpstan-workspace.txt"
+  ],
+  "integrationChanges": [
+    "packages/core/src/Adapter/ProcessWorker/SandboxRuntime.php: trusted runtime inventory is distinct from job-output inventory; bounded at 4 GiB and 65536 entries with negative path/link/size regressions.",
+    "tests/fixtures/check-groups/worker-protocol.json: update only component workerLock digest for the qualified CPU dependency closure; original protocol fixture bytes retained."
+  ],
+  "acceptance": "V1 withheld and not run by executor; coordinator owns final-tree acceptance and native review receipt."
+}

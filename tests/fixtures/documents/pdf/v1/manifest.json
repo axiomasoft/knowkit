@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "knowkit-pdf-fixtures-1.0",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial real PDF corpus: independent semantic assertions require column-major layout over interleaved operators, explicit rotated/table incompleteness, xii/Unicode byte spans and distinct blank/vector/raster coverage. Digests pin the exact qualified CPU runtime; changing them requires a fixture version and a semantic rationale. Before initial acceptance, PHP semantic validation corrected visual-only empty/skipped text statuses; no previous published digest is replaced. Page previews are ordered within their physical page before later-page text in this initial version.",
+  "license": "LicenseRef-KnowKit-Private",
+  "provenance": "Project-authored deterministic ReportLab PDF 1.3/1.4 files; no external document corpus. Embedded DejaVu and Droid subsets retain notices alongside the corpus. Host font files are build inputs, never runtime dependencies.",
+  "expected": {
+    "two-columns": {
+      "irDigest": "74f7da3995c0f07d12d5be769ee821ae0b0e22f2dc3a0d82d56ca99d12d3b1df",
+      "coverage": {
+        "state": "complete",
+        "counts": {
+          "expected": 1,
+          "processed": 1,
+          "empty": 0,
+          "failed": 0,
+          "skipped": 0
+        },
+        "missingFeatures": [],
+        "diagnostics": []
+      },
+      "pageTextDigests": [
+        "dd46d480d647ef6902a7d7ce1c20dccd4ba277fc1265d9bb7fb29e181a03021e"
+      ],
+      "assetDigests": []
+    },
+    "coverage": {
+      "irDigest": "0b1809814dea47f4906bf62f03229aa89870508994ff3b1a49e2502b0bf08419",
+      "coverage": {
+        "counts": {
+          "empty": 2,
+          "expected": 3,
+          "failed": 0,
+          "processed": 2,
+          "skipped": 1
+        },
+        "diagnostics": [
+          {
+            "code": "blank_page",
+            "severity": "info"
+          },
+          {
+            "code": "vector_only_page",
+            "severity": "info"
+          },
+          {
+            "code": "image_only_ocr_unknown",
+            "severity": "warning"
+          }
+        ],
+        "missingFeatures": [
+          "ocr"
+        ],
+        "state": "partial"
+      },
+      "pageTextDigests": [
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      ],
+      "assetDigests": [
+        "8526b049b448b5daffe2df94f4d4ee6fed2c1ee628880e2815f341b06a76d192",
+        "1bb63bd5daafd36afc1d49605eab8eefa6c3a34b1ab163665ca8d40de945ddc0"
+      ]
+    },
+    "unicode-label": {
+      "irDigest": "b5ec789ef3e95f4de083c33b9042a0a767bde12ad47cf1c9e2ebf3d3cd85008c",
+      "coverage": {
+        "state": "complete",
+        "counts": {
+          "expected": 1,
+          "processed": 1,
+          "empty": 0,
+          "failed": 0,
+          "skipped": 0
+        },
+        "missingFeatures": [],
+        "diagnostics": []
+      },
+      "pageTextDigests": [
+        "3aeadfa584dc1b3c81818d8f4efeb8374d0e86cb3d39bdbc8d34cbadf90d3ee4"
+      ],
+      "assetDigests": []
+    },
+    "rotated-table": {
+      "irDigest": "8b076f3283a66d468bc54a3a8906abb159958d00cf8ac6f8fffb70f0f0b94c2d",
+      "coverage": {
+        "state": "partial",
+        "counts": {
+          "expected": 2,
+          "processed": 2,
+          "empty": 0,
+          "failed": 0,
+          "skipped": 0
+        },
+        "missingFeatures": [
+          "rotated_reading_order",
+          "table_structure"
+        ],
+        "diagnostics": [
+          {
+            "code": "rotated_reading_order_incomplete",
+            "severity": "warning"
+          }
+        ]
+      },
+      "pageTextDigests": [
+        "72478e571b07fe3d362ef9b7fa7b45ef155570883a1b2f547da131d88f2bac53",
+        "cc45cf4a71f2c2016af49575491e3212d9a3778ffd847db7c8c1be6f09cb67df"
+      ],
+      "assetDigests": [
+        "0b36bb31ed77c3f00ff341f1e375096ef43063fee1b9d1ae240e92925b1c7628"
+      ]
+    }
+  },
+  "render": {
+    "unicode-label-page-1": "3fb91805da472ce5e399102bc38aab68c9f7e9f0e8a615ccbb5f0f2c87d1ccf1"
+  }
+}

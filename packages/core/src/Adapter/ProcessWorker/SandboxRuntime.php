@@ -42,19 +42,55 @@ final readonly class SandboxRuntime
             || empty($bom['files']['seccomp.bpf']) || empty($bom['files']['runtime/bin/knowkit-worker'])) {
             throw new DomainFailure(Outcome::Unavailable, 'sandbox_unavailable');
         }
+        $inventory = $this->runtimeInventory();
         foreach ($bom['files'] as $relative => $digest) {
             $path = $this->runtimeRoot . '/' . $relative;
             if (!is_string($relative) || !is_string($digest) || preg_match('/^[a-f0-9]{64}$/D', $digest) !== 1
-                || !WorkerFiles::relative($relative) || is_link($path) || !is_file($path)
+                || !self::runtimePath($relative) || is_link($path) || !is_file($path)
                 || !hash_equals($digest, hash_file('sha256', $path))) {
                 throw new DomainFailure(Outcome::Unavailable, 'sandbox_unavailable');
             }
         }
-        $inventory = WorkerFiles::inventory($this->runtimeRoot, 1073741824);
         unset($inventory['bom.json']);
         if (array_diff(array_keys($inventory), array_keys($bom['files'])) !== []) {
             throw new DomainFailure(Outcome::Unavailable, 'sandbox_unavailable');
         }
+    }
+
+    private static function runtimePath(string $path): bool
+    {
+        return strlen($path) <= 1024
+            && preg_match('~\A[ A-Za-z0-9_.+()\[\]-]{1,128}(/[ A-Za-z0-9_.+()\[\]-]{1,128}){0,31}\z~D', $path) === 1
+            && array_intersect(explode('/', $path), ['.', '..']) === [];
+    }
+
+    /** @return array<string, int> */
+    private function runtimeInventory(): array
+    {
+        $files = [];
+        $bytes = 0;
+        $count = 0;
+        $entries = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($this->runtimeRoot, \FilesystemIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::SELF_FIRST,
+        );
+        foreach ($entries as $entry) {
+            if (++$count > 65536 || $entry->isLink()) {
+                throw new DomainFailure(Outcome::Unavailable, 'sandbox_unavailable');
+            }
+            if ($entry->isDir()) {
+                continue;
+            }
+            $relative = substr($entry->getPathname(), strlen($this->runtimeRoot) + 1);
+            $stat = lstat($entry->getPathname());
+            $bytes += $stat['size'];
+            if (!self::runtimePath($relative) || ($stat['mode'] & 0170000) !== 0100000
+                || $stat['nlink'] !== 1 || $bytes > 4294967296) {
+                throw new DomainFailure(Outcome::Unavailable, 'sandbox_unavailable');
+            }
+            $files[$relative] = $stat['size'];
+        }
+        return $files;
     }
 
     /** @return list<string> */

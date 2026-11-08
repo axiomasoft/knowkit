@@ -1,0 +1,203 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "worker:pdf",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial real PDF corpus: independent semantic assertions require column-major layout over interleaved operators, explicit rotated/table incompleteness, xii/Unicode byte spans and distinct blank/vector/raster coverage. Digests pin the exact qualified CPU runtime; changing them requires a fixture version and a semantic rationale. Before initial acceptance, PHP semantic validation corrected visual-only empty/skipped text statuses; no previous published digest is replaced. Page previews are ordered within their physical page before later-page text in this initial version.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private; DejaVu and Droid font notices",
+    "origin": "Project-authored real PDF corpus; font license notices and source provenance in v1/manifest.json."
+  },
+  "requiredCaseIds": [
+    "TWO-COLUMNS",
+    "ROTATED-PAGE",
+    "BLANK-PAGE",
+    "IMAGE-ONLY-PAGE",
+    "PRINTED-XII",
+    "EMBEDDED-FONTS-CYRILLIC-CJK",
+    "MALICIOUS-PDF",
+    "HUGE-GEOMETRY",
+    "EXACT-REVISION-RENDER",
+    "CODE-WEIGHTS-QUALIFICATION",
+    "R13-A01",
+    "R13-A02",
+    "R13-A03",
+    "DT-I04",
+    "GEOMETRY-HALF-EVEN",
+    "INDEPENDENT-PHP-IR",
+    "REQUIRED-CASES-FAIL-CLOSED",
+    "REAL-SUPERVISOR-PDF",
+    "DECODED-IMAGE-LIMIT",
+    "BOUNDED-ASSET-OUTPUT",
+    "MIXED-TEXT-RASTER"
+  ],
+  "testCaseMap": {
+    "TWO-COLUMNS": [
+      "tests.pdf.test_extraction::test_two_columns_follow_layout_not_operator_order"
+    ],
+    "ROTATED-PAGE": [
+      "tests.pdf.test_extraction::test_rotated_columns_and_cross_page_table_are_explicitly_incomplete"
+    ],
+    "BLANK-PAGE": [
+      "tests.pdf.test_extraction::test_blank_illustration_scan_are_distinct_without_dummy_text"
+    ],
+    "IMAGE-ONLY-PAGE": [
+      "tests.pdf.test_extraction::test_blank_illustration_scan_are_distinct_without_dummy_text"
+    ],
+    "PRINTED-XII": [
+      "tests.pdf.test_extraction::test_embedded_fonts_unicode_and_printed_xii"
+    ],
+    "EMBEDDED-FONTS-CYRILLIC-CJK": [
+      "tests.pdf.test_extraction::test_embedded_fonts_unicode_and_printed_xii"
+    ],
+    "MALICIOUS-PDF": [
+      "tests.pdf.test_boundaries::test_malicious_and_malformed_pdf_fail_closed"
+    ],
+    "HUGE-GEOMETRY": [
+      "tests.pdf.test_boundaries::test_huge_geometry_and_render_scale_are_bounded_before_allocation"
+    ],
+    "EXACT-REVISION-RENDER": [
+      "tests.pdf.test_extraction::test_render_keeps_exact_revision_and_bounded_png",
+      "tests.pdf.test_boundaries::test_render_refuses_foreign_changed_historical_and_wrong_page"
+    ],
+    "CODE-WEIGHTS-QUALIFICATION": [
+      "tests.pdf.test_boundaries::test_code_and_weights_qualification_has_no_unknown_or_implicit_activation"
+    ],
+    "R13-A01": [
+      "KnowKit\\Tests\\Worker\\Pdf\\FixtureTest::testTxtAndMarkdownResolveExactSegmentsWithoutPdfPages",
+      "tests.pdf.test_boundaries::test_nonpaginated_locators_never_gain_pdf_geometry"
+    ],
+    "R13-A02": [
+      "tests.pdf.test_extraction::test_blank_illustration_scan_are_distinct_without_dummy_text",
+      "tests.pdf.test_boundaries::test_failed_page_is_not_blank_or_complete",
+      "KnowKit\\Tests\\Worker\\Pdf\\FixtureTest::testVisualPageCannotClaimOkWithoutText"
+    ],
+    "R13-A03": [
+      "tests.pdf.test_extraction::test_rotated_columns_and_cross_page_table_are_explicitly_incomplete"
+    ],
+    "DT-I04": [
+      "tests.pdf.test_boundaries::test_exact_profile_options_and_schema_never_default_fallback"
+    ],
+    "GEOMETRY-HALF-EVEN": [
+      "tests.pdf.test_boundaries::test_geometry_rounds_half_even_once"
+    ],
+    "INDEPENDENT-PHP-IR": [
+      "KnowKit\\Tests\\Worker\\Pdf\\FixtureTest::testRealCorpusDigestsAndNativeIrPassIndependentPhpValidation"
+    ],
+    "REQUIRED-CASES-FAIL-CLOSED": [
+      "KnowKit\\Tests\\Worker\\Pdf\\FixtureTest::testNativeRequiredCasesCannotBeMissingSkippedOrEmpty"
+    ],
+    "REAL-SUPERVISOR-PDF": [
+      "KnowKit\\Tests\\Worker\\Pdf\\RuntimeTest::testQualifiedPdfRunsThroughRealSupervisorAndIndependentIngress",
+      "KnowKit\\Tests\\Worker\\Pdf\\RuntimeTest::testRuntimeInventoryAllowsWheelNamesAndRejectsTraversalLinksAndExtraFiles"
+    ],
+    "DECODED-IMAGE-LIMIT": [
+      "tests.pdf.test_boundaries::test_decoded_source_image_is_bounded_before_render"
+    ],
+    "BOUNDED-ASSET-OUTPUT": [
+      "tests.pdf.test_boundaries::test_preview_asset_budget_cannot_accumulate_unbounded_output"
+    ],
+    "MIXED-TEXT-RASTER": [
+      "tests.pdf.test_boundaries::test_native_caption_does_not_prove_text_inside_raster_is_covered"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/documents/pdf/v1/DejaVu-NOTICE",
+      "sha256": "63d3ba759d12804c5b31a9d5940d855c1820d1f5999e6b0872eb1c7ff045fbc9",
+      "expected": {
+        "outcome": "versioned-rights-or-native-ir"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/Droid-NOTICE",
+      "sha256": "f44dda1cd553ac22e7020b016dcce8a521b56de0995dc63c9eff746d9121f64f",
+      "expected": {
+        "outcome": "versioned-rights-or-native-ir"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/coverage.ir.json",
+      "sha256": "0b1809814dea47f4906bf62f03229aa89870508994ff3b1a49e2502b0bf08419",
+      "expected": {
+        "outcome": "versioned-rights-or-native-ir"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/coverage.pdf",
+      "sha256": "d92cc4e1528b0d16790db0abee7c09d534d0b2c739967ac61349520619dbb3f9",
+      "expected": {
+        "outcome": "partial:blank-vector-raster-distinct"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/huge.pdf",
+      "sha256": "a895d0ef64e6c9153579cf46454e85b54fd112e2becaa5400699012029f25448",
+      "expected": {
+        "outcome": "incompatible:render_limit"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/malformed.pdf",
+      "sha256": "99e98f93025626f84cd91af1bb6cc5cc38e8e081aff688d0b2b5c8cdcecc0870",
+      "expected": {
+        "outcome": "incompatible:invalid_pdf"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/malicious.pdf",
+      "sha256": "89fe8b7f3a7bccb9932fa5be1bc3c8e5f56f30c73219eea2a0e756002e5e128e",
+      "expected": {
+        "outcome": "denied:active_pdf_denied"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/manifest.json",
+      "sha256": "0d6424bae05125f28c625cfb7cfbfdf864d560909a11a72ab5800c592194063a",
+      "expected": {
+        "outcome": "versioned-rights-or-native-ir"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/rotated-table.ir.json",
+      "sha256": "8b076f3283a66d468bc54a3a8906abb159958d00cf8ac6f8fffb70f0f0b94c2d",
+      "expected": {
+        "outcome": "versioned-rights-or-native-ir"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/rotated-table.pdf",
+      "sha256": "60e76a747aa4d13657ba0f9d4b3e11803e2778c9b826d146a7530c879f08d974",
+      "expected": {
+        "outcome": "partial:rotated-reading-order-and-table-structure"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/two-columns.ir.json",
+      "sha256": "74f7da3995c0f07d12d5be769ee821ae0b0e22f2dc3a0d82d56ca99d12d3b1df",
+      "expected": {
+        "outcome": "versioned-rights-or-native-ir"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/two-columns.pdf",
+      "sha256": "7aab7c9285aaba0f711832b65a14c5a244126b53458a3df2a12f9440e2e1b211",
+      "expected": {
+        "outcome": "complete:column-major-reading-order"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/unicode-label.ir.json",
+      "sha256": "b5ec789ef3e95f4de083c33b9042a0a767bde12ad47cf1c9e2ebf3d3cd85008c",
+      "expected": {
+        "outcome": "versioned-rights-or-native-ir"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/unicode-label.pdf",
+      "sha256": "870745a68aafc1edc4407c5c103d38fd6b4e92f07fdd9e8e83901bdd112fc247",
+      "expected": {
+        "outcome": "complete:physical-1-label-xii-unicode"
+      }
+    }
+  ]
+}
