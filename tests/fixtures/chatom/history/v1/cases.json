@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "chatom-history:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial native durable handler, authorized bounded history, final.v1 replay and fresh immutable citation gateway schedules.",
+  "fixture": true,
+  "qualification": "HOST QUALIFICATION PENDING",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic school/learner/source data, native contract fixtures and scripted model responses.",
+    "redistributionAllowed": false
+  },
+  "invocationKey": "native:lesson:001",
+  "question": "Current learner question",
+  "history": "Historical assistant source text",
+  "requiredCaseIds": [
+    "chatom-handler:authorized-history",
+    "revoked-history",
+    "bot-allowed-learner-denied",
+    "revoke-before-model-before-reply",
+    "lostack-sameslot",
+    "changed-body-conflict",
+    "one-model-one-reply",
+    "opaque-citation-preview"
+  ],
+  "expectations": {
+    "authorized-history": {"providerSends": 1, "visibleReplies": 1, "slot": "final.v1", "rawSnapshotUsed": false},
+    "revoked-history": {"providerSends": 0, "outboundBytes": 0, "visibleReplies": 0},
+    "bot-allowed-learner-denied": {"providerSends": 0, "outboundBytes": 0, "visibleReplies": 0},
+    "revoke-before-model-before-reply": {"beforeModelSends": 0, "afterModelSends": 1, "visibleReplies": 0},
+    "lostack-sameslot": {"providerSends": 1, "visibleReplies": 1, "sameSlotBodyKey": true},
+    "changed-body-conflict": {"providerSends": 1, "visibleReplies": 1, "error": "invocation_conflict"},
+    "one-model-one-reply": {"providerSends": 1, "visibleReplies": 1, "unknownReplies": 0},
+    "opaque-citation-preview": {"freshContextPerRead": true, "historicalRevisionPinned": true, "revokedPlaintext": false}
+  }
+}

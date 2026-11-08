@@ -84,6 +84,14 @@ final readonly class GroundingPromptComposer
         }
         if ($history === []) {
             $items[] = new A\EgressContentItem(A\EgressCategory::History, $this->digest(''));
+            if ($request->priorTurns->attestation !== null) {
+                $history[] = new A\HistoryDependency(
+                    tenantId: $request->scope->tenantId,
+                    ref: $request->priorTurns->attestation->ref,
+                    revision: 'empty',
+                    contentDigest: $this->digest(''),
+                );
+            }
         }
 
         return $history;

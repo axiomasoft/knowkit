@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P7.5",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "observedSha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "reject",
+      "reason": "Existing orchestration, storage, runtime and relay belong to Agentools. Reuse only the already installed Chatom SPI and existing answer ledger; importing this composition into the direct handler would duplicate owners.",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextComposition.php",
+      "qualificationRef": "tests/chatom/handler/HandlerTest.php",
+      "targetPaths": [
+        "packages/chatom/src",
+        "tests/chatom/handler"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextContextAuthority.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "e80acb10becbff1a770c6c74d841dae4ed92314b96e4666498220c03e93b0dc2",
+      "observedSha256": "e80acb10becbff1a770c6c74d841dae4ed92314b96e4666498220c03e93b0dc2",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Adapt exact current viewer projection/revision/hash rechecks after owner I/O into the history manifest, answer authorization and native ChannelAccess decorator. No SQL, journal or Agentools types copied.",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextContextAuthority.php",
+      "qualificationRef": "tests/chatom/handler/HandlerTest.php",
+      "targetPaths": [
+        "packages/chatom/src",
+        "tests/chatom/handler"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/reading/test_references.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "2c25c0679879f1c3055687befb1fec7b275dcd9c0b8fb9a240c60c9bad78f067",
+      "observedSha256": "2c25c0679879f1c3055687befb1fec7b275dcd9c0b8fb9a240c60c9bad78f067",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt the immutable historical revision regression case: presence of corrected bytes never redirects an old citation. Reject Python store implementation and silently ignored missing sources; existing core Readings owns fresh authorization.",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/reading/test_references.py",
+      "qualificationRef": "tests/chatom/handler/HandlerTest.php",
+      "targetPaths": [
+        "packages/chatom/src",
+        "tests/chatom/handler"
+      ]
+    }
+  ],
+  "nativeContracts": {
+    "package": "axiomasoft/chatom",
+    "pin": "909d11e148ec9991bc83527891f8c3b4f5552f8f",
+    "decision": "reuse",
+    "reason": "Use installed native DurableAgentHandler, DurableAgentReply, ViewerMessageReader, ChannelAccess and DTOs without copying persistence.",
+    "sha256": {
+      "packages/chatom/vendor/axiomasoft/chatom/src/Agents/Contracts/DurableAgentHandler.php": "b17fb838b15833a67c24d0fe71f813fd8cbffcadd7a159c7f0ad913aae6a452a",
+      "packages/chatom/vendor/axiomasoft/chatom/src/Agents/Contracts/DurableAgentReply.php": "33f14f4cff41a221df265428f1b7137a4155ac08ecf2a58bfcc96e8ccb676435",
+      "packages/chatom/vendor/axiomasoft/chatom/src/Messages/Contracts/ViewerMessageReader.php": "eac248784aed4011d4a6ba5c6f5abe4dd7d3065df29cd718b5cb4c2cc1485995",
+      "packages/chatom/vendor/axiomasoft/chatom/src/Authorization/Contracts/ChannelAccess.php": "f370e571c3dc66cae4e56626bea751a7e7c52f3895b0bdc8b80f52daaf9bc213"
+    }
+  },
+  "newCodeRationale": "The donors have no KnowKit direct-route binding/history/citation glue. New typed adapters reuse existing GroundedAnswerService, InvocationReplay, history attestation and core Readings; host factories supply current authority and existing owners. Empty attested history now retains its manifest dependency so replay checks binding changes with no prior turns. No new journal, runtime, source store or model loop.",
+  "sourceGaps": [
+    "ConversationAudience, ConversationAnswerFactory and CitationViewerContext are explicit host composition contracts; the host must install the supplied answer guard in both service and replay.",
+    "The exact same request-scoped ChatomReplyBoundary must decorate native ChannelAccess. Synthetic contract tests do not qualify a live Laravel installation, tenant mapping or Chatom PostgreSQL17/18.",
+    "Native DurableAgentReply intentionally ignores changed same-slot proposals; changed input conflicts in the existing answer ledger before this API. Deterministic final.v1 mapping supplies the identical saved body on redrive.",
+    "History hydration has one 100-message window. An absent trigger denies, without raw snapshot fallback.",
+    "Remote revocation after the last authoritative check remains a documented distributed race; actual host check time/revisions must be recorded by the authority.",
+    "No production provider, paid probe, external Edufy repository change or publication is qualified."
+  ],
+  "handoff": "Only this tracked product receipt is written. Coordinator mirrors it into @plan/artifacts/implementation/P7.5-reuse.json; executor plan_mutation is forbidden."
+}

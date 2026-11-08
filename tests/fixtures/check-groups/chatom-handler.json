@@ -1,0 +1,60 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "chatom:handler",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial eight required cases mapped to actual native handler, boundary and PostgreSQL citation tests. Runner must fail on missing/skipped/zero execution.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic authorized history and reply schedules; no provider or customer data.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "chatom-handler:authorized-history",
+    "revoked-history",
+    "bot-allowed-learner-denied",
+    "revoke-before-model-before-reply",
+    "lostack-sameslot",
+    "changed-body-conflict",
+    "one-model-one-reply",
+    "opaque-citation-preview"
+  ],
+  "testCaseMap": {
+    "chatom-handler:authorized-history": [
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testAuthorizedHistoryUsesCurrentViewerFullScopeAndNativeKey",
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testHistoryBoundsAreExplicitAndNoFutureMessageBecomesInput",
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testManifestAndReceiptRejectMissingSkippedZeroAndChangedFixtures"
+    ],
+    "revoked-history": [
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testRevokedUnknownAndChangedHistoryDenyWithoutProtectedEffects",
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testInvalidAttestationsAndWholeContentEgressDenyWithoutSending"
+    ],
+    "bot-allowed-learner-denied": [
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testBotAllowedCannotSubstituteForLearnerAudienceClassLessonConsentRightsOrSource"
+    ],
+    "revoke-before-model-before-reply": [
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testRevocationAndBindingChangesAtModelAndReplyBoundariesDeny",
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testNativeBoundaryRejectsSubstitutedActorSpaceOrPhase",
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testCompletedReplayRechecksAccessAndBindingIncludingEmptyPriorHistory"
+    ],
+    "lostack-sameslot": [
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testLostAckReplaysSameSavedSlotBodyAndKeyWithoutGeneration"
+    ],
+    "changed-body-conflict": [
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testChangedBodySameKeyConflictsBeforeNativeFirstBodyWins",
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testChangedAnswerBodyCannotReachNativeSlotEvenWithSameInvocationKey"
+    ],
+    "one-model-one-reply": [
+      "KnowKit\\Tests\\Chatom\\Handler\\HandlerTest::testOneModelOneReplyAndUnknownDispatchNeverRegenerates"
+    ],
+    "opaque-citation-preview": [
+      "KnowKit\\Tests\\Chatom\\Handler\\CitationTest::testOpaqueCitationPreviewUsesFreshGatewayAndPinnedHistoricalIdentity"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/chatom/history/v1/cases.json",
+      "sha256": "91ad58aba22e5681d1e13423f6315b8a484547180b000b20138bd898d84bdab4",
+      "expected": "Current authorized bounded history only; full scope, final send/replay and native write guards; one generation and final.v1 reply; stable lost ACK body/key; conflicts before native API; immutable opaque citation gateway."
+    }
+  ]
+}
