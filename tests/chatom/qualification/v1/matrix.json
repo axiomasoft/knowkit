@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "chatom-qualification:1",
+  "fixtureVersion": "1.0.0",
+  "fixture": true,
+  "phpVersion": "8.4.1",
+  "composerLock": {
+    "path": "packages/chatom/composer.lock",
+    "sha256": "7599acbe41c907977a845bc142c0ef6286b80bce92d82458e47f07cc12907e3c"
+  },
+  "chatom": {
+    "package": "axiomasoft/chatom",
+    "reference": "909d11e148ec9991bc83527891f8c3b4f5552f8f",
+    "installedTreeSha256": "d50d09e5b71b766ee0be1b53c62b0b739c75e818cedf8c3002ab1930242d5601",
+    "phpConstraint": "^8.4",
+    "postgresMajors": [17, 18]
+  },
+  "laravel": {"version": "v13.40.0", "reference": "1449bf241017087fbd38c118ecaabef3f6797fdc"},
+  "postgres": {
+    "16": {"port": 55436, "serverVersion": "16.14 (Debian 16.14-1.pgdg13+1)", "image": "postgres@sha256:33f923b05f64ca54ac4401c01126a6b92afe839a0aa0a52bc5aeb5cc958e5f20"},
+    "17": {"port": 55437, "serverVersion": "17.11 (Debian 17.11-1.pgdg13+2)", "image": "postgres@sha256:d74eeac9a635390a49bc21bd49fccd973de707e2a53a76ac49b552b8712ec46f"},
+    "18": {"port": 55438, "serverVersion": "18.6 (Debian 18.6-1.pgdg13+2)", "image": "postgres@sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722"}
+  },
+  "tiers": {
+    "fixture": "Synthetic host authority, model transport, answer ledger and source retrieval; no real provider.",
+    "core": "Independent core migration and PostgreSQL invariant smoke on PG16/17/18; not the complete core conformance suite.",
+    "driver": "Installed Chatom migrations, authorized history, durable reply, native write policy, receipts and outbox on PG17/18.",
+    "provider": "pending: no configured production transport, no paid probe",
+    "livehost": "pending: no Edufy host, tenant/account mapping or production deployment"
+  },
+  "edufyPg16": {"postgresMajor": 16, "qualification": "separate", "expectedReady": false, "expected": "native schema catalog proof remains unverified; do not upgrade PostgreSQL or claim ready"},
+  "pendingLibraryFiles": true,
+  "requiredCaseIds": [
+    "chatom-qualification:real-driver-currentwrite",
+    "native-receipt-recovery",
+    "two-route-perbinding",
+    "distinct-bot-isolation",
+    "pg17-pg18",
+    "edufy-pg16-explicit-profile",
+    "no-hidden-paid-call"
+  ]
+}

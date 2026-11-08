@@ -1,0 +1,26 @@
+services:
+  pg16:
+    image: postgres@sha256:33f923b05f64ca54ac4401c01126a6b92afe839a0aa0a52bc5aeb5cc958e5f20
+    environment: &test-env
+      POSTGRES_DB: knowkit_chatom_test
+      POSTGRES_USER: knowkit_test
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports: ["127.0.0.1:${CHATOM_TEST_PG16_PORT:-55436}:5432"]
+    tmpfs: ["/var/lib/postgresql/data"]
+    healthcheck: &health
+      test: ["CMD-SHELL", "pg_isready -U knowkit_test -d knowkit_chatom_test"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
+  pg17:
+    image: postgres@sha256:d74eeac9a635390a49bc21bd49fccd973de707e2a53a76ac49b552b8712ec46f
+    environment: *test-env
+    ports: ["127.0.0.1:${CHATOM_TEST_PG17_PORT:-55437}:5432"]
+    tmpfs: ["/var/lib/postgresql/data"]
+    healthcheck: *health
+  pg18:
+    image: postgres@sha256:5a5a84b19854a9ffaa54082c166ff4ec27473a361e496e5ea167f298f2da9722
+    environment: *test-env
+    ports: ["127.0.0.1:${CHATOM_TEST_PG18_PORT:-55438}:5432"]
+    tmpfs: ["/var/lib/postgresql"]
+    healthcheck: *health

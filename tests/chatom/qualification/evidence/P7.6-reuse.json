@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P7.6",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "observedSha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "decision": "reject",
+      "reason": "Orchestrated runtime/journal/relay remain owned by Agentools. Qualification uses installed Chatom public messages, schema testing and relay command, without copying this composition.",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextComposition.php",
+      "qualificationRef": "tests/chatom/qualification/InstalledDriverTest.php",
+      "targetPaths": [
+        "tests/chatom/qualification"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextContextAuthority.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "e80acb10becbff1a770c6c74d841dae4ed92314b96e4666498220c03e93b0dc2",
+      "observedSha256": "e80acb10becbff1a770c6c74d841dae4ed92314b96e4666498220c03e93b0dc2",
+      "decision": "adapt",
+      "reason": "Adapt current-authority-after-owner-IO failure schedules at the installed native reauthorization stage. Existing KnowKit boundary is reused, no donor SQL or authority runtime is copied.",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextContextAuthority.php",
+      "qualificationRef": "tests/chatom/qualification/InstalledDriverTest.php",
+      "targetPaths": [
+        "tests/chatom/qualification"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/reading/test_references.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "2c25c0679879f1c3055687befb1fec7b275dcd9c0b8fb9a240c60c9bad78f067",
+      "observedSha256": "2c25c0679879f1c3055687befb1fec7b275dcd9c0b8fb9a240c60c9bad78f067",
+      "decision": "adapt",
+      "reason": "Adapt persisted-identity regression principle to native receipt/slot recovery: exact saved message/body/hash/key survive redelivery and changed same-key content conflicts. Do not import the Python store or silently ignore missing native state.",
+      "license": "Apache-2.0",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/reading/test_references.py",
+      "qualificationRef": "tests/chatom/qualification/InstalledDriverTest.php",
+      "targetPaths": [
+        "tests/chatom/qualification"
+      ]
+    }
+  ],
+  "nativeContracts": {
+    "package": "axiomasoft/chatom",
+    "pin": "909d11e148ec9991bc83527891f8c3b4f5552f8f",
+    "decision": "reuse",
+    "installedTreeSha256": "d50d09e5b71b766ee0be1b53c62b0b739c75e818cedf8c3002ab1930242d5601",
+    "composerLockSha256": "7599acbe41c907977a845bc142c0ef6286b80bce92d82458e47f07cc12907e3c",
+    "reason": "Installed native schema, Messages, ViewerMessageReader, DurableAgentHandler/Reply and relay/outbox CLI are exercised; actual TransactionalAgentReply class is observed. AcknowledgementLoss decorates the real committed reply only; it is not a driver substitute."
+  },
+  "newCodeRationale": "Existing P7.5 fixtures prove application schedules only. New local Laravel test host reuses that synthetic authority/model/answer ledger while native Chatom owns storage, delivery, receipts and authorized history. No new product persistence, runtime or relay. Exact lock/runtime/tree pins reject substitution.",
+  "sourceGaps": [
+    "Synthetic host authority, evidence retrieval and answer ledger do not qualify Edufy owner HTTP or the production provider.",
+    "Core PG16/17/18 result covers migrations and empty-catalog smoke, not the complete core conformance suite.",
+    "Edufy PG16 plus installed Chatom is explicitly unqualified: native schema doctor reports unverified catalog definitions. No silent PostgreSQL upgrade.",
+    "Provider/livehost and pendingLibraryFiles remain pending. No paid call, remote host, external repository mutation or deployment.",
+    "Revocation at a remote owner after its last authoritative check remains a distributed race; this local host cannot establish global atomicity."
+  ],
+  "handoff": "Only the tracked product receipt is written. Coordinator must mirror to @plan/artifacts/implementation/P7.6-reuse.json; plan_mutation is forbidden."
+}

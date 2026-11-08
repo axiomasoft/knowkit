@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "chatom:qualification",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial exact installed-driver, independent core schema and synthetic authority tiers; required identities include every PG17/18 data set and negative schedule. No missing, skipped or zero cases.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored local synthetic host schedules; installed Chatom remains MIT and is not copied.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "chatom-qualification:real-driver-currentwrite",
+    "native-receipt-recovery",
+    "two-route-perbinding",
+    "distinct-bot-isolation",
+    "pg17-pg18",
+    "edufy-pg16-explicit-profile",
+    "no-hidden-paid-call"
+  ],
+  "testCaseMap": {
+    "chatom-qualification:real-driver-currentwrite": [
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testInstalledDriverWritesOneNativeReplyAndOutbox with data set \"pg17\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testInstalledDriverWritesOneNativeReplyAndOutbox with data set \"pg18\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testCurrentAudienceIsRecheckedInsideNativeWrite with data set \"pg17:learner-denied\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testCurrentAudienceIsRecheckedInsideNativeWrite with data set \"pg17:consent-unknown\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testCurrentAudienceIsRecheckedInsideNativeWrite with data set \"pg17:source-revoked\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testCurrentAudienceIsRecheckedInsideNativeWrite with data set \"pg17:binding-stale\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testCurrentAudienceIsRecheckedInsideNativeWrite with data set \"pg18:learner-denied\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testCurrentAudienceIsRecheckedInsideNativeWrite with data set \"pg18:consent-unknown\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testCurrentAudienceIsRecheckedInsideNativeWrite with data set \"pg18:source-revoked\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testCurrentAudienceIsRecheckedInsideNativeWrite with data set \"pg18:binding-stale\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testNativeChannelPolicyCanRefuseAfterGeneration with data set \"pg17\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testNativeChannelPolicyCanRefuseAfterGeneration with data set \"pg18\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testRevokedNativeMembershipCancelsBeforeModelOrReply with data set \"pg17\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testRevokedNativeMembershipCancelsBeforeModelOrReply with data set \"pg18\""
+    ],
+    "native-receipt-recovery": [
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testLostAckRecoversNativeSlotAndSavedAnswerWithoutRegeneration with data set \"pg17\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testLostAckRecoversNativeSlotAndSavedAnswerWithoutRegeneration with data set \"pg18\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testNativeReceiptReplaysIdenticalBodyAndRejectsChangedBody with data set \"pg17\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testNativeReceiptReplaysIdenticalBodyAndRejectsChangedBody with data set \"pg18\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testSavedReceiptCannotAuthorizeReplayAfterAudienceRevocation with data set \"pg17\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testSavedReceiptCannotAuthorizeReplayAfterAudienceRevocation with data set \"pg18\""
+    ],
+    "two-route-perbinding": [
+      "KnowKit\\Tests\\Chatom\\Qualification\\FixtureTierTest::testOneBindingRejectsBothRoutesButDistinctBindingsCoexist",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testOrchestratedBindingDoesNotActivateDirectHandlerBesideDistinctDirectBot with data set \"pg17\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testOrchestratedBindingDoesNotActivateDirectHandlerBesideDistinctDirectBot with data set \"pg18\""
+    ],
+    "distinct-bot-isolation": [
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testDistinctBotsKeepNativeKeysSlotsAndAnswersIsolated with data set \"pg17\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\InstalledDriverTest::testDistinctBotsKeepNativeKeysSlotsAndAnswersIsolated with data set \"pg18\""
+    ],
+    "pg17-pg18": [
+      "KnowKit\\Tests\\Chatom\\Qualification\\ProfilesTest::testCoreSchemaIsIndependentOfChatomHostReadiness with data set \"pg16\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\ProfilesTest::testCoreSchemaIsIndependentOfChatomHostReadiness with data set \"pg17\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\ProfilesTest::testCoreSchemaIsIndependentOfChatomHostReadiness with data set \"pg18\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\ProfilesTest::testInstalledSchemaDoctorQualifiesPg17AndPg18 with data set \"pg17\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\ProfilesTest::testInstalledSchemaDoctorQualifiesPg17AndPg18 with data set \"pg18\"",
+      "KnowKit\\Tests\\Chatom\\Qualification\\PinsTest::testExactPinsMatchInstalledCandidateAndRejectDriftBeforeBoot",
+      "KnowKit\\Tests\\Chatom\\Qualification\\PinsTest::testReuseReceiptBindsEveryInspectedDonorAndNativeTree"
+    ],
+    "edufy-pg16-explicit-profile": [
+      "KnowKit\\Tests\\Chatom\\Qualification\\ProfilesTest::testEdufyPg16RemainsExplicitlyUnqualifiedWithoutSilentUpgrade"
+    ],
+    "no-hidden-paid-call": [
+      "KnowKit\\Tests\\Chatom\\Qualification\\FixtureTierTest::testFixtureCannotBecomeProductionAndDeniedQuestionOrHistorySendsNoBytes",
+      "KnowKit\\Tests\\Chatom\\Qualification\\FixtureTierTest::testMissingProductionConfigurationDoesNotProbeInjectedClient",
+      "KnowKit\\Tests\\Chatom\\Qualification\\FixtureTierTest::testManifestRequiresEveryExecutedCaseAndRejectsMissingSkippedZeroOrChangedPins"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/chatom/qualification/v1/matrix.json",
+      "sha256": "cae1f3af061591a7734038c945aa6e7ba278b0f1f5c8ad6ea4cb9428b825bd92",
+      "expected": "Exact pinned runtime, native reply/outbox/current write and receipt recovery; one route per binding; distinct bots; explicit unqualified Edufy PG16; no provider probe."
+    }
+  ],
+  "components": {
+    "composerLock": {
+      "path": "packages/chatom/composer.lock",
+      "sha256": "7599acbe41c907977a845bc142c0ef6286b80bce92d82458e47f07cc12907e3c"
+    }
+  }
+}
