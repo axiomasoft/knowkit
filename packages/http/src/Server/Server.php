@@ -20,6 +20,7 @@ final readonly class Server
         private Contract $contract,
         private CommandFactory $commands,
         private IdGenerator $ids,
+        private Limits\RequestQuotas $quotas = new Limits\RequestQuotas(),
     ) {}
 
     public function handle(Request $request): Response
@@ -63,9 +64,14 @@ final readonly class Server
             request: $request, route: $route, parameters: $parameters, requestId: $requestId, host: $host,
         );
         $context->assertCurrent();
-        $reply = $this->execute(command: $command, context: $context);
+        $permit = $this->quotas->acquire(tenant: $context->scope()->tenantId, operation: $route->operation);
+        try {
+            $reply = $this->execute(command: $command, context: $context);
 
-        return Response::reply(reply: $reply, route: $route, requestId: $requestId);
+            return Response::reply(reply: $reply, route: $route, requestId: $requestId);
+        } finally {
+            $permit?->release();
+        }
     }
 
     /** @return array{Command, AccessContext} */

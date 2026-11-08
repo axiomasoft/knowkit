@@ -10,6 +10,11 @@ final readonly class JobEnvelope extends SchemaValue
 {
     protected const SCHEMA = 'job-envelope';
 
+    public function tenantId(): TenantId
+    {
+        return new TenantId($this->toWire()->get('tenantId'));
+    }
+
     public function inputDigest(): string
     {
         return $this->toWire()->get('inputDigest');

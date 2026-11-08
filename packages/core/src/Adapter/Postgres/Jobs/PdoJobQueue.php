@@ -14,13 +14,26 @@ use KnowKit\Port\{IdGenerator, WorkerJobs};
  */
 final readonly class PdoJobQueue implements WorkerJobs
 {
+    private const ACTIVE_TENANT_JOBS_SQL = <<<'SQL'
+        SELECT count(*) FROM %s
+        WHERE tenant_id = ? AND state = 'leased' AND lease_until > clock_timestamp()
+        SQL;
+
     /** @param array<string,array<array-key,string>> $stagePlans Trusted registered type -> ordered stages.
      *  @param \Closure(D\Lease,D\Checkpoint): D\JobCheckpointManifest $verifiedCheckpoint
      *  The callback must independently read/hash immutable manifest/resources outside SQL. */
-    public function __construct(private Connection $db, private PdoCatalogTransaction $tx,
-        private D\Scope $partition, private IdGenerator $ids, private array $stagePlans,
-        private \Closure $verifiedCheckpoint)
-    {
+    public function __construct(
+        private Connection $db,
+        private PdoCatalogTransaction $tx,
+        private D\Scope $partition,
+        private IdGenerator $ids,
+        private array $stagePlans,
+        private \Closure $verifiedCheckpoint,
+        private int $maxConcurrentIngest = 4,
+    ) {
+        if ($maxConcurrentIngest < 1 || $maxConcurrentIngest > 1024) {
+            throw new \InvalidArgumentException('Finite tenant ingest quota required');
+        }
         if ($db !== $tx->db) { throw new \InvalidArgumentException('Shared connection required'); }
         foreach ($stagePlans as $type => $stages) {
             new D\JobType($type);
@@ -91,6 +104,7 @@ final readonly class PdoJobQueue implements WorkerJobs
                 $current = $this->db->row('SELECT * FROM '.$this->db->table('jobs').
                     ' WHERE tenant_id=? AND id=? AND state=\'pending\' AND NOT cancel_requested AND available_at<=clock_timestamp() AND attempt_count<5',[$this->tenant(),$row['id']]);
                 if ($current===null) { return null; }
+                $this->assertTenantQuota();
                 $fence=(new D\Decimal((string)$current['fence']))->next();
                 $claimed=$this->db->row('UPDATE '.$this->db->table('jobs').
                     ' SET state=\'leased\',attempt_count=attempt_count+1,fence=?,attempt_id=?,resume_verified_fence=NULL,lease_owner=?,lease_token_hash=?,
@@ -108,6 +122,18 @@ final readonly class PdoJobQueue implements WorkerJobs
     {
         return $this->withLease($lease,fn(array $row): bool => $this->db->execute('UPDATE '.$this->db->table('jobs').
             ' SET lease_until=LEAST(clock_timestamp()+interval \'60 seconds\',attempt_deadline) WHERE '.$this->predicate(),$this->capability($lease))->rowCount()===1);
+    }
+
+    private function assertTenantQuota(): void
+    {
+        // Lease admission holds tenant FOR UPDATE before KB/source/job locks. Counts include all KBs.
+        $count = (int) $this->db->execute(
+            sprintf(self::ACTIVE_TENANT_JOBS_SQL, $this->db->table('jobs')),
+            [$this->tenant()],
+        )->fetchColumn();
+        if ($count >= $this->maxConcurrentIngest) {
+            throw new D\DomainFailure(D\Outcome::Unavailable, 'quota_exceeded');
+        }
     }
 
     public function checkpoint(D\Lease $lease, D\Checkpoint $checkpoint): bool
@@ -276,7 +302,7 @@ final readonly class PdoJobQueue implements WorkerJobs
             $started=hrtime(true);
             $this->db->execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
             $this->db->execute("SET LOCAL lock_timeout='500ms'"); $this->db->execute("SET LOCAL statement_timeout='2000ms'");
-            $mode=$effect?D\LockMode::Update:D\LockMode::Share;
+            $mode = $effect || $skip ? D\LockMode::Update : D\LockMode::Share;
             $this->tx->lockTenant($this->partition->tenantId,$mode);
             $this->tx->lockKb(new D\KbId($seed['kb_id']),$mode);
             $this->tx->lockSources([new D\SourceId($seed['source_id'])],$mode);
@@ -301,7 +327,7 @@ final readonly class PdoJobQueue implements WorkerJobs
             $prepared=true;
             return $result;
         }); } catch (D\DomainFailure $error) {
-            if ($prepared && $error->errorCode==='storage_unavailable') { throw new D\DomainFailure(D\Outcome::Unknown,'job_commit_unknown'); }
+            if ($prepared && in_array($error->errorCode,['storage_unavailable','commit_unknown'],true)) { throw new D\DomainFailure(D\Outcome::Unknown,'job_commit_unknown'); }
             throw $error;
         }
     }

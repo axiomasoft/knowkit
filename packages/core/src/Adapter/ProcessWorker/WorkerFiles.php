@@ -19,7 +19,7 @@ final class WorkerFiles
     public static function read(string $root, string $relative, int $limit): string
     {
         clearstatcache();
-        if (!self::relative($relative)) {
+        if (!self::relative($relative) || $limit < 1 || is_link($root) || realpath($root) !== $root) {
             throw new DomainFailure(Outcome::Denied, 'unsafe_output');
         }
         $path = $root;
@@ -34,11 +34,24 @@ final class WorkerFiles
             || $stat['size'] > $limit) {
             throw new DomainFailure(Outcome::Denied, 'unsafe_output');
         }
-        $bytes = file_get_contents($path, false, null, 0, $limit + 1);
-        if ($bytes === false || strlen($bytes) > $limit) {
-            throw new DomainFailure(Outcome::Incompatible, 'output_limit');
+        $handle = @fopen($path, 'rb');
+        if ($handle === false) {
+            throw new DomainFailure(Outcome::Denied, 'unsafe_output');
         }
-        return $bytes;
+        try {
+            $opened = fstat($handle);
+            if ($opened === false || $opened['ino'] !== $stat['ino'] || $opened['dev'] !== $stat['dev']) {
+                throw new DomainFailure(Outcome::Denied, 'unsafe_output');
+            }
+            $bytes = stream_get_contents($handle, $limit + 1);
+            if ($bytes === false || strlen($bytes) > $limit) {
+                throw new DomainFailure(Outcome::Incompatible, 'output_limit');
+            }
+
+            return $bytes;
+        } finally {
+            fclose($handle);
+        }
     }
 
     /** @return array<string, int> */
@@ -46,6 +59,9 @@ final class WorkerFiles
     {
         // Files are written by another process; PHP's previous stat cache is never authoritative.
         clearstatcache();
+        if ($limit < 1 || is_link($root) || realpath($root) !== $root || !is_dir($root)) {
+            throw new DomainFailure(Outcome::Denied, 'unsafe_output');
+        }
         $files = [];
         $entries = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS),

@@ -12,7 +12,7 @@ final readonly class StaticCeilingBudget implements AnswerBudget
 {
     public function __construct(
         private int $inputBytes = 32768,
-        private ?int $inputTokens = null,
+        private ?int $inputTokens = 8192,
         private int $outputTokens = 2048,
         private int $outputBytes = 65536,
     ) {

@@ -1,0 +1,118 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "security:hardening",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial explicit security expectations from approved security/access contracts. Digests bind authored inert content, not runtime snapshots. Unknown token counts fail closed under the default token ceiling, preserving the existing explicitly configured token-budget contract.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored inert adversarial fixtures. Adapted containment and boundary-test patterns from the seven pinned candidates in evidence/P9.2-reuse.json; no upstream test pass claimed."
+  },
+  "requiredCaseIds": [
+    "LOOPBACK-PRIVATE-LINKLOCAL-METADATA",
+    "DNS-REBINDING",
+    "FORBIDDEN-REDIRECT",
+    "FILE-SCHEME",
+    "NO-CREDENTIAL-FORWARDING",
+    "SYMLINK-TRAVERSAL",
+    "ARCHIVE-BOMB",
+    "MALICIOUS-PDF",
+    "TOKEN-FLOOD",
+    "PROMPT-INJECTION",
+    "BOUNDED-RESOURCES",
+    "TENANT-QUOTAS",
+    "R35-A01",
+    "R35-A02",
+    "DT-I16",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES"
+  ],
+  "testCaseMap": {
+    "LOOPBACK-PRIVATE-LINKLOCAL-METADATA": [
+      "KnowKit\\Tests\\Security\\Hardening\\OriginTest::testAllForbiddenAddressesAndMixedAnswersStopBeforeConnect"
+    ],
+    "DNS-REBINDING": [
+      "KnowKit\\Tests\\Security\\Hardening\\OriginTest::testRebindingAndChangedActualPeerNeverSendRequest"
+    ],
+    "FORBIDDEN-REDIRECT": [
+      "KnowKit\\Tests\\Security\\Hardening\\OriginTest::testForbiddenRedirectsAndFourthHopAreRefused"
+    ],
+    "FILE-SCHEME": [
+      "KnowKit\\Tests\\Security\\Hardening\\OriginTest::testProtocolsPortsUserinfoFragmentsAndAllowlistRejectBeforeDns"
+    ],
+    "NO-CREDENTIAL-FORWARDING": [
+      "KnowKit\\Tests\\Security\\Hardening\\OriginTest::testCookiesDiscardedAndNativePeerCheckPrecedesHttpBytes",
+      "KnowKit\\Tests\\Security\\Hardening\\OriginTest::testNativeRequestHasNoCredentialHeadersAndDeadlinesCannotDisableLimits"
+    ],
+    "SYMLINK-TRAVERSAL": [
+      "KnowKit\\Tests\\Security\\Hardening\\ResourceTest::testTraversalSymlinksAndHardlinksCannotReachProtectedBytes"
+    ],
+    "ARCHIVE-BOMB": [
+      "KnowKit\\Tests\\Security\\Hardening\\ResourceTest::testArchiveAndOoxmlBombAreUnsupportedBeforeHeavyRead"
+    ],
+    "MALICIOUS-PDF": [
+      "KnowKit\\Tests\\Security\\Hardening\\ResourceTest::testMaliciousPdfCannotRunWhenSandboxUnavailable"
+    ],
+    "TOKEN-FLOOD": [
+      "KnowKit\\Tests\\Security\\Hardening\\ResourceTest::testTokenFloodAndUnknownCountDeniedBeforeProvider"
+    ],
+    "PROMPT-INJECTION": [
+      "KnowKit\\Tests\\Security\\Hardening\\AuditTest::testPromptInjectionStaysLiteralUntrustedEvidenceAndCannotPromote"
+    ],
+    "BOUNDED-RESOURCES": [
+      "KnowKit\\Tests\\Security\\Hardening\\ResourceTest::testUploadPagesAssetsOutputRequestAndQueryBudgetsAreFinite",
+      "KnowKit\\Tests\\Security\\Hardening\\OriginTest::testIdentityFramingTransferAndMimeBudgets",
+      "KnowKit\\Tests\\Security\\Hardening\\AuditTest::testMetadataUtf8BytesBoundedIndependentlyOfKeyAndCharacterCount"
+    ],
+    "TENANT-QUOTAS": [
+      "KnowKit\\Tests\\Security\\Hardening\\QuotaTest::testConcurrentTenantLimitsAreSharedAcrossProcessesWithoutSideEffects",
+      "KnowKit\\Tests\\Security\\Hardening\\QuotaTest::testRateQuotaAndConcurrentOverflowGiveRetryAfterBeforeApplication",
+      "KnowKit\\Tests\\Security\\Hardening\\QuotaTest::testIngestRoutesAndFailureReleaseUseFiniteIndependentLanes",
+      "KnowKit\\Tests\\Security\\Hardening\\QuotaTest::testHostLimitsCannotBeDisabledAndQuotaSymlinkIsRefused",
+      "KnowKit\\Tests\\Security\\Hardening\\JobQuotaTest::testFifthDurableTenantIngestLeaseIsDeniedWithoutMutation"
+    ],
+    "R35-A01": [
+      "KnowKit\\Tests\\Security\\Hardening\\AuditTest::testR35A01DurableReplayConflictingPayloadAndStaleEpoch"
+    ],
+    "R35-A02": [
+      "KnowKit\\Tests\\Security\\Hardening\\AuditTest::testR35A02UnsafePathsAndRawFiltersStopBeforePrivilegedWork",
+      "KnowKit\\Tests\\Security\\Hardening\\OriginTest::testForbiddenRedirectsAndFourthHopAreRefused",
+      "KnowKit\\Tests\\Security\\Hardening\\ResourceTest::testTraversalSymlinksAndHardlinksCannotReachProtectedBytes"
+    ],
+    "DT-I16": [
+      "KnowKit\\Tests\\Security\\Hardening\\ResourceTest::testArchiveAndOoxmlBombAreUnsupportedBeforeHeavyRead"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Security\\Hardening\\FixtureTest::testVersionProvenanceDigestsAndRequiredCasesBindExecutableAssertions"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Security\\Hardening\\FixtureTest::testRunnerRejectsUnknownMissingSkippedEmptyAndNestedFailures"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/security/hardening/fixtures/v1/cases.json",
+      "sha256": "39003b1cc0e3d76af0515be4a98b72c3a0a180b15a48c6f8f006f5b3970779a9",
+      "expected": "Explicit forbidden inputs and expected outcomes"
+    },
+    {
+      "path": "tests/security/hardening/fixtures/v1/archive-bomb.zip",
+      "sha256": "75842aacc280a42c12f3707e1acba59779df93ef481f85c46dcedb2c7963e768",
+      "expected": "Reject without extraction; 2 MiB decompressed payload, ratio > 900"
+    },
+    {
+      "path": "tests/security/hardening/fixtures/v1/malicious.pdf",
+      "sha256": "4881e91855f52dc5548aec0c6f271d4ab8f8da160bdb002a5e4b25e974e373ff",
+      "expected": "Inert JavaScript/Launch canaries never executed outside sandbox"
+    },
+    {
+      "path": "tests/security/hardening/fixtures/v1/prompt-injection.txt",
+      "sha256": "e99a38b56aa9a20c56298a8967e9d23a3a0274da388472381921832f5407f537",
+      "expected": "Literal untrusted evidence, no host promotion"
+    }
+  ],
+  "components": {
+    "phpFloor": "8.3",
+    "requiredBackend": "PostgreSQL 16/17 for R35-A01; unavailable backend fails, never skips",
+    "qualification": "Native HTTPS framing/pre-send peer refusal exercised locally. Redirect/DNS orchestration uses doubles; no optional GitHub/web/archive adapter or live TLS/provider qualification claimed."
+  }
+}

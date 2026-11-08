@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "security-hardening-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "license": "LicenseRef-KnowKit-Private",
+  "provenance": "Project-authored inert adversarial fixtures. Adapted containment and boundary-test patterns from the seven pinned candidates in evidence/P9.2-reuse.json; no upstream test pass claimed.",
+  "versionRationale": "Initial explicit security expectations from approved security/access contracts. Digests bind authored inert content, not runtime snapshots. Unknown token counts fail closed under the default token ceiling, preserving the existing explicitly configured token-budget contract.",
+  "expectedOutcomes": {
+    "LOOPBACK-PRIVATE-LINKLOCAL-METADATA": "All forbidden IPv4/IPv6 and mixed DNS answers denied before connect; public IPv6 succeeds.",
+    "DNS-REBINDING": "A new DNS answer on redirect and a changed actual peer are denied before request bytes.",
+    "FORBIDDEN-REDIRECT": "Every redirect is fully revalidated, maximum three; fourth redirect denied.",
+    "FILE-SCHEME": "Non-HTTPS, non-443, credentials, fragment and non-allowlisted hosts denied before DNS.",
+    "NO-CREDENTIAL-FORWARDING": "No caller headers API; cookies discarded; peer rejected before HTTP write.",
+    "SYMLINK-TRAVERSAL": "Traversal, encoded separators, symlinks and hardlinks rejected before read.",
+    "ARCHIVE-BOMB": "Small ZIP expanding to 2 MiB rejected before extraction or parser launch.",
+    "MALICIOUS-PDF": "Active PDF cannot launch without sandbox; no staging or executable side effect.",
+    "TOKEN-FLOOD": "Known token flood and unknown token count denied before provider dispatch.",
+    "PROMPT-INJECTION": "Exact text remains untrusted with memory activation false; self-promotion refused.",
+    "BOUNDED-RESOURCES": "Upload, JSON, UTF-8 query, pages, assets, CPU, memory, time and output ceilings enforced.",
+    "TENANT-QUOTAS": "Cross-process worker and HTTP concurrency/rate overflow has no application effect; independent tenant succeeds.",
+    "R35-A01": "Durable exact replay accepted, changed payload or expected epoch conflicting; stale mutation has no success receipt.",
+    "R35-A02": "Private redirect, traversal paths and raw SQL-like filter rejected before privileged operation.",
+    "DT-I16": "Archive/OOXML unsupported by default. No enabled archive parser or unbounded decompression path added.",
+    "FIXTURE-INTEGRITY": "Version, provenance, license, expected outcomes, digests and executable IDs present.",
+    "RUNNER-NEGATIVES": "Unknown group, missing case, skipped/failed child and zero tests fail closed."
+  },
+  "forbiddenAddresses": [
+    "127.0.0.1",
+    "127.255.255.255",
+    "10.0.0.1",
+    "172.16.0.1",
+    "192.168.1.1",
+    "169.254.1.1",
+    "169.254.169.254",
+    "100.100.100.200",
+    "0.0.0.0",
+    "224.0.0.1",
+    "255.255.255.255",
+    "192.0.2.1",
+    "198.18.0.1",
+    "::",
+    "::1",
+    "fc00::1",
+    "fd00:ec2::254",
+    "fe80::1",
+    "ff02::1",
+    "::ffff:127.0.0.1",
+    "::ffff:93.184.216.34",
+    "64:ff9b::7f00:1",
+    "2001:db8::1",
+    "2002:7f00:1::",
+    "3fff::1"
+  ],
+  "forbiddenUrls": [
+    "file:///etc/passwd",
+    "ftp://docs.example.org/",
+    "gopher://docs.example.org/",
+    "unix:///tmp/socket",
+    "http://docs.example.org/",
+    "https://docs.example.org:80/",
+    "https://docs.example.org:8443/",
+    "https://user:synthetic@docs.example.org/",
+    "https://docs.example.org/#fragment",
+    "https://localhost/",
+    "https://127.0.0.1/",
+    "https://[::1]/",
+    "https://other.example.org/",
+    "https://docs.example.org.evil.org/",
+    "https://docs.example.org./",
+    "https://docs.example.org/\r\nHost: bad",
+    "https://docs.example.org\\@evil.org/"
+  ],
+  "unsafePaths": [
+    "../outside",
+    "/outside",
+    "a/../../outside",
+    "%2e%2e%2foutside",
+    "a%252foutside",
+    "a\\outside",
+    "a\u0000outside"
+  ],
+  "badHttp": [
+    {
+      "wire": "HTTP/1.0 200 OK\r\nContent-Length: 9\r\n\r\n123456789",
+      "code": "origin_transfer_limit"
+    },
+    {
+      "wire": "HTTP/1.0 200 OK\r\n\r\n123456789",
+      "code": "origin_transfer_limit"
+    },
+    {
+      "wire": "HTTP/1.0 200 OK\r\nContent-Encoding: gzip\r\n\r\nx",
+      "code": "origin_encoding"
+    },
+    {
+      "wire": "HTTP/1.1 200 OK\r\nTransfer-Encoding: chunked\r\n\r\n0\r\n\r\n",
+      "code": "origin_encoding"
+    },
+    {
+      "wire": "HTTP/1.0 200 OK\r\nContent-Length: 1\r\nContent-Length: 2\r\n\r\nx",
+      "code": "origin_headers"
+    },
+    {
+      "wire": "HTTP/1.0 200 OK\r\nContent-Length: 2\r\n\r\nx",
+      "code": "origin_length_mismatch"
+    }
+  ]
+}

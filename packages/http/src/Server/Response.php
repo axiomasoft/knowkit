@@ -31,6 +31,9 @@ final readonly class Response
         if ($result->errorCode === 'resource_missing') {
             $status = 404;
         }
+        if ($result->errorCode === 'quota_exceeded') {
+            $status = 429;
+        }
 
         return self::make(
             status: $status,
@@ -69,6 +72,7 @@ final readonly class Response
             body: (new Envelope(envelope: $envelope, exit: 0))->json(),
             headers: ['Content-Type' => 'application/json', 'Request-ID' => $requestId->value,
                 'KnowKit-Schema-Version' => '1.0',
+                ...($status === 429 ? ['Retry-After' => '60'] : []),
                 'Cache-Control' => 'no-store', 'X-Content-Type-Options' => 'nosniff'],
         );
     }

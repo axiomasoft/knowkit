@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P9.2",
+  "status": "qualified_for_scoped_adaptation",
+  "candidates": [
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/src/Scope.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/Scope.php",
+      "sha256": "30b35ea956b2dcaa62d957825b7d09470a9dade1ffd66493d1bfd957bf1b13ec",
+      "sha256Verified": true,
+      "decision": "adapt",
+      "rationale": "Keep trusted scope immutable and separate from document/URL inputs; preserve KnowKit hostScopeHash and purpose. No donor ACL authority imported.",
+      "license": "Proprietary; private local adaptation under licenses/local-reuse-authorization.md"
+    },
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/src/MaterialAccessPolicy.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/src/MaterialAccessPolicy.php",
+      "sha256": "79ff6e497013bf4812a98ce1f4b44e04c1ae12bb2c7dd19dd1219f6a8034f853",
+      "sha256Verified": true,
+      "decision": "adapt",
+      "rationale": "Independent pre-operation denial and typed boundary tests. Current KnowKit access/egress receipts remain authoritative.",
+      "license": "Proprietary; private local adaptation under licenses/local-reuse-authorization.md"
+    },
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/AccessTest.php",
+      "sha256": "d86bf82e30ba5f32f481ba388a8187214acb75d906418569748b0a3abb35b435",
+      "sha256Verified": true,
+      "decision": "adapt",
+      "rationale": "Adversarial no-side-effect/provider-spy assertions and separate tenant cases; use actual PostgreSQL catalog for replay regression.",
+      "license": "Proprietary; private local adaptation under licenses/local-reuse-authorization.md"
+    },
+    {
+      "repository": "agentools",
+      "path": "packages/agentools-core/src/Security/ExecutionContext.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Security/ExecutionContext.php",
+      "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+      "sha256Verified": true,
+      "decision": "retain_existing_boundary",
+      "rationale": "Host identity construction remains in existing AccessContext; document approval cannot become execution policy.",
+      "license": "Proprietary; private local adaptation under licenses/local-reuse-authorization.md"
+    },
+    {
+      "repository": "deeptutor",
+      "path": "deeptutor/multi_user/knowledge_access.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/multi_user/knowledge_access.py",
+      "sha256": "4c76110ffacd4caa354ad7a06f2fca1b61cce1e9120349b9726ba60e5b833e78",
+      "sha256Verified": true,
+      "decision": "adapt",
+      "rationale": "Resolve then contain pattern becomes strict no-symlink/no-hardlink private safe-open assertions. Do not copy path-as-authority semantics.",
+      "license": "Apache-2.0; retained existing DeepTutor license/notices; patterns independently reimplemented in PHP"
+    },
+    {
+      "repository": "deeptutor",
+      "path": "tests/services/test_github_source_path_containment.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/test_github_source_path_containment.py",
+      "sha256": "5a99e82e1e20242614f565c25e862d7018c75600d68a01422e830186a6a71d1e",
+      "sha256Verified": true,
+      "decision": "adapt",
+      "rationale": "Parent, absolute, encoded path and symlink escape regressions; valid nested/owned input remains usable.",
+      "license": "Apache-2.0; retained existing DeepTutor license/notices; patterns independently reimplemented in PHP"
+    },
+    {
+      "repository": "deeptutor",
+      "path": "deeptutor/utils/archive_extractor.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/utils/archive_extractor.py",
+      "sha256": "4c548fa0d58334d1ff129c6eaefbc7aad530136f6a7b95359dc72e5f4e893ff6",
+      "sha256Verified": true,
+      "decision": "defer_implementation_adapt_attack",
+      "rationale": "Archive/OOXML extraction stays unsupported. Adapt compression-bomb fixture and before-heavy-read denial; reject basename flattening/collision and any implicit parser enablement.",
+      "license": "Apache-2.0; retained existing DeepTutor license/notices; patterns independently reimplemented in PHP"
+    }
+  ],
+  "newCodeRationale": "Donors do not provide the exact KnowKit HTTPS allowlist/DNS+peer pinning, vendor-free PHP transport, cross-process finite reference quotas or approved subprocess boundary. New local code composes the existing private filesystem, typed DomainFailure, worker limits and access contracts. No donor runtime dependency, raw donor source transplant or upstream suite success claimed.",
+  "qualificationLimits": [
+    "DNS/redirect orchestration doubles do not qualify an external web/GitHub/archive connector.",
+    "Native HTTP framing and actual pre-send peer refusal are tested locally; live remote TLS/provider or full PDF parser qualification is not claimed.",
+    "Archive/OOXML remains unsupported; enabled archive adapter budgets are a future capability condition, not a shipped parser.",
+    "Local quota store is shared across processes on one host, with fixed 60-second rate windows. Multi-host hosts must enforce a shared authoritative gate."
+  ],
+  "licenseEvidence": [
+    "licenses/local-reuse-authorization.md",
+    "licenses/notices/agentools-LICENSE.txt",
+    ".swissknifeman/orch/donor-cache/deeptutor/LICENSE",
+    ".swissknifeman/orch/donor-cache/deeptutor/THIRD_PARTY_NOTICES.md"
+  ],
+  "planMirror": "Coordinator-owned plan mutation is forbidden in this executor run; tracked receipt is ready for registrar mirroring."
+}

@@ -31,6 +31,9 @@ final readonly class CommandFactory
         $mutation = $this->mutation(request: $request, route: $route, requestId: $requestId);
         $filters = $body->get('filters') ?? new JsonObject();
         $search = $route->operation === 'search';
+        if ($search && ($body->get('limit') ?? 64) > 100) {
+            throw new InputFailure();
+        }
 
         return new Command(
             route: $route, parameters: $parameters, body: $body, requestId: $requestId, mutation: $mutation,

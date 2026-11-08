@@ -11,18 +11,22 @@ use KnowKit\Domain\Capability;
 use KnowKit\Domain\Contract\StrictJson;
 use KnowKit\Domain\ParserCapabilities;
 use KnowKit\Port\WorkerRunner;
+use KnowKit\Adapter\LocalQuota\TenantQuota;
+use KnowKit\Domain\Origins\DocumentInput;
 
 final readonly class ProcessWorkerSupervisor implements WorkerRunner
 {
     public function __construct(
         private SandboxRuntime $runtime,
         private WorkerIngressBundleValidator $validator,
+        private TenantQuota $quotas = new TenantQuota(),
     ) {
     }
 
     public function run(JobEnvelope $job, #[\SensitiveParameter] string $source, ?\Closure $cancel = null): WorkerBundle
     {
         $job->assertStagingPaths();
+        DocumentInput::assertSupported($source);
         if (strlen($source) > 67108864 || !hash_equals($job->inputDigest(), hash('sha256', $source))) {
             throw new DomainFailure(Outcome::Incompatible, 'input_digest_mismatch');
         }
@@ -30,6 +34,7 @@ final readonly class ProcessWorkerSupervisor implements WorkerRunner
             throw new DomainFailure(Outcome::Denied, 'stale_lease');
         }
         $this->runtime->assertAvailable();
+        $permit = $this->quotas->acquire(tenant: $job->tenantId(), lane: 'worker', concurrent: 2, perMinute: 1000000);
         $limits = $job->limits();
         $group = WorkerCgroup::create($this->runtime->cgroupParent, $limits);
         $stage = $this->runtime->stagingParent . '/job-' . bin2hex(random_bytes(12));
@@ -48,6 +53,7 @@ final readonly class ProcessWorkerSupervisor implements WorkerRunner
             if (is_dir($stage)) {
                 WorkerFiles::remove($stage);
             }
+            $permit->release();
         }
     }
 
