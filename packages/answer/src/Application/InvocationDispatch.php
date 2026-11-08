@@ -67,6 +67,11 @@ final readonly class InvocationDispatch
             if ($result->certainty !== A\DispatchCertainty::Unknown) {
                 return $result;
             }
+        } catch (A\TransportUnavailable $unavailable) {
+            $outcome = $unavailable->outcome($sending->invocationRef);
+            $this->ledger->complete($sending->claim, $outcome);
+
+            return $outcome;
         } catch (\Throwable) {
             // A thrown transport exception says nothing about provider acceptance. Never resend.
         }

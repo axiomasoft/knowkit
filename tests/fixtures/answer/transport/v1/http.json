@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "answer-transport:1",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial bounded single-send chat-completions wire; independent Python JSON golden, no paid network.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "endpoint": "https://model.example.invalid/v1/chat/completions",
+  "messages": [
+    {
+      "role": "system",
+      "content": "Host policy: answer from supplied data."
+    },
+    {
+      "role": "assistant",
+      "content": "Earlier synthetic turn."
+    },
+    {
+      "role": "user",
+      "content": "Bounded fixture evidence."
+    },
+    {
+      "role": "user",
+      "content": "Что означает 漢字 🙂?"
+    }
+  ],
+  "exactWire": "{\"model\":\"chat-model\",\"messages\":[{\"role\":\"system\",\"content\":\"Host policy: answer from supplied data.\"},{\"role\":\"assistant\",\"content\":\"Earlier synthetic turn.\"},{\"role\":\"user\",\"content\":\"Bounded fixture evidence.\"},{\"role\":\"user\",\"content\":\"Что означает 漢字 🙂?\"}],\"max_tokens\":32,\"stream\":false,\"n\":1,\"temperature\":0.2,\"top_p\":0.9,\"seed\":7,\"stop\":[\"END\"]}",
+  "response": {
+    "id": "fixture-completion-001",
+    "object": "chat.completion",
+    "model": "chat-model",
+    "choices": [
+      {
+        "index": 0,
+        "message": {
+          "role": "assistant",
+          "content": "Bounded synthetic answer."
+        },
+        "finish_reason": "stop"
+      }
+    ],
+    "usage": {
+      "prompt_tokens": 12,
+      "completion_tokens": 4,
+      "total_tokens": 16
+    }
+  },
+  "malformed": [
+    "",
+    "[]",
+    "null",
+    "{\"model\":\"chat-model\"",
+    "{\"model\":\"chat-model\",\"model\":\"other\"}",
+    "{\"usage\":{\"prompt_tokens\":NaN}}",
+    "{\"usage\":{\"prompt_tokens\":Infinity}}",
+    "{\"usage\":{\"prompt_tokens\":1e999}}",
+    "{\"choices\":{}}",
+    "{\"choices\":[{},{}]}",
+    "{\"model\":null}",
+    "{\"model\":\"not a reference\"}"
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "answer:transport",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Nine mandatory IDs bound to actual PHPUnit methods, including all-content post-intent egress denial. Existing QA runner rejects missing/skipped/failed/duplicate/zero results.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "answer-transport:exact-wire",
+    "credential-redaction",
+    "wrong-model-observation",
+    "oversize-input-output",
+    "timeout-before-after-dispatch",
+    "malformed-response",
+    "partial-output",
+    "one-send-no-retry",
+    "no-network-unconfigured"
+  ],
+  "testCaseMap": {
+    "answer-transport:exact-wire": [
+      "KnowKit\\Tests\\Answer\\Transport\\TransportTest::testExactWireUsesPinnedEndpointModelSettingsAndHostCredentialOnce",
+      "KnowKit\\Tests\\Answer\\Transport\\TransportTest::testChangedModelSettingsRolesOrBodyCannotReuseAdmittedIdentity",
+      "KnowKit\\Tests\\Answer\\Transport\\EgressTest::testCoreManifestPreservesExactDestinationCategoriesHashesAndSourceVersions",
+      "KnowKit\\Tests\\Answer\\Transport\\EgressTest::testFreshAllowChecksFullHostScopeAndEveryExactResourceWithoutChangingIdentity"
+    ],
+    "credential-redaction": [
+      "KnowKit\\Tests\\Answer\\Transport\\TransportTest::testCredentialAndProviderFailuresAreRedactedBeforeAndAfterDispatch"
+    ],
+    "wrong-model-observation": [
+      "KnowKit\\Tests\\Answer\\Transport\\TransportTest::testWrongModelRemainsAnObservationWithoutAcceptingADeploymentChange"
+    ],
+    "oversize-input-output": [
+      "KnowKit\\Tests\\Answer\\Transport\\TransportTest::testInputOutputAndResponseLimitsRejectOverflowWithNoPartialText"
+    ],
+    "timeout-before-after-dispatch": [
+      "KnowKit\\Tests\\Answer\\Transport\\TransportTest::testTimeoutAndCancellationDistinguishBeforeAndAfterDispatch"
+    ],
+    "malformed-response": [
+      "KnowKit\\Tests\\Answer\\Transport\\TransportTest::testMalformedBodiesAndNonFiniteUsageNeverBecomeSuccess"
+    ],
+    "partial-output": [
+      "KnowKit\\Tests\\Answer\\Transport\\TransportTest::testPartialToolAndStreamingOutputNeverBecomesAnAnswer"
+    ],
+    "one-send-no-retry": [
+      "KnowKit\\Tests\\Answer\\Transport\\TransportTest::testEachFailureMakesOnlyOneSendWithoutRedirectRetryOrRepair"
+    ],
+    "no-network-unconfigured": [
+      "KnowKit\\Tests\\Answer\\Transport\\TransportTest::testUnconfiguredOrUnsupportedHostPerformsNoNetworkAndReadinessIsLocal",
+      "KnowKit\\Tests\\Answer\\Transport\\EgressTest::testMissingConfigurationCompletesUnavailableWithoutAnyNetwork",
+      "KnowKit\\Tests\\Answer\\Transport\\EgressTest::testPostMarkSendingQuestionOrHistoryDenialPreventsAnyTransportSend",
+      "KnowKit\\Tests\\Answer\\Transport\\FixtureTest::testVersionedFixturesAndVerifiedReuseReceipt",
+      "KnowKit\\Tests\\Answer\\Transport\\FixtureTest::testRequiredManifestRejectsMissingSkippedFailedDuplicateAndZeroCases"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/answer/transport/v1/http.json",
+      "sha256": "097b1d81b5f3a620097f3a80125ccde35adb3a8b94b5bff13e1e07270186e471",
+      "expected": "Exact pinned one-send wire; redacted, bounded, nullable observations; no partial success, fallback, retry or unconfigured IO; whole-content egress denies before transport."
+    }
+  ]
+}

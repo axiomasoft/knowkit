@@ -1,0 +1,114 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P4.9",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-core/src/Models/ModelTransport.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "2070d302d0e39facb0a362f2444455d6754d56470d8ef425cf395824704e9844",
+      "observedSha256": "2070d302d0e39facb0a362f2444455d6754d56470d8ef425cf395824704e9844",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Models/ModelTransport.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Preserve one-exchange proposal-only boundary; adapt to immutable bounded PSR-18 POST, no stream publication or tool runtime.",
+      "qualificationRef": "tests/answer/transport/TransportTest.php",
+      "targetPaths": [
+        "packages/answer/src/Adapter",
+        "packages/answer/src/Domain/EgressContentManifest.php",
+        "tests/answer/transport"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-core/src/Runtime/InvocationJournal.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "e9db6652c7ebc58a1a4f5b06f5d2efd77954213d805d6877c8b965fd6f559475",
+      "observedSha256": "e9db6652c7ebc58a1a4f5b06f5d2efd77954213d805d6877c8b965fd6f559475",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Runtime/InvocationJournal.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "reject",
+      "reason": "Existing InvocationDispatch/ledger already owns durable intent, fences and unknown recovery. The HTTP adapter must not duplicate that journal.",
+      "qualificationRef": "tests/answer/transport/TransportTest.php",
+      "targetPaths": [
+        "packages/answer/src/Adapter",
+        "packages/answer/src/Domain/EgressContentManifest.php",
+        "tests/answer/transport"
+      ]
+    },
+    {
+      "donor": "agentools",
+      "path": "packages/agentools-chatom/src/TextComposition.php",
+      "pin": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "observedSha256": "3144c20b0f8ab894cb25fa36ea6e74d64069b0ca5ab6198cee38eb593566be97",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-chatom/src/TextComposition.php",
+      "license": "LicenseRef-Private-Authorized-Local-Reuse",
+      "decision": "adapt",
+      "reason": "Preserve separate host policy, typed roles and pinned deployment; adapt exact composed bytes and content hashes without Chatom intake/history persistence.",
+      "qualificationRef": "tests/answer/transport/TransportTest.php",
+      "targetPaths": [
+        "packages/answer/src/Adapter",
+        "packages/answer/src/Domain/EgressContentManifest.php",
+        "tests/answer/transport"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/runtime/coordination/journal.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "1e252727fb2f5adb314d90826468f433611713537185dce573a6a459e6c3526f",
+      "observedSha256": "1e252727fb2f5adb314d90826468f433611713537185dce573a6a459e6c3526f",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/runtime/coordination/journal.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "Streaming event batching and live/durable replay are outside this single-exchange adapter; no second runtime or journal.",
+      "qualificationRef": "tests/answer/transport/TransportTest.php",
+      "targetPaths": [
+        "packages/answer/src/Adapter",
+        "packages/answer/src/Domain/EgressContentManifest.php",
+        "tests/answer/transport"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/embedding/adapters/openai_compatible.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "34f84c680a4798500f252cc6b7b6ce00fad3aeae42ed6fdeadc7b4fec4452be0",
+      "observedSha256": "34f84c680a4798500f252cc6b7b6ce00fad3aeae42ed6fdeadc7b4fec4452be0",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/embedding/adapters/openai_compatible.py",
+      "license": "Apache-2.0",
+      "decision": "reject",
+      "reason": "Embedding protocol is not chat completions. Retry/backoff/key rotation, endpoint heuristics, raw response logging and model fallback contradict the scoped contract. Keep explicit endpoint/auth separation as a design comparison only.",
+      "qualificationRef": "tests/answer/transport/TransportTest.php",
+      "targetPaths": [
+        "packages/answer/src/Adapter",
+        "packages/answer/src/Domain/EgressContentManifest.php",
+        "tests/answer/transport"
+      ]
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/runtime/coordination/test_journal_recovery.py",
+      "pin": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "observedSha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_journal_recovery.py",
+      "license": "Apache-2.0",
+      "decision": "adapt",
+      "reason": "Adapt negative lost-work intent into before/after-dispatch timeout, partial-output and one-send-no-retry fixtures. No recovery generation or Python runtime copied.",
+      "qualificationRef": "tests/answer/transport/TransportTest.php",
+      "targetPaths": [
+        "packages/answer/src/Adapter",
+        "packages/answer/src/Domain/EgressContentManifest.php",
+        "tests/answer/transport"
+      ]
+    }
+  ],
+  "newCodeRationale": "Reuse the installed PSR interfaces, core Scope/Clock/Tokenizer/EgressRequest/DecisionReceipt and existing immutable answer contracts/InvocationDispatch. No donor provides this exact bounded PHP single-send chat adapter. New code is a thin host-injected protocol mapping with typed all-content manifest, exact admitted body and finite nullable observations; no donor runtime imported. Nyholm PSR-7 is dev-only for real offline HTTP message/factory fixtures.",
+  "sourceGaps": [
+    "PSR-18 cannot enforce timeout, DNS pinning, peer/TLS/proxy safety, transfer caps or disabled internal middleware retries. HostHttpPolicy must configure and qualify the injected client or refuse; scripted tests are not production-client qualification.",
+    "Host InvocationAuthorization remains responsible for authoritative source/history/lifecycle checks after markSending and supplies current policy binding to CurrentModelEgress. Remote policy can change after its check; no distributed atomicity is claimed."
+  ],
+  "handoff": "Product-side receipt only; coordinator mirrors to @plan/artifacts/implementation/P4.9-reuse.json. Executor plan mutation is forbidden."
+}
