@@ -1,0 +1,525 @@
+{
+  "schemaVersion": "http-fixtures:1",
+  "fixtureVersion": "1.0.0",
+  "routes": [
+    {
+      "operation": "createKnowledgeBase",
+      "path": "/v1/knowledge-bases",
+      "method": "POST",
+      "body": {
+        "name": "fixture",
+        "policyRef": "fixture",
+        "defaultRetrievalProfile": "fixture"
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture"
+      },
+      "status": 201
+    },
+    {
+      "operation": "createCollection",
+      "path": "/v1/knowledge-bases/01J00000000000000000000002/collections",
+      "method": "POST",
+      "body": {
+        "collectionId": "01J00000000000000000000001"
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 201
+    },
+    {
+      "operation": "addMembership",
+      "path": "/v1/memberships",
+      "method": "POST",
+      "body": {
+        "sourceId": "01J00000000000000000000001"
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 201
+    },
+    {
+      "operation": "registerSource",
+      "path": "/v1/sources",
+      "method": "POST",
+      "body": {
+        "sourceId": "01J00000000000000000000001",
+        "ownerRef": "fixture",
+        "origin": "upload:fixture"
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture"
+      },
+      "status": 201
+    },
+    {
+      "operation": "addVersion",
+      "path": "/v1/sources/01J00000000000000000000001/versions",
+      "method": "POST",
+      "body": {
+        "sourceVersionId": "01J00000000000000000000001",
+        "sourceDigest": "a66c6b3a1bb774a99afb079a2a1ae163b16ee01932b42f713517b6b9198ed313",
+        "mediaType": "text/plain",
+        "rightsRef": "fixture",
+        "contentBase64": "c3ludGhldGljIEhUVFAgb3JpZ2luYWw="
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 201
+    },
+    {
+      "operation": "startIngestJob",
+      "path": "/v1/ingest-jobs",
+      "method": "POST",
+      "body": {
+        "sourceVersionId": "01J00000000000000000000001",
+        "generationId": "01J00000000000000000000001"
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 202
+    },
+    {
+      "operation": "cancelIngestJob",
+      "path": "/v1/ingest-jobs/01J00000000000000000000001/cancel",
+      "method": "POST",
+      "body": {},
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 202
+    },
+    {
+      "operation": "reprocess",
+      "path": "/v1/sources/01J00000000000000000000001/reprocess",
+      "method": "POST",
+      "body": {
+        "sourceVersionId": "01J00000000000000000000001",
+        "generationId": "01J00000000000000000000001"
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 202
+    },
+    {
+      "operation": "ingestJobStatus",
+      "path": "/v1/ingest-jobs/01J00000000000000000000001",
+      "method": "GET",
+      "body": {},
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "validatePublication",
+      "path": "/v1/publications/validate",
+      "method": "POST",
+      "body": {
+        "generationId": "01J00000000000000000000001",
+        "sourceRefs": [
+          {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000000001",
+            "sourceVersionId": "01J00000000000000000000001",
+            "sourceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "processingIdentities": [
+          {
+            "sourceVersionId": "01J00000000000000000000001",
+            "sourceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "parserSignature": {
+              "name": "fixture",
+              "version": "fixture",
+              "profileDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "ocrProfileSignature": {
+              "name": "fixture",
+              "version": "fixture",
+              "profileDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "chunkerSignature": {
+              "name": "fixture",
+              "version": "fixture",
+              "profileDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "irSchema": "fixture",
+            "indexProfileDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "embeddingSpaceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ]
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 202
+    },
+    {
+      "operation": "publish",
+      "path": "/v1/publications",
+      "method": "POST",
+      "body": {
+        "generationId": "01J00000000000000000000001"
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0",
+        "Expected-Revision": "0"
+      },
+      "status": 200
+    },
+    {
+      "operation": "search",
+      "path": "/v1/search",
+      "method": "POST",
+      "body": {
+        "query": "support",
+        "filters": {
+          "sourceVersionIds": [
+            "01J00000000000000000000007"
+          ],
+          "collectionIds": [
+            "01J00000000000000000000008"
+          ]
+        },
+        "limit": 16
+      },
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "disclose",
+      "path": "/v1/disclosures",
+      "method": "POST",
+      "body": {
+        "selectionId": "01J00000000000000000000001",
+        "chunkRefs": [
+          {
+            "tenantId": "01J00000000000000000000001",
+            "sourceId": "01J00000000000000000000001",
+            "sourceVersionId": "01J00000000000000000000001",
+            "sourceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "documentRevisionId": "01J00000000000000000000001",
+            "irDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "parserSignature": {
+              "name": "fixture",
+              "version": "fixture",
+              "profileDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            "chunkSetId": "01J00000000000000000000001",
+            "chunkId": "01J00000000000000000000001",
+            "chunkDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+          }
+        ],
+        "disclosureAttemptId": "01J00000000000000000000001"
+      },
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "resolveCitation",
+      "path": "/v1/citations/01J00000000000000000000001",
+      "method": "GET",
+      "body": {},
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "readSource",
+      "path": "/v1/reads/source",
+      "method": "POST",
+      "body": {
+        "citationId": "01J00000000000000000000001",
+        "attemptId": "01J00000000000000000000001"
+      },
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "readPage",
+      "path": "/v1/reads/page",
+      "method": "POST",
+      "body": {
+        "citationId": "01J00000000000000000000001",
+        "attemptId": "01J00000000000000000000001",
+        "pageId": "p1"
+      },
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "readRegion",
+      "path": "/v1/reads/region",
+      "method": "POST",
+      "body": {
+        "citationId": "01J00000000000000000000001",
+        "attemptId": "01J00000000000000000000001",
+        "pageId": "fixture",
+        "bbox": {
+          "x0": 0,
+          "y0": 0,
+          "x1": 500000,
+          "y1": 500000
+        }
+      },
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "readTable",
+      "path": "/v1/reads/table",
+      "method": "POST",
+      "body": {
+        "citationId": "01J00000000000000000000001",
+        "attemptId": "01J00000000000000000000001",
+        "tableId": "fixture"
+      },
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "readAsset",
+      "path": "/v1/reads/asset",
+      "method": "POST",
+      "body": {
+        "citationId": "01J00000000000000000000001",
+        "attemptId": "01J00000000000000000000001",
+        "assetId": "fixture"
+      },
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "correct",
+      "path": "/v1/lifecycle/corrections",
+      "method": "POST",
+      "body": {
+        "oldVersion": {
+          "tenantId": "01J00000000000000000000001",
+          "sourceId": "01J00000000000000000000001",
+          "sourceVersionId": "01J00000000000000000000001",
+          "sourceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        }
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 200
+    },
+    {
+      "operation": "revoke",
+      "path": "/v1/lifecycle/revocations",
+      "method": "POST",
+      "body": {
+        "sourceId": "01J00000000000000000000001",
+        "reason": "source_revoked"
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 200
+    },
+    {
+      "operation": "requestPurge",
+      "path": "/v1/lifecycle/deletions",
+      "method": "POST",
+      "body": {
+        "sourceId": "01J00000000000000000000001"
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 202
+    },
+    {
+      "operation": "placeLegalHold",
+      "path": "/v1/lifecycle/legal-holds",
+      "method": "POST",
+      "body": {
+        "sourceId": "01J00000000000000000000001",
+        "enabled": false
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 200
+    },
+    {
+      "operation": "purgeStatus",
+      "path": "/v1/deletions/01J00000000000000000000001",
+      "method": "GET",
+      "body": {},
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "registerProviderAcceptance",
+      "path": "/v1/usage/01J00000000000000000000001/provider-acceptance",
+      "method": "POST",
+      "body": {
+        "providerId": "fixture",
+        "acceptanceId": "fixture"
+      },
+      "headers": {
+        "Idempotency-Key": "http-fixture",
+        "Expected-Epoch": "0"
+      },
+      "status": 200
+    },
+    {
+      "operation": "usageInvalidations",
+      "path": "/v1/usage/01J00000000000000000000001/invalidations",
+      "method": "GET",
+      "body": {},
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "capabilities",
+      "path": "/v1/capabilities",
+      "method": "GET",
+      "body": {},
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "readiness",
+      "path": "/v1/readiness",
+      "method": "GET",
+      "body": {},
+      "headers": {},
+      "status": 200
+    },
+    {
+      "operation": "coverage",
+      "path": "/v1/coverage",
+      "method": "GET",
+      "body": {},
+      "headers": {},
+      "status": 200
+    }
+  ],
+  "identity": [
+    {
+      "query": "support",
+      "tenantId": "FOREIGN_SECRET"
+    },
+    {
+      "query": "support",
+      "actorId": "FOREIGN_SECRET"
+    },
+    {
+      "query": "support",
+      "subjectId": "FOREIGN_SECRET"
+    },
+    {
+      "query": "support",
+      "grants": [
+        "admin"
+      ]
+    },
+    {
+      "query": "support",
+      "purpose": "admin.read"
+    },
+    {
+      "query": "support",
+      "hostScopeHash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "query": "support",
+      "policyEpoch": "999"
+    },
+    {
+      "query": "support",
+      "scope": {
+        "tenantId": "FOREIGN_SECRET"
+      }
+    },
+    {
+      "query": "support",
+      "identity": {}
+    },
+    {
+      "query": "support",
+      "audience": "admin"
+    },
+    {
+      "query": "support",
+      "usageContext": {
+        "runRef": "forged"
+      }
+    }
+  ],
+  "invalid": [
+    {},
+    {
+      "query": 4
+    },
+    {
+      "query": "support",
+      "filter": "SELECT *"
+    },
+    {
+      "query": "support",
+      "limit": 0
+    },
+    {
+      "query": "support",
+      "limit": 4097
+    },
+    {
+      "query": "support",
+      "schemaVersion": "2.0"
+    }
+  ],
+  "unsafeOrigins": [
+    "https://example.org/redirect?to=http://127.0.0.1",
+    "http://169.254.169.254/metadata",
+    "file:///private/data",
+    "../../private",
+    "upload:../secret"
+  ],
+  "outcomes": [
+    {
+      "outcome": "denied",
+      "status": 403,
+      "retryable": false
+    },
+    {
+      "outcome": "unknown",
+      "status": 503,
+      "retryable": false
+    },
+    {
+      "outcome": "unknown",
+      "status": 503,
+      "retryable": true
+    },
+    {
+      "outcome": "unavailable",
+      "status": 503,
+      "retryable": true
+    },
+    {
+      "outcome": "incompatible",
+      "status": 409,
+      "retryable": false
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "knowkit/http",
+  "description": "Explicit versioned HTTP transport for KnowKit host applications",
+  "type": "library",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.3",
+    "knowkit/core": "dev-main"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.5"
+  },
+  "repositories": [{"type": "path", "url": "../core", "options": {"symlink": false, "versions": {"knowkit/core": "dev-main"}}}],
+  "autoload": {"psr-4": {"KnowKit\\Http\\": "src/"}},
+  "config": {"allow-plugins": false, "sort-packages": true, "platform": {"php": "8.3.0"}},
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

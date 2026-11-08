@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "delivery:http",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial independently authored HTTP route/status cases, immutable identities, hostile boundary inputs and committed-usage regressions. Digests qualify the reviewed local contract, not generated response snapshots.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic HTTP corpus. No real document, personal data or credentials.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "UNAUTHENTICATED",
+    "TENANT-SPOOF",
+    "IDEMPOTENCY-REPLAY",
+    "EPOCH-CONFLICT",
+    "SCHEMA-MISMATCH",
+    "OVERSIZED-UPLOAD",
+    "REVOKED-PREVIEW",
+    "UNKNOWN-POLICY",
+    "R18-A01",
+    "R18-A02",
+    "R35-A01",
+    "R35-A02",
+    "ALL-VERSIONED-ROUTES",
+    "MUTATION-HEADERS",
+    "USAGE-BEFORE-SEND",
+    "OUTCOMES-CORRELATION-REDACTION",
+    "REAL-HTTP",
+    "FIXTURE-INTEGRITY",
+    "OPENAPI-CONFORMANCE",
+    "RUNNER-NEGATIVES",
+    "PACKAGE-ISOLATION",
+    "CORE-COMMAND-MAPPING"
+  ],
+  "testCaseMap": {
+    "UNAUTHENTICATED": [
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testUnauthenticatedPrecedesInputAndNeverBuildsPrivilegedContext"
+    ],
+    "TENANT-SPOOF": [
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testTrustedHostIdentityPrevailsAndSpoofedFieldsNeverReachApplication",
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testForeignExactRefsAndChangedHostScopeCannotEnlargeSelection"
+    ],
+    "IDEMPOTENCY-REPLAY": [
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testDurableIdempotencyReplayRejectsPayloadAndExpectedEpochConflict"
+    ],
+    "EPOCH-CONFLICT": [
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testDurableIdempotencyReplayRejectsPayloadAndExpectedEpochConflict"
+    ],
+    "SCHEMA-MISMATCH": [
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testSchemaMismatchAndMalformedBodiesStopBeforeApplication"
+    ],
+    "OVERSIZED-UPLOAD": [
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testOversizedDeclaredChunkedAndDecodedUploadsAreBounded"
+    ],
+    "REVOKED-PREVIEW": [
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testRevokedPreviewsAndUnknownPolicyNeverDiscloseOrRegisterUsage"
+    ],
+    "UNKNOWN-POLICY": [
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testRevokedPreviewsAndUnknownPolicyNeverDiscloseOrRegisterUsage"
+    ],
+    "R18-A01": [
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testTrustedHostIdentityPrevailsAndSpoofedFieldsNeverReachApplication",
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testForeignExactRefsAndChangedHostScopeCannotEnlargeSelection"
+    ],
+    "R18-A02": [
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testUnauthenticatedPrecedesInputAndNeverBuildsPrivilegedContext",
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testTrustedHostIdentityPrevailsAndSpoofedFieldsNeverReachApplication"
+    ],
+    "R35-A01": [
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testDurableIdempotencyReplayRejectsPayloadAndExpectedEpochConflict"
+    ],
+    "R35-A02": [
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testUnsafeOriginPathAndSqlFiltersAreRejectedBeforePrivilegedWork"
+    ],
+    "ALL-VERSIONED-ROUTES": [
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testEveryVersionedRouteValidatesAndForwardsTypedCommand"
+    ],
+    "MUTATION-HEADERS": [
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testMutationHeadersCannotBeOmittedDuplicatedOrSmuggled",
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testInapplicableExpectedRevisionAndInvalidSelectorsCannotBeSilentlyIgnored",
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testOptionalExpectedRevisionIsPreservedOnSupportedMutationRoutes"
+    ],
+    "USAGE-BEFORE-SEND": [
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testHttpDisclosureAndCitationSendOnlyAfterCommittedUsageAndReplayHasNoText",
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testUsageWriteFailureNeverReleasesPreviewBytes"
+    ],
+    "OUTCOMES-CORRELATION-REDACTION": [
+      "KnowKit\\Tests\\Delivery\\Http\\TransportTest::testDistinctOutcomesCorrelationAndInternalRedaction"
+    ],
+    "REAL-HTTP": [
+      "KnowKit\\Tests\\Delivery\\Http\\SapiTest::testRealHttpRequestsReachExplicitSapiAndKeepStatusAndCorrelation"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Delivery\\Http\\FixtureTest::testFixtureDigestsProvenanceAndRequiredScenariosBindCandidate"
+    ],
+    "OPENAPI-CONFORMANCE": [
+      "KnowKit\\Tests\\Delivery\\Http\\FixtureTest::testOpenApiRuntimeArtifactAndEnvelopeSchemasConform"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Delivery\\Http\\FixtureTest::testRequiredCaseRunnerRejectsMissingSkippedFailedZeroAndUnknown"
+    ],
+    "PACKAGE-ISOLATION": [
+      "KnowKit\\Tests\\Delivery\\Http\\FixtureTest::testPackageLoadsInFreshProcessWithoutFrameworkOrInstallationSideEffects"
+    ],
+    "CORE-COMMAND-MAPPING": [
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testCatalogAndLifecycleRoutesCallAtomicCoreServices",
+      "KnowKit\\Tests\\Delivery\\Http\\ApplicationTest::testCorrectionRoutePreservesExactVersionIdentity"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/fixtures/http/v1/cases.json",
+      "sha256": "5777dde77a2ebf92760cd1f3a960f581bc44d5c889800b34f531587afe7360ca",
+      "expected": "All 29 approved route shapes/statuses; identity spoof is denied, malformed/unsafe inputs rejected, domain outcomes remain distinct."
+    },
+    {
+      "path": "tests/fixtures/http/v1/router.php",
+      "sha256": "309073941747002bfadbde6449c325f2c4b08d1994dd254c27189bcfc714427a",
+      "expected": "Synthetic explicit SAPI host fixture for real local HTTP; no application authority or production credentials."
+    },
+    {
+      "path": "specs/http/openapi.yaml",
+      "sha256": "0b79f90863bd9fb52799dfd20c328396fb99ff6d7922fbb04a028d6374417ec5",
+      "expected": "OpenAPI 3.1 versioned routes and closed body/envelope schemas; generated runtime contract must be byte-identical."
+    }
+  ],
+  "components": {
+    "composerLock": {
+      "path": "packages/http/composer.lock",
+      "sha256": "5b9c11ca88970c8324c29675518f77ab838f3638e58b3c70d3cd83401f561611"
+    },
+    "phpFloor": "8.3",
+    "requiredBackend": "PostgreSQL; absence is failure, never skip"
+  }
+}
