@@ -21,6 +21,8 @@ final readonly class Migrate
         '009_empty_snapshot_members',
         '010_navigation_usages',
         '011_recovery_shared_guard',
+        '012_immutable_locator_indexes',
+        '013_manifest_schema_ceiling',
     ];
     public function __construct(private PDO $pdo,private string $schema) { Connection::schema($schema); }
     public function apply(string $file): void

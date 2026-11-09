@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "ops-performance:1",
+  "fixtureVersion": "1.5.0",
+  "versionRationale": "Authored deterministic capacity corpus. Counts and outcomes derive from existing contracts, not response snapshots. Q1 defines 64 MiB TXT ingest as sixteen sequential 4 MiB documents. Digest changes require a new version and behavioral rationale. Version 1.1.0 binds large prefilter to the existing QueryGrant maximum of 4096 allowed source versions over the unchanged 10000-source/100000-chunk corpus; a 4097-entry grant must fail. The reference corpus alternates equal-byte EN and RU texts and preserves exact IR/span digests. Version 1.2.0 adds query-plan counterfactuals after full-scale loading exposed tenant scans in exact block and snapshot-member guards. Additive migration 012 indexes the existing predicates without changing their semantics. Version 1.3.0 binds a valid reference index manifest above 1 MiB to the existing 16 MiB schema ceiling, and adds the above-16-MiB negative boundary. The generic JSON default was not the approved index-manifest contract. Version 1.4.0 removes only a redundant legacy 4 MiB persistence guard discovered on full manifest sealing; the existing 16 MiB SQL guard remains. Positive SQL above 4 MiB and negative SQL above 16 MiB test the same approved wire ceiling. Version 1.5.0 adds changed-bytes/digest and post-cache committed-revoke negatives after the fixed 20-client workload measured warm p95 above the unchanged 500 ms target. A single-entry immutable validation cache preserves authoritative per-request checks.",
+  "seed": 94001,
+  "license": "LicenseRef-KnowKit-Private",
+  "origin": "Project-authored TXT generator and synthetic catalog identities; existing project-authored retrieval/scanned PDF fixtures bound by the group manifest.",
+  "txtSha256": "7105d0915c85c18386314eaf73736a435322ee4232bc03f88754ef6c37d23eb1",
+  "ocrIrSha256": "7df8db3d537abe35b9132b004eb7e72d3f0d4e000a28c7fad40f529d2e0d3cf3",
+  "outcomes": {
+    "CATALOG-64M": [
+      16,
+      4194304,
+      67108864,
+      1
+    ],
+    "MAX-BYTES-PAGES-ASSETS": [
+      4194304,
+      67108864,
+      500,
+      2000,
+      [
+        "unsupported_parser_profile",
+        "document_too_large",
+        "input_limit",
+        "limit_exceeded"
+      ]
+    ],
+    "LEXICAL-20-CLIENTS": [
+      10000,
+      100000,
+      20,
+      64
+    ],
+    "LARGE-PERMISSION-PREFILTER": [
+      4096,
+      40960
+    ],
+    "HYBRID": [
+      3,
+      2,
+      0,
+      0
+    ],
+    "OBJECT-STORE-OUTAGE": [
+      "unavailable",
+      "denied",
+      20
+    ],
+    "CONCURRENT-REINDEX": [
+      2,
+      16,
+      "incompatible/generation_sealed"
+    ],
+    "HOT-TENANT": [
+      1,
+      4,
+      64
+    ],
+    "MANY-TENANTS": [
+      20,
+      20,
+      320
+    ],
+    "OUTBOX": [
+      64,
+      64,
+      0
+    ],
+    "PURGE": [
+      32,
+      32,
+      0,
+      "done"
+    ],
+    "OCR-BATCH-MEMORY": [
+      3,
+      1,
+      "unavailable/worker_oom",
+      0
+    ]
+  }
+}

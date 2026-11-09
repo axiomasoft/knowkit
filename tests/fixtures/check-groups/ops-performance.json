@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "ops:performance",
+  "fixtureVersion": "1.5.0",
+  "versionRationale": "Authored deterministic capacity corpus. Counts and outcomes derive from existing contracts, not response snapshots. Q1 defines 64 MiB TXT ingest as sixteen sequential 4 MiB documents. Digest changes require a new version and behavioral rationale. Version 1.1.0 binds large prefilter to the existing QueryGrant maximum of 4096 allowed source versions over the unchanged 10000-source/100000-chunk corpus; a 4097-entry grant must fail. The reference corpus alternates equal-byte EN and RU texts and preserves exact IR/span digests. Version 1.2.0 adds query-plan counterfactuals after full-scale loading exposed tenant scans in exact block and snapshot-member guards. Additive migration 012 indexes the existing predicates without changing their semantics. Version 1.3.0 binds a valid reference index manifest above 1 MiB to the existing 16 MiB schema ceiling, and adds the above-16-MiB negative boundary. The generic JSON default was not the approved index-manifest contract. Version 1.4.0 removes only a redundant legacy 4 MiB persistence guard discovered on full manifest sealing; the existing 16 MiB SQL guard remains. Positive SQL above 4 MiB and negative SQL above 16 MiB test the same approved wire ceiling. Version 1.5.0 adds changed-bytes/digest and post-cache committed-revoke negatives after the fixed 20-client workload measured warm p95 above the unchanged 500 ms target. A single-entry immutable validation cache preserves authoritative per-request checks.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic RU/EN text and metadata, project-authored scanned PDF and pinned golden IR. No external documents or credentials.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "CATALOG-64M",
+    "MAX-BYTES-PAGES-ASSETS",
+    "LEXICAL-20-CLIENTS",
+    "LARGE-PERMISSION-PREFILTER",
+    "HYBRID",
+    "OBJECT-STORE-OUTAGE",
+    "CONCURRENT-REINDEX",
+    "HOT-TENANT",
+    "MANY-TENANTS",
+    "OUTBOX",
+    "PURGE",
+    "OCR-BATCH-MEMORY",
+    "METRICS-NEGATIVES",
+    "QUALIFICATION-NEGATIVES",
+    "FIXTURE-INTEGRITY",
+    "RUNNER-NEGATIVES",
+    "INDEXED-IMMUTABLE-LOOKUPS",
+    "MANIFEST-SIZE-BOUNDARY",
+    "MIGRATION-IDEMPOTENCE",
+    "IMMUTABLE-VALIDATION-CACHE"
+  ],
+  "testCaseMap": {
+    "CATALOG-64M": [
+      "KnowKit\\Tests\\Ops\\Performance\\CatalogTest::testSequential64MiBBatchAndSingleMaxDocumentStayWithin256MiB"
+    ],
+    "MAX-BYTES-PAGES-ASSETS": [
+      "KnowKit\\Tests\\Ops\\Performance\\CatalogTest::testOversizedTextSourcePagesAssetsAndMemoryRejectWithoutContractChanges"
+    ],
+    "LEXICAL-20-CLIENTS": [
+      "KnowKit\\Tests\\Ops\\Performance\\SearchTest::testReferenceCorpusTwentyClientsAndLargePermissionPrefilter"
+    ],
+    "LARGE-PERMISSION-PREFILTER": [
+      "KnowKit\\Tests\\Ops\\Performance\\SearchTest::testReferenceCorpusTwentyClientsAndLargePermissionPrefilter"
+    ],
+    "HYBRID": [
+      "KnowKit\\Tests\\Ops\\Performance\\SearchTest::testHybridUsesRealPgvectorAndPreservesPrefilterAndPositiveRanks"
+    ],
+    "OBJECT-STORE-OUTAGE": [
+      "KnowKit\\Tests\\Ops\\Performance\\SearchTest::testBoundedDisclosureObjectOutageAndCommittedRevokeStayDistinct"
+    ],
+    "CONCURRENT-REINDEX": [
+      "KnowKit\\Tests\\Ops\\Performance\\SearchTest::testConcurrentReindexPreservesMembershipsAndRefusesSealedMutation"
+    ],
+    "HOT-TENANT": [
+      "KnowKit\\Tests\\Ops\\Performance\\GraphTest::testHotTenantGraphWritesMeasureRealGuardContention"
+    ],
+    "MANY-TENANTS": [
+      "KnowKit\\Tests\\Ops\\Performance\\GraphTest::testTwentyTenantsRemainIsolatedDuringConcurrentGraphWrites"
+    ],
+    "OUTBOX": [
+      "KnowKit\\Tests\\Ops\\Performance\\OperationsTest::testHealthyOutboxDrainsWithDuplicateEffectsFencedAndLagMeasured"
+    ],
+    "PURGE": [
+      "KnowKit\\Tests\\Ops\\Performance\\OperationsTest::testPurgeDeletesRealExactLocalObjectsAndDrainsResourceBacklog"
+    ],
+    "OCR-BATCH-MEMORY": [
+      "KnowKit\\Tests\\Ops\\Performance\\WorkerTest::testRealSandboxOcrBatchMeasuresMemoryCpuAndEnforcesOom"
+    ],
+    "METRICS-NEGATIVES": [
+      "KnowKit\\Tests\\Ops\\Performance\\MetricsTest::testNearestRankPercentilesHaveGoldenValuesAndRejectInvalidSamples"
+    ],
+    "QUALIFICATION-NEGATIVES": [
+      "KnowKit\\Tests\\Ops\\Performance\\MetricsTest::testQualificationRejectsMissingHardwareChangedWorkloadAndFailedThresholds"
+    ],
+    "FIXTURE-INTEGRITY": [
+      "KnowKit\\Tests\\Ops\\Performance\\FixtureTest::testVersionRightsDigestsCasesAndPinnedReuseAreComplete"
+    ],
+    "RUNNER-NEGATIVES": [
+      "KnowKit\\Tests\\Ops\\Performance\\FixtureTest::testRequiredCaseCheckerRejectsMissingSkippedFailedDuplicateZeroAndUnknown"
+    ],
+    "INDEXED-IMMUTABLE-LOOKUPS": [
+      "KnowKit\\Tests\\Ops\\Performance\\SearchTest::testReferenceCorpusTwentyClientsAndLargePermissionPrefilter"
+    ],
+    "MANIFEST-SIZE-BOUNDARY": [
+      "KnowKit\\Tests\\Ops\\Performance\\MetricsTest::testIndexManifestStillRejectsAboveItsSchemaCeilingBeforeJsonParsing",
+      "KnowKit\\Tests\\Ops\\Performance\\MigrationTest::testDatabaseManifestCeilingMatchesWireWithoutRemovingUpperBound"
+    ],
+    "MIGRATION-IDEMPOTENCE": [
+      "KnowKit\\Tests\\Ops\\Performance\\MigrationTest::testAdditiveIndexesKeepMigrationChecksumsAndIdempotentReplay"
+    ],
+    "IMMUTABLE-VALIDATION-CACHE": [
+      "KnowKit\\Tests\\Ops\\Performance\\ManifestTest::testValidationCacheRejectsChangedBytesOrDeclaredIdentityAndCannotPoisonValidEntry",
+      "KnowKit\\Tests\\Ops\\Performance\\ManifestTest::testCachedManifestCannotAuthorizeDisclosureAfterCommittedSourceRevocation"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "tests/ops/performance/fixtures/v1/cases.json",
+      "sha256": "0dbe948448ab60f84d5062ae2ffbe999e205843421fb01f697cad403e4c4aa0f",
+      "expected": "All declared counts, digests and outcomes must satisfy repository assertions. No unavailable required PostgreSQL/pgvector/OCR backend or skipped required case is accepted."
+    },
+    {
+      "path": "deploy/profiles/capacity.v1.json",
+      "sha256": "79bca16a5417e5fca4563a9bc50066996a10fb52b9d20a7bb84d152daa873844",
+      "expected": "All declared counts, digests and outcomes must satisfy repository assertions. No unavailable required PostgreSQL/pgvector/OCR backend or skipped required case is accepted."
+    },
+    {
+      "path": "tests/fixtures/retrieval/lexical/corpus.v1.json",
+      "sha256": "81e4e03b5b7c8521e118a6de49419682f9f2e5acc1a6f8cc3c73a0859168c9ff",
+      "expected": "All declared counts, digests and outcomes must satisfy repository assertions. No unavailable required PostgreSQL/pgvector/OCR backend or skipped required case is accepted."
+    },
+    {
+      "path": "tests/fixtures/retrieval/vector/corpus.v1.json",
+      "sha256": "d42f896f81306df9b35295a7f9bffa36783f175d12e1a28f1bf4b289d8fd1f4d",
+      "expected": "All declared counts, digests and outcomes must satisfy repository assertions. No unavailable required PostgreSQL/pgvector/OCR backend or skipped required case is accepted."
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/approved-eng.pdf",
+      "sha256": "73d6a1d4604eb875b69f71a852550a10650d58e4446cd93131275eef0e1f76ec",
+      "expected": "All declared counts, digests and outcomes must satisfy repository assertions. No unavailable required PostgreSQL/pgvector/OCR backend or skipped required case is accepted."
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/approved-eng.ir.json",
+      "sha256": "7df8db3d537abe35b9132b004eb7e72d3f0d4e000a28c7fad40f529d2e0d3cf3",
+      "expected": "All declared counts, digests and outcomes must satisfy repository assertions. No unavailable required PostgreSQL/pgvector/OCR backend or skipped required case is accepted."
+    }
+  ]
+}

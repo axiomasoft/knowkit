@@ -1,0 +1,92 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P9.4",
+  "authority": "licenses/local-reuse-authorization.md",
+  "sources": [
+    {
+      "donor": "agentools",
+      "path": "extensions/knowledge/tests/Retrieval/HybridTest.php",
+      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Retrieval/HybridTest.php",
+      "cachePath": ".swissknifeman/orch/donor-cache/agentools/extensions/knowledge/tests/Retrieval/HybridTest.php",
+      "sha256": "8d0a488c5c3019ce5fc425833f7b740a6a35e39299242a4f16c5172ace08e25f",
+      "observedSha256": "8d0a488c5c3019ce5fc425833f7b740a6a35e39299242a4f16c5172ace08e25f",
+      "decision": "adapt",
+      "license": "Proprietary; private local reuse only",
+      "reason": "Exercise actual lexical/vector adapters, exact identifiers and positive ranks; retain KnowKit prefilter and immutable identity instead of donor storage contracts."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/eval/metrics.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/eval/metrics.py",
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/deeptutor/services/rag/eval/metrics.py",
+      "sha256": "4082684a67eb9a3c43cbc818f2aa93c77d1a1b330e96f5f96e7aa6b2303932de",
+      "observedSha256": "4082684a67eb9a3c43cbc818f2aa93c77d1a1b330e96f5f96e7aa6b2303932de",
+      "decision": "adapt",
+      "license": "Apache-2.0; behavioral adaptation, no source copied",
+      "reason": "Separate measured cases and aggregate slices; empty performance samples fail rather than becoming successful zero metrics."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/eval/matching.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/eval/matching.py",
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/deeptutor/services/rag/eval/matching.py",
+      "sha256": "19ae5bde484b6b76f594aa0cac1c6574f82b00d8374c013da94159637bf28c76",
+      "observedSha256": "19ae5bde484b6b76f594aa0cac1c6574f82b00d8374c013da94159637bf28c76",
+      "decision": "reject",
+      "license": "Apache-2.0",
+      "reason": "Normalized overlap is not immutable provenance validation. Workload assertions compare exact source/version/revision/chunk identities and digests."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "deeptutor/services/rag/eval/runner.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/rag/eval/runner.py",
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/deeptutor/services/rag/eval/runner.py",
+      "sha256": "d3fe7726cda1829460fa815c5005361935d227c17a6894633fba37b13be7978b",
+      "observedSha256": "d3fe7726cda1829460fa815c5005361935d227c17a6894633fba37b13be7978b",
+      "decision": "adapt",
+      "license": "Apache-2.0; behavioral adaptation, no source copied",
+      "reason": "Run the production search path, bind every case to configuration and corpus fingerprints, keep errors distinct from empty results. No query rewriting or provider fallback."
+    },
+    {
+      "donor": "deeptutor",
+      "path": "tests/services/rag/eval/test_eval_metrics.py",
+      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/services/rag/eval/test_eval_metrics.py",
+      "cachePath": ".swissknifeman/orch/donor-cache/deeptutor/tests/services/rag/eval/test_eval_metrics.py",
+      "sha256": "9ed9d2cf8bdae1d8de99cc9b3f41dad4ed24b894a4ca8d2e5698747fe001339a",
+      "observedSha256": "9ed9d2cf8bdae1d8de99cc9b3f41dad4ed24b894a4ca8d2e5698747fe001339a",
+      "decision": "adapt",
+      "license": "Apache-2.0; behavioral adaptation, no source copied",
+      "reason": "Golden numerical assertions, cutoff boundaries and negative invalid-input examples adapted to nearest-rank percentiles and fail-closed qualification."
+    }
+  ],
+  "newCodeRationale": "No shortlisted donor implements KnowKit capacity quotas, PostgreSQL guards or isolated OCR resource accounting. New development-only orchestration reuses the repository's migrated catalog, lexical/vector, disclosure, outbox and purge adapters. No donor scores are reported as measurements.",
+  "localAdaptations": [
+    {
+      "path": "packages/core/src/Adapter/Lexical/SealedManifest.php",
+      "reason": "Measured full-corpus lexical warm p95 exceeded 500 ms. Cache one schema-validation result bound to both current PostgreSQL JSON bytes SHA-256 and the declared immutable manifest digest. Continue querying current scoped snapshot/generation on every search and checking authoritative lifecycle/access before disclosure; changed bytes/digest and disclosure after a post-cache committed revoke have negative regressions. No authorization or result caching."
+    },
+    {
+      "path": "packages/core/migrations/postgres/013_manifest_schema_ceiling.sql",
+      "reason": "Full reference persistence exposed simultaneous legacy 4 MiB and approved 16 MiB guards on manifest_json. Remove only the obsolete smaller guard; retain the existing 16 MiB guard. Positive SQL above 4 MiB and negative SQL above 16 MiB bind the approved wire ceiling without changing deployed migration checksums."
+    },
+    {
+      "path": "packages/core/migrations/postgres/012_immutable_locator_indexes.sql",
+      "reason": "Full-scale guarded fixture loading exposed quadratic tenant scans in block and snapshot-member identity lookups. Non-unique indexes retain existing predicates and invariants; indexed and forced-linear query-plan counterfactuals execute on the full corpus."
+    },
+    {
+      "path": "packages/core/src/Adapter/Lexical/PdoLexicalIndex.php",
+      "reason": "A 10000-source manifest exceeds the generic 1 MiB decoder default but fits the approved 16 MiB index-manifest schema. Use the existing schema-bound decoder, preserving schema/semantic/identity validation; full-size positive and oversized negative regressions bind the boundary."
+    }
+  ],
+  "sourceGaps": [
+    "Reference hardware qualification must be distinguished from measurements on the current host.",
+    "Infrastructure monetary cost requires an operator tariff; provider call count and local CPU time alone are not a price.",
+    "The fixed small synthetic-vector hybrid workload does not qualify reference-scale semantic capacity or remote embedding model latency."
+  ],
+  "planMirror": "Coordinator owns plan mutation; executor supplies this tracked receipt only."
+}

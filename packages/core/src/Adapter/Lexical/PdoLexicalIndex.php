@@ -16,10 +16,12 @@ use KnowKit\Port\{IdGenerator, LexicalIndex};
 final readonly class PdoLexicalIndex implements LexicalIndex
 {
     public const PROFILE = 'postgres-fts-simple-v1';
+    private SealedManifest $manifests;
     public function __construct(private Connection $db, private PdoCatalogTransaction $transaction,
         private ContractValidator $validator, private CanonicalChunkSets $canonical, private IdGenerator $ids)
     {
         if ($transaction->db !== $db) { throw new \InvalidArgumentException('One bound catalog connection required'); }
+        $this->manifests = new SealedManifest();
     }
 
     /** Caller owns transaction and tenant update guard; buffers are loaded before entering it.
@@ -142,16 +144,15 @@ final readonly class PdoLexicalIndex implements LexicalIndex
             [$scope->tenantId->value, $scope->kbId->value, $scope->generationId->value, $scope->snapshotId->value]);
         if ($row === null) { throw new D\DomainFailure(D\Outcome::Unavailable, 'sealed_generation_unavailable'); }
         try {
-            $wire = StrictJson::decode($row['manifest_json']);
-            if (!$wire instanceof JsonObject) { self::invalid(); }
-            $manifest = (new D\IndexManifest($wire, $this->validator))->toWire();
+            // Use the index-manifest schema's 16 MiB ceiling, not the generic
+            // 1 MiB decoder default. Keep full schema/semantic validation.
+            $manifest = $this->manifests->load(bytes: $row['manifest_json'], expectedDigest: $row['manifest_digest'], validator: $this->validator);
         }
         catch (\InvalidArgumentException | D\Contract\ContractViolation $error) { self::invalid(); }
         if ($row['profile_id'] !== self::PROFILE || $row['embedding_space_digest'] !== null || $manifest->get('profile')->get('kind') !== 'lexical'
             || $manifest->get('profile')->get('id') !== self::PROFILE || $manifest->get('embeddingSpaceDigest') !== null) { self::invalid('profile_incompatible'); }
         if ($manifest->get('tenantId') !== $scope->tenantId->value || $manifest->get('kbId') !== $scope->kbId->value
-            || $manifest->get('generationId') !== $scope->generationId->value
-            || HashDomain::IndexManifest->digest($manifest) !== $row['manifest_digest']) { self::invalid(); }
+            || $manifest->get('generationId') !== $scope->generationId->value) { self::invalid(); }
         return $manifest;
     }
     private static function invalid(string $code = 'manifest_mismatch'): never { throw new D\DomainFailure(D\Outcome::Incompatible, $code); }

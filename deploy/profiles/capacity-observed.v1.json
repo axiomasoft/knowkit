@@ -1,0 +1,304 @@
+{
+  "schemaVersion": "capacity-observation:1",
+  "fixtureVersion": "1.5.0",
+  "profileSha256": "79bca16a5417e5fca4563a9bc50066996a10fb52b9d20a7bb84d152daa873844",
+  "corpusSha256": "0dbe948448ab60f84d5062ae2ffbe999e205843421fb01f697cad403e4c4aa0f",
+  "environment": {
+    "php": "8.4.1",
+    "kernel": "7.0.0-42-generic",
+    "architecture": "x86_64",
+    "cpuModel": "Intel(R) Core(TM) i7-14700K",
+    "logicalCpus": 28,
+    "hostMemoryBytes": 33395838976,
+    "processCpuMax": "",
+    "processMemoryMax": "max",
+    "composerLockSha256": "d76fdb70e0f66cf5f2b7f2a85cc1f8be3cfe0941dfb6eda3969981bf91c474bd",
+    "monetaryCost": null,
+    "costReason": "No operator tariff; no price inferred from CPU time."
+  },
+  "reportSha256": {
+    "catalog": "f44d3f478a3f43b9c8e0859774f4198165bc9f1c55a03ce2e730a87f0a2ba558",
+    "limits": "4c00b0c276cf3f50779fb40646d45d63acf8e1a5389d865eb349950b85a29ca4",
+    "lexical": "6ce0186d04809a054ff3d912879ea3fad6ca598108b9b874a02d5908e6aab403",
+    "hybrid": "bb6ee2464be42d773a66deb492fc19011e74a58306c5421497cc04604d9479d7",
+    "disclosure": "7ce4d478a1bc159deb4e6091ee3c2556df54a38419a7dba6219356e2c5d4a8b2",
+    "reindex": "9c154363e145b5956ddb0ad67ec0a5e1360f43b6cfc5140a85167821093f21e5",
+    "hot-tenant": "e5e91598d26cc9f6066b9f20d6bac2269f3ce0536ba43e12fd9dbf1e6e7bcba2",
+    "many-tenants": "ce6d3bde929545ba9294343c4119ed2f3f9e2a04b3f7292111b9f94ca11b4327",
+    "outbox": "f5d43c938233fba9b096dfdce3c2670d9b5dc79c44ffc478eb628d07d417b8f2",
+    "purge": "9fff3182dacbeb129c6c32a99875ed72d19a0331fa10903cf813730898936b75",
+    "ocr": "42b2dc2cee868501aa1efab295cb72dc3c7909cbfb32f43e1ce3a8ef4b60b5ef"
+  },
+  "referenceQualified": false,
+  "qualificationFailures": [
+    "reference_hardware_unqualified:catalog",
+    "reference_hardware_unqualified:limits",
+    "reference_hardware_unqualified:lexical",
+    "reference_hardware_unqualified:hybrid",
+    "hybrid_scale_unqualified",
+    "reference_hardware_unqualified:disclosure",
+    "reference_hardware_unqualified:reindex",
+    "reference_hardware_unqualified:hot-tenant",
+    "reference_hardware_unqualified:many-tenants",
+    "reference_hardware_unqualified:outbox",
+    "reference_hardware_unqualified:purge",
+    "reference_hardware_unqualified:ocr"
+  ],
+  "measurements": {
+    "catalog": {
+      "documents": 16,
+      "documentBytes": 4194304,
+      "totalBytes": 67108864,
+      "concurrent": 1,
+      "latencyMs": {
+        "count": 16,
+        "p50": 217.163602,
+        "p95": 246.454957,
+        "p99": 246.454957
+      },
+      "firstDocumentMs": 242.583803,
+      "cpuMs": 3119.729,
+      "peakBytes": 54116352,
+      "textSha256": "7105d0915c85c18386314eaf73736a435322ee4232bc03f88754ef6c37d23eb1",
+      "providerCalls": 0,
+      "tokens": 0,
+      "scope": "Register, durable original blob, accept version, extract IR; no publication/index throughput claim."
+    },
+    "limits": {
+      "txtMaxBytes": 4194304,
+      "sourceMaxBytes": 67108864,
+      "workerMaxPages": 500,
+      "workerMaxAssets": 2000,
+      "peakBytes": 95772672,
+      "oversizedOutcomes": [
+        "unsupported_parser_profile",
+        "document_too_large",
+        "input_limit",
+        "limit_exceeded"
+      ]
+    },
+    "lexical": {
+      "sources": 10000,
+      "chunks": 100000,
+      "clients": 20,
+      "prefilterSourcesPerClient": 64,
+      "coldLatencyMs": {
+        "count": 20,
+        "p50": 1196.827424,
+        "p95": 1411.104406,
+        "p99": 1411.133016
+      },
+      "warmLatencyMs": {
+        "count": 100,
+        "p50": 198.041038,
+        "p95": 251.133682,
+        "p99": 260.489959
+      },
+      "clientCpuMs": 21978.195,
+      "maxClientPeakBytes": 284024832,
+      "languageLatencyMs": {
+        "en": {
+          "count": 60,
+          "p50": 233.793522,
+          "p95": 1408.421642,
+          "p99": 1411.133016
+        },
+        "ru": {
+          "count": 60,
+          "p50": 190.839323,
+          "p95": 254.212513,
+          "p99": 260.489959
+        }
+      },
+      "largePrefilter": {
+        "sources": 4096,
+        "chunks": 40960,
+        "latencyMs": {
+          "count": 1,
+          "p50": 17192.943452,
+          "p95": 17192.943452,
+          "p99": 17192.943452
+        },
+        "oversizedGrantRejected": true,
+        "cpuMs": 13063.29,
+        "processPeakBytes": 315101184
+      },
+      "immutableLookupPlans": {
+        "block": {
+          "indexedFilteredRows": 0,
+          "linearFilteredRows": 10011,
+          "indexName": "blocks_document_locator",
+          "indexedMs": 0.007,
+          "linearMs": 1.068
+        },
+        "membership": {
+          "indexedFilteredRows": 0,
+          "linearFilteredRows": 33334,
+          "indexName": "index_memberships_source_locator",
+          "indexedMs": 0.008,
+          "linearMs": 11.708
+        }
+      },
+      "manifestBytes": 4410759,
+      "targetWarmP95Ms": 500,
+      "targetMet": true,
+      "postgres": "16.14 (Debian 16.14-1.pgdg13+1)",
+      "providerCalls": 0,
+      "tokens": 0,
+      "setup": "Bulk fixture SQL excluded. 5000 EN and 5000 RU immutable source manifests, ten overlapping exact chunks per source. Existing fixture controls are outside generation 900."
+    },
+    "hybrid": {
+      "latencyMs": {
+        "count": 20,
+        "p50": 195.661992,
+        "p95": 205.666974,
+        "p99": 206.79302
+      },
+      "cpuMs": 226.62699999999998,
+      "providerCalls": 0,
+      "embedding": "Pinned synthetic document/query vectors in real pgvector; no remote model latency claim.",
+      "sources": 3,
+      "allowedSources": 2,
+      "deniedReturned": 0,
+      "postgres": "16.14 (Debian 16.14-1.pgdg12+1)",
+      "vectorVersion": "0.8.6",
+      "referenceScaleQualified": false
+    },
+    "disclosure": {
+      "coldLatencyMs": 34.010339,
+      "warmLatencyMs": {
+        "count": 19,
+        "p50": 32.089388,
+        "p95": 38.204971,
+        "p99": 38.204971
+      },
+      "cpuMs": 757.7320000000001,
+      "targetWarmP95Ms": 200,
+      "targetMet": true,
+      "objectOutage": "unavailable",
+      "afterCommittedRevoke": "denied",
+      "usageCount": 20,
+      "remoteOwnerIo": false,
+      "postgres": "16.14 (Debian 16.14-1.pgdg13+1)"
+    },
+    "reindex": {
+      "writers": 2,
+      "replaysPerWriter": 16,
+      "membershipsBefore": 12,
+      "membershipsAfter": 12,
+      "latencyMs": {
+        "count": 32,
+        "p50": 3.275476,
+        "p95": 8.797551,
+        "p99": 14.536298
+      },
+      "sealedMutation": "incompatible/generation_sealed"
+    },
+    "hot-tenant": {
+      "tenants": 1,
+      "writers": 4,
+      "writes": 64,
+      "latencyMs": {
+        "count": 64,
+        "p50": 7.196698,
+        "p95": 10.140046,
+        "p99": 14.179415
+      },
+      "lockWaitMs": {
+        "count": 64,
+        "p50": 5.200303,
+        "p95": 7.708054,
+        "p99": 10.718524
+      },
+      "cpuMs": 30.546999999999997,
+      "maxClientPeakBytes": 29118464,
+      "throughputWritesPerSecond": 488.8364272350938,
+      "postgres": "16.14 (Debian 16.14-1.pgdg13+1)",
+      "lockWaitDefinition": "Wall time around the production tenant guard, including advisory/row guard round trips. No artificial sleep or injected lock delay."
+    },
+    "many-tenants": {
+      "tenants": 20,
+      "writers": 20,
+      "writes": 320,
+      "latencyMs": {
+        "count": 320,
+        "p50": 5.789211,
+        "p95": 9.196583,
+        "p99": 11.275286
+      },
+      "lockWaitMs": {
+        "count": 320,
+        "p50": 0.566996,
+        "p95": 0.981131,
+        "p99": 1.143316
+      },
+      "cpuMs": 320.30199999999996,
+      "maxClientPeakBytes": 29540352,
+      "throughputWritesPerSecond": 2695.8747169057747,
+      "postgres": "16.14 (Debian 16.14-1.pgdg13+1)",
+      "lockWaitDefinition": "Wall time around the production tenant guard, including advisory/row guard round trips. No artificial sleep or injected lock delay."
+    },
+    "outbox": {
+      "events": 64,
+      "backlogBefore": 64,
+      "backlogAfter": 0,
+      "lagMs": {
+        "count": 64,
+        "p50": 140.899,
+        "p95": 196.184,
+        "p99": 203.285
+      },
+      "deliveryLatencyMs": {
+        "count": 64,
+        "p50": 2.724177,
+        "p95": 4.165687,
+        "p99": 6.371577
+      },
+      "cpuMs": 59.580000000000005,
+      "targetP95Ms": 5000,
+      "targetMet": true,
+      "transport": "Local durable PdoInbox; each delivery replayed once; no remote provider.",
+      "postgres": "16.14 (Debian 16.14-1.pgdg13+1)"
+    },
+    "purge": {
+      "resources": 32,
+      "backlogBefore": 32,
+      "backlogAfter": 0,
+      "latencyMs": {
+        "count": 32,
+        "p50": 7.478413,
+        "p95": 9.578331,
+        "p99": 10.047214
+      },
+      "cpuMs": 69.085,
+      "aggregate": "done",
+      "transport": "Real local immutable blobs and fsync deletion receipts",
+      "postgres": "16.14 (Debian 16.14-1.pgdg13+1)"
+    },
+    "ocr": {
+      "documents": 3,
+      "pagesPerDocument": 1,
+      "latencyMs": {
+        "count": 3,
+        "p50": 19081.447541,
+        "p95": 19345.933841,
+        "p99": 19345.933841
+      },
+      "cpuMs": 37789.685,
+      "workerPeakBytes": 958844928,
+      "pagesPerSecond": 0.05252708234383691,
+      "sourceSha256": "73d6a1d4604eb875b69f71a852550a10650d58e4446cd93131275eef0e1f76ec",
+      "irSha256": "7df8db3d537abe35b9132b004eb7e72d3f0d4e000a28c7fad40f529d2e0d3cf3",
+      "runtimeBomSha256": "6fd3628468ee79e5c94510e34f6984136f4cf4a5b4995eb2ff3aa67b216eb37e",
+      "parserSignature": {
+        "name": "docling",
+        "version": "2.148.0",
+        "profileDigest": "84fd9c1ad374f38e51e4c77eaa5e9da9e27466fe71ca5578232280991ea4fc71"
+      },
+      "oomOutcome": "unavailable/worker_oom",
+      "providerCalls": 0,
+      "accounting": "Kernel cgroup memory.peak and cumulative cpu.stat usage_usec observed before supervisor cleanup. Throughput includes sandbox verification, probe, negotiate and extraction."
+    }
+  },
+  "limits": "Shared development host. No server CPU/memory attribution or monetary tariff. Hybrid is a small pinned-vector adapter profile; no external embedding model or reference-scale hybrid capacity claim."
+}

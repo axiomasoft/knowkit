@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "capacity-profile:1",
+  "version": "1.0.0",
+  "versionRationale": "Initial fixed P9.4 workload. Q1 preserves single-document contracts and measures 64 MiB as 16 valid 4 MiB TXT documents. Thresholds are design targets, not measured universal guarantees.",
+  "seed": 94001,
+  "reference": {
+    "vcpus": 4,
+    "memoryBytes": 8589934592,
+    "storage": "local SSD",
+    "postgresMajors": [16, 17],
+    "sources": 10000,
+    "chunks": 100000,
+    "searchClients": 20,
+    "languages": ["ru", "en"],
+    "lexicalWarmP95Ms": 500,
+    "disclosureWarmP95Ms": 200,
+    "outboxHealthyP95Ms": 5000,
+    "txtIngestPeakBytes": 268435456,
+    "workerPeakBytes": 2147483648
+  },
+  "quotas": {
+    "txtDocumentBytes": 4194304,
+    "sourceBytes": 67108864,
+    "txtBatchDocuments": 16,
+    "txtBatchConcurrent": 1,
+    "workerConcurrentPerTenant": 2,
+    "workerMaxPages": 500,
+    "workerMaxAssets": 2000,
+    "workerMemoryBytes": 2147483648,
+    "outboxBatch": 64,
+    "hotTenantGraphWriters": 4,
+    "tenants": 20,
+    "graphWritesPerWriter": 16,
+    "searchWarmIterationsPerClient": 5,
+    "ocrBatchDocuments": 3
+  },
+  "qualification": {
+    "hiddenFallbackAllowed": false,
+    "missingRequiredBackend": "fail",
+    "referenceHardwareAttestationRequired": true,
+    "cold": "First request per fresh process/connection; no claim of flushed OS/PostgreSQL caches.",
+    "warm": "Subsequent requests in the same process and connection.",
+    "monetaryCost": "unknown without operator tariff; report measured CPU ms, provider calls and tokens separately"
+  }
+}
