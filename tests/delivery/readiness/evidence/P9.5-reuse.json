@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "reuse-receipt:1",
+  "item": "P9.5",
+  "sources": [
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/tests/Golden/GoldenJourneyTest.php",
+      "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Golden/GoldenJourneyTest.php",
+      "sha256": "c326f0b5586c44383d69c3390a36d41e59861c354977ae3311cf187eaf5bd73f",
+      "decision": "adapt",
+      "adaptation": "Exact source/IR/span citations, immutable readback and revoke journey; no AgenTools runtime."
+    },
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/tests/Golden/RecoveryTest.php",
+      "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Golden/RecoveryTest.php",
+      "sha256": "3c0eddc31c715651bacda336013e1930c6465675520a51af94cb55c09fc8e0d5",
+      "decision": "adapt",
+      "adaptation": "Fault schedules distinguish local revocation from external receipt window and blocked recovery."
+    },
+    {
+      "repository": "agentools",
+      "path": "extensions/knowledge/tests/Golden/ExampleTest.php",
+      "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+      "sourceUrl": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Golden/ExampleTest.php",
+      "sha256": "a409f6f3f274c0d6ef32ba5f4dd45774dff9c42044b89c65557b92f4d25c0d99",
+      "decision": "adapt",
+      "adaptation": "Fresh process executes an installed example and asserts structured output."
+    },
+    {
+      "repository": "deeptutor",
+      "path": "docs-for-dev/INDEXING_RECOVERY.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/INDEXING_RECOVERY.md",
+      "sha256": "326c197a699973c6257b76c3bd56f37d0866d28e153fef596b5334f66dcea716",
+      "decision": "adapt",
+      "adaptation": "Interrupted state remains unknown; isolated rebuild and verified checkpoints precede readiness."
+    },
+    {
+      "repository": "deeptutor",
+      "path": "docs-for-dev/KNOWLEDGE_MIGRATION.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/KNOWLEDGE_MIGRATION.md",
+      "sha256": "ad61c73a2675694447a693612898ac6168a6da847b2614ad1fe00c7024b01990",
+      "decision": "adapt",
+      "adaptation": "Backup originals, validate samples and citations before authority cutover; external originals stay external."
+    }
+  ],
+  "localReuse": [
+    "examples/plain-php",
+    "tests/worker/e2e/Harness.php",
+    "tests/lifecycle/restore/Fixture.php",
+    "tests/lifecycle/purge/Fixture.php",
+    "tools/license-audit.php"
+  ],
+  "newGlueRationale": "Delivery artifact assembly, isolated package installation and profile walkthrough have no framework-neutral equivalent in the pinned donors. Reuse production adapters and existing harnesses; retain exact KnowKit identity, tenant, fencing and subprocess boundaries. Donor docs adapted as operational principles, not copied commands.",
+  "notices": [
+    "licenses/local-reuse-authorization.md",
+    "licenses/notices/agentools-LICENSE.txt",
+    "docs/architecture/third-party/DeepTutor-LICENSE.txt",
+    "docs/architecture/third-party/DeepTutor-THIRD_PARTY_NOTICES.md"
+  ],
+  "publicationAllowed": false,
+  "planReceipt": "Not written: native plan mutation is forbidden; registrar owns plan artifacts."
+}

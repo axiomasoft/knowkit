@@ -1,0 +1,130 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "delivery:readiness",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial independent delivery corpus. Reuses unchanged TXT and qualified OCR bytes and the frozen fresh worker IR digest from P6.6. New negative schedules cover missing journal tail, unsupported purge, artifact tampering and owner race limits. Expected digests are authored pins; updates require a versioned semantic rationale.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures; DeepTutor metadata under Apache-2.0 attribution; AgenTools patterns under retained local reuse authorization.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "CORE-ONLY-INSTALL",
+    "R42-A01",
+    "R42-A02",
+    "SERVICE-NO-WORKER",
+    "FULL-WORKER",
+    "WRONG-ADAPTER",
+    "RESTORE-AFTER-DELETE",
+    "UNSUPPORTED-PURGE",
+    "EXTERNAL-OWNER-RACE-WINDOW",
+    "DT-SOURCE-PINS",
+    "DELIVERY-INDEPENDENCE",
+    "SUPPORTED-LANES",
+    "ARTIFACT-INTEGRITY",
+    "LOCKED-SBOM-NOTICES",
+    "REQUIRED-CASE-FAIL-CLOSED"
+  ],
+  "testCaseMap": {
+    "CORE-ONLY-INSTALL": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\InstallTest::testCoreOnlyCleanInstallAndReproducibleArtifact"
+    ],
+    "R42-A01": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\InstallTest::testCoreOnlyCleanInstallAndReproducibleArtifact"
+    ],
+    "R42-A02": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\InstallTest::testCoreHasNoOptionalImportsOrStartupHooks",
+      "KnowKit\\Tests\\Delivery\\Readiness\\ServiceTest::testInstalledLaravelAndHttpWorkWithoutWorker"
+    ],
+    "SERVICE-NO-WORKER": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\ServiceTest::testInstalledLaravelAndHttpWorkWithoutWorker"
+    ],
+    "FULL-WORKER": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\WorkerTest::testFullWorkerExtractsPublishesReadsAndRevokesRealDocument"
+    ],
+    "WRONG-ADAPTER": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\OperationsTest::testWrongAdapterFailsWithoutImplicitFallback"
+    ],
+    "RESTORE-AFTER-DELETE": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\OperationsTest::testRestoreAfterDeleteReplaysJournalAndMissingTailStaysClosed"
+    ],
+    "UNSUPPORTED-PURGE": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\OperationsTest::testUnsupportedPurgeIsNeverReportedDone"
+    ],
+    "EXTERNAL-OWNER-RACE-WINDOW": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\OperationsTest::testExternalOwnerRaceWindowAndLocalSerializationHaveDifferentGuarantees"
+    ],
+    "DT-SOURCE-PINS": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\FixtureTest::testVersionedFixtureDigestsAndSourcePins"
+    ],
+    "DELIVERY-INDEPENDENCE": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\InstallTest::testCoreHasNoOptionalImportsOrStartupHooks",
+      "KnowKit\\Tests\\Delivery\\Readiness\\InstallTest::testCoreOnlyCleanInstallAndReproducibleArtifact"
+    ],
+    "SUPPORTED-LANES": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\LanesTest::testEveryDeclaredPhpAndPostgresTextLaneExecutes"
+    ],
+    "ARTIFACT-INTEGRITY": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\InstallTest::testAlteredMissingAndUnlistedArtifactBytesFailVerification"
+    ],
+    "LOCKED-SBOM-NOTICES": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\FixtureTest::testDeliveryLicensingRequalifiesCurrentLockAndRejectsDrift"
+    ],
+    "REQUIRED-CASE-FAIL-CLOSED": [
+      "KnowKit\\Tests\\Delivery\\Readiness\\FixtureTest::testRequiredCasesRejectMissingSkippedFailedAndEmptyReports"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "deploy/licensing.v1.json",
+      "sha256": "afe96de05c1f74c928e468b790227c83c00125f2bca0629d3b5225df60b54e5b",
+      "expected": "Current lock pinned independently; package versions, licenses and transitive graph must match retained qualifications."
+    },
+    {
+      "path": "examples/plain-php/fixtures/v1/support.txt",
+      "sha256": "d97adf8ea2240ae1e75446977a9829de147bc5b296ff9cccb545ac3dd011c8f7",
+      "expected": "Exact synthetic TXT source used by copied, independently installed core."
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/approved-eng.pdf",
+      "sha256": "73d6a1d4604eb875b69f71a852550a10650d58e4446cd93131275eef0e1f76ec",
+      "expected": "Real OCR input, no contract-double qualification."
+    },
+    {
+      "path": "examples/acceptance/fixtures/v1/deeptutor-source-pins.json",
+      "sha256": "c12ce908b31d53689e0ab98f8a2db46786d5e3464c6b8b835bb646807334414c",
+      "expected": "139 metadata-only immutable source pins; code not vendored."
+    },
+    {
+      "path": "deploy/profiles/delivery.v1.json",
+      "sha256": "4890bdd6b796def7cdba7858039bc130c2447cded47dd8619e2e5ab821b87c9b",
+      "expected": "Explicit optional profiles, supported text lanes and pending bridge."
+    },
+    {
+      "path": "tests/delivery/readiness/evidence/P9.5-reuse.json",
+      "sha256": "76dad418a4c3d8efdb393c527704783184bab2dd726d0dfcd01b4a9d5e3707fb",
+      "expected": "Five inspected, SHA-256-verified pinned donor decisions and adaptation rationale."
+    }
+  ],
+  "expected": {
+    "textDigest": "d97adf8ea2240ae1e75446977a9829de147bc5b296ff9cccb545ac3dd011c8f7",
+    "workerIrDigest": "416e8067236a7bcb55526d619627b3bef0663bc6d1b27044913da0693277b761",
+    "restoreAfterDelete": "ready-with-denied-source",
+    "missingJournalTail": "blocked",
+    "unsupportedPurge": "not-done",
+    "externalOwnerRace": "bounded receipt window remains; subsequent request denied"
+  },
+  "optionalIntegration": {
+    "agentoolsBridge": {
+      "selection": "NOT_SELECTED",
+      "qualification": "PENDING",
+      "passClaimed": false
+    }
+  },
+  "components": {
+    "phpFloor": "8.3",
+    "requiredBackend": "Real PostgreSQL and real sandboxed OCR; absence is failure, never skip",
+    "profile": "deploy/profiles/delivery.v1.json",
+    "workerLock": "python/knowkit-worker/uv.lock"
+  }
+}

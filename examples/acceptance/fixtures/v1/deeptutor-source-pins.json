@@ -1,0 +1,982 @@
+{
+  "schemaVersion": "donor-metadata:1",
+  "fixtureVersion": "1.0.0",
+  "license": "Apache-2.0 (code only; individual dependencies/assets retain own restrictions)",
+  "origin": "HKUDS/DeepTutor exact upstream commit; metadata fetched without retaining source bytes",
+  "selection": "139-file metadata inventory: mandatory recovery/migration documents plus the first 137 other blob paths in upstream tree order under deeptutor/knowledge, deeptutor/services/parsing, docs-for-dev, tests/runtime, tests/knowledge and tests/services/parsing. This inventory is provenance, not a claim that all files were inspected or adapted. Only five selected donor candidates are assessed in P9.5-reuse.json.",
+  "files": [
+    {
+      "path": "deeptutor/knowledge/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/__init__.py",
+      "sha256": "1bdfa798ccf7ff7e6159433a533a15e7eae7e8d9442015b3fa8d72f3604abd64",
+      "bytes": 721
+    },
+    {
+      "path": "deeptutor/knowledge/add_documents.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/add_documents.py",
+      "sha256": "b4c3389e64f68a6a97a7c4d24b26f00fd88cc282d10dbc985dca289be880212e",
+      "bytes": 32891
+    },
+    {
+      "path": "deeptutor/knowledge/indexing_run.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/indexing_run.py",
+      "sha256": "94fa970ef03199bdd70fe17158df6131214d841bd190a2be7ab9ff8401e4767c",
+      "bytes": 15239
+    },
+    {
+      "path": "deeptutor/knowledge/initializer.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/initializer.py",
+      "sha256": "f91f38c41150919116598badd43d139d81f9f5925d05eb38ea5f52d41b929911",
+      "bytes": 17003
+    },
+    {
+      "path": "deeptutor/knowledge/kb_types.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/kb_types.py",
+      "sha256": "449bfd48ee582c00e3f99a17cd9bf15b7a2701f1f384e4f8bddbe7f9a5513d6f",
+      "bytes": 8541
+    },
+    {
+      "path": "deeptutor/knowledge/manager.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/manager.py",
+      "sha256": "8c48267023e4eff7d0e8570aeb85000dc64418915806aad6c00fd6289bf26d53",
+      "bytes": 105948
+    },
+    {
+      "path": "deeptutor/knowledge/manifest.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/manifest.py",
+      "sha256": "f1c43b63ce0b222b32e758a1f252f24dafe37ce5977e1c538f98d3fb4f9f51e3",
+      "bytes": 20533
+    },
+    {
+      "path": "deeptutor/knowledge/module_service.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/module_service.py",
+      "sha256": "1d779424f7c18438245e1c556f67d40cff57c03da83e3deaff5edc2ef91e6349",
+      "bytes": 849
+    },
+    {
+      "path": "deeptutor/knowledge/naming.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/naming.py",
+      "sha256": "208c8d349368938218712321afe4af14ea123cb8fe3a5a08cce379717da9afc1",
+      "bytes": 1460
+    },
+    {
+      "path": "deeptutor/knowledge/progress_events.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/progress_events.py",
+      "sha256": "8b687d94f25c021b9408a619a1bcbfdfe4f50c77c0e0d7769762f5d37aee6f66",
+      "bytes": 1308
+    },
+    {
+      "path": "deeptutor/knowledge/progress_tracker.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/progress_tracker.py",
+      "sha256": "a1060d905ef77056ac0fb131af4de95e029df1ba7cb085fc626bc374f58ea937",
+      "bytes": 13860
+    },
+    {
+      "path": "deeptutor/knowledge/staging.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/knowledge/staging.py",
+      "sha256": "7cf99fa7ff2b4f1ff7c036171afe40e155e1ed2217047fb2092888e08460e0cf",
+      "bytes": 2814
+    },
+    {
+      "path": "deeptutor/services/parsing/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/__init__.py",
+      "sha256": "f91c224478a1402022179800cb770581558e1721dd46d1e94ef613e73d412657",
+      "bytes": 1052
+    },
+    {
+      "path": "deeptutor/services/parsing/base.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/base.py",
+      "sha256": "e658b203d5d9028fe7ec9cf89c64eb6bc1b2c294b45581ef057d1ad3a5db9f19",
+      "bytes": 2968
+    },
+    {
+      "path": "deeptutor/services/parsing/cache.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/cache.py",
+      "sha256": "c1724bbe027a2c68f38c350fb11fc33df2088990c06ed3c5bb22bbb687a53c93",
+      "bytes": 7272
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/__init__.py",
+      "sha256": "fa56c6d627ce5be0ec92b68c884a869353e2a9b56acb5f02461dc9a0a23bf324",
+      "bytes": 352
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/_install.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/_install.py",
+      "sha256": "cfd99da69fc09a58519ee51f61cb8a9b3343eb6e195650254905d05996a56b1f",
+      "bytes": 10560
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/_versions.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/_versions.py",
+      "sha256": "03c18c55a98323bb679a9d6e601696ab91a0720ba793dd8229b6df95c5b5c577",
+      "bytes": 1180
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/docling/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/__init__.py",
+      "sha256": "1a37ac2d50853a89b213f267d2f540c71c9bdd84879f9dcb17cf1050cb04b9da",
+      "bytes": 290
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/docling/config.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/config.py",
+      "sha256": "ef1b89231acfc5f7ec7143cd5d8de9ff292ebff73495af07519cff3ad4cbcbd8",
+      "bytes": 1939
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/docling/engine.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/engine.py",
+      "sha256": "2503fbdceba65e83efcead84c199f62f6375d3704074b211ed036e482e0549d7",
+      "bytes": 6307
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/docling/formats.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/formats.py",
+      "sha256": "401153b3700e267dd20768b434255a97ca3662568f9e19c5069e58e0f16d466d",
+      "bytes": 3488
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/docling/local_worker.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/local_worker.py",
+      "sha256": "c8db5930951f39ff4fde2251efcf6196fa1de166f13e3fa42cddb6894ce55c80",
+      "bytes": 5273
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/docling/remote.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/docling/remote.py",
+      "sha256": "46c9d810dd13cc6bdebb135ab7dd3f13f44d5be768971ac3f6d4119e2cd74ffa",
+      "bytes": 7119
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/factory.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/factory.py",
+      "sha256": "947c4cf0fdb2b808f5f96e90638f79e187681e7d6ce27cbfc41a33a856babc67",
+      "bytes": 6764
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/formats.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/formats.py",
+      "sha256": "479ce86f42ffe0a9d3195de17b9d32a46f27cf2e27b3744d8259b592eb2497cf",
+      "bytes": 1001
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/liteparse/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/liteparse/__init__.py",
+      "sha256": "6d34d95fae1c68830edf096df2c3060a9bf6d6e600e92ee464275e740d68c185",
+      "bytes": 153
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/liteparse/config.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/liteparse/config.py",
+      "sha256": "752a3005c4b47c4990156a6411a79255799653c47c727dee2e90e28a01e012a6",
+      "bytes": 2196
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/liteparse/engine.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/liteparse/engine.py",
+      "sha256": "cd9601f7b654873241324d0337434fb2184f474ada42a5a5cb307fccb49d5e7b",
+      "bytes": 6013
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/liteparse/formats.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/liteparse/formats.py",
+      "sha256": "f81a77bde122b1deb053d32dc894c764a4bee9c6ba4f6ec232298fb7aacb332f",
+      "bytes": 1290
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/markitdown/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/markitdown/__init__.py",
+      "sha256": "e8113f2de1a0b5d8952742c7c9ca08d88429d46c8a4ebc2f84d102964075beeb",
+      "bytes": 271
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/markitdown/config.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/markitdown/config.py",
+      "sha256": "6797101fc56a47565a57bd3aafb2e15a35a63d80b6417155fb147ae49072e875",
+      "bytes": 923
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/markitdown/engine.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/markitdown/engine.py",
+      "sha256": "523d1ff61383ebd2627be827c86f6fb52dfe2bf934935fbdda967d2555c431d0",
+      "bytes": 3041
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/markitdown/formats.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/markitdown/formats.py",
+      "sha256": "32d70eae01d58f6c5020568e5900e426493dc830ceadda18e276b8cd224c1c3d",
+      "bytes": 2894
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/__init__.py",
+      "sha256": "2f9641aad5181566afab28a8ce56ea29013ee957df426063c9fe17ccf826fab5",
+      "bytes": 624
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/_process.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/_process.py",
+      "sha256": "aa12d3223ddd6fce6913beecd70de0a55ac3ad24c88446660780200f54b0f402",
+      "bytes": 3458
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/backend.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/backend.py",
+      "sha256": "96d77e6b61dd911d8c1dbda497b379a7a39188395f70ff74a90c7c09c9e443cc",
+      "bytes": 11066
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/checkpoints.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/checkpoints.py",
+      "sha256": "8d9000853025b328743975a80dd4d86d69ade9a8d3c3ae724d4618d971004c08",
+      "bytes": 3482
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/cloud.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/cloud.py",
+      "sha256": "343e4cf414442fd1231c631a8e92fe5ab2f50a6da98c50448fbc3384ea70afbe",
+      "bytes": 25201
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/config.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/config.py",
+      "sha256": "88fd621ac06cda7b615f01050b83a7fb0ec6f92f234dc4537f71021f24d03904",
+      "bytes": 6194
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/engine.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/engine.py",
+      "sha256": "9160f045b4f620f402c91ce548b280e8cfc9ac722461e7e8a187a20859498e54",
+      "bytes": 2840
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/formats.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/formats.py",
+      "sha256": "d435d8924daf96fad546a7f70640c9fdb61bb708ff30b072cd3adc55eaf7cad2",
+      "bytes": 1225
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/local.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/local.py",
+      "sha256": "4d0e46beada49c5ce1504186cae37f6dfff5b8afd8f03eb3e46949e49574ae91",
+      "bytes": 18050
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/models.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/models.py",
+      "sha256": "befacd1ecf15b66fec762f5de467f4b41e8635a54907469546d7d393d05c76a3",
+      "bytes": 8470
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/normalization.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/normalization.py",
+      "sha256": "e439f7a3e945cb23d943f5b982a46850cbe4e31bf054662460cb8c756e178b30",
+      "bytes": 4658
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/mineru/readiness.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/mineru/readiness.py",
+      "sha256": "deb4ee0fca020c60c6cbfbf8b7b0f7668668904a897aabafc223edd45ee4c0b1",
+      "bytes": 4893
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/pymupdf4llm/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/pymupdf4llm/__init__.py",
+      "sha256": "a5bb1402efde4be1fc96f7eeb042c9d25bbe4317b87a99221d80f7b0916321af",
+      "bytes": 413
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/pymupdf4llm/config.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/pymupdf4llm/config.py",
+      "sha256": "2ba0b6283cfc6ad14a56f41c41d5e326b008cd874e3c144b0f5068d9fa9b36e5",
+      "bytes": 1111
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/pymupdf4llm/engine.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/pymupdf4llm/engine.py",
+      "sha256": "6a91e4331fc60db137a1a8fb3f29d5e728436f8f2655e12cee38d632ff2e5a67",
+      "bytes": 5902
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/pymupdf4llm/formats.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/pymupdf4llm/formats.py",
+      "sha256": "6519f41cac6158dedffa527b7c0c4855e54e9e4064ef842ec404c5bc9d82f02a",
+      "bytes": 1384
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/text_only/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/text_only/__init__.py",
+      "sha256": "72718b7ba198cab42482d6ec98e06bec3208fc848fb94c5e24cff1af5a6958ac",
+      "bytes": 258
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/text_only/engine.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/text_only/engine.py",
+      "sha256": "cc7cf161c9b22fea8fc6c745e8159ed6aea3f43150188320921e263301377624",
+      "bytes": 2151
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/tika/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/tika/__init__.py",
+      "sha256": "f2a91cc059f2f1c10278282733dbcf6e354863e185a8df9150fbea0c2e2959e0",
+      "bytes": 68
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/tika/config.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/tika/config.py",
+      "sha256": "2d21ae87132cebbad3cc47821c96153af2f50dbc157ece4fc5a566735ce9de00",
+      "bytes": 998
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/tika/engine.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/tika/engine.py",
+      "sha256": "02779db9c07029cfac590c49dfccf225ac86df40ecc4155ad6d150f5f5a2f9c3",
+      "bytes": 2224
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/tika/formats.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/tika/formats.py",
+      "sha256": "a5cc37b481f1ac84f69dedab2193b8f6c96c242dd94c748db1bae2dfc4044226",
+      "bytes": 4342
+    },
+    {
+      "path": "deeptutor/services/parsing/engines/tika/remote.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/engines/tika/remote.py",
+      "sha256": "53f91e9c4485c3a8c823d929a693afc911ad221b5ab1c50eb8f8d1531aae408f",
+      "bytes": 5029
+    },
+    {
+      "path": "deeptutor/services/parsing/progress.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/progress.py",
+      "sha256": "34537d611f6286e35db39fd46cdc9249ab95b3bdd74ccf1b2558e40c45a2e784",
+      "bytes": 2039
+    },
+    {
+      "path": "deeptutor/services/parsing/service.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/service.py",
+      "sha256": "89d214ffa11bc92f263cefa5f1de229d21fce3f79006b757e24d08478b228904",
+      "bytes": 10340
+    },
+    {
+      "path": "deeptutor/services/parsing/signature.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/signature.py",
+      "sha256": "20344ed30f04486da7b0044ed3dffc681f2d63a7369d4fe399deca0ad4af85f4",
+      "bytes": 1775
+    },
+    {
+      "path": "deeptutor/services/parsing/types.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/deeptutor/services/parsing/types.py",
+      "sha256": "c71af832dea76b2498763f685c5c3f1ce57e7cd1834af8c2d68d16c291faa82a",
+      "bytes": 1949
+    },
+    {
+      "path": "docs-for-dev/AGENT_SETUP.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/AGENT_SETUP.md",
+      "sha256": "f22166ce9ec033453d41e1dbbf8f54d5082706af8d1426b72bcd48126a20a36b",
+      "bytes": 14371
+    },
+    {
+      "path": "docs-for-dev/ARCHITECTURE.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/ARCHITECTURE.md",
+      "sha256": "34d5b646686d0ed005447bfcbcb702407ab913dfb25ae2f85652ea9110cc171a",
+      "bytes": 5493
+    },
+    {
+      "path": "docs-for-dev/CLAUDE_MODEL_SYNC.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/CLAUDE_MODEL_SYNC.md",
+      "sha256": "2a280eaa395b78f7f54b24bf5b66993a9c54d5179d23515dc62926634eaf7b19",
+      "bytes": 1594
+    },
+    {
+      "path": "docs-for-dev/CONTAINERIZATION.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/CONTAINERIZATION.md",
+      "sha256": "ea553763405de3c2173885336fdd9b6d357f1e3b3a77696e8140fa9d3a8ec9b2",
+      "bytes": 25101
+    },
+    {
+      "path": "docs-for-dev/DATA_STORAGE.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/DATA_STORAGE.md",
+      "sha256": "45aaf00808fabe79b04981940a10592239728f59504fc127d8a79971f2918574",
+      "bytes": 4585
+    },
+    {
+      "path": "docs-for-dev/DEVELOPMENT.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/DEVELOPMENT.md",
+      "sha256": "b2df54ebf0cc674ef1a02b4449178d67d58978b3d8d94a716381786aa8427c92",
+      "bytes": 4235
+    },
+    {
+      "path": "docs-for-dev/EVENTS_AND_PROGRESS.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/EVENTS_AND_PROGRESS.md",
+      "sha256": "0f95bd26cd3d3d0f0a23b7219d3deba058d255d3adfb1ef9aa93326368a88174",
+      "bytes": 4554
+    },
+    {
+      "path": "docs-for-dev/I18N.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/I18N.md",
+      "sha256": "20c543a0ecec8b9f877aadf4de67f17148132e09e1d3ae3f4b86e33c1eb254ce",
+      "bytes": 9058
+    },
+    {
+      "path": "docs-for-dev/INDEXING_RECOVERY.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/INDEXING_RECOVERY.md",
+      "sha256": "326c197a699973c6257b76c3bd56f37d0866d28e153fef596b5334f66dcea716",
+      "bytes": 2773
+    },
+    {
+      "path": "docs-for-dev/KNOWLEDGE_MIGRATION.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/KNOWLEDGE_MIGRATION.md",
+      "sha256": "ad61c73a2675694447a693612898ac6168a6da847b2614ad1fe00c7024b01990",
+      "bytes": 5706
+    },
+    {
+      "path": "docs-for-dev/MODULES.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/MODULES.md",
+      "sha256": "bf37e6c1c9952b547e6d55c8286041d32855095c9e9880583fe1f139bb1412c0",
+      "bytes": 12927
+    },
+    {
+      "path": "docs-for-dev/PLUGINS.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/PLUGINS.md",
+      "sha256": "6ff3fd3e11e9e4c7b99c86d068c2e91259bd70a0f42f3f7430a9583307e5c82e",
+      "bytes": 6454
+    },
+    {
+      "path": "docs-for-dev/PRACTICE.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/PRACTICE.md",
+      "sha256": "4435552ed51f7f142a292376ce65c02fc54dedf71867bd42a96c3bae737256f2",
+      "bytes": 7364
+    },
+    {
+      "path": "docs-for-dev/READING_EXTENSIONS.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/READING_EXTENSIONS.md",
+      "sha256": "78774a374127749d6079c3747220a65a09cbeb128acabd199ca6440f0800128c",
+      "bytes": 2934
+    },
+    {
+      "path": "docs-for-dev/README.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/README.md",
+      "sha256": "a84cbefd75c53cf19f1493bf19d1d24bc52252945ddd6cb973001a0a66933e11",
+      "bytes": 5264
+    },
+    {
+      "path": "docs-for-dev/REASONING_SAFETY_CHECKLIST.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/REASONING_SAFETY_CHECKLIST.md",
+      "sha256": "a8eda334fd3398a993df24770a3f9914c900efc21e84bfe3ec04f4bc55ed3ea5",
+      "bytes": 5778
+    },
+    {
+      "path": "docs-for-dev/RUNTIME_DESIGN.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/RUNTIME_DESIGN.md",
+      "sha256": "2a7fa7dd91cd15ade04caec47b010207a2b1f12506efb7b780949db64204f558",
+      "bytes": 4233
+    },
+    {
+      "path": "docs-for-dev/SCIENTIFIC_RESEARCH.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/SCIENTIFIC_RESEARCH.md",
+      "sha256": "a044f5657a7ebc314b881a74a7321bbd816a1b3c5d0aa2cf994f26b93a878842",
+      "bytes": 5853
+    },
+    {
+      "path": "docs-for-dev/SECURITY_GUARD.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/SECURITY_GUARD.md",
+      "sha256": "053fce4e29469c3b459f6bd440eb0b6da77f78647d540bd60e7d70045437b6bc",
+      "bytes": 7759
+    },
+    {
+      "path": "docs-for-dev/SERVER_WORKSPACE_PICKER.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/SERVER_WORKSPACE_PICKER.md",
+      "sha256": "8e637c73fd17ac74c65704dd6a648313c3f018ef37125714ce203d4388ed7fce",
+      "bytes": 1830
+    },
+    {
+      "path": "docs-for-dev/SOURCE_VISUALS.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/SOURCE_VISUALS.md",
+      "sha256": "27d0552f9ceffc2cdfaa98c93a32c3c4b25ba7e77c44abceb797f6a3da031bb0",
+      "bytes": 16021
+    },
+    {
+      "path": "docs-for-dev/TESTING.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/TESTING.md",
+      "sha256": "3bf10876df0a130d463887a3b8d5af02778dcb4303aa7e307bbaba60680bb664",
+      "bytes": 4524
+    },
+    {
+      "path": "docs-for-dev/TOOLS_AND_CAPABILITIES.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/TOOLS_AND_CAPABILITIES.md",
+      "sha256": "c89741b870e404bc81ce678bae3ca3ff76f732f858d20d869cab7238e0cf030e",
+      "bytes": 4018
+    },
+    {
+      "path": "docs-for-dev/VOICE_CONFIGURATION.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/VOICE_CONFIGURATION.md",
+      "sha256": "1183703ebfe2572c715463ae015297aecc141d106cf44eb786654c9bcdf3387a",
+      "bytes": 3131
+    },
+    {
+      "path": "docs-for-dev/examples/learning_echo/README.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/examples/learning_echo/README.md",
+      "sha256": "c5f5895f42db2281e1a528f4d9c02988ea68a1f7d7221c6711a1d9652d728126",
+      "bytes": 2584
+    },
+    {
+      "path": "docs-for-dev/examples/learning_echo/learning_echo/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/examples/learning_echo/learning_echo/__init__.py",
+      "sha256": "5260cb6d2e55d9f75d79fc8b36cdb83d28a7edd4b010e440673621adb6c58fc4",
+      "bytes": 55
+    },
+    {
+      "path": "docs-for-dev/examples/learning_echo/learning_echo/deeptutor.plugin.json",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/examples/learning_echo/learning_echo/deeptutor.plugin.json",
+      "sha256": "b08c9e9e80bf3ba02e4b7303afc6503a1bd697cd9f83c6ae6a447c1acad3d0ad",
+      "bytes": 1441
+    },
+    {
+      "path": "docs-for-dev/examples/learning_echo/learning_echo/frontend/app.js",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/examples/learning_echo/learning_echo/frontend/app.js",
+      "sha256": "bd13587423ba3e0091318f23fa6ce9835608775d1fa80a61cdb105b253a32768",
+      "bytes": 116
+    },
+    {
+      "path": "docs-for-dev/examples/learning_echo/learning_echo/frontend/index.html",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/examples/learning_echo/learning_echo/frontend/index.html",
+      "sha256": "a61ca32ddbce22dd36a2321b57387fb171faaf30e78e757d857ee10f694e07f1",
+      "bytes": 371
+    },
+    {
+      "path": "docs-for-dev/examples/learning_echo/learning_echo/frontend/page.json",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/examples/learning_echo/learning_echo/frontend/page.json",
+      "sha256": "e5da0501ea28ba041af4304f14cfbd3f1d9432aea47bd8d9591de000971d37ba",
+      "bytes": 150
+    },
+    {
+      "path": "docs-for-dev/examples/learning_echo/learning_echo/worker.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/examples/learning_echo/learning_echo/worker.py",
+      "sha256": "993ab6645328742167dd3f9451301e66aa945a3ca4270efe0b36dad401536aab",
+      "bytes": 3335
+    },
+    {
+      "path": "docs-for-dev/examples/learning_echo/pyproject.toml",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/examples/learning_echo/pyproject.toml",
+      "sha256": "a2887dfa040564d2e11865e553df374ad2411694b87809dcbe887c975c015f75",
+      "bytes": 397
+    },
+    {
+      "path": "docs-for-dev/remote-hermes-backend.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/remote-hermes-backend.md",
+      "sha256": "edf8caea1dcef5b3816ba1c67dced100fda751993789fe646b12182c0079c025",
+      "bytes": 5708
+    },
+    {
+      "path": "docs-for-dev/watching-workspace.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/watching-workspace.md",
+      "sha256": "1fc2053642b4454985caa9f5271cd3b1caf64d6d592ba4233f8f02be4d796928",
+      "bytes": 3787
+    },
+    {
+      "path": "docs-for-dev/workspaces.md",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/docs-for-dev/workspaces.md",
+      "sha256": "1b6ea6a5673feeae71dc0a712122ad26ba1fa418119d5434b7b9f661859db9aa",
+      "bytes": 9403
+    },
+    {
+      "path": "tests/knowledge/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "tests/knowledge/test_add_documents_linked_folder.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_add_documents_linked_folder.py",
+      "sha256": "52e422fd837bd82f1aacd86abe8925e13c00d083aca5815538fc3d46625094cb",
+      "bytes": 5955
+    },
+    {
+      "path": "tests/knowledge/test_delete_confirmation.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_delete_confirmation.py",
+      "sha256": "d768b0568e543db4912ec334668cdf2ea6191aa3b1395829409781caa91c5729",
+      "bytes": 1406
+    },
+    {
+      "path": "tests/knowledge/test_document_adder_provider.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_document_adder_provider.py",
+      "sha256": "bc948f392a7b59b86d8f4186a95dec6851af799ac0c0505b3a9e935adeb9cd92",
+      "bytes": 19125
+    },
+    {
+      "path": "tests/knowledge/test_github_source_metadata.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_github_source_metadata.py",
+      "sha256": "d51561dbf5cac4c195d9830303e9f8529fcd066350c2e4256a35c740f584e266",
+      "bytes": 2416
+    },
+    {
+      "path": "tests/knowledge/test_ima_kb.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_ima_kb.py",
+      "sha256": "0bcac8eeb205672021326d2fd717cbe94395320910e331094b240d97421801b2",
+      "bytes": 5958
+    },
+    {
+      "path": "tests/knowledge/test_indexing_run.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_indexing_run.py",
+      "sha256": "a7be5766b82ef292b7cea15cff61b999733cc65b767f442a07513f85a6f725cc",
+      "bytes": 13332
+    },
+    {
+      "path": "tests/knowledge/test_kb_directory_layout.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_kb_directory_layout.py",
+      "sha256": "bf4154ca450ac55ca8cf6c35105e05896c28d78e85a974ee758debe50ccf81e0",
+      "bytes": 2197
+    },
+    {
+      "path": "tests/knowledge/test_kb_document_staging.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_kb_document_staging.py",
+      "sha256": "31b68487749769e501ec445ca9a5e267e57934cd4c38092888039b65976afbe3",
+      "bytes": 3313
+    },
+    {
+      "path": "tests/knowledge/test_lightrag_server_kb.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_lightrag_server_kb.py",
+      "sha256": "8f1b6eeaa70119989b9f0960ba7420f2460d0d2d8d18f42626140431af393105",
+      "bytes": 4197
+    },
+    {
+      "path": "tests/knowledge/test_linked_folder_sync.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_linked_folder_sync.py",
+      "sha256": "f6962832fe68061c2a8230e750a07e1f345199e9a357e115a26188d72af75383",
+      "bytes": 6214
+    },
+    {
+      "path": "tests/knowledge/test_linked_kb_manager.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_linked_kb_manager.py",
+      "sha256": "a8063ad56d0200617e05204051c77ed25173585c54e540be4b630803b266bebd",
+      "bytes": 4166
+    },
+    {
+      "path": "tests/knowledge/test_manager_delete.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_manager_delete.py",
+      "sha256": "6f911c9ecae17cd9461d8b18004dd4e629e0f6315cea5b313785fcb43853edd8",
+      "bytes": 3394
+    },
+    {
+      "path": "tests/knowledge/test_manager_embedding_flags.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_manager_embedding_flags.py",
+      "sha256": "579d0f5bad698d187e5307311a44730c35b02e3e7157cc4c7d5f1e2796477cef",
+      "bytes": 5660
+    },
+    {
+      "path": "tests/knowledge/test_manager_get_info_status.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_manager_get_info_status.py",
+      "sha256": "ca78cd82dd430bdc44d99c149c3d473bc942b2ff42e9feecbca66e04d669054a",
+      "bytes": 11491
+    },
+    {
+      "path": "tests/knowledge/test_manager_list.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_manager_list.py",
+      "sha256": "5a1dc065df3564a6007318ef984227d7a42caa01af35b536f8b10a4aa853b61f",
+      "bytes": 5788
+    },
+    {
+      "path": "tests/knowledge/test_manager_update_kb_status_failures.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_manager_update_kb_status_failures.py",
+      "sha256": "00ceab4070898f4a87e378823337277c4486d5f1ca866b72c08ba4228b3f43f9",
+      "bytes": 2601
+    },
+    {
+      "path": "tests/knowledge/test_manifest.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_manifest.py",
+      "sha256": "28720f801817d30804d095cb5f25443a0cbab0e79aecfa7abafcfd95acdf741b",
+      "bytes": 9364
+    },
+    {
+      "path": "tests/knowledge/test_marginnote4_kb.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_marginnote4_kb.py",
+      "sha256": "db2180626bff4638f1d1fe0527d7a1a46513bf9af6d418fd84b008fc891ce9a2",
+      "bytes": 8228
+    },
+    {
+      "path": "tests/knowledge/test_naming.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_naming.py",
+      "sha256": "ec37a9c6b357ec187fb6c37db78a3b6129ef6f0202395fdd4cee7c1a2cb43459",
+      "bytes": 1999
+    },
+    {
+      "path": "tests/knowledge/test_obsidian_kb.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_obsidian_kb.py",
+      "sha256": "688d50d3efc616677c1fe428f78d1a961e28892ab39fa07567f9418998ed7779",
+      "bytes": 3143
+    },
+    {
+      "path": "tests/knowledge/test_progress_tracker.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_progress_tracker.py",
+      "sha256": "4ab9f4f9dcf5c6f8ad463c703a65fd26a5703b02d7b28930ee96b359a6cad90a",
+      "bytes": 3998
+    },
+    {
+      "path": "tests/knowledge/test_staging_retry.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_staging_retry.py",
+      "sha256": "dfd891109753013682e2918b24c51f00168ba00652256b8920c9df19143e2c6d",
+      "bytes": 1880
+    },
+    {
+      "path": "tests/knowledge/test_subagent_connection_kb.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_subagent_connection_kb.py",
+      "sha256": "f1415ef4ad79f6e1d654b15401525e457375c74f29588f2fdf3c07f63f600d2c",
+      "bytes": 933
+    },
+    {
+      "path": "tests/knowledge/test_web_source_metadata.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/knowledge/test_web_source_metadata.py",
+      "sha256": "4a8b1786864853ebb09c9d91d310d74d55a555b1ccc206436aaae33449b9327b",
+      "bytes": 3254
+    },
+    {
+      "path": "tests/runtime/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "tests/runtime/coordination/test_event_notifications.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_event_notifications.py",
+      "sha256": "a86e27b66f1e5e3154d39fd067b2d493cb20ad2d456ef7c7081bb5d19d47c402",
+      "bytes": 2439
+    },
+    {
+      "path": "tests/runtime/coordination/test_journal_recovery.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_journal_recovery.py",
+      "sha256": "4271e06d6b1aa69c0bd0781f41b19d45d00541ece5bed11cc46804e174e0ce67",
+      "bytes": 8459
+    },
+    {
+      "path": "tests/runtime/coordination/test_memory_coordinator.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_memory_coordinator.py",
+      "sha256": "6b0eb4af9a25a801aef13935fe4654e7f905c2821de119844e60e6e7f1f0738c",
+      "bytes": 8949
+    },
+    {
+      "path": "tests/runtime/coordination/test_redis_integration.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_redis_integration.py",
+      "sha256": "fe5fb7152215355434c0850ebe32643b09b26f35b590ee2a402f93db0f9f51b4",
+      "bytes": 6218
+    },
+    {
+      "path": "tests/runtime/coordination/test_redis_stress.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_redis_stress.py",
+      "sha256": "c7551de4bd4a0a4f14c8050c7e088e577a691decdac7b31af2d4112981d07706",
+      "bytes": 5137
+    },
+    {
+      "path": "tests/runtime/coordination/test_settings.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/coordination/test_settings.py",
+      "sha256": "30cd3df17185fe37d96e811d4419435a30966657ecdcd828ec8e4e0837e487dc",
+      "bytes": 1209
+    },
+    {
+      "path": "tests/runtime/providers/__init__.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/providers/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "tests/runtime/providers/test_allowlist.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/providers/test_allowlist.py",
+      "sha256": "a4d78c5ff72ccbd18bcf8208e5590eba5145370bb5a9e919cb3efeaf6e3385dc",
+      "bytes": 1649
+    },
+    {
+      "path": "tests/runtime/providers/test_authorize.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/providers/test_authorize.py",
+      "sha256": "924150eef282cdc18f345c55b21a4b6c1801a06690baa3baef460e2169122d81",
+      "bytes": 3535
+    },
+    {
+      "path": "tests/runtime/providers/test_cli_app_view.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/providers/test_cli_app_view.py",
+      "sha256": "4a3902c36237b3219927d2e53bd5ec74325ca3947ebe3c602347980b27349135",
+      "bytes": 9593
+    },
+    {
+      "path": "tests/runtime/providers/test_text.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/providers/test_text.py",
+      "sha256": "3f076ff9b07de984e39a07ce93c3ee78470f82573f39664cb0ae5bf50fb69b33",
+      "bytes": 1264
+    },
+    {
+      "path": "tests/runtime/providers/test_view.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/providers/test_view.py",
+      "sha256": "14eb5086c9a639698079ad109fd5b3e0e1b711cb356353cc94c177f50021eda9",
+      "bytes": 11818
+    },
+    {
+      "path": "tests/runtime/registry/test_deferred_tools.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/registry/test_deferred_tools.py",
+      "sha256": "0bd2825f73a5250168a920d0eb3686c3ac20c4dda558ab1f037ece15c231a8a5",
+      "bytes": 7299
+    },
+    {
+      "path": "tests/runtime/registry/test_scoped_registry.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/registry/test_scoped_registry.py",
+      "sha256": "b9d21a9b8d27efdbf1e566a289abf1ba7517ba199082fe018cae8679c7942cca",
+      "bytes": 5808
+    },
+    {
+      "path": "tests/runtime/registry/test_tool_registry_execute.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/registry/test_tool_registry_execute.py",
+      "sha256": "4c977d2e4fd2f01da0325851eaf04c771264a4239b980bbed0ace8c5eddc7e09",
+      "bytes": 1791
+    },
+    {
+      "path": "tests/runtime/test_api_import_memory_boundary.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_api_import_memory_boundary.py",
+      "sha256": "98f74de237ad0ace08dd3fc25f30ad81915e7254c09d6f52f95ca28ec9f98e2c",
+      "bytes": 1236
+    },
+    {
+      "path": "tests/runtime/test_background_leader.py",
+      "sourceRevision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+      "sourceUrl": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_background_leader.py",
+      "sha256": "ab20be4a7c6c3efcb962ffb45bda5a6f08774119b2692d94deab48c18bff8b17",
+      "bytes": 4063
+    }
+  ]
+}

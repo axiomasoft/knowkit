@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "knowkit-delivery-profile:1",
+  "fixtureVersion": "1.0.0",
+  "profiles": {
+    "core-cli": {"required": ["php", "postgres", "local-immutable-blobs", "text"], "worker": false, "http": false, "laravel": false},
+    "service-no-worker": {"required": ["core-cli", "installed-http", "installed-laravel", "host-authentication"], "worker": false},
+    "full-worker": {"required": ["core-cli", "locked-python", "qualified-ocr", "bubblewrap", "seccomp", "delegated-cgroup-v2"], "transport": "subprocess-staged-files"}
+  },
+  "phpLanes": ["php8.3", "php8.4", "php8.5"],
+  "postgresLanes": [
+    {"major": 16, "testDsn": "pgsql:host=127.0.0.1;port=55436;dbname=knowkit_chatom_test"},
+    {"major": 17, "testDsn": "pgsql:host=127.0.0.1;port=55437;dbname=knowkit_chatom_test"},
+    {"major": 18, "testDsn": "pgsql:host=127.0.0.1;port=55438;dbname=knowkit_chatom_test"}
+  ],
+  "laneScope": "Each PHP/PostgreSQL combination executes migrated core TXT ingest/search/citation/revoke. Service and full-worker execute on the invoking PHP and TEST_PG_DSN lane. These checks do not qualify capacity or other optional provider implementations.",
+  "agentoolsBridge": {"selection": "NOT_SELECTED", "qualification": "PENDING"},
+  "capacityQualification": "NOT_QUALIFIED: P9.4 reference infrastructure and full-scale hybrid remain outstanding",
+  "publicationAllowed": false,
+  "roadmapComplete": false
+}
