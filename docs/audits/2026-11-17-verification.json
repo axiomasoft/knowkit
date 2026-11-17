@@ -1,0 +1,367 @@
+{
+  "schemaVersion": "repository-verification:1",
+  "date": "2026-11-17",
+  "baselineCommit": "b06785c",
+  "strategy": "Full php tools/qa.php all run, followed by targeted worker:acceptance, ops:performance and delivery:readiness reruns after metadata-only alignment with the qualified worker identity. No failing product expectations were weakened.",
+  "qaOutcome": "failure",
+  "passedGroups": 57,
+  "failedGroups": 4,
+  "executedCasesInPassingGroups": 1334,
+  "groups": [
+    {
+      "id": "contract:architecture",
+      "status": "PASS",
+      "count": 36
+    },
+    {
+      "id": "tooling:baseline",
+      "status": "PASS",
+      "count": 25
+    },
+    {
+      "id": "contract:licensing",
+      "status": "PASS",
+      "count": 10
+    },
+    {
+      "id": "contract:schemas",
+      "status": "PASS",
+      "count": 38
+    },
+    {
+      "id": "contract:ports",
+      "status": "PASS",
+      "count": 36
+    },
+    {
+      "id": "extension:conformance-sdk",
+      "status": "PASS",
+      "count": 44
+    },
+    {
+      "id": "storage:catalog",
+      "status": "PASS",
+      "count": 37
+    },
+    {
+      "id": "storage:blobs",
+      "status": "PASS",
+      "count": 21
+    },
+    {
+      "id": "security:policy",
+      "status": "PASS",
+      "count": 21
+    },
+    {
+      "id": "ingest:text",
+      "status": "PASS",
+      "count": 18
+    },
+    {
+      "id": "ingest:validation",
+      "status": "PASS",
+      "count": 22
+    },
+    {
+      "id": "ingest:chunking",
+      "status": "PASS",
+      "count": 16
+    },
+    {
+      "id": "jobs:leases",
+      "status": "PASS",
+      "count": 20
+    },
+    {
+      "id": "retrieval:lexical",
+      "status": "PASS",
+      "count": 12
+    },
+    {
+      "id": "lifecycle:dependencies",
+      "status": "PASS",
+      "count": 17
+    },
+    {
+      "id": "lifecycle:commands",
+      "status": "PASS",
+      "count": 19
+    },
+    {
+      "id": "publication:manifest",
+      "status": "PASS",
+      "count": 21
+    },
+    {
+      "id": "publication:activate",
+      "status": "PASS",
+      "count": 16
+    },
+    {
+      "id": "events:outbox",
+      "status": "PASS",
+      "count": 20
+    },
+    {
+      "id": "lifecycle:purge",
+      "status": "PASS",
+      "count": 18
+    },
+    {
+      "id": "lifecycle:restore",
+      "status": "PASS",
+      "count": 22
+    },
+    {
+      "id": "sources:inventory",
+      "status": "PASS",
+      "count": 18
+    },
+    {
+      "id": "retrieval:selection",
+      "status": "PASS",
+      "count": 20
+    },
+    {
+      "id": "retrieval:disclosure",
+      "status": "PASS",
+      "count": 35
+    },
+    {
+      "id": "retrieval:reading",
+      "status": "PASS",
+      "count": 23
+    },
+    {
+      "id": "retrieval:cache",
+      "status": "PASS",
+      "count": 22
+    },
+    {
+      "id": "delivery:cli",
+      "status": "PASS",
+      "count": 18
+    },
+    {
+      "id": "reading:navigation",
+      "status": "PASS",
+      "count": 22
+    },
+    {
+      "id": "answer:contracts",
+      "status": "PASS",
+      "count": 18
+    },
+    {
+      "id": "answer:ledger",
+      "status": "PASS",
+      "count": 23
+    },
+    {
+      "id": "answer:transport",
+      "status": "PASS",
+      "count": 17
+    },
+    {
+      "id": "answer:grounding",
+      "status": "PASS",
+      "count": 27
+    },
+    {
+      "id": "answer:conformance",
+      "status": "PASS",
+      "count": 22
+    },
+    {
+      "id": "adoption:edufy",
+      "status": "PASS",
+      "count": 19
+    },
+    {
+      "id": "semantic:embedding",
+      "status": "PASS",
+      "count": 21
+    },
+    {
+      "id": "semantic:vector",
+      "status": "PASS",
+      "count": 22
+    },
+    {
+      "id": "semantic:hybrid",
+      "status": "PASS",
+      "count": 24
+    },
+    {
+      "id": "quality:retrieval",
+      "status": "PASS",
+      "count": 13
+    },
+    {
+      "id": "worker:protocol",
+      "status": "PASS",
+      "count": 86
+    },
+    {
+      "id": "worker:acceptance",
+      "status": "PASS",
+      "count": 20
+    },
+    {
+      "id": "worker:pdf",
+      "status": "PASS",
+      "count": 22
+    },
+    {
+      "id": "worker:ocr",
+      "status": "PASS",
+      "count": 31
+    },
+    {
+      "id": "worker:structure",
+      "status": "PASS",
+      "count": 24
+    },
+    {
+      "id": "worker:e2e",
+      "status": "PASS",
+      "count": 27
+    },
+    {
+      "id": "delivery:laravel",
+      "status": "PASS",
+      "count": 23
+    },
+    {
+      "id": "delivery:http",
+      "status": "PASS",
+      "count": 22
+    },
+    {
+      "id": "delivery:client",
+      "status": "PASS",
+      "count": 19
+    },
+    {
+      "id": "chatom:contracts",
+      "status": "PASS",
+      "count": 12
+    },
+    {
+      "id": "chatom:handler",
+      "status": "PASS",
+      "count": 14
+    },
+    {
+      "id": "chatom:qualification",
+      "status": "PASS",
+      "count": 36
+    },
+    {
+      "id": "bridge:contracts",
+      "status": "PASS",
+      "count": 16
+    },
+    {
+      "id": "bridge:runtime",
+      "status": "FAIL",
+      "error": "missing/escaping file: tests/fixtures/check-groups/bridge-runtime.json"
+    },
+    {
+      "id": "bridge:migration",
+      "status": "FAIL",
+      "error": "missing/escaping file: tests/fixtures/check-groups/bridge-migration.json"
+    },
+    {
+      "id": "bridge:upstream-contract",
+      "status": "PASS",
+      "count": 23
+    },
+    {
+      "id": "ops:observability",
+      "status": "PASS",
+      "count": 22
+    },
+    {
+      "id": "security:hardening",
+      "status": "PASS",
+      "count": 23
+    },
+    {
+      "id": "ops:resilience",
+      "status": "PASS",
+      "count": 18
+    },
+    {
+      "id": "ops:performance",
+      "status": "PASS",
+      "count": 30
+    },
+    {
+      "id": "delivery:readiness",
+      "status": "PASS",
+      "count": 13
+    },
+    {
+      "id": "bridge-installed",
+      "status": "FAIL",
+      "error": "missing/escaping file: tests/fixtures/check-groups/bridge-installed.json"
+    },
+    {
+      "id": "bridge-host-qualification",
+      "status": "FAIL",
+      "error": "missing/escaping file: tests/fixtures/check-groups/bridge-host-qualification.json"
+    }
+  ],
+  "checks": [
+    {
+      "id": "composer:validate",
+      "exit": 0
+    },
+    {
+      "id": "composer:core",
+      "exit": 0
+    },
+    {
+      "id": "static:phpstan",
+      "exit": 0
+    },
+    {
+      "id": "static:dag",
+      "exit": 0
+    },
+    {
+      "id": "config:portable",
+      "exit": 0
+    }
+  ],
+  "workerPytest": {
+    "passed": 106,
+    "warnings": 55,
+    "warningsSource": "Docling deprecations"
+  },
+  "workerDependencies": {
+    "scanned": 107,
+    "knownAdvisories": 0
+  },
+  "coreCoverage": {
+    "coveredLines": 9960,
+    "totalLines": 11957,
+    "percentLines": 83.3,
+    "sourceFiles": 493,
+    "coverageDriver": "Xdebug 3.5.3, PHP 8.5.12",
+    "excludes": [
+      "delivery:readiness",
+      "optional package sources",
+      "Python sources",
+      "subprocess coverage"
+    ]
+  },
+  "workerLockSha256": "2dc5bc3a6dd40964ff71c2125e14772107c3567f3622e2d158d1e269eb51e146",
+  "limitations": [
+    "Four registered AgenTools runtime/migration/installed/host lanes remain unavailable pending upstream delivery.",
+    "Hosted CI matrix was configured but not executed in this local session.",
+    "Results do not qualify publication or hardware capacity."
+  ]
+}

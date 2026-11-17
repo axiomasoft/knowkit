@@ -1,8 +1,8 @@
 {
   "schemaVersion": "check-group:1",
   "group": "semantic:vector",
-  "fixtureVersion": "1.0.0",
-  "versionRationale": "Initial independent Python SHA256 and float32 byte oracles; denied/foreign/other-snapshot nearest vectors must never compete with the permitted corpus. Any changed oracle requires a new version and behavior rationale.",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Initial independent Python SHA256 and float32 byte oracles; denied/foreign/other-snapshot nearest vectors must never compete with the permitted corpus. Any changed oracle requires a new version and behavior rationale. Audit 2026-11-17: require the reproduced security/reliability regressions alongside existing case IDs; authored fixture bytes and behavior oracles are unchanged.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private",
     "origin": "Project-authored synthetic vectors; canonical document fixtures reused from retrieval lexical and publication manifest. No external provider or Python runtime.",
@@ -81,9 +81,7 @@
     "ann-filtering-recall": [
       "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testAuthorizedHnswMeasuresRecallAndExposesExactFallback"
     ],
-    "fresh-lifecycle": [
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testLifecycleChangeDuringEmbeddingClosesTheCorpus"
-    ],
+    "fresh-lifecycle": ["KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testLifecycleChangeDuringEmbeddingClosesTheCorpus", "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testTemporaryGenerationCannotPermitDeletingSealedVectors"],
     "scoped-persistence": [
       "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testIndexReplayTenantGuardAndSealedSqlImmutability"
     ],

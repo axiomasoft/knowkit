@@ -32,6 +32,8 @@ final class SearchTest extends TestCase
             self::assertSame(['allowed'], $f->names($index->search($f->scope(['foreign']), $query, 1, Fixture::space())));
             self::assertSame([], $f->names($index->search($f->scope(['other-snapshot']), $query, 1, Fixture::space())));
             self::assertSame([], $index->search($f->scope([]), $query, 1, Fixture::space())->candidates);
+            self::assertSame(2, $index->searchWithDiagnostics($f->scope(), $query, 1, Fixture::space())->permittedCount);
+            self::assertSame(0, $index->searchWithDiagnostics($f->scope([]), $query, 1, Fixture::space())->permittedCount);
             $tieVersion = $f->lexical->sets['tie']->chunkSet->revisionRef->sourceRef->sourceVersionId;
             self::assertSame(['tie'], $f->names($index->search($f->scope(), new D\Query('same', [$tieVersion]), 1, Fixture::space())));
             self::assertSame([], $index->search($f->scope(), new D\Query('same', null, []), 1, Fixture::space())->candidates);

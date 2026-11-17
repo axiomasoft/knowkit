@@ -181,7 +181,12 @@ final class Qa
         $xpath = new DOMXPath($xml);
         $failures = $xpath->query('//failure|//error|//skipped');
         self::ensure($failures !== false && $failures->length === 0, 'failed/skipped JUnit tests');
-        foreach ($xml->getElementsByTagName('testsuite') as $suite) {
+        $summaries = $xpath->query('//testsuite|//testsuites');
+        self::ensure($summaries !== false, 'invalid JUnit summary query');
+        foreach ($summaries as $suite) {
+            if (!$suite instanceof \DOMElement) {
+                throw new RuntimeException('invalid JUnit summary node');
+            }
             if ($suite->hasAttribute('tests')) {
                 self::ensure(ctype_digit($suite->getAttribute('tests'))
                     && (int) $suite->getAttribute('tests') === $suite->getElementsByTagName('testcase')->length, 'JUnit count mismatch');
@@ -272,7 +277,8 @@ final class Qa
                     $this->file($argv[0]);
                 }
                 $child = $this->process($argv, ['KNOWKIT_QA_COMPOSER_PROJECT' => $project]);
-                self::ensure($child['exit'] === 0, 'child failed: ' . $group['id'] . ' exit ' . $child['exit']);
+                self::ensure($child['exit'] === 0, 'child failed: ' . $group['id'] . ' exit ' . $child['exit']
+                    . "\n" . substr($child['stdout'], -8192) . "\n" . substr($child['stderr'], -8192));
                 if (in_array('<runner-private-junit.xml>', $command, true)) {
                     $cases = array_merge($cases, self::junit($junit));
                 } elseif (str_contains(implode(' ', $command), '<runner-private-pytest-junit.xml>')) {

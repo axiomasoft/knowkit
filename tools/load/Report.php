@@ -35,13 +35,16 @@ final class Report
             throw new \RuntimeException('Host memory measurement unavailable');
         }
         preg_match('/^model name\s*:\s*(.+)$/m', $cpu, $model);
-        $group = '/sys/fs/cgroup' . trim(explode('::', \KnowKit\Tooling\LocalIO::read('/proc/self/cgroup'))[1]);
+        $optional = static function (string $path): ?string {
+            $bytes = @file_get_contents($path);
+            return $bytes === false ? null : $bytes;
+        };
+        $limits = CgroupLimits::observe($optional('/proc/self/cgroup'), $optional('/proc/self/mountinfo'), $optional);
 
         return ['php' => PHP_VERSION, 'kernel' => php_uname('r'), 'architecture' => php_uname('m'),
             'cpuModel' => $model[1] ?? 'unknown', 'logicalCpus' => preg_match_all('/^processor\s*:/m', $cpu),
             'hostMemoryBytes' => (int) $memory[1] * 1024,
-            'processCpuMax' => trim(\KnowKit\Tooling\LocalIO::read($group . '/cpu.max')),
-            'processMemoryMax' => trim(\KnowKit\Tooling\LocalIO::read($group . '/memory.max')),
+            ...$limits,
             'composerLockSha256' => hash_file('sha256', self::root() . '/composer.lock'),
             'monetaryCost' => null, 'costReason' => 'No operator tariff; no price inferred from CPU time.'];
     }
@@ -49,7 +52,9 @@ final class Report
     private static function fingerprints(): array
     {
         $files = ['deploy/profiles/capacity.v1.json', 'tests/ops/performance/fixtures/v1/cases.json',
-            'tests/fixtures/check-groups/ops-performance.json'];
+            'tests/fixtures/check-groups/ops-performance.json', 'deploy/worker/build_runtime.py',
+            'python/knowkit-worker/build_pdf_runtime.py', 'python/knowkit-worker/build_ocr_runtime.py',
+            'python/knowkit-worker/uv.lock'];
         foreach (\KnowKit\Tooling\LocalIO::paths(__DIR__ . '/*.php') as $file) {
             $files[] = substr($file, strlen(self::root()) + 1);
         }

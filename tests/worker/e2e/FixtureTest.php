@@ -18,7 +18,7 @@ final class FixtureTest extends TestCase
     {
         $qa = new Qa(Protocol::root());
         $manifest = $qa->json('tests/worker/e2e/fixtures/v1/manifest.json');
-        self::assertSame('1.1.0', $manifest['fixtureVersion']);
+        self::assertSame('1.2.0', $manifest['fixtureVersion']);
         self::assertNotEmpty($manifest['versionRationale']);
         self::assertNotEmpty($manifest['rights']['license']);
         self::assertNotEmpty($manifest['rights']['origin']);

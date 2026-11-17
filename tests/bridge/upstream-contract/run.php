@@ -6,6 +6,8 @@ use KnowKit\Tests\Bridge\UpstreamContract\CaseManifest;
 use KnowKit\Tooling\Qa;
 
 require dirname(__DIR__, 3) . '/packages/agentools-bridge/vendor/autoload.php';
+require_once dirname(__DIR__, 2) . '/tooling/baseline/CandidateAutoload.php';
+\KnowKit\Tests\Tooling\CandidateAutoload::register(dirname(__DIR__, 3));
 require_once dirname(__DIR__, 3) . '/tools/qa.php';
 require_once __DIR__ . '/CaseManifest.php';
 

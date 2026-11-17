@@ -34,7 +34,9 @@ final readonly class StreamTransport implements Transport
 
     public function send(Request $request, int $timeoutMs): Response
     {
-        if ($timeoutMs < 1 || !str_starts_with($request->target, '/v1/')) {
+        if ($timeoutMs < 1 || preg_match('/^[A-Z]+$/D', $request->method) !== 1
+            || strlen($request->target) > 2048
+            || preg_match('~^/v1/[a-zA-Z0-9/._-]+$~D', $request->target) !== 1) {
             throw new \InvalidArgumentException('Bounded versioned request required');
         }
         $headers = $this->headers($request);

@@ -85,6 +85,40 @@ final class IdentityTest extends TestCase
         new D\ParserProfile('bad','text','1',new JsonObject(['apiKey'=>'never fingerprint credentials']));
     }
 
+    public function testProfilesRejectSensitiveOptionsInsideNestedLists(): void
+    {
+        foreach ([D\ParserProfile::class, D\ChunkerProfile::class] as $profile) {
+            foreach (['apiKey', 'credentials', 'localPath', 'signedUrl', 'accessToken'] as $key) {
+                foreach ([0, 1, 2, 6] as $depth) {
+                    foreach ([new JsonObject([$key => 'private-value']), [$key => 'private-value']] as $value) {
+                        for ($i = 0; $i < $depth; $i++) {
+                            $value = [$value];
+                        }
+                        try {
+                            new $profile('nested', 'test', '1', new JsonObject(['steps' => $value]));
+                            self::fail('Sensitive option accepted at list depth ' . $depth);
+                        } catch (\InvalidArgumentException $failure) {
+                            self::assertSame('Only semantic profile settings may be fingerprinted', $failure->getMessage());
+                        }
+                    }
+                }
+            }
+            $options = new JsonObject(['steps' => [[new JsonObject(['language' => 'ru', 'mode' => 'native'])]]]);
+            $valid = new $profile('nested', 'test', '1', $options);
+            self::assertSame(Jcs::canonicalize($options), $valid->options->canonical());
+        }
+    }
+
+    public function testSemanticOptionTraversalRejectsExcessiveNesting(): void
+    {
+        $value = 'local';
+        for ($depth = 0; $depth < 65; $depth++) {
+            $value = [$value];
+        }
+        $this->expectException(\InvalidArgumentException::class);
+        D\ValueGuard::semanticOptions(new JsonObject(['steps' => $value]));
+    }
+
     public function testImmutableRecordsAndUnicodeLocators(): void
     {
         $ref = PortFixture::source();

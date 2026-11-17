@@ -17,8 +17,12 @@ bigint storage with the wire uint32 limits (physical number 1…4294967295,
 reading order 0…4294967295). Existing rows and migration history are retained.
 `003_jobs.sql` adds the P2.7 durable job bindings, stage progress, acceptance
 receipts and explicit uncertainty. Legacy jobs without these bindings remain
-intact and cannot be leased. Fresh installs apply all three migrations. No
-extension or vector backend is needed.
+intact and cannot be leased. Fresh installs and upgrades apply the complete
+ordered set through `014_function_search_paths.sql`. The final migration binds
+existing database functions to the catalog schema, with `pg_catalog` first and
+`pg_temp` last, so temporary relations cannot hide authoritative state from
+guards. The migration runner also isolates its checksum ledger from temporary
+tables. No extension or vector backend is needed.
 
 Wire the same `Connection` into `PdoCatalogTransaction`, `PdoCatalogRepository`
 and `KnowKit\Adapter\Postgres\PdoOutbox`. Inject a host `AccessPolicy`, local

@@ -9,6 +9,7 @@ use KnowKit\Adapter\ProcessWorker\SandboxRuntime;
 use KnowKit\Adapter\ProcessWorker\WorkerFiles;
 use KnowKit\Adapter\ProcessWorker\WorkerIngressBundleValidator;
 use KnowKit\Domain as D;
+use KnowKit\Domain\Contract\StrictJson;
 use KnowKit\Tests\Worker\Protocol\Fixture;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -71,17 +72,25 @@ final class SandboxAcceptanceTest extends TestCase
 
     public function testRuntimeCannotNegotiateAnUnsupportedOrUnqualifiedProfile(): void
     {
-        foreach (['unsupported', 'docling-pdf-text-v1'] as $id) {
-            $profile = new D\ParserProfile($id, 'docling', '2.148.0', new \KnowKit\Domain\Contract\JsonObject([
-                'parser' => 'docling', 'revision' => '2.148.0', 'ocr' => false, 'network' => false, 'profile' => 'docling-pdf-text-v1',
-            ]));
-            $job = Fixture::job(changes: ['parserProfile' => $id, 'parserSignature' => $profile->signature->toWire(),
-                'profileFingerprint' => $profile->signature->profileDigest->value]);
+        // Reuse the versioned profile identity, without running or qualifying PDF extraction.
+        // A stale signature is incompatible even when the matching runtime is unavailable.
+        $signature = StrictJson::decode(file_get_contents(Fixture::root()
+            . '/tests/fixtures/documents/pdf/v1/unicode-label.ir.json'))->get('parserSignature');
+        $cases = [
+            ['unsupported', $signature, D\Outcome::Incompatible],
+            ['docling-pdf-text-v1', $signature->with('profileDigest', str_repeat('0', 64)), D\Outcome::Incompatible],
+            ['docling-pdf-text-v1', $signature, D\Outcome::Unavailable],
+        ];
+        foreach ($cases as [$id, $requestedSignature, $outcome]) {
+            $job = Fixture::job(changes: ['parserProfile' => $id, 'parserSignature' => $requestedSignature,
+                'profileFingerprint' => $requestedSignature->get('profileDigest')]);
             try {
                 $this->supervisor()->run($job, "KnowKit protocol fixture.\n");
                 self::fail('Runtime silently changed profile');
             } catch (D\DomainFailure $failure) {
-                self::assertSame($id === 'unsupported' ? D\Outcome::Incompatible : D\Outcome::Unavailable, $failure->outcome);
+                self::assertSame($outcome, $failure->outcome);
+                self::assertSame('worker_failed', $failure->errorCode);
+                self::assertSame([], glob(self::$root . '/stages/*'));
             }
         }
     }

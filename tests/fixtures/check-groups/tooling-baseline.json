@@ -57,10 +57,12 @@
       "KnowKit\\Tests\\Tooling\\RunnerTest::testFixtureManifestDigestsAndVersionRationaleAreEnforced"
     ],
     "tooling.suite-isolation": [
-      "KnowKit\\Tests\\Tooling\\DiscoveryTest::testNamedSuitesLoadOnlyTheirOwnTests"
+      "KnowKit\\Tests\\Tooling\\DiscoveryTest::testNamedSuitesLoadOnlyTheirOwnTests",
+      "KnowKit\\Tests\\Tooling\\CandidateAutoloadTest::testCandidateSourcesWinAcrossComposerLoadOrderAndClassmaps"
     ],
     "tooling.core-discovery": [
-      "KnowKit\\Tests\\Tooling\\DiscoveryTest::testCoreDiscoveryDoesNotRequireOptionalPackages"
+      "KnowKit\\Tests\\Tooling\\DiscoveryTest::testCoreDiscoveryDoesNotRequireOptionalPackages",
+      "KnowKit\\Tests\\Tooling\\CandidateAutoloadTest::testUnconnectedOptionalSourcesAreNeverRegisteredOrLoaded"
     ],
     "DT-R01": [
       "KnowKit\\Tests\\Tooling\\BoundaryTest::testRejectsForbiddenCoreImportsAndInstallHooks"

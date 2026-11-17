@@ -40,16 +40,23 @@ final class ValueGuard
 
     public static function semanticOptions(\KnowKit\Domain\Contract\JsonObject $options): void
     {
-        foreach ($options as $key => $value) {
-            if (preg_match('/secret|credential|password|api.?key|token|path|signed.?url|temporary.?url/i', $key) === 1) {
+        self::semanticValue($options, 0);
+    }
+
+    private static function semanticValue(mixed $value, int $depth): void
+    {
+        if (!$value instanceof \KnowKit\Domain\Contract\JsonObject && !is_array($value)) {
+            return;
+        }
+        if ($depth >= \KnowKit\Domain\Contract\StrictJson::MAX_DEPTH) {
+            throw new \InvalidArgumentException('Bounded semantic option depth required');
+        }
+        foreach ($value as $key => $item) {
+            if (($value instanceof \KnowKit\Domain\Contract\JsonObject || !array_is_list($value))
+                && preg_match('/secret|credential|password|api.?key|token|path|signed.?url|temporary.?url/i', (string) $key) === 1) {
                 throw new \InvalidArgumentException('Only semantic profile settings may be fingerprinted');
             }
-            if ($value instanceof \KnowKit\Domain\Contract\JsonObject) { self::semanticOptions($value); }
-            if (is_array($value)) {
-                foreach ($value as $item) {
-                    if ($item instanceof \KnowKit\Domain\Contract\JsonObject) { self::semanticOptions($item); }
-                }
-            }
+            self::semanticValue($item, $depth + 1);
         }
     }
 

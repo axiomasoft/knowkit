@@ -97,6 +97,41 @@ All new dependencies are locked in composer.lock, resolved with PHP8.3.0 as
 Composer's platform floor. Optional package manifests and lockfiles live under their respective package directories;
 install only the projects needed for the selected lanes.
 
+## Continuous integration and coverage
+
+`--profile ci-core` selects all 29 portable Core/architecture groups. It excludes
+`delivery:readiness`, whose cross-version host and real worker qualifications need
+additional installations. The historical `tests/tooling/baseline/profile.json`
+continues to describe only the original bootstrap scope.
+
+`--profile ci-optional` selects 14 Answer, pgvector, HTTP, Laravel, adoption,
+evaluation and observability groups. Install the four corresponding package
+Composer projects first and set `TEST_VECTOR_PG_DSN` for the vector backend.
+Both profiles explicitly list all unselected groups and retain the common strict
+Composer, PHPStan, package DAG and configuration checks. CI reports are uploaded
+even when a selected group fails; child failure diagnostics retain a bounded tail
+of both stdout and stderr. Superseded CI runs are cancelled.
+
+CI separately runs the Python protocol/regression tests without model assets.
+PDF/OCR/structure, installed AgenTools, pinned Chatom hosts, full delivery,
+resilience and capacity qualifications remain explicit environment-dependent
+checks; a green portable CI does not qualify those lanes.
+
+Core coverage is collected in one PHPUnit process rather than re-running each
+group with a coverage driver. The source filter includes all Core production
+files, including unexecuted ones. With PCOV enabled or `XDEBUG_MODE=coverage`:
+
+```sh
+vendor/bin/phpunit --testsuite Core --exclude-group delivery:readiness \
+  --coverage-clover coverage/clover.xml --coverage-text=coverage/summary.txt
+```
+
+The CI coverage job uploads both reports. This measures Core line coverage;
+optional packages, Python and subprocess execution need separate coverage
+collection. No percentage threshold is claimed for those unmeasured paths.
+See [PHPUnit's coverage documentation](https://docs.phpunit.de/en/11.5/code-coverage.html)
+for driver and source-filter semantics.
+
 ## Current worker and targeted verification
 
 The worker implements exact Docling text and structure profiles plus separate
@@ -118,7 +153,12 @@ The full suite includes real model extraction and a bubblewrap/network isolation
 test: missing assets or prohibited namespace/socket operations fail, never skip.
 Local Level 8 PHPStan checks can use `--debug --memory-limit=1G` where sandbox
 restrictions prevent PHPStan's parallel TCP listener. The root PHPStan config
-continues to target bootstrap tooling at its declared level.
+checks Core, its conformance SDK, pgvector and bootstrap tooling at Level 8.
+Optional CI checks Answer, pgvector, HTTP and Laravel separately at Level 8 with
+`phpstan.optional.neon` and each package's own autoloader. The shared exclusions
+may be unmatched in a package subset; other analysis errors still fail. Chatom
+requires its pinned host installation and Bridge retains its separate Level 5
+configuration. Python is outside PHPStan's scope.
 
 ## Local ecosystem setup
 

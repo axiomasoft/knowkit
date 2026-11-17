@@ -23,9 +23,9 @@ from knowkit_worker.protocol import Refusal, sha256
 from knowkit_worker.rendering.pdf import bbox, inspect_objects, open_pdf
 from knowkit_worker.runtime import offline_environment
 from knowkit_worker.structure.tables import Cell, retain_table
-from .pdf.conftest import job_for
+from ..pdf.conftest import job_for
 
-ROOT = Path(__file__).resolve().parents[3]
+ROOT = Path(__file__).resolve().parents[4]
 
 
 def nested_pdf(depth):
@@ -165,6 +165,20 @@ def test_output_open_failures_are_typed_and_do_not_leak(tmp_path, monkeypatch, f
         files.write_new(tmp_path, "result.json", b"output")
     assert (caught.value.code, caught.value.outcome) == (
         ("output_limit", "unavailable") if failure == "space" else ("unsafe_file", "denied"))
+    assert set(os.listdir('/proc/self/fd')) == before
+
+
+@pytest.mark.parametrize("kind", ["symlink", "file", "missing"])
+def test_input_root_failures_are_typed_and_do_not_leak(tmp_path, kind):
+    root = tmp_path / "input"
+    if kind == "symlink":
+        root.symlink_to(tmp_path, target_is_directory=True)
+    elif kind == "file":
+        root.write_bytes(b"not a directory")
+    before = set(os.listdir('/proc/self/fd'))
+    with pytest.raises(Refusal) as caught:
+        files.read_regular(root, "job.json", 65536, True)
+    assert (caught.value.code, caught.value.outcome) == ("unsafe_file", "denied")
     assert set(os.listdir('/proc/self/fd')) == before
 
 

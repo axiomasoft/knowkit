@@ -24,7 +24,7 @@ final class FixtureTest extends TestCase
         $qa = new Qa(Fixture::root());
         $qa->fixtures($qa->json('tests/fixtures/check-groups/worker-ocr.json'));
         $manifest = $qa->json('tests/fixtures/documents/scans/v1/manifest.json');
-        self::assertSame('1.4.0', $manifest['fixtureVersion']);
+        self::assertSame('1.5.0', $manifest['fixtureVersion']);
         foreach ($manifest['expected'] as $name => $expected) {
             $document = OcrFixture::document($name);
             self::assertSame($expected['irDigest'], hash('sha256', $document->canonical()));

@@ -6,6 +6,8 @@ declare(strict_types=1);
 $root = dirname(__DIR__, 3);
 require $root . '/packages/laravel/vendor/autoload.php';
 require $root . '/packages/http/vendor/autoload.php';
+require_once $root . '/tests/tooling/baseline/CandidateAutoload.php';
+\KnowKit\Tests\Tooling\CandidateAutoload::register($root);
 require $root . '/examples/plain-php/bootstrap.php';
 require $root . '/tests/delivery/laravel/Fixture.php';
 require $root . '/tests/delivery/http/Fixture.php';

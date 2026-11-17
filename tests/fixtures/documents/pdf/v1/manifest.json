@@ -1,12 +1,12 @@
 {
   "schemaVersion": "knowkit-pdf-fixtures-1.0",
-  "fixtureVersion": "1.0.0",
-  "versionRationale": "Initial real PDF corpus: independent semantic assertions require column-major layout over interleaved operators, explicit rotated/table incompleteness, xii/Unicode byte spans and distinct blank/vector/raster coverage. Digests pin the exact qualified CPU runtime; changing them requires a fixture version and a semantic rationale. Before initial acceptance, PHP semantic validation corrected visual-only empty/skipped text statuses; no previous published digest is replaced. Page previews are ordered within their physical page before later-page text in this initial version.",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "Requalification of the exact offline CPU closure: torch 2.13.0+cpu, torchvision 0.28.0+cpu and pypdfium2 5.15.2. Independent real extraction compared all IR fields except parserSignature with the accepted corpus: source text, geometry, ordering, coverage, OCR metadata and preview digests are unchanged. Only the dependency-bound parser identity and its enclosing digests change; source PDFs, model/native assets and expected semantics are preserved.",
   "license": "LicenseRef-KnowKit-Private",
   "provenance": "Project-authored deterministic ReportLab PDF 1.3/1.4 files; no external document corpus. Embedded DejaVu and Droid subsets retain notices alongside the corpus. Host font files are build inputs, never runtime dependencies.",
   "expected": {
     "two-columns": {
-      "irDigest": "74f7da3995c0f07d12d5be769ee821ae0b0e22f2dc3a0d82d56ca99d12d3b1df",
+      "irDigest": "d99314b83d6f8e7d1d622d38a08f6efa697ad14327c13e3a342d4abde7383148",
       "coverage": {
         "state": "complete",
         "counts": {
@@ -25,7 +25,7 @@
       "assetDigests": []
     },
     "coverage": {
-      "irDigest": "0b1809814dea47f4906bf62f03229aa89870508994ff3b1a49e2502b0bf08419",
+      "irDigest": "255ddd9df5841fbb3fe9957d0b41466920905faf1e41bf735e278e5b5cf53cb3",
       "coverage": {
         "counts": {
           "empty": 2,
@@ -64,7 +64,7 @@
       ]
     },
     "unicode-label": {
-      "irDigest": "b5ec789ef3e95f4de083c33b9042a0a767bde12ad47cf1c9e2ebf3d3cd85008c",
+      "irDigest": "39822610d9bf2aa79f483ff5860559a0732a8fe763186916bf0a66055d767493",
       "coverage": {
         "state": "complete",
         "counts": {
@@ -83,7 +83,7 @@
       "assetDigests": []
     },
     "rotated-table": {
-      "irDigest": "8b076f3283a66d468bc54a3a8906abb159958d00cf8ac6f8fffb70f0f0b94c2d",
+      "irDigest": "a0135ffdf816e83a038067782d8a6e1eace60bfde090a1788c5f71e04b5deea4",
       "coverage": {
         "state": "partial",
         "counts": {

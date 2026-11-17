@@ -20,9 +20,16 @@ final readonly class CanonicalUnits implements SelectionInventoryBuilder
             $set = $result->chunkSet;
             $document = $documents[$set->revisionRef->irDigest->value]
                 ?? throw new D\DomainFailure(D\Outcome::Unavailable, 'canonical_ir_unavailable');
+            // ManifestCandidate has already bound every chunk to this sidecar's document.
+            // Index its metadata and verify the IR once per set, not once per chunk.
+            $metadata = [];
+            foreach ($result->manifest()->get('chunks') as $entry) {
+                $metadata[$entry->get('chunkId')] = $entry;
+            }
+            $map = null;
             foreach ($set->chunks as $chunk) {
-                $map = new CanonicalMap($document, $set->revisionRef, $chunk->documentId);
-                $meta = $result->metadata($chunk->ref->chunkId->value);
+                $map ??= new CanonicalMap($document, $set->revisionRef, $chunk->documentId);
+                $meta = $metadata[$chunk->ref->chunkId->value];
                 $map->assembler->assertChunk($chunk, $meta->get('joiner'));
                 $parts = $this->context($map, $meta->get('context'));
                 $parts[] = $chunk->text();

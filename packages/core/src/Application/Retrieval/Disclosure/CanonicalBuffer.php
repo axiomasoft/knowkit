@@ -118,10 +118,14 @@ final readonly class CanonicalBuffer
                     throw new D\DomainFailure(D\Outcome::Incompatible, 'tokenizer_required');
                 }
                 $this->tokenizer->capabilities()->requireExact($limits->tokenizer);
-                $tokens += $this->tokenizer->count($unit->budgetText(), $limits->tokenizer);
-                if ($tokens > $limits->maxTokens) {
+                $count = $this->tokenizer->count($unit->budgetText(), $limits->tokenizer);
+                if ($count < 0) {
+                    throw new D\DomainFailure(D\Outcome::Incompatible, 'adapter_contract_violation');
+                }
+                if ($count > $limits->maxTokens - $tokens) {
                     throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
                 }
+                $tokens += $count;
             }
         }
     }

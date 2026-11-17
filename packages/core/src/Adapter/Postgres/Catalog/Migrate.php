@@ -23,6 +23,7 @@ final readonly class Migrate
         '011_recovery_shared_guard',
         '012_immutable_locator_indexes',
         '013_manifest_schema_ceiling',
+        '014_function_search_paths',
     ];
 
     public function __construct(private PDO $pdo, private string $schema)
@@ -53,7 +54,8 @@ final readonly class Migrate
         try {
             $s = $this->pdo->prepare('SELECT pg_advisory_xact_lock(hashtextextended(?,0))');
             $s->execute(['knowkit:migrations:' . $this->schema]);
-            $this->pdo->exec('SET LOCAL search_path TO "' . $this->schema . '",pg_catalog');
+            // Explicit pg_temp last prevents temporary tables from shadowing the ledger or DDL inputs.
+            $this->pdo->exec('SET LOCAL search_path TO "' . $this->schema . '",pg_catalog,pg_temp');
             $this->pdo->exec('CREATE TABLE IF NOT EXISTS schema_migrations(id text PRIMARY KEY,checksum char(64) NOT NULL,applied_at timestamptz NOT NULL)');
             foreach ($migrations as $id => $migration) {
                 $s = $this->pdo->prepare('SELECT checksum FROM schema_migrations WHERE id=?');

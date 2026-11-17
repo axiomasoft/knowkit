@@ -19,3 +19,4 @@ spl_autoload_register(static function (string $class): void {
 }, true, true);
 
 require_once __DIR__ . '/Fixture.php';
+require_once __DIR__ . '/RuntimeCandidate.php';

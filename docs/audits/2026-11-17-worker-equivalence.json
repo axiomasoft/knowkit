@@ -1,0 +1,200 @@
+{
+  "schemaVersion": "worker-equivalence:1",
+  "date": "2026-11-17",
+  "baselineCommit": "b06785c",
+  "comparison": "Compare JSON values serialized with sorted keys after removing only top-level parserSignature. Final golden files were separately validated by real extraction and sandbox tests.",
+  "fixtures": [
+    {
+      "path": "tests/fixtures/documents/pdf/v1/coverage.ir.json",
+      "beforeSha256": "0b1809814dea47f4906bf62f03229aa89870508994ff3b1a49e2502b0bf08419",
+      "afterSha256": "255ddd9df5841fbb3fe9957d0b41466920905faf1e41bf735e278e5b5cf53cb3",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "4cc7be02c66ce7954a6fec83d2ac1fe036c0242c771a868eafe1f5bde5b62de4",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "ad83fd5cdb5f6309062e085a95e2354403dfe75456c4349a857ae2da2611a4c1",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/rotated-table.ir.json",
+      "beforeSha256": "8b076f3283a66d468bc54a3a8906abb159958d00cf8ac6f8fffb70f0f0b94c2d",
+      "afterSha256": "a0135ffdf816e83a038067782d8a6e1eace60bfde090a1788c5f71e04b5deea4",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "4cc7be02c66ce7954a6fec83d2ac1fe036c0242c771a868eafe1f5bde5b62de4",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "ad83fd5cdb5f6309062e085a95e2354403dfe75456c4349a857ae2da2611a4c1",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/two-columns.ir.json",
+      "beforeSha256": "74f7da3995c0f07d12d5be769ee821ae0b0e22f2dc3a0d82d56ca99d12d3b1df",
+      "afterSha256": "d99314b83d6f8e7d1d622d38a08f6efa697ad14327c13e3a342d4abde7383148",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "4cc7be02c66ce7954a6fec83d2ac1fe036c0242c771a868eafe1f5bde5b62de4",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "ad83fd5cdb5f6309062e085a95e2354403dfe75456c4349a857ae2da2611a4c1",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/unicode-label.ir.json",
+      "beforeSha256": "b5ec789ef3e95f4de083c33b9042a0a767bde12ad47cf1c9e2ebf3d3cd85008c",
+      "afterSha256": "39822610d9bf2aa79f483ff5860559a0732a8fe763186916bf0a66055d767493",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "4cc7be02c66ce7954a6fec83d2ac1fe036c0242c771a868eafe1f5bde5b62de4",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "ad83fd5cdb5f6309062e085a95e2354403dfe75456c4349a857ae2da2611a4c1",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/approved-eng.ir.json",
+      "beforeSha256": "7df8db3d537abe35b9132b004eb7e72d3f0d4e000a28c7fad40f529d2e0d3cf3",
+      "afterSha256": "4d0af4c8ce1be297110b0d388689b4c84a3e721d2be32a57f6176b2fdf17084d",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "84fd9c1ad374f38e51e4c77eaa5e9da9e27466fe71ca5578232280991ea4fc71",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "64631a4ae52a6f2ad960b82c04339807c98bb67225c031142fd735f430c94c17",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/approved-rus.ir.json",
+      "beforeSha256": "816f24a63c230d0b772e3ff414953b61c44bc9db8b18d31316cfb4d13a71cd68",
+      "afterSha256": "8554e39b4f7a5e96cd400d01cf42be56799266d85c70ad99c613c299459bade1",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "c50eacae3fa206df7160b554693cec6d378295ec9b33206db0fbfdfcfb924c92",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "a648843575d5e3c71de74480a4313e74ff610fef388722a3bb160eddb4923b0d",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/missing-weights.ir.json",
+      "beforeSha256": "820e6becd51b61318c93a96e4982dae142ceee89ff20f0f090f3c9f1e9c68cd8",
+      "afterSha256": "d3eae9b6d8f7ef5b243daab94292d0289b8a234a6abe8b0e0d6d3d14dc2590a5",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "84fd9c1ad374f38e51e4c77eaa5e9da9e27466fe71ca5578232280991ea4fc71",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "64631a4ae52a6f2ad960b82c04339807c98bb67225c031142fd735f430c94c17",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/mixed.ir.json",
+      "beforeSha256": "a1fd90b0facc9cede9efb367ec22cb407738a0d0d79dfd06fda9b5fa654dcc2f",
+      "afterSha256": "d128e71b7cb16e1bf50f4722ee6ecb47fc0359d6e7f7a6207a3aac1afcbaaa1e",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "84fd9c1ad374f38e51e4c77eaa5e9da9e27466fe71ca5578232280991ea4fc71",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "64631a4ae52a6f2ad960b82c04339807c98bb67225c031142fd735f430c94c17",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/page-limit.ir.json",
+      "beforeSha256": "7fd9013ec4723eb92bfc0e8a4aac2d639d33f317d3c259df27b0184595d7768f",
+      "afterSha256": "5ba6a015e74f1706d9913561c5fcb298f8071dd7100105efddce806b2943f938",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "84fd9c1ad374f38e51e4c77eaa5e9da9e27466fe71ca5578232280991ea4fc71",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "64631a4ae52a6f2ad960b82c04339807c98bb67225c031142fd735f430c94c17",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/rotated.ir.json",
+      "beforeSha256": "47f3aca8d4c8e211fd92305db73d023c7e173de043937f3fdfbe4057de8f8b49",
+      "afterSha256": "92fe1b922e370b0f75f19757f1ea47239be5726e729fe8a79068fb632c3deaee",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "84fd9c1ad374f38e51e4c77eaa5e9da9e27466fe71ca5578232280991ea4fc71",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "64631a4ae52a6f2ad960b82c04339807c98bb67225c031142fd735f430c94c17",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/unreadable.ir.json",
+      "beforeSha256": "04293fe60464b0d71cd51d9ec46fd1ee26bb182002505040dcd5071e192630f2",
+      "afterSha256": "bfd02da8e637b12ec1860d4674ca0f5a5a37b25cf48641a519492821a05a88ba",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "84fd9c1ad374f38e51e4c77eaa5e9da9e27466fe71ca5578232280991ea4fc71",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "64631a4ae52a6f2ad960b82c04339807c98bb67225c031142fd735f430c94c17",
+        "version": "2.148.0"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/scans/v1/wrong-language.ir.json",
+      "beforeSha256": "a2308d82b09eb7a502d2f5dccd11522b66e609f6efbd64a918207a6318845d43",
+      "afterSha256": "c634a3be625ae1ff11bd149940c51bf41f3cd7961969b8d2a9b2820b5001f2d8",
+      "equalExceptParserSignature": true,
+      "oldParserSignature": {
+        "name": "docling",
+        "profileDigest": "c50eacae3fa206df7160b554693cec6d378295ec9b33206db0fbfdfcfb924c92",
+        "version": "2.148.0"
+      },
+      "newParserSignature": {
+        "name": "docling",
+        "profileDigest": "a648843575d5e3c71de74480a4313e74ff610fef388722a3bb160eddb4923b0d",
+        "version": "2.148.0"
+      }
+    }
+  ]
+}

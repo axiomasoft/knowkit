@@ -12,6 +12,7 @@ use KnowKit\Adapter\ProcessWorker\WorkerIngressBundleValidator;
 use KnowKit\Domain\LocalId;
 use KnowKit\Domain\Capability;
 use KnowKit\Tests\Worker\Protocol\Fixture;
+use KnowKit\Tests\Worker\Protocol\RuntimeCandidate;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
@@ -68,8 +69,10 @@ final class RuntimeTest extends TestCase
             }
         }
 
+        $runtimeRoot = getenv('KNOWKIT_OCR_RUNTIME') ?: Fixture::root() . '/python/knowkit-worker/.local-checks/ocr-runtime';
+        RuntimeCandidate::requireCurrent($runtimeRoot, Fixture::root());
         return new SandboxRuntime(
-            getenv('KNOWKIT_OCR_RUNTIME') ?: Fixture::root() . '/python/knowkit-worker/.local-checks/ocr-runtime',
+            $runtimeRoot,
             $stages,
             $path,
             Fixture::root() . '/python/knowkit-worker/.venv/bin/python',

@@ -11,7 +11,7 @@ use KnowKit\Load\Reindex;
 use KnowKit\Load\Search;
 
 try {
-    $config = unserialize(\KnowKit\Tooling\LocalIO::decode(trim(\KnowKit\Tooling\LocalIO::line(STDIN))), ['allowed_classes' => true]);
+    $config = Actor::readConfiguration(STDIN);
     $db = Actor::connect($config);
     Actor::emit(['event' => 'ready', 'backend' => (int) $db->execute('SELECT pg_backend_pid()')->fetchColumn()]);
     if (trim(\KnowKit\Tooling\LocalIO::line(STDIN)) !== 'GO') {

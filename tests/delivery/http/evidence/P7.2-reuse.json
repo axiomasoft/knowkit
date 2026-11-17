@@ -77,7 +77,11 @@
       "tests/fixtures/http/v1/cases.json",
       "tests/fixtures/http/v1/router.php"
     ],
-    "sha256": "979521acd3c121429d6a9bb377beaff4159f96fbe34bcfb68e12d9893b202206"
+    "sha256": "800d25aaef28f4342d40819c55d5d625129712a7242fd4ae6698ab958f11ca91"
   },
-  "planMirror": "Coordinator records the tracked receipt; executor does not mutate native plan artifacts."
+  "planMirror": "Coordinator records the tracked receipt; executor does not mutate native plan artifacts.",
+  "auditRequalification": {
+    "date": "2026-11-17",
+    "reason": "Rebind the existing source adaptation scope after repository audit fixes and coverage/CI configuration changes; donor pins and authored behavior expectations are unchanged. See docs/audits/2026-11-17.md for current verification."
+  }
 }

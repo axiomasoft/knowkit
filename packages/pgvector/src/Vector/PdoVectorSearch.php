@@ -22,7 +22,9 @@ final readonly class PdoVectorSearch
     {
         $values = SearchSql::values($scope, $query, $view);
         $exact = $this->db->execute(SearchSql::exact($this->db), [...$values, $vector->literal, $k])->fetchAll(\PDO::FETCH_ASSOC);
-        $count = (int) $this->db->execute('SELECT count(*) FROM (' . SearchSql::permitted($this->db) . ') corpus', $values)->fetchColumn();
+        // The exact pass already visits the authorized corpus. Count before LIMIT
+        // in that statement instead of repeating all membership/lifecycle joins.
+        $count = (int) ($exact[0]['permitted_count'] ?? 0);
         if ($this->policy->mode === 'exact' || $count === 0) {
             return $this->result($scope, $view, $exact, $count, null, false);
         }

@@ -60,6 +60,33 @@ final class RunnerTest extends Support
         self::assertNotSame(0, $child['exit']);
     }
 
+    public function testRootJunitSummariesCannotHideFailuresOrMiscountTests(): void
+    {
+        $path = $this->temporary . '/report.xml';
+        foreach (['failures="1"', 'errors="1"', 'skipped="1"', 'tests="2"'] as $summary) {
+            file_put_contents($path, '<testsuites ' . $summary . '><testsuite tests="1">'
+                . '<testcase classname="Fixture" name="testCase"/></testsuite></testsuites>');
+            $this->rejects(static fn() => Qa::junit($path),
+                str_starts_with($summary, 'tests=') ? 'JUnit count mismatch' : 'failed/skipped JUnit');
+        }
+    }
+
+    public function testFailedCommandRetainsBoundedDiagnosticOutput(): void
+    {
+        $qa = $this->isolatedRunner();
+        $group = $this->fakeGroup([PHP_BINARY, '-r',
+            'echo str_repeat("x", 20000), "assertion failed"; fwrite(STDERR, "backend unavailable"); exit(19);']);
+        try {
+            $qa->group($group);
+            self::fail('Expected failed command');
+        } catch (\RuntimeException $error) {
+            self::assertStringContainsString('exit 19', $error->getMessage());
+            self::assertStringContainsString('assertion failed', $error->getMessage());
+            self::assertStringContainsString('backend unavailable', $error->getMessage());
+            self::assertLessThan(17000, strlen($error->getMessage()));
+        }
+    }
+
     public function testProfilesExplicitlyPartitionRegistryWithoutSkippingSelectedGroups(): void
     {
         $registry = $this->qa->registry();
@@ -92,15 +119,38 @@ final class RunnerTest extends Support
         $this->rejects(static fn() => $qa->group($group), 'python/knowkit-worker/pyproject.toml');
     }
 
+    public function testCiProfilesCoverDevelopedPortableGroupsWithoutHostQualification(): void
+    {
+        $registry = $this->qa->registry();
+        $core = $this->qa->select(['--profile', 'ci-core'], $registry);
+        self::assertSame(array_values(array_diff($registry['profiles']['core-php83']['selected'],
+            ['delivery:readiness'])), $core);
+        $optional = $this->qa->select(['--profile', 'ci-optional'], $registry);
+        foreach (['answer:conformance', 'semantic:vector', 'delivery:http', 'delivery:laravel',
+            'adoption:edufy', 'quality:retrieval', 'ops:observability'] as $group) {
+            self::assertContains($group, $optional);
+        }
+        self::assertSame([], array_intersect($core, $optional));
+        self::assertNotContains('bridge-installed', $optional);
+        self::assertNotContains('chatom:qualification', $optional);
+    }
+
     public function testRunnerReplacesPlaceholdersAsArgvAndCleansPrivateReports(): void
     {
         $qa = $this->isolatedRunner();
-        $group = $this->fakeGroup([PHP_BINARY, 'tests/tooling/baseline/fixtures/v1/child.php', 'valid', '<runner-private-junit.xml>']);
-        $before = glob(sys_get_temp_dir() . '/knowkit-qa-*');
+        $this->put('report.php', <<<'PHP'
+            <?php
+            file_put_contents('report-parent', dirname($argv[1]));
+            file_put_contents($argv[1], '<testsuite tests="1"><testcase classname="Fixture" name="testCase"/></testsuite>');
+            PHP);
+        $group = $this->fakeGroup([PHP_BINARY, 'report.php', '<runner-private-junit.xml>']);
         $result = $qa->group($group);
         self::assertSame('PASS', $result['status']);
         self::assertSame([['id' => 'case', 'status' => 'passed']], $result['cases']);
-        self::assertSame($before, glob(sys_get_temp_dir() . '/knowkit-qa-*'));
+        $reportParent = file_get_contents($this->temporary . '/report-parent');
+        Qa::ensure($reportParent !== false, 'missing recorded report directory');
+        self::assertStringStartsWith(sys_get_temp_dir() . '/knowkit-qa-', $reportParent);
+        self::assertDirectoryDoesNotExist($reportParent);
         $this->put('literal $(touch INJECTED).php', '<?php echo "literal";');
         $result = $qa->process([PHP_BINARY, 'literal $(touch INJECTED).php']);
         self::assertSame(0, $result['exit']);

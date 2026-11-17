@@ -177,6 +177,29 @@ final class TransportTest extends TestCase
         self::assertNull($result->usage->outputTokens);
     }
 
+    public function testCapabilityExpiryDuringHostPreparationPreventsDispatch(): void
+    {
+        $f = new TransportFixture([TransportFixture::response()]);
+        $binding = TransportFixture::binding(['capabilities' => new A\ModelCapabilities(
+            new D\Sha256(str_repeat('1', 64)), new \DateTimeImmutable('2026-11-08T00:00:02Z'), true,
+        )]);
+        $deployment = new H\Deployment($binding, TransportFixture::corpus()['endpoint']);
+        $factory = new Psr17Factory();
+        $transport = new OpenAiCompatibleTransport(
+            $f->clock, $f->http, $factory, $factory, $f->credentials, $f->policy, $deployment,
+        );
+        $f->policy->duringPrepare = static function () use ($f): void {
+            $f->clock->seconds = 1;
+        };
+
+        $this->assertNotSent($transport->send(
+            TransportFixture::request(changes: ['binding' => $binding]), Fixture::cancellation(),
+        ));
+        self::assertSame(1, $f->policy->calls);
+        self::assertSame(0, $f->http->sendCount());
+        self::assertSame(0, $f->http->outboundBytes());
+    }
+
     public function testPartialToolAndStreamingOutputNeverBecomesAnAnswer(): void
     {
         foreach (['length', 'content_filter', 'tool_calls', null] as $reason) {

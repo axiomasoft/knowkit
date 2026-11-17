@@ -30,7 +30,7 @@ final class SchemaTest extends TestCase
             $indexes=$f->db->execute('SELECT indexname FROM pg_indexes WHERE schemaname=?',[$f->sandbox->schema])->fetchAll(\PDO::FETCH_COLUMN);
             foreach (['lexical_scope','lexical_full_text','lexical_exact_tokens','jobs_available','jobs_expired','outbox_pending','resource_staging_identity'] as $index) { self::assertContains($index,$indexes); }
             self::assertSame(['C','C'],$f->db->execute("SELECT c.collname FROM pg_type t JOIN pg_collation c ON c.oid=t.typcollation JOIN pg_namespace n ON n.oid=t.typnamespace WHERE n.nspname=? AND t.typname IN ('kk_ulid','kk_digest') ORDER BY t.typname",[$f->sandbox->schema])->fetchAll(\PDO::FETCH_COLUMN));
-            self::assertSame(13,$f->count('schema_migrations'));
+            self::assertSame(14,$f->count('schema_migrations'));
         });
     }
     public function testMigrationReplayAndChecksumMismatch(): void
@@ -40,7 +40,7 @@ final class SchemaTest extends TestCase
             $migrator=new Migrate($pdo,$f->sandbox->schema);
             $baseline=CatalogFixture::root().'/packages/core/migrations/postgres/001_metadata.sql';
             $history=$pdo->query('SELECT * FROM schema_migrations ORDER BY id')->fetchAll(\PDO::FETCH_ASSOC);
-            self::assertCount(13,$history);
+            self::assertCount(14,$history);
             $migrator->apply($baseline);
             self::assertSame($history,$pdo->query('SELECT * FROM schema_migrations ORDER BY id')->fetchAll(\PDO::FETCH_ASSOC));
             foreach ($history as $row) {
@@ -94,7 +94,7 @@ final class SchemaTest extends TestCase
             self::assertSame($pages,$pdo->query('SELECT * FROM pages ORDER BY tenant_id,id')->fetchAll(\PDO::FETCH_ASSOC));
             self::assertSame($blocks,$pdo->query('SELECT * FROM blocks ORDER BY tenant_id,id')->fetchAll(\PDO::FETCH_ASSOC));
             self::assertSame($history,$pdo->query("SELECT * FROM schema_migrations WHERE id='001_metadata'")->fetchAll(\PDO::FETCH_ASSOC));
-            self::assertSame(13,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
+            self::assertSame(14,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
             $this->assertUint32Storage($pdo,$sandbox->schema);
             foreach (['UPDATE pages SET physical_no=2','DELETE FROM pages','UPDATE blocks SET reading_order=1','DELETE FROM blocks'] as $sql) {
                 CatalogFixture::sqlReject($pdo,$sql,[],['23514']);
@@ -221,7 +221,7 @@ final class SchemaTest extends TestCase
                 };
                 self::assertSame([0,"001_metadata applied\n002_metadata_uint32 applied\n003_jobs applied\n",''],$run());
                 self::assertSame([0,"001_metadata applied\n002_metadata_uint32 applied\n003_jobs applied\n",''],$run());
-                self::assertSame(13,(int)$p->query('SELECT count(*) FROM '.$schema.'.schema_migrations')->fetchColumn());
+                self::assertSame(14,(int)$p->query('SELECT count(*) FROM '.$schema.'.schema_migrations')->fetchColumn());
                 $p->exec("UPDATE ".$schema.".schema_migrations SET checksum=repeat('0',64)");
                 self::assertSame([1,'',"Migration failed; verify schema, connection and checksum\n"],$run());
             } finally { $p->exec('DROP SCHEMA '.$schema.' CASCADE'); }

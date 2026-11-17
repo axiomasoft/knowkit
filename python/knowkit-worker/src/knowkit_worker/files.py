@@ -11,8 +11,9 @@ from .protocol import Refusal, relative_path
 def read_regular(root: Path, relative: str, limit: int, readonly: bool = False) -> bytes:
     if not relative_path(relative):
         raise Refusal("path_escape", "denied")
-    directory = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+    directory = None
     try:
+        directory = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
         parts = relative.split("/")
         for part in parts[:-1]:
             child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
@@ -35,7 +36,8 @@ def read_regular(root: Path, relative: str, limit: int, readonly: bool = False) 
     except OSError:
         raise Refusal("unsafe_file", "denied") from None
     finally:
-        os.close(directory)
+        if directory is not None:
+            os.close(directory)
 
 
 def write_new(root: Path, name: str, data: bytes) -> None:

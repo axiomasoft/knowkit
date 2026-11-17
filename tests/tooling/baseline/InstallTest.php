@@ -12,7 +12,7 @@ final class InstallTest extends Support
     public function testLockedCleanInstallAndDiscoveryWithoutHostRuntimes(): void
     {
         foreach (['composer.json', 'composer.lock', 'packages/core/composer.json', 'packages/core/bin/knowkit', 'phpunit.xml',
-            'tests/tooling/baseline/bootstrap.php', 'tools/qa.php'] as $path) {
+            'tests/tooling/baseline/bootstrap.php', 'tests/tooling/baseline/CandidateAutoload.php', 'tools/qa.php'] as $path) {
             $this->copy($path);
         }
         $xml = new \SimpleXMLElement((string) file_get_contents($this->qa->file('phpunit.xml')));

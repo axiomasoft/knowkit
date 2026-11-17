@@ -72,6 +72,8 @@ final readonly class OpenAiCompatibleTransport implements ModelTransport
             if ($http === null || $this->stopped($request, $cancellation) || $this->elapsed($started)) {
                 return $this->notSent();
             }
+            // Host credential/policy callbacks may outlive the pinned capability lease.
+            $request->identity->binding->requireCurrent($this->now());
         } catch (A\TransportUnavailable $unavailable) {
             throw $unavailable;
         } catch (\Throwable) {

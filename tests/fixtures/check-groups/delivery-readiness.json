@@ -1,8 +1,8 @@
 {
   "schemaVersion": "check-group:1",
   "group": "delivery:readiness",
-  "fixtureVersion": "1.0.0",
-  "versionRationale": "Initial independent delivery corpus. Reuses unchanged TXT and qualified OCR bytes and the frozen fresh worker IR digest from P6.6. New negative schedules cover missing journal tail, unsupported purge, artifact tampering and owner race limits. Expected digests are authored pins; updates require a versioned semantic rationale.",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Initial independent delivery corpus. Reuses unchanged TXT and qualified OCR bytes and the frozen fresh worker IR digest from P6.6. New negative schedules cover missing journal tail, unsupported purge, artifact tampering and owner race limits. Expected digests are authored pins; updates require a versioned semantic rationale. Qualified dependency upgrade to Torch 2.13.0+cpu, Torchvision 0.28.0+cpu and pypdfium2 5.15.2 changes parser identity only: all 12 PDF/OCR IR semantics were independently equal, and fresh sandbox plus PHP persistence validated the new identities. Rebind cross-suite references without changing authored workload or outcome expectations.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private",
     "origin": "Project-authored synthetic fixtures; DeepTutor metadata under Apache-2.0 attribution; AgenTools patterns under retained local reuse authorization.",
@@ -108,7 +108,7 @@
   ],
   "expected": {
     "textDigest": "d97adf8ea2240ae1e75446977a9829de147bc5b296ff9cccb545ac3dd011c8f7",
-    "workerIrDigest": "416e8067236a7bcb55526d619627b3bef0663bc6d1b27044913da0693277b761",
+    "workerIrDigest": "90bb60d0cdc6f5c1112b3caec82a155e3c57e4d1e851df47097407e4de0204bd",
     "restoreAfterDelete": "ready-with-denied-source",
     "missingJournalTail": "blocked",
     "unsupportedPurge": "not-done",

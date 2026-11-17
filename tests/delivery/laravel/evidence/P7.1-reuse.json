@@ -45,7 +45,7 @@
       "tests/delivery/laravel/fixtures/v1/search.json",
       "tests/fixtures/check-groups/delivery-laravel.json"
     ],
-    "sha256": "e981e5cb5ab48ec33e2d405807ee7ee27de6c0d47282c513e1d18ff8c87f0252"
+    "sha256": "a3a9bac82c55c615c1e0b9cf0409f8b08fac98d68ad4d6f1ef23b799851945d0"
   },
   "sources": [
     {
@@ -217,5 +217,9 @@
     "resolution": "Forward raw ArgvInput tokens after the Artisan command name. Retain existing structured input handling for programmatic calls. Fixture version 1.1.0 adds four authored negative argv cases; all previous expected outcomes/digests stay unchanged.",
     "negativeProof": ".phpunit.cache/P7.1-correction/argv-red.out",
     "positiveProof": ".phpunit.cache/P7.1-correction/console.out"
+  },
+  "auditRequalification": {
+    "date": "2026-11-17",
+    "reason": "Rebind the existing source adaptation scope after repository audit fixes and coverage/CI configuration changes; donor pins and authored behavior expectations are unchanged. See docs/audits/2026-11-17.md for current verification."
   }
 }

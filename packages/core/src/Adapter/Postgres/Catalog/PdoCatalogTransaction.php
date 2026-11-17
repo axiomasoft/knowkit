@@ -33,9 +33,9 @@ final class PdoCatalogTransaction implements CatalogTransaction
         $this->last = [];
         $this->held = [];
         $started = hrtime(true);
-        $this->db->pdo->beginTransaction();
         $committing = false;
         try {
+            $this->db->pdo->beginTransaction();
             $this->db->execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
             $this->db->execute("SET LOCAL lock_timeout='500ms'");
             $this->db->execute("SET LOCAL statement_timeout='2s'");

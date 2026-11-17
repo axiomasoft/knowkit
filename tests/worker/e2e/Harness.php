@@ -122,7 +122,9 @@ final class Harness
     public static function supervisor(string $stages): ProcessWorkerSupervisor
     {
         $path = self::cgroupParent();
-        $runtime = new SandboxRuntime(getenv('KNOWKIT_OCR_RUNTIME') ?: Protocol::root() . '/python/knowkit-worker/.local-checks/ocr-runtime',
+        $runtimeRoot = getenv('KNOWKIT_OCR_RUNTIME') ?: Protocol::root() . '/python/knowkit-worker/.local-checks/ocr-runtime';
+        \KnowKit\Tests\Worker\Protocol\RuntimeCandidate::requireCurrent($runtimeRoot, Protocol::root());
+        $runtime = new SandboxRuntime($runtimeRoot,
             $stages, $path, Protocol::root() . '/python/knowkit-worker/.venv/bin/python',
             Protocol::root() . '/deploy/worker/cgroup_exec.py');
 

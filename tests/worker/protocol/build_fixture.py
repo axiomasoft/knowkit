@@ -10,7 +10,9 @@ spec = importlib.util.spec_from_file_location("build_runtime", repo / "deploy/wo
 builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(builder)
 root = Path(sys.argv[1])
-builder.build(root, repo)
+# This synthetic parser exercises only the wire protocol and sandbox, not PDF/OCR.
+# Keep its runtime small; production builds retain the full locked worker closure.
+builder.build(root, repo, requirements=("jsonschema",))
 shutil.copy2(Path(__file__).with_name("fixture_parser.py"),
              root / "runtime/lib/python3.12/site-packages/knowkit_worker/_protocol_fixture.py")
 (root / "runtime/bin/knowkit-worker").write_text(

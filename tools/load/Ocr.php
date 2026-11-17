@@ -58,6 +58,7 @@ final class Ocr
             python: Report::root() . '/python/knowkit-worker/.venv/bin/python',
             launcher: Report::root() . '/deploy/worker/cgroup_exec.py',
         );
+        \KnowKit\Tests\Worker\Protocol\RuntimeCandidate::requireCurrent($runtime->runtimeRoot, Report::root());
         $supervisor = new ProcessWorkerSupervisor(runtime: $runtime, validator: new WorkerIngressBundleValidator(Fixture::validator()));
         $source = \KnowKit\Tooling\LocalIO::read(OcrFixture::corpus() . '/approved-eng.pdf');
         $expected = OcrFixture::document('approved-eng');

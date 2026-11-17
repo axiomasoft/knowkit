@@ -6,6 +6,7 @@ namespace KnowKit\Tests\Delivery\Client;
 
 use KnowKit\Domain as D;
 use KnowKit\Http\Client as C;
+use KnowKit\Http\Server\Request;
 use KnowKit\Tests\Conformance\Http\Remote;
 use KnowKit\Tests\Delivery\Http\Fixture as F;
 use PHPUnit\Framework\Attributes\Group;
@@ -94,5 +95,24 @@ final class StreamTransportTest extends TestCase
         $debug = ob_get_clean();
         self::assertStringNotContainsString('secret', $debug);
         self::assertStringNotContainsString('example.invalid', $debug);
+    }
+
+    public function testMalformedRequestLinesAreRejectedBeforeNetworkIo(): void
+    {
+        $transport = new C\StreamTransport(baseUrl: 'http://127.0.0.1:1');
+        foreach ([
+            ["GET\r\nInjected: yes", '/v1/search'],
+            ['GET HTTP/1.1', '/v1/search'],
+            ['GET', "/v1/search\r\nInjected: yes"],
+            ['GET', '/v1/search HTTP/1.1'],
+            ['GET', '/v1/' . str_repeat('a', 2048)],
+        ] as [$method, $target]) {
+            try {
+                $transport->send(new Request(method: $method, target: $target), 20);
+                self::fail('Malformed request line accepted');
+            } catch (\InvalidArgumentException $failure) {
+                self::assertSame('Bounded versioned request required', $failure->getMessage());
+            }
+        }
     }
 }
