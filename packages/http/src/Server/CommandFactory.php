@@ -140,8 +140,14 @@ final readonly class CommandFactory
         }
     }
 
+    /**
+     * @template T of D\Ulid
+     * @param ?array<array-key, string> $values
+     * @param class-string<T> $class
+     * @return ?list<T>
+     */
     private function ids(?array $values, string $class): ?array
     {
-        return $values === null ? null : array_map(static fn (string $id): D\Ulid => new $class($id), $values);
+        return $values === null ? null : array_values(array_map(static fn (string $id) => new $class($id), $values));
     }
 }

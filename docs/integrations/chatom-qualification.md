@@ -15,7 +15,7 @@ data set, and fails for missing, skipped, failed, duplicate or zero cases.
 | Tier | Local proof | Qualification boundary |
 | --- | --- | --- |
 | Fixture | Per-binding route guard, synthetic all-content egress and production fixture rejection | Synthetic authority/model only |
-| Core | All ten core migrations, empty catalog, separate schemas on PG16/17/18 | Schema smoke; complete core conformance is a separate lane |
+| Core | All 13 core migrations, empty catalog, separate schemas on PG16/17/18 | Schema smoke; complete core conformance is a separate lane |
 | Installed driver | Native migrations/doctor, authorized viewer history, real durable invocation/reply, native mutation policy, message/receipt/slot/outbox persistence | Local Laravel host with synthetic source/audience authority and model |
 | Provider | Missing configuration returns metadata-only Unavailable; injected HTTP client gets zero calls | Paid provider qualification pending |
 | Live host | No production network or deployment | Edufy owner HTTP, tenant/account mapping, current rights and original Library files pending |

@@ -30,12 +30,12 @@ final readonly class PdoDocumentStore
     public function save(TenantId $tenant, DocumentRevisionRef $revision, IrDocument $document, DocumentStorage $storage, Parents $parents): StoredDocument
     {
         $this->tx->requireTenant($tenant, true);
-        if ($revision->sourceRef->tenantId != $tenant || $parents->tenantId != $tenant) { self::fail('scope_mismatch', Outcome::Denied); }
+        if (!$revision->sourceRef->tenantId->equals($tenant) || !$parents->tenantId->equals($tenant)) { self::fail('scope_mismatch', Outcome::Denied); }
         if (strlen($document->canonical()) > 67108864) { self::fail('document_too_large'); }
         $ir = $document->toWire();
         if ($ir->get('tenantId') !== $tenant->value) { self::fail('scope_mismatch', Outcome::Denied); }
         if ($ir->get('sourceVersionId') !== $revision->sourceRef->sourceVersionId->value
-            || $ir->get('parserSignature') != $revision->parserSignature->toWire()
+            || Jcs::canonicalize($ir->get('parserSignature')) !== Jcs::canonicalize($revision->parserSignature->toWire())
             || hash('sha256', $document->canonical()) !== $revision->irDigest->value) { self::fail('immutable_conflict'); }
         foreach (['pages' => 'pageId', 'segments' => 'segmentId', 'blocks' => 'blockId', 'assets' => 'assetId'] as $collection => $key) {
             $ids = array_map(static fn(JsonObject $v): string => $v->get($key), $ir->get($collection));
@@ -117,11 +117,11 @@ final readonly class PdoDocumentStore
     public function getRefs(TenantId $tenant, DocumentRevisionRef $revision): ?StoredDocument
     {
         $this->tx->requireTenant($tenant);
-        if ($revision->sourceRef->tenantId != $tenant) { self::fail('scope_mismatch', Outcome::Denied); }
+        if (!$revision->sourceRef->tenantId->equals($tenant)) { self::fail('scope_mismatch', Outcome::Denied); }
         $row = $this->db->row('SELECT * FROM ' . $this->db->table('document_revisions') . ' WHERE tenant_id=? AND id=?',
             [$tenant->value, $revision->documentRevisionId->value]);
         if ($row === null) { return null; }
-        if ($this->lineage->revisionWire($tenant, $revision->documentRevisionId->value) != $revision->toWire()) { self::fail('immutable_conflict'); }
+        if (Jcs::canonicalize($this->lineage->revisionWire($tenant, $revision->documentRevisionId->value)) !== Jcs::canonicalize($revision->toWire())) { self::fail('immutable_conflict'); }
         $this->lineage->assertUsable($tenant, new Parents($tenant, [new ResourceRef($tenant, 'document_revision', $revision->documentRevisionId)]));
         $docs = $this->db->execute('SELECT * FROM ' . $this->db->table('documents') . ' WHERE tenant_id=? AND revision_id=?',
             [$tenant->value, $revision->documentRevisionId->value])->fetchAll(\PDO::FETCH_ASSOC);
@@ -174,7 +174,9 @@ final readonly class PdoDocumentStore
             if (str_ends_with($key, '_json')) {
                 if (Jcs::canonicalize(StrictJson::decode($row[$key], 67108864)) !== $value) { self::fail('immutable_conflict'); }
             } elseif ($key === 'created_at') {
-                if (new \DateTimeImmutable($row[$key]) != new \DateTimeImmutable($value)) { self::fail('immutable_conflict'); }
+                $storedAt = (new \DateTimeImmutable((string) $row[$key]))->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s.u\Z');
+                $expectedAt = (new \DateTimeImmutable((string) $value))->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s.u\Z');
+                if ($storedAt !== $expectedAt) { self::fail('immutable_conflict'); }
             } elseif ($value === null ? $row[$key] !== null : (string) $row[$key] !== (string) $value) { self::fail('immutable_conflict'); }
         }
         return false;

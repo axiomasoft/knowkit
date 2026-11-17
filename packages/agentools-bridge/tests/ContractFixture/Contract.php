@@ -27,7 +27,12 @@ final class Contract
 
     public static function json(string $path): array
     {
-        return json_decode(file_get_contents(self::root() . '/' . $path), associative: true, flags: JSON_THROW_ON_ERROR);
+        $bytes = file_get_contents(self::root() . '/' . $path);
+        if ($bytes === false) {
+            throw new RuntimeException('Missing contract fixture: ' . $path);
+        }
+
+        return json_decode($bytes, associative: true, flags: JSON_THROW_ON_ERROR);
     }
 
     public static function digest(mixed $value): string

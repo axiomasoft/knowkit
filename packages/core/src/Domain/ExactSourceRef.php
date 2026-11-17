@@ -23,9 +23,21 @@ readonly class ExactSourceRef
         }
     }
 
+    public function equals(self $other): bool
+    {
+        return $this->tenantId->equals($other->tenantId)
+            && $this->sourceId->equals($other->sourceId)
+            && $this->sourceVersionId->equals($other->sourceVersionId)
+            && $this->sourceDigest->equals($other->sourceDigest);
+    }
+
     public function assertSame(self $other): void
     {
-        if (!$this->tenantId->equals($other->tenantId)) { throw new DomainFailure(Outcome::Denied, 'scope_mismatch'); }
-        if ($this->toWire() != $other->toWire()) { throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict'); }
+        if (!$this->tenantId->equals($other->tenantId)) {
+            throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
+        }
+        if (!$this->equals($other)) {
+            throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict');
+        }
     }
 }

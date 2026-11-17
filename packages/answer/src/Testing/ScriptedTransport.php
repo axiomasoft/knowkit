@@ -26,7 +26,7 @@ final class ScriptedTransport implements ModelTransport
         private array $script,
     ) {
         $profile->requireTest();
-        if ($profile->transport != self::testDescriptor()) {
+        if ($profile->transport === null || !$profile->transport->equals(self::testDescriptor())) {
             throw new \InvalidArgumentException('Explicit scripted test binding required');
         }
         Guard::objects($script, TransportResult::class, 1024);
@@ -44,7 +44,7 @@ final class ScriptedTransport implements ModelTransport
 
     public function send(TransportRequest $request, CancellationToken $cancellation): TransportResult
     {
-        if ($request->identity->binding->transport != $this->descriptor()) {
+        if (!$request->identity->binding->transport->equals($this->descriptor())) {
             throw new \InvalidArgumentException('Fixture transport cannot substitute a pinned deployment');
         }
         if ($cancellation->isCancelled()) {

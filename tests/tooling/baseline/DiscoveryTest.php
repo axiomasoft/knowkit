@@ -23,6 +23,7 @@ final class DiscoveryTest extends Support
         $this->copy('phpunit.xml');
         $this->put('tests/tooling/baseline/bootstrap.php', '<?php require ' . var_export($this->qa->root . '/vendor/autoload.php', true) . ';');
         $canary = file_get_contents($this->qa->file('tests/tooling/baseline/fixtures/v1/DiscoveryTest.php.fixture'));
+        Qa::ensure($canary !== false, 'cannot read discovery fixture');
         foreach ($names as $name) {
             // Every other suite contains a top-level tripwire: accidental discovery is fatal.
             $candidate = new \DOMDocument();

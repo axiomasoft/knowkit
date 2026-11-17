@@ -10,7 +10,11 @@ use KnowKit\Domain\Contract\JsonObject;
 /** Exact text, with explicit separators between discontinuous spans. Empty units have no spans. */
 final readonly class Unit
 {
-    /** @param list<D\Span> $spans @param list<SourceUnitRef> $sourceUnits */
+    /**
+     * @param list<D\Span> $spans
+     * @param list<SourceUnitRef> $sourceUnits
+     * @param list<string> $supportingRefs
+     */
     public function __construct(
         public string $kind,
         public D\LocalId $id,

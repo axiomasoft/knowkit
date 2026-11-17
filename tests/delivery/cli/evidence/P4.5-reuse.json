@@ -45,7 +45,7 @@
       "tests/fixtures/check-groups/delivery-cli.json",
       "tests/storage/catalog/SchemaTest.php"
     ],
-    "sha256": "fd5c9a1b476b4357065d983c0b4af5c1be38d6aa89145401cd9f0c6eda042625"
+    "sha256": "fedf76b376a74aca5e806fb296cba57ce142595673f48c60d2b4e303af3fe41e"
   },
   "sources": [
     {

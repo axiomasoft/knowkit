@@ -10,7 +10,7 @@ use KnowKit\Tests\Evaluation\Evaluator;
 
 try {
     $options = getopt('', ['corpus:', 'profile:', 'output:']);
-    if (count($options) !== 3 || !isset($options['corpus'], $options['profile'], $options['output'])
+    if ($options === false || count($options) !== 3 || !isset($options['corpus'], $options['profile'], $options['output'])
         || !is_string($options['corpus']) || !is_string($options['profile']) || !is_string($options['output'])) {
         throw new InvalidArgumentException('Usage: php tools/evaluate.php --corpus <manifest> --profile <id> --output <local report>');
     }

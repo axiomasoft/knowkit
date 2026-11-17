@@ -3,7 +3,7 @@
   "scope": "Unpublished local source reuse and development inventory; no runtime adapter certification.",
   "composerLock": {
     "path": "composer.lock",
-    "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+    "sha256": "d76fdb70e0f66cf5f2b7f2a85cc1f8be3cfe0941dfb6eda3969981bf91c474bd"
   },
   "qualificationFiles": [
     "licenses/qualifications/agentools-source-patterns.json",

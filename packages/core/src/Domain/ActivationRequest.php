@@ -16,7 +16,9 @@ final readonly class ActivationRequest
             throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
         }
         foreach ($candidate->sets as $set) {
-            if ($set->chunkSet->revisionRef->sourceRef == $lease->sourceRef) { return; }
+            if ($set->chunkSet->revisionRef->sourceRef->equals($lease->sourceRef)) {
+                return;
+            }
         }
         throw new DomainFailure(Outcome::Incompatible, 'job_source_mismatch');
     }
@@ -25,8 +27,12 @@ final readonly class ActivationRequest
     public function sources(): array
     {
         $ids = [];
-        foreach ($this->candidate->manifest->toWire()->get('members') as $m) { $ids[$m->get('sourceId')] = new SourceId($m->get('sourceId')); }
-        ksort($ids, SORT_STRING); return array_values($ids);
+        foreach ($this->candidate->manifest->toWire()->get('members') as $m) {
+            $ids[$m->get('sourceId')] = new SourceId($m->get('sourceId'));
+        }
+        ksort($ids, SORT_STRING);
+
+        return array_values($ids);
     }
 
     public function fingerprint(): Fingerprint

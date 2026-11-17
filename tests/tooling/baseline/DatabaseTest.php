@@ -20,11 +20,15 @@ final class DatabaseTest extends Support
                 $inner->connection->exec('CREATE TABLE scratch (id int)');
                 $inner->connection->exec('INSERT INTO scratch VALUES (1)');
                 $inner->reset();
-                self::assertNull($inner->connection->query("SELECT to_regclass('scratch')")->fetchColumn());
+                $scratchStmt = $inner->connection->query("SELECT to_regclass('scratch')");
+                self::assertNotFalse($scratchStmt);
+                self::assertNull($scratchStmt->fetchColumn());
                 $inner->connection->exec('CREATE TABLE scratch (id int)');
             });
             self::assertFalse($inner->exists());
-            self::assertSame(42, (int) $outer->connection->query('SELECT id FROM sentinel')->fetchColumn());
+            $sentinelStmt = $outer->connection->query('SELECT id FROM sentinel');
+            self::assertNotFalse($sentinelStmt);
+            self::assertSame(42, (int) $sentinelStmt->fetchColumn());
             $this->rejects(function () use ($inner): void {
                 $inner->run(function (DatabaseSandbox $db): void {
                     $db->connection->beginTransaction();
@@ -33,7 +37,9 @@ final class DatabaseTest extends Support
                 });
             }, 'synthetic child failure');
             self::assertFalse($inner->exists());
-            self::assertSame(42, (int) $outer->connection->query('SELECT id FROM sentinel')->fetchColumn());
+            $sentinelAfterStmt = $outer->connection->query('SELECT id FROM sentinel');
+            self::assertNotFalse($sentinelAfterStmt);
+            self::assertSame(42, (int) $sentinelAfterStmt->fetchColumn());
         });
         self::assertFalse($outer->exists());
     }

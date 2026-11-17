@@ -21,11 +21,12 @@ final readonly class InventoryReconciler
         D\MutationContext $context,
     ): ReconciliationOutcome {
         $previous->assertMatches($scope, $snapshot);
-        if ($snapshot->receipt === null) {
+        $receipt = $snapshot->receipt;
+        if ($receipt === null) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'unsupported_completeness_proof');
         }
-        $snapshot->receipt->assertMatches($scope, $snapshot);
-        $outcome = $this->compare($previous, $snapshot);
+        $receipt->assertMatches($scope, $snapshot);
+        $outcome = $this->compare($previous, $snapshot, $receipt);
 
         return $this->store->synchronize($scope, $previous, $outcome, $context, function () use ($scope, $previous, $outcome, $context): ReconciliationOutcome {
             foreach ($outcome->removed as $removed) {
@@ -37,13 +38,16 @@ final readonly class InventoryReconciler
         });
     }
 
-    private function compare(PreviousInventory $previous, D\CrawlSnapshot $snapshot): ReconciliationOutcome
-    {
+    private function compare(
+        PreviousInventory $previous,
+        D\CrawlSnapshot $snapshot,
+        D\Sources\InventoryReceipt $receipt,
+    ): ReconciliationOutcome {
         $old = PreviousInventory::byOrigin($previous->members);
         $present = PreviousInventory::byOrigin(array_values(array_filter(
             $snapshot->items, static fn (D\CrawlItem $item): bool => $item->status === 'verified',
         )));
-        $this->assertRenames($snapshot, $old, $present);
+        $this->assertRenames($receipt, $old, $present);
         $absent = array_diff_key($old, $present);
         $members = $snapshot->complete ? $present : array_replace($old, $present);
         ksort($members, SORT_STRING);
@@ -52,17 +56,20 @@ final readonly class InventoryReconciler
             $snapshot, array_values($members), $snapshot->complete ? array_values($absent) : [],
             $snapshot->complete ? [] : array_map('strval', array_keys($absent)),
             $snapshot->complete ? [] : array_values(array_unique([
-                'partial_inventory', ...$snapshot->failures, ...$snapshot->receipt->reasons,
+                'partial_inventory', ...$snapshot->failures, ...$receipt->reasons,
             ])),
         );
     }
 
-    /** @param array<string,D\CrawlItem> $old @param array<string,D\CrawlItem> $present */
-    private function assertRenames(D\CrawlSnapshot $snapshot, array $old, array $present): void
+    /**
+     * @param array<string,D\CrawlItem> $old
+     * @param array<string,D\CrawlItem> $present
+     */
+    private function assertRenames(D\Sources\InventoryReceipt $receipt, array $old, array $present): void
     {
         $renamed = [];
         $targets = [];
-        foreach ($snapshot->receipt->renames as $rename) {
+        foreach ($receipt->renames as $rename) {
             if (isset($renamed[$rename->oldOriginKey]) || isset($targets[$rename->newOriginKey])
                 || ($old[$rename->oldOriginKey]->logicalPath ?? null) !== $rename->oldPath
                 || ($present[$rename->newOriginKey]->logicalPath ?? null) !== $rename->newPath

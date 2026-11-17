@@ -16,7 +16,7 @@ from knowkit_worker.rendering.pdf import open_pdf
 from knowkit_worker.structure.docling import map_table
 from knowkit_worker.structure.formulas import FormulaMetadata
 
-from conftest import CORPUS, ROOT, job_for
+from .conftest import CORPUS, ROOT, job_for
 
 
 def native_table():

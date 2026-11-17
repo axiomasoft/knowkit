@@ -26,7 +26,7 @@ final readonly class SelectionRecord
         if ($check['outcome'] !== 'success' || $wire->get('queryDigest') !== $query->digest()->value
             || Jcs::canonicalize($wire->get('limits')) !== Jcs::canonicalize($query->limits->toWire())
             || $wire->get('snapshotId') !== $snapshot->snapshotId->value
-            || $snapshot->tenantId != $context->scope->tenantId || $snapshot->kbId != $context->scope->kbId
+            || !$snapshot->tenantId->equals($context->scope->tenantId) || !$snapshot->kbId->equals($context->scope->kbId)
             || $expiresAt->compare($createdAt->plusSeconds(1)) < 0 || $expiresAt->compare($createdAt->plusSeconds(300)) > 0) {
             throw new DomainFailure(Outcome::Incompatible, 'selection_binding_mismatch');
         }
@@ -43,7 +43,7 @@ final readonly class SelectionRecord
         if ($this->selection->expiresAt()->compare($now) <= 0 || $now->compare($this->createdAt) < 0) {
             throw new DomainFailure(Outcome::Denied, 'selection_expired');
         }
-        if (!$this->query->digest()->equals($query->digest()) || $this->snapshot != $snapshot
+        if (!$this->query->digest()->equals($query->digest()) || !$this->snapshot->equals($snapshot)
             || $this->selection->runRef() !== $runRef) {
             throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
         }

@@ -40,6 +40,9 @@ final class InstalledSeam
     private static function assertInstalledOrigin(array $definitions, array $delivery): void
     {
         $install = realpath(InstalledVersions::getInstallPath('agentools/platform-chatom') ?? '');
+        if ($install === false) {
+            throw new RuntimeException('unavailable: installed schema manifest missing');
+        }
         $manifest = realpath($install . '/' . ($delivery['schemaManifest'] ?? ''));
         $pinned = array_column($delivery['sourceFiles'], 'path');
         if ($manifest === false || !is_file($manifest) || !str_starts_with($manifest, $install . DIRECTORY_SEPARATOR)
@@ -48,6 +51,9 @@ final class InstalledSeam
         }
         self::assertDigest(value: self::json($manifest), expected: $delivery['schemaDigest']);
         foreach (array_keys($definitions) as $name) {
+            if (!is_string($name) || (!class_exists($name) && !interface_exists($name) && !enum_exists($name))) {
+                throw new RuntimeException('unavailable: installed FQN/source pin mismatch');
+            }
             $class = new ReflectionClass($name);
             $file = realpath($class->getFileName() ?: '');
             if ($class->getName() !== $name || $file === false || !str_starts_with($file, $install . DIRECTORY_SEPARATOR)
@@ -82,6 +88,11 @@ final class InstalledSeam
 
     private static function json(string $path): array
     {
-        return json_decode(file_get_contents($path), associative: true, flags: JSON_THROW_ON_ERROR);
+        $bytes = file_get_contents($path);
+        if ($bytes === false) {
+            throw new RuntimeException('unavailable: missing contract file: ' . $path);
+        }
+
+        return json_decode($bytes, associative: true, flags: JSON_THROW_ON_ERROR);
     }
 }

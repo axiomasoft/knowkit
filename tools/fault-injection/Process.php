@@ -48,21 +48,40 @@ final class Process
 
     public function receive(string $event): array
     {
-        $read = [$this->pipes[1], $this->pipes[2]];
-        $write = null;
-        $except = null;
-        if (stream_select($read, $write, $except, 15) === 0) {
-            throw new \RuntimeException('IPC barrier deadline exceeded: ' . $event);
-        }
-        if (in_array($this->pipes[2], $read, true)) {
-            $error = fread($this->pipes[2], 8192);
-            if ($error !== '') {
-                throw new \RuntimeException('Fault worker failed: ' . $error);
+        $deadline = hrtime(true) + 15_000_000_000;
+        $stderrOpen = true;
+        while (true) {
+            $read = $stderrOpen ? [$this->pipes[1], $this->pipes[2]] : [$this->pipes[1]];
+            $write = $except = null;
+            $remaining = $deadline - hrtime(true);
+            if ($remaining <= 0) {
+                throw new \RuntimeException('IPC barrier deadline exceeded: ' . $event);
             }
-        }
-        $line = fgets($this->pipes[1], 65536);
-        if ($line === false) {
-            throw new \RuntimeException('Worker exited before ' . $event);
+            $selected = stream_select($read, $write, $except, 0, min(100000, (int) ceil($remaining / 1000)));
+            if ($selected === false) {
+                throw new \RuntimeException('Cannot monitor IPC barrier: ' . $event);
+            }
+            if ($selected === 0) {
+                continue;
+            }
+            if (in_array($this->pipes[2], $read, true)) {
+                $error = fread($this->pipes[2], 8192);
+                if ($error === false) {
+                    throw new \RuntimeException('Cannot read fault worker stderr');
+                }
+                if ($error !== '') {
+                    throw new \RuntimeException('Fault worker failed: ' . $error);
+                }
+                $stderrOpen = !feof($this->pipes[2]);
+            }
+            if (!in_array($this->pipes[1], $read, true)) {
+                continue;
+            }
+            $line = fgets($this->pipes[1], 65536);
+            if ($line === false) {
+                throw new \RuntimeException('Worker exited before ' . $event);
+            }
+            break;
         }
         $message = json_decode($line, true, 32, JSON_THROW_ON_ERROR);
         Assert::assertSame($event, $message['event'], $line);

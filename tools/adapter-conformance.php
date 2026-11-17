@@ -26,7 +26,9 @@ try {
     if (!$factory instanceof Closure) { throw new InvalidArgumentException('Explicit host factory required'); }
     $host = $factory($harness->fixture);
     if (!$host instanceof AdapterHost) { throw new InvalidArgumentException('Host contract required'); }
-    $profile = HostProfile::fromJson((string) file_get_contents($options['--profile']),$host->registry());
+    $profileJson = file_get_contents($options['--profile']);
+    if ($profileJson === false) { throw new RuntimeException('Profile read failed'); }
+    $profile = HostProfile::fromJson($profileJson,$host->registry());
     $report = $harness->run($host,$profile,$options['--contract'] ?? 'all');
     $json = json_encode($report,JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n";
     if (isset($options['--report']) && file_put_contents($options['--report'],$json) !== strlen($json)) {

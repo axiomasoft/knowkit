@@ -22,4 +22,12 @@ final readonly class TransportDescriptor
     {
         return new JsonObject(get_object_vars($this));
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->id === $other->id
+            && $this->version === $other->version
+            && $this->production === $other->production
+            && $this->requiresCredentials === $other->requiresCredentials;
+    }
 }

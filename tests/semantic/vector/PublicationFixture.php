@@ -171,6 +171,8 @@ final readonly class PublicationFixture
         $ocr = Publication::set($data->with('ir', $ir->toWire())->with('chunkSetManifest', $ocrWire));
         $fixture->jobs->resource(410, $ir->canonical());
         $f = $fixture->jobs->catalog;
+        $f->db->execute("UPDATE jobs SET lease_until = clock_timestamp() - interval '1 second' WHERE tenant_id=? AND id=?",
+            [$fixture->lease->scope->tenantId->value, $fixture->lease->jobId->value]);
         $f->tx->run(static function () use ($f, $ocr, $ir): void {
             $tenant = $ocr->chunkSet->revisionRef->sourceRef->tenantId;
             $f->tx->lockTenant($tenant, D\LockMode::Update);

@@ -44,7 +44,7 @@ final class WorkerProfiles
         }
         [$registered, $capabilities, $qualified, $network] = $this->profiles[$profile->id]
             ?? throw new DomainFailure(Outcome::Incompatible, 'unsupported_profile');
-        if ($registered->signature != $profile->signature || $registered->options != $profile->options) {
+        if (!$registered->signature->equals($profile->signature) || !$registered->options->equals($profile->options)) {
             throw new DomainFailure(Outcome::Incompatible, 'profile_mismatch');
         }
         if ($network) {

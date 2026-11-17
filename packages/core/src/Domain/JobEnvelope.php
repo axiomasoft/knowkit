@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KnowKit\Domain;
 
+use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
 
 final readonly class JobEnvelope extends SchemaValue
@@ -66,7 +67,7 @@ final readonly class JobEnvelope extends SchemaValue
     public function assertIr(IrDocument $ir): void
     {
         foreach (['tenantId', 'sourceVersionId', 'parserSignature'] as $field) {
-            if ($ir->toWire()->get($field) != $this->toWire()->get($field)) {
+            if (Jcs::canonicalize($ir->toWire()->get($field)) !== Jcs::canonicalize($this->toWire()->get($field))) {
                 throw new DomainFailure(Outcome::Denied, 'worker_identity_mismatch');
             }
         }

@@ -67,15 +67,16 @@ final readonly class AnswerOutcomeMapper
     private function content(A\AnswerRequest $request, A\ResolvedModelBinding $binding, A\GroundingEvidence $evidence,
         A\TransportResult $result, string $usageRef): A\AnswerOutcome
     {
+        $text = $result->text ?? '';
         try {
-            A\Guard::utf8($result->text, $request->limits->outputBytes, false);
+            A\Guard::utf8($text, $request->limits->outputBytes, false);
             if ($result->usage->outputTokens !== null && $result->usage->outputTokens > $binding->settings->maxOutputTokens) {
                 throw new \InvalidArgumentException('Output tokens exceed bound');
             }
             if ($this->tokenizer !== null && $binding->capabilities->tokenizer !== null) {
-                $request->limits->assertOutput($result->text, $this->tokenizer, $binding->capabilities->tokenizer);
+                $request->limits->assertOutput($text, $this->tokenizer, $binding->capabilities->tokenizer);
             }
-            $wire = StrictJson::decode($result->text, $request->limits->outputBytes);
+            $wire = StrictJson::decode($text, $request->limits->outputBytes);
             if (!$wire instanceof JsonObject || count(iterator_to_array($wire)) !== 2
                 || !is_string($wire->get('text')) || !is_array($wire->get('citations'))) {
                 throw new \InvalidArgumentException('Exact grounded answer envelope required');

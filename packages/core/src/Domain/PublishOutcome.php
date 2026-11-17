@@ -5,9 +5,17 @@ namespace KnowKit\Domain;
 
 final readonly class PublishOutcome
 {
-    /** Runtime checks the generic data type at this PHP boundary. */
+    /**
+     * Runtime checks the generic data type at this PHP boundary.
+     *
+     * @param Result<PublishReceipt> $result
+     */
     public function __construct(public Result $result)
     {
-        if ($result->data !== null && !$result->data instanceof PublishReceipt) { throw new \InvalidArgumentException('PublishReceipt outcome required'); }
+        /** @var object|null $data */
+        $data = $result->data;
+        if ($data !== null && !$data instanceof PublishReceipt) {
+            throw new \InvalidArgumentException('PublishReceipt outcome required');
+        }
     }
 }

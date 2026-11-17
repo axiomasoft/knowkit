@@ -15,7 +15,10 @@ final class RecordedConnector implements SourceConnector
     public int $inventoryCalls = 0;
     public int $describeCalls = 0;
 
-    /** @param list<RecordedDownload> $downloads @param list<Rename> $renames */
+    /**
+     * @param list<RecordedDownload> $downloads
+     * @param list<Rename> $renames
+     */
     public function __construct(
         private readonly D\Scope $scope,
         private readonly D\CrawlSnapshot $recording,

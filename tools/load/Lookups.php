@@ -47,6 +47,9 @@ final class Lookups
     {
         $wire = $db->execute('EXPLAIN (ANALYZE, FORMAT JSON, TIMING ON) ' . $sql, $values)->fetchColumn();
 
+        if (!is_string($wire)) {
+            throw new \RuntimeException('Query plan unavailable');
+        }
         return json_decode($wire, true, 64, JSON_THROW_ON_ERROR)[0]['Plan'];
     }
 

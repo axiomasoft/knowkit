@@ -19,7 +19,9 @@ final class InstallTest extends Support
         foreach ($xml->xpath('//testsuite/directory') ?: [] as $dir) {
             $this->put(trim((string) $dir) . '/.gitkeep', '');
         }
-        $this->put('tests/tooling/baseline/DiscoveryCanaryTest.php', file_get_contents($this->qa->file('tests/tooling/baseline/fixtures/v1/DiscoveryTest.php.fixture')));
+        $fixture = file_get_contents($this->qa->file('tests/tooling/baseline/fixtures/v1/DiscoveryTest.php.fixture'));
+        Qa::ensure($fixture !== false, 'cannot read discovery fixture');
+        $this->put('tests/tooling/baseline/DiscoveryCanaryTest.php', $fixture);
         $this->put('packages/core/src/Domain/.gitkeep', '');
         $qa = new Qa($this->temporary);
         $before = hash_file('sha256', $qa->file('composer.lock'));

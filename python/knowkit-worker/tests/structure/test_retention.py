@@ -10,7 +10,7 @@ from knowkit_worker.structure.retention import text_for, unavailable
 from knowkit_worker.structure.tables import Cell, retain_table
 from knowkit_worker.structure.visuals import retain_description, retain_visual
 
-from conftest import CORPUS, ROOT, job_for
+from .conftest import CORPUS, ROOT, job_for
 
 
 def test_source_reported_multipage_table_keeps_cells_headers_units_notes_and_regions(oracle, retained):

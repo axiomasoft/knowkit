@@ -24,10 +24,10 @@ final readonly class InvocationRecord
         public DispatchCertainty $dispatchCertainty = DispatchCertainty::KnownNotSent,
     ) {
         $pins->binding->scope->assertTenant($invocationRef->tenantId);
-        if ($originalRequestDigest != $pins->originalRequestDigest) {
+        if (!$originalRequestDigest->equals($pins->originalRequestDigest)) {
             throw new \InvalidArgumentException('Checkpoint must retain its original admitted request');
         }
-        if ($invocationRef != $claim->invocationRef) {
+        if (!$invocationRef->equals($claim->invocationRef)) {
             throw new \InvalidArgumentException('Claim belongs to another invocation');
         }
         if ($responsePayloadRef !== null) {
@@ -41,12 +41,12 @@ final readonly class InvocationRecord
 
     public function requireOriginal(AnswerRequest $request): void
     {
-        if ($this->invocationRef != $request->invocationRef()
-            || $this->originalRequestDigest != $request->originalRequestDigest()) {
+        if (!$this->invocationRef->equals($request->invocationRef())
+            || !$this->originalRequestDigest->equals($request->originalRequestDigest())) {
             throw new \KnowKit\Domain\DomainFailure(\KnowKit\Domain\Outcome::Incompatible, 'invocation_conflict');
         }
-        if ($this->pins->retrievalProfile != $request->retrievalProfileRef
-            || $this->requestFingerprint != $request->fingerprint($this->pins->binding)) {
+        if (!$this->pins->retrievalProfile->equals($request->retrievalProfileRef)
+            || !$this->requestFingerprint->equals($request->fingerprint($this->pins->binding))) {
             throw new \KnowKit\Domain\DomainFailure(\KnowKit\Domain\Outcome::Incompatible, 'invocation_conflict');
         }
     }

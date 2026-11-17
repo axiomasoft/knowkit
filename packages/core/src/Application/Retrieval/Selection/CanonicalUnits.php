@@ -35,7 +35,10 @@ final readonly class CanonicalUnits implements SelectionInventoryBuilder
         return new D\SelectionInventory($snapshot, $manifest, $units);
     }
 
-    /** @param list<JsonObject> $context @return list<string> */
+    /**
+     * @param list<JsonObject> $context
+     * @return list<string>
+     */
     private function context(CanonicalMap $map, array $context): array
     {
         $parts = [];
@@ -64,7 +67,10 @@ final readonly class CanonicalUnits implements SelectionInventoryBuilder
         throw new D\DomainFailure(D\Outcome::Incompatible, 'source_text_mismatch');
     }
 
-    /** @param list<string> $blockIds @return list<string> */
+    /**
+     * @param list<string> $blockIds
+     * @return list<string>
+     */
     private function assets(CanonicalMap $map, array $blockIds, D\DocumentRevisionRef $revision): array
     {
         $assets = [];

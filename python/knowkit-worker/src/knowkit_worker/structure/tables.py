@@ -32,7 +32,8 @@ def retain_table(ir: dict, block_id: str, rows: int, columns: int, cells: list[C
     come from the source adapter; no text heuristics add them here.
     """
     block = block_for(ir, block_id)
-    if not 1 <= rows <= 65535 or not 1 <= columns <= 65535 or not 1 <= len(cells) <= 100000:
+    if (type(rows) is not int or type(columns) is not int
+            or not 1 <= rows <= 65535 or not 1 <= columns <= 65535 or not 1 <= len(cells) <= 100000):
         raise Refusal("table_shape_invalid")
     by_id = {cell.cellId: cell for cell in cells}
     if len(by_id) != len(cells):
@@ -60,7 +61,8 @@ def _validate_cell(ir, block_id, rows, columns, cell, by_id):
     local_id(cell.cellId)
     if cell.unit is not None and (not isinstance(cell.unit, str) or not 1 <= len(cell.unit) <= 64):
         raise Refusal("table_unit_invalid")
-    if (not 0 <= cell.row < rows or not 0 <= cell.column < columns
+    if (any(type(value) is not int for value in (cell.row, cell.column, cell.rowSpan, cell.colSpan))
+            or not 0 <= cell.row < rows or not 0 <= cell.column < columns
             or not 1 <= cell.rowSpan <= rows - cell.row
             or not 1 <= cell.colSpan <= columns - cell.column):
         raise Refusal("table_cell_out_of_range")

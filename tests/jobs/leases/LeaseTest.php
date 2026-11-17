@@ -152,7 +152,7 @@ final class LeaseTest extends TestCase
     public function testMigrationIdentityBoundsEnqueueConflictAndFenceExhaustion(): void
     {
         Fixture::run(function($f) {
-            self::assertSame(4,$f->catalog->count('schema_migrations'));
+            self::assertSame(13,$f->catalog->count('schema_migrations'));
             $f->enqueue();
             try { $f->enqueue('create-kb'); self::fail('Cross-operation idempotency key accepted'); }
             catch (D\DomainFailure $e) { self::assertSame('idempotency_conflict',$e->errorCode); }

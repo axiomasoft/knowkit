@@ -36,6 +36,7 @@ final readonly class ProviderResponse
             if (!is_array($values)) {
                 throw new DomainFailure(Outcome::Incompatible, 'adapter_contract_violation');
             }
+            /** @var list<float|int> $values */
             $vectors[] = new Vector($values, $expected);
         }
 
@@ -48,7 +49,10 @@ final readonly class ProviderResponse
         // retain coordinate identity and make integer/float equivalents identical.
         $vectors = [];
         foreach ($batch->vectors as $vector) {
-            $vectors[] = array_map(static fn(int|float $v): string => bin2hex(pack('E', $v == 0 ? 0.0 : (float) $v)), $vector->values);
+            $vectors[] = array_map(
+                static fn(int|float $v): string => bin2hex(pack('E', (float) $v === 0.0 ? 0.0 : (float) $v)),
+                $vector->values,
+            );
         }
 
         return new Fingerprint(hash('sha256', "knowkit:embedding-result:v1\0" . Jcs::canonicalize([

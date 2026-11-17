@@ -4,18 +4,27 @@ import hashlib
 import json
 from pathlib import Path, PurePosixPath
 import sys
+import stat
 
 
 def verify(root: Path) -> None:
+    if not stat.S_ISDIR(root.lstat().st_mode):
+        raise ValueError("invalid artifact root")
+    info = (root / "artifact.json").lstat()
+    if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+        raise ValueError("invalid artifact manifest")
     manifest = json.loads((root / "artifact.json").read_text())
     if manifest.get("schemaVersion") != "knowkit-local-artifact:1" or not manifest.get("files"):
         raise ValueError("unknown/empty artifact")
     expected = manifest["files"]
     actual = set()
     for path in root.rglob("*"):
-        if path.is_symlink():
-            raise ValueError("symlink artifact entry")
-        if path.is_file() and path != root / "artifact.json":
+        info = path.lstat()
+        if stat.S_ISDIR(info.st_mode):
+            continue
+        if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+            raise ValueError("non-regular or linked artifact entry")
+        if path != root / "artifact.json":
             actual.add(path.relative_to(root).as_posix())
     if actual != set(expected):
         raise ValueError("inventory set mismatch")

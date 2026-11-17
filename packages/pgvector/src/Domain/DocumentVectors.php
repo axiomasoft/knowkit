@@ -44,7 +44,7 @@ final readonly class DocumentVectors
             if ($vector === null) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'missing_vector');
             }
-            if ($this->references[$id] != $chunk->ref) {
+            if (D\Contract\Jcs::canonicalize($this->references[$id]->toWire()) !== D\Contract\Jcs::canonicalize($chunk->ref->toWire())) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
             }
             $payloads[$id] = new VectorPayload($vector);

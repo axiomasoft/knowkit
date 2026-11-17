@@ -26,7 +26,7 @@
       "tests/retrieval/cache/FixtureTest.php",
       "tests/retrieval/cache/PostgresTest.php"
     ],
-    "sha256": "b5aa6c295b929a6689b3ed0cbb9924a1105d7872aafc86e0135a59a2002bd157"
+    "sha256": "b858aa682635e3b97788a3e813ab18b700e8a944cff3102ac0c7e25bbb3b576c"
   },
   "sources": [
     {

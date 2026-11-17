@@ -37,7 +37,7 @@ final class InMemorySelections implements SelectionStore
     public function get(Scope $scope, Sha256 $tokenHash): ?SelectionRecord
     {
         $record = $this->records[$scope->tenantId->value . ':' . $tokenHash->value] ?? null;
-        if ($record === null || $record->context->scope->hostScopeHash != $scope->hostScopeHash) {
+        if ($record === null || !$record->context->scope->hostScopeHash->equals($scope->hostScopeHash)) {
             return null;
         }
 

@@ -18,12 +18,28 @@ MAX_SIDE = 16_384
 
 
 def dimensions(width: float, height: float, scale: float = 1) -> tuple[int, int]:
-    if not all(math.isfinite(v) and v > 0 for v in (width, height, scale)):
+    if not all(not isinstance(v, bool) and math.isfinite(v) and v > 0 for v in (width, height, scale)):
         raise Refusal("invalid_geometry")
     w, h = math.ceil(width * scale), math.ceil(height * scale)
     if max(w, h) > MAX_SIDE or w * h > MAX_PIXELS:
         raise Refusal("render_limit")
     return w, h
+
+
+def inspect_objects(page):
+    """Return bounded objects and whether any form descendants went unvisited."""
+    import pypdfium2 as pdfium
+
+    objects = []
+    truncated = False
+    for obj in page.get_objects(max_depth=32):
+        if len(objects) >= 20_000:
+            raise Refusal("page_object_limit")
+        objects.append(obj)
+        if (obj.type == pdfium.raw.FPDF_PAGEOBJ_FORM and obj.level >= 31
+                and pdfium.raw.FPDFFormObj_CountObjects(obj) != 0):
+            truncated = True
+    return objects, truncated
 
 
 @contextmanager
@@ -46,9 +62,11 @@ def open_pdf(source: bytes, max_pages: int):
         for page in document:
             try:
                 dimensions(*page.get_size())
-                for index, obj in enumerate(page.get_objects(max_depth=32)):
-                    if index >= 20_000:
-                        raise Refusal("page_object_limit")
+                objects, truncated = inspect_objects(page)
+                if truncated:
+                    # Descendant image dimensions are unknown; rendering is unsafe.
+                    raise Refusal("page_object_depth_limit")
+                for obj in objects:
                     if obj.type == pdfium.raw.FPDF_PAGEOBJ_IMAGE:
                         dimensions(*obj.get_px_size())
             finally:
@@ -76,9 +94,12 @@ def page_png(page, scale: float = 1) -> bytes:
 def bbox(values, width, height) -> dict:
     """Input coordinates already refer to the displayed, rotated page."""
     dimensions(width, height)
+    values = tuple(values)
+    if len(values) != 4:
+        raise Refusal("invalid_geometry")
     coordinates = []
     for value, extent in zip(values, (width, height, width, height)):
-        if not math.isfinite(value) or not 0 <= value <= extent:
+        if isinstance(value, bool) or not math.isfinite(value) or not 0 <= value <= extent:
             raise Refusal("invalid_geometry")
         normalized = Decimal(str(value)) * 1_000_000 / Decimal(str(extent))
         coordinates.append(int(normalized.to_integral_value(rounding=ROUND_HALF_EVEN)))

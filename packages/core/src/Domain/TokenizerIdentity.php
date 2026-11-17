@@ -19,7 +19,17 @@ final readonly class TokenizerIdentity
             'vocabularyDigest'=>$this->vocabularyDigest->value]);
     }
 
-    public function digest(): Fingerprint { return new Fingerprint(hash('sha256', Jcs::canonicalize($this->toWire()))); }
+    public function digest(): Fingerprint
+    {
+        return new Fingerprint(hash('sha256', Jcs::canonicalize($this->toWire())));
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->id->equals($other->id)
+            && $this->version === $other->version
+            && $this->vocabularyDigest->equals($other->vocabularyDigest);
+    }
 
     public function assertCompatible(self $other): void
     {

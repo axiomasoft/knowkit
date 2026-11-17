@@ -17,6 +17,10 @@ final readonly class CanonicalUnit
         public string $status,
         private string $text,
     ) {
+        if (($ref->kind === 'page' && ($physicalNo === null || $physicalNo < 1 || $physicalNo > 4294967295))
+            || ($ref->kind !== 'page' && ($physicalNo !== null || $printedLabel !== null))) {
+            throw new D\DomainFailure(D\Outcome::Incompatible, 'invalid_unit');
+        }
         if (preg_match('//u', $text) !== 1 || hash('sha256', $text) !== $ref->textDigest->value) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'digest_mismatch');
         }

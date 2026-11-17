@@ -64,7 +64,7 @@ final readonly class PdoUsages implements DisclosureStore
     public function plan(D\Scope $scope, D\SelectionRecord $record, D\DisclosureRequest $request): D\DisclosurePlan
     {
         $record->context->scope->assertTenant($scope->tenantId);
-        if ($record->context->scope != $scope) {
+        if (Jcs::canonicalize($record->context->scope->toWire()) !== Jcs::canonicalize($scope->toWire())) {
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
         }
         $sources = $resources = [];
@@ -94,6 +94,9 @@ final readonly class PdoUsages implements DisclosureStore
         return new D\DisclosurePlan(array_values($sources), array_values($resources), $binding);
     }
 
+    /**
+     * @param Closure(D\DisclosurePlan, D\UtcInstant): D\PreparedDisclosure $assemble
+     */
     public function commit(
         D\Scope $scope,
         D\SelectionRecord $record,
@@ -118,9 +121,15 @@ final readonly class PdoUsages implements DisclosureStore
             return $this->persist($scope, $record, $request, $current, $assemble);
         });
 
-        return new D\DisclosureOutcome(D\Result::success($result));
+        /** @var D\Result<D\EvidenceSet|D\DisclosureReplay|D\Navigation\UnitDisclosure> $outcome */
+        $outcome = D\Result::success($result);
+
+        return new D\DisclosureOutcome($outcome);
     }
 
+    /**
+     * @param Closure(D\DisclosurePlan, D\UtcInstant): D\PreparedDisclosure $assemble
+     */
     private function persist(
         D\Scope $scope,
         D\SelectionRecord $record,
@@ -128,7 +137,7 @@ final readonly class PdoUsages implements DisclosureStore
         D\DisclosurePlan $current,
         Closure $assemble,
     ): D\EvidenceSet|D\DisclosureReplay {
-        $now = self::instant($this->db->execute('SELECT clock_timestamp()')->fetchColumn());
+        $now = self::instant((string) $this->db->execute('SELECT clock_timestamp()')->fetchColumn());
         $prepared = $assemble($current, $now);
         $prepared->requireRequest($record, $request, $now);
         $deadline = $prepared->deadline ?? throw new D\DomainFailure(D\Outcome::Incompatible, 'decision_receipt_required');
@@ -138,7 +147,7 @@ final readonly class PdoUsages implements DisclosureStore
         $this->dependencies->recordUsage($prepared->usage);
         (new PdoCitations($this->db))->save($prepared);
         $this->appendEvent($prepared->event);
-        $finalNow = self::instant($this->db->execute('SELECT clock_timestamp()')->fetchColumn());
+        $finalNow = self::instant((string) $this->db->execute('SELECT clock_timestamp()')->fetchColumn());
         if ($record->selection->expiresAt()->compare($finalNow) <= 0) {
             throw new D\DomainFailure(D\Outcome::Denied, 'selection_expired');
         }
@@ -191,7 +200,7 @@ final readonly class PdoUsages implements DisclosureStore
     {
         $metadata = new NodeMetadata($this->db, $this->tx);
         $actual = $metadata->resolve(new D\ResourceRef($scope->tenantId, 'chunk', $ref->chunkId));
-        if ($actual['identity'] != $ref->toWire()) {
+        if (Jcs::canonicalize($actual['identity']) !== Jcs::canonicalize($ref->toWire())) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
         }
         $this->requireUsable($scope, [$ref]);
@@ -202,7 +211,7 @@ final readonly class PdoUsages implements DisclosureStore
         $scope->assertTenant($revision->sourceRef->tenantId);
         $ref = new D\ResourceRef($scope->tenantId, 'document_revision', $revision->documentRevisionId);
         $metadata = new NodeMetadata($this->db, $this->tx);
-        if ($metadata->resolve($ref)['identity'] != $revision->toWire()) {
+        if (Jcs::canonicalize($metadata->resolve($ref)['identity']) !== Jcs::canonicalize($revision->toWire())) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
         }
         $report = $this->dependencies->checkAncestors(new D\NodeRefs($scope->tenantId, [$ref]));
@@ -216,8 +225,8 @@ final readonly class PdoUsages implements DisclosureStore
     {
         $usage = $prepared->usage;
         $scope->assertTenant($usage->tenantId());
-        if ($usage->actorId() != $scope->actorId || $usage->purpose() !== $scope->purpose
-            || $usage->hostScopeHash() != $scope->hostScopeHash) {
+        if (!$usage->actorId()->equals($scope->actorId) || $usage->purpose() !== $scope->purpose
+            || !$usage->hostScopeHash()->equals($scope->hostScopeHash)) {
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
         }
 
@@ -307,7 +316,7 @@ final readonly class PdoUsages implements DisclosureStore
         $metadata = new NodeMetadata($this->db, $this->tx);
         foreach ($request->refs($record) as $ref) {
             $actual = $metadata->resolve(new D\ResourceRef($scope->tenantId, 'chunk', $ref->chunkId));
-            if ($actual['identity'] != $ref->toWire()) {
+            if (Jcs::canonicalize($actual['identity']) !== Jcs::canonicalize($ref->toWire())) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
             }
             $this->assertMember($scope, $record, $ref);

@@ -29,7 +29,7 @@ final class ModelTransportRegistry
     {
         $descriptor = $profile->transport;
         if ($descriptor === null || !isset($this->entries[$descriptor->id])
-            || $this->entries[$descriptor->id][0] != $descriptor) {
+            || !$this->entries[$descriptor->id][0]->equals($descriptor)) {
             return new Readiness(UnavailableComponent::Transport);
         }
         if (!$profile->clientConfigured) {
@@ -44,7 +44,7 @@ final class ModelTransportRegistry
 
     public function resolve(EffectiveProfile $profile): ModelTransport
     {
-        if (!$this->readiness($profile)->configured()) {
+        if ($profile->transport === null || !$this->readiness($profile)->configured()) {
             throw new DomainFailure(Outcome::Unavailable, 'model_configuration_missing');
         }
 

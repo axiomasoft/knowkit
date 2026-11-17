@@ -36,7 +36,7 @@ final readonly class CanonicalText
         $bom = str_starts_with($raw, "\xEF\xBB\xBF");
         $start = $bom ? 3 : 0;
         $lines = preg_split('/\r\n|\r|\n/', substr($raw, $start));
-        if (count($lines) > $settings->maxLines) { self::reject('line_count_limit'); }
+        if ($lines === false || count($lines) > $settings->maxLines) { self::reject('line_count_limit'); }
         foreach ($lines as $line) {
             if (strlen($line) > $settings->maxLineBytes) { self::reject('line_size_limit'); }
         }
@@ -92,5 +92,6 @@ final readonly class CanonicalText
             'canonicalStart' => $c, 'canonicalEnd' => $d]);
     }
     private static function reject(string $code): never { throw new DomainFailure(Outcome::Incompatible, $code); }
+    /** @return array<string, mixed> */
     public function __debugInfo(): array { return ['normalization' => 'text-v1', 'byteLength' => strlen($this->text)]; }
 }

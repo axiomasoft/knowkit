@@ -99,7 +99,7 @@ final readonly class GroundedAnswerService implements GroundedAnswering
             // A lost reserve ACK may have reserved funds; do not release or invent a confirmation.
             return $this->complete($record, $this->notSent($request, A\OutcomeCode::BudgetDenied));
         }
-        if ($reservation->invocationRef != $request->invocationRef() || $reservation->status !== A\ReservationStatus::Confirmed) {
+        if (!$reservation->invocationRef->equals($request->invocationRef()) || $reservation->status !== A\ReservationStatus::Confirmed) {
             return $this->complete($record, $this->notSent($request, A\OutcomeCode::BudgetDenied));
         }
         try {
@@ -185,7 +185,7 @@ final readonly class GroundedAnswerService implements GroundedAnswering
             if ($outbound->identity->deadline <= $this->now() || $outbound->identity->egressDecision->expiresAt <= $this->now()) {
                 throw new D\DomainFailure(D\Outcome::Denied, 'stale_egress');
             }
-            if ($outbound->identity->binding->transport != $this->transport->descriptor()) {
+            if (!$outbound->identity->binding->transport->equals($this->transport->descriptor())) {
                 throw new D\DomainFailure(D\Outcome::Unavailable, 'transport_mismatch');
             }
             $decision = $this->authorization->beforeSend($request->scope, $outbound->identity);

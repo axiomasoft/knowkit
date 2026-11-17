@@ -14,7 +14,7 @@ final readonly class CandidateSubset
         $seen = [];
         foreach ($candidates as $candidate) {
             $id = $candidate->ref->chunkId->value;
-            if (isset($seen[$id]) || !isset($known[$id]) || $known[$id] != $candidate->ref) {
+            if (isset($seen[$id]) || !isset($known[$id]) || !$known[$id]->equals($candidate->ref)) {
                 throw new DomainFailure(Outcome::Incompatible, 'adapter_contract_violation');
             }
             $seen[$id] = true;

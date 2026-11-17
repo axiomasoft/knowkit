@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace KnowKit\Domain;
 
+use KnowKit\Domain\Contract\Jcs;
+
 /** Trusted per-call processing scope and COMPLETE outbound manifest; never an Allow receipt cache. */
 final readonly class EmbeddingAccess
 {
@@ -30,7 +32,7 @@ final readonly class EmbeddingAccess
             $ref = $input->ref->revisionRef->sourceRef;
             $this->scope->assertTenant($ref->tenantId);
             if ($item->get('category') !== 'DOCUMENT_CONTENT' || $item->get('contentDigest') !== $input->digest()->value
-                || $item->get('sourceVersionRefs') != [$ref->toWire()]) {
+                || Jcs::canonicalize($item->get('sourceVersionRefs')) !== Jcs::canonicalize([$ref->toWire()])) {
                 throw new DomainFailure(Outcome::Incompatible, 'adapter_contract_violation');
             }
         }

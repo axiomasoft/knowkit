@@ -56,7 +56,7 @@ final readonly class AnswerSettlement
     /** Persist the actual owner receipt, including its check time/version, for these exact bytes. */
     public function egressDecision(A\TransportRequest $request, A\EgressContentManifest $manifest, D\DecisionReceipt $receipt): A\EgressDecisionRef
     {
-        if ($manifest->identity->digest() != $request->identity->digest()) {
+        if (!$manifest->identity->digest()->equals($request->identity->digest())) {
             throw new \InvalidArgumentException('Egress receipt must bind the exact call');
         }
         $wire = $receipt->toWire();
@@ -105,7 +105,8 @@ final readonly class AnswerSettlement
     private function requireObservation(mixed $wire, A\AnswerOutcome $outcome): void
     {
         if (!$wire instanceof JsonObject || $wire->get('schemaVersion') !== 'answer-observation:1'
-            || $wire->get('invocationRef') != $outcome->invocationRef->toWire()
+            || !$wire->get('invocationRef') instanceof JsonObject
+            || Jcs::canonicalize($wire->get('invocationRef')) !== Jcs::canonicalize($outcome->invocationRef->toWire())
             || $wire->get('certainty') !== $outcome->certainty->value) {
             throw new \InvalidArgumentException('Settlement observation mismatch');
         }

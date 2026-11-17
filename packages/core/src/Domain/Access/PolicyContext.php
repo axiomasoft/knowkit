@@ -9,11 +9,15 @@ use KnowKit\Domain\Contract\{Jcs, JsonObject};
 /** Trusted host composition value, never a transport DTO or an authorization decision. */
 final readonly class PolicyContext
 {
-    /** @param list<string> $grants @param list<string> $egress */
+    /**
+     * @param list<string> $grants
+     * @param list<string> $egress
+     */
     public function __construct(public Scope $scope, public string $audience,
         public array $grants = [], public array $egress = [])
     {
         foreach ([$audience, ...$grants, ...$egress] as $name) {
+            /** @var mixed $name */
             if (!is_string($name) || preg_match('/^[a-zA-Z0-9][a-zA-Z0-9:._-]{0,127}$/D', $name) !== 1) {
                 throw new \InvalidArgumentException('Bounded host policy identifier required');
             }

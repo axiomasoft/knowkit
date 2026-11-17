@@ -22,7 +22,7 @@ final readonly class ReferenceCacheEntry
             throw new DomainFailure(Outcome::Incompatible, 'cache_lifetime_invalid');
         }
         foreach ($candidates as $candidate) {
-            if ($candidate->ref->revisionRef->sourceRef->tenantId != $key->tenantId) {
+            if (!$candidate->ref->revisionRef->sourceRef->tenantId->equals($key->tenantId)) {
                 throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
             }
         }
@@ -32,7 +32,7 @@ final readonly class ReferenceCacheEntry
 
     public function requireBinding(ReferenceCacheKey $key, UtcInstant $now): void
     {
-        if ($this->key != $key) {
+        if (!$this->key->equals($key)) {
             throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
         }
         if ($this->createdAt->compare($now) > 0 || $this->expiresAt->compare($now) <= 0) {

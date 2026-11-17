@@ -78,7 +78,7 @@ final class HttpResponseReader
         $bytes = '';
         while (!feof($stream)) {
             NativeHttps::timeout(stream: $stream, deadline: $deadline);
-            $part = @fread($stream, min(65536, $limit + 1 - strlen($bytes)));
+            $part = @fread($stream, max(1, min(65536, $limit + 1 - strlen($bytes))));
             if ($part === false || ($part === '' && !feof($stream))) {
                 throw new DomainFailure(Outcome::Unavailable, 'origin_io_failed');
             }

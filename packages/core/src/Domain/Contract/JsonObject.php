@@ -57,4 +57,9 @@ final class JsonObject implements \IteratorAggregate, \Countable
     {
         return count($this->members);
     }
+
+    public function equals(self $other): bool
+    {
+        return Jcs::canonicalize($this) === Jcs::canonicalize($other);
+    }
 }

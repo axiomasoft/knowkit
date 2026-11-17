@@ -141,7 +141,10 @@ final readonly class PdoJobQueue implements WorkerJobs
         $this->partition($lease->scope);
         if (!$this->withLease($lease,fn(array $row): bool=>$this->current($lease))) { return false; }
         $manifest=($this->verifiedCheckpoint)($lease,$checkpoint); // external I/O before BEGIN
-        if ($manifest->checkpoint()!=$checkpoint) { throw new D\DomainFailure(D\Outcome::Incompatible,'checkpoint_digest_mismatch'); }
+        $manifestCheckpoint = $manifest->checkpoint();
+        if ($manifestCheckpoint->digest->value !== $checkpoint->digest->value || $manifestCheckpoint->uncertainExternalEffect !== $checkpoint->uncertainExternalEffect) {
+            throw new D\DomainFailure(D\Outcome::Incompatible, 'checkpoint_digest_mismatch');
+        }
         return $this->withLease($lease,function(array $row) use($lease,$manifest,$checkpoint): bool {
             if (!$this->current($lease) || !$this->manifestBinding($row,$manifest) || !$this->resources($row,$manifest)) { return false; }
             $wire=$manifest->toWire();
@@ -234,7 +237,10 @@ final readonly class PdoJobQueue implements WorkerJobs
         if ($row===false || $row['checkpoint_digest']===null) { return null; }
         $checkpoint=new D\Checkpoint(new D\Sha256($row['checkpoint_digest']),false);
         $manifest=($this->verifiedCheckpoint)($lease,$checkpoint);
-        if ($manifest->checkpoint()!=$checkpoint) { throw new D\DomainFailure(D\Outcome::Incompatible,'checkpoint_digest_mismatch'); }
+        $manifestCheckpoint = $manifest->checkpoint();
+        if ($manifestCheckpoint->digest->value !== $checkpoint->digest->value || $manifestCheckpoint->uncertainExternalEffect !== $checkpoint->uncertainExternalEffect) {
+            throw new D\DomainFailure(D\Outcome::Incompatible, 'checkpoint_digest_mismatch');
+        }
         $valid=$this->withLease($lease,function(array $job) use($lease,$manifest,$checkpoint): bool {
             $saved=$this->db->row('SELECT checkpoint_json FROM '.$this->db->table('job_checkpoints').
                 ' WHERE tenant_id=? AND job_id=? AND checkpoint_digest=? AND NOT uncertain_external_effect',[$this->tenant(),$job['id'],$checkpoint->digest->value]);
@@ -280,7 +286,11 @@ final readonly class PdoJobQueue implements WorkerJobs
     private function tenant(): string { return $this->partition->tenantId->value; }
     private function partition(D\Scope $scope): void
     {
-        if ($scope->tenantId!=$this->partition->tenantId || $scope->kbId!=$this->partition->kbId || $scope->hostScopeHash!=$this->partition->hostScopeHash) {
+        if (
+            !$scope->tenantId->equals($this->partition->tenantId)
+            || !$scope->kbId->equals($this->partition->kbId)
+            || !$scope->hostScopeHash->equals($this->partition->hostScopeHash)
+        ) {
             throw new D\DomainFailure(D\Outcome::Denied,'scope_mismatch');
         }
     }
@@ -300,8 +310,6 @@ final readonly class PdoJobQueue implements WorkerJobs
         $prepared=false;
         try { return $this->tx->run(function() use($seed,$operation,$skip,$effect,&$prepared): mixed {
             $started=hrtime(true);
-            $this->db->execute('SET TRANSACTION ISOLATION LEVEL READ COMMITTED');
-            $this->db->execute("SET LOCAL lock_timeout='500ms'"); $this->db->execute("SET LOCAL statement_timeout='2000ms'");
             $mode = $effect || $skip ? D\LockMode::Update : D\LockMode::Share;
             $this->tx->lockTenant($this->partition->tenantId,$mode);
             $this->tx->lockKb(new D\KbId($seed['kb_id']),$mode);

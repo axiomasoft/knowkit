@@ -70,8 +70,8 @@ final readonly class PdoCitations
         $chunk = new D\ChunkRef($revision, new D\ChunkSetId($row['chunk_set_id']), new D\ChunkId($row['chunk_id']), new D\Sha256($row['content_digest']));
         $record = new CitationRecord($citation, $chunk, new D\SelectionId($row['selection_id']), new D\KbId($row['kb_id']),
             new D\Sha256($row['host_scope_hash']), $stored->get('joiner'), $row['payload_state'] === 'present');
-        if ($citation->id() != $id || $citation->documentId()->value !== $row['document_id']
-            || $citation->toWire()->get('spans') != StrictJson::decode($row['locator_json'])) {
+        if (!$citation->id()->equals($id) || $citation->documentId()->value !== $row['document_id']
+            || Jcs::canonicalize($citation->toWire()->get('spans')) !== Jcs::canonicalize(StrictJson::decode($row['locator_json']))) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
         }
         $record->requireScope($scope);

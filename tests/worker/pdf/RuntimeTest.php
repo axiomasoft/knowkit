@@ -125,7 +125,11 @@ final class RuntimeTest extends TestCase
                 $path = dirname($path);
             }
         }
-        $root ??= getenv('KNOWKIT_PDF_RUNTIME') ?: Fixture::root() . '/python/knowkit-worker/.local-checks/pdf-runtime';
+        $defaultRoot = Fixture::root() . '/python/knowkit-worker/.local-checks/pdf-runtime';
+        if (!is_dir($defaultRoot) && is_dir(Fixture::root() . '/python/knowkit-worker/.local-checks/ocr-runtime')) {
+            $defaultRoot = Fixture::root() . '/python/knowkit-worker/.local-checks/ocr-runtime';
+        }
+        $root ??= getenv('KNOWKIT_PDF_RUNTIME') ?: $defaultRoot;
         return new SandboxRuntime(
             $root,
             $stages,

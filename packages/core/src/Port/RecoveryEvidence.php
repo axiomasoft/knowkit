@@ -11,11 +11,19 @@ use KnowKit\Domain\Contract\JsonObject;
  */
 interface RecoveryEvidence
 {
-    /** Contiguous entries strictly after sequence, at most limit, through the plan cutoff.
-     * @return list<JsonObject> */
+    /**
+     * Contiguous entries strictly after sequence, at most limit, through the plan cutoff.
+     *
+     * @return list<JsonObject>
+     */
     public function journal(D\RecoveryPlan $plan, D\Decimal $after, int $limit): array;
-    /** Stable, complete object inventory, ordered by storageId + '/' + storageKey.
-     * Cursor is the last such key. Include staging objects. @return list<JsonObject> */
+
+    /**
+     * Stable, complete object inventory, ordered by storageId + '/' + storageKey.
+     * Cursor is the last such key. Include staging objects.
+     *
+     * @return list<JsonObject>
+     */
     public function objects(D\RecoveryPlan $plan, ?string $after, int $limit): array;
     /** Verify exact storage/key/version/digest/length, or exact absence for deleted resources.
      * Return verified|absent|unknown|unsupported|unavailable|incompatible, never infer a provider receipt.

@@ -30,8 +30,8 @@ final readonly class SelectionUnit
 
     public function overlaps(self $other): bool
     {
-        if ($this->chunk->ref->revisionRef != $other->chunk->ref->revisionRef
-            || $this->chunk->documentId != $other->chunk->documentId) {
+        if (!$this->chunk->ref->revisionRef->equals($other->chunk->ref->revisionRef)
+            || !$this->chunk->documentId->equals($other->chunk->documentId)) {
             return false;
         }
         foreach ($this->chunk->spans as $left) {
@@ -40,7 +40,7 @@ final readonly class SelectionUnit
                 $b = $right->locator->toWire();
                 $key = $a->get('kind') === 'page' ? 'pageId' : 'segmentId';
                 if ($a->get('kind') === $b->get('kind') && $a->get($key) === $b->get($key)
-                    && $left->textDigest == $right->textDigest
+                    && $left->textDigest->equals($right->textDigest)
                     && $a->get('byteStart') < $b->get('byteEnd') && $b->get('byteStart') < $a->get('byteEnd')) {
                     return true;
                 }

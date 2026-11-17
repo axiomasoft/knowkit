@@ -60,7 +60,7 @@ final readonly class Request
         }
         $bytes = '';
         while (!feof($this->body) && strlen($bytes) <= $limit) {
-            $part = fread($this->body, min(8192, $limit + 1 - strlen($bytes)));
+            $part = fread($this->body, max(1, min(8192, $limit + 1 - strlen($bytes))));
             if ($part === false || ($part === '' && !feof($this->body))) {
                 throw new InputFailure();
             }

@@ -92,17 +92,21 @@ final readonly class WorkerParserClient
         $this->profiles->require($profile, $required);
         $context = $this->jobs->workerContext($lease)
             ?? throw new D\DomainFailure(D\Outcome::Denied, 'stale_lease');
-        if ($processing->sourceVersionId != $lease->sourceRef->sourceVersionId
-            || $processing->sourceDigest != $lease->sourceRef->sourceDigest
-            || $processing->parserSignature != $profile->signature
-            || $context->processingDigest != $processing->digest()) {
+        if (
+            !$processing->sourceVersionId->equals($lease->sourceRef->sourceVersionId)
+            || !$processing->sourceDigest->equals($lease->sourceRef->sourceDigest)
+            || !$processing->parserSignature->equals($profile->signature)
+            || !$context->processingDigest->equals($processing->digest())
+        ) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'processing_identity_mismatch');
         }
         return $context;
     }
 
-    /** @param list<D\Capability> $required
-     *  @return array{D\JobCheckpointManifest, bool} */
+    /**
+     * @param list<D\Capability> $required
+     * @return array{D\JobCheckpointManifest, bool}
+     */
     private function import(D\Lease $lease, D\ParserProfile $profile, D\ProcessingIdentity $processing,
         array $required, D\BlobWriteReservation $reserved, D\WorkerOutput $output, D\WorkerJobContext $context): array
     {

@@ -12,7 +12,7 @@ final readonly class ChunkSet
         ValueGuard::objects($chunks, Chunk::class, 1000000);
         $seen = [];
         foreach ($chunks as $chunk) {
-            if ($chunk->ref->revisionRef != $revisionRef || !$chunk->ref->chunkSetId->equals($chunkSetId)
+            if (!$chunk->ref->revisionRef->equals($revisionRef) || !$chunk->ref->chunkSetId->equals($chunkSetId)
                 || isset($seen[$chunk->ref->chunkId->value])) {
                 throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict');
             }

@@ -98,7 +98,7 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
                 $this->worker, $this->leaseSeconds, $retention->format('c'),
             ]);
 
-            return $this->row($key);
+            return $this->requireRow($key);
         });
 
         return $this->winner($this->record($row), $pins);
@@ -107,7 +107,7 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
     private function winner(A\InvocationRecord $winner, A\InvocationPins $candidate): A\InvocationRecord
     {
         // A concurrent resolution is disposable. Only the original request decides adoption.
-        if ($winner->originalRequestDigest != $candidate->originalRequestDigest) {
+        if (!$winner->originalRequestDigest->equals($candidate->originalRequestDigest)) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'invocation_conflict');
         }
 
@@ -119,10 +119,10 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
         $record = $this->claimed($claim, [A\InvocationState::Preparing]);
         $identity = $request->identity;
         $this->requireIdentity($record, $identity);
-        if ($budget->invocationRef != $claim->invocationRef || $budget->status !== A\ReservationStatus::Confirmed) {
+        if (!$budget->invocationRef->equals($claim->invocationRef) || $budget->status !== A\ReservationStatus::Confirmed) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'reservation_mismatch');
         }
-        $row = $this->row($claim->invocationRef);
+        $row = $this->requireRow($claim->invocationRef);
         $payload = $this->payloads->put($record->pins->binding->scope, 'request', $request->bytes,
             $identity->dependencies, new DateTimeImmutable($row['retention_deadline']));
 
@@ -137,9 +137,9 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
     {
         $record = $this->claimed($claim, [A\InvocationState::Reserved]);
         $this->requireIdentity($record, $identity);
-        $row = $this->row($claim->invocationRef);
+        $row = $this->requireRow($claim->invocationRef);
         if ($row['request_payload_hash'] !== $identity->requestBytesDigest->value
-            || $record->dependencies != $identity->dependencies) {
+            || $record->dependencies === null || !$record->dependencies->equals($identity->dependencies)) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'outbound_identity_conflict');
         }
         $call = $this->payloads->put($record->pins->binding->scope, 'call', Jcs::canonicalize($identity->toWire()),
@@ -154,8 +154,8 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
 
     private function requireIdentity(A\InvocationRecord $record, A\ModelCallIdentity $identity): void
     {
-        if ($identity->invocationRef != $record->invocationRef || $identity->binding != $record->pins->binding
-            || ($record->pins->questionDigest !== null && $record->pins->questionDigest != $identity->dependencies->questionDigest)) {
+        if (!$identity->invocationRef->equals($record->invocationRef) || !$identity->binding->equals($record->pins->binding)
+            || ($record->pins->questionDigest !== null && !$record->pins->questionDigest->equals($identity->dependencies->questionDigest))) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'outbound_identity_conflict');
         }
     }
@@ -164,7 +164,7 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
     {
         $record = $this->claimed($claim, [A\InvocationState::Preparing, A\InvocationState::Reserved, A\InvocationState::Sending]);
         $this->requireOutcome($record, $outcome);
-        $row = $this->row($claim->invocationRef);
+        $row = $this->requireRow($claim->invocationRef);
         $dependencies = $record->dependencies ?? new A\DependencyManifest($record->pins->questionDigest ?? new D\Sha256(hash('sha256', '')));
         $response = $this->payloads->put($record->pins->binding->scope, 'response', Jcs::canonicalize($outcome->toWire()),
             $dependencies, new DateTimeImmutable($row['retention_deadline']));
@@ -179,7 +179,7 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
 
     private function requireOutcome(A\InvocationRecord $record, A\AnswerOutcome $outcome): void
     {
-        if ($outcome->invocationRef != $record->invocationRef || $outcome->certainty === A\DispatchCertainty::Unknown
+        if (!$outcome->invocationRef->equals($record->invocationRef) || $outcome->certainty === A\DispatchCertainty::Unknown
             || ($record->state !== A\InvocationState::Sending && $outcome->certainty !== A\DispatchCertainty::KnownNotSent)) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'outcome_conflict');
         }
@@ -187,12 +187,15 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
         if ($content === null) {
             return;
         }
-        if ($content->modelBindingDigest != $record->pins->binding->bindingDigest) {
+        if (!$content->modelBindingDigest->equals($record->pins->binding->bindingDigest)) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'outcome_conflict');
         }
-        $evidence = $record->dependencies === null ? [] : $record->dependencies->evidence;
+        $evidence = array_map(
+            static fn (D\CitationRef $ref): string => $ref->canonical(),
+            $record->dependencies === null ? [] : $record->dependencies->evidence,
+        );
         foreach ($content->citations as $citation) {
-            if (!in_array($citation, $evidence)) {
+            if (!in_array($citation->canonical(), $evidence, true)) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'outcome_conflict');
             }
         }
@@ -262,7 +265,7 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
         $current = $this->claimed($claim, $states);
         $row = $this->tx->run(function () use ($claim, $current, $states, $changes): array {
             $this->guards($current->pins->binding->scope, $current->dependencies);
-            $saved = $this->row($claim->invocationRef);
+            $saved = $this->requireRow($claim->invocationRef);
             if (!in_array(A\InvocationState::from($saved['state']), $states, true)) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'stale_claim');
             }
@@ -294,13 +297,20 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
         return $this->db->row('SELECT * FROM ' . $this->table() . ' WHERE tenant_id=? AND invocation_key=?', [$this->tenant->value, $ref->key->value]);
     }
 
+    private function requireRow(A\InvocationRef $ref): array
+    {
+        return $this->row($ref) ?? throw new D\DomainFailure(D\Outcome::Incompatible, 'stale_claim');
+    }
+
     private function record(array $row): A\InvocationRecord
     {
         $ref = new A\InvocationRef($this->tenant, new A\InvocationKey($row['invocation_key']));
-        $pins = A\InvocationPins::fromWire(StrictJson::decode($this->payloads->read($this->scope($row),
+        $expectedScope = $this->scope($row);
+        $pins = A\InvocationPins::fromWire(StrictJson::decode($this->payloads->read($expectedScope,
             $this->payloadRef($row['binding_snapshot_ref'], $row['binding_snapshot_hash']))));
-        if ($pins->binding->scope != $this->scope($row) || $pins->binding->bindingDigest->value !== $row['binding_digest']
-            || $pins->retrievalProfile != new A\ProfileRef($row['profile_ref'], $row['profile_revision'], new D\Sha256($row['profile_digest']))) {
+        if (Jcs::canonicalize($pins->binding->scope->toWire()) !== Jcs::canonicalize($expectedScope->toWire())
+            || $pins->binding->bindingDigest->value !== $row['binding_digest']
+            || !$pins->retrievalProfile->equals(new A\ProfileRef($row['profile_ref'], $row['profile_revision'], new D\Sha256($row['profile_digest'])))) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
         }
 
@@ -336,7 +346,7 @@ final readonly class PostgresInvocationLedger implements InvocationLedger
 
     private function scoped(A\InvocationRef $ref): void
     {
-        if ($ref->tenantId != $this->tenant) {
+        if (!$ref->tenantId->equals($this->tenant)) {
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
         }
     }

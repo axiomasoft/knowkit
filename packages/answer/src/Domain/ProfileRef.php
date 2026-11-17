@@ -28,4 +28,11 @@ final readonly class ProfileRef
     {
         return new self($wire->get('id'), $wire->get('revision'), new Sha256($wire->get('digest')));
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->id === $other->id
+            && $this->revision === $other->revision
+            && $this->digest->equals($other->digest);
+    }
 }

@@ -18,7 +18,9 @@ final class DatabaseSandbox
         Qa::ensure((bool) preg_match('/^pgsql:.*(?:^|;)dbname=[a-zA-Z0-9_]+_test(?:;|$)/', $dsn), 'explicit disposable *_test database required');
         $this->connection = new PDO($dsn, getenv('TEST_PG_USER') ?: 'knowkit_test', getenv('TEST_PG_PASSWORD') ?: null,
             [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
-        $version = (int) $this->connection->query('SHOW server_version_num')->fetchColumn();
+        $stmt = $this->connection->query('SHOW server_version_num');
+        Qa::ensure($stmt !== false, 'cannot query PostgreSQL version');
+        $version = (int) $stmt->fetchColumn();
         Qa::ensure($version >= 160000 && $version < 180000, 'PostgreSQL 16/17 test lane required');
         $this->schema = 'knowkit_qa_' . bin2hex(random_bytes(12));
     }

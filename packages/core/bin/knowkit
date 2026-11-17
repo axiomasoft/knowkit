@@ -29,7 +29,8 @@ try {
     $arguments = array_slice($argv, 1);
     $stdin = '';
     if (in_array('-', $arguments, true) || in_array('--input=-', $arguments, true)) {
-        $stdin = stream_get_contents(STDIN, 65537);
+        $raw = stream_get_contents(STDIN, 65537);
+        $stdin = is_string($raw) ? $raw : '';
     }
     $host = getenv('KNOWKIT_HOST_BOOTSTRAP');
     $kernel = new KnowKit\Adapter\Cli\Kernel(static function ($command) use ($host) {

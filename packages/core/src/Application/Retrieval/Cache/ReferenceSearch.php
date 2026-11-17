@@ -38,7 +38,7 @@ final readonly class ReferenceSearch
         }
         $startedAt = $this->clock->now();
         $candidates = $this->index->search($scope, $query->normalized, $topK);
-        if ($candidates->scope != $scope) {
+        if (!$candidates->scope->equals($scope)) {
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
         }
         if (count($candidates->candidates) > $topK) {

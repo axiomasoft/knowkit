@@ -38,12 +38,12 @@ final readonly class WorkerResult extends SchemaValue
     /** @return list<WorkerAsset> */
     public function assets(): array
     {
-        return array_map(static fn (JsonObject $asset): WorkerAsset => new WorkerAsset(
+        return array_values(array_map(static fn (JsonObject $asset): WorkerAsset => new WorkerAsset(
             $asset->get('relativePath'),
             $asset->get('digest'),
             $asset->get('byteLength'),
             $asset->get('mediaType'),
-        ), $this->toWire()->get('assets'));
+        ), $this->toWire()->get('assets')));
     }
 
     public function assertOutput(JobEnvelope $job, IrDocument $ir): void

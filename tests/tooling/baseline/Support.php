@@ -33,7 +33,9 @@ abstract class Support extends TestCase
 
     protected function copy(string $relative): void
     {
-        $this->put($relative, file_get_contents($this->qa->file($relative)));
+        $content = file_get_contents($this->qa->file($relative));
+        Qa::ensure($content !== false, 'cannot read file: ' . $relative);
+        $this->put($relative, $content);
     }
 
     protected function candidate(): Qa

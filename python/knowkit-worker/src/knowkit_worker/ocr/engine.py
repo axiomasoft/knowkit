@@ -7,18 +7,18 @@ Docling's pinned TSV/OSD implementation; no OCR engine is reimplemented here.
 from contextlib import redirect_stderr, redirect_stdout
 from decimal import Decimal, ROUND_HALF_EVEN
 from io import BytesIO
-import logging
 import os
 from pathlib import Path
 import subprocess
 import tempfile
 
+from ..runtime import offline_environment
 from ..protocol import Envelope, Refusal, canonical, sha256
-from ..rendering.pdf import bbox, dimensions, open_pdf, page_png
+from ..rendering.pdf import bbox, dimensions, inspect_objects, open_pdf, page_png
 from ..parsers.pdf.engine import converter, map_document, preflight
 from ..parsers.pdf.qualification import verify_dependencies, verify_models
 from .metadata import OcrMetadata
-from .qualification import NATIVE, model_fingerprint, verify_native
+from .qualification import NATIVE, verify_native
 
 
 def diagnostic(ir: dict, page_id: str, code: str, severity: str = "warning") -> None:
@@ -32,7 +32,10 @@ def regions(page) -> list[tuple]:
     width, height = page.get_size()
     rotation = page.get_rotation()
     result = []
-    for obj in page.get_objects(max_depth=32):
+    objects, truncated = inspect_objects(page)
+    if truncated:
+        raise Refusal("page_object_depth_limit")
+    for obj in objects:
         if obj.type != pdfium.raw.FPDF_PAGEOBJ_IMAGE:
             continue
         left, bottom, right, top = obj.get_bounds()
@@ -97,7 +100,7 @@ def recognize(model, image, language: str, temp_bytes: int):
 
 
 def append_word(ir: dict, page: dict, row, coordinates: tuple, size: tuple,
-                image_size: tuple, language: str) -> bool:
+                image_size: tuple, language: str, fingerprint: str) -> bool:
     confidence = Decimal(str(row.conf))
     if not confidence.is_finite() or not 0 <= confidence <= 100:
         raise Refusal("ocr_confidence_invalid")
@@ -115,7 +118,7 @@ def append_word(ir: dict, page: dict, row, coordinates: tuple, size: tuple,
             if span["pageId"] == page["pageId"] and overlaps(box, span["bbox"]):
                 return False
     metadata = OcrMetadata(page["physicalNo"], len(ir["blocks"]) + 1, language,
-                           model_fingerprint(language), confidence)
+                           fingerprint, confidence)
     block_id = metadata.block_id()
     text = str(row.text)
     if not text.strip():
@@ -136,7 +139,7 @@ def overlaps(a: dict, b: dict) -> bool:
     return intersection * 2 > (a["x1"] - a["x0"]) * (a["y1"] - a["y0"])
 
 
-def process_regions(ir: dict, document, metadata: list, language: str, root: Path, job: dict) -> None:
+def process_regions(ir: dict, document, metadata: list, language: str, root: Path, job: dict, fingerprint: str) -> None:
     from PIL import Image
 
     try:
@@ -164,7 +167,7 @@ def process_regions(ir: dict, document, metadata: list, language: str, root: Pat
             try:
                 for coordinates in boxes:
                     process_region(ir, page, image, coordinates, native.get_size(), model, language,
-                                   int(job["limits"]["tempBytes"]))
+                                   int(job["limits"]["tempBytes"]), fingerprint)
                     if len(canonical(ir)) > int(job["limits"]["maxOutputBytes"]):
                         raise Refusal("output_limit")
             finally:
@@ -174,7 +177,7 @@ def process_regions(ir: dict, document, metadata: list, language: str, root: Pat
 
 
 def process_region(ir: dict, page: dict, image, coordinates: tuple, size: tuple, model, language: str,
-                   temp_bytes: int) -> None:
+                   temp_bytes: int, fingerprint: str) -> None:
     crop_box = tuple(round(value * image.size[i % 2] / size[i % 2]) for i, value in enumerate(coordinates))
     crop = image.crop(crop_box)
     try:
@@ -183,7 +186,7 @@ def process_region(ir: dict, page: dict, image, coordinates: tuple, size: tuple,
         for row in rows:
             # The crop rounds to real rendered pixels. Restore that actual
             # offset, not the ideal PDF region, before one bbox normalization.
-            low_confidence |= append_word(ir, page, row, crop_box, image.size, crop.size, language)
+            low_confidence |= append_word(ir, page, row, crop_box, image.size, crop.size, language, fingerprint)
     except subprocess.CalledProcessError:
         rows, issue = [], "ocr_backend_failed"
         low_confidence = False
@@ -211,6 +214,11 @@ def finalize(ir: dict, metadata: list, job: dict) -> None:
     missing = set(ir["coverage"]["missingFeatures"]) - {"ocr"}
     failures = {d.get("segmentId") for d in diagnostics if d["code"].startswith("ocr_") and d["severity"] != "info"}
     for index, (page, meta) in enumerate(zip(ir["pages"], metadata)):
+        if meta.get("truncated", False):
+            missing.add("object_traversal")
+            diagnostic(ir, page["pageId"], "page_object_depth_limit")
+            if page["status"] == "empty":
+                page["status"] = "skipped"
         if meta["raster"] and meta["nativeText"]:
             missing.add("mixed_reading_order")
             diagnostic(ir, page["pageId"], "mixed_reading_order_incomplete")
@@ -235,11 +243,11 @@ def finalize(ir: dict, metadata: list, job: dict) -> None:
 
 
 def parse(source: bytes, envelope: Envelope, *, language: str, native_root: Path, model_root: Path):
-    # Docling resolves Path.home() during import in the cleared sandbox.
-    os.environ.setdefault("HOME", "/tmp")
-    os.environ.update(HF_HUB_OFFLINE="1", TRANSFORMERS_OFFLINE="1")
-    for variable in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
-        os.environ[variable] = "2"
+    with offline_environment(native_root):
+        return _parse(source, envelope, language=language, native_root=native_root, model_root=model_root)
+
+
+def _parse(source: bytes, envelope: Envelope, *, language: str, native_root: Path, model_root: Path):
     from docling.datamodel.base_models import DocumentStream
     from .profile import descriptor
 
@@ -251,33 +259,23 @@ def parse(source: bytes, envelope: Envelope, *, language: str, native_root: Path
         raise Refusal("input_digest_mismatch", "denied")
     verify_dependencies()
     verify_models(model_root)
-    previous_data = os.environ.get("TESSDATA_PREFIX")
-    os.environ["TESSDATA_PREFIX"] = str(native_root / "tessdata")
-    previous_logging = logging.root.manager.disable
-    logging.disable(logging.CRITICAL)
-    try:
-        with open(os.devnull, "w") as sink, redirect_stdout(sink), redirect_stderr(sink):
-            with open_pdf(source, 500) as document:
-                metadata = preflight(document)
-                limit = min(len(metadata), job["limits"]["maxPages"])
+    with open(os.devnull, "w") as sink, redirect_stdout(sink), redirect_stderr(sink):
+        with open_pdf(source, 500) as document:
+            metadata = preflight(document)
+            limit = min(len(metadata), job["limits"]["maxPages"])
+            try:
                 engine = converter(model_root, job["limits"]["wallSeconds"])
                 converted = engine.convert(DocumentStream(name="source.pdf", stream=BytesIO(source)),
                     raises_on_error=False, page_range=(1, limit))
-                parsed = map_document(converted.document, document, metadata[:limit], job)
-                ir = parsed.ir
-                for index in range(limit, len(metadata)):
-                    ir["pages"].append(dict(pageId=f"page-{index + 1}", physicalNo=index + 1,
-                        printedLabel=metadata[index]["label"], text="", textDigest=sha256(b""), status="skipped"))
-                process_regions(ir, document, metadata, language, native_root, job)
-                finalize(ir, metadata, job)
-                if len(canonical(ir)) + sum(len(a.data) for a in parsed.assets) > int(job["limits"]["maxOutputBytes"]):
-                    raise Refusal("output_limit")
-                return parsed
-    except (AttributeError, TypeError, ValueError, ImportError, KeyError, IndexError):
-        raise Refusal("ocr_options_incompatible") from None
-    finally:
-        logging.disable(previous_logging)
-        if previous_data is None:
-            os.environ.pop("TESSDATA_PREFIX", None)
-        else:
-            os.environ["TESSDATA_PREFIX"] = previous_data
+            except (AttributeError, TypeError, ValueError, ImportError, KeyError, IndexError):
+                raise Refusal("ocr_options_incompatible") from None
+            parsed = map_document(converted.document, document, metadata[:limit], job)
+            ir = parsed.ir
+            for index in range(limit, len(metadata)):
+                ir["pages"].append(dict(pageId=f"page-{index + 1}", physicalNo=index + 1,
+                    printedLabel=metadata[index]["label"], text="", textDigest=sha256(b""), status="skipped"))
+            process_regions(ir, document, metadata, language, native_root, job, profile.options["modelFingerprint"])
+            finalize(ir, metadata, job)
+            if len(canonical(ir)) + sum(len(a.data) for a in parsed.assets) > int(job["limits"]["maxOutputBytes"]):
+                raise Refusal("output_limit")
+            return parsed

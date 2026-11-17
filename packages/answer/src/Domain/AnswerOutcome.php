@@ -99,7 +99,7 @@ final readonly class AnswerOutcome
             $wire->get('fixture'),
             $code !== OutcomeCode::Answered ? null : new AnsweredContent(
                 $wire->get('text'),
-                array_map(static fn (JsonObject $citation) => new CitationRef($citation, $validator), $wire->get('citations')),
+                array_values(array_map(static fn (JsonObject $citation) => new CitationRef($citation, $validator), $wire->get('citations'))),
                 new Sha256($wire->get('modelBindingDigest')),
                 new Sha256($wire->get('evidenceSetId')),
             ),

@@ -12,16 +12,16 @@ final class InvocationDecision
 {
     public static function requireAudience(Scope $current, Scope $admitted): void
     {
-        if ($current->tenantId != $admitted->tenantId || $current->kbId != $admitted->kbId
-            || $current->actorId != $admitted->actorId || $current->purpose !== $admitted->purpose
-            || $current->hostScopeHash != $admitted->hostScopeHash) {
+        if ($current->tenantId->value !== $admitted->tenantId->value || $current->kbId->value !== $admitted->kbId->value
+            || $current->actorId->value !== $admitted->actorId->value || $current->purpose !== $admitted->purpose
+            || $current->hostScopeHash->value !== $admitted->hostScopeHash->value) {
             throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
         }
     }
 
     public static function requireMetadata(AnswerOutcome $decision, InvocationRef $ref): void
     {
-        if ($decision->invocationRef != $ref || $decision->answeredContent() !== null
+        if (!$decision->invocationRef->equals($ref) || $decision->answeredContent() !== null
             || !in_array($decision->code, [OutcomeCode::Denied, OutcomeCode::EgressDenied, OutcomeCode::PolicyUnknown], true)) {
             throw new \InvalidArgumentException('Metadata-only current authorization decision required');
         }

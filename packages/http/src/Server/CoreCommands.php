@@ -44,7 +44,7 @@ final readonly class CoreCommands implements HostApplication
                 defaultRetrievalProfile: new D\ProfileId($body->get('defaultRetrievalProfile')),
                 coveragePolicy: new D\CoveragePolicy(allowPartial: $body->get('allowPartial') ?? false),
             ),
-            context: $command->mutation,
+            context: $this->requireMutation($command),
         );
 
         return Reply::success(new JsonObject(['kbId' => $kb->kbId->value, 'revision' => $kb->revision->value]));
@@ -60,7 +60,7 @@ final readonly class CoreCommands implements HostApplication
                 parentId: $body->has('parentId') ? new D\CollectionId($body->get('parentId')) : null,
                 metadata: new D\CatalogMetadata($body->get('metadata') ?? new JsonObject()),
             ),
-            context: $command->mutation,
+            context: $this->requireMutation($command),
         );
 
         return Reply::success(new JsonObject(['collectionId' => $collection->collectionId->value, 'revision' => $collection->revision->value]));
@@ -76,7 +76,7 @@ final readonly class CoreCommands implements HostApplication
                 collectionId: $body->has('collectionId') ? new D\CollectionId($body->get('collectionId')) : null,
                 metadata: new D\CatalogMetadata($body->get('metadata') ?? new JsonObject()),
             ),
-            context: $command->mutation,
+            context: $this->requireMutation($command),
         );
 
         return Reply::success(new JsonObject(['sourceId' => $member->sourceId->value, 'revision' => $member->revision->value]));
@@ -90,7 +90,7 @@ final readonly class CoreCommands implements HostApplication
             command: new D\RegisterSource(
                 sourceId: new D\SourceId($body->get('sourceId')), ownerRef: $body->get('ownerRef'), origin: $body->get('origin'),
             ),
-            context: $command->mutation,
+            context: $this->requireMutation($command),
         );
 
         return Reply::success(new JsonObject(['sourceId' => $source->sourceId->value, 'lifecycleEpoch' => $source->lifecycleEpoch->value]));
@@ -99,9 +99,10 @@ final readonly class CoreCommands implements HostApplication
     private function lifecycle(Command $command, AccessContext $context): Reply
     {
         $body = $command->body();
-        $epoch = $command->mutation->expectedEpoch();
+        $mutation = $this->requireMutation($command);
+        $epoch = $this->requireEpoch($mutation);
         $scope = $context->scope();
-        $key = $command->mutation->idempotencyKey();
+        $key = $mutation->idempotencyKey();
         if ($command->route->operation === 'correct') {
             $this->correct(command: $command, scope: $scope, epoch: $epoch, key: $key);
 
@@ -153,5 +154,15 @@ final readonly class CoreCommands implements HostApplication
             tenantId: new D\TenantId($wire->get('tenantId')), sourceId: new D\SourceId($wire->get('sourceId')),
             sourceVersionId: new D\SourceVersionId($wire->get('sourceVersionId')), sourceDigest: new D\SourceDigest($wire->get('sourceDigest')),
         );
+    }
+
+    private function requireMutation(Command $command): D\MutationContext
+    {
+        return $command->mutation ?? throw new InputFailure();
+    }
+
+    private function requireEpoch(D\MutationContext $mutation): D\Decimal
+    {
+        return $mutation->expectedEpoch() ?? throw new InputFailure();
     }
 }

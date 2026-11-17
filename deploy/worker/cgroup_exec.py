@@ -15,6 +15,8 @@ import sys
 def main() -> int:
     try:
         group, cpu, file_bytes, *argv = sys.argv[1:]
+        if not argv:
+            raise ValueError("sandbox command required")
         os.setsid()
         (Path(group) / "cgroup.procs").write_text(str(os.getpid()))
         # proc_open may inherit host metadata/blob handles. Only stdio and the
@@ -32,6 +34,9 @@ def main() -> int:
         resource.setrlimit(resource.RLIMIT_CPU, (int(cpu), int(cpu)))
         resource.setrlimit(resource.RLIMIT_FSIZE, (int(file_bytes), int(file_bytes)))
         resource.setrlimit(resource.RLIMIT_NOFILE, (128, 128))
+        # FD 3 belongs to bubblewrap's --seccomp option. Bubblewrap reads and
+        # closes the FD, then installs the filter before executing the worker.
+        # Closing it here would prevent sandbox setup.
         os.execv(argv[0], argv)
     except Exception:
         os.write(2, b'{"code":"sandbox_unavailable"}\n')

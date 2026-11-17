@@ -11,10 +11,10 @@ use KnowKit\Load\Reindex;
 use KnowKit\Load\Search;
 
 try {
-    $config = unserialize(base64_decode(trim(fgets(STDIN)), true), ['allowed_classes' => true]);
+    $config = unserialize(\KnowKit\Tooling\LocalIO::decode(trim(\KnowKit\Tooling\LocalIO::line(STDIN))), ['allowed_classes' => true]);
     $db = Actor::connect($config);
     Actor::emit(['event' => 'ready', 'backend' => (int) $db->execute('SELECT pg_backend_pid()')->fetchColumn()]);
-    if (trim(fgets(STDIN)) !== 'GO') {
+    if (trim(\KnowKit\Tooling\LocalIO::line(STDIN)) !== 'GO') {
         throw new RuntimeException('Invalid load barrier');
     }
     $data = match ($config['operation']) {

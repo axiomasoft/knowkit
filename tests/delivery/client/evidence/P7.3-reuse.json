@@ -84,7 +84,7 @@
       "tests/delivery/client/Support.php",
       "tests/fixtures/check-groups/delivery-client.json"
     ],
-    "sha256": "b9f070c32cf6635e17e682dd11d9fa19c6f4d82fffc12cdeeb79ab823cc43eee"
+    "sha256": "1bbfe78963d3124f64a5bdd0031b1a1c1806588eb9742edacb82423845e46a82"
   },
   "planMirror": "Coordinator records the tracked receipt; plan_mutation=forbidden takes precedence over the requested optional plan artifact mirror."
 }

@@ -70,6 +70,10 @@ final readonly class PdoNavigationStore implements NavigationStore
             new D\FrozenJson(StrictJson::decode($row['coverage_json'])));
     }
 
+    /**
+     * @param list<N\SourceUnitRef> $units
+     * @param Closure(N\NavigationPlan, D\UtcInstant): D\DisclosureDeadline $authorize
+     */
     public function check(D\Scope $scope, D\DocumentRevisionRef $revision, N\NavigationPlan $plan,
         array $units, Closure $authorize): void
     {
@@ -80,6 +84,10 @@ final readonly class PdoNavigationStore implements NavigationStore
         });
     }
 
+    /**
+     * @param list<N\Unit> $units
+     * @param Closure(N\NavigationPlan, D\UtcInstant): D\DisclosureDeadline $authorize
+     */
     public function disclose(D\Scope $scope, D\DocumentRevisionRef $revision, N\NavigationPlan $plan,
         array $units, D\Ulid $attempt, Closure $authorize): N\UnitDisclosure|D\DisclosureReplay
     {
@@ -178,7 +186,10 @@ final readonly class PdoNavigationStore implements NavigationStore
         }
     }
 
-    /** @param list<array<string,mixed>> $rows @param array<string,string> $expected */
+    /**
+     * @param array<int, array<string, mixed>> $rows
+     * @param array<string, string> $expected
+     */
     private function assertUnits(array $rows, array $expected): void
     {
         if (count($rows) !== count($expected)) {
@@ -232,7 +243,7 @@ final readonly class PdoNavigationStore implements NavigationStore
 
     private function now(): D\UtcInstant
     {
-        $value = $this->db->execute('SELECT clock_timestamp()')->fetchColumn();
+        $value = (string) $this->db->execute('SELECT clock_timestamp()')->fetchColumn();
 
         return new D\UtcInstant((new \DateTimeImmutable($value))->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s.u\Z'));
     }
@@ -254,7 +265,7 @@ final readonly class PdoNavigationStore implements NavigationStore
         }
         $payload = StrictJson::decode($row['reference_json']);
         $refs = array_map(static fn (N\Unit $unit): JsonObject => $unit->reference(), $units);
-        if ($payload->get('revisionRef') != $revision->toWire()
+        if (Jcs::canonicalize($payload->get('revisionRef')) !== Jcs::canonicalize($revision->toWire())
             || Jcs::canonicalize($payload->get('unitRefs')) !== Jcs::canonicalize($refs)) {
             throw new D\DomainFailure(D\Outcome::Denied, 'attempt_conflict');
         }

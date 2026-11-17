@@ -35,7 +35,8 @@ def seccomp(destination: Path) -> None:
     try:
         for name in ("socket", "socketpair", "connect", "bind", "listen", "accept", "accept4",
                      "mount", "umount2", "unshare", "setns", "ptrace", "bpf", "keyctl",
-                     "add_key", "request_key", "userfaultfd", "perf_event_open"):
+                     "add_key", "request_key", "userfaultfd", "perf_event_open",
+                     "io_uring_setup", "io_uring_enter", "io_uring_register", "clone3"):
             number = lib.seccomp_syscall_resolve_name(name.encode())
             if number < 0 or lib.seccomp_rule_add(context, 0x00050001, number, 0) != 0:
                 raise RuntimeError("sandbox_unavailable: seccomp rule")

@@ -30,7 +30,8 @@ final readonly class TenantQuota
         try {
             return $this->admit(filesystem: $fs, key: $key, concurrent: $concurrent, perMinute: $perMinute);
         } finally {
-            fclose($guard);
+            @flock($guard, LOCK_UN);
+            @fclose($guard);
         }
     }
 
@@ -65,6 +66,9 @@ final readonly class TenantQuota
         $handle = $this->open(filesystem: $filesystem, key: $key . '-rate');
         try {
             $wire = stream_get_contents($handle, 4097);
+            if ($wire === false) {
+                throw new DomainFailure(Outcome::Unavailable, 'quota_store_unavailable');
+            }
             $state = $wire === '' ? ['until' => time() + 60, 'count' => 0] : json_decode($wire, true);
             if (!is_array($state) || !is_int($state['until'] ?? null) || !is_int($state['count'] ?? null)
                 || $state['count'] < 0 || strlen($wire) > 4096) {
@@ -91,7 +95,8 @@ final readonly class TenantQuota
         if (!function_exists('posix_geteuid')) {
             throw new DomainFailure(Outcome::Unavailable, 'quota_store_unavailable');
         }
-        $root = $this->root ?? sys_get_temp_dir() . '/knowkit-quotas-' . posix_geteuid();
+        $base = realpath(sys_get_temp_dir()) ?: sys_get_temp_dir();
+        $root = $this->root ?? $base . '/knowkit-quotas-' . posix_geteuid();
         if (!is_dir($root)) {
             $mask = umask(0077);
             try {
@@ -106,7 +111,14 @@ final readonly class TenantQuota
             throw new DomainFailure(Outcome::Unavailable, 'quota_store_unavailable');
         }
 
-        return new PrivateFilesystem($root);
+        try {
+            return new PrivateFilesystem($root);
+        } catch (DomainFailure $failure) {
+            if ($this->root === null) {
+                throw new DomainFailure(Outcome::Unavailable, 'quota_store_unavailable');
+            }
+            throw $failure;
+        }
     }
 
     /** @return resource */
@@ -128,7 +140,7 @@ final readonly class TenantQuota
         $expected = fstat($verified);
         $actual = $handle === false ? false : fstat($handle);
         fclose($verified);
-        if ($actual === false || $actual['dev'] !== $expected['dev'] || $actual['ino'] !== $expected['ino']) {
+        if ($expected === false || $actual === false || $actual['dev'] !== $expected['dev'] || $actual['ino'] !== $expected['ino']) {
             if (is_resource($handle)) {
                 fclose($handle);
             }

@@ -31,7 +31,7 @@ final readonly class CurrentModelEgress
 
     public function authorize(A\ModelCallIdentity $call, A\EgressContentManifest $manifest, D\Sha256 $currentPolicyBinding): D\DecisionReceipt|A\AnswerOutcome
     {
-        if ($call->digest() != $manifest->identity->digest()) {
+        if (!$call->digest()->equals($manifest->identity->digest())) {
             throw new \InvalidArgumentException('Egress must bind the exact admitted call');
         }
         try {

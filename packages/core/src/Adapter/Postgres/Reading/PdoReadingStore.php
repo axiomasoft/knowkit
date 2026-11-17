@@ -94,7 +94,7 @@ final readonly class PdoReadingStore implements ReadingStore
         if ($target->kind === 'source') {
             $sql = sprintf(self::SOURCE_SQL, $this->db->table('source_versions'), $this->db->table('resource_ledger'));
             $values = [...$values, $source->sourceVersionId->value, $source->sourceId->value, $source->sourceDigest->value];
-        } elseif ($target->kind === 'asset') {
+        } elseif ($target->kind === 'asset' && $target->id !== null) {
             $sql = sprintf(self::ASSET_SQL, $this->db->table('assets'), $this->db->table('resource_ledger'));
             $values = [...$values, $record->chunk->revisionRef->documentRevisionId->value, $source->sourceId->value, $target->id->value];
         } else {
@@ -114,33 +114,46 @@ final readonly class PdoReadingStore implements ReadingStore
     public function commit(D\Scope $scope, R\CitationRecord $record, R\ReadRequest $request,
         D\DisclosurePlan $plan, R\ReadBody $body, ?R\BlobObject $object, Closure $authorize): D\Result
     {
-        return $this->tx->run(function () use ($scope, $record, $request, $plan, $body, $object, $authorize): D\Result {
-            $this->tx->lockTenant($scope->tenantId, D\LockMode::Share);
-            $this->tx->lockKb($scope->kbId, D\LockMode::Share);
-            $this->tx->lockSources($plan->sources, D\LockMode::Share);
-            $replay = $this->replay($scope, $request);
-            if ($replay !== null) {
-                return D\Result::success($replay);
-            }
-            $current = $this->plan($scope, $record);
-            $plan->requireSame($current);
-            $fresh = $this->citation($scope, $request->citationId);
-            $fresh->requirePayload();
-            if ($fresh != $record) {
-                throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
-            }
-            $this->usages->requireReadable($scope, $record->chunk);
-            $this->requireObjects($record, $body, $object);
-            $now = $this->now();
-            $request->requireFresh($now);
-            $deadline = $authorize($current, $now);
-            $response = $this->persist($scope, $record, $request, $body, $current, $now);
-            $finalNow = $this->now();
-            $request->requireFresh($finalNow);
-            $deadline->requireFresh($finalNow);
+        return $this->tx->run(
+            /** @return D\Result<R\ReadResponse>|D\Result<D\DisclosureReplay> */
+            function () use ($scope, $record, $request, $plan, $body, $object, $authorize): D\Result {
+                $this->tx->lockTenant($scope->tenantId, D\LockMode::Share);
+                $this->tx->lockKb($scope->kbId, D\LockMode::Share);
+                $this->tx->lockSources($plan->sources, D\LockMode::Share);
+                $replay = $this->replay($scope, $request);
+                if ($replay !== null) {
+                    return D\Result::success($replay);
+                }
+                $current = $this->plan($scope, $record);
+                $plan->requireSame($current);
+                $fresh = $this->citation($scope, $request->citationId);
+                $fresh->requirePayload();
+                if (
+                    !$fresh->selectionId->equals($record->selectionId)
+                    || !$fresh->kbId->equals($record->kbId)
+                    || !$fresh->hostScopeHash->equals($record->hostScopeHash)
+                    || $fresh->joiner !== $record->joiner
+                    || $fresh->payloadPresent !== $record->payloadPresent
+                    || Jcs::canonicalize($fresh->citation->toWire()) !== Jcs::canonicalize($record->citation->toWire())
+                    || Jcs::canonicalize($fresh->chunk->toWire()) !== Jcs::canonicalize($record->chunk->toWire())
+                ) {
+                    throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
+                }
+                $this->usages->requireReadable($scope, $record->chunk);
+                $this->requireObjects($record, $body, $object);
+                $now = $this->now();
+                $request->requireFresh($now);
+                $deadline = $authorize($current, $now);
+                $response = $this->persist($scope, $record, $request, $body, $current, $now);
+                $finalNow = $this->now();
+                $request->requireFresh($finalNow);
+                $deadline->requireFresh($finalNow);
 
-            return D\Result::success($response);
-        });
+                return $response instanceof D\DisclosureReplay
+                    ? D\Result::success($response)
+                    : D\Result::success($response);
+            }
+        );
     }
 
     private function persist(D\Scope $scope, R\CitationRecord $record, R\ReadRequest $request,
@@ -226,10 +239,21 @@ final readonly class PdoReadingStore implements ReadingStore
         if ($object !== null) {
             $row = $this->db->row('SELECT * FROM ' . $this->db->table('resource_ledger') . ' WHERE tenant_id=? AND id=? AND source_id=?',
                 [$source->tenantId->value, $object->resourceId->value, $source->sourceId->value]);
-            if ($row === null || $this->blob($row, $source)->blob != $object->blob) {
+            if ($row === null || !self::sameBlobRef($this->blob($row, $source)->blob, $object->blob)) {
                 throw new D\DomainFailure(D\Outcome::Unavailable, 'payload_purged');
             }
         }
+    }
+
+    private static function sameBlobRef(D\BlobRef $left, D\BlobRef $right): bool
+    {
+        return $left->tenantId->equals($right->tenantId)
+            && $left->sourceId->equals($right->sourceId)
+            && $left->digest->equals($right->digest)
+            && $left->byteLength->value === $right->byteLength->value
+            && $left->storageId === $right->storageId
+            && $left->objectVersion === $right->objectVersion
+            && $left->ownerKind === $right->ownerKind;
     }
 
     /** @param list<JsonObject> $units */
@@ -261,7 +285,7 @@ final readonly class PdoReadingStore implements ReadingStore
 
     private function now(): D\UtcInstant
     {
-        return self::instant($this->db->execute('SELECT clock_timestamp()')->fetchColumn());
+        return self::instant((string) $this->db->execute('SELECT clock_timestamp()')->fetchColumn());
     }
 
     private static function instant(string $value): D\UtcInstant

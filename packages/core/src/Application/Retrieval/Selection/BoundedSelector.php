@@ -92,7 +92,7 @@ final readonly class BoundedSelector
 
     private function tokens(string $text, D\SelectionLimits $limits): int
     {
-        if ($limits->maxTokens === null) {
+        if ($limits->maxTokens === null || $this->tokenizer === null || $limits->tokenizer === null) {
             return 0;
         }
         $tokens = $this->tokenizer->count($text, $limits->tokenizer);

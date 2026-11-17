@@ -52,7 +52,7 @@ final readonly class Call
         $contract->validate(schema: $this->route->schema, body: $body);
         $target = $this->target();
         [$canonical] = $contract->match(new Request(method: $this->route->method, target: $target));
-        if ($canonical != $this->route || $body->has('usageContext')) {
+        if (!$canonical->equals($this->route) || $body->has('usageContext')) {
             throw new \InvalidArgumentException('Invalid HTTP call');
         }
         $headers = $this->headers($version);

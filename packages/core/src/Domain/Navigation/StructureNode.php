@@ -8,7 +8,10 @@ use KnowKit\Domain as D;
 
 final readonly class StructureNode
 {
-    /** @param list<D\Span> $spans */
+    /**
+     * @param list<D\Span> $spans
+     * @param list<string> $supportingRefs
+     */
     public function __construct(
         public D\LocalId $id,
         public string $kind,

@@ -12,7 +12,11 @@ use KnowKit\Domain\Outcome;
 /** Compatibility preflight only. Privileged fetches use the explicit FetchRemote connector. */
 final class OriginBoundary
 {
-    /** Validate every initial/redirect URL and ALL DNS answers before any privileged connection. */
+    /**
+     * Validate every initial/redirect URL and ALL DNS answers before any privileged connection.
+     *
+     * @param list<string> $resolvedAddresses
+     */
     public static function https(string $url, array $resolvedAddresses): string
     {
         $p = OriginPolicy::parts($url);

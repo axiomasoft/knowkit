@@ -31,6 +31,18 @@ final readonly class Scope
 
     public function assertTenant(TenantId $tenant): void
     {
-        if (!$this->tenantId->equals($tenant)) { throw new DomainFailure(Outcome::Denied, 'scope_mismatch'); }
+        if (!$this->tenantId->equals($tenant)) {
+            throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
+        }
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->tenantId->equals($other->tenantId)
+            && $this->kbId->equals($other->kbId)
+            && $this->actorId->equals($other->actorId)
+            && $this->purpose === $other->purpose
+            && $this->policyEpoch->equals($other->policyEpoch)
+            && $this->hostScopeHash->equals($other->hostScopeHash);
     }
 }

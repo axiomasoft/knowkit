@@ -17,4 +17,17 @@ final readonly class Route
         public int $successStatus,
         public bool $revisionAllowed = false,
     ) {}
+
+    public function equals(self $other): bool
+    {
+        return $this->method === $other->method
+            && $this->path === $other->path
+            && $this->operation === $other->operation
+            && $this->schema === $other->schema
+            && $this->mutation === $other->mutation
+            && $this->epoch === $other->epoch
+            && $this->revision === $other->revision
+            && $this->successStatus === $other->successStatus
+            && $this->revisionAllowed === $other->revisionAllowed;
+    }
 }

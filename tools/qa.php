@@ -18,13 +18,27 @@ use Throwable;
  */
 final class Qa
 {
-    public function __construct(public readonly string $root) {}
+    public readonly string $root;
 
+    public function __construct(string $root)
+    {
+        $resolved = realpath($root);
+        $this->root = $resolved !== false ? $resolved : rtrim($root, '/\\');
+    }
+
+    /** @phpstan-assert true $condition */
     public static function ensure(bool $condition, string $message): void
     {
         if (!$condition) {
             throw new RuntimeException($message);
         }
+    }
+
+    private static function readFile(string $path): string
+    {
+        $content = file_get_contents($path);
+        self::ensure($content !== false, 'cannot read file: ' . $path);
+        return $content;
     }
 
     public function file(string $relative): string
@@ -35,9 +49,10 @@ final class Qa
         return $path;
     }
 
+    /** @return array<mixed> */
     public function json(string $relative): array
     {
-        $data = json_decode(file_get_contents($this->file($relative)), true, 512, JSON_THROW_ON_ERROR);
+        $data = json_decode(self::readFile($this->file($relative)), true, 512, JSON_THROW_ON_ERROR);
         self::ensure(is_array($data), 'expected JSON object: ' . $relative);
         return $data;
     }
@@ -52,8 +67,10 @@ final class Qa
     public static function remove(string $path): void
     {
         if (is_dir($path) && !is_link($path)) {
-            foreach (new \FilesystemIterator($path) as $child) {
-                self::remove($child->getPathname());
+            foreach (new \FilesystemIterator($path, \FilesystemIterator::CURRENT_AS_FILEINFO | \FilesystemIterator::SKIP_DOTS) as $child) {
+                if ($child instanceof \SplFileInfo) {
+                    self::remove($child->getPathname());
+                }
             }
             rmdir($path);
         } elseif (file_exists($path) || is_link($path)) {
@@ -61,13 +78,24 @@ final class Qa
         }
     }
 
-    /** Execute argv directly, with bounded runtime and file-backed output (no pipe deadlock). */
+    /**
+     * Execute argv directly, with bounded runtime and file-backed output (no pipe deadlock).
+     *
+     * @param array<int|string, mixed> $argv
+     * @param array<string, string> $env
+     * @return array{exit: int, stdout: string, stderr: string}
+     */
     public function process(array $argv, array $env = [], int $timeout = 300): array
     {
-        self::ensure($argv !== [] && count(array_filter($argv, 'is_string')) === count($argv), 'invalid command argv');
+        $command = [];
+        foreach ($argv as $arg) {
+            self::ensure(is_string($arg), 'invalid command argv');
+            $command[] = $arg;
+        }
+        self::ensure($command !== [], 'invalid command argv');
         $temporary = self::temporary();
         try {
-            $process = proc_open($argv, [0 => ['pipe', 'r'],
+            $process = proc_open($command, [0 => ['pipe', 'r'],
                 1 => ['file', $temporary . '/stdout', 'w'], 2 => ['file', $temporary . '/stderr', 'w']],
                 $pipes, $this->root, array_merge(getenv(), $env), ['bypass_shell' => true]);
             self::ensure(is_resource($process), 'cannot start child command');
@@ -87,13 +115,14 @@ final class Qa
             } while (true);
             $exit = $status['exitcode'];
             proc_close($process);
-            return ['exit' => $exit, 'stdout' => file_get_contents($temporary . '/stdout'),
-                'stderr' => file_get_contents($temporary . '/stderr')];
+            return ['exit' => $exit, 'stdout' => self::readFile($temporary . '/stdout'),
+                'stderr' => self::readFile($temporary . '/stderr')];
         } finally {
             self::remove($temporary);
         }
     }
 
+    /** @return array<string, mixed> */
     public function registry(): array
     {
         $registry = $this->json('tools/qa-groups.json');
@@ -109,9 +138,17 @@ final class Qa
         return $registry;
     }
 
+    /**
+     * @param array<int, mixed> $cases
+     * @param array<string, mixed> $manifest
+     * @return list<array{id: mixed, status: string}>
+     */
     public static function validateCases(array $cases, array $manifest): array
     {
         self::ensure($cases !== [], 'zero executed tests');
+        foreach ($cases as $case) {
+            self::ensure(is_array($case) && is_string($case['id'] ?? null) && $case['id'] !== '', 'invalid executed case entry');
+        }
         $keys = array_column($cases, 'id');
         self::ensure(count($keys) === count(array_unique($keys)), 'duplicate executed case');
         foreach ($cases as $case) {
@@ -129,6 +166,7 @@ final class Qa
         return $executed;
     }
 
+    /** @return list<array{id: string, status: string}> */
     public static function junit(string $path): array
     {
         self::ensure(is_file($path), 'missing child JUnit report');
@@ -141,7 +179,8 @@ final class Qa
             libxml_use_internal_errors($previous);
         }
         $xpath = new DOMXPath($xml);
-        self::ensure($xpath->query('//failure|//error|//skipped')->length === 0, 'failed/skipped JUnit tests');
+        $failures = $xpath->query('//failure|//error|//skipped');
+        self::ensure($failures !== false && $failures->length === 0, 'failed/skipped JUnit tests');
         foreach ($xml->getElementsByTagName('testsuite') as $suite) {
             if ($suite->hasAttribute('tests')) {
                 self::ensure(ctype_digit($suite->getAttribute('tests'))
@@ -152,7 +191,9 @@ final class Qa
             }
         }
         $cases = [];
-        foreach ($xpath->query('//testcase') as $case) {
+        $testcases = $xpath->query('//testcase');
+        self::ensure($testcases !== false, 'invalid JUnit testcase query');
+        foreach ($testcases as $case) {
             if (!$case instanceof \DOMElement) {
                 throw new RuntimeException('invalid JUnit testcase node');
             }
@@ -194,6 +235,10 @@ final class Qa
         self::ensure($found, 'unknown suite: ' . $name);
     }
 
+    /**
+     * @param array<string, mixed> $group
+     * @return array<string, mixed>
+     */
     public function group(array $group): array
     {
         self::ensure(version_compare(PHP_VERSION, $group['minPhp'], '>='), 'lane_unavailable: PHP ' . $group['minPhp']);
@@ -217,11 +262,11 @@ final class Qa
             foreach ($group['commands'] as $index => $command) {
                 $junit = $temporary . '/' . $index . '-phpunit.xml';
                 $pytest = $temporary . '/' . $index . '-pytest.xml';
-                $argv = array_map(static fn(string $arg): string => str_replace(
+                $argv = array_values(array_map(static fn(string $arg): string => str_replace(
                     ['<runner-private-junit.xml>', '<runner-private-pytest-junit.xml>', '<composer-project>'],
-                    [$junit, $pytest, $project], $arg), $command);
+                    [$junit, $pytest, $project], $arg), $command));
                 $suiteIndex = array_search('--testsuite', $argv, true);
-                if ($suiteIndex !== false) {
+                if (is_int($suiteIndex)) {
                     self::ensure(isset($argv[$suiteIndex + 1]), 'missing testsuite argument');
                     $this->suite($argv[$suiteIndex + 1]);
                     $this->file($argv[0]);
@@ -247,7 +292,11 @@ final class Qa
         }
     }
 
-    /** Validate actual manifests and PHP name tokens against the approved package/layer DAG. */
+    /**
+     * Validate actual manifests and PHP name tokens against the approved package/layer DAG.
+     *
+     * @return array{packages: int, phpFiles: int}
+     */
     public function dag(): array
     {
         $architecture = $this->json('specs/architecture/manifest.v1.json');
@@ -307,7 +356,7 @@ final class Qa
                 $relative = substr($file->getPathname(), strlen($source) + 1);
                 $layer = explode('/', $relative)[0];
                 $declared = false;
-                $tokens = token_get_all(file_get_contents($file->getPathname()), TOKEN_PARSE);
+                $tokens = token_get_all(self::readFile($file->getPathname()), TOKEN_PARSE);
                 $aliases = self::namespaceAliases($tokens);
                 foreach ($tokens as $tokenIndex => $token) {
                     if (!is_array($token)) {
@@ -325,8 +374,10 @@ final class Qa
                     $name = ltrim($token[1], '\\');
                     if ($token[0] === T_NAME_QUALIFIED) {
                         $prefix = strstr($name, '\\', true);
-                        $resolved = $aliases[strtolower($prefix)] ?? null;
-                        if ($resolved !== null) { $name = $resolved . substr($name, strlen($prefix)); }
+                        if ($prefix !== false) {
+                            $resolved = $aliases[strtolower($prefix)] ?? null;
+                            if ($resolved !== null) { $name = $resolved . substr($name, strlen($prefix)); }
+                        }
                     }
                     if ($id === 'core') {
                         self::ensure(!preg_match('/^(Illuminate|Laravel|Chatom|AgenTools|AgenToolsPlatform|Python|Psr\\\\Http)(\\\\|$)/i', $name), 'forbidden core import: ' . $name);
@@ -352,7 +403,11 @@ final class Qa
         return ['packages' => $installed, 'phpFiles' => $files];
     }
 
-    /** Member names such as $runtime->python are not imports or class references. */
+    /**
+     * Member names such as $runtime->python are not imports or class references.
+     *
+     * @param array<int, mixed> $tokens
+     */
     private static function isMemberName(array $tokens, int $index): bool
     {
         for ($previous = $index - 1; $previous >= 0; $previous--) {
@@ -367,6 +422,7 @@ final class Qa
 
     /** Resolve explicit namespace aliases from PHP tokens, never comments or string literals.
      * Unsupported import forms retain the existing fail-closed qualified-name checks.
+     * @param array<int, mixed> $tokens
      * @return array<string,string> */
     private static function namespaceAliases(array $tokens): array
     {
@@ -390,6 +446,7 @@ final class Qa
         return $aliases;
     }
 
+    /** @param array<string, mixed> $manifest */
     public function fixtures(array $manifest): void
     {
         self::ensure(($manifest['schemaVersion'] ?? '') === 'check-group:1', 'unknown fixture manifest schema');
@@ -407,6 +464,7 @@ final class Qa
         }
     }
 
+    /** @return array{files: int} */
     public function config(): array
     {
         require_once $this->file('vendor/autoload.php');
@@ -420,13 +478,18 @@ final class Qa
             }
         }
         foreach (['composer.json', 'packages/core/composer.json', 'compose.yaml', '.env.example', '.github/workflows/ci.yml'] as $file) {
-            $content = file_get_contents($this->file($file));
+            $content = self::readFile($this->file($file));
             self::ensure(!preg_match('~(?:/home/|/Users/|[A-Z]:\\\\Users\\\\|sk-[a-zA-Z0-9]{20,}|ghp_[a-zA-Z0-9]{20,})~', $content), 'nonportable config or credential');
         }
         $this->registry();
         return ['files' => 6];
     }
 
+    /**
+     * @param array<int, string> $args
+     * @param array<string, mixed> $registry
+     * @return array<int, mixed>
+     */
     public function select(array $args, array $registry): array
     {
         $ids = array_column($registry['groups'], 'id');
@@ -455,6 +518,10 @@ final class Qa
         return $args;
     }
 
+    /**
+     * @param array<int, string> $args
+     * @return array<string, mixed>
+     */
     public function run(array $args): array
     {
         $registry = $this->registry();

@@ -28,7 +28,7 @@ final readonly class PdoDeletionStore implements DeletionStore
             if ($t === null) { self::fail('deletion_task_missing'); }
             $this->tx->lockSources([new D\SourceId($t['source_id'])], D\LockMode::Update);
             $source = $this->db->row('SELECT * FROM '.$this->db->table('sources').' WHERE tenant_id=? AND id=?', [$this->tenant->value, $t['source_id']]);
-            if ($source['lifecycle_state'] === 'active' || $this->db->row('SELECT id FROM '.$this->db->table('tombstones').
+            if ($source === null || $source['lifecycle_state'] === 'active' || $this->db->row('SELECT id FROM '.$this->db->table('tombstones').
                 ' WHERE tenant_id=? AND source_id=?', [$this->tenant->value, $t['source_id']]) === null) { self::fail('logical_revoke_required'); }
             $frozen = StrictJson::decode($t['required_resources_json']);
             if (HashDomain::ResourceInventory->digest($frozen) !== $t['inventory_digest']) { self::fail('inventory_mismatch'); }
@@ -106,7 +106,20 @@ final readonly class PdoDeletionStore implements DeletionStore
         }
         return $this->guarded($target->tenantId, $target->taskId, function ($t, $s, $frozen) use ($target, $attempt, $receipt, $errorCode) {
             $r = $this->resource($target->resourceId);
-            if ($this->target($t, $r, $frozen) != $target) { self::fail('deletion_attempt_mismatch'); }
+            $expectedTarget = $this->target($t, $r, $frozen);
+            if (
+                !$expectedTarget->tenantId->equals($target->tenantId)
+                || !$expectedTarget->sourceId->equals($target->sourceId)
+                || !$expectedTarget->taskId->equals($target->taskId)
+                || !$expectedTarget->resourceId->equals($target->resourceId)
+                || $expectedTarget->storageId !== $target->storageId
+                || $expectedTarget->storageKey !== $target->storageKey
+                || $expectedTarget->objectVersion !== $target->objectVersion
+                || $expectedTarget->stagingId !== $target->stagingId
+                || $expectedTarget->resourceClass !== $target->resourceClass
+            ) {
+                self::fail('deletion_attempt_mismatch');
+            }
             $a = $this->db->row('SELECT * FROM '.$this->db->table('deletion_attempts').' WHERE tenant_id=? AND id=?', [$this->tenant->value, $attempt->value]);
             if ($a === null) { self::fail('deletion_attempt_missing'); } $this->exact($a, $target);
             if ($a['result'] !== null) { return $this->receipt($a); }
@@ -129,6 +142,7 @@ final readonly class PdoDeletionStore implements DeletionStore
                     $w->get('knownExpiry'), $w->get('observedAt'), $errorCode, $proof, $this->tenant->value, $attempt->value]);
             if ($proof) { $this->db->execute('UPDATE '.$this->db->table('resource_ledger')." SET state='deleted' WHERE tenant_id=? AND id=?", [$this->tenant->value, $r['id']]); }
             $a = $this->db->row('SELECT * FROM '.$this->db->table('deletion_attempts').' WHERE tenant_id=? AND id=?', [$this->tenant->value, $attempt->value]);
+            if ($a === null) { self::fail('deletion_attempt_missing'); }
             return $this->receipt($a);
         });
     }

@@ -49,7 +49,7 @@ final readonly class PostgresAnswerMigrations
         $query->execute([$id]);
         $existing = $query->fetchColumn();
         $checksum = hash('sha256', $sql);
-        if ($existing !== false && !hash_equals($existing, $checksum)) {
+        if ($existing !== false && (!is_string($existing) || !hash_equals($existing, $checksum))) {
             throw new \RuntimeException('Answer migration checksum mismatch');
         }
         if ($existing !== false) {

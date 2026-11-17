@@ -32,7 +32,7 @@ final readonly class PdoLexicalIndex implements LexicalIndex
         $source = $chunkSet->revisionRef->sourceRef; $tenant = $source->tenantId;
         $this->transaction->requireTenant($tenant, true);
         $canonical = $this->canonical->get($tenant, $chunkSet->chunkSetId);
-        if ($canonical->chunkSet != $chunkSet) { self::invalid('immutable_conflict'); }
+        if (!self::sameChunkSet($canonical->chunkSet, $chunkSet)) { self::invalid('immutable_conflict'); }
         $g = $this->db->row('SELECT state,profile_id,embedding_space_digest FROM ' . $this->db->table('index_generations') .
             ' WHERE tenant_id=? AND id=? FOR UPDATE', [$tenant->value, $generationId->value]);
         if ($g === null) { self::invalid('generation_missing'); }
@@ -154,6 +154,37 @@ final readonly class PdoLexicalIndex implements LexicalIndex
         if ($manifest->get('tenantId') !== $scope->tenantId->value || $manifest->get('kbId') !== $scope->kbId->value
             || $manifest->get('generationId') !== $scope->generationId->value) { self::invalid(); }
         return $manifest;
+    }
+    private static function sameChunkSet(D\ChunkSet $left, D\ChunkSet $right): bool
+    {
+        if (
+            Jcs::canonicalize($left->revisionRef->toWire()) !== Jcs::canonicalize($right->revisionRef->toWire())
+            || !$left->chunkSetId->equals($right->chunkSetId)
+            || Jcs::canonicalize($left->chunkerSignature->toWire()) !== Jcs::canonicalize($right->chunkerSignature->toWire())
+            || count($left->chunks) !== count($right->chunks)
+        ) {
+            return false;
+        }
+        foreach ($left->chunks as $index => $chunk) {
+            $other = $right->chunks[$index];
+            $leftSpans = array_map(
+                static fn(D\Span $s): JsonObject => $s->locator->toWire()->with('textDigest', $s->textDigest->value),
+                $chunk->spans,
+            );
+            $rightSpans = array_map(
+                static fn(D\Span $s): JsonObject => $s->locator->toWire()->with('textDigest', $s->textDigest->value),
+                $other->spans,
+            );
+            if (
+                Jcs::canonicalize($chunk->ref->toWire()) !== Jcs::canonicalize($other->ref->toWire())
+                || !$chunk->documentId->equals($other->documentId)
+                || $chunk->text() !== $other->text()
+                || Jcs::canonicalize($leftSpans) !== Jcs::canonicalize($rightSpans)
+            ) {
+                return false;
+            }
+        }
+        return true;
     }
     private static function invalid(string $code = 'manifest_mismatch'): never { throw new D\DomainFailure(D\Outcome::Incompatible, $code); }
     public function __debugInfo(): array { return ['profile' => self::PROFILE]; }

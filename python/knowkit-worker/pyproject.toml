@@ -27,7 +27,7 @@ dev = ["packaging==26.3", "pytest==9.1.1", "reportlab==4.4.10"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests/protocol"]
-addopts = "--strict-markers"
+addopts = "--strict-markers --import-mode=importlib"
 junit_family = "xunit2"
 
 [tool.hatch.build.targets.wheel]

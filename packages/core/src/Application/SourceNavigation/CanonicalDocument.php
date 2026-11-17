@@ -100,7 +100,8 @@ final readonly class CanonicalDocument
     {
         $range->requireLimits($limits);
         if ($range->kind === 'section') {
-            $selected = $this->section($range->root, $limits->maxUnits);
+            $root = $range->root ?? throw new D\DomainFailure(D\Outcome::Incompatible, 'invalid_locator');
+            $selected = $this->section($root, $limits->maxUnits);
         } elseif ($range->kind === 'block') {
             $selected = array_slice($this->blocks, $range->first - 1, $range->last - $range->first + 1);
         } elseif ($range->kind === 'segment') {
@@ -128,10 +129,10 @@ final readonly class CanonicalDocument
         $heading = false;
         foreach ($this->blocks as $block) {
             if (count($selected) >= $maxUnits
-                && ($block->id == $root || in_array($root->value, $this->ancestors($block), true))) {
+                && ($block->id->equals($root) || in_array($root->value, $this->ancestors($block), true))) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
             }
-            if ($block->id == $root) {
+            if ($block->id->equals($root)) {
                 $heading = $block->kind === 'heading';
                 $selected[] = $block;
                 continue;
@@ -158,7 +159,7 @@ final readonly class CanonicalDocument
             $parents[] = $block->parentId->value;
             $found = false;
             foreach ($this->blocks as $candidate) {
-                if ($candidate->id == $block->parentId) {
+                if ($candidate->id->equals($block->parentId)) {
                     $block = $candidate;
                     $found = true;
                     break;

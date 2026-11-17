@@ -63,7 +63,7 @@ final class SemanticRules
                 }
                 break;
             case 'deletion-task':
-                $states = array_map(static fn(JsonObject $resource): string => $resource->get('state'), $doc->get('requiredResources'));
+                $states = array_values(array_map(static fn(JsonObject $resource): string => $resource->get('state'), $doc->get('requiredResources')));
                 if (self::deletionStatus($states) !== $doc->get('status')) {
                     $errors[] = self::error('status_mismatch', '/status');
                 }

@@ -49,8 +49,10 @@ final readonly class SelectionInventory
 
     public function assertSearch(AuthorizedSearchScope $scope, QueryBinding $query): void
     {
-        if ($scope->tenantId != $this->snapshot->tenantId || $scope->kbId != $this->snapshot->kbId
-            || $scope->snapshotId != $this->snapshot->snapshotId || $scope->generationId != $this->generationId()) {
+        if (!$scope->tenantId->equals($this->snapshot->tenantId)
+            || !$scope->kbId->equals($this->snapshot->kbId)
+            || !$scope->snapshotId->equals($this->snapshot->snapshotId)
+            || !$scope->generationId->equals($this->generationId())) {
             throw new DomainFailure(Outcome::Incompatible, 'snapshot_mismatch');
         }
         $space = $this->manifest->manifest->toWire()->get('embeddingSpaceDigest');

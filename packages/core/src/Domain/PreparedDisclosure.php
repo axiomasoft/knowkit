@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KnowKit\Domain;
 
+use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Contract\ScopeBinding;
 
@@ -21,15 +22,15 @@ final readonly class PreparedDisclosure
 
     public function requireRequest(SelectionRecord $record, DisclosureRequest $request, UtcInstant $now): void
     {
-        if ($this->usage->selectionId() != $record->selection->id()
-            || $this->usage->attemptId() != $request->attemptId() || $this->usage->runRef() !== $request->runRef()
+        if (!$this->usage->selectionId()->equals($record->selection->id())
+            || !$this->usage->attemptId()->equals($request->attemptId()) || $this->usage->runRef() !== $request->runRef()
             || $this->usage->checkedAt()->compare($now) !== 0
             || $this->usage->policyBindingDigest()->value !== ScopeBinding::policyBindingDigest($record->selection->policyBinding())) {
             throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict');
         }
         $expected = array_map(static fn (ChunkRef $ref): JsonObject => $ref->toWire(), $request->refs($record));
         $actual = array_map(static fn (JsonObject $fragment): mixed => $fragment->get('chunkRef'), $this->usage->toWire()->get('fragmentRefs'));
-        if ($actual != $expected) {
+        if (Jcs::canonicalize($actual) !== Jcs::canonicalize($expected)) {
             throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict');
         }
     }

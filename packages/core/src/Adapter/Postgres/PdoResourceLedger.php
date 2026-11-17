@@ -60,7 +60,7 @@ final readonly class PdoResourceLedger
         $row=$this->db->row('SELECT * FROM '.$this->db->table('resource_ledger').' WHERE tenant_id=? AND id=? FOR UPDATE',
             [$this->tenant->value,$r->resource->id->value]);
         if ($row===null || $row['source_id']!==$r->sourceId->value || $row['storage_id']!==$this->storageId || $row['owner_kind']!=='owned' ||
-            $row['staging_id']!==$r->stagingId?->value || ($r->digest!==null && ($row['digest']!==$r->digest->value || (string)$row['byte_length']!==$r->byteLength->value))) {
+            $row['staging_id']!==$r->stagingId?->value || ($r->digest!==null && ($row['digest']!==$r->digest->value || (string)$row['byte_length']!==$r->byteLength?->value))) {
             throw new DomainFailure(Outcome::Incompatible,'reservation_mismatch');
         }
         if (in_array($row['state'],['deleting','deleted'],true)) { throw new DomainFailure(Outcome::Incompatible,'resource_deleting'); }
@@ -223,8 +223,9 @@ final readonly class PdoResourceLedger
             $this->db->table('resource_writers').' w WHERE w.tenant_id=r.tenant_id AND w.resource_id=r.id AND w.started_at>=?) ORDER BY r.id LIMIT 101',
             [$this->tenant->value,$this->storageId,$cursor->token,$cursor->token,$before->value])->fetchAll(\PDO::FETCH_ASSOC);
         $more=count($rows)>100; $rows=array_slice($rows,0,100);
-        $refs=array_map(fn($r)=>new ResourceRef($this->tenant,'resource',new ResourceId($r['id'])),$rows);
-        return new ResourcePage($this->tenant,$refs,$more?new Cursor($this->tenant,end($rows)['id']):null);
+        $refs=array_values(array_map(fn(array $r): ResourceRef=>new ResourceRef($this->tenant,'resource',new ResourceId((string)$r['id'])),$rows));
+        $last = end($rows);
+        return new ResourcePage($this->tenant,$refs,$more && is_array($last)?new Cursor($this->tenant,(string)$last['id']):null);
     }
 
     /** Frozen task/attempt binding only; P3.6 owns persistence/aggregation of the resulting receipt. */

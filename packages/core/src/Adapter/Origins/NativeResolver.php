@@ -38,7 +38,11 @@ final class NativeResolver implements OriginResolver
         fclose($pipes[0]);
         stream_set_blocking($pipes[1], false);
         try {
-            return $this->collect(process: $process, pipe: $pipes[1], deadline: min($deadline ?? PHP_INT_MAX, hrtime(true) + 5_000_000_000));
+            return $this->collect(
+                process: $process,
+                pipe: $pipes[1],
+                deadline: min($deadline ?? PHP_INT_MAX, (int) hrtime(true) + 5_000_000_000),
+            );
         } finally {
             proc_terminate($process, 9);
             fclose($pipes[1]);
@@ -46,7 +50,11 @@ final class NativeResolver implements OriginResolver
         }
     }
 
-    /** @param resource $process @param resource $pipe @return list<string> */
+    /**
+     * @param resource $process
+     * @param resource $pipe
+     * @return list<string>
+     */
     private function collect(mixed $process, mixed $pipe, int $deadline): array
     {
         $bytes = '';

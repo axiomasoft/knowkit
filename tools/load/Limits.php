@@ -51,7 +51,7 @@ final class Limits
             $options[$name] = $value;
             self::failure(operation: fn () => new D\WorkerLimits(...$options), code: 'limit_exceeded');
         }
-        $peak = max(memory_get_peak_usage(true), getrusage()['ru_maxrss'] * 1024);
+        $peak = Metrics::peakBytes();
         Qa::ensure($peak <= 268435456, 'Oversized rejection exceeds 256 MiB');
 
         return Report::save('limits', ['txtMaxBytes' => 4194304, 'sourceMaxBytes' => 67108864,

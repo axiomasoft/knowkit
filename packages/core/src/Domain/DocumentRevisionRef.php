@@ -14,4 +14,12 @@ final readonly class DocumentRevisionRef
         return $this->sourceRef->toWire()->with('documentRevisionId', $this->documentRevisionId->value)
             ->with('irDigest', $this->irDigest->value)->with('parserSignature', $this->parserSignature->toWire());
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->sourceRef->equals($other->sourceRef)
+            && $this->documentRevisionId->equals($other->documentRevisionId)
+            && $this->irDigest->equals($other->irDigest)
+            && $this->parserSignature->equals($other->parserSignature);
+    }
 }

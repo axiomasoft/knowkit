@@ -14,7 +14,10 @@ final readonly class DisclosureBuffer
 {
     private FrozenJson $body;
 
-    /** @param list<JsonObject> $fragments @param list<ChunkRef> $refs */
+    /**
+     * @param list<JsonObject> $fragments
+     * @param list<ChunkRef> $refs
+     */
     public function __construct(
         array $fragments,
         public array $refs,

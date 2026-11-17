@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace KnowKit\Answer\Domain;
 
 use KnowKit\Domain\CitationRef;
+use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Scope;
 use KnowKit\Domain\Sha256;
@@ -63,13 +64,18 @@ final readonly class DependencyManifest
     {
         return new self(
             new Sha256($wire->get('questionDigest')),
-            array_map(static fn (JsonObject $citation) => new CitationRef($citation, $validator), $wire->get('evidence')),
-            array_map(static fn (JsonObject $history) => new HistoryDependency(
+            array_values(array_map(static fn (JsonObject $citation) => new CitationRef($citation, $validator), $wire->get('evidence'))),
+            array_values(array_map(static fn (JsonObject $history) => new HistoryDependency(
                 new \KnowKit\Domain\TenantId($history->get('tenantId')),
                 $history->get('ref'),
                 $history->get('revision'),
                 new Sha256($history->get('contentDigest')),
-            ), $wire->get('history')),
+            ), $wire->get('history'))),
         );
+    }
+
+    public function equals(self $other): bool
+    {
+        return Jcs::canonicalize($this->toWire()) === Jcs::canonicalize($other->toWire());
     }
 }

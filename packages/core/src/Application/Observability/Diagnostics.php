@@ -25,7 +25,7 @@ final readonly class Diagnostics
     {
         $telemetry?->trace->assertTenant($scope->tenantId);
         $state = $this->state->current($scope);
-        if ($state->scope != $scope) {
+        if (!$state->scope->equals($scope)) {
             throw new D\DomainFailure(outcome: D\Outcome::Denied, errorCode: 'scope_mismatch');
         }
         if (!$state->profile->equals($this->profile->digest())) {
@@ -119,7 +119,7 @@ final readonly class Diagnostics
             })
             ->with('packageFingerprint', $descriptor?->packageFingerprint?->value)
             ->with('weightsFingerprint', $descriptor?->weightsFingerprint?->value);
-        $capabilities = $report->ready ? array_map(
+        $capabilities = $report->ready && $descriptor !== null ? array_map(
             static fn (D\CapabilityDeclaration $capability): string => $capability->id->value,
             $descriptor->capabilities,
         ) : [];

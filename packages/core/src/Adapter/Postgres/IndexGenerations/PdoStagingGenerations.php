@@ -95,14 +95,23 @@ final readonly class PdoStagingGenerations
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
         }
         $found = false;
-        foreach ($candidate->sets as $set) { if ($set->chunkSet->revisionRef->sourceRef == $lease->sourceRef) { $found = true; } }
+        foreach ($candidate->sets as $set) {
+            if (Jcs::canonicalize($set->chunkSet->revisionRef->sourceRef->toWire()) === Jcs::canonicalize($lease->sourceRef->toWire())) {
+                $found = true;
+            }
+        }
         if (!$found) { self::fail('job_source_mismatch'); }
     }
+    /** @return list<D\SourceId> */
     private function sources(Candidate $candidate): array
     {
         $ids = [];
-        foreach ($candidate->manifest->toWire()->get('members') as $member) { $ids[$member->get('sourceId')] = new D\SourceId($member->get('sourceId')); }
-        ksort($ids, SORT_STRING); return array_values($ids);
+        foreach ($candidate->manifest->toWire()->get('members') as $member) {
+            $sourceId = (string) $member->get('sourceId');
+            $ids[$sourceId] = new D\SourceId($sourceId);
+        }
+        ksort($ids, SORT_STRING);
+        return array_values($ids);
     }
     /** Publication reuses seal's exact guards; caller holds the tenant UPDATE barrier. SQL only.
      * @return list<string> Locked generations affected by activation/retirement.
@@ -140,7 +149,7 @@ final readonly class PdoStagingGenerations
             || Jcs::canonicalize($receipt->get('resources')) !== Jcs::canonicalize($candidate->resources)) { self::fail('staging_conflict'); }
         $this->inventory->assertExact($candidate); $this->coverage($lease->scope, $candidate->manifest->toWire());
         ($this->verifyBackend)($candidate);
-        return $generations;
+        return array_values(array_map('strval', $generations));
     }
 
     private function locks(D\Lease $lease, Candidate $candidate, bool $create = false): void
@@ -230,7 +239,10 @@ final readonly class PdoStagingGenerations
     private function coverage(D\Scope $scope, JsonObject $manifest): void
     {
         $k = $this->db->row('SELECT coverage_policy FROM ' . $this->db->table('knowledge_bases') . ' WHERE tenant_id=? AND id=?', [$scope->tenantId->value, $scope->kbId->value]);
-        $policy = StrictJson::decode($k['coverage_policy']); $coverage = $manifest->get('coverage');
+        if ($k === null) {
+            throw new D\DomainFailure(D\Outcome::Denied, 'policy_changed');
+        }
+        $policy = StrictJson::decode((string) $k['coverage_policy']); $coverage = $manifest->get('coverage');
         if (($coverage->get('state') !== 'complete' && $policy->get('allowPartial') !== true)
             || array_intersect($policy->get('requiredFeatures'), $coverage->get('missingFeatures')) !== [] || $coverage->get('state') === 'unknown') {
             throw new D\DomainFailure(D\Outcome::Unavailable, 'coverage_required');

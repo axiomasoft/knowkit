@@ -61,7 +61,7 @@ final class InMemoryReferenceCache implements ReferenceCache
     public function invalidate(D\TenantId $tenant): void
     {
         foreach ($this->entries as $id => $entry) {
-            if ($entry->key->tenantId == $tenant) {
+            if ($entry->key->tenantId->equals($tenant)) {
                 unset($this->entries[$id]);
             }
         }

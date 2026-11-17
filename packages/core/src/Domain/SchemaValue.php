@@ -18,7 +18,24 @@ abstract readonly class SchemaValue
         $this->value = new FrozenJson($value);
     }
 
-    final public function toWire(): JsonObject { return $this->value->toWire(); }
-    final public function canonical(): string { return $this->value->canonical(); }
-    final public function __debugInfo(): array { return ['schema' => static::SCHEMA]; }
+    final public function toWire(): JsonObject
+    {
+        return $this->value->toWire();
+    }
+
+    final public function canonical(): string
+    {
+        return $this->value->canonical();
+    }
+
+    final public function equals(self $other): bool
+    {
+        return $other::class === static::class && $this->canonical() === $other->canonical();
+    }
+
+    /** @return array{schema: string} */
+    final public function __debugInfo(): array
+    {
+        return ['schema' => static::SCHEMA];
+    }
 }

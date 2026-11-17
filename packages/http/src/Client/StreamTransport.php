@@ -88,7 +88,7 @@ final readonly class StreamTransport implements Transport
             }
             $microseconds = max(1, (int) ceil($remaining / 1000));
             stream_set_timeout($stream, intdiv($microseconds, 1000000), $microseconds % 1000000);
-            $part = @fread($stream, min(8192, self::MAX_RESPONSE_BYTES + 1 - strlen($body)));
+            $part = @fread($stream, max(1, min(8192, self::MAX_RESPONSE_BYTES + 1 - strlen($body))));
             $metadata = stream_get_meta_data($stream);
             if ($metadata['timed_out']) {
                 throw new TransportFailure(timedOut: true);

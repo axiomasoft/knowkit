@@ -27,7 +27,10 @@ final class ValueGuard
             if (!$value instanceof $type) { throw new \InvalidArgumentException('Typed list required'); }
         }
     }
-    /** @param list<Ulid> $ids */
+    /**
+     * @param list<Ulid> $ids
+     * @param class-string<Ulid> $type
+     */
     public static function uniqueIds(array $ids, string $type): void
     {
         self::objects($ids, $type);

@@ -17,6 +17,7 @@ final class LicenseAudit
 {
     public function __construct(private readonly string $root) {}
 
+    /** @phpstan-assert true $valid */
     private static function require(bool $valid, string $reason): void
     {
         if (!$valid) {
@@ -55,15 +56,24 @@ final class LicenseAudit
     {
         self::require($path !== '' && !str_starts_with($path, '/')
             && !str_contains($path, '\\') && !in_array('..', explode('/', $path), true), 'invalid local evidence path');
-        $resolved = realpath($this->root . '/' . $path);
+        $root = realpath($this->root);
+        self::require($root !== false, 'missing evidence root');
+        $resolved = realpath($root . '/' . $path);
         self::require($resolved !== false && is_file($resolved)
-            && str_starts_with($resolved, realpath($this->root) . '/'), 'missing/escaping evidence: ' . $path);
+            && str_starts_with($resolved, $root . '/'), 'missing/escaping evidence: ' . $path);
         return $resolved;
+    }
+
+    private static function read(string $path): string
+    {
+        $content = file_get_contents($path);
+        self::require($content !== false, 'cannot read file: ' . $path);
+        return $content;
     }
 
     public function json(string $path): array
     {
-        $value = json_decode(file_get_contents($this->file($path)), true, 512, JSON_THROW_ON_ERROR);
+        $value = json_decode(self::read($this->file($path)), true, 512, JSON_THROW_ON_ERROR);
         self::require(is_array($value), 'expected JSON object');
         return $value;
     }
@@ -153,22 +163,24 @@ final class LicenseAudit
         }
         $selected = [];
         $visiting = [];
-        $visit = function (string $id, string $profile) use (&$visit, &$visiting, &$selected, $records): void {
+        $visit = function (string $id, string $profile) use (&$visit, &$visiting, $records): array {
             self::require(isset($records[$id]), 'missing qualification: ' . $id);
             self::require(!isset($visiting[$id]), 'cyclic qualification');
             $record = $records[$id];
             $this->qualification($record);
             self::require(in_array($profile, $record['enabledProfiles'], true), 'profile not qualified: ' . $id);
             $visiting[$id] = true;
+            $closure = [$id => $record];
             foreach ($record['transitiveComponents'] as $dependency) {
                 self::require(is_string($dependency), 'invalid dependency');
-                $visit($dependency, $profile);
+                $closure += $visit($dependency, $profile);
             }
             unset($visiting[$id]);
-            $selected[$id] = $record;
+            return $closure;
         };
         $profiles = [];
         foreach ($catalog['profiles'] as $profile) {
+            $closure = [];
             $id = $profile['id'] ?? null;
             self::require(self::text($id) && !isset($profiles[$id]) && is_bool($profile['enabled'] ?? null)
                 && is_array($profile['components'] ?? null), 'invalid/duplicate profile');
@@ -181,9 +193,10 @@ final class LicenseAudit
             } else {
                 self::require($profile['components'] !== [], 'missing enabled profile qualification');
                 foreach ($profile['components'] as $component) {
-                    $visit($component, $id);
+                    $closure += $visit($component, $id);
                 }
-                foreach ($selected as $record) {
+                $selected += $closure;
+                foreach ($closure as $record) {
                     if (in_array($id, $record['enabledProfiles'], true) && $record['verdict'] === 'restricted') {
                         $profiles[$id]['status'] = 'restricted';
                     }
@@ -205,7 +218,7 @@ final class LicenseAudit
                     && ($record['sourceRevision'] ?? null) === $pin
                     && ($record['codeLicense'] ?? null) === implode(' OR ', $package['license']), 'locked component not qualified: ' . $package['name']);
                 $deps = array_values(array_filter(array_keys($package['require'] ?? []),
-                    static fn(string $name): bool => str_contains($name, '/') && $name !== 'knowkit/core'));
+                    static fn(int|string $name): bool => is_string($name) && str_contains($name, '/') && $name !== 'knowkit/core'));
                 sort($deps);
                 $actual = $record['transitiveComponents'];
                 sort($actual);
@@ -226,15 +239,17 @@ final class LicenseAudit
             && !str_contains($directory, '\\') && !in_array('..', explode('/', $directory), true), 'invalid output directory');
         $path = $this->root . '/' . $directory;
         self::require(is_dir($path), 'output directory must already exist');
+        $root = realpath($this->root);
+        self::require($root !== false, 'missing evidence root');
         $resolved = realpath($path);
-        self::require($resolved !== false && str_starts_with($resolved, realpath($this->root) . '/'), 'escaping output directory');
+        self::require($resolved !== false && str_starts_with($resolved, $root . '/'), 'escaping output directory');
         $notices = "KnowKit local third-party inventory. Publication is not authorized.\n";
         $seen = [];
         foreach ($report['components'] as $record) {
             $notices .= "\n" . $record['id'] . '@' . $record['sourceRevision'] . ' — ' . $record['codeLicense'] . "\n";
             foreach ($record['notices'] as $notice) {
                 if (!isset($seen[$notice['sha256']])) {
-                    $notices .= "\n--- " . $notice['path'] . " ---\n" . file_get_contents($this->file($notice['path'])) . "\n";
+                    $notices .= "\n--- " . $notice['path'] . " ---\n" . self::read($this->file($notice['path'])) . "\n";
                     $seen[$notice['sha256']] = true;
                 }
             }

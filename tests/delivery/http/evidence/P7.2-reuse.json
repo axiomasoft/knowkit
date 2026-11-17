@@ -77,7 +77,7 @@
       "tests/fixtures/http/v1/cases.json",
       "tests/fixtures/http/v1/router.php"
     ],
-    "sha256": "bfb5093bb2c652baf2e18f7b66139fa943e04bf9651bf86613ce76738eee61e0"
+    "sha256": "979521acd3c121429d6a9bb377beaff4159f96fbe34bcfb68e12d9893b202206"
   },
   "planMirror": "Coordinator records the tracked receipt; executor does not mutate native plan artifacts."
 }

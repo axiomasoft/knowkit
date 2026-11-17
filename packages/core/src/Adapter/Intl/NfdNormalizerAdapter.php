@@ -66,10 +66,21 @@ final class NfdNormalizerAdapter implements NfdNormalizer
             throw new D\DomainFailure(D\Outcome::Incompatible, 'normalizer_cluster_limit');
         }
         $parts = [];
-        foreach (preg_split('//u', $cluster, -1, PREG_SPLIT_NO_EMPTY) as $char) {
+        $chars = preg_split('//u', $cluster, -1, PREG_SPLIT_NO_EMPTY);
+        if (!is_array($chars)) {
+            throw new D\DomainFailure(D\Outcome::Incompatible, 'normalizer_mapping');
+        }
+        foreach ($chars as $char) {
             $end = $offset + strlen($char);
             $decomposed = \Normalizer::normalize($char, \Normalizer::FORM_D);
-            foreach (preg_split('//u', $decomposed, -1, PREG_SPLIT_NO_EMPTY) as $value) {
+            if (!is_string($decomposed)) {
+                throw new D\DomainFailure(D\Outcome::Incompatible, 'normalizer_mapping');
+            }
+            $values = preg_split('//u', $decomposed, -1, PREG_SPLIT_NO_EMPTY);
+            if (!is_array($values)) {
+                throw new D\DomainFailure(D\Outcome::Incompatible, 'normalizer_mapping');
+            }
+            foreach ($values as $value) {
                 $class = \IntlChar::getCombiningClass($value);
                 $parts = $this->insert($parts, [$value, $offset, $end, $class]);
             }
@@ -79,8 +90,10 @@ final class NfdNormalizerAdapter implements NfdNormalizer
         return $parts;
     }
 
-    /** @param list<array{string,int,int,int}> $parts @param array{string,int,int,int} $part
-     *  @return list<array{string,int,int,int}>
+    /**
+     * @param list<array{string,int,int,int}> $parts
+     * @param array{string,int,int,int} $part
+     * @return list<array{string,int,int,int}>
      */
     private function insert(array $parts, array $part): array
     {

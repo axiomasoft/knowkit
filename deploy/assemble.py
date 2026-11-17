@@ -4,14 +4,35 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 import sys
+
+
+def preflight(source: Path) -> None:
+    info = source.lstat()
+    if stat.S_ISDIR(info.st_mode):
+        for child in source.iterdir():
+            preflight(child)
+    elif not stat.S_ISREG(info.st_mode) or info.st_nlink != 1:
+        raise ValueError("delivery inputs must be regular files or directories")
 
 
 def assemble(destination: Path) -> None:
     root = Path(__file__).resolve().parents[1]
     if destination.exists():
         raise ValueError("destination must not exist")
+    selected = ["packages/core", "schemas", "examples/plain-php", "licenses"]
+    files = ["docs/installation.md", "docs/operations/runbook.md",
+             "docs/operations/backup.md", "docs/operations/purge.md",
+             "docs/operations/restore.md", "docs/operations/observability.md",
+             "docs/operations/capacity.md", "deploy/profiles/delivery.v1.json",
+             "deploy/licensing.v1.json", "examples/acceptance/README.md",
+             "examples/acceptance/fixtures/v1/deeptutor-source-pins.json",
+             "tests/delivery/readiness/evidence/P9.5-reuse.json"]
+    # Inspect every input before any copy can follow a link or open a FIFO.
+    for relative in [*selected, *files]:
+        preflight(root / relative)
     # Qualify notices before creating an artifact; missing evidence is fatal.
     audit = subprocess.run(
         ["php", str(root / "tools/license-audit.php"), "--catalog", "deploy/licensing.v1.json"],
@@ -19,22 +40,13 @@ def assemble(destination: Path) -> None:
     )
     report = json.loads(audit.stdout)
     destination.mkdir(parents=True, mode=0o700)
-    selected = ["packages/core", "schemas", "examples/plain-php"]
     for relative in selected:
-        source = root / relative
-        shutil.copytree(source, destination / relative,
+        shutil.copytree(root / relative, destination / relative, symlinks=True,
                         ignore=shutil.ignore_patterns("vendor", ".phpunit.cache", "__pycache__"))
-    shutil.copytree(root / "licenses", destination / "licenses")
-    for relative in ["docs/installation.md", "docs/operations/runbook.md",
-                     "docs/operations/backup.md", "docs/operations/purge.md",
-                     "docs/operations/restore.md", "docs/operations/observability.md",
-                     "docs/operations/capacity.md", "deploy/profiles/delivery.v1.json",
-                     "deploy/licensing.v1.json", "examples/acceptance/README.md",
-                     "examples/acceptance/fixtures/v1/deeptutor-source-pins.json",
-                     "tests/delivery/readiness/evidence/P9.5-reuse.json"]:
+    for relative in files:
         target = destination / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(root / relative, target)
+        shutil.copy2(root / relative, target, follow_symlinks=False)
     (destination / "sbom.json").write_text(
         json.dumps(report, indent=2, sort_keys=True, ensure_ascii=False) + "\n")
     notices = ["KnowKit local third-party inventory. Publication is not authorized.\n"]

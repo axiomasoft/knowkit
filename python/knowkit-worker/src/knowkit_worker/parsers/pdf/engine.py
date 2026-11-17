@@ -7,13 +7,13 @@ fallback is deliberately rejected: unsupported effective settings are incompatib
 
 from contextlib import redirect_stdout, redirect_stderr
 from io import BytesIO
-import logging
 import os
 from pathlib import Path
 
-from ...profiles import Asset, ParsedDocument
+from ...models import Asset, ParsedDocument
+from ...runtime import offline_environment
 from ...protocol import Envelope, Refusal, canonical, sha256
-from ...rendering.pdf import bbox, open_pdf, page_png
+from ...rendering.pdf import bbox, inspect_objects, open_pdf, page_png
 from ...structure.docling import map_table
 from ...structure.formulas import retain_formula
 from .qualification import ROOT, verify_dependencies, verify_models
@@ -67,8 +67,10 @@ def preflight(document) -> list[dict]:
     for index in range(len(document)):
         page = document[index]
         try:
-            objects = list(page.get_objects(max_depth=32))
+            objects, truncated = inspect_objects(page)
             raster = any(obj.type == pdfium.raw.FPDF_PAGEOBJ_IMAGE for obj in objects)
+            if truncated and not raster:
+                raster = None  # Absence cannot be established for unvisited descendants.
             textpage = page.get_textpage()
             try:
                 native_text = textpage.get_text_range()
@@ -79,7 +81,7 @@ def preflight(document) -> list[dict]:
             if label is not None and len(label) > 64:
                 raise Refusal("invalid_page_label")
             pages.append(dict(size=page.get_size(), rotation=page.get_rotation(),
-                              objects=bool(objects) or annotations, raster=raster,
+                              objects=bool(objects) or annotations, raster=raster, truncated=truncated,
                               visuals=annotations or any(obj.type != pdfium.raw.FPDF_PAGEOBJ_TEXT for obj in objects),
                               nativeText=bool(native_text.strip()),
                               label=label))
@@ -155,6 +157,8 @@ def map_document(native, document, metadata: list[dict], job: dict, structured: 
             if meta["nativeText"]:
                 page["status"] = "failed"
                 missing.add("text_extraction")
+            elif meta.get("truncated", False):
+                page["status"] = "skipped"
             elif not meta["objects"]:
                 page["status"] = "empty"
                 diagnostics.append(diagnostic("blank_page", "info"))
@@ -165,6 +169,11 @@ def map_document(native, document, metadata: list[dict], job: dict, structured: 
             else:
                 page["status"] = "empty"
                 diagnostics.append(diagnostic("vector_only_page", "info"))
+        if meta.get("truncated", False):
+            missing.add("object_traversal")
+            diagnostics.append(diagnostic("page_object_depth_limit"))
+            if page["status"] == "empty":
+                page["status"] = "skipped"
         if meta["rotation"]:
             missing.add("rotated_reading_order")
             diagnostics.append(diagnostic("rotated_reading_order_incomplete"))
@@ -216,13 +225,11 @@ def map_document(native, document, metadata: list[dict], job: dict, structured: 
 
 
 def parse(source: bytes, envelope: Envelope, model_root: Path = ROOT / "models", structured: bool = False) -> ParsedDocument:
-    # The supervisor clears the environment and mounts no host passwd/home.
-    # Docling computes Path.home() at import even with explicit local artifacts.
-    os.environ.setdefault("HOME", "/tmp")
-    os.environ["HF_HUB_OFFLINE"] = "1"
-    os.environ["TRANSFORMERS_OFFLINE"] = "1"
-    for variable in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
-        os.environ[variable] = "2"
+    with offline_environment():
+        return _parse(source, envelope, model_root=model_root, structured=structured)
+
+
+def _parse(source: bytes, envelope: Envelope, model_root: Path = ROOT / "models", structured: bool = False) -> ParsedDocument:
     from docling.datamodel.base_models import DocumentStream
     from ...profiles import DOCLING, STRUCTURE
 
@@ -237,19 +244,13 @@ def parse(source: bytes, envelope: Envelope, model_root: Path = ROOT / "models",
     if structured:
         from ...structure.qualification import verify
         verify()
-    # Library messages/progress/errors must never disclose document content.
-    previous_logging = logging.root.manager.disable
-    logging.disable(logging.CRITICAL)
-    try:
-        with open(os.devnull, "w") as sink, redirect_stdout(sink), redirect_stderr(sink):
-            with open_pdf(source, job["limits"]["maxPages"]) as document:
-                metadata = preflight(document)
-                try:
-                    engine = converter(model_root, job["limits"]["wallSeconds"])
-                    converted = engine.convert(DocumentStream(name="source.pdf", stream=BytesIO(source)),
-                                               raises_on_error=False, max_num_pages=job["limits"]["maxPages"])
-                    return map_document(converted.document, document, metadata, job, structured=structured)
-                except (AttributeError, TypeError, ValueError, ImportError):
-                    raise Refusal("docling_api_incompatible") from None
-    finally:
-        logging.disable(previous_logging)
+    with open(os.devnull, "w") as sink, redirect_stdout(sink), redirect_stderr(sink):
+        with open_pdf(source, job["limits"]["maxPages"]) as document:
+            metadata = preflight(document)
+            try:
+                engine = converter(model_root, job["limits"]["wallSeconds"])
+                converted = engine.convert(DocumentStream(name="source.pdf", stream=BytesIO(source)),
+                                           raises_on_error=False, max_num_pages=job["limits"]["maxPages"])
+            except (AttributeError, TypeError, ValueError, ImportError):
+                raise Refusal("docling_api_incompatible") from None
+            return map_document(converted.document, document, metadata, job, structured=structured)

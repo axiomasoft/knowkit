@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace KnowKit\Domain;
 
+use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Contract\ScopeBinding;
 
 final readonly class DisclosureRequest extends SchemaValue
@@ -29,12 +30,12 @@ final readonly class DisclosureRequest extends SchemaValue
     {
         $check = ScopeBinding::checkDisclosure($this->toWire(), $record->selection->toWire());
         if ($check['outcome'] !== 'success') {
-            throw new DomainFailure(Outcome::Denied, $check['code']);
+            throw new DomainFailure(Outcome::Denied, $check['code'] ?? 'scope_mismatch');
         }
         $refs = [];
         foreach ($this->toWire()->get('chunkRefs') as $wire) {
             foreach ($record->selection->candidateRefs() as $ref) {
-                if ($wire == $ref->toWire()) {
+                if ($wire instanceof JsonObject && $wire->equals($ref->toWire())) {
                     $refs[] = $ref;
                     break;
                 }

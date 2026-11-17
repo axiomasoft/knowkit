@@ -22,7 +22,7 @@ final readonly class FreshDisclosure implements Disclosure
     {
         try {
             $context = AccessContext::fromHost($this->host);
-            if ($scope != $context->scope()) {
+            if (!$scope->equals($context->scope())) {
                 throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
             }
             $replay = $this->store->replay($scope, $request);

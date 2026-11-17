@@ -27,9 +27,30 @@ final class Metrics
     public static function cpuMs(int $who = 0): float
     {
         $usage = getrusage($who);
+        if ($usage === false) {
+            throw new \RuntimeException('Process resource usage unavailable');
+        }
 
         return ($usage['ru_utime.tv_sec'] + $usage['ru_stime.tv_sec']) * 1000
             + ($usage['ru_utime.tv_usec'] + $usage['ru_stime.tv_usec']) / 1000;
+    }
+
+    public static function peakBytes(): int|float
+    {
+        $usage = getrusage();
+        if ($usage === false) {
+            throw new \RuntimeException('Process resource usage unavailable');
+        }
+        return max(memory_get_peak_usage(true), $usage['ru_maxrss'] * 1024);
+    }
+
+    /** @param array<int, int|float> $values */
+    public static function maximum(array $values): int|float
+    {
+        if ($values === []) {
+            throw new \RuntimeException('Empty resource measurement');
+        }
+        return max($values);
     }
 
     public static function timed(callable $operation, array &$samples): mixed

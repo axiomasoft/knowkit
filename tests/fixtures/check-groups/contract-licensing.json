@@ -1,8 +1,8 @@
 {
   "schemaVersion": "check-group:1",
   "group": "contract:licensing",
-  "fixtureVersion": "1.0.0",
-  "versionRationale": "Initial version: all five required licensing scenarios plus transitive/lock, offline generated inventory and required-case integrity. Expected digests/outcomes authored intentionally; any expectation change requires a version and substantive rationale.",
+  "fixtureVersion": "1.0.1",
+  "versionRationale": "Initial version plus root composer.lock digest alignment with tooling-baseline 1.0.1: all five required licensing scenarios plus transitive/lock, offline generated inventory and required-case integrity. Expected digests/outcomes authored intentionally; any expectation change requires a version and substantive rationale.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private",
     "origin": "Project-authored synthetic licensing corpus. example.invalid URLs, invented pins/asset hashes; no third-party model bytes or document data. Adapted harness patterns: licenses/P1.3-reuse.json.",
@@ -187,7 +187,7 @@
   "components": {
     "composerLock": {
       "path": "composer.lock",
-      "sha256": "6367a556ebd5ae29de28c59681ef329c7bd5826b17fb4017dfa4e6a0c886a3a7"
+      "sha256": "d76fdb70e0f66cf5f2b7f2a85cc1f8be3cfe0941dfb6eda3969981bf91c474bd"
     }
   }
 }

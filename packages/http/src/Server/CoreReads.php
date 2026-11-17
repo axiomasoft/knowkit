@@ -24,10 +24,11 @@ final readonly class CoreReads implements HostApplication
     public function execute(Command $command, AccessContext $context): Reply
     {
         if ($command->query !== null) {
-            $outcome = $this->retrieval->retrieve(scope: $context->scope(), query: $command->query, limit: $command->limit);
+            $limit = $command->limit ?? throw new InputFailure();
+            $outcome = $this->retrieval->retrieve(scope: $context->scope(), query: $command->query, limit: $limit);
             $data = $outcome->result->data;
 
-            return new Reply(result: $outcome->result, data: $data === null ? null : new JsonObject([
+            return new Reply(result: $outcome->result, data: !$data instanceof D\Selection ? null : new JsonObject([
                 'selection' => $data->toWire(), 'token' => $outcome->token?->reveal(),
                 'readRequirements' => array_map(static fn (D\ChunkRef $ref): JsonObject => $ref->toWire(), $outcome->readRequirements),
             ]));

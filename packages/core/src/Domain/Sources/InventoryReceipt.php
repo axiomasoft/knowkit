@@ -11,7 +11,10 @@ use KnowKit\Domain\Contract\JsonObject;
 /** Local contract proof, not a signature or evidence of real network security. */
 final readonly class InventoryReceipt
 {
-    /** @param list<Rename> $renames @param list<string> $reasons */
+    /**
+     * @param list<Rename> $renames
+     * @param list<string> $reasons
+     */
     private function __construct(
         private string $scopeBinding,
         private D\Fingerprint $digest,
@@ -19,7 +22,10 @@ final readonly class InventoryReceipt
         public array $reasons,
     ) {}
 
-    /** @param list<VerifiedDownload> $downloads @param list<Rename> $renames */
+    /**
+     * @param list<VerifiedDownload> $downloads
+     * @param list<Rename> $renames
+     */
     public static function seal(
         D\Scope $scope,
         D\CrawlSnapshot $snapshot,
@@ -89,7 +95,8 @@ final readonly class InventoryReceipt
             if ($item->immutableRevision !== $snapshot->pinnedRevision) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'download_revision_mismatch');
             }
-            if (($item->status === 'verified' && ($verified[$item->originKey] ?? null) != $item)
+            $verifiedItem = $verified[$item->originKey] ?? null;
+            if (($item->status === 'verified' && ($verifiedItem === null || !$verifiedItem->equals($item)))
                 || ($item->status !== 'verified' && isset($verified[$item->originKey]))) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'unverified_download');
             }
