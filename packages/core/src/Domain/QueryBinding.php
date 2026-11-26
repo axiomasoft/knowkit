@@ -50,7 +50,7 @@ final readonly class QueryBinding
     /** @return list<string> */
     private static function protectedTerms(string $text): array
     {
-        preg_match_all('~"[^"]+"|[\p{L}\p{N}]+(?:[-_./:][\p{L}\p{N}]+)+|\p{N}+~u', $text, $matches);
+        preg_match_all('~"[^"]*"|[\p{L}\p{N}]+(?:[-_./:][\p{L}\p{N}]+)+|\p{N}+~u', $text, $matches);
         $terms = array_values(array_unique($matches[0]));
         sort($terms, SORT_STRING);
 

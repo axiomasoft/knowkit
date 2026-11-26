@@ -47,55 +47,134 @@ def _pairs(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
     return result
 
 
-def _invalid(_: str) -> Any:
+_MAX_DEPTH = 64
+_SAFE_INTEGER = 9007199254740991
+
+
+def _parse_int(text: str) -> int:
+    digits = text[1:] if text.startswith("-") else text
+    # Reject on width before converting a multi-megabyte digit string.
+    if len(digits) > 16 or int(digits) > _SAFE_INTEGER:
+        raise Refusal("unsafe_integer")
+    return int(text)
+
+
+def _parse_float(_: str) -> Any:
     raise Refusal("non_integer_number")
 
 
+def _parse_constant(_: str) -> Any:
+    raise Refusal("invalid_json")
+
+
+def _max_depth(text: str) -> int:
+    depth = deepest = 0
+    in_string = escaped = False
+    for char in text:
+        if in_string:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                in_string = False
+        elif char == '"':
+            in_string = True
+        elif char in "[{":
+            depth += 1
+            deepest = max(deepest, depth)
+        elif char in "]}":
+            depth -= 1
+    return deepest
+
+
+def _reject_surrogates(value: Any) -> None:
+    stack = [value]
+    while stack:
+        item = stack.pop()
+        if isinstance(item, str):
+            try:
+                item.encode("utf-8")
+            except UnicodeEncodeError:
+                raise Refusal("invalid_surrogate") from None
+        elif isinstance(item, list):
+            stack.extend(item)
+        elif isinstance(item, dict):
+            stack.extend(item.keys())
+            stack.extend(item.values())
+
+
 def _check(value: Any, depth: int = 0) -> None:
-    if depth > 64:
-        raise Refusal("depth_limit")
+    if depth > _MAX_DEPTH:
+        raise Refusal("depth_exceeded")
     if isinstance(value, str):
-        try:
-            value.encode("utf-8")
-        except UnicodeError:
-            raise Refusal("invalid_utf8") from None
-    elif type(value) is int:
-        if abs(value) > 9007199254740991:
+        return
+    if type(value) is int:
+        if abs(value) > _SAFE_INTEGER:
             raise Refusal("unsafe_integer")
-    elif isinstance(value, list):
+        return
+    if isinstance(value, list):
         for item in value:
             _check(item, depth + 1)
-    elif isinstance(value, dict):
+        return
+    if isinstance(value, dict):
         for key, item in value.items():
+            if type(key) is not str:
+                raise Refusal("invalid_json")
             _check(key, depth + 1)
             _check(item, depth + 1)
-    elif value is not None and type(value) is not bool:
+        return
+    if value is not None and type(value) is not bool:
         raise Refusal("invalid_json")
 
 
 def decode(data: bytes, limit: int = MAX_MANIFEST) -> dict[str, Any]:
+    """Strict object decode. Precedence matches specs/contracts/wire-contract.md §4."""
     if len(data) > limit:
         raise Refusal("document_too_large")
     try:
-        value = json.loads(data.decode("utf-8"), object_pairs_hook=_pairs,
-                           parse_float=_invalid, parse_constant=_invalid)
-        _check(value)
-    except (ValueError, UnicodeError, RecursionError):
+        text = data.decode("utf-8")
+    except UnicodeDecodeError:
+        raise Refusal("invalid_utf8") from None
+    if _max_depth(text) > _MAX_DEPTH:
+        raise Refusal("depth_exceeded")
+    try:
+        value = json.loads(text, object_pairs_hook=_pairs, parse_int=_parse_int,
+                           parse_float=_parse_float, parse_constant=_parse_constant)
+    except Refusal:
+        raise
+    except (ValueError, RecursionError):
         raise Refusal("invalid_json") from None
+    _reject_surrogates(value)
     if not isinstance(value, dict):
         raise Refusal("invalid_json")
     return value
 
 
+def _canonical(value: Any) -> bytes:
+    if value is None:
+        return b"null"
+    if value is True:
+        return b"true"
+    if value is False:
+        return b"false"
+    if type(value) is int:
+        return str(value).encode("ascii")
+    if isinstance(value, str):
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    if isinstance(value, list):
+        return b"[" + b",".join(_canonical(item) for item in value) + b"]"
+    keys = sorted(value, key=lambda key: key.encode("utf-16-be"))
+    return b"{" + b",".join(_canonical(key) + b":" + _canonical(value[key]) for key in keys) + b"}"
+
+
 def canonical(value: Any) -> bytes:
     """RFC8785 for the contract's integer-only subset; keys sort as UTF-16 units."""
     _check(value)
-    if isinstance(value, dict):
-        keys = sorted(value, key=lambda k: k.encode("utf-16-be"))
-        return b"{" + b",".join(canonical(k) + b":" + canonical(value[k]) for k in keys) + b"}"
-    if isinstance(value, list):
-        return b"[" + b",".join(canonical(v) for v in value) + b"]"
-    return json.dumps(value, ensure_ascii=False, separators=(",", ":"), allow_nan=False).encode("utf-8")
+    try:
+        return _canonical(value)
+    except UnicodeEncodeError:
+        raise Refusal("invalid_surrogate") from None
 
 
 def fingerprint(domain: str, payload: Any) -> str:

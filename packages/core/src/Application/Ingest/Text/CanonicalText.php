@@ -34,29 +34,56 @@ final readonly class CanonicalText
         }
         if (preg_match('//u', $raw) !== 1) { self::reject('invalid_utf8'); }
         $bom = str_starts_with($raw, "\xEF\xBB\xBF");
-        $start = $bom ? 3 : 0;
-        $lines = preg_split('/\r\n|\r|\n/', substr($raw, $start));
-        if ($lines === false || count($lines) > $settings->maxLines) { self::reject('line_count_limit'); }
-        foreach ($lines as $line) {
-            if (strlen($line) > $settings->maxLineBytes) { self::reject('line_size_limit'); }
-        }
+        $offset = $bom ? 3 : 0;
+        $rawLength = strlen($raw);
         $transforms = $bom ? [self::run('bom', 0, 3, 0, 0)] : [];
         $canonical = '';
-        preg_match_all('/\r\n|\r/', $raw, $matches, PREG_OFFSET_CAPTURE, $start);
-        foreach ($matches[0] as [$ending, $offset]) {
-            if ($offset > $start) {
-                $copy = substr($raw, $start, $offset - $start);
-                $transforms[] = self::run('copy', $start, $offset, strlen($canonical), strlen($canonical) + strlen($copy));
-                $canonical .= $copy;
+        $copyFrom = $offset;
+        $lineFrom = $offset;
+        $lineCount = 0;
+        $lineTooLong = false;
+        $i = $offset;
+        // One pass: LF stays in the copy run; CR and CRLF become their own runs. Line-count rejects before line-size.
+        while ($i < $rawLength) {
+            $i += strcspn($raw, "\r\n", $i);
+            if ($i >= $rawLength) {
+                break;
             }
-            $transforms[] = self::run(strlen($ending) === 2 ? 'crlf' : 'cr', $offset, $offset + strlen($ending),
-                strlen($canonical), strlen($canonical) + 1);
+            if ($i - $lineFrom > $settings->maxLineBytes) {
+                $lineTooLong = true;
+            }
+            $lineCount++;
+            if ($raw[$i] === "\n") {
+                $lineFrom = $i + 1;
+                $i++;
+                continue;
+            }
+            $width = ($i + 1 < $rawLength && $raw[$i + 1] === "\n") ? 2 : 1;
+            if ($i > $copyFrom) {
+                $copyLen = $i - $copyFrom;
+                $transforms[] = self::run('copy', $copyFrom, $i, strlen($canonical), strlen($canonical) + $copyLen);
+                $canonical .= substr($raw, $copyFrom, $copyLen);
+            }
+            $transforms[] = self::run($width === 2 ? 'crlf' : 'cr', $i, $i + $width, strlen($canonical), strlen($canonical) + 1);
             $canonical .= "\n";
-            $start = $offset + strlen($ending);
+            $i += $width;
+            $copyFrom = $i;
+            $lineFrom = $i;
         }
-        if ($start < strlen($raw)) {
-            $transforms[] = self::run('copy', $start, strlen($raw), strlen($canonical), strlen($canonical) + strlen($raw) - $start);
-            $canonical .= substr($raw, $start);
+        if ($rawLength - $lineFrom > $settings->maxLineBytes) {
+            $lineTooLong = true;
+        }
+        $lineCount++;
+        if ($lineCount > $settings->maxLines) {
+            self::reject('line_count_limit');
+        }
+        if ($lineTooLong) {
+            self::reject('line_size_limit');
+        }
+        if ($copyFrom < $rawLength) {
+            $copyLen = $rawLength - $copyFrom;
+            $transforms[] = self::run('copy', $copyFrom, $rawLength, strlen($canonical), strlen($canonical) + $copyLen);
+            $canonical .= substr($raw, $copyFrom, $copyLen);
         }
         return new self($canonical, $bom, $transforms, $source->ref, $source->mediaType);
     }
@@ -76,14 +103,37 @@ final readonly class CanonicalText
 
     private function sourceBoundary(int $offset): int
     {
-        foreach ($this->transforms as $run) {
-            if ($run->get('kind') === 'bom') { continue; }
-            $a = $run->get('canonicalStart'); $b = $run->get('canonicalEnd');
-            if ($offset >= $a && $offset <= $b) {
-                return $offset === $b ? $run->get('sourceEnd') : $run->get('sourceStart') + $offset - $a;
+        $runs = $this->transforms;
+        $lo = 0;
+        $hi = count($runs) - 1;
+        $found = null;
+        while ($lo <= $hi) {
+            $mid = intdiv($lo + $hi, 2);
+            $run = $runs[$mid];
+            if ($run->get('kind') === 'bom') {
+                $lo = $mid + 1;
+                continue;
             }
+            $start = $run->get('canonicalStart');
+            $end = $run->get('canonicalEnd');
+            if ($offset < $start) {
+                $hi = $mid - 1;
+                continue;
+            }
+            if ($offset > $end) {
+                $lo = $mid + 1;
+                continue;
+            }
+            // A boundary belongs to the earlier run, matching a forward scan.
+            $found = $run;
+            $hi = $mid - 1;
         }
-        throw new \LogicException('Unmapped canonical boundary');
+        if (!$found instanceof JsonObject) {
+            throw new \LogicException('Unmapped canonical boundary');
+        }
+        return $offset === $found->get('canonicalEnd')
+            ? $found->get('sourceEnd')
+            : $found->get('sourceStart') + $offset - $found->get('canonicalStart');
     }
 
     private static function run(string $kind, int $a, int $b, int $c, int $d): JsonObject

@@ -52,7 +52,7 @@ final class InvariantsTest extends TestCase
             $pdo = $sandbox->connection; $directory = dirname(__DIR__,3).'/packages/core/migrations/postgres';
             $pdo->exec('CREATE TABLE schema_migrations(id text PRIMARY KEY,checksum char(64) NOT NULL,applied_at timestamptz NOT NULL)');
             foreach (['001_metadata','002_metadata_uint32','003_jobs','004_generation_checks','005_outbox_delivery'] as $id) {
-                $sql = file_get_contents($directory.'/'.$id.'.sql'); $pdo->exec($sql);
+                $sql = self::migrationSql($directory, $id); $pdo->exec($sql);
                 $pdo->prepare('INSERT INTO schema_migrations VALUES (?,?,clock_timestamp())')->execute([$id,hash('sha256',$sql)]);
             }
             $pdo->prepare("INSERT INTO tenants(id,name) VALUES (?,'fixture')")->execute([Fixture::id(1)]);
@@ -75,7 +75,7 @@ final class InvariantsTest extends TestCase
                 $pdo = $sandbox->connection; $directory = dirname(__DIR__,3).'/packages/core/migrations/postgres';
                 $pdo->exec('CREATE TABLE schema_migrations(id text PRIMARY KEY,checksum char(64) NOT NULL,applied_at timestamptz NOT NULL)');
                 foreach (['001_metadata','002_metadata_uint32','003_jobs','004_generation_checks','005_outbox_delivery'] as $id) {
-                    $sql = file_get_contents($directory.'/'.$id.'.sql'); $pdo->exec($sql);
+                    $sql = self::migrationSql($directory, $id); $pdo->exec($sql);
                     $pdo->prepare('INSERT INTO schema_migrations VALUES (?,?,clock_timestamp())')->execute([$id,hash('sha256',$sql)]);
                 }
                 $tenant = new D\TenantId(Fixture::id(1)); $source = new D\SourceId(Fixture::id(2));
@@ -141,5 +141,16 @@ final class InvariantsTest extends TestCase
                 }
             });
         }
+    }
+
+    private static function migrationSql(string $directory, string $id): string
+    {
+        static $sql = [];
+        $bytes = $sql[$id] ??= file_get_contents($directory . '/' . $id . '.sql');
+        if (!is_string($bytes)) {
+            throw new \RuntimeException('Missing migration ' . $id);
+        }
+
+        return $bytes;
     }
 }

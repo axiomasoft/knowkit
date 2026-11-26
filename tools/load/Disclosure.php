@@ -18,7 +18,7 @@ final class Disclosure
         Fixture::run(function (Fixture $f) use (&$report): void {
             $samples = [];
             $cpu = Metrics::cpuMs();
-            for ($i = 0; $i < 20; ++$i) {
+            for ($i = 0; $i < Qualification::DISCLOSURE_REQUESTS; ++$i) {
                 $selected = $f->select();
                 $outcome = Metrics::timed(operation: fn () => $f->disclose($selected), samples: $samples);
                 Qa::ensure($outcome->result->outcome === D\Outcome::Success, 'bounded disclosure failed');
@@ -29,8 +29,9 @@ final class Disclosure
             $failures = self::verifyFailures($f);
             $cold = array_shift($samples);
             $warm = Metrics::percentiles($samples);
+            $ceiling = Report::intField(Report::profile()['reference'], 'disclosureWarmP95Ms');
             $report = Report::save('disclosure', ['coldLatencyMs' => $cold, 'warmLatencyMs' => $warm,
-                'cpuMs' => Metrics::cpuMs() - $cpu, 'targetWarmP95Ms' => 200, 'targetMet' => $warm['p95'] <= 200,
+                'cpuMs' => Metrics::cpuMs() - $cpu, 'targetWarmP95Ms' => $ceiling, 'targetMet' => $warm['p95'] <= $ceiling,
                 ...$failures, 'remoteOwnerIo' => false,
                 'postgres' => $f->db()->execute('SHOW server_version')->fetchColumn()]);
         });

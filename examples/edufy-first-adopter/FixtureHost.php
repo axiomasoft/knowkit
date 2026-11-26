@@ -34,7 +34,11 @@ final class FixtureHost
         HostScope $inputs,
     ) {
         $host = $runtime->host;
-        $text = (string) file_get_contents(self::textFixture($inputs->audienceKind));
+        $loaded = file_get_contents(self::textFixture($inputs->audienceKind));
+        if (!is_string($loaded)) {
+            throw new \RuntimeException('Fixture text unreadable');
+        }
+        $text = $loaded;
         $this->reader = new FixturePassageReader($text);
         $entry = new KbEntry('student', 'entry:1', new D\SourceVersionId(Host::id('demo-version')));
         $resolver = new FixtureResolver([new KbRule($inputs->topic, BindingMode::Additive, [$entry])]);

@@ -202,8 +202,8 @@ final class EgressTest extends TestCase
     {
         try {
             $action();
-        } catch (\InvalidArgumentException) {
-            self::assertTrue(true);
+        } catch (\InvalidArgumentException $error) {
+            self::assertNotEmpty($error->getMessage());
 
             return;
         }

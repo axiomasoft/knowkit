@@ -36,11 +36,14 @@ final class InMemoryReferenceCache implements ReferenceCache
         if ($entry === null) {
             return null;
         }
-        unset($this->entries[$id]);
-        if ($entry->expiresAt->compare($this->clock->now()) <= 0) {
+        $now = $this->clock->now();
+        if ($entry->expiresAt->compare($now) <= 0 || $entry->createdAt->compare($now) > 0) {
+            unset($this->entries[$id]);
+
             return null;
         }
-        $entry->requireBinding($key, $this->clock->now());
+        $entry->requireBinding($key, $now);
+        unset($this->entries[$id]);
         $this->entries[$id] = $entry;
 
         return $entry;

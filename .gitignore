@@ -1,23 +1,15 @@
+# Local agent harness. Not part of the public package.
+# Project skills stay in .agents/skills and are tracked.
 .mcp.json
-.claude/maind-*.sh
-.codex/state/
-.claude/settings.local.json
-.claude/settings.json
-.cursor/mcp.json
-.codex/config.toml
-.claude/**/*.bak
-.codex/**/*.bak
-
-# Machine-specific agent state and credentials
+.mcp.json.example
+.claude/
 .codex/
 .cursor/
-.claude/maind-*.sh
-.swissknifeman/backups/
-.swissknifeman/terminal-admission/
-.swissknifeman/task-terminal/
-.swissknifeman/orch/
-.serena/cache/
-.serena/memories/
+.serena/
+.swissknifeman/
+skills-lock.json
+/plans
+/tasks
 *.bak
 *.last
 *.log

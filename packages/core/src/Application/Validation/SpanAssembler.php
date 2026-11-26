@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace KnowKit\Application\Validation;
 
 use KnowKit\Domain\{Chunk, DocumentId, DocumentRevisionRef, DomainFailure, IrDocument, Outcome, Span};
-use KnowKit\Domain\Contract\{ContractViolation, Jcs, JsonObject};
+use KnowKit\Domain\Contract\{ContractViolation, Jcs, JsonObject, LocatorConversion};
 
 /** Exact canonical slices, in declared order; never reconstruct from search snippets. */
 final readonly class SpanAssembler
@@ -13,6 +13,8 @@ final readonly class SpanAssembler
     private array $units;
     /** @var array<string,JsonObject> */
     private array $blocks;
+    /** Unit hash and UTF-8 flag. Span::slice repeats both for every subrange of the same immutable text. */
+    private \stdClass $memo;
 
     public function __construct(
         private IrDocument $document,
@@ -42,6 +44,9 @@ final readonly class SpanAssembler
         }
         $this->units = $units;
         $this->blocks = $blocks;
+        $this->memo = new \stdClass();
+        $this->memo->hash = [];
+        $this->memo->utf8 = [];
     }
 
     /** @param array<array-key,mixed> $spans Checked here as a nonempty bounded ordered list of Span. */
@@ -65,7 +70,8 @@ final readonly class SpanAssembler
             $locator = $span->locator->toWire();
             $block = $this->blocks[$locator->get('blockId')] ?? null;
             $key = $locator->get('kind') === 'page' ? 'pageId' : 'segmentId';
-            $unit = $this->units[$key . ':' . $locator->get($key)] ?? null;
+            $unitKey = $key . ':' . $locator->get($key);
+            $unit = $this->units[$unitKey] ?? null;
             if ($block === null || $unit === null) {
                 self::fail('unknown_reference');
             }
@@ -94,12 +100,34 @@ final readonly class SpanAssembler
                 self::fail('binding_mismatch');
             }
             try {
-                $parts[] = $span->slice($unit->get('text'));
+                $parts[] = $this->slice($span, $unit, $unitKey);
             } catch (ContractViolation $error) {
                 self::fail($error->errorCode);
             }
         }
         return implode($joiner ?? '', $parts);
+    }
+
+    /**
+     * Same checks as Span::slice then TextLocator::slice. The unit hash and UTF-8 scan are once per unit,
+     * not once per subrange; digest is still compared before the UTF-8 check.
+     */
+    private function slice(Span $span, JsonObject $unit, string $unitKey): string
+    {
+        $text = $unit->get('text');
+        if (!isset($this->memo->hash[$unitKey])) {
+            $this->memo->hash[$unitKey] = hash('sha256', $text);
+        }
+        if (!hash_equals($span->textDigest->value, $this->memo->hash[$unitKey])) {
+            throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+        }
+        if (!isset($this->memo->utf8[$unitKey])) {
+            $this->memo->utf8[$unitKey] = preg_match('//u', $text) === 1;
+        }
+        if ($this->memo->utf8[$unitKey] !== true) {
+            throw new \InvalidArgumentException('UTF8 required');
+        }
+        return LocatorConversion::resolveSpan($span->locator->toWire()->with('text', $text))->get('text');
     }
 
     public function assertChunk(Chunk $chunk, ?string $joiner): void

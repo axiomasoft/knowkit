@@ -27,7 +27,8 @@ final readonly class EmbeddingTransport implements Transport
             $this->telemetry->emit(
                 event: O\Event::Provider, stage: O\Stage::Embed,
                 outcome: $failure instanceof D\DomainFailure ? $failure->outcome : D\Outcome::Unknown,
-                reason: $failure instanceof ProviderTimeout ? O\Reason::ProviderUncertain : O\Reason::InternalFailure,
+                reason: $failure instanceof ProviderTimeout ? O\Reason::ProviderUncertain
+                    : ($failure instanceof D\DomainFailure ? O\Reason::forError($failure->errorCode) : O\Reason::InternalFailure),
                 measurements: new O\Measurements(durationMs: intdiv(hrtime(true) - $started, 1000000)),
             );
             throw $failure;

@@ -22,17 +22,24 @@ final readonly class PdoSelections implements SelectionStore
         SQL;
 
     private const REF_SQL = <<<'SQL'
-        SELECT c.id FROM %s sm
-        JOIN %s c ON c.tenant_id=sm.tenant_id AND c.chunk_set_id=sm.chunk_set_id
-        JOIN %s r ON r.tenant_id=sm.tenant_id AND r.id=sm.revision_id
-        JOIN %s v ON v.tenant_id=sm.tenant_id AND v.id=sm.source_version_id AND v.id=r.source_version_id
-        JOIN %s i ON i.tenant_id=sm.tenant_id AND i.generation_id=sm.generation_id
-            AND i.chunk_id=c.id AND i.chunk_digest=c.content_digest AND i.chunk_set_id=sm.chunk_set_id
-            AND i.revision_id=r.id AND i.source_version_id=v.id
-        WHERE sm.tenant_id=? AND sm.kb_id=? AND sm.snapshot_id=? AND sm.generation_id=?
-            AND sm.source_id=? AND sm.source_version_id=? AND sm.revision_id=? AND sm.chunk_set_id=?
-            AND c.id=? AND c.content_digest=? AND v.source_digest=? AND r.ir_digest=?
-            AND r.parser_name=? AND r.parser_version=? AND r.profile_digest=?
+        SELECT x.ord FROM jsonb_to_recordset(CAST(? AS jsonb)) AS x(
+            ord int, source_id text, source_version_id text, revision_id text, chunk_set_id text,
+            chunk_id text, content_digest text, source_digest text, ir_digest text,
+            parser_name text, parser_version text, profile_digest text)
+        WHERE EXISTS (
+            SELECT 1 FROM %s sm
+            JOIN %s c ON c.tenant_id=sm.tenant_id AND c.chunk_set_id=sm.chunk_set_id
+            JOIN %s r ON r.tenant_id=sm.tenant_id AND r.id=sm.revision_id
+            JOIN %s v ON v.tenant_id=sm.tenant_id AND v.id=sm.source_version_id AND v.id=r.source_version_id
+            JOIN %s i ON i.tenant_id=sm.tenant_id AND i.generation_id=sm.generation_id
+                AND i.chunk_id=c.id AND i.chunk_digest=c.content_digest AND i.chunk_set_id=sm.chunk_set_id
+                AND i.revision_id=r.id AND i.source_version_id=v.id
+            WHERE sm.tenant_id=? AND sm.kb_id=? AND sm.snapshot_id=? AND sm.generation_id=?
+                AND sm.source_id=x.source_id AND sm.source_version_id=x.source_version_id
+                AND sm.revision_id=x.revision_id AND sm.chunk_set_id=x.chunk_set_id
+                AND c.id=x.chunk_id AND c.content_digest=x.content_digest AND v.source_digest=x.source_digest
+                AND r.ir_digest=x.ir_digest AND r.parser_name=x.parser_name
+                AND r.parser_version=x.parser_version AND r.profile_digest=x.profile_digest)
         SQL;
 
     public function __construct(
@@ -141,18 +148,30 @@ final readonly class PdoSelections implements SelectionStore
 
     private function assertRefs(D\Scope $scope, D\SelectionRecord $record): void
     {
-        $sql = sprintf(self::REF_SQL, $this->db->table('snapshot_memberships'), $this->db->table('chunks'),
-            $this->db->table('document_revisions'), $this->db->table('source_versions'), $this->db->table('index_memberships'));
-        foreach ($record->selection->candidateRefs() as $ref) {
+        $candidates = [];
+        foreach ($record->selection->candidateRefs() as $ord => $ref) {
             $r = $ref->revisionRef;
             $v = $r->sourceRef;
-            $scope->assertTenant($v->tenantId);
-            $row = $this->db->row($sql, [$scope->tenantId->value, $scope->kbId->value,
-                $record->snapshot->snapshotId->value, $record->selection->generationId()->value,
-                $v->sourceId->value, $v->sourceVersionId->value, $r->documentRevisionId->value, $ref->chunkSetId->value,
-                $ref->chunkId->value, $ref->chunkDigest->value, $v->sourceDigest->value, $r->irDigest->value,
-                $r->parserSignature->name, $r->parserSignature->version, $r->parserSignature->profileDigest->value]);
-            if ($row === null) {
+            $candidates[] = [
+                'ord' => $ord, 'source' => $v, 'source_id' => $v->sourceId->value, 'source_version_id' => $v->sourceVersionId->value,
+                'revision_id' => $r->documentRevisionId->value, 'chunk_set_id' => $ref->chunkSetId->value,
+                'chunk_id' => $ref->chunkId->value, 'content_digest' => $ref->chunkDigest->value,
+                'source_digest' => $v->sourceDigest->value, 'ir_digest' => $r->irDigest->value,
+                'parser_name' => $r->parserSignature->name, 'parser_version' => $r->parserSignature->version,
+                'profile_digest' => $r->parserSignature->profileDigest->value,
+            ];
+        }
+        if ($candidates === []) {
+            return;
+        }
+        $sql = sprintf(self::REF_SQL, $this->db->table('snapshot_memberships'), $this->db->table('chunks'),
+            $this->db->table('document_revisions'), $this->db->table('source_versions'), $this->db->table('index_memberships'));
+        $payload = array_map(static fn (array $candidate): array => array_diff_key($candidate, ['source' => true]), $candidates);
+        $found = array_fill_keys($this->db->execute($sql, [json_encode($payload, JSON_THROW_ON_ERROR), $scope->tenantId->value,
+            $scope->kbId->value, $record->snapshot->snapshotId->value, $record->selection->generationId()->value])->fetchAll(\PDO::FETCH_COLUMN), true);
+        foreach ($candidates as $candidate) {
+            $scope->assertTenant($candidate['source']->tenantId);
+            if (!isset($found[$candidate['ord']])) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'candidate_not_in_manifest');
             }
         }

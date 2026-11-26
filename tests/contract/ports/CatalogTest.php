@@ -79,14 +79,18 @@ final class CatalogTest extends TestCase
     {
         foreach ($this->fixture()->get('invalidMetadata') as $wire) {
             try { new D\CatalogMetadata($wire); self::fail('Invalid metadata accepted'); }
-            catch (\InvalidArgumentException) {}
+            catch (\InvalidArgumentException $failure) { self::assertSame('Namespaced scalar metadata required', $failure->getMessage()); }
         }
         $many = [];
         for ($i = 0; $i < 33; $i++) { $many['test.key' . $i] = true; }
-        foreach ([new JsonObject($many),new JsonObject(['test.label'=>str_repeat('я',257)]),new JsonObject(['test.label'=>"\xff"]),
-            new JsonObject(['host.bad'=>1.25])] as $wire) {
+        foreach ([
+            [new JsonObject($many), 'Bounded metadata required'],
+            [new JsonObject(['test.label'=>str_repeat('я',257)]), 'Namespaced scalar metadata required'],
+            [new JsonObject(['test.label'=>"\xff"]), 'Namespaced scalar metadata required'],
+            [new JsonObject(['host.bad'=>1.25]), 'Namespaced scalar metadata required'],
+        ] as [$wire, $message]) {
             try { new D\CatalogMetadata($wire); self::fail('Unbounded metadata accepted'); }
-            catch (\InvalidArgumentException) {}
+            catch (\InvalidArgumentException $failure) { self::assertSame($message, $failure->getMessage()); }
         }
         $input = new JsonObject(['test.empty'=>'','test.integer'=>7,'test.boolean'=>false]);
         $metadata = new D\CatalogMetadata($input);
@@ -95,15 +99,16 @@ final class CatalogTest extends TestCase
         foreach (['latest','Lexical-v1','lexical_v1','a','lexical-v1 '] as $bad) {
             // "latest" is syntactically a named profile, never an automatic resolver alias.
             if ($bad === 'latest') { self::assertSame('latest',(new D\ProfileId($bad))->value); continue; }
-            try { new D\ProfileId($bad); self::fail('Invalid profile ID'); } catch (\InvalidArgumentException) {}
+            try { new D\ProfileId($bad); self::fail('Invalid profile ID'); }
+            catch (\InvalidArgumentException $failure) { self::assertSame('Exact profile ID required', $failure->getMessage()); }
         }
         foreach (['','unknown'] as $badState) {
             try { new D\Tenant(PortFixture::scope()->tenantId,$badState); self::fail('Invalid serving state'); }
-            catch (\InvalidArgumentException) {}
+            catch (\InvalidArgumentException $failure) { self::assertSame('Serving state required', $failure->getMessage()); }
         }
         foreach (['',' '] as $missing) {
             try { new D\RegisterSource($this->source()->sourceId,$missing,'host:upload'); self::fail('Missing owner'); }
-            catch (\InvalidArgumentException) {}
+            catch (\InvalidArgumentException $failure) { self::assertSame('Bounded nonempty UTF8 required', $failure->getMessage()); }
         }
     }
 
@@ -183,7 +188,7 @@ final class CatalogTest extends TestCase
         ] as $args) { $this->rejects(fn() => $page->assertBinding(...$args),'scope_mismatch',D\Outcome::Denied); }
         foreach ([0,101] as $limit) {
             try { new D\PageCursor($scope->tenantId,$scope->kbId,$filter,$security,null,$limit); self::fail('Unbounded page'); }
-            catch (\InvalidArgumentException) {}
+            catch (\InvalidArgumentException $failure) { self::assertSame('Page limit must be 1..100', $failure->getMessage()); }
         }
         $next = new D\PageCursor($scope->tenantId,$scope->kbId,$filter,$security,'opaque-continuation',2);
         $sources = [$this->source(2),$this->source(3)];
@@ -196,7 +201,7 @@ final class CatalogTest extends TestCase
         $this->rejects(fn() => new D\SourcePage($page,$sources,$page),'adapter_contract_violation');
         $this->rejects(fn() => new D\SourcePage($next,$sources,$next),'adapter_contract_violation');
         try { new D\SourcePage($page,[...$sources,$this->source(4)],null); self::fail('Page exceeds caller limit'); }
-        catch (\InvalidArgumentException) {}
+        catch (\InvalidArgumentException $failure) { self::assertSame('Bounded list required', $failure->getMessage()); }
     }
 
     public function testExactVersionsAndSnapshotSelectorsRejectSubstitution(): void

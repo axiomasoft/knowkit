@@ -14,8 +14,8 @@ to the root or core. Chatom and bridge lanes require PHP >=8.4.
 
 Install PHP 8.3, 8.4 or 8.5, Composer 2, ext-pdo/pdo_pgsql/json/mbstring/dom/xml/
 xmlwriter, Python 3.12 for architecture contract checks, and Docker with Compose.
-Run from the checkout; no ecosystem agent tooling, model keys, Python worker,
-Redis, GPU or framework installation is required for the core bootstrap:
+Run from the checkout; no model keys, Python worker, Redis, GPU or framework
+installation is required for the core bootstrap:
 
 ```sh
 composer install --no-interaction --prefer-dist
@@ -52,6 +52,7 @@ on a fresh project. CI qualifies PHP8.3/8.4/8.5 against PostgreSQL16/17. To star
 the separate optional vector backend, run
 `docker compose -p knowkit-test --profile vector up -d --wait pgvector`.
 It listens on loopback port 55433 and uses `pgvector/pgvector:pg16`; the pgvector package and semantic tests provide extension and adapter qualification.
+Override `TEST_VECTOR_PORT`, `TEST_VECTOR_IMAGE`, and the exported `TEST_VECTOR_PG_DSN` together. `TEST_PG_TMPFS` and `TEST_VECTOR_TMPFS` default to `/var/lib/postgresql/data`. PostgreSQL 18+ images store data under `/var/lib/postgresql`, so set `TEST_PG_TMPFS=/var/lib/postgresql` with the image tag. The default mount stays a tmpfs entry, not a volume.
 These image tags receive upstream maintenance updates; exact resolved revisions
 are reported with `docker image inspect postgres:16 pgvector/pgvector:pg16`.
 
@@ -98,6 +99,15 @@ Composer's platform floor. Optional package manifests and lockfiles live under t
 install only the projects needed for the selected lanes.
 
 ## Continuous integration and coverage
+
+Workflows live in `.github/workflows`. They verify the checkout; they do not
+publish releases. The verification workflow runs the core matrix on PHP 8.3,
+8.4 and 8.5 with PostgreSQL 16 and 17, the optional profile on PHP 8.3, 8.4
+and 8.5, core coverage, a locked root `composer audit`, the offline license
+audit, and the Python protocol tests. CodeQL, dependency review, Dependabot
+and OpenSSF Scorecard are separate workflows. Actions are pinned to commit
+SHAs. Report vulnerabilities through GitHub private security advisories, as
+described in `SECURITY.md`.
 
 `--profile ci-core` selects all 29 portable Core/architecture groups. It excludes
 `delivery:readiness`, whose cross-version host and real worker qualifications need
@@ -159,73 +169,3 @@ Optional CI checks Answer, pgvector, HTTP and Laravel separately at Level 8 with
 may be unmatched in a package subset; other analysis errors still fail. Chatom
 requires its pinned host installation and Bridge retains its separate Level 5
 configuration. Python is outside PHPStan's scope.
-
-## Local ecosystem setup
-
-KnowKit uses the same local ecosystem as AgenTools: workspace `axioma`,
-marketplace delivery through Swiss Knife Man, scoped mAInd MCP, Serena, and
-Perplexity MCP. Project memory is scoped to `project:knowkit`; topology namespaces
-are `axioma` and `knowkit`. Shared memory access is not enabled.
-
-The selected Swiss Knife Man plugins are `core`, `oss-dev`, and `planner` for
-Claude Code and Codex. The initial empty-repository setup selected no language-specific stack or agent
-pack. That is a historical setup choice, not the current application architecture.
-Serena was provisioned without language servers; configure PHP/Python support
-when enabling semantic navigation in a local environment.
-
-The tracked `.swissknifeman/project.json` identifies this project. The local
-`plans/` and `tasks/` symlinks point into the workspace and are excluded through
-`.git/info/exclude`. Machine settings live in the workspace project's
-`local/config.toml`; `.swissknifeman/config.example.toml` records their portable
-bootstrap values. MCP configurations with machine paths remain ignored;
-`.mcp.json.example` documents their shape.
-
-The local Claude Code permission mode and auto-approval mode match AgenTools.
-Installed hook files are supplied by the local harness installation.
-
-Run these commands from the checkout to inspect or refresh the environment:
-
-```sh
-skiller status --json
-skiller budget --first-turn
-harness doctor
-maind health --cwd
-swissknifeman status knowkit
-maind sync --project knowkit --only mcp,ecosystem-skill,setup-skill,gitignore
-```
-
-Setup verification on 2026-11-05 confirmed all three MCP servers initialize and
-list their tools: mAInd (11), Serena (21), and Perplexity (4). A scoped topology
-graph request for KnowKit succeeded. Codex's offline prompt inspection loaded
-the project instructions and the three selected plugins. Repeated MCP sync
-reported no pending changes. The memory SessionStart hook exited successfully
-when the shared daemon was unavailable.
-
-When changing the Codex native plugin selection, run
-`skiller connect --plugins core,oss-dev,planner --native-codex-only` followed by
-`maind sync --project knowkit --only mcp --mode repair`. The native selection
-writer reformats the MCP block; the repair restores the owning renderer's format
-while preserving the plugin selection.
-
-## Infrastructure limitation observed during setup
-
-On 2026-11-05, the shared mAInd memory daemon was unavailable for AgenTools and
-KnowKit. `maind start --only memory` refuses to start the existing LAN listener
-because it has neither `AGENTMEMORY_SECRET` nor `memory.secret_file`. Starting
-memory requires repairing the shared host's authentication configuration; this
-bootstrap does not change shared credentials or network binding. Until repaired,
-`maind health --cwd` reports `partial`, and persistent memory calls are unavailable.
-Repository work, planning files, and the topology graph remain usable.
-
-## Installer observations
-
-The 2026-11-05 onboarding run selected all buckets for this empty repository even
-though the onboarding guide describes a minimal fallback. The project now has an
-explicit plugin selection, and surplus Claude Code entries are disabled.
-
-The first onboarding pass also reported deployment while provider preflight
-refused the initial Context7-only `.mcp.json`. The generated initial files were
-archived under the workspace project's ignored local backups, then MCP was
-provisioned from an absent target. Subsequent native Codex selection was followed
-by the owning MCP repair. These are follow-up items for the skiller integration
-and maind deployment modules; no library source was changed during project setup.

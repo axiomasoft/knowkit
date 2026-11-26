@@ -92,9 +92,6 @@ final readonly class Diagnostics
             $descriptor = $this->registry->describe($observation->adapterId);
             $this->registry->validate(id: $observation->adapterId, profile: $this->profile->effectiveProfile());
             $configured = true;
-            if ($descriptor->kind === D\AdapterKind::Lexical && $outcome === D\Outcome::Success) {
-                $outcome = $indexOutcome;
-            }
         } catch (D\DomainFailure $failure) {
             $configured = false;
             $outcome = $failure->outcome;
@@ -102,6 +99,10 @@ final readonly class Diagnostics
         $verified = $configured && $observation->verifiedProfile?->equals($this->profile->digest()) === true;
         if ($outcome === D\Outcome::Success && !$verified) {
             $outcome = D\Outcome::Unknown;
+        }
+        // Index health must not hide an unverified lexical adapter as a dependency outage.
+        if ($descriptor?->kind === D\AdapterKind::Lexical && $outcome === D\Outcome::Success) {
+            $outcome = $indexOutcome;
         }
         $report = new ReadinessReport(
             installed: $descriptor !== null, enabled: $observation->enabled, configured: $configured,

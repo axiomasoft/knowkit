@@ -22,7 +22,10 @@ final readonly class FormulaMetadata
         $block = $document->block($blockId);
         $confidence = self::confidence($document, $blockId);
         $regions = $block->get('spans');
-        if ($block->get('kind') !== 'formula' || $regions === []) {
+        if ($block->get('kind') !== 'formula') {
+            throw new DomainFailure(Outcome::Incompatible, 'formula_metadata_invalid');
+        }
+        if ($regions === []) {
             throw new DomainFailure(Outcome::Incompatible, 'formula_region_unavailable');
         }
 
@@ -60,7 +63,15 @@ final readonly class FormulaMetadata
         $key = $page ? 'pageId' : 'segmentId';
         foreach ($page ? $document->pages() : $document->segments() as $unit) {
             if ($unit->get($key) === $span->get($key)) {
-                return substr($unit->get('text'), $span->get('byteStart'), $span->get('byteEnd') - $span->get('byteStart'));
+                $text = $unit->get('text');
+                $start = $span->get('byteStart');
+                $end = $span->get('byteEnd');
+                // byteEnd is exclusive. A short or inverted span must not become an empty quote.
+                if (!is_string($text) || !is_int($start) || !is_int($end) || $start < 0 || $end <= $start || $end > strlen($text)) {
+                    throw new DomainFailure(Outcome::Incompatible, 'formula_region_unavailable');
+                }
+
+                return substr($text, $start, $end - $start);
             }
         }
 

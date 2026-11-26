@@ -49,6 +49,7 @@ final class Fixture
     public readonly Transport $transport;
     public readonly DeletionWorker $worker;
     public ?D\DeletionTaskId $task = null;
+    private static ?array $expectations = null;
     private int $sequence = 80000;
     public function __construct(public readonly LifecycleFixture $lifecycle)
     {
@@ -82,7 +83,10 @@ final class Fixture
     }
     public static function expected(string $id, array $actual): void
     {
-        $fixture = json_decode(file_get_contents(dirname(__DIR__,2).'/fixtures/deletion/v1/cases.json'), true, 64, JSON_THROW_ON_ERROR);
-        Assert::assertSame(array_column($fixture['cases'], 'expected', 'id')[$id], $actual, $id);
+        if (self::$expectations === null) {
+            $fixture = json_decode(file_get_contents(dirname(__DIR__,2).'/fixtures/deletion/v1/cases.json'), true, 64, JSON_THROW_ON_ERROR);
+            self::$expectations = array_column($fixture['cases'], 'expected', 'id');
+        }
+        Assert::assertSame(self::$expectations[$id], $actual, $id);
     }
 }

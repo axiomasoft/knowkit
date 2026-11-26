@@ -22,14 +22,25 @@ final readonly class EvidenceContribution
         }
         foreach ($blocks as $block) {
             $block = self::requireBlock($block);
-            if (!in_array([
-                'ref' => $block->sourceRef,
-                'version' => $block->sourceVersion,
-                'hash' => $block->sourceHash,
-            ], $dependencies, true)) {
+            if (!self::hasDependency($block, $dependencies)) {
                 throw new RuntimeException('Selected block requires exact source/version/hash dependency');
             }
         }
+    }
+
+    /** Exact {ref, version, hash}; PHP key order is not part of the identity. */
+    private static function hasDependency(ContextBlock $block, array $dependencies): bool
+    {
+        foreach ($dependencies as $dependency) {
+            if (is_array($dependency) && count($dependency) === 3
+                && ($dependency['ref'] ?? null) === $block->sourceRef
+                && ($dependency['version'] ?? null) === $block->sourceVersion
+                && ($dependency['hash'] ?? null) === $block->sourceHash) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private static function requireBlock(mixed $block): ContextBlock

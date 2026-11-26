@@ -67,13 +67,16 @@ final readonly class PdoPolicyEpoch
                 throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
             }
             $epochs = [];
+            $sourceRows = $this->rowsById(
+                'SELECT s.id,s.source_policy_epoch,s.lifecycle_epoch FROM ' . $this->db->table('sources') . ' s WHERE s.tenant_id=? AND s.lifecycle_state=\'active\'
+                AND s.id IN (SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))
+                AND EXISTS (SELECT 1 FROM ' . $this->db->table('source_memberships') . ' m WHERE m.tenant_id=s.tenant_id AND m.source_id=s.id AND m.kb_id=?)
+                AND NOT EXISTS (SELECT 1 FROM ' . $this->db->table('tombstones') . ' t WHERE t.tenant_id=s.tenant_id AND t.source_id=s.id)',
+                array_keys($sources),
+                [$this->tenant->value, $scope->kbId->value],
+            );
             foreach ($sources as $source) {
-                $row = $this->db->row(
-                    'SELECT s.source_policy_epoch,s.lifecycle_epoch FROM ' . $this->db->table('sources') . ' s WHERE s.tenant_id=? AND s.id=? AND s.lifecycle_state=\'active\'
-                    AND EXISTS (SELECT 1 FROM ' . $this->db->table('source_memberships') . ' m WHERE m.tenant_id=s.tenant_id AND m.source_id=s.id AND m.kb_id=?)
-                    AND NOT EXISTS (SELECT 1 FROM ' . $this->db->table('tombstones') . ' t WHERE t.tenant_id=s.tenant_id AND t.source_id=s.id)',
-                    [$this->tenant->value, $source->value, $scope->kbId->value],
-                );
+                $row = $sourceRows[$source->value] ?? null;
                 if ($row === null) {
                     throw new DomainFailure(Outcome::Denied, 'source_unusable');
                 }
@@ -83,12 +86,14 @@ final readonly class PdoPolicyEpoch
                     'lifecycleEpoch' => (string) $row['lifecycle_epoch'],
                 ]);
             }
+            $versionRows = $this->rowsById(
+                'SELECT v.id,v.source_id,v.source_digest,st.usability FROM ' . $this->db->table('source_versions') . ' v JOIN ' . $this->db->table('source_version_state') .
+                ' st ON st.tenant_id=v.tenant_id AND st.id=v.id WHERE v.tenant_id=? AND v.id IN (SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))',
+                array_map(static fn (SourceVersionRef $ref): string => $ref->sourceVersionId->value, $versions),
+                [$this->tenant->value],
+            );
             foreach ($versions as $ref) {
-                $row = $this->db->row(
-                    'SELECT v.source_id,v.source_digest,st.usability FROM ' . $this->db->table('source_versions') . ' v JOIN ' . $this->db->table('source_version_state') .
-                    ' st ON st.tenant_id=v.tenant_id AND st.id=v.id WHERE v.tenant_id=? AND v.id=?',
-                    [$this->tenant->value, $ref->sourceVersionId->value],
-                );
+                $row = $versionRows[$ref->sourceVersionId->value] ?? null;
                 if ($row === null || $row['source_id'] !== $ref->sourceId->value || $row['source_digest'] !== $ref->sourceDigest->value) {
                     throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict');
                 }
@@ -167,5 +172,24 @@ final readonly class PdoPolicyEpoch
         if ($count !== 1) {
             throw new DomainFailure(Outcome::Denied, 'POLICY_CHANGED');
         }
+    }
+
+    /**
+     * @param list<string> $ids
+     * @param list<string> $params Parameters before the id list, then any that follow it.
+     * @return array<string, array<string, mixed>>
+     */
+    private function rowsById(string $sql, array $ids, array $params): array
+    {
+        if ($ids === []) {
+            return [];
+        }
+        $bound = $params;
+        array_splice($bound, 1, 0, [json_encode(array_values($ids), JSON_THROW_ON_ERROR)]);
+        $rows = [];
+        foreach ($this->db->execute($sql, $bound)->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+            $rows[$row['id']] = $row;
+        }
+        return $rows;
     }
 }

@@ -31,7 +31,8 @@ def parse(source, envelope):
         while True:
             allocations.append(bytearray(16 << 20))
     if mode == "quiet":
-        time.sleep(0.5)
+        # Longer than the supervisor poll so a silent worker is joined, not treated as already finished.
+        time.sleep(0.05)
     if mode == "flood":
         while True:
             os.write(1, b"DOCUMENT_SECRET_CANARY" * 4096)

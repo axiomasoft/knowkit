@@ -35,10 +35,10 @@ final readonly class CanonicalReads
             throw new D\DomainFailure(D\Outcome::Incompatible, 'digest_mismatch');
         }
         $remaining = 8388608 - strlen($document->canonical());
-        if ($remaining < 1) {
+        if ($remaining < 0 || ($remaining < 1 && !in_array($request->target->kind, ['quote', 'page', 'table'], true))) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
         }
-        [$body, $object] = $this->body($record, $request->target, $document, $map, $quote, min($request->maxBytes, $remaining));
+        [$body, $object] = $this->body($record, $request->target, $document, $map, $quote, min($request->maxBytes, max($remaining, 1)));
         $this->requireLimits($body, $request);
 
         return [$body, $object];
@@ -190,7 +190,14 @@ final readonly class CanonicalReads
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'tokenizer_required');
             }
             $this->tokenizer->capabilities()->requireExact($limits->tokenizer);
-            if (!$text || $this->tokenizer->count($body->bytes(), $limits->tokenizer) > $limits->maxTokens) {
+            if (!$text) {
+                throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
+            }
+            $count = $this->tokenizer->count($body->bytes(), $limits->tokenizer);
+            if ($count < 0) {
+                throw new D\DomainFailure(D\Outcome::Incompatible, 'adapter_contract_violation');
+            }
+            if ($count > $limits->maxTokens) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
             }
         }

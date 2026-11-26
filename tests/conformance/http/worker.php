@@ -52,7 +52,7 @@ function serve(Host $host): void
                 } else {
                     ++$host->requests;
                     $response = $host->server->handle(new H\Request(method: $method, target: $target, headers: $headers, body: $body));
-                    $response = fault(response: $response, kind: $host->wireFault);
+                    $response = fault(response: $response, kind: $host->wireFault, stream: $socket);
                 }
                 $output = 'HTTP/1.1 ' . $response->status . " Fixture\r\nConnection: close\r\nContent-Length: " . strlen($response->body) . "\r\n";
                 foreach ($response->headers as $name => $value) {
@@ -75,10 +75,28 @@ function serve(Host $host): void
     }
 }
 
-function fault(H\Response $response, string $kind): H\Response
+function fault(H\Response $response, string $kind, mixed $stream): H\Response
 {
     if ($kind === 'slow') {
-        usleep(200000);
+        // The client deadline is far below a fixed 200ms hold. Wait until that peer closes, and cap
+        // the wait so a missed EOF cannot exceed the caller's one-second bound. A non-blocking
+        // fread of '' is not EOF.
+        stream_set_blocking($stream, false);
+        $deadline = hrtime(true) + 250_000_000;
+        while (!feof($stream) && hrtime(true) < $deadline) {
+            $read = [$stream];
+            $write = null;
+            $except = null;
+            $left = $deadline - hrtime(true);
+            $ready = @stream_select($read, $write, $except, intdiv($left, 1_000_000_000), max(0, intdiv($left % 1_000_000_000, 1_000)));
+            if ($ready === false) {
+                break;
+            }
+            if ($ready > 0 && (@fread($stream, 8192) === false || feof($stream))) {
+                break;
+            }
+        }
+        stream_set_blocking($stream, true);
     }
     return match ($kind) {
         'redirect' => new H\Response(status: 307, body: '', headers: ['Location' => '/v1/search']),

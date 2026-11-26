@@ -167,8 +167,15 @@ final class TextDelivery
         $set = (new StructuralChunker($revision, $documentId))->build($document, $chunker);
         $this->persist($lease, $documentId, $document, $set);
         $inventory = new ResourceInventory($r->host->db);
+        $resources = [];
+        foreach ($inventory->resources($scope->tenantId, [$set]) as $resource) {
+            if (!$resource instanceof JsonObject) {
+                throw new D\DomainFailure(D\Outcome::Unavailable, 'resource_inventory_invalid');
+            }
+            $resources[] = $resource;
+        }
         $candidate = (new Builder($r->host->validator))->build($scope, new D\GenerationId($generation), [$set],
-            $inventory->resources($scope->tenantId, [$set]), $inventory->coverage($scope->tenantId, [$set]));
+            $resources, $inventory->coverage($scope->tenantId, [$set]));
         $request = new D\ActivationRequest($lease, $candidate, new D\Decimal('0'),
             new D\IdempotencyKey('candidate-' . $generation));
         [$staging, $index] = $this->publicationServices($request);

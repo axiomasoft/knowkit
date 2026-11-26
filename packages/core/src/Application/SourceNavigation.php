@@ -12,6 +12,7 @@ use KnowKit\Application\SourceNavigation\CanonicalDocument;
 use KnowKit\Application\SourceNavigation\QuoteLocator;
 use KnowKit\Application\SourceNavigation\TextQuoteSelector;
 use KnowKit\Domain as D;
+use KnowKit\Domain\Contract\ContractViolation;
 use KnowKit\Domain\Navigation as N;
 use KnowKit\Port as P;
 
@@ -139,7 +140,13 @@ final readonly class SourceNavigation
 
     private function failure(\Throwable $error): D\DomainFailure
     {
-        return $error instanceof D\DomainFailure ? $error
-            : new D\DomainFailure(D\Outcome::Unavailable, 'navigation_unavailable');
+        if ($error instanceof D\DomainFailure) {
+            return $error;
+        }
+        if ($error instanceof ContractViolation) {
+            return new D\DomainFailure(D\Outcome::Incompatible, $error->errorCode);
+        }
+
+        return new D\DomainFailure(D\Outcome::Unavailable, 'navigation_unavailable');
     }
 }

@@ -33,8 +33,9 @@ final readonly class Disclosure implements Disclose
         $data = $outcome->result->data;
         if ($data instanceof D\EvidenceSet) {
             $telemetry = $telemetry->withUsage($data->usageRef());
-        }
-        if ($data instanceof D\DisclosureReplay) {
+        } elseif ($data instanceof D\DisclosureReplay) {
+            $telemetry = $telemetry->withUsage($data->usageRef);
+        } elseif ($data instanceof D\Navigation\UnitDisclosure) {
             $telemetry = $telemetry->withUsage($data->usageRef);
         }
         $telemetry->emit(

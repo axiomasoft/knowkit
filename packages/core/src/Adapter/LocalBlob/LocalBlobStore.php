@@ -229,6 +229,9 @@ final readonly class LocalBlobStore implements BlobStore
         $this->scoped($cursor->tenantId);
         foreach ($this->fs->inventory($this->tenant->value) as $key) {
             $parts = explode('/', $key);
+            if (preg_match('/\A[0-7][0-9A-HJKMNP-TV-Z]{25}\z/D', $parts[1] ?? '') !== 1) {
+                throw new DomainFailure(Outcome::Denied, 'unsafe_blob_path');
+            }
             $source = new SourceId($parts[1]);
             $staging = null;
             if (($parts[2] ?? '') === 'staging' && count($parts) === 4 && preg_match('/\A[0-7][0-9A-HJKMNP-TV-Z]{25}\z/D', $parts[3]) === 1) {

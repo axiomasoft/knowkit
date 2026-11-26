@@ -26,12 +26,17 @@ final class FixtureTest extends TestCase
         self::assertSame('P4.6', $receipt['item']);
         self::assertCount(6, $receipt['sources']);
         foreach ($receipt['sources'] as $source) {
-            $path = '.swissknifeman/orch/donor-cache/' . $source['donor'] . '/' . $source['path'];
-            self::assertSame($source['sha256'], hash_file('sha256', $qa->file($path)));
             self::assertSame($source['sha256'], $source['observedSha256']);
+            // Donor bytes live in the gitignored local cache and are not part of the public tree.
+            self::assertSame(1, preg_match('/\A[0-9a-f]{64}\z/', $source['sha256']));
+            self::assertStringContainsString('/' . $source['pin'] . '/' . $source['path'], $source['sourceUrl']);
             self::assertNotEmpty($source['reason']);
             self::assertNotEmpty($source['license']);
+            self::assertContains($source['decision'], ['adapt', 'reject', 'reuse-as-is', 'dependency']);
             self::assertFileExists($qa->file($source['qualificationRef']));
+            foreach ($source['targetPaths'] as $path) {
+                self::assertFileExists($qa->root . '/' . $path);
+            }
         }
         $manifest = $qa->json('tests/fixtures/check-groups/reading-navigation.json');
         $qa->fixtures($manifest);

@@ -15,6 +15,7 @@ use KnowKit\Answer\Domain as A;
 use KnowKit\Chatom\ChatomReplyBoundary;
 use KnowKit\Chatom\ChatomReplyMapper;
 use KnowKit\Domain\DomainFailure;
+use KnowKit\Tests\Chatom\Contracts\Fixture;
 use KnowKit\Tooling\Qa;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -292,11 +293,11 @@ final class HandlerTest extends TestCase
         $manifest = $qa->json('tests/fixtures/check-groups/chatom-handler.json');
         $qa->fixtures($manifest);
         self::assertSame(HandlerFixture::corpus()['requiredCaseIds'], $manifest['requiredCaseIds']);
+        require_once __DIR__ . '/CitationTest.php';
         $cases = [];
         foreach ($manifest['testCaseMap'] as $methods) {
             foreach ($methods as $method) {
                 [$class, $name] = explode('::', $method);
-                require_once __DIR__ . '/CitationTest.php';
                 self::assertTrue(method_exists(object_or_class: $class, method: $name));
                 $cases[$method] = ['id' => $method, 'status' => 'passed'];
             }
@@ -320,7 +321,7 @@ final class HandlerTest extends TestCase
         }
         $receipt = $qa->json('tests/chatom/handler/evidence/P7.5-reuse.json');
         foreach ($receipt['sources'] as $source) {
-            self::assertSame($source['sha256'], hash_file('sha256', $qa->file('.swissknifeman/orch/donor-cache/' . $source['donor'] . '/' . $source['path'])));
+            self::assertSame($source['sha256'], Fixture::inspectedSha256(donor: $source['donor'], relative: $source['path'], sourceUrl: $source['sourceUrl']));
         }
         $manifest['fixtures'][0]['sha256'] = str_repeat('0', 64);
         $this->expectException(RuntimeException::class);

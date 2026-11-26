@@ -40,6 +40,14 @@ final class InMemorySelections implements SelectionStore
         if ($record === null || !$record->context->scope->hostScopeHash->equals($scope->hostScopeHash)) {
             return null;
         }
+        $stored = $record->context->scope;
+        if (!$scope->kbId->equals($stored->kbId) || !$scope->actorId->equals($stored->actorId)
+            || $scope->purpose !== $stored->purpose) {
+            throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
+        }
+        if ($scope->policyEpoch->value !== $stored->policyEpoch->value) {
+            throw new DomainFailure(Outcome::Denied, 'POLICY_CHANGED');
+        }
 
         return $record;
     }

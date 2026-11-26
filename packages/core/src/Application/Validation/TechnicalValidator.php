@@ -21,7 +21,8 @@ final readonly class TechnicalValidator implements ExtractionValidator
 
     public function validate(IrDocument $document, SourceVersionRef $source): ValidationReport
     {
-        if (strlen($document->canonical()) > 67108864) {
+        $canonical = $document->canonical();
+        if (strlen($canonical) > 67108864) {
             return new ValidationReport('invalid', ['document_too_large']);
         }
         $input = $this->input;
@@ -44,7 +45,7 @@ final readonly class TechnicalValidator implements ExtractionValidator
         }
         if (
             !hash_equals($source->sourceDigest->value, hash('sha256', $input->source->bytes()))
-            || !hash_equals($revision->irDigest->value, hash('sha256', $document->canonical()))
+            || !hash_equals($revision->irDigest->value, hash('sha256', $canonical))
         ) {
             $errors[] = 'digest_mismatch';
         }

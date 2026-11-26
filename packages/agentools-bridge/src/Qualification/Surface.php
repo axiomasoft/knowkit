@@ -15,8 +15,13 @@ final class Surface
     {
         foreach ($definitions as $name => $definition) {
             $reflection = new ReflectionClass($classMap[$name] ?? $name);
-            if ($reflection->isInterface() !== ($definition['kind'] === 'interface')
-                || $reflection->isEnum() !== ($definition['kind'] === 'enum')) {
+            $kind = match (true) {
+                $reflection->isInterface() => 'interface',
+                $reflection->isEnum() => 'enum',
+                $reflection->isTrait() => 'trait',
+                default => 'class',
+            };
+            if ($kind !== ($definition['kind'] ?? null)) {
                 throw new RuntimeException('Interface kind mismatch: ' . $name);
             }
             if ($reflection->isInterface()
@@ -43,18 +48,22 @@ final class Surface
 
     private static function assertMethod(ReflectionMethod $method, array $signature, array $classMap): void
     {
+        $return = $method->getReturnType();
         if (!$method->isPublic() || $method->isStatic()
-            || self::type((string) $method->getReturnType(), $classMap) !== $signature['returnType']
+            || ($return === null ? '' : self::type((string) $return, $classMap)) !== $signature['returnType']
             || count($method->getParameters()) !== count($signature['parameters'])) {
             throw new RuntimeException('Method signature mismatch: ' . $method->getName());
         }
         foreach ($method->getParameters() as $index => $parameter) {
             $expected = $signature['parameters'][$index];
+            $parameterType = $parameter->getType();
+            $hasDefault = $parameter->isDefaultValueAvailable();
             if ($parameter->getName() !== $expected['name']
-                || self::type((string) $parameter->getType(), $classMap) !== $expected['type']
+                || ($parameterType === null ? '' : self::type((string) $parameterType, $classMap)) !== $expected['type']
                 || $parameter->isOptional() !== $expected['optional']
                 || $parameter->isPassedByReference() || $parameter->isVariadic()
-                || ($parameter->isDefaultValueAvailable() && $parameter->getDefaultValue() !== $expected['default'])) {
+                || $hasDefault !== array_key_exists('default', $expected)
+                || ($hasDefault && $parameter->getDefaultValue() !== $expected['default'])) {
                 throw new RuntimeException('Parameter signature mismatch: ' . $parameter->getName());
             }
         }
@@ -79,8 +88,39 @@ final class Surface
 
     private static function type(string $type, array $classMap): string
     {
-        $name = array_search($type, $classMap, true);
+        $nullable = str_starts_with($type, '?');
+        $body = $nullable ? substr($type, 1) : $type;
+        $parts = preg_split('/([&|])/', $body, -1, PREG_SPLIT_DELIM_CAPTURE);
+        if ($parts === false) {
+            return $type;
+        }
+        $mapped = '';
+        foreach ($parts as $part) {
+            if ($part === '&' || $part === '|') {
+                $mapped .= $part;
+                continue;
+            }
+            $mapped .= self::mappedName($part, $classMap);
+        }
 
-        return is_string($name) ? $name : $type;
+        return ($nullable ? '?' : '') . $mapped;
+    }
+
+    /** Map a reflected class, including a leading backslash, onto the contract name. */
+    private static function mappedName(string $part, array $classMap): string
+    {
+        $candidates = [$part];
+        $stripped = ltrim($part, '\\');
+        if ($stripped !== $part) {
+            $candidates[] = $stripped;
+        }
+        foreach ($candidates as $candidate) {
+            $name = array_search($candidate, $classMap, true);
+            if (is_string($name)) {
+                return $name;
+            }
+        }
+
+        return $part;
     }
 }

@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace KnowKit\Laravel;
 
 use Illuminate\Contracts\Container\Container;
+use KnowKit\Domain\AdapterId;
 use KnowKit\Domain\AdapterKind;
+use KnowKit\Domain\DomainFailure;
+use KnowKit\Domain\Outcome;
 use KnowKit\Port;
 use KnowKit\Registry\AdapterRegistry;
 use KnowKit\Registry\HostProfile;
@@ -17,7 +20,11 @@ final class AdapterBindings
     {
         $effective = $profile->effectiveProfile();
         foreach ($effective->adapterBindings as $kind => $id) {
-            $contract = self::contract(AdapterKind::from($kind));
+            $port = is_string($kind) ? AdapterKind::tryFrom($kind) : null;
+            if ($port === null || !$id instanceof AdapterId) {
+                throw new DomainFailure(outcome: Outcome::Incompatible, errorCode: 'host_profile_invalid');
+            }
+            $contract = self::contract($port);
             $container->singleton(abstract: $contract, concrete: static fn (Container $app): object =>
                 $app->make(AdapterRegistry::class)->resolve(id: $id, profile: $effective));
         }

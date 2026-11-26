@@ -21,10 +21,11 @@ python/knowkit-worker/.venv/bin/python deploy/worker/build_runtime.py --destinat
 The physical venv binaries keep the QA runner's repository containment check
 valid. The build requires host libseccomp and copies only Python, its ELF dependencies, the locked runtime dependency
 closure (including transitive extras), four canonical schemas and a seccomp filter.
-PDF and OCR extensions reuse that dependency closure. Wheel libraries already
-inside the runtime are not duplicated under build-machine paths. Unresolved
-native dependencies fail the build unless their exact library name is already
-bundled for a wheel that preloads it, such as torchvision/torch.
+A dependency extra is not also evaluated as the base extra. PDF and OCR extensions reuse that dependency closure. Wheel libraries already
+inside the runtime are not duplicated under build-machine paths. `ldd` runs with `LC_ALL=C` and without host `LD_LIBRARY_PATH` or `LD_PRELOAD`, and each host library path is copied once.
+Unresolved native dependencies fail the build unless their exact library name is already
+bundled for a wheel that preloads it, such as torchvision/torch. A non-zero `ldd` status is accepted only in that bundled case.
+Stdlib symlinks that resolve outside the stdlib, including host `sitecustomize.py`, are omitted; in-tree file symlinks are materialized as regular files. Static archives are not runtime dependencies and are not copied.
 `bom.json` binds their
 SHA-256 and the lock digest. Its buildInputs bind the base, PDF and OCR build
 scripts so test caches reject artifacts from an older sandbox policy. It contains
@@ -44,8 +45,8 @@ bytes. Staging is private, input files become read-only, and argv is always
 `knowkit-worker run --envelope /input/job.json` inside bubblewrap. The launcher
 joins a per-job cgroup before bubblewrap runs. Network namespaces and seccomp
 deny networking; no home, database, metadata credentials or project is mounted.
-Before exec, the trusted launcher closes inherited host descriptors except
-stdio and FD 3 carrying the supplied seccomp filter. Bubblewrap owns that FD,
+Before exec, the trusted launcher joins the cgroup by writing `cgroup.procs` without creating a missing file, then closes inherited host descriptors except
+stdio and FD 3 carrying the supplied seccomp filter, using `close_range` from FD 4 through the current open-file limit. Negative CPU or file-size limits are refused because they mean unlimited. Bubblewrap is executed with an absolute path and receives only `PATH`, `LANG`, `LC_ALL`, `LC_CTYPE` and `LC_MESSAGES` when those variables are already set; other launcher environment variables are not inherited. `KNOWKIT_SANDBOX_NOFILE` overrides the open-file rlimit when set in the launcher process; the default remains 128. The PHP supervisor starts the launcher with only `LANG` and `PATH`, so production jobs keep 128. Bubblewrap owns FD 3,
 reads and closes it, then installs the filter before executing the worker.
 See the [bubblewrap 0.9.0 implementation](https://github.com/containers/bubblewrap/blob/v0.9.0/bubblewrap.c#L246-L283). The outer cgroup launcher must not close it before bubblewrap starts.
 The denylist also blocks io_uring setup/enter/register and clone3. The clone3

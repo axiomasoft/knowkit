@@ -56,7 +56,11 @@ final class Jcs
     private static function object(array $members): string
     {
         $keys = array_map(static fn(int|string $key): string => (string) $key, array_keys($members));
-        usort($keys, static fn(string $left, string $right): int => strcmp(self::utf16($left), self::utf16($right)));
+        $encoded = [];
+        foreach ($keys as $key) {
+            $encoded[$key] = self::utf16($key);
+        }
+        usort($keys, static fn(string $left, string $right): int => strcmp($encoded[$left], $encoded[$right]));
         $parts = [];
         foreach ($keys as $key) {
             $parts[] = self::string($key) . ':' . self::canonicalize($members[$key]);

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace KnowKit\Tests\Chatom\Qualification;
 
 use KnowKit\Chatom\KnowKitDurableAgentHandler;
+use KnowKit\Tests\Chatom\Contracts\Fixture;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -41,14 +42,13 @@ final class PinsTest extends TestCase
 
     public function testReuseReceiptBindsEveryInspectedDonorAndNativeTree(): void
     {
-        $root = dirname(__DIR__, 3);
         $receipt = json_decode(file_get_contents(__DIR__ . '/evidence/P7.6-reuse.json'), true, 64, JSON_THROW_ON_ERROR);
         self::assertSame('P7.6', $receipt['item']);
         self::assertCount(3, $receipt['sources']);
         foreach ($receipt['sources'] as $source) {
             self::assertSame(
                 $source['sha256'],
-                hash_file('sha256', $root . '/.swissknifeman/orch/donor-cache/' . $source['donor'] . '/' . $source['path']),
+                Fixture::inspectedSha256(donor: $source['donor'], relative: $source['path'], sourceUrl: $source['sourceUrl']),
             );
             self::assertSame($source['sha256'], $source['observedSha256']);
             self::assertContains($source['decision'], ['adapt', 'reject']);

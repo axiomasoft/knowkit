@@ -21,4 +21,9 @@ shutil.copy2(repo / "tests/worker/protocol/fixture_parser.py",
     "from dataclasses import replace\n"
     "qualified = replace(PROFILE, capabilities=('parser.text',))\n"
     "raise SystemExit(main(profiles={**PROFILES, PROFILE.id: qualified}))\n")
+spec = importlib.util.spec_from_file_location(
+    "protocol_fixture_build", repo / "tests/worker/protocol/build_fixture.py")
+protocol_build = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(protocol_build)
+protocol_build.prune_unused_stdlib(root)
 builder.write_bom(root, repo)

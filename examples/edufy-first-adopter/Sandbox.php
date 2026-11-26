@@ -60,7 +60,11 @@ final class Sandbox
 
     public static function inputs(string $profile, Audience $audience = Audience::StudentSafe): HostScope
     {
-        $profiles = json_decode((string) file_get_contents(dirname(__DIR__, 2) . '/tests/fixtures/adoption/edufy/v1/profiles.json'), true, 32, JSON_THROW_ON_ERROR);
+        $profileJson = file_get_contents(dirname(__DIR__, 2) . '/tests/fixtures/adoption/edufy/v1/profiles.json');
+        if (!is_string($profileJson)) {
+            throw new \RuntimeException('Fixture profiles unreadable');
+        }
+        $profiles = json_decode($profileJson, true, 32, JSON_THROW_ON_ERROR);
         $row = $profiles['profiles'][$profile] ?? throw new \InvalidArgumentException('Unknown fixture profile');
 
         return new HostScope($profile, $row['tenant'], 'actor:1', null, $row['subject'], $row['learner'],
@@ -72,7 +76,11 @@ final class Sandbox
     {
         $schemas = [];
         foreach (glob(dirname(__DIR__, 2) . '/schemas/*.schema.json') ?: [] as $path) {
-            $wire = StrictJson::decode((string) file_get_contents($path), 4194304);
+            $bytes = file_get_contents($path);
+            if (!is_string($bytes)) {
+                throw new \RuntimeException('Schema unreadable');
+            }
+            $wire = StrictJson::decode($bytes, 4194304);
             $schemas[$wire->get('$id')] = $wire;
         }
         $inputs = self::inputs($profile, $audience);

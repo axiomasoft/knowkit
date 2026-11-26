@@ -74,8 +74,10 @@ final class PackageTest extends TestCase
         self::assertCount(expectedCount: 3, haystack: $receipt['sources']);
 
         foreach ($receipt['sources'] as $source) {
-            $path = '.swissknifeman/orch/donor-cache/' . $source['donor'] . '/' . $source['path'];
-            self::assertSame(expected: $source['sha256'], actual: hash_file('sha256', $qa->file($path)));
+            self::assertSame(
+                expected: $source['sha256'],
+                actual: Fixture::inspectedSha256(donor: $source['donor'], relative: $source['path'], sourceUrl: $source['sourceUrl']),
+            );
             self::assertSame(expected: $source['sha256'], actual: $source['observedSha256']);
             self::assertContains(needle: $source['decision'], haystack: ['adapt', 'reject']);
             self::assertNotEmpty($source['reason']);

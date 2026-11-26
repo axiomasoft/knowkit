@@ -1088,8 +1088,8 @@ def run_group(root, group=GROUP):
             command = [sys.executable, "-I", "-B", str(root / TEST_DIR / name),
                        "--report", str(report_path)]
             try:
-                child = subprocess.run(command, cwd=root, capture_output=True, text=True,
-                                       timeout=60, check=False)
+                # Bytes, not locale text: a child that prints non-UTF-8 must stay a JSON failure.
+                child = subprocess.run(command, cwd=root, capture_output=True, timeout=60, check=False)
             except subprocess.TimeoutExpired:
                 raise ContractError("nested check timed out: " + name) from None
             require(child.returncode == 0, "nested check failed: " + name

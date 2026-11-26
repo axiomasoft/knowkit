@@ -26,8 +26,9 @@ final readonly class QuoteLocator
         $needle = $mode === N\MatchMode::Exact ? $quote : $this->project($quote, $mode)->text;
         $locations = [];
         $count = 0;
+        $blocksByUnit = $this->blocksByUnit($document);
         foreach ($document->units as $unit) {
-            foreach ($this->matches($document, $unit, $selector, $mode, $needle) as $span) {
+            foreach ($this->matches($unit, $selector, $mode, $needle, $blocksByUnit) as $span) {
                 ++$count;
                 if (count($locations) < $limits->maxCandidates) {
                     $locations[] = $span;
@@ -48,9 +49,12 @@ final readonly class QuoteLocator
             normalizerFingerprint: $fingerprint, coverage: $document->coverage);
     }
 
-    /** @return iterable<D\TextLocator> */
-    private function matches(CanonicalDocument $document, N\CanonicalUnit $unit,
-        TextQuoteSelector $selector, N\MatchMode $mode, string $needle): iterable
+    /**
+     * @param array<string, list<N\CanonicalBlock>> $blocksByUnit
+     * @return iterable<D\TextLocator>
+     */
+    private function matches(N\CanonicalUnit $unit,
+        TextQuoteSelector $selector, N\MatchMode $mode, string $needle, array $blocksByUnit): iterable
     {
         $projection = null;
         $text = $unit->text();
@@ -74,7 +78,7 @@ final readonly class QuoteLocator
             if ($projection !== null && $this->project(substr($unit->text(), $start, $end - $start), $mode)->text !== $needle) {
                 continue;
             }
-            $span = $this->span($document, $unit, $start, $end);
+            $span = $this->span($unit, $start, $end, $blocksByUnit);
             if ($span !== null) {
                 $previous = $key;
                 yield $span;
@@ -122,9 +126,33 @@ final readonly class QuoteLocator
         return $this->normalizer;
     }
 
-    private function span(CanonicalDocument $document, N\CanonicalUnit $unit, int $start, int $end): ?D\TextLocator
+    /** @return array<string, list<N\CanonicalBlock>> */
+    private function blocksByUnit(CanonicalDocument $document): array
     {
+        $blocks = [];
         foreach ($document->blocks as $block) {
+            $seen = [];
+            foreach ($block->spans as $span) {
+                $wire = $span->locator->toWire();
+                $kind = $wire->get('kind');
+                $key = $kind . ':' . $wire->get($kind === 'page' ? 'pageId' : 'segmentId');
+                if (isset($seen[$key])) {
+                    continue;
+                }
+                $seen[$key] = true;
+                $blocks[$key][] = $block;
+            }
+        }
+
+        return $blocks;
+    }
+
+    /**
+     * @param array<string, list<N\CanonicalBlock>> $blocksByUnit
+     */
+    private function span(N\CanonicalUnit $unit, int $start, int $end, array $blocksByUnit): ?D\TextLocator
+    {
+        foreach ($blocksByUnit[$unit->ref->kind . ':' . $unit->ref->id->value] ?? [] as $block) {
             $span = $block->contains($unit, $start, $end);
             if ($span !== null) {
                 $span->slice($unit->text());

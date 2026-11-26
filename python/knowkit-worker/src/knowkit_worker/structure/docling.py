@@ -27,21 +27,24 @@ def map_table(item, pages: list[dict], metadata: list[dict], blocks: list[dict],
     block_id = f"block-{len(blocks) + 1}"
     cells = []
     spans = []
-    other_bytes = sum(len(p["text"].encode()) for p in pages) - len(page["text"].encode())
+    page_len = len(page["text"].encode())
+    other_bytes = sum(len(p["text"].encode()) for p in pages) - page_len
     for index, cell in enumerate(data.table_cells):
         if (cell.row_span != cell.end_row_offset_idx - cell.start_row_offset_idx
                 or cell.col_span != cell.end_col_offset_idx - cell.start_col_offset_idx):
             return False
         locators = []
         if cell.text:
-            start = len(page["text"].encode("utf-8"))
-            if other_bytes + len(page["text"].encode()) + len(cell.text.encode()) + 1 > max_bytes:
+            encoded = cell.text.encode()
+            start = page_len
+            if other_bytes + page_len + len(encoded) + 1 > max_bytes:
                 raise Refusal("output_limit")
             page["text"] += cell.text + "\n"
+            page_len += len(encoded) + 1
             geometry = bbox(cell.bbox.to_top_left_origin(height).as_tuple(), width, height)
             locators.append(dict(kind="page", blockId=block_id, pageId=page["pageId"],
                                  physicalNo=page["physicalNo"], printedLabel=page["printedLabel"],
-                                 byteStart=start, byteEnd=start + len(cell.text.encode()), bbox=geometry))
+                                 byteStart=start, byteEnd=start + len(encoded), bbox=geometry))
             spans.extend(locators)
         cells.append(Cell(f"{block_id}-cell-{index + 1}", cell.start_row_offset_idx,
                           cell.start_col_offset_idx, cell.row_span, cell.col_span,

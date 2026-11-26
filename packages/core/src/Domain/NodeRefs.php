@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace KnowKit\Domain;
 
-use KnowKit\Domain\Contract\Jcs;
-
 readonly class NodeRefs
 {
     /** @param list<ResourceRef> $refs */
@@ -14,7 +12,8 @@ readonly class NodeRefs
         $seen = [];
         foreach ($refs as $ref) {
             if (!$tenantId->equals($ref->tenantId)) { throw new DomainFailure(Outcome::Denied, 'scope_mismatch'); }
-            $key = Jcs::canonicalize($ref->toWire());
+            // Tenant is already equal; kind + id are the remaining wire identity. NUL blocks concatenation collisions.
+            $key = $ref->kind . "\0" . $ref->id->value;
             if (isset($seen[$key])) { throw new DomainFailure(Outcome::Incompatible, 'duplicate_identifier'); }
             $seen[$key] = true;
         }

@@ -263,10 +263,15 @@ final readonly class PdoCatalogRepository implements CatalogRepository
             $where = ' AND m.collection_id=?';
             $params[] = $filter->collectionId->value;
         }
-        $params[] = $after;
+        // Empty page token is not a ULID. A text cast of id cannot use the primary key.
+        $idPredicate = '';
+        if ($after !== '') {
+            $idPredicate = ' AND s.id>CAST(? AS "' . $this->db->schema . '".kk_ulid)';
+            $params[] = $after;
+        }
         $rows = $this->db->execute(
             'SELECT s.* FROM ' . $this->table('sources') . ' s WHERE s.tenant_id=? AND EXISTS (SELECT 1 FROM ' .
-            $this->table('source_memberships') . ' m WHERE m.tenant_id=s.tenant_id AND m.source_id=s.id AND m.kb_id=?' . $where . ') AND s.id::text>?
+            $this->table('source_memberships') . ' m WHERE m.tenant_id=s.tenant_id AND m.source_id=s.id AND m.kb_id=?' . $where . ')' . $idPredicate . '
             ORDER BY s.id LIMIT ' . ($cursor->limit + 1),
             $params,
         )->fetchAll(\PDO::FETCH_ASSOC);

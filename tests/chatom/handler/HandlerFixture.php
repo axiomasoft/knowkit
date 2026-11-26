@@ -102,13 +102,20 @@ final class HandlerFixture implements ConversationAudience, ConversationBindingR
                 sender: ActorRef::of(type: 'user', id: 'learner'),
                 content: MessageDocument::fromPlainText($snapshotText),
                 position: 100,
-                revision: $this->messages[array_search('trigger', array_map(static fn (MessageView $m): string => $m->id->value, $this->messages))]->revision,
+                revision: $this->triggerRevision(),
             ),
             agent: ActorRef::of(type: 'bot', id: 'tutor'),
             handlerKey: 'knowkit.lesson',
             handlerVersion: 1,
             invocationKey: self::corpus()['invocationKey'],
         );
+    }
+
+    private function triggerRevision(): int
+    {
+        $index = array_search('trigger', array_map(static fn (MessageView $message): string => $message->id->value, $this->messages), true);
+
+        return is_int($index) ? $this->messages[$index]->revision : 1;
     }
 
     public function message(string $id, int $position, string $text, ?ActorRef $sender = null, int $revision = 1): MessageView

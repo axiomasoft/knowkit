@@ -104,7 +104,17 @@ final class Fixture implements ObservationSink, Clock, DiagnosticState, H\Authen
 
     public static function cases(): array
     {
-        return json_decode((string) file_get_contents(__DIR__ . '/fixtures/v1/cases.json'), true, 512, JSON_THROW_ON_ERROR);
+        static $cases;
+        $cases ??= json_decode((string) file_get_contents(__DIR__ . '/fixtures/v1/cases.json'), true, 512, JSON_THROW_ON_ERROR);
+
+        return $cases;
+    }
+
+    public static function validator(): \KnowKit\Domain\Contract\ContractValidator
+    {
+        static $validator;
+
+        return $validator ??= \KnowKit\Conformance\SchemaLoader::load(self::root() . '/schemas');
     }
 
     public static function disclosureRequest(): D\DisclosureRequest
@@ -120,7 +130,7 @@ final class Fixture implements ObservationSink, Clock, DiagnosticState, H\Authen
                     'chunkSetId' => self::id(15), 'chunkId' => self::id(16), 'chunkDigest' => str_repeat('d', 64),
                 ])],
             ]),
-            validator: \KnowKit\Conformance\SchemaLoader::load(self::root() . '/schemas'),
+            validator: self::validator(),
         );
     }
 
@@ -212,7 +222,7 @@ final class Fixture implements ObservationSink, Clock, DiagnosticState, H\Authen
 
         return new H\Server(
             authenticator: $this, application: $application, contract: new H\Contract(),
-            commands: new H\CommandFactory(validator: \KnowKit\Conformance\SchemaLoader::load(self::root() . '/schemas'), clock: $this),
+            commands: new H\CommandFactory(validator: self::validator(), clock: $this),
             ids: $this,
         );
     }

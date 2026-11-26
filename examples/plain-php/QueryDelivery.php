@@ -82,9 +82,13 @@ final class QueryDelivery
         $outcome = $service->retrieve($r->host->context(), $query, $snapshot->ref,
             $snapshot->generationIds[0], $r->host->eligible(), $r->host->binding());
         $data = $outcome->result->data;
-        $wire = $data instanceof D\Selection ? new JsonObject(['selection' => $data->toWire(),
-            'token' => $outcome->token->reveal(), 'readRequirements' => array_map(
-                static fn (D\ChunkRef $ref): JsonObject => $ref->toWire(), $outcome->readRequirements)]) : null;
+        $wire = null;
+        if ($data instanceof D\Selection) {
+            $token = $outcome->token ?? throw new D\DomainFailure(D\Outcome::Unavailable, 'selection_token_missing');
+            $wire = new JsonObject(['selection' => $data->toWire(),
+                'token' => $token->reveal(), 'readRequirements' => array_map(
+                    static fn (D\ChunkRef $ref): JsonObject => $ref->toWire(), $outcome->readRequirements)]);
+        }
 
         return Response::result($outcome->result, $wire);
     }
@@ -98,8 +102,8 @@ final class QueryDelivery
             ?? throw new D\DomainFailure(D\Outcome::Denied, 'selection_invalid');
         $request = new D\DisclosureRequest($command->input->without('token'), $host->validator);
         [$selections, $catalog] = $this->services();
-        $host->bindingOverride = $host->binding(array_map(
-            static fn (JsonObject $source): string => $source->get('sourceId'), $record->selection->policyBinding()->get('sources')));
+        $host->bindingOverride = $host->binding(array_values(array_map(
+            static fn (JsonObject $source): string => $source->get('sourceId'), $record->selection->policyBinding()->get('sources'))));
         $canonical = new CanonicalBuffer($catalog,
             new PdoCanonicalDocuments($host->db, $r->storage->blobs, $host->validator), $host);
         $service = new Disclosures($selections, $this->checks, $canonical, $this->usages, $host, $host->validator);

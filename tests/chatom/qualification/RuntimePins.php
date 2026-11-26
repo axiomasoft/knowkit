@@ -16,8 +16,9 @@ final class RuntimePins
     {
         $matrix ??= NativeHost::matrix();
         $root = dirname(__DIR__, 3);
+        $lock = $root . '/' . $matrix['composerLock']['path'];
         if (PHP_VERSION !== $matrix['phpVersion']
-            || hash_file('sha256', $root . '/' . $matrix['composerLock']['path']) !== $matrix['composerLock']['sha256']
+            || self::lockHash($lock) !== $matrix['composerLock']['sha256']
             || InstalledVersions::getReference('axiomasoft/chatom') !== $matrix['chatom']['reference']
             || InstalledVersions::getPrettyVersion('laravel/framework') !== $matrix['laravel']['version']
             || InstalledVersions::getReference('laravel/framework') !== $matrix['laravel']['reference']
@@ -26,8 +27,29 @@ final class RuntimePins
         }
     }
 
+    private static function lockHash(string $path): string
+    {
+        static $hashes = [];
+        if (isset($hashes[$path])) {
+            return $hashes[$path];
+        }
+        if (!is_file($path)) {
+            throw new RuntimeException('Exact installed PHP/Composer/Chatom/Laravel profile mismatch; no substitution');
+        }
+        $hash = hash_file('sha256', $path);
+        if ($hash === false) {
+            throw new RuntimeException('Exact installed PHP/Composer/Chatom/Laravel profile mismatch; no substitution');
+        }
+
+        return $hashes[$path] = $hash;
+    }
+
     public static function nativeTreeDigest(): string
     {
+        static $digest = null;
+        if (is_string($digest)) {
+            return $digest;
+        }
         $root = dirname(__DIR__, 3) . '/packages/chatom/vendor/axiomasoft/chatom/';
         $files = [];
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root, FilesystemIterator::SKIP_DOTS)) as $file) {
@@ -41,6 +63,6 @@ final class RuntimePins
             hash_update($hash, $relative . "\0" . hash_file('sha256', $path) . "\n");
         }
 
-        return hash_final($hash);
+        return $digest = hash_final($hash);
     }
 }

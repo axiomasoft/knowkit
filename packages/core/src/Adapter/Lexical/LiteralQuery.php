@@ -28,7 +28,13 @@ final readonly class LiteralQuery
         $this->lexical = preg_match('/[\p{L}\p{N}]/u', $remaining) === 1 ? trim($remaining) : '';
         $this->matchNone = $this->lexical === '' && $this->identifiers === [] && $this->phrases === [] && $this->literals === [];
     }
-    public static function normalize(string $text): string { return strtolower(trim(preg_replace('/\s+/u', ' ', $text) ?? '')); }
+    public static function normalize(string $text): string
+    {
+        // ASCII only. Locale strtolower can rewrite bytes inside UTF-8 under a non-C ctype.
+        $collapsed = trim(preg_replace('/\s+/u', ' ', $text) ?? '');
+
+        return strtr($collapsed, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz');
+    }
     /** @return list<string> */
     public static function identifiers(string $text): array
     {

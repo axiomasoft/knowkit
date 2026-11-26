@@ -203,7 +203,7 @@ final class HostProfile
             foreach ($value as $child) {
                 self::safe($child);
             }
-        } elseif (is_string($value) && preg_match('~^(?:/|\\\\|[A-Za-z]:|\x7e/)|https?://[^/]*@~', $value) === 1) {
+        } elseif (is_string($value) && preg_match('~^(?:/|\\\\|[A-Za-z]:|\x7e/|(?:file|php|phar|expect|glob|data|zip)://)|https?://[^/]*@~i', $value) === 1) {
             throw new DomainFailure(Outcome::Incompatible, 'unsafe_profile_setting');
         }
     }

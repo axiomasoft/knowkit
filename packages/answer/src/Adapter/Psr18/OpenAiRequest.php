@@ -27,18 +27,28 @@ final class OpenAiRequest
             'n' => 1,
         ];
         $settings = $binding->settings;
+        // Float json_encode rewrites pinned decimals (0.30 -> 0.3, 0.00000001 -> 1.0e-8).
+        $numbers = [];
         foreach (['temperature' => $settings->temperature, 'top_p' => $settings->topP] as $key => $decimal) {
             if ($decimal !== null) {
-                $body[$key] = (float) $decimal;
+                $numbers[] = '"' . $key . '":' . $decimal;
             }
         }
+        $tail = [];
         if ($settings->seed !== null) {
-            $body['seed'] = $settings->seed;
+            $tail['seed'] = $settings->seed;
         }
         if ($settings->stop !== []) {
-            $body['stop'] = $settings->stop;
+            $tail['stop'] = $settings->stop;
         }
-        $bytes = json_encode($body, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        $flags = JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE;
+        $head = json_encode($body, $flags);
+        $extra = $numbers;
+        if ($tail !== []) {
+            $encodedTail = json_encode($tail, $flags);
+            $extra[] = substr($encodedTail, 1, -1);
+        }
+        $bytes = $extra === [] ? $head : substr($head, 0, -1) . ',' . implode(',', $extra) . '}';
         A\Guard::utf8($bytes, 32768, false);
 
         return $bytes;

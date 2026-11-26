@@ -40,12 +40,14 @@ final readonly class OcrMetadata
         if ($block->get('origin') !== 'ocr' || $block->get('provenance')->get('kind') !== 'verbatim') {
             throw new DomainFailure(Outcome::Incompatible, 'invalid_ocr_provenance');
         }
+        $assets = $document->assets();
+        $references = $block->get('provenance')->get('supportingRefs');
         foreach ($block->get('spans') as $span) {
             if ($span->get('kind') !== 'page' || $span->get('physicalNo') !== $metadata->physicalNo
                 || !$span->has('bbox')) {
                 throw new DomainFailure(Outcome::Incompatible, 'invalid_ocr_locator');
             }
-            self::requirePreview($document, $block->get('provenance')->get('supportingRefs'), $span->get('pageId'));
+            self::requirePreview($assets, $references, $span->get('pageId'));
         }
         if ($block->get('spans') === []) {
             throw new DomainFailure(Outcome::Incompatible, 'invalid_ocr_locator');
@@ -54,10 +56,13 @@ final readonly class OcrMetadata
         return $metadata;
     }
 
-    /** @param list<string> $references */
-    private static function requirePreview(IrDocument $document, array $references, string $pageId): void
+    /**
+     * @param list<\KnowKit\Domain\Contract\JsonObject> $assets
+     * @param list<string> $references
+     */
+    private static function requirePreview(array $assets, array $references, string $pageId): void
     {
-        foreach ($document->assets() as $asset) {
+        foreach ($assets as $asset) {
             if ($asset->get('pageId') === $pageId && in_array($asset->get('assetId'), $references, true)
                 && $asset->get('mediaType') === 'image/png') {
                 return;

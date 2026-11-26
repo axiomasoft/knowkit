@@ -16,6 +16,11 @@ final readonly class TextComposition
         private Closure $legacyCompiler,
         private array $evidenceContributors = [],
     ) {
+        foreach ($this->evidenceContributors as $contributor) {
+            if (!$contributor instanceof EvidenceContextContributor) {
+                throw new RuntimeException('Typed evidence contributors required');
+            }
+        }
     }
 
     public function compile(
@@ -28,7 +33,7 @@ final readonly class TextComposition
         if ($request->hostScopeHash !== Contract::hostScopeHash($context)) {
             throw new RuntimeException('Trusted hostScopeHash mismatch');
         }
-        $bytes = ($this->legacyCompiler)();
+        // Contributors, bounds, and the compilation recheck precede native buildPlan.
         $contributions = [];
         foreach ($this->evidenceContributors as $contributor) {
             $contribution = $contributor->collect(context: $context, input: $input, request: $request);
@@ -39,16 +44,30 @@ final readonly class TextComposition
         }
         self::assertBounds(contributions: $contributions, request: $request, profile: $profile);
         $compiled = new CompiledEvidence(contributions: $contributions, authorities: $authorities);
-        $compiled->authorize(context: $context, stage: BoundaryStage::Compilation);
         $compiled->dependencies();
-        if ($contributions !== []) {
-            $wire = json_decode($bytes, associative: true, flags: JSON_THROW_ON_ERROR);
-            $wire['messages'][0]['content'] .= $compiled->modelText();
-            $bytes = json_encode($wire, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
-        }
+        $compiled->authorize(context: $context, stage: BoundaryStage::Compilation);
+        $bytes = self::withModelText(($this->legacyCompiler)(), $compiled->modelText());
 
         return ['fixture' => true, 'qualificationTier' => 'contract-scripted', 'upstream_seam' => 'pending',
             'requestBytes' => $bytes, 'requestHash' => hash('sha256', $bytes), 'compiled' => $compiled];
+    }
+
+    /** Append model text without turning JSON objects into lists. */
+    private static function withModelText(string $bytes, string $modelText): string
+    {
+        if ($modelText === '') {
+            return $bytes;
+        }
+        $wire = json_decode($bytes, false, 512, JSON_THROW_ON_ERROR);
+        if (!$wire instanceof \stdClass
+            || !isset($wire->messages[0])
+            || !is_object($wire->messages[0])
+            || !is_string($wire->messages[0]->content ?? null)) {
+            throw new RuntimeException('Legacy request layout missing messages');
+        }
+        $wire->messages[0]->content .= $modelText;
+
+        return json_encode($wire, JSON_THROW_ON_ERROR | JSON_UNESCAPED_SLASHES);
     }
 
     private static function assertBounds(array $contributions, EvidenceContextRequest $request, EffectiveProfile $profile): void

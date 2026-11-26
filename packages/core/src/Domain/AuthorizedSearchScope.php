@@ -8,10 +8,20 @@ use KnowKit\Domain\Contract\JsonObject;
 /** Materialized before backend LIMIT. eligibleVersions already intersects host/KB/collection/purpose rights. */
 final readonly class AuthorizedSearchScope
 {
+    /** @var array<string, true> */
+    private array $allowedVersionKeys;
+
     /** @param list<SourceVersionId> $allowedSourceVersionIds */
     private function __construct(public TenantId $tenantId, public KbId $kbId, public SnapshotId $snapshotId,
         public GenerationId $generationId, public array $allowedSourceVersionIds, public Sha256 $policyBindingDigest,
-        public ?Fingerprint $embeddingSpaceDigest, public Sha256 $hostScopeHash, public Fingerprint $scopeBindingDigest) {}
+        public ?Fingerprint $embeddingSpaceDigest, public Sha256 $hostScopeHash, public Fingerprint $scopeBindingDigest)
+    {
+        $keys = [];
+        foreach ($allowedSourceVersionIds as $id) {
+            $keys[$id->value] = true;
+        }
+        $this->allowedVersionKeys = $keys;
+    }
 
     /** @param list<SourceVersionId> $eligibleVersions */
     public static function materialize(Scope $scope, QueryGrant $grant, SnapshotRef $snapshot, GenerationId $generation,
@@ -84,8 +94,7 @@ final readonly class AuthorizedSearchScope
     public function assertCandidate(ChunkRef $ref): void
     {
         if (!$this->tenantId->equals($ref->revisionRef->sourceRef->tenantId)
-            || !in_array($ref->revisionRef->sourceRef->sourceVersionId->value,
-                array_map(static fn(SourceVersionId $id): string => $id->value, $this->allowedSourceVersionIds), true)) {
+            || !isset($this->allowedVersionKeys[$ref->revisionRef->sourceRef->sourceVersionId->value])) {
             throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
         }
     }

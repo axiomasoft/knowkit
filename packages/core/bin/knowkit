@@ -28,9 +28,13 @@ try {
     // Validate before loading host configuration, including when it is unavailable.
     $arguments = array_slice($argv, 1);
     $stdin = '';
-    if (in_array('-', $arguments, true) || in_array('--input=-', $arguments, true)) {
-        $raw = stream_get_contents(STDIN, 65537);
-        $stdin = is_string($raw) ? $raw : '';
+    // A bare "-" is also a legal value for --file and mutation flags. Only --input reads STDIN.
+    foreach ($arguments as $index => $argument) {
+        if ($argument === '--input=-' || ($argument === '--input' && ($arguments[$index + 1] ?? null) === '-')) {
+            $raw = stream_get_contents(STDIN, 65537);
+            $stdin = is_string($raw) ? $raw : '';
+            break;
+        }
     }
     $host = getenv('KNOWKIT_HOST_BOOTSTRAP');
     $kernel = new KnowKit\Adapter\Cli\Kernel(static function ($command) use ($host) {
@@ -48,7 +52,8 @@ try {
     $json = $response->json();
     $exit = $response->exit;
 } catch (Throwable) {
-    $json = "{\"outcome\":\"error\",\"error\":{\"code\":\"internal_error\",\"retryable\":false},\"degraded\":false,\"warnings\":[]}\n";
+    // Same JCS bytes as Response::error('internal_error', 70) when those classes cannot load.
+    $json = "{\"degraded\":false,\"error\":{\"code\":\"internal_error\",\"retryable\":false},\"outcome\":\"error\",\"warnings\":[]}\n";
     $exit = 70;
 }
 ob_end_clean();

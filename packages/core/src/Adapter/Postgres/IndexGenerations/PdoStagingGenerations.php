@@ -186,19 +186,39 @@ final readonly class PdoStagingGenerations
         if ($t === null || $t['serving_state'] !== 'ready' || $k === null || $k['removed_at'] !== null || (string)$k['kb_policy_epoch'] !== $s->policyEpoch->value) {
             throw new D\DomainFailure(D\Outcome::Denied, 'policy_changed');
         }
-        $sources = [];
-        foreach ($this->sources($candidate) as $id) {
-            $r = $this->db->row('SELECT * FROM ' . $this->db->table('sources') . ' WHERE tenant_id=? AND id=?', [$s->tenantId->value, $id->value]);
-            if ($r === null || $r['lifecycle_state'] !== 'active'
-                || $this->db->row('SELECT id FROM ' . $this->db->table('tombstones') . ' WHERE tenant_id=? AND source_id=?', [$s->tenantId->value, $id->value]) !== null
-                || $this->db->row('SELECT id FROM ' . $this->db->table('source_memberships') . ' WHERE tenant_id=? AND kb_id=? AND source_id=?', [$s->tenantId->value, $s->kbId->value, $id->value]) === null) {
-                throw new D\DomainFailure(D\Outcome::Denied, 'source_changed');
+        $sourceIds = array_map(static fn (D\SourceId $id): string => $id->value, $this->sources($candidate));
+        $sourceRows = [];
+        if ($sourceIds !== []) {
+            foreach ($this->db->execute(
+                'SELECT s.id,s.lifecycle_epoch,s.source_policy_epoch FROM ' . $this->db->table('sources') . " s
+                WHERE s.tenant_id=? AND s.lifecycle_state='active' AND s.id IN (SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))
+                AND NOT EXISTS (SELECT 1 FROM " . $this->db->table('tombstones') . ' t WHERE t.tenant_id=s.tenant_id AND t.source_id=s.id)
+                AND EXISTS (SELECT 1 FROM ' . $this->db->table('source_memberships') . ' m WHERE m.tenant_id=s.tenant_id AND m.kb_id=? AND m.source_id=s.id)',
+                [$s->tenantId->value, json_encode($sourceIds, JSON_THROW_ON_ERROR), $s->kbId->value],
+            )->fetchAll(\PDO::FETCH_ASSOC) as $r) {
+                $sourceRows[$r['id']] = $r;
             }
-            $sources[] = new JsonObject(['sourceId'=>$id->value,'lifecycleEpoch'=>(string)$r['lifecycle_epoch'],'sourcePolicyEpoch'=>(string)$r['source_policy_epoch']]);
         }
-        foreach ($candidate->manifest->toWire()->get('members') as $member) {
-            $version = $this->db->row('SELECT usability FROM ' . $this->db->table('source_version_state') . ' WHERE tenant_id=? AND id=?', [$s->tenantId->value, $member->get('sourceVersionId')]);
-            if ($version === null || $version['usability'] !== 'usable') { throw new D\DomainFailure(D\Outcome::Denied, 'source_changed'); }
+        $sources = [];
+        foreach ($sourceIds as $id) {
+            $r = $sourceRows[$id] ?? null;
+            if ($r === null) { throw new D\DomainFailure(D\Outcome::Denied, 'source_changed'); }
+            $sources[] = new JsonObject(['sourceId'=>$id,'lifecycleEpoch'=>(string)$r['lifecycle_epoch'],'sourcePolicyEpoch'=>(string)$r['source_policy_epoch']]);
+        }
+        $members = $candidate->manifest->toWire()->get('members');
+        $versionIds = [];
+        foreach ($members as $member) { $versionIds[$member->get('sourceVersionId')] = true; }
+        $usable = [];
+        if ($versionIds !== []) {
+            foreach ($this->db->execute(
+                'SELECT id FROM ' . $this->db->table('source_version_state') . " WHERE tenant_id=? AND usability='usable' AND id IN (SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))",
+                [$s->tenantId->value, json_encode(array_keys($versionIds), JSON_THROW_ON_ERROR)],
+            )->fetchAll(\PDO::FETCH_COLUMN) as $versionId) {
+                $usable[$versionId] = true;
+            }
+        }
+        foreach ($members as $member) {
+            if (!isset($usable[$member->get('sourceVersionId')])) { throw new D\DomainFailure(D\Outcome::Denied, 'source_changed'); }
         }
         $job = $this->db->row('SELECT *,clock_timestamp() database_now FROM ' . $this->db->table('jobs') . ' WHERE tenant_id=? AND id=?', [$s->tenantId->value, $lease->jobId->value]);
         if ($job === null || $job['state'] !== 'leased' || $job['cancel_requested'] || $job['kb_id'] !== $s->kbId->value

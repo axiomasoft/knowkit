@@ -60,7 +60,14 @@ final class Fixture
 
     public static function corpus(): array
     {
-        return json_decode(file_get_contents(PortFixture::root() . '/tests/fixtures/citations/v1/corpus.json'), true, 512, JSON_THROW_ON_ERROR);
+        static $corpus;
+        return $corpus ??= json_decode(file_get_contents(PortFixture::root() . '/tests/fixtures/citations/v1/corpus.json'), true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    private static function historyIr(): \KnowKit\Domain\Contract\JsonObject
+    {
+        static $ir;
+        return $ir ??= PortFixture::fixture()->get('history')[0]->get('ir');
     }
 
     public static function id(int $id): string
@@ -121,7 +128,7 @@ final class Fixture
         $source = $this->upstream->ref()->revisionRef->sourceRef;
         $source = new D\SourceVersionRef($source->tenantId, $source->sourceId,
             new D\SourceVersionId(self::id(21003)), new D\SourceDigest($case['expectedDigests']['source']));
-        $ir = PortFixture::fixture()->get('history')[0]->get('ir');
+        $ir = self::historyIr();
         $page = new JsonObject(['pageId' => 'p1', 'physicalNo' => 1, 'printedLabel' => 'xii',
             'text' => $case['page'], 'textDigest' => $case['expectedDigests']['page'], 'status' => 'ok']);
         $span = D\TextLocator::page(new D\LocalId('p1'), 1, 'xii', new D\LocalId('b1'), 0, strlen($case['page']))->toWire();

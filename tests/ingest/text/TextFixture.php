@@ -25,13 +25,23 @@ final class TextFixture
     }
     public static function manifest(string $format): array
     {
-        return json_decode(file_get_contents(self::root() . '/tests/fixtures/documents/' . $format . '/manifest.v1.json'), true, 512, JSON_THROW_ON_ERROR);
+        static $cache = [];
+        return $cache[$format] ??= json_decode(self::read('tests/fixtures/documents/' . $format . '/manifest.v1.json'), true, 512, JSON_THROW_ON_ERROR);
     }
     public static function profile(string $format, array $options = []): D\ParserProfile
     {
         return ParserSettings::profile($format, ...$options);
     }
-    public static function read(string $path): string { return file_get_contents(self::root() . '/' . $path); }
+    public static function read(string $path): string
+    {
+        static $cache = [];
+        if (!array_key_exists($path, $cache)) {
+            $bytes = file_get_contents(self::root() . '/' . $path);
+            if (!is_string($bytes)) { throw new \RuntimeException('Unreadable fixture: ' . $path); }
+            $cache[$path] = $bytes;
+        }
+        return $cache[$path];
+    }
     public static function failure(callable $operation, D\Outcome $outcome, string $code): void
     {
         try { $operation(); TestCase::fail('Expected typed failure: ' . $code); }

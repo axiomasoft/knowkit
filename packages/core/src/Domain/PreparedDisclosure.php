@@ -25,7 +25,7 @@ final readonly class PreparedDisclosure
         if (!$this->usage->selectionId()->equals($record->selection->id())
             || !$this->usage->attemptId()->equals($request->attemptId()) || $this->usage->runRef() !== $request->runRef()
             || $this->usage->checkedAt()->compare($now) !== 0
-            || $this->usage->policyBindingDigest()->value !== ScopeBinding::policyBindingDigest($record->selection->policyBinding())) {
+            || !hash_equals($this->usage->policyBindingDigest()->value, ScopeBinding::policyBindingDigest($record->selection->policyBinding()))) {
             throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict');
         }
         $expected = array_map(static fn (ChunkRef $ref): JsonObject => $ref->toWire(), $request->refs($record));

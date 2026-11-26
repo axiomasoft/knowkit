@@ -36,15 +36,31 @@ final readonly class PdoDelivery implements OutboxDispatch
                 ORDER BY available_at,id LIMIT ? FOR UPDATE SKIP LOCKED",
                 [$this->tenant->value, $limit],
             )->fetchAll(\PDO::FETCH_ASSOC);
-            $leases = [];
+            if ($rows === []) {
+                return [];
+            }
+            $tokens = [];
+            $batch = [];
             foreach ($rows as $row) {
                 $token = bin2hex(random_bytes(32));
-                $leased = $this->db->row(
-                    'UPDATE ' . $this->db->table('outbox') . " SET delivery_state='leased',delivery_fence=delivery_fence+1,
-                    lease_token_hash=?,lease_until=clock_timestamp()+(? * interval '1 second'),attempts=attempts+1
-                    WHERE tenant_id=? AND id=? RETURNING delivery_fence,to_char(lease_until AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"') AS expires",
-                    [hash('sha256', $token), $this->leaseSeconds, $this->tenant->value, $row['id']],
-                );
+                $tokens[$row['id']] = $token;
+                $batch[] = ['id' => $row['id'], 'token_hash' => hash('sha256', $token)];
+            }
+            $updated = $this->db->execute(
+                'UPDATE ' . $this->db->table('outbox') . " o SET delivery_state='leased',delivery_fence=delivery_fence+1,
+                lease_token_hash=v.token_hash,lease_until=clock_timestamp()+(? * interval '1 second'),attempts=attempts+1
+                FROM jsonb_to_recordset(CAST(? AS jsonb)) AS v(id text, token_hash text)
+                WHERE o.tenant_id=? AND o.id=CAST(v.id AS \"" . $this->db->schema . "\".kk_ulid)
+                RETURNING o.id,o.delivery_fence,to_char(o.lease_until AT TIME ZONE 'UTC','YYYY-MM-DD\"T\"HH24:MI:SS.US\"Z\"') AS expires",
+                [$this->leaseSeconds, json_encode($batch, JSON_THROW_ON_ERROR), $this->tenant->value],
+            )->fetchAll(\PDO::FETCH_ASSOC);
+            $byId = [];
+            foreach ($updated as $leased) {
+                $byId[$leased['id']] = $leased;
+            }
+            $leases = [];
+            foreach ($rows as $row) {
+                $leased = $byId[$row['id']] ?? null;
                 if ($leased === null) {
                     throw new D\DomainFailure(D\Outcome::Unavailable, 'storage_unavailable');
                 }
@@ -52,7 +68,7 @@ final readonly class PdoDelivery implements OutboxDispatch
                     $this->tenant,
                     new D\EventId((string) $row['id']),
                     new D\Decimal((string) $leased['delivery_fence']),
-                    $token,
+                    $tokens[$row['id']],
                     new D\UtcInstant((string) $leased['expires']),
                 );
             }

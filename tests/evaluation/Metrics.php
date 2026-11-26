@@ -100,7 +100,7 @@ final class Metrics
         if ($terms === []) {
             return null;
         }
-        $text = implode('\n', array_column($fragments, 'text'));
+        $text = implode("\n", array_column($fragments, 'text'));
         $found = array_filter($terms, static fn (string $term): bool => str_contains($text, $term));
 
         return count($found) / count($terms);

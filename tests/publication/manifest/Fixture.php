@@ -69,7 +69,8 @@ final class Fixture
     }
     public static function root(): string { return dirname(__DIR__, 3); }
     public static function id(int $n): string { return PortFixture::id($n); }
-    public static function data(): JsonObject { return StrictJson::decode(file_get_contents(__DIR__ . '/fixtures/v1/cases.json')); }
+    public static function data(): JsonObject
+    { static $data=null; return $data ??= StrictJson::decode((string)file_get_contents(__DIR__ . '/fixtures/v1/cases.json')); }
     public static function set(?JsonObject $data = null): D\ChunkingResult
     {
         $data ??= self::data(); $sidecar = $data->get('chunkSetManifest'); $wire = $sidecar->get('revisionRef');

@@ -96,6 +96,8 @@ def map_document(native, document, metadata: list[dict], job: dict, structured: 
     blocks, assets, refs, diagnostics = [], [], [], []
     asset_bytes = 0
     text_bytes = 0
+    # UTF-8 length of each page, kept outside the IR. Pages start empty.
+    page_bytes = [0] * len(pages)
     missing = set()
     seen_pages = set(native.pages)
     for item, _level in native.iterate_items():
@@ -103,6 +105,8 @@ def map_document(native, document, metadata: list[dict], job: dict, structured: 
                 item, pages, metadata, blocks, int(job["limits"]["maxOutputBytes"]), missing, diagnostics):
             # Pinned Docling cells do not report explicit unit/note/header
             # associations or cross-item continuity. Do not invent them.
+            page_no = item.prov[0].page_no - 1
+            page_bytes[page_no] = len(pages[page_no]["text"].encode("utf-8"))
             missing.update(("table_header_associations", "table_units", "table_notes", "table_continuity"))
             diagnostics.append(diagnostic("table_associations_unavailable"))
             continue
@@ -132,15 +136,17 @@ def map_document(native, document, metadata: list[dict], job: dict, structured: 
             if not 0 <= lo < hi <= len(text):
                 raise Refusal("native_span_mismatch")
             piece = text[lo:hi]
-            text_bytes += len(piece.encode("utf-8")) + 1
+            encoded = piece.encode("utf-8")
+            text_bytes += len(encoded) + 1
             if text_bytes > int(job["limits"]["maxOutputBytes"]):
                 raise Refusal("output_limit")
-            start = len(page["text"].encode("utf-8"))
+            start = page_bytes[prov.page_no - 1]
+            page_bytes[prov.page_no - 1] = start + len(encoded) + 1
             page["text"] += piece
             block_id = f"block-{len(blocks) + 1}"
             span = dict(kind="page", blockId=block_id, pageId=page["pageId"],
                         physicalNo=page["physicalNo"], printedLabel=page["printedLabel"],
-                        byteStart=start, byteEnd=start + len(piece.encode("utf-8")), bbox=geometry)
+                        byteStart=start, byteEnd=start + len(encoded), bbox=geometry)
             blocks.append(dict(blockId=block_id, kind="heading" if str(item.label) in
                                ("title", "section_header") else "formula" if structured and str(item.label) == "formula" else "text", parentId=None,
                                order=len(blocks), origin="source", spans=[span],

@@ -25,7 +25,9 @@ $wire = StrictJson::decode($scopeJson);
 $scope = new D\Scope(new D\TenantId($wire->get('tenantId')), new D\KbId($wire->get('kbId')),
     new D\ActorId($wire->get('actorId')), $wire->get('purpose'), new D\Decimal($wire->get('policyEpoch')),
     new D\Sha256($wire->get('hostScopeHash')));
-$f = new ReplayFixture(new Connection($pdo, $schema), $root, $scope, $worker, 1);
+// Crash windows must expire on the database clock. A one-second lease dies while the next process starts.
+$leaseSeconds = str_starts_with($mode, 'crash-') ? 1 : 120;
+$f = new ReplayFixture(new Connection($pdo, $schema), $root, $scope, $worker, $leaseSeconds);
 
 function barrier(string $name): void
 {

@@ -11,6 +11,7 @@ final readonly class VectorPayload
 {
     public string $literal;
     public string $digest;
+    public int $dimensions;
 
     public function __construct(D\Vector $vector)
     {
@@ -35,6 +36,7 @@ final readonly class VectorPayload
         new D\Vector($values, $vector->space);
         $this->literal = json_encode($values, JSON_THROW_ON_ERROR);
         $this->digest = hash('sha256', "knowkit:pgvector-float32:v1\0" . $bytes);
+        $this->dimensions = count($values);
     }
 
     public static function assertSpace(D\EmbeddingSpace $space): void

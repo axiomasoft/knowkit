@@ -45,7 +45,7 @@
       "tests/delivery/laravel/fixtures/v1/search.json",
       "tests/fixtures/check-groups/delivery-laravel.json"
     ],
-    "sha256": "a3a9bac82c55c615c1e0b9cf0409f8b08fac98d68ad4d6f1ef23b799851945d0"
+    "sha256": "6d771b9d35a28790724a993fab70c3c6a5b3ef62fca98ff94bfb201019fa32e6"
   },
   "sources": [
     {

@@ -23,9 +23,10 @@ final readonly class TenantQuota
         $fs = $this->filesystem();
         $key = hash('sha256', $tenant->value) . '-' . $lane;
         $guard = $this->open(filesystem: $fs, key: $key . '-guard');
-        if (!flock($guard, LOCK_EX | LOCK_NB)) {
+        // Slot locks are the quota. This guard only serializes admission, so it must wait.
+        if (!flock($guard, LOCK_EX)) {
             fclose($guard);
-            throw new DomainFailure(Outcome::Unavailable, 'quota_exceeded');
+            throw new DomainFailure(Outcome::Unavailable, 'quota_store_unavailable');
         }
         try {
             return $this->admit(filesystem: $fs, key: $key, concurrent: $concurrent, perMinute: $perMinute);

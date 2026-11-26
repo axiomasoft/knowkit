@@ -231,6 +231,9 @@ final readonly class StructuralChunker implements ChunkSetBuilder
     private function split(CanonicalMap $map, ChunkBudget $budget, array $unit): array
     {
         $pieces = [];
+        // fits() joins this context to the quote with a newline. The quote bytes are already the span text,
+        // so budget probes must not re-slice the unit on every codepoint.
+        $prefix = $this->contextPrefix($unit);
         foreach ($unit['spans'] as $span) {
             $text = $map->text([$span]);
             $locator = $span->locator->toWire();
@@ -242,14 +245,15 @@ final readonly class StructuralChunker implements ChunkSetBuilder
             $start = $locator->get('byteStart');
             $buffer = '';
             foreach ($sentences as $sentence) {
-                if ($buffer !== '' && !$this->fits($map, $budget, [$this->sliceUnit($map, $unit, $locator, $start, strlen($buffer . $sentence))])) {
+                if ($buffer !== '' && !$this->within($budget, $prefix, $buffer . $sentence)) {
                     $pieces[] = $this->sliceUnit($map, $unit, $locator, $start, strlen($buffer));
                     $start += strlen($buffer);
                     $buffer = '';
                 }
-                while ($sentence !== '' && !$this->fits($map, $budget, [$this->sliceUnit($map, $unit, $locator, $start, strlen($sentence))])) {
-                    $cut = mb_strcut($sentence, 0, $budget->maxBytes, 'UTF-8');
-                    while ($cut !== '' && !$this->fits($map, $budget, [$this->sliceUnit($map, $unit, $locator, $start, strlen($cut))])) {
+                while ($sentence !== '' && !$this->within($budget, $prefix, $sentence)) {
+                    $room = $budget->maxBytes - strlen($prefix);
+                    $cut = $room > 0 ? mb_strcut($sentence, 0, $room, 'UTF-8') : '';
+                    while ($cut !== '' && !$this->within($budget, $prefix, $cut)) {
                         $cut = mb_substr($cut, 0, mb_strlen($cut, 'UTF-8') - 1, 'UTF-8');
                     }
                     if ($cut === '') {
@@ -266,6 +270,21 @@ final readonly class StructuralChunker implements ChunkSetBuilder
             }
         }
         return $pieces;
+    }
+
+    /** @param UnitShape $unit */
+    private function contextPrefix(array $unit): string
+    {
+        $texts = [];
+        foreach ($unit['context'] as $context) {
+            $texts[] = $context->get('text');
+        }
+        return $texts === [] ? '' : implode("\n", $texts) . "\n";
+    }
+
+    private function within(ChunkBudget $budget, string $prefix, string $slice): bool
+    {
+        return $budget->fits($prefix === '' ? $slice : $prefix . $slice);
     }
 
     /**
@@ -300,13 +319,16 @@ final readonly class StructuralChunker implements ChunkSetBuilder
         );
         $units = [];
         $row = 0;
+        $index = 0;
+        $cellCount = count($cells);
         while ($row < $table->get('rows')) {
             $end = $row + 1;
             $group = [];
-            foreach ($cells as $cell) {
-                if ($cell->get('row') < $row || $cell->get('row') >= $end) {
-                    continue;
-                }
+            // Cells are ordered by row, so each row group is the next contiguous slice. Rowspan growth
+            // stays inside that slice; empty rows do not consume later cells.
+            while ($index < $cellCount && $cells[$index]->get('row') < $end) {
+                $cell = $cells[$index];
+                $index++;
                 $group[] = $cell;
                 $end = max($end, $cell->get('row') + $cell->get('rowSpan'));
             }

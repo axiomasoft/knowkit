@@ -23,15 +23,51 @@ final class OriginBoundary
         if ($resolvedAddresses === []) {
             throw new DomainFailure(Outcome::Denied, 'unsafe_origin');
         }
-        $host = trim($p['host'], '[]');
+        $host = strtolower(trim($p['host'], '[]'));
+        // glibc inet_aton accepts hex, octal, short, and decimal forms that filter_var misses.
+        // Those hosts must not pass just because a caller also supplied an unrelated public address.
         if (filter_var($host, FILTER_VALIDATE_IP) !== false) {
             $resolvedAddresses[] = $host;
+        } elseif (self::alternateAddress($host) || self::localName($host)) {
+            throw new DomainFailure(Outcome::Denied, 'unsafe_origin');
         }
         foreach ($resolvedAddresses as $ip) {
+            if (!is_string($ip)) {
+                throw new DomainFailure(Outcome::Denied, 'unsafe_origin');
+            }
             PublicAddress::require($ip);
         }
 
         return $url;
+    }
+
+    private static function alternateAddress(string $host): bool
+    {
+        if (preg_match('/\A(?:0x[0-9a-f]+|[0-9]+)\z/D', $host) === 1) {
+            return true;
+        }
+        $labels = explode('.', $host);
+        if (count($labels) < 2) {
+            return false;
+        }
+        foreach ($labels as $label) {
+            if (preg_match('/\A(?:0x[0-9a-f]+|[0-9]+)\z/D', $label) !== 1) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static function localName(string $host): bool
+    {
+        foreach (['localhost', 'local', 'internal', 'home.arpa'] as $suffix) {
+            if ($host === $suffix || str_ends_with($host, '.' . $suffix)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static function storageKey(string $key): string

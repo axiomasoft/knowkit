@@ -57,6 +57,8 @@ abstract class Support extends TestCase
         self::fail('Expected rejection: ' . $message);
     }
 
+    /** @param list<string> $args
+     *  @return array{exit: int, stdout: string, stderr: string} */
     protected function phpunit(array $args, ?Qa $qa = null): array
     {
         return ($qa ?? $this->qa)->process(array_merge([PHP_BINARY, $this->qa->root . '/vendor/bin/phpunit',

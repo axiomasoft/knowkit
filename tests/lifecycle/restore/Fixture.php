@@ -92,13 +92,22 @@ final class Fixture
         try { $call(); Assert::fail('Expected '.$code); }
         catch (D\DomainFailure $e) { Assert::assertSame($code,$e->errorCode); Assert::assertSame($outcome,$e->outcome); }
     }
-    public static function data(): JsonObject { return StrictJson::decode(file_get_contents(__DIR__.'/fixtures/v1/cases.json')); }
+    public static function data(): JsonObject
+    {
+        static $data;
+        return $data ??= StrictJson::decode(file_get_contents(__DIR__.'/fixtures/v1/cases.json'));
+    }
     public static function expected(string $id, array $actual): void
     {
-        foreach (self::data()->get('cases') as $case) { if ($case->get('id')===$id) {
-            $expected=json_decode(Jcs::canonicalize($case->get('expected')),true); ksort($actual,SORT_STRING);
-            Assert::assertSame($expected,$actual,$id); return;
-        } }
-        Assert::fail('Unknown fixture ID '.$id);
+        static $expected;
+        if ($expected === null) {
+            $expected = [];
+            foreach (self::data()->get('cases') as $case) {
+                $expected[$case->get('id')] = json_decode(Jcs::canonicalize($case->get('expected')), true);
+            }
+        }
+        if (!array_key_exists($id, $expected)) { Assert::fail('Unknown fixture ID '.$id); }
+        ksort($actual, SORT_STRING);
+        Assert::assertSame($expected[$id], $actual, $id);
     }
 }

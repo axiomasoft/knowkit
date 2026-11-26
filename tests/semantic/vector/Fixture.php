@@ -52,12 +52,24 @@ final class Fixture
         $dsn = getenv('TEST_VECTOR_PG_DSN') ?: 'pgsql:host=127.0.0.1;port=55433;dbname=knowkit_test';
         putenv('TEST_PG_DSN=' . $dsn);
         try {
-            $pdo = new \PDO($dsn, getenv('TEST_PG_USER') ?: 'knowkit_test', getenv('TEST_PG_PASSWORD') ?: null);
-            $pdo->exec('CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public');
+            self::ensureVectorExtension($dsn);
             $run();
         } finally {
             putenv($old === false ? 'TEST_PG_DSN' : 'TEST_PG_DSN=' . $old);
         }
+    }
+
+    private static function ensureVectorExtension(string $dsn): void
+    {
+        static $ready = [];
+        if (isset($ready[$dsn])) {
+            return;
+        }
+        $pdo = new \PDO($dsn, getenv('TEST_PG_USER') ?: 'knowkit_test', getenv('TEST_PG_PASSWORD') ?: null, [
+            \PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
+        ]);
+        $pdo->exec('CREATE EXTENSION IF NOT EXISTS vector WITH SCHEMA public');
+        $ready[$dsn] = true;
     }
 
     public static function migrate(Connection $db): void

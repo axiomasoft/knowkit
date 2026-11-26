@@ -43,6 +43,7 @@ final class Host
     public int $requests = 0;
     private array $cliTokens = [];
     private string $scenario = 'success';
+    private ?H\Contract $wireContract = null;
 
     public function __construct(
         public ?ReadingFixture $reading = null,
@@ -66,7 +67,7 @@ final class Host
         $reply = $this->reply($call);
         $wire = H\Response::reply(reply: $reply, route: $call->route, requestId: $call->requestId);
 
-        return C\Response::decode(wire: $wire, contract: new H\Contract(), call: $call, version: '1.0');
+        return C\Response::decode(wire: $wire, contract: $this->wireContract(), call: $call, version: '1.0');
     }
 
     public function invokeCli(C\Call $call): C\Response
@@ -82,7 +83,7 @@ final class Host
 
             return CliResponse::result(result: $reply->result, data: $reply->data());
         });
-        $request = $call->request(contract: new H\Contract(), version: '1.0');
+        $request = $call->request(contract: $this->wireContract(), version: '1.0');
         $body = \KnowKit\Domain\Contract\StrictJson::decode($request->read(262144));
         if ($name === 'disclose') {
             $body = $body->with('token', $this->cliTokens[$body->get('selectionId')]);
@@ -110,7 +111,7 @@ final class Host
 
     private function reply(C\Call $call): H\Reply
     {
-        $request = $call->request(contract: new H\Contract(), version: '1.0');
+        $request = $call->request(contract: $this->wireContract(), version: '1.0');
         $clock = $this->reading?->upstream->host ?? $this->cache->host;
         $context = AccessContext::fromHost($this->http->host);
         $command = (new H\CommandFactory(validator: HttpFixture::validator(), clock: $clock))->create(
@@ -123,6 +124,12 @@ final class Host
         } catch (D\DomainFailure $failure) {
             return new H\Reply(D\Result::failure($failure));
         }
+    }
+
+    private function wireContract(): H\Contract
+    {
+        // OpenAPI compilation is pure and larger than a search. One instance per host, not per call.
+        return $this->wireContract ??= new H\Contract();
     }
 
     public function control(string $action): JsonObject

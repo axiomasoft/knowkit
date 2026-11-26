@@ -43,15 +43,12 @@ final readonly class PdoReadBackend implements GenerationReadBackend
             self::fail();
         }
         $rows = $this->db->execute(
-            'SELECT i.*,l.source_id,l.source_version_id lexical_version,l.text_digest FROM ' . $this->db->table('index_memberships') .
+            'SELECT i.*,l.source_id,l.source_version_id lexical_version,l.text_digest,count(l.chunk_id) OVER () AS lexical_count FROM ' . $this->db->table('index_memberships') .
             ' i LEFT JOIN ' . $this->db->table('lexical_documents') . ' l ON l.tenant_id=i.tenant_id AND l.generation_id=i.generation_id AND l.chunk_id=i.chunk_id
             WHERE i.tenant_id=? AND i.generation_id=? ORDER BY i.chunk_id',
             [$tenant->value, $id],
         )->fetchAll(\PDO::FETCH_ASSOC);
-        $lexicalCount = (int) $this->db->execute(
-            'SELECT count(*) FROM ' . $this->db->table('lexical_documents') . ' WHERE tenant_id=? AND generation_id=?',
-            [$tenant->value, $id],
-        )->fetchColumn();
+        $lexicalCount = $rows === [] ? 0 : (int) $rows[0]['lexical_count'];
         if (
             count($rows) !== $wire->get('counts')->get('chunks')
             || $lexicalCount !== count($rows)
@@ -70,6 +67,7 @@ final readonly class PdoReadBackend implements GenerationReadBackend
             }
         }
         $refs = [];
+        $checks = [];
         foreach ($rows as $row) {
             $chunk = $expected[$row['chunk_id']] ?? null;
             if ($chunk === null) {
@@ -89,27 +87,30 @@ final readonly class PdoReadBackend implements GenerationReadBackend
             ) {
                 self::fail();
             }
-            // Equality covers every stored tsvector/token, including documents with no lexemes.
-            // The query uses this document's deterministic canonical text, never a provider call.
-            $ok = $this->db->row(
-                'SELECT chunk_id FROM ' . $this->db->table('lexical_documents') . " WHERE tenant_id=? AND generation_id=? AND chunk_id=?
-                AND simple_tsvector=to_tsvector('pg_catalog.simple',CAST(? AS text))
-                AND exact_tokens=ARRAY(SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))
-                AND (numnode(plainto_tsquery('pg_catalog.simple',CAST(? AS text)))=0 OR simple_tsvector @@ plainto_tsquery('pg_catalog.simple',CAST(? AS text)))",
-                [
-                    $tenant->value,
-                    $id,
-                    $ref->chunkId->value,
-                    $chunk->text(),
-                    json_encode(LiteralQuery::identifiers($chunk->text()), JSON_THROW_ON_ERROR),
-                    $chunk->text(),
-                    $chunk->text(),
-                ],
-            );
-            if ($ok === null) {
+            $checks[] = [$ref->chunkId->value, $chunk->text(), json_encode(LiteralQuery::identifiers($chunk->text()), JSON_THROW_ON_ERROR)];
+            $refs[] = $ref;
+        }
+        // Equality covers every stored tsvector/token, including documents with no lexemes.
+        // The query uses this document's deterministic canonical text, never a provider call.
+        foreach (array_chunk($checks, 32) as $batch) {
+            $values = [];
+            $params = [];
+            foreach ($batch as $check) {
+                $values[] = '(CAST(? AS text),CAST(? AS text),CAST(? AS jsonb))';
+                array_push($params, ...$check);
+            }
+            array_push($params, $tenant->value, $id);
+            $matched = (int) $this->db->execute(
+                'SELECT count(*) FROM (VALUES ' . implode(',', $values) . ') AS c(chunk_id,body,tokens) JOIN ' .
+                $this->db->table('lexical_documents') . " l ON l.tenant_id=? AND l.generation_id=? AND l.chunk_id=c.chunk_id
+                WHERE l.simple_tsvector=to_tsvector('pg_catalog.simple',c.body)
+                AND l.exact_tokens=ARRAY(SELECT value FROM jsonb_array_elements_text(c.tokens))
+                AND (numnode(plainto_tsquery('pg_catalog.simple',c.body))=0 OR l.simple_tsvector @@ plainto_tsquery('pg_catalog.simple',c.body))",
+                $params,
+            )->fetchColumn();
+            if ($matched !== count($batch)) {
                 self::fail();
             }
-            $refs[] = $ref;
         }
         return new D\PersistedIndexRead(new D\ProfileId((string) $g['profile_id']), null, $refs);
     }

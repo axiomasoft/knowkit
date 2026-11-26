@@ -7,8 +7,9 @@ Load the package Composer autoloader. Credentials come from the host's secret
 configuration; never put them into URLs, command arguments, payloads or logs.
 
 `SearchAndDisclose` accepts a client, the core schema validator, a host ID
-generator and a typed query. It searches, retains exact candidate references and
-uses a fresh disclosure attempt. Check the returned typed outcome before using
+generator, a typed query and an optional `Limit` (default top-k 8). It searches,
+retains exact candidate references and uses a fresh disclosure attempt. A success
+response without a selection is returned as-is; it is not disclosed. Check the returned typed outcome before using
 data. Evidence remains `untrusted`, with `memoryActivation=false`; receiving it
 does not establish local policy authority or provider acceptance.
 

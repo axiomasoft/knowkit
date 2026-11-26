@@ -28,8 +28,14 @@ final readonly class JobEnvelope extends SchemaValue
 
     public function secondsRemaining(): float
     {
-        $expiry = new UtcInstant($this->toWire()->get('leaseExpiresAt'));
-        return (float) (new \DateTimeImmutable($expiry->value))->format('U.u') - microtime(true);
+        $expiry = new \DateTimeImmutable((new UtcInstant($this->toWire()->get('leaseExpiresAt')))->value);
+        $seconds = (int) $expiry->format('U');
+        $micros = (int) $expiry->format('u');
+        // Split the clock before subtracting. Casting "U.u" to float drops sub-second lease precision.
+        [$fraction, $nowSeconds] = explode(' ', microtime(false));
+        $nowMicros = (int) substr($fraction, 2, 6);
+
+        return ($seconds - (int) $nowSeconds) + ($micros - $nowMicros) / 1_000_000;
     }
 
     public function assertStagingPaths(): void
@@ -66,14 +72,16 @@ final readonly class JobEnvelope extends SchemaValue
 
     public function assertIr(IrDocument $ir): void
     {
+        $wire = $this->toWire();
+        $irWire = $ir->toWire();
         foreach (['tenantId', 'sourceVersionId', 'parserSignature'] as $field) {
-            if (Jcs::canonicalize($ir->toWire()->get($field)) !== Jcs::canonicalize($this->toWire()->get($field))) {
+            if (Jcs::canonicalize($irWire->get($field)) !== Jcs::canonicalize($wire->get($field))) {
                 throw new DomainFailure(Outcome::Denied, 'worker_identity_mismatch');
             }
         }
         // Preserve original-page references beyond the processing limit, but
         // accept only an explicitly unprocessed, empty skipped suffix.
-        foreach (array_slice($ir->pages(), $this->limits()->maxPages) as $page) {
+        foreach (array_slice($irWire->get('pages'), $this->limits()->maxPages) as $page) {
             if ($page->get('status') !== 'skipped' || $page->get('text') !== '') {
                 throw new DomainFailure(Outcome::Incompatible, 'output_limit');
             }

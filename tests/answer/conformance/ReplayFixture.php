@@ -332,9 +332,20 @@ final class ReplayFixture implements P\InvocationAuthorization, P\ModelBindingRe
 
     public function deny(string $field): void
     {
+        $this->right($field, false);
+    }
+
+    public function allow(string $field): void
+    {
+        $this->right($field, true);
+    }
+
+    private function right(string $field, bool $allowed): void
+    {
         if (!in_array($field, ['actor_allowed', 'audience_allowed', 'consent_allowed', 'history_allowed', 'egress_allowed', 'policy_known'], true)) {
             throw new \InvalidArgumentException('Unknown fixture right');
         }
-        $this->db->execute("UPDATE answer_test_authority SET {$field}=false WHERE tenant_id=?", [$this->scope->tenantId->value]);
+        $value = $allowed ? 'true' : 'false';
+        $this->db->execute("UPDATE answer_test_authority SET {$field}={$value} WHERE tenant_id=?", [$this->scope->tenantId->value]);
     }
 }

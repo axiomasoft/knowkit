@@ -198,6 +198,8 @@ final class RunnerTest extends Support
         return new Qa($this->temporary);
     }
 
+    /** @param list<string> $command
+     *  @return array{id: string, composerProject: string, minPhp: string, requiredCaseManifest: string, commands: list<list<string>>} */
     private function fakeGroup(array $command): array
     {
         return ['id' => 'fixture', 'composerProject' => '.', 'minPhp' => '8.3',

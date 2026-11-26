@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace KnowKit\Domain;
 
+use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Contract\ScopeBinding;
 
@@ -28,18 +29,23 @@ final readonly class DisclosureRequest extends SchemaValue
     /** @return list<ChunkRef> */
     public function refs(SelectionRecord $record): array
     {
-        $check = ScopeBinding::checkDisclosure($this->toWire(), $record->selection->toWire());
+        $wire = $this->toWire();
+        $check = ScopeBinding::checkDisclosure($wire, $record->selection->toWire());
         if ($check['outcome'] !== 'success') {
             throw new DomainFailure(Outcome::Denied, $check['code'] ?? 'scope_mismatch');
         }
+        $candidates = [];
+        foreach ($record->selection->candidateRefs() as $ref) {
+            // First candidate wins, matching the previous nested scan.
+            $candidates[Jcs::canonicalize($ref->toWire())] ??= $ref;
+        }
         $refs = [];
-        foreach ($this->toWire()->get('chunkRefs') as $wire) {
-            foreach ($record->selection->candidateRefs() as $ref) {
-                if ($wire instanceof JsonObject && $wire->equals($ref->toWire())) {
-                    $refs[] = $ref;
-                    break;
-                }
+        foreach ($wire->get('chunkRefs') as $requested) {
+            $ref = $requested instanceof JsonObject ? ($candidates[Jcs::canonicalize($requested)] ?? null) : null;
+            if (!$ref instanceof ChunkRef) {
+                throw new DomainFailure(Outcome::Denied, 'selection_ref_mismatch');
             }
+            $refs[] = $ref;
         }
 
         return $refs;

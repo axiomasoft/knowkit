@@ -14,9 +14,10 @@ final readonly class EvidenceRepresentation
     public function __construct(JsonObject $fragment)
     {
         $text = $fragment->get('text');
-        if (preg_match('//u', $text) !== 1) {
+        if (!is_string($text) || preg_match('//u', $text) !== 1) {
             throw new DomainFailure(Outcome::Incompatible, 'invalid_utf8');
         }
+        $this->assertSpansCover($fragment, $text);
         preg_match_all('/\s+|[^\s]+/u', $text, $matches, PREG_OFFSET_CAPTURE);
         $normalized = '';
         $mapping = [];
@@ -45,6 +46,38 @@ final readonly class EvidenceRepresentation
     public function toWire(): JsonObject
     {
         return $this->value->toWire();
+    }
+
+    /**
+     * Fragment text is the span slices joined between spans, not after the last one.
+     * A length mismatch would otherwise publish search ranges that skip source bytes.
+     */
+    private function assertSpansCover(JsonObject $fragment, string $text): void
+    {
+        $spans = $fragment->get('citation')?->get('spans');
+        if (!is_array($spans) || $spans === []) {
+            throw new DomainFailure(Outcome::Incompatible, 'binding_mismatch');
+        }
+        $joiner = $fragment->get('joiner');
+        $joinerBytes = is_string($joiner) ? strlen($joiner) : 0;
+        $expected = 0;
+        $last = count($spans) - 1;
+        foreach ($spans as $index => $span) {
+            if (!$span instanceof JsonObject || !is_int($span->get('byteStart')) || !is_int($span->get('byteEnd'))) {
+                throw new DomainFailure(Outcome::Incompatible, 'binding_mismatch');
+            }
+            $length = $span->get('byteEnd') - $span->get('byteStart');
+            if ($length < 1) {
+                throw new DomainFailure(Outcome::Incompatible, 'binding_mismatch');
+            }
+            $expected += $length;
+            if ($index !== $last) {
+                $expected += $joinerBytes;
+            }
+        }
+        if ($expected !== strlen($text)) {
+            throw new DomainFailure(Outcome::Incompatible, 'binding_mismatch');
+        }
     }
 
     /**

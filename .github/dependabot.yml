@@ -1,0 +1,38 @@
+version: 2
+updates:
+  - package-ecosystem: composer
+    directory: "/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: composer
+    directory: "/packages/agentools-bridge"
+    schedule:
+      interval: weekly
+  - package-ecosystem: composer
+    directory: "/packages/answer"
+    schedule:
+      interval: weekly
+  - package-ecosystem: composer
+    directory: "/packages/chatom"
+    schedule:
+      interval: weekly
+  - package-ecosystem: composer
+    directory: "/packages/http"
+    schedule:
+      interval: weekly
+  - package-ecosystem: composer
+    directory: "/packages/laravel"
+    schedule:
+      interval: weekly
+  - package-ecosystem: composer
+    directory: "/packages/pgvector"
+    schedule:
+      interval: weekly
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: uv
+    directory: "/python/knowkit-worker"
+    schedule:
+      interval: weekly

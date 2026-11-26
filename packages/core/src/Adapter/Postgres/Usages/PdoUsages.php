@@ -288,9 +288,18 @@ final readonly class PdoUsages implements DisclosureStore
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_unusable');
         }
         $epochs = [];
+        $byId = [];
+        if ($sources !== []) {
+            foreach ($this->db->execute(
+                'SELECT id,lifecycle_epoch,source_policy_epoch FROM ' . $this->db->table('sources') .
+                ' WHERE tenant_id=? AND id IN (SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))',
+                [$scope->tenantId->value, json_encode(array_map(static fn (D\SourceId $id): string => $id->value, $sources), JSON_THROW_ON_ERROR)],
+            )->fetchAll(\PDO::FETCH_ASSOC) as $row) {
+                $byId[$row['id']] = $row;
+            }
+        }
         foreach ($sources as $source) {
-            $row = $this->db->row('SELECT lifecycle_epoch,source_policy_epoch FROM ' . $this->db->table('sources') . ' WHERE tenant_id=? AND id=?',
-                [$scope->tenantId->value, $source->value]);
+            $row = $byId[$source->value] ?? null;
             if ($row === null) {
                 throw new D\DomainFailure(D\Outcome::Unknown, 'source_unknown');
             }

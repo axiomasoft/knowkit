@@ -11,7 +11,7 @@ services:
       POSTGRES_USER: knowkit_test
       POSTGRES_HOST_AUTH_METHOD: trust
     ports: ["127.0.0.1:${TEST_PG_PORT:-55432}:5432"]
-    tmpfs: ["/var/lib/postgresql/data"]
+    tmpfs: ["${TEST_PG_TMPFS:-/var/lib/postgresql/data}"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U knowkit_test -d knowkit_test"]
       interval: 2s
@@ -19,13 +19,13 @@ services:
       retries: 30
   pgvector:
     profiles: ["vector"]
-    image: pgvector/pgvector:pg16
+    image: ${TEST_VECTOR_IMAGE:-pgvector/pgvector:pg16}
     environment:
       POSTGRES_DB: knowkit_test
       POSTGRES_USER: knowkit_test
       POSTGRES_HOST_AUTH_METHOD: trust
     ports: ["127.0.0.1:${TEST_VECTOR_PORT:-55433}:5432"]
-    tmpfs: ["/var/lib/postgresql/data"]
+    tmpfs: ["${TEST_VECTOR_TMPFS:-/var/lib/postgresql/data}"]
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U knowkit_test -d knowkit_test"]
       interval: 2s

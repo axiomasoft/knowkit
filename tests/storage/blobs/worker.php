@@ -12,7 +12,9 @@ use KnowKit\Domain as D;
 [$script,$schema,$role,$root,$writer]=$argv;
 if (!preg_match('/\Aknowkit_qa_[a-f0-9]+\z/D',$schema) || !preg_match('/\Aknowkit_test_[a-f0-9]+\z/D',$role)) { exit(2); }
 try {
-    $pdo=new PDO(getenv('TEST_PG_DSN')?:'pgsql:host=127.0.0.1;port=55432;dbname=knowkit_test',getenv('TEST_PG_USER')?:'knowkit_test',getenv('TEST_PG_PASSWORD')?:null);
+    $dsn=getenv('TEST_PG_DSN')?:'pgsql:host=127.0.0.1;port=55432;dbname=knowkit_test';
+    if (!preg_match('/dbname=[a-zA-Z0-9_]+_test(?:;|$)/',$dsn)) { throw new \RuntimeException('Test database required'); }
+    $pdo=new PDO($dsn,getenv('TEST_PG_USER')?:'knowkit_test',getenv('TEST_PG_PASSWORD')?:null,[PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]);
     $pdo->exec('SET ROLE '.$role); $pdo->exec('SET search_path TO '.$schema);
     $db=new Connection($pdo,$schema); $tx=new PdoCatalogTransaction($db); $clock=new TestClock();
     $tenant=new D\TenantId(BlobFixture::id(1)); $ledger=new PdoResourceLedger($db,$tx,$tenant,'local-v1',$clock);

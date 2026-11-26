@@ -54,6 +54,7 @@ final class IdentityTest extends TestCase
         try { $guard->remember($forged); self::fail('Identity mutation accepted'); }
         catch (D\DomainFailure $failure) { self::assertSame('immutable_conflict', $failure->errorCode); }
         $this->expectException(D\DomainFailure::class);
+        $this->expectExceptionMessage('immutable_conflict');
         PortFixture::processing($fixture->get('base'))->changedAxes(
             PortFixture::processing($fixture->get('base')->with('sourceDigest', $forged->sourceDigest->value)));
     }
@@ -76,12 +77,14 @@ final class IdentityTest extends TestCase
         $space = PortFixture::space(); self::assertSame(PortFixture::fixture()->get('spaceDigest'),$space->digest()->value);
         foreach (['provider','model','revision','indexVersion','documentRole','queryRole'] as $field) {
             $other = PortFixture::space([$field=>'changed']); self::assertNotSame($space->digest()->value,$other->digest()->value);
-            try { $space->assertCompatible($other); self::fail('Space mismatch accepted'); } catch (D\DomainFailure) {}
+            try { $space->assertCompatible($other); self::fail('Space mismatch accepted'); }
+            catch (D\DomainFailure $failure) { self::assertSame('space_mismatch', $failure->errorCode); }
         }
         foreach ([['dimensions'=>4],['normalization'=>'l2']] as $changes) {
             self::assertNotSame($space->digest()->value,PortFixture::space($changes)->digest()->value);
         }
         $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Only semantic profile settings may be fingerprinted');
         new D\ParserProfile('bad','text','1',new JsonObject(['apiKey'=>'never fingerprint credentials']));
     }
 
@@ -116,6 +119,7 @@ final class IdentityTest extends TestCase
             $value = [$value];
         }
         $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Bounded semantic option depth required');
         D\ValueGuard::semanticOptions(new JsonObject(['steps' => $value]));
     }
 
@@ -141,12 +145,15 @@ final class IdentityTest extends TestCase
         try { (new D\Decimal('9223372036854775807'))->next(); self::fail('Fence wrapped or overflowed'); }
         catch (D\DomainFailure $failure) { self::assertSame(D\Outcome::Unavailable,$failure->outcome); }
         foreach (['01','-1','9223372036854775808'] as $bad) {
-            try { new D\Decimal($bad); self::fail('Noncanonical decimal'); } catch (\InvalidArgumentException) {}
+            try { new D\Decimal($bad); self::fail('Noncanonical decimal'); }
+            catch (\InvalidArgumentException $failure) { self::assertSame('Bounded canonical decimal string required', $failure->getMessage()); }
         }
         try { new D\ResourceRef(PortFixture::scope()->tenantId,'source_version',new D\DocumentRevisionId(PortFixture::id(3))); self::fail('Interchanged ID type'); }
-        catch (\InvalidArgumentException) {}
-        foreach (['2026-02-30T12:00:00Z','2026-11-06T24:00:00Z','2026-11-06T12:00:00+00:00'] as $bad) {
-            try { new D\UtcInstant($bad); self::fail('Invalid UTC instant'); } catch (\InvalidArgumentException) {}
+        catch (\InvalidArgumentException $failure) { self::assertSame('Resource kind and ID type must agree', $failure->getMessage()); }
+        foreach (['2026-02-30T12:00:00Z' => 'Invalid UTC calendar instant', '2026-11-06T24:00:00Z' => 'Invalid UTC calendar instant',
+            '2026-11-06T12:00:00+00:00' => 'UTC instant required'] as $bad => $message) {
+            try { new D\UtcInstant($bad); self::fail('Invalid UTC instant'); }
+            catch (\InvalidArgumentException $failure) { self::assertSame($message, $failure->getMessage()); }
         }
         self::assertSame(0,(new D\UtcInstant('2026-11-06T12:00:00Z'))->compare(new D\UtcInstant('2026-11-06T12:00:00.000000Z')));
         $this->expectException(\InvalidArgumentException::class); new D\SourceId(strtolower(PortFixture::id(1)));
@@ -163,9 +170,12 @@ final class IdentityTest extends TestCase
             $manifest->with('entries',[$first->with('path','tests/fixtures/identity/missing.json')]),
             $manifest->with('entries',[$first->with('sha256',str_repeat('0',64))]),
             $manifest->with('entries',[$first->with('schemaId','urn:unknown')]),
-        ] as $invalid) {
+        ] as $index => $invalid) {
             try { PortFixture::validateManifest($invalid); self::fail('Invalid fixture manifest accepted'); }
-            catch (\InvalidArgumentException) {}
+            catch (\InvalidArgumentException $failure) {
+                self::assertSame(['Empty or unknown identity manifest', 'Duplicate fixture', 'Missing or corrupt fixture',
+                    'Missing or corrupt fixture', 'Unknown fixture schema'][$index], $failure->getMessage());
+            }
         }
     }
 }

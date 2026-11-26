@@ -23,12 +23,13 @@ final class Summary
         }
 
         $fixture = json_decode(\KnowKit\Tooling\LocalIO::read(Report::root() . '/tests/ops/performance/fixtures/v1/cases.json'), true, 64, JSON_THROW_ON_ERROR);
+        $failures = Qualification::failures($reports);
 
         return ['schemaVersion' => 'capacity-observation:1', 'fixtureVersion' => $fixture['fixtureVersion'],
             'profileSha256' => hash_file('sha256', Report::root() . '/deploy/profiles/capacity.v1.json'),
             'corpusSha256' => hash_file('sha256', Report::root() . '/tests/ops/performance/fixtures/v1/cases.json'),
             'environment' => $reports['catalog']['environment'], 'reportSha256' => $digests,
-            'referenceQualified' => Qualification::failures($reports) === [], 'qualificationFailures' => Qualification::failures($reports),
+            'referenceQualified' => $failures === [], 'qualificationFailures' => $failures,
             'measurements' => $measurements,
             'limits' => 'Shared development host. No server CPU/memory attribution or monetary tariff. Hybrid is a small pinned-vector adapter profile; no external embedding model or reference-scale hybrid capacity claim.'];
     }

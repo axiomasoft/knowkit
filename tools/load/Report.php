@@ -8,6 +8,8 @@ use KnowKit\Tooling\Qa;
 
 final class Report
 {
+    private static ?array $profileCache = null;
+
     public static function root(): string
     {
         return dirname(__DIR__, 2);
@@ -15,7 +17,25 @@ final class Report
 
     public static function profile(): array
     {
-        return json_decode(\KnowKit\Tooling\LocalIO::read(self::root() . '/deploy/profiles/capacity.v1.json'), true, 64, JSON_THROW_ON_ERROR);
+        if (self::$profileCache === null) {
+            $decoded = json_decode(\KnowKit\Tooling\LocalIO::read(self::root() . '/deploy/profiles/capacity.v1.json'), true, 64, JSON_THROW_ON_ERROR);
+            if (!is_array($decoded)) {
+                throw new \RuntimeException('capacity profile is not an object');
+            }
+            self::$profileCache = $decoded;
+        }
+
+        return self::$profileCache;
+    }
+
+    public static function intField(array $section, string $key): int
+    {
+        $value = $section[$key] ?? null;
+        if (!is_int($value) || $value < 1) {
+            throw new \RuntimeException('capacity profile field is not a positive integer: ' . $key);
+        }
+
+        return $value;
     }
 
     public static function directory(): string
@@ -59,6 +79,10 @@ final class Report
             $files[] = substr($file, strlen(self::root()) + 1);
         }
         foreach (get_declared_classes() as $class) {
+            // Vendor and PHPUnit classes are not package fingerprints. Anonymous KnowKit classes still match.
+            if (!str_starts_with($class, 'KnowKit\\')) {
+                continue;
+            }
             $file = (new \ReflectionClass($class))->getFileName();
             if (is_string($file) && str_starts_with($file, self::root() . '/packages/')) {
                 $files[] = substr($file, strlen(self::root()) + 1);

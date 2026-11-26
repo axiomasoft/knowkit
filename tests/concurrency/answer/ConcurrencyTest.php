@@ -183,12 +183,22 @@ final class ConcurrencyTest extends TestCase
     private function expireLease(ReplayFixture $f): void
     {
         // The lease uses PostgreSQL wall time, never a test-side timestamp rewrite.
+        // Text avoids PDO boolean strings, where (bool) 'f' is true.
         $deadline = microtime(true) + 3;
-        while (!(bool) $f->db->pdo->query('SELECT lease_until<=clock_timestamp() FROM knowkit_answer_invocations')->fetchColumn()) {
+        $statement = $f->db->pdo->prepare(
+            "SELECT CASE WHEN lease_until<=clock_timestamp() THEN 'yes' ELSE 'no' END FROM knowkit_answer_invocations",
+        );
+        do {
+            $statement->execute();
+            $expired = $statement->fetchColumn();
+            $statement->closeCursor();
+            if ($expired === 'yes') {
+                return;
+            }
             if (microtime(true) >= $deadline) {
                 self::fail('Database lease did not expire');
             }
-            usleep(20000);
-        }
+            usleep(10000);
+        } while (true);
     }
 }

@@ -23,7 +23,6 @@ require exact dependencies and qualified local assets; source presence alone
 does not establish readiness. Core TXT/Markdown use does not require Python,
 model keys, a GPU, Laravel, Chatom or AgenTools.
 
-The repository began as an empty checkout with environment setup on 2026-11-05.
-Those historical setup observations remain in the development guide. This is a
-private local implementation; publication, releases and pushing require the
-owner's instruction.
+The source repository is public. The license remains proprietary; a public
+checkout is not a relicensing. Workflows in `.github/workflows` verify the
+checkout. CI does not publish releases.

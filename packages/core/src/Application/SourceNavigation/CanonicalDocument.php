@@ -15,6 +15,10 @@ final readonly class CanonicalDocument
     public array $units;
     /** @var list<N\CanonicalBlock> */
     public array $blocks;
+    /** @var array<string, N\CanonicalBlock> */
+    private array $blocksById;
+    /** @var array<string, list<N\CanonicalUnit>> */
+    private array $unitsByKey;
     private CanonicalMap $map;
     public D\FrozenJson $coverage;
 
@@ -46,6 +50,16 @@ final readonly class CanonicalDocument
         usort($blocks, static fn (N\CanonicalBlock $a, N\CanonicalBlock $b): int =>
             [$a->order, $a->id->value] <=> [$b->order, $b->id->value]);
         $this->blocks = $blocks;
+        $byId = [];
+        foreach ($blocks as $block) {
+            $byId[$block->id->value] ??= $block;
+        }
+        $this->blocksById = $byId;
+        $byUnit = [];
+        foreach ($units as $unit) {
+            $byUnit[$unit->ref->kind . ':' . $unit->ref->id->value][] = $unit;
+        }
+        $this->unitsByKey = $byUnit;
     }
 
     /** @return list<N\SourceUnitRef> */
@@ -84,12 +98,15 @@ final readonly class CanonicalDocument
         $result = [];
         $bytes = 0;
         foreach ($selected as $unit) {
-            $read = $unit instanceof N\CanonicalUnit ? $this->wholeUnit($unit) : $this->blockUnit($unit);
-            $bytes += strlen($read->text());
-            if ($bytes > $maxBytes) {
+            $text = $unit instanceof N\CanonicalUnit
+                ? $unit->text()
+                : ($unit->spans === [] ? '' : $this->text($unit));
+            // Unit refuses text above its hard cap before this budget check can run.
+            if ($bytes + strlen($text) > $maxBytes) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
             }
-            $result[] = $read;
+            $result[] = $unit instanceof N\CanonicalUnit ? $this->wholeUnit($unit) : $this->blockUnit($unit, $text);
+            $bytes += strlen($text);
         }
 
         return $result;
@@ -111,6 +128,13 @@ final readonly class CanonicalDocument
             $selected = array_values(array_filter($this->units, static fn (N\CanonicalUnit $u): bool =>
                 $u->ref->kind === 'page' && $u->physicalNo >= $range->first && $u->physicalNo <= $range->last));
             usort($selected, static fn (N\CanonicalUnit $a, N\CanonicalUnit $b): int => $a->physicalNo <=> $b->physicalNo);
+            $expected = $range->first;
+            foreach ($selected as $unit) {
+                if ($unit->physicalNo !== $expected) {
+                    throw new D\DomainFailure(D\Outcome::Incompatible, 'invalid_locator');
+                }
+                ++$expected;
+            }
         }
         if (count($selected) > $limits->maxUnits) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
@@ -156,18 +180,10 @@ final readonly class CanonicalDocument
             if (in_array($block->parentId->value, $parents, true) || count($parents) >= 1024) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'invalid_structure');
             }
-            $parents[] = $block->parentId->value;
-            $found = false;
-            foreach ($this->blocks as $candidate) {
-                if ($candidate->id->equals($block->parentId)) {
-                    $block = $candidate;
-                    $found = true;
-                    break;
-                }
-            }
-            if (!$found) {
-                throw new D\DomainFailure(D\Outcome::Incompatible, 'invalid_structure');
-            }
+            $parentId = $block->parentId->value;
+            $parents[] = $parentId;
+            $block = $this->blocksById[$parentId]
+                ?? throw new D\DomainFailure(D\Outcome::Incompatible, 'invalid_structure');
         }
 
         return $parents;
@@ -179,21 +195,19 @@ final readonly class CanonicalDocument
             $unit->status, $unit->text(), [], [$unit->ref]);
     }
 
-    private function blockUnit(N\CanonicalBlock $block): N\Unit
+    private function blockUnit(N\CanonicalBlock $block, string $text): N\Unit
     {
         $refs = [];
         foreach ($block->spans as $span) {
             $wire = $span->locator->toWire();
             $kind = $wire->get('kind');
             $id = $wire->get($kind === 'page' ? 'pageId' : 'segmentId');
-            foreach ($this->units as $unit) {
-                if ($unit->ref->kind === $kind && $unit->ref->id->value === $id) {
-                    $unit->text();
-                    $refs[$kind . ':' . $id] = $unit->ref;
-                }
+            $key = $kind . ':' . $id;
+            foreach ($this->unitsByKey[$key] ?? [] as $unit) {
+                $unit->text();
+                $refs[$key] = $unit->ref;
             }
         }
-        $text = $block->spans === [] ? '' : $this->text($block);
 
         return new N\Unit('block', $block->id, null, null, $text === '' ? 'empty' : 'ok', $text,
             $block->spans, array_values($refs), count($block->spans) > 1 ? "\n" : null,

@@ -133,7 +133,7 @@ final class PortContractsTest extends TestCase
             $wire->with('untrusted','changed');
             self::assertFalse($value->toWire()->has('untrusted'));
             try { new $type($wire->with('untrusted',true),PortFixture::validator()); self::fail('Unknown wire member accepted'); }
-            catch (D\Contract\ContractViolation) {}
+            catch (D\Contract\ContractViolation $violation) { self::assertSame('unknown_field', $violation->errorCode); }
         }
     }
 

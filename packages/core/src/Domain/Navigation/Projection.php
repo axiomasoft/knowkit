@@ -10,6 +10,14 @@ use KnowKit\Domain\Outcome;
 /** Packed per-codepoint map: projected UTF-8 byte start/end, canonical UTF-8 byte start/end. */
 final readonly class Projection
 {
+    /**
+     * Canonical reordering stays inside one grapheme cluster. The normalizer rejects
+     * clusters larger than 8192 input bytes; 16384 entries covers that expansion.
+     */
+    private const REORDER_WINDOW = 16384;
+
+    private bool $ordered;
+
     public function __construct(
         public string $text,
         private string $map,
@@ -17,6 +25,7 @@ final readonly class Projection
         if (strlen($map) % 16 !== 0 || strlen($map) > 134217728) {
             throw new DomainFailure(Outcome::Incompatible, 'projection_limit');
         }
+        $this->ordered = self::isOrdered($map);
     }
 
     /** @return array{int,int}|null A contiguous canonical interval; reject partial decompositions. */
@@ -40,17 +49,63 @@ final readonly class Projection
             }
             $high = max($high, $b);
         }
-        // Canonical reordering/decomposition may map several outputs to the same input.
-        foreach ([$first - 1, $last + 1] as $i) {
-            if ($i >= 0 && $i < intdiv(strlen($this->map), 16)) {
-                $entry = $this->entry($i);
-                if ($entry[2] < $high && $entry[3] > $low) {
-                    return null;
-                }
-            }
+        // Decomposition pieces of one source character share a canonical range. Reordering
+        // can place another piece past the immediate neighbor; a partial selection is not a span.
+        if ($this->overlapsOutside($first, $last, $low, $high)) {
+            return null;
         }
 
         return [$low, $high];
+    }
+
+    /** Non-decreasing, non-nesting canonical ranges: only adjacent entries can overlap. */
+    private static function isOrdered(string $map): bool
+    {
+        $count = intdiv(strlen($map), 16);
+        $prevStart = -1;
+        $prevEnd = 0;
+        for ($index = 0; $index < $count; $index++) {
+            $offset = $index * 16 + 8;
+            $start = (ord($map[$offset]) << 24) | (ord($map[$offset + 1]) << 16) | (ord($map[$offset + 2]) << 8) | ord($map[$offset + 3]);
+            $end = (ord($map[$offset + 4]) << 24) | (ord($map[$offset + 5]) << 16) | (ord($map[$offset + 6]) << 8) | ord($map[$offset + 7]);
+            if ($start < $prevStart || ($start < $prevEnd && !($start === $prevStart && $end === $prevEnd))) {
+                return false;
+            }
+            $prevStart = $start;
+            $prevEnd = $end;
+        }
+
+        return true;
+    }
+
+    private function overlapsOutside(int $first, int $last, int $low, int $high): bool
+    {
+        $count = intdiv(strlen($this->map), 16);
+        if ($this->ordered) {
+            foreach ([$first - 1, $last + 1] as $index) {
+                if ($index >= 0 && $index < $count && $this->overlaps($index, $low, $high)) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        $begin = max(0, $first - self::REORDER_WINDOW);
+        $end = min($count - 1, $last + self::REORDER_WINDOW);
+        for ($index = $begin; $index <= $end; $index++) {
+            if (($index < $first || $index > $last) && $this->overlaps($index, $low, $high)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function overlaps(int $index, int $low, int $high): bool
+    {
+        $entry = $this->entry($index);
+
+        return $entry[2] < $high && $entry[3] > $low;
     }
 
     private function index(int $offset, bool $end): ?int

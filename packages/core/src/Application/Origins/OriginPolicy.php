@@ -53,8 +53,29 @@ final readonly class OriginPolicy
             || ($parts['port'] ?? 443) !== 443 || (isset($parts['path']) && !str_starts_with($parts['path'], '/'))) {
             throw new DomainFailure(Outcome::Denied, 'unsafe_origin');
         }
+        // parse_url collapses :0443, :443.1 and :443e0 to port 443 and drops the suffix.
+        self::assertCanonicalAuthority($url, strtolower((string) $parts['host']));
 
         return $parts;
+    }
+
+    private static function assertCanonicalAuthority(string $url, string $host): void
+    {
+        $rest = substr($url, 8);
+        if (strlen($rest) < strlen($host) || substr_compare($rest, $host, 0, strlen($host), true) !== 0) {
+            throw new DomainFailure(Outcome::Denied, 'unsafe_origin');
+        }
+        $after = substr($rest, strlen($host));
+        if ($after === '' || $after[0] === '/' || $after[0] === '?') {
+            return;
+        }
+        if (!str_starts_with($after, ':443')) {
+            throw new DomainFailure(Outcome::Denied, 'unsafe_origin');
+        }
+        $tail = substr($after, 4);
+        if ($tail !== '' && $tail[0] !== '/' && $tail[0] !== '?') {
+            throw new DomainFailure(Outcome::Denied, 'unsafe_origin');
+        }
     }
 
     private static function hostname(string $host): bool

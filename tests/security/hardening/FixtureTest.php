@@ -44,24 +44,28 @@ final class FixtureTest extends HardeningCase
     {
         $qa = new Qa(self::root());
         $manifest = ['requiredCaseIds' => ['mandatory'], 'testCaseMap' => ['mandatory' => ['actual']]];
-        foreach ([[], [['id' => 'other', 'status' => 'passed']], [['id' => 'actual', 'status' => 'skipped']],
-            [['id' => 'actual', 'status' => 'failed']]] as $cases) {
-            $this->refused(fn () => Qa::validateCases(cases: $cases, manifest: $manifest));
+        foreach ([
+            [[], 'zero executed tests'],
+            [[['id' => 'other', 'status' => 'passed']], 'missing required case'],
+            [[['id' => 'actual', 'status' => 'skipped']], 'failed/skipped executed case'],
+            [[['id' => 'actual', 'status' => 'failed']], 'failed/skipped executed case'],
+        ] as [$cases, $marker]) {
+            $this->refused(fn () => Qa::validateCases(cases: $cases, manifest: $manifest), $marker);
         }
-        $this->refused(fn () => $qa->select(args: ['security:nonexistent'], registry: ['groups' => [['id' => 'security:hardening']]]));
+        $this->refused(fn () => $qa->select(args: ['security:nonexistent'], registry: ['groups' => [['id' => 'security:hardening']]]), 'unknown QA group');
         file_put_contents($this->temporary . '/nested.xml', '<testsuites><testsuite tests="1"><testcase class="actual" name="case"><failure/></testcase></testsuite></testsuites>');
-        $this->refused(fn () => Qa::junit($this->temporary . '/nested.xml'));
+        $this->refused(fn () => Qa::junit($this->temporary . '/nested.xml'), 'failed/skipped JUnit');
         self::assertSame([['id' => 'mandatory', 'status' => 'passed']],
             Qa::validateCases(cases: [['id' => 'actual', 'status' => 'passed']], manifest: $manifest));
     }
 
-    private function refused(\Closure $call): void
+    private function refused(\Closure $call, string $marker): void
     {
         try {
             $call();
             self::fail('Runner accepted incomplete evidence');
         } catch (\RuntimeException $failure) {
-            self::assertNotEmpty($failure->getMessage());
+            self::assertStringContainsString($marker, $failure->getMessage());
         }
     }
 }

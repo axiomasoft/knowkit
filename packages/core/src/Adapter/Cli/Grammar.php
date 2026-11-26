@@ -73,6 +73,9 @@ final readonly class Grammar
         if (($name === 'source upload') !== ($upload !== null)) {
             throw new UsageError();
         }
+        if ($upload !== null && (str_contains($upload, '://') || !is_file($upload))) {
+            throw new UsageError();
+        }
 
         return new Command($name, $input,
             isset($options['idempotency-key']) ? new D\IdempotencyKey($options['idempotency-key']) : null,

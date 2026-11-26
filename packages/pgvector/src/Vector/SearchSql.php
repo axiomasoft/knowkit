@@ -30,7 +30,7 @@ final class SearchSql
                     CAST(? AS char(26)) snapshot, CAST(? AS char(26)) generation,
                     CAST(? AS jsonb) allowed, CAST(? AS jsonb) collections, CAST(? AS text) space
             ), verified AS MATERIALIZED (
-                SELECT value::char(26) chunk_id FROM jsonb_array_elements_text(CAST(? AS jsonb))
+                SELECT value::char(26) chunk_id FROM pg_catalog.jsonb_array_elements_text(CAST(? AS jsonb))
             ), permitted AS MATERIALIZED (
                 SELECT v.chunk_id, v.embedding FROM args a
                 JOIN $tenants t ON t.id=a.tenant AND t.serving_state='ready'
@@ -47,11 +47,11 @@ final class SearchSql
                     AND original.source_id=s.source_id
                 JOIN $versions sv ON sv.tenant_id=s.tenant_id AND sv.id=s.source_version_id AND sv.usability='usable'
                 WHERE s.profile_id='pgvector-l2-v1'
-                    AND s.source_version_id IN (SELECT value::char(26) FROM jsonb_array_elements_text(a.allowed))
+                    AND s.source_version_id IN (SELECT value::char(26) FROM pg_catalog.jsonb_array_elements_text(a.allowed))
                     AND NOT EXISTS (SELECT 1 FROM $tombstones ts WHERE ts.tenant_id=s.tenant_id AND ts.source_id=s.source_id)
                     AND EXISTS (SELECT 1 FROM $memberships m WHERE m.tenant_id=s.tenant_id AND m.kb_id=s.kb_id
                         AND m.source_id=s.source_id AND (a.collections IS NULL OR m.collection_id IN (
-                            SELECT value::char(26) FROM jsonb_array_elements_text(a.collections))))
+                            SELECT value::char(26) FROM pg_catalog.jsonb_array_elements_text(a.collections))))
             ) SELECT chunk_id, embedding FROM permitted
             SQL;
     }

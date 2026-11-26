@@ -39,7 +39,17 @@ final class Ocr
         if (is_string($configured) && $configured !== '') {
             return $configured;
         }
-        $path = '/sys/fs/cgroup' . trim(explode('::', \KnowKit\Tooling\LocalIO::read('/proc/self/cgroup'))[1]);
+        $membership = \KnowKit\Tooling\LocalIO::read('/proc/self/cgroup');
+        if (preg_match('/^0::([^\r\n]+)$/m', $membership, $match) !== 1) {
+            throw new \RuntimeException('Required delegated OCR cgroup unavailable');
+        }
+        $group = $match[1];
+        // A lexical prefix check accepts "/sys/fs/cgroup/../../tmp". Reject dot segments before joining.
+        if (!str_starts_with($group, '/') || str_contains($group, "\0")
+            || in_array('.', explode('/', $group), true) || in_array('..', explode('/', $group), true)) {
+            throw new \RuntimeException('Required delegated OCR cgroup unavailable');
+        }
+        $path = '/sys/fs/cgroup' . $group;
         while (str_starts_with($path, '/sys/fs/cgroup/')) {
             $enabled = explode(' ', trim(\KnowKit\Tooling\LocalIO::read($path . '/cgroup.subtree_control')));
             if (is_writable($path) && array_diff(['cpu', 'memory', 'pids'], $enabled) === []) {
@@ -63,11 +73,13 @@ final class Ocr
         $source = \KnowKit\Tooling\LocalIO::read(OcrFixture::corpus() . '/approved-eng.pdf');
         $expected = OcrFixture::document('approved-eng');
         $signature = $expected->toWire()->get('parserSignature');
+        $quotas = Report::profile()['quotas'];
+        $documents = Report::intField($quotas, 'ocrBatchDocuments');
         $limits = Fixture::wire('envelope')->get('limits')->with('wallSeconds', 60)->with('cpuSeconds', 45)
-            ->with('memoryBytes', '2147483648')->with('maxOutputBytes', '67108864')->with('tempBytes', '4294967296')
-            ->with('maxPages', 500)->with('maxAssets', 2000);
+            ->with('memoryBytes', (string) Report::intField($quotas, 'workerMemoryBytes'))->with('maxOutputBytes', '67108864')->with('tempBytes', '4294967296')
+            ->with('maxPages', Report::intField($quotas, 'workerMaxPages'))->with('maxAssets', Report::intField($quotas, 'workerMaxAssets'));
         $samples = $memory = $cpu = [];
-        for ($i = 0; $i < 3; ++$i) {
+        for ($i = 0; $i < $documents; ++$i) {
             $job = Fixture::job(source: $source, changes: ['parserProfile' => 'docling-pdf-ocr-eng-v1',
                 'parserSignature' => $signature, 'profileFingerprint' => $signature->get('profileDigest'), 'limits' => $limits]);
             [$peak, $used] = self::sample(supervisor: $supervisor, job: $job, source: $source, group: $group, expected: $expected, samples: $samples);
@@ -76,9 +88,9 @@ final class Ocr
         }
         self::verifyOom(supervisor: $supervisor, source: $source, signature: $signature, limits: $limits);
         Qa::ensure(\KnowKit\Tooling\LocalIO::paths($base . '/stages/*') === [] && \KnowKit\Tooling\LocalIO::paths($group . '/knowkit-*') === [], 'OCR stage/cgroup leaked');
-        return Report::save('ocr', ['documents' => 3, 'pagesPerDocument' => count($expected->pages()),
+        return Report::save('ocr', ['documents' => $documents, 'pagesPerDocument' => count($expected->pages()),
             'latencyMs' => Metrics::percentiles($samples), 'cpuMs' => array_sum($cpu), 'workerPeakBytes' => Metrics::maximum($memory),
-            'pagesPerSecond' => 3 * count($expected->pages()) / (array_sum($samples) / 1000),
+            'pagesPerSecond' => $documents * count($expected->pages()) / (array_sum($samples) / 1000),
             'sourceSha256' => hash('sha256', $source), 'irSha256' => hash('sha256', $expected->canonical()),
             'runtimeBomSha256' => hash_file('sha256', $runtime->runtimeRoot . '/bom.json'),
             'parserSignature' => ['name' => $signature->get('name'), 'version' => $signature->get('version'),
@@ -107,7 +119,7 @@ final class Ocr
         };
         $bundle = Metrics::timed(operation: fn () => $supervisor->run(job: $job, source: $source, cancel: $observe), samples: $samples);
         Qa::ensure($bundle->ir->canonical() === $expected->canonical(), 'real OCR golden digest changed');
-        Qa::ensure($peak > 0 && $peak <= 2147483648 && $used > 0, 'missing or excessive OCR resource accounting');
+        Qa::ensure($peak > 0 && $peak <= Report::intField(Report::profile()['reference'], 'workerPeakBytes') && $used > 0, 'missing or excessive OCR resource accounting');
 
         return [$peak, $used];
     }

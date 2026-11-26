@@ -20,17 +20,24 @@ final class Fixture
 
     public static function validator(): ContractValidator
     {
+        static $validator;
+        if ($validator instanceof ContractValidator) {
+            return $validator;
+        }
         $schemas = [];
         foreach (glob(self::root() . '/schemas/*.schema.json') as $file) {
             $schema = StrictJson::decode(file_get_contents($file));
             $schemas[$schema->get('$id')] = $schema;
         }
-        return new ContractValidator(new SchemaSet($schemas));
+
+        return $validator = new ContractValidator(new SchemaSet($schemas));
     }
 
     public static function wire(string $name): JsonObject
     {
-        return StrictJson::decode(file_get_contents(__DIR__ . '/fixtures/v1/' . $name . '.json'));
+        static $wires = [];
+
+        return $wires[$name] ??= StrictJson::decode(file_get_contents(__DIR__ . '/fixtures/v1/' . $name . '.json'));
     }
 
     public static function job(string $source = "KnowKit protocol fixture.\n", array $changes = []): JobEnvelope

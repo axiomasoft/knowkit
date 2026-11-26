@@ -29,7 +29,8 @@ final class Fixture
 
     public static function data(): array
     {
-        return json_decode((string) file_get_contents(self::root() . '/tests/fixtures/sources/v1/cases.json'), true, 512, JSON_THROW_ON_ERROR);
+        static $data = null;
+        return $data ??= json_decode((string) file_get_contents(self::root() . '/tests/fixtures/sources/v1/cases.json'), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public static function scope(): D\Scope

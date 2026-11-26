@@ -10,9 +10,24 @@ use KnowKit\Tests\Ingest\Validation\ValidationFixture;
 final class ChunkingFixture
 {
     public static function root(): string { return dirname(__DIR__, 3); }
+    public static function file(string $path): string
+    {
+        static $cache = [];
+        if (!array_key_exists($path, $cache)) {
+            $bytes = file_get_contents($path);
+            if (!is_string($bytes)) { throw new \RuntimeException('Unreadable fixture: ' . $path); }
+            $cache[$path] = $bytes;
+        }
+        return $cache[$path];
+    }
     public static function ir(string $name): D\IrDocument
     {
-        return new D\IrDocument(StrictJson::decode((string) file_get_contents(self::root() . '/tests/fixtures/chunking/v1/' . $name . '.json'), 67108864), ValidationFixture::validator());
+        static $cache = [];
+        if (!isset($cache[$name])) {
+            $path = self::root() . '/tests/fixtures/chunking/v1/' . $name . '.json';
+            $cache[$name] = new D\IrDocument(StrictJson::decode(self::file($path), 67108864), ValidationFixture::validator());
+        }
+        return $cache[$name];
     }
     public static function profile(array $options = []): D\ChunkerProfile { return new D\ChunkerProfile('structural-default', 'structural', '1', new JsonObject($options)); }
     public static function chunker(D\IrDocument $ir, ?D\DocumentId $document = null, ?\KnowKit\Port\Tokenizer $tokenizer = null): StructuralChunker

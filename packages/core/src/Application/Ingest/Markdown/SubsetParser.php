@@ -20,12 +20,15 @@ final class SubsetParser
     /** @var list<array{indent:int,id:string,ordered:bool,listId:string}> */
     private array $lists = [];
     private int $cells = 0;
+    /** @var array<int, list<array{text:string,start:int,end:int}>|null> */
+    private array $rowCache = [];
 
     public function __construct(private readonly ParserSettings $settings) {}
 
     /** @return array{list<JsonObject>,list<JsonObject>,list<string>} */
     public function parse(string $text): array
     {
+        $this->rowCache = [];
         $lines = explode("\n", $text); $offsets = []; $offset = 0;
         foreach ($lines as $line) { $offsets[] = $offset; $offset += strlen($line) + 1; }
         $n = count($lines);
@@ -149,6 +152,15 @@ final class SubsetParser
 
     /** @return list<array{text:string,start:int,end:int}>|null */
     private function row(string $line, int $offset): ?array
+    {
+        if (array_key_exists($offset, $this->rowCache)) {
+            return $this->rowCache[$offset];
+        }
+        return $this->rowCache[$offset] = $this->readRow($line, $offset);
+    }
+
+    /** @return list<array{text:string,start:int,end:int}>|null */
+    private function readRow(string $line, int $offset): ?array
     {
         // Unescaped pipes delimit cells; inline markup (including backticks) is literal in this subset.
         $positions = []; $slashes = 0;

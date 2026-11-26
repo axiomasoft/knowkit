@@ -24,19 +24,23 @@ final class DiscoveryTest extends Support
         $this->put('tests/tooling/baseline/bootstrap.php', '<?php require ' . var_export($this->qa->root . '/vendor/autoload.php', true) . ';');
         $canary = file_get_contents($this->qa->file('tests/tooling/baseline/fixtures/v1/DiscoveryTest.php.fixture'));
         Qa::ensure($canary !== false, 'cannot read discovery fixture');
+        $candidate = new \DOMDocument();
+        $candidate->load($this->temporary . '/phpunit.xml');
+        $directories = [];
+        foreach ($candidate->getElementsByTagName('testsuite') as $suite) {
+            $suiteName = $suite->getAttribute('name');
+            foreach ($suite->getElementsByTagName('directory') as $index => $directory) {
+                $directories[] = [$suiteName, $index, trim($directory->textContent)];
+            }
+        }
         foreach ($names as $name) {
             // Every other suite contains a top-level tripwire: accidental discovery is fatal.
-            $candidate = new \DOMDocument();
-            $candidate->load($this->temporary . '/phpunit.xml');
-            foreach ($candidate->getElementsByTagName('testsuite') as $suite) {
-                $suiteName = $suite->getAttribute('name');
-                foreach ($suite->getElementsByTagName('directory') as $index => $directory) {
-                    $path = trim($directory->textContent) . '/Canary' . $suiteName . $index . 'Test.php';
-                    $content = $suiteName === $name
-                        ? str_replace('DiscoveryCanaryTest', 'Canary' . $suiteName . $index . 'Test', $canary)
-                        : '<?php throw new \\RuntimeException("wrong suite discovered");';
-                    $this->put($path, $content);
-                }
+            foreach ($directories as [$suiteName, $index, $directory]) {
+                $path = $directory . '/Canary' . $suiteName . $index . 'Test.php';
+                $content = $suiteName === $name
+                    ? str_replace('DiscoveryCanaryTest', 'Canary' . $suiteName . $index . 'Test', $canary)
+                    : '<?php throw new \\RuntimeException("wrong suite discovered");';
+                $this->put($path, $content);
             }
             $result = $this->phpunit(['--testsuite', $name, '--list-tests'], new Qa($this->temporary));
             self::assertSame(0, $result['exit'], $name . ': ' . $result['stdout'] . $result['stderr']);

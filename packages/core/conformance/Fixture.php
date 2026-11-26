@@ -13,6 +13,16 @@ final readonly class Fixture
     public static function id(int $n): string { return '01J' . str_pad((string) $n, 23, '0', STR_PAD_LEFT); }
     public function now(): D\UtcInstant { return new D\UtcInstant($this->data->get('now')); }
     public function text(): string { return $this->data->get('text'); }
+    /** @return 'A'|'B' Unknown tenants must not be labeled as project B. */
+    private function projectOf(D\Scope $scope): string
+    {
+        foreach (['A', 'B'] as $project) {
+            if ($scope->tenantId->equals($this->scope($project)->tenantId)) {
+                return $project;
+            }
+        }
+        throw new \InvalidArgumentException('Unknown fixture project');
+    }
     public function scope(string $project = 'A'): D\Scope
     {
         $row = $this->data->get('projects')->get($project);
@@ -26,11 +36,11 @@ final readonly class Fixture
     }
     public function bytes(string $project = 'A'): D\SourceBytes { return new D\SourceBytes($this->source($project), $this->text(), 'text/plain'); }
     public function parserProfile(): D\ParserProfile { return new D\ParserProfile('plain', 'text', '1', new JsonObject()); }
-    public function ir(string $project = 'A'): D\IrDocument
+    public function ir(string $project = 'A', int $version = 3): D\IrDocument
     {
         $text = $this->text();
         return new D\IrDocument(new JsonObject(['schemaVersion'=>'ir-1.0', 'tenantId'=>$this->scope($project)->tenantId->value,
-            'sourceVersionId'=>$this->source($project)->sourceVersionId->value, 'parserSignature'=>$this->parserProfile()->signature->toWire(),
+            'sourceVersionId'=>$this->source($project, $version)->sourceVersionId->value, 'parserSignature'=>$this->parserProfile()->signature->toWire(),
             'pages'=>[], 'segments'=>[new JsonObject(['segmentId'=>'s1', 'text'=>$text, 'textDigest'=>hash('sha256', $text), 'status'=>'ok'])],
             'blocks'=>[new JsonObject(['blockId'=>'b1', 'kind'=>'text', 'parentId'=>null, 'order'=>0, 'origin'=>'source',
                 'spans'=>[new JsonObject(['kind'=>'segment', 'segmentId'=>'s1', 'blockId'=>'b1', 'byteStart'=>0, 'byteEnd'=>strlen($text)])],
@@ -41,7 +51,7 @@ final readonly class Fixture
     public function chunk(string $project = 'A', int $version = 3): D\ChunkRef
     {
         return new D\ChunkRef(new D\DocumentRevisionRef($this->source($project, $version), new D\DocumentRevisionId(self::id(10)),
-            new D\IrDigest(hash('sha256', $this->ir($project)->canonical())), $this->parserProfile()->signature),
+            new D\IrDigest(hash('sha256', $this->ir($project, $version)->canonical())), $this->parserProfile()->signature),
             new D\ChunkSetId(self::id(12)), new D\ChunkId(self::id($version === 3 ? 13 : 999)), new D\Sha256(hash('sha256', $this->text())));
     }
     public function binding(): JsonObject
@@ -125,7 +135,7 @@ final readonly class Fixture
     /** Schema-valid packets for exercising a host's isolated test cache/usage persistence. */
     public function artifacts(D\Scope $scope,D\SnapshotRef $snapshot,JsonObject $selection): array
     {
-        $project = $scope->tenantId == $this->scope()->tenantId ? 'A' : 'B';
+        $project = $this->projectOf($scope);
         $selection = new D\Selection($selection->with('queryDigest',hash('sha256',$this->data->get('query')))
             ->with('generationId',self::id(14))->with('expiresAt','2026-11-06T12:00:05Z')
             ->with('limits',new JsonObject(['profile'=>'compact','maxFragments'=>4,'maxBytes'=>4096,

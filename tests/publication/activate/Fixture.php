@@ -80,7 +80,8 @@ final class Fixture
     public function __construct(public Manifest $manifest) {}
     public static function run(callable $run): void { Manifest::run(fn(Manifest $m) => $run(new self($m))); }
     public static function id(int $n): string { return Manifest::id($n); }
-    public static function data(): JsonObject { return StrictJson::decode(file_get_contents(__DIR__.'/fixtures/v1/cases.json')); }
+    public static function data(): JsonObject
+    { static $data=null; return $data ??= StrictJson::decode((string)file_get_contents(__DIR__.'/fixtures/v1/cases.json')); }
     public function db(): Connection { return $this->manifest->jobs->catalog->db; }
     /** Disposable schema owner's fault injection models backend data loss, then restores the app role. */
     public function loseProjection(): void

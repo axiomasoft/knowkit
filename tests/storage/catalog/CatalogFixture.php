@@ -123,7 +123,26 @@ final class CatalogFixture
             VALUES (?,?,?,?,?,?,?,?,?,\'accepted\')',[self::id($tenant),self::id($id),self::id($source),$owner,'test','key-'.$id,'object-'.$id,$digest,'15']);
     }
     public function count(string $table): int { return (int)$this->db->execute('SELECT count(*) FROM '.$this->db->table($table))->fetchColumn(); }
-    public static function fixture(): array { return json_decode(file_get_contents(__DIR__.'/fixtures/v1/cases.json'),true,512,JSON_THROW_ON_ERROR); }
+    public static function fixture(): array
+    {
+        static $fixture;
+        return $fixture??=json_decode(self::fixtureBytes('v1/cases.json'),true,512,JSON_THROW_ON_ERROR);
+    }
+    public static function seedSql(): string
+    {
+        static $sql;
+        return $sql??=self::fixtureBytes('v1/metadata.sql');
+    }
+    private static function fixtureBytes(string $path): string
+    {
+        static $cache=[];
+        if (!array_key_exists($path,$cache)) {
+            $bytes=file_get_contents(__DIR__.'/fixtures/'.$path);
+            if (!is_string($bytes)) { throw new \RuntimeException('Unreadable fixture: '.$path); }
+            $cache[$path]=$bytes;
+        }
+        return $cache[$path];
+    }
     public static function sqlReject(\PDO $pdo,string $sql,array $values=[],array $states=['23503','23514','23505']): void
     {
         $own=!$pdo->inTransaction(); if ($own) { $pdo->beginTransaction(); } $pdo->exec('SAVEPOINT negative_case');

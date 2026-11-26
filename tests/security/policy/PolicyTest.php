@@ -177,10 +177,12 @@ final class PolicyTest extends TestCase
         $provider=static function(array $bytes) use (&$observed): void { $observed=$bytes; };
         $this->rejects(fn()=>$checks->transmit($context,PolicyFixture::request(),['provider input'],static fn()=>$owner->binding,$provider),D\Outcome::Denied,'scope_mismatch');
         self::assertSame([],$observed); self::assertSame(4,$calls);
-        foreach ([fn()=>$checks->prepare($context,[],D\Operation::Disclose,$owner->binding),
-            fn()=>new A\PreparedDecision($context,D\Operation::Disclose,[],null)] as $empty) {
+        foreach ([
+            [fn()=>$checks->prepare($context,[],D\Operation::Disclose,$owner->binding), 'Exact authorization resources required'],
+            [fn()=>new A\PreparedDecision($context,D\Operation::Disclose,[],null), 'Nonempty owner receipt set required'],
+        ] as [$empty, $message]) {
             try { $empty(); self::fail('Empty check authorized'); }
-            catch (\InvalidArgumentException) { self::assertTrue(true); }
+            catch (\InvalidArgumentException $failure) { self::assertSame($message, $failure->getMessage()); }
         }
     }
     public function testProcessingAndEgressOwnerWindowsAreRecheckedAtActualTransmission(): void

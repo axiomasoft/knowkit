@@ -12,9 +12,14 @@ require_once dirname(__DIR__,3) . '/examples/custom-adapter/FakeHost.php';
 
 final class Support
 {
+    private static ?AdapterHarness $harness = null;
+
     public static function root(): string { return dirname(__DIR__,3); }
     public static function harness(): AdapterHarness
-    { return new AdapterHarness(SchemaLoader::load(self::root() . '/schemas')); }
+    {
+        // Schemas and the authored corpus are immutable for the process. A negative manifest uses its own harness.
+        return self::$harness ??= new AdapterHarness(SchemaLoader::load(self::root() . '/schemas'));
+    }
     public static function profile(FakeHost $host, string $name = 'project-a'): HostProfile
     { return HostProfile::fromJson((string) file_get_contents(self::root() . '/tests/fixtures/host-profiles/' . $name . '.json'),$host->registry()); }
     public static function document(string $name = 'project-a'): \KnowKit\Domain\Contract\JsonObject

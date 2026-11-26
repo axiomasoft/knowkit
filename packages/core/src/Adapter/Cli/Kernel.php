@@ -27,6 +27,7 @@ final readonly class Kernel
             return Response::error('invalid_command', 2);
         }
         // Host output is never a diagnostic channel. Do not allow accidental debug prints.
+        $level = ob_get_level();
         ob_start();
         try {
             return ($this->dispatch)($command);
@@ -38,7 +39,11 @@ final readonly class Kernel
         } catch (\Throwable) {
             return Response::error('internal_error', 70);
         } finally {
-            ob_end_clean();
+            while (ob_get_level() > $level) {
+                if (!ob_end_clean()) {
+                    break;
+                }
+            }
         }
     }
 }

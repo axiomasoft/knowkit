@@ -85,10 +85,16 @@ final readonly class PdoJobQueue implements WorkerJobs
     {
         if (!isset($this->stagePlans[$type->value])) { throw new D\DomainFailure(D\Outcome::Incompatible,'unknown_job_type'); }
         // Bounded, unlocked planning. Every candidate gets a fresh short transaction and semantic locks.
-        $candidates = $this->db->execute('SELECT * FROM '.$this->db->table('jobs').
-            ' WHERE tenant_id=? AND kb_id=? AND type=? AND scope_json->>\'hostScopeHash\'=? AND NOT cancel_requested AND processing_digest IS NOT NULL
-              AND ((state=\'pending\' AND available_at<=clock_timestamp()) OR (state=\'leased\' AND lease_until<=clock_timestamp()))
-              ORDER BY available_at,id LIMIT 32',[$this->tenant(),$this->partition->kbId->value,$type->value,$this->partition->hostScopeHash->value])->fetchAll(\PDO::FETCH_ASSOC);
+        $jobs = $this->db->table('jobs');
+        $filter = 'tenant_id=? AND kb_id=? AND type=? AND scope_json->>\'hostScopeHash\'=? AND NOT cancel_requested AND processing_digest IS NOT NULL';
+        $params = [$this->tenant(), $this->partition->kbId->value, $type->value, $this->partition->hostScopeHash->value];
+        $cols = 'id,kb_id,source_id,source_version_id,generation_id,available_at';
+        // Split so each arm can use its partial index. The locked row is reread inside guarded().
+        $candidates = $this->db->execute(
+            'SELECT '.$cols.' FROM (SELECT '.$cols.' FROM '.$jobs.' WHERE '.$filter." AND state='pending' AND available_at<=clock_timestamp() UNION ALL ".
+            'SELECT '.$cols.' FROM '.$jobs.' WHERE '.$filter." AND state='leased' AND lease_until<=clock_timestamp()) candidates ORDER BY available_at,id LIMIT 32",
+            [...$params, ...$params],
+        )->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($candidates as $seed) {
             $token = bin2hex(random_bytes(32)); $attempt = new D\AttemptId($this->ids->next()->value);
             $lease = $this->guarded($seed,function(?array $row,array $source) use($worker,$token,$attempt): ?D\Lease {

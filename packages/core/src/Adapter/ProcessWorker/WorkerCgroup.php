@@ -23,8 +23,9 @@ final readonly class WorkerCgroup
         try {
             foreach (['memory.max' => $limits->memoryBytes, 'memory.swap.max' => 0,
                 'memory.oom.group' => 1, 'pids.max' => 64, 'cpu.max' => '100000 100000'] as $file => $value) {
+                $payload = (string) $value;
                 if (!is_file($group->path . '/' . $file)
-                    || @file_put_contents($group->path . '/' . $file, (string) $value) === false) {
+                    || @file_put_contents($group->path . '/' . $file, $payload) !== strlen($payload)) {
                     throw new DomainFailure(Outcome::Unavailable, 'sandbox_unavailable');
                 }
             }
@@ -50,7 +51,10 @@ final readonly class WorkerCgroup
     public function stop(): void
     {
         if ($this->value('cgroup.events', 'populated') !== 0) {
-            file_put_contents($this->path . '/cgroup.kill', '1');
+            $written = @file_put_contents($this->path . '/cgroup.kill', '1');
+            if ($written !== 1 && $this->value('cgroup.events', 'populated') !== 0) {
+                throw new DomainFailure(Outcome::Unavailable, 'sandbox_not_quiescent');
+            }
         }
         $deadline = hrtime(true) + 2_000_000_000;
         while ($this->value('cgroup.events', 'populated') !== 0) {

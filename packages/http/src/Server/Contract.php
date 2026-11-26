@@ -18,39 +18,51 @@ final readonly class Contract
 
     public function __construct()
     {
-        $this->document = StrictJson::decode(
-            (string) file_get_contents(dirname(__DIR__, 2) . '/resources/openapi.json'),
-            4194304,
-        );
-        $definitions = $this->definitions($this->document->get('components')->get('schemas'));
-        $schemas = [];
-        foreach ($definitions as $name => $definition) {
-            $id = self::ID . ':' . $name;
-            $schemas[$id] = new JsonObject([
-                '$schema' => SchemaSet::DIALECT, '$id' => $id,
-                '$defs' => $definitions, '$ref' => '#/$defs/' . $name,
-            ]);
-        }
-        $this->schemas = new SchemaSet($schemas);
+        $shared = self::shared();
+        $this->document = $shared['document'];
+        $this->schemas = $shared['schemas'];
     }
 
     /** @return list<Route> */
     public function routes(): array
     {
-        $routes = [];
-        foreach ($this->document->get('paths') as $path => $methods) {
-            foreach ($methods as $method => $operation) {
-                $routes[] = new Route(
-                    method: strtoupper($method), path: '/v1' . $path,
-                    operation: $operation->get('operationId'), schema: $operation->get('x-knowkit-schema'),
-                    mutation: $operation->get('x-knowkit-mutation'), epoch: $operation->get('x-knowkit-epoch'),
-                    revision: $operation->get('x-knowkit-revision'), successStatus: $operation->get('x-knowkit-success'),
-                    revisionAllowed: $operation->get('x-knowkit-revision-allowed') === true,
-                );
+        return self::shared()['routes'];
+    }
+
+    /** @return array{document: JsonObject, schemas: SchemaSet, routes: list<Route>} */
+    private static function shared(): array
+    {
+        static $shared = null;
+        if ($shared === null) {
+            $document = StrictJson::decode(
+                (string) file_get_contents(dirname(__DIR__, 2) . '/resources/openapi.json'),
+                4194304,
+            );
+            $definitions = self::definitions($document->get('components')->get('schemas'));
+            $schemas = [];
+            foreach ($definitions as $name => $definition) {
+                $id = self::ID . ':' . $name;
+                $schemas[$id] = new JsonObject([
+                    '$schema' => SchemaSet::DIALECT, '$id' => $id,
+                    '$defs' => $definitions, '$ref' => '#/$defs/' . $name,
+                ]);
             }
+            $routes = [];
+            foreach ($document->get('paths') as $path => $methods) {
+                foreach ($methods as $method => $operation) {
+                    $routes[] = new Route(
+                        method: strtoupper($method), path: '/v1' . $path,
+                        operation: $operation->get('operationId'), schema: $operation->get('x-knowkit-schema'),
+                        mutation: $operation->get('x-knowkit-mutation'), epoch: $operation->get('x-knowkit-epoch'),
+                        revision: $operation->get('x-knowkit-revision'), successStatus: $operation->get('x-knowkit-success'),
+                        revisionAllowed: $operation->get('x-knowkit-revision-allowed') === true,
+                    );
+                }
+            }
+            $shared = ['document' => $document, 'schemas' => new SchemaSet($schemas), 'routes' => $routes];
         }
 
-        return $routes;
+        return $shared;
     }
 
     /** @return array{Route, array<string, \KnowKit\Domain\Ulid>} */
@@ -82,18 +94,18 @@ final readonly class Contract
         }
     }
 
-    private function definitions(mixed $value): mixed
+    private static function definitions(mixed $value): mixed
     {
         if ($value instanceof JsonObject) {
             $copy = [];
             foreach ($value as $key => $child) {
-                $copy[$key] = $this->definitions($child);
+                $copy[$key] = self::definitions($child);
             }
 
             return new JsonObject($copy);
         }
         if (is_array($value)) {
-            return array_map($this->definitions(...), $value);
+            return array_map(self::definitions(...), $value);
         }
 
         return is_string($value) ? str_replace('#/components/schemas/', '#/$defs/', $value) : $value;

@@ -6,7 +6,6 @@ namespace KnowKit\Tests\Ops\Observability;
 
 use KnowKit\Application\Deletion\DeletionWorker;
 use KnowKit\Application\Events\Dispatcher;
-use KnowKit\Conformance\SchemaLoader;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
@@ -23,7 +22,7 @@ final class OperationsTest extends TestCase
     public function testUnknownPurgeReceiptIsObservedWithoutChangingOrDisclosingReceipt(): void
     {
         $f = new Fixture();
-        $validator = SchemaLoader::load(Fixture::root() . '/schemas');
+        $validator = Fixture::validator();
         $target = new D\DeletionTarget(
             tenantId: Fixture::scope()->tenantId, sourceId: new D\SourceId(Fixture::id(10)),
             taskId: new D\DeletionTaskId(Fixture::id(11)), resourceId: new D\ResourceId(Fixture::id(12)),

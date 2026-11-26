@@ -20,7 +20,11 @@ final class LexicalFixture
     public PdoLexicalIndex $index;
     public static function root(): string { return dirname(__DIR__, 3); }
     public static function id(int $n): string { return PortFixture::id($n); }
-    public static function corpus(): array { return json_decode(file_get_contents(self::root() . '/tests/fixtures/retrieval/lexical/corpus.v1.json'), true, 512, JSON_THROW_ON_ERROR); }
+    public static function corpus(): array
+    {
+        static $corpus;
+        return $corpus ??= json_decode(file_get_contents(self::root() . '/tests/fixtures/retrieval/lexical/corpus.v1.json'), true, 512, JSON_THROW_ON_ERROR);
+    }
     public static function run(callable $test, bool $seal = true, bool $rogue = false): void
     {
         CatalogFixture::run(function(CatalogFixture $catalog) use ($test, $seal, $rogue): void {

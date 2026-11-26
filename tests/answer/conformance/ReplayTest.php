@@ -16,11 +16,11 @@ final class ReplayTest extends TestCase
 {
     public function testCompletedReplayChecksCurrentActorAudienceConsentAndUnknownPolicyBeforePayload(): void
     {
-        foreach (['actor_allowed', 'audience_allowed', 'consent_allowed', 'policy_known', 'egress_allowed'] as $right) {
-            ReplayFixture::run(function (ReplayFixture $f) use ($right): void {
-                $f->completed();
-                $row = $f->row();
-                $reads = $f->payloads->responseReads;
+        ReplayFixture::run(function (ReplayFixture $f): void {
+            $f->completed();
+            $row = $f->row();
+            $reads = $f->payloads->responseReads;
+            foreach (['actor_allowed', 'audience_allowed', 'consent_allowed', 'policy_known', 'egress_allowed'] as $right) {
                 $this->mutate($f, 'deny:' . $right);
                 $outcome = $f->replay();
                 $expected = match ($right) {
@@ -35,8 +35,9 @@ final class ReplayTest extends TestCase
                 self::assertSame($reads, $f->payloads->responseReads, 'Denied before response materialization');
                 self::assertSame($row, $f->row(), 'Denial must not rewrite completed generation');
                 self::assertSame(1, $f->transport->sendCount());
-            });
-        }
+                $f->allow($right);
+            }
+        });
     }
 
     public function testFullScopeCannotAdoptHistoricalAnswer(): void

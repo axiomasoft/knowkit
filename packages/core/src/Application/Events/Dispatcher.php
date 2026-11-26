@@ -6,7 +6,7 @@ use KnowKit\Domain\Contract\{ContractViolation,JsonObject};
 use KnowKit\Port\{EventTransport,OutboxDispatch};
 use KnowKit\Application\Observability\Telemetry;
 use KnowKit\Domain\Observability as O;
-use KnowKit\Domain\Outcome;
+use KnowKit\Domain\{DomainFailure, Outcome};
 
 final readonly class Dispatcher
 {
@@ -23,6 +23,9 @@ final readonly class Dispatcher
             try { $event = $this->outbox->event($lease); }
             catch (ContractViolation) {
                 ++$counts[$this->outbox->quarantine($lease) ? 'quarantined' : 'fenceLost']; continue;
+            } catch (DomainFailure) {
+                // A lost fence is not poison and must not abandon the rest of the leased batch.
+                ++$counts['fenceLost']; continue;
             }
             try { $this->transport->send($event); }
             catch (\Throwable) {

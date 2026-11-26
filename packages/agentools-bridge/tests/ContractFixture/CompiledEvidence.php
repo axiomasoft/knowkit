@@ -51,18 +51,30 @@ final readonly class CompiledEvidence
 
     public function dependencies(): array
     {
+        $seen = [];
         $dependencies = [];
         foreach ($this->contributions as $contribution) {
             foreach ($contribution->dependencies as $dependency) {
-                $key = $dependency['ref'] . ':' . $dependency['version'];
-                if (isset($dependencies[$key]) && $dependencies[$key] !== $dependency) {
+                if (!is_array($dependency) || count($dependency) !== 3
+                    || !is_string($dependency['ref'] ?? null)
+                    || !is_string($dependency['version'] ?? null)
+                    || !is_string($dependency['hash'] ?? null)) {
                     throw new RuntimeException('Dependency identity/hash conflict');
                 }
-                $dependencies[$key] = $dependency;
+                $identity = [$dependency['ref'], $dependency['version'], $dependency['hash']];
+                $key = strlen($dependency['ref']) . ':' . $dependency['ref']
+                    . strlen($dependency['version']) . ':' . $dependency['version'];
+                if (isset($seen[$key]) && $seen[$key] !== $identity) {
+                    throw new RuntimeException('Dependency identity/hash conflict');
+                }
+                if (!isset($seen[$key])) {
+                    $seen[$key] = $identity;
+                    $dependencies[] = $dependency;
+                }
             }
         }
 
-        return array_values($dependencies);
+        return $dependencies;
     }
 
     public function retentionManifest(): array

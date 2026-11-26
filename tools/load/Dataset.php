@@ -23,6 +23,7 @@ final class Dataset
     public array $sets = [];
     private array $rows = [];
     private array $templates = [];
+    private ?array $baseManifest = null;
     private int $rowId = 200000000;
     private array $loadMs = [];
     public int $manifestBytes = 0;
@@ -39,10 +40,14 @@ final class Dataset
     public function load(): void
     {
         $db = $this->fixture->catalog->db;
+        $reference = Report::profile()['reference'];
+        $sources = Report::intField($reference, 'sources');
+        $chunks = Report::intField($reference, 'chunks');
+        Qa::ensure($chunks === $sources * 10, 'capacity profile chunk count is not ten chunks per source');
         $this->prepare();
         $db->pdo->beginTransaction();
         try {
-            for ($number = 0; $number < 10000; ++$number) {
+            for ($number = 0; $number < $sources; ++$number) {
                 $this->document($number);
                 if ($number % 100 === 99) {
                     $this->flush();
@@ -62,13 +67,13 @@ final class Dataset
             sets: array_values($this->sets), resources: [], coverage: $coverage,
         );
         $this->manifestBytes = strlen($candidate->manifest->canonical());
-        $db->execute("UPDATE index_generations SET state='sealed',manifest_json=?,manifest_digest=?,chunk_count=100000 WHERE tenant_id=? AND id=?",
-            [$candidate->manifest->canonical(), $candidate->digest->value, self::id(1), self::id(900)]);
+        $db->execute("UPDATE index_generations SET state='sealed',manifest_json=?,manifest_digest=?,chunk_count=? WHERE tenant_id=? AND id=?",
+            [$candidate->manifest->canonical(), $candidate->digest->value, $chunks, self::id(1), self::id(900)]);
         $db->execute('UPDATE publication_snapshots SET sealed=true WHERE tenant_id=? AND id=?', [self::id(1), self::id(901)]);
         $this->analyze();
         $count = $db->execute('SELECT count(*) FROM lexical_documents WHERE tenant_id=? AND generation_id=?',
             [self::id(1), self::id(900)])->fetchColumn();
-        Qa::ensure((int) $count === 100000 && count($this->sets) === 10000, 'reference corpus incomplete');
+        Qa::ensure((int) $count === $chunks && count($this->sets) === $sources, 'reference corpus incomplete');
     }
 
     private function analyze(): void
@@ -127,10 +132,9 @@ final class Dataset
         $old = $this->fixture->sets['allowed']->chunkSet->revisionRef;
         $text = $number % 2 === 0 ? 'gravity.' : 'тест';
         $ids = $this->identities(number: $number, text: $text);
-        $ir = $this->fixture->data['allowed']['ir'];
-        $ir = $this->replace($ir, $ids);
-        $irDigest = hash('sha256', Jcs::canonicalize(StrictJson::decode(json_encode($ir, JSON_THROW_ON_ERROR))));
-        $ids[$old->irDigest->value] = $irDigest;
+        $ir = $this->replace($this->fixture->data['allowed']['ir'], $ids);
+        $canonical = Jcs::canonicalize(StrictJson::decode(json_encode($ir, JSON_THROW_ON_ERROR)));
+        $ids[$old->irDigest->value] = hash('sha256', $canonical);
         foreach (['sources', 'source_versions', 'document_revisions', 'documents', 'segments', 'blocks', 'chunk_sets'] as $table) {
             $row = $this->replace($this->templates[$table], $ids);
             if (in_array($table, ['segments', 'blocks'], true)) {
@@ -141,7 +145,7 @@ final class Dataset
             }
             $this->rows[$table][] = $row;
         }
-        $this->resources(number: $number, ids: $ids, ir: $ir);
+        $this->resources(number: $number, ids: $ids, canonical: $canonical);
         $set = $this->chunkSet(number: $number, ids: $ids, text: $text);
         $last = array_key_last($this->rows['chunk_sets']);
         $this->rows['chunk_sets'][$last]['manifest_digest'] = $set->manifestDigest->value;
@@ -156,7 +160,7 @@ final class Dataset
             'chunk_set_id' => $set->chunkSet->chunkSetId->value, 'generation_id' => self::id(900), 'profile_id' => PdoLexicalIndex::PROFILE];
     }
 
-    private function resources(int $number, array $ids, array $ir): void
+    private function resources(int $number, array $ids, string $canonical): void
     {
         foreach ([7010, 7011] as $resource) {
             $row = $this->templates['resource_ledger'];
@@ -164,7 +168,6 @@ final class Dataset
             $row = $this->replace($row, $ids);
             $row['storage_key'] = 'capacity-v1-' . $number . '-' . $resource;
             if ($resource === 7011) {
-                $canonical = Jcs::canonicalize(StrictJson::decode(json_encode($ir, JSON_THROW_ON_ERROR)));
                 $row['digest'] = hash('sha256', $canonical);
                 $row['byte_length'] = strlen($canonical);
             }
@@ -175,7 +178,7 @@ final class Dataset
     private function chunkSet(int $number, array $ids, string $text): D\ChunkingResult
     {
         $base = $this->fixture->sets['allowed'];
-        $wire = $this->replace(json_decode($base->canonicalManifest(), true, 64, JSON_THROW_ON_ERROR), $ids);
+        $wire = $this->replace($this->baseManifest(), $ids);
         $r = $wire['revisionRef'];
         $source = new D\SourceVersionRef(new D\TenantId($r['tenantId']), new D\SourceId($r['sourceId']),
             new D\SourceVersionId($r['sourceVersionId']), new D\SourceDigest($r['sourceDigest']));
@@ -216,6 +219,19 @@ final class Dataset
             }
             $this->rows[$table][] = $row;
         }
+    }
+
+    private function baseManifest(): array
+    {
+        if ($this->baseManifest === null) {
+            $decoded = json_decode($this->fixture->sets['allowed']->canonicalManifest(), true, 64, JSON_THROW_ON_ERROR);
+            if (!is_array($decoded)) {
+                throw new \RuntimeException('chunk set manifest is not an object');
+            }
+            $this->baseManifest = $decoded;
+        }
+
+        return $this->baseManifest;
     }
 
     private function replace(mixed $value, array $ids): mixed

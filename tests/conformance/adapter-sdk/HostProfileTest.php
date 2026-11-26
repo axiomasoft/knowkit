@@ -142,7 +142,7 @@ final class HostProfileTest extends TestCase
     {
         foreach ([['parser.geometry'=>'true'],[0=>true]] as $invalidFeatures) {
             try { RegistryCorpus::descriptor([],$invalidFeatures); self::fail('Untyped feature accepted'); }
-            catch (\InvalidArgumentException) { $this->addToAssertionCount(1); }
+            catch (\InvalidArgumentException $failure) { self::assertSame('Named boolean feature declarations required', $failure->getMessage()); }
         }
         $schema = D\Contract\StrictJson::decode((string) file_get_contents(Support::root() . '/packages/core/src/Registry/adapter-descriptor.schema.json'));
         $validator = new D\Contract\ContractValidator(new D\Contract\SchemaSet([$schema->get('$id')=>$schema]));

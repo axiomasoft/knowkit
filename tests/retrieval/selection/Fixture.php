@@ -67,7 +67,8 @@ final class Fixture implements HostIdentity, P\AccessPolicy, P\EgressPolicy, P\C
 
     public static function corpus(): array
     {
-        return json_decode(file_get_contents(self::root() . '/tests/fixtures/retrieval/selection/corpus.v1.json'), true, 512, JSON_THROW_ON_ERROR);
+        static $corpus;
+        return $corpus ??= json_decode(file_get_contents(self::root() . '/tests/fixtures/retrieval/selection/corpus.v1.json'), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function current(): PolicyContext

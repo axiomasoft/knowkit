@@ -2,7 +2,7 @@
 declare(strict_types=1);
 namespace KnowKit\Tests\Jobs\Leases;
 
-use KnowKit\Adapter\Postgres\Catalog\{Connection, PdoCatalogTransaction};
+use KnowKit\Adapter\Postgres\Catalog\{Connection, Migrate, PdoCatalogTransaction};
 use KnowKit\Adapter\Postgres\Jobs\PdoJobQueue;
 use KnowKit\Application\Jobs\VerifiedCheckpoints;
 use KnowKit\Domain as D;
@@ -10,6 +10,7 @@ use KnowKit\Domain\Contract\{HashDomain, Jcs, JsonObject};
 use KnowKit\Port\ReadableStream;
 use KnowKit\Tests\Contract\Ports\PortFixture;
 use KnowKit\Tests\Storage\Catalog\{CatalogFixture, TestIds};
+use KnowKit\Tests\Tooling\DatabaseSandbox;
 
 require_once dirname(__DIR__,2).'/storage/catalog/bootstrap.php';
 
@@ -44,7 +45,7 @@ final class Fixture
     public static function run(callable $test): void
     {
         $dir=__DIR__.'/.phpunit.cache/run-'.bin2hex(random_bytes(8)); mkdir($dir,0700,true);
-        try { CatalogFixture::run(fn($catalog)=>$test(new self($catalog,$dir))); }
+        try { MigratedSchema::run(fn($catalog)=>$test(new self($catalog,$dir))); }
         finally { foreach (glob($dir.'/*')?:[] as $file) { unlink($file); } rmdir($dir); }
     }
     public static function makeQueue(Connection $db,D\Scope $scope,string $directory,?PdoCatalogTransaction $tx=null): PdoJobQueue
@@ -119,4 +120,148 @@ final class Fixture
         $pdo->exec('SET ROLE '.$role); $pdo->exec('SET search_path TO '.$this->catalog->db->schema);
         return new Connection($pdo,$this->catalog->db->schema);
     }
+}
+
+/** One migrated schema per process. Each case truncates rows; fences and outbox state are not reused. */
+final class MigratedSchema
+{
+    private static ?DatabaseSandbox $sandbox=null;
+    private static string $role='';
+    /** @var list<string> */
+    private static array $tables=[];
+    /** @var array<string, true> */
+    private static array $relations=[];
+    /** @var array<string, true> */
+    private static array $triggers=[];
+    /** @var array<string, true> */
+    private static array $functions=[];
+    private static int $depth=0;
+
+    public static function run(callable $test): mixed
+    {
+        if (self::$depth>0) { return CatalogFixture::run($test); }
+        self::boot();
+        self::$depth++;
+        try {
+            self::reset();
+            return $test(new CatalogFixture(self::$sandbox));
+        } finally {
+            self::$depth--;
+            self::restoreRole();
+        }
+    }
+
+    private static function boot(): void
+    {
+        if (self::$sandbox!==null) { return; }
+        $sandbox=new DatabaseSandbox(); $pdo=$sandbox->connection; $role='';
+        try {
+            $pdo->exec('CREATE SCHEMA '.$sandbox->schema);
+            $pdo->exec('SET search_path TO '.$sandbox->schema);
+            (new Migrate($pdo,$sandbox->schema))->apply(CatalogFixture::root().'/packages/core/migrations/postgres/001_metadata.sql');
+            $role='knowkit_test_'.bin2hex(random_bytes(8));
+            $pdo->exec('CREATE ROLE '.$role.' NOLOGIN NOSUPERUSER');
+            $pdo->exec('GRANT USAGE ON SCHEMA '.$sandbox->schema.' TO '.$role);
+            $pdo->exec('GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA '.$sandbox->schema.' TO '.$role);
+            self::$sandbox=$sandbox; self::$role=$role; self::snapshot();
+            register_shutdown_function(static function() use($sandbox,$role): void {
+                self::discard($sandbox->connection,$sandbox->schema,$role);
+            });
+            $pdo->exec('SET ROLE '.$role);
+        } catch (\Throwable $error) {
+            self::discard($pdo,$sandbox->schema,$role);
+            self::$sandbox=null; self::$role='';
+            throw $error;
+        }
+    }
+
+    private static function discard(\PDO $pdo,string $schema,string $role): void
+    {
+        try { if ($pdo->inTransaction()) { $pdo->rollBack(); } } catch (\Throwable) {}
+        try { $pdo->exec('RESET ROLE'); } catch (\Throwable) {}
+        if ($role!=='') {
+            try { $pdo->exec('DROP OWNED BY '.$role); } catch (\Throwable) {}
+            try { $pdo->exec('DROP ROLE IF EXISTS '.$role); } catch (\Throwable) {}
+        }
+        try { $pdo->exec('DROP SCHEMA IF EXISTS '.$schema.' CASCADE'); } catch (\Throwable) {}
+    }
+
+    private static function snapshot(): void
+    {
+        $pdo=self::$sandbox->connection; $schema=self::$sandbox->schema; $quoted=$pdo->quote($schema);
+        self::$tables=[]; self::$relations=[]; self::$triggers=[]; self::$functions=[];
+        foreach ($pdo->query("SELECT relname FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=$quoted AND c.relkind IN ('r','v','m')") as $row) {
+            self::$relations[$row['relname']]=true;
+            if ($row['relname']!=='schema_migrations') { self::$tables[]=$row['relname']; }
+        }
+        foreach ($pdo->query("SELECT c.relname,t.tgname FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=$quoted AND NOT t.tgisinternal") as $row) {
+            self::$triggers[$row['relname']."\0".$row['tgname']]=true;
+        }
+        foreach ($pdo->query("SELECT p.oid::regprocedure AS sig FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname=$quoted") as $row) {
+            self::$functions[$row['sig']]=true;
+        }
+    }
+
+    private static function reset(): void
+    {
+        $pdo=self::$sandbox->connection;
+        if ($pdo->inTransaction()) { $pdo->rollBack(); }
+        $pdo->exec('RESET ROLE');
+        $schema=self::$sandbox->schema; $pdo->exec('SET search_path TO '.$schema); $quoted=$pdo->quote($schema);
+        $counts=$pdo->query("SELECT
+            (SELECT count(*) FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=$quoted AND NOT t.tgisinternal AND t.tgenabled='D') AS disabled,
+            (SELECT count(*) FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=$quoted AND NOT t.tgisinternal) AS triggers,
+            (SELECT count(*) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname=$quoted) AS functions,
+            (SELECT count(*) FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=$quoted AND c.relkind IN ('r','v','m')) AS relations")->fetch(\PDO::FETCH_ASSOC);
+        if ((int)$counts['triggers']<count(self::$triggers) || (int)$counts['functions']<count(self::$functions) || (int)$counts['relations']<count(self::$relations)) {
+            throw new \RuntimeException('Migrated schema objects were removed; lease and outbox fences cannot be reused');
+        }
+        if ((int)$counts['disabled']!==0 || (int)$counts['triggers']!==count(self::$triggers) || (int)$counts['functions']!==count(self::$functions) || (int)$counts['relations']!==count(self::$relations)) {
+            self::repair($pdo,$schema,$quoted);
+        }
+        if (self::$tables!==[]) {
+            $list=implode(',',array_map(static fn(string $table): string => self::ident($schema).'.'.self::ident($table),self::$tables));
+            // Fail closed if a leaked backend still holds a fence lock; this does not shorten product lock_timeout.
+            $pdo->exec("SET lock_timeout='2s'");
+            $pdo->exec('TRUNCATE '.$list.' RESTART IDENTITY CASCADE');
+        }
+        $pdo->exec('DISCARD TEMP');
+        $pdo->exec('RESET ALL');
+        $pdo->exec('SET search_path TO '.$schema);
+        $pdo->exec('SET ROLE '.self::$role);
+    }
+
+    private static function repair(\PDO $pdo,string $schema,string $quoted): void
+    {
+        foreach ($pdo->query("SELECT DISTINCT c.relname FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=$quoted AND NOT t.tgisinternal AND t.tgenabled='D'") as $row) {
+            $pdo->exec('ALTER TABLE '.self::ident($schema).'.'.self::ident($row['relname']).' ENABLE TRIGGER ALL');
+        }
+        foreach ($pdo->query("SELECT c.relname,t.tgname FROM pg_trigger t JOIN pg_class c ON c.oid=t.tgrelid JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=$quoted AND NOT t.tgisinternal") as $row) {
+            if (!isset(self::$triggers[$row['relname']."\0".$row['tgname']])) {
+                $pdo->exec('DROP TRIGGER '.self::ident($row['tgname']).' ON '.self::ident($schema).'.'.self::ident($row['relname']));
+            }
+        }
+        foreach ($pdo->query("SELECT p.oid::regprocedure AS sig FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname=$quoted") as $row) {
+            if (!isset(self::$functions[$row['sig']])) { $pdo->exec('DROP FUNCTION '.$row['sig']); }
+        }
+        foreach ($pdo->query("SELECT relname,relkind FROM pg_class c JOIN pg_namespace n ON n.oid=c.relnamespace WHERE n.nspname=$quoted AND c.relkind IN ('r','v','m')") as $row) {
+            if (isset(self::$relations[$row['relname']])) { continue; }
+            $kind=$row['relkind']==='v'?'VIEW':($row['relkind']==='m'?'MATERIALIZED VIEW':'TABLE');
+            $pdo->exec('DROP '.$kind.' '.self::ident($schema).'.'.self::ident($row['relname']).' CASCADE');
+        }
+    }
+
+    private static function restoreRole(): void
+    {
+        if (self::$sandbox===null) { return; }
+        $pdo=self::$sandbox->connection;
+        try { if ($pdo->inTransaction()) { $pdo->rollBack(); } } catch (\Throwable) {}
+        try {
+            $pdo->exec('RESET ROLE');
+            $pdo->exec('SET search_path TO '.self::$sandbox->schema);
+            $pdo->exec('SET ROLE '.self::$role);
+        } catch (\Throwable) {}
+    }
+
+    private static function ident(string $name): string { return '"'.str_replace('"','""',$name).'"'; }
 }

@@ -15,6 +15,7 @@ use KnowKit\Bridge\AgenTools\Testing\ContractFixture\EvidenceContextRequest;
 use KnowKit\Bridge\AgenTools\Testing\ContractFixture\EvidenceContribution;
 use KnowKit\Bridge\AgenTools\Testing\ContractFixture\IncomingInput;
 use KnowKit\Bridge\AgenTools\Testing\ContractFixture\TextComposition;
+use KnowKit\Tests\Bridge\Contracts\Support as InstalledHost;
 use KnowKit\Tooling\Qa;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
@@ -35,8 +36,7 @@ final class SeamTest extends TestCase
         $this->assertBaselineConstructorPrefixes();
         $fixture = Contract::fixture();
         foreach ($fixture['golden']['sourcePins'] as $source) {
-            self::assertSame($source['sha256'], hash_file('sha256', Contract::root()
-                . '/.swissknifeman/orch/donor-cache/agentools/' . $source['path']));
+            self::assertSame($source['sha256'], hash('sha256', InstalledHost::installedBytes($source['path'])));
         }
         $receipt = Contract::json('tests/bridge/upstream-contract/evidence/P8.4-reuse.json');
         self::assertTrue($receipt['reviewedBeforeImplementation']);
@@ -386,7 +386,7 @@ final class SeamTest extends TestCase
     {
         $request = Contract::json('contracts/agentools/evidence-context/change-request.v1.json');
         foreach (['TextComposition' => 'evidenceContributors', 'TextContextAuthority' => 'currentSourceAuthorities'] as $class => $parameter) {
-            $source = file_get_contents(Contract::root() . '/.swissknifeman/orch/donor-cache/agentools/packages/agentools-chatom/src/' . $class . '.php');
+            $source = InstalledHost::installedBytes('packages/agentools-chatom/src/' . $class . '.php');
             $baseline = $this->baselineParameters($source);
             self::assertNotEmpty($baseline);
             $proposed = $request['signatures']['AgenToolsPlatform\\Chatom\\' . $class]['methods']['__construct']['parameters'];

@@ -11,6 +11,8 @@ use KnowKit\Answer\Domain\BoundedTurns;
 /** Exact native projections retained only for this bounded invocation, never a grant. */
 final readonly class AuthorizedHistory
 {
+    private string $manifest;
+
     /** @param list<MessageView> $messages Chronological prior turns followed by the trigger. */
     public function __construct(
         public ConversationBinding $binding,
@@ -18,9 +20,17 @@ final readonly class AuthorizedHistory
         public MessageView $trigger,
         public array $messages,
         public BoundedTurns $priorTurns,
-    ) {}
+    ) {
+        $this->manifest = self::digest(binding: $binding, viewer: $viewer, messages: $messages);
+    }
 
     public function manifestRef(): string
+    {
+        return $this->manifest;
+    }
+
+    /** @param list<MessageView> $messages */
+    private static function digest(ConversationBinding $binding, ActorRef $viewer, array $messages): string
     {
         $identities = array_map(static fn (MessageView $message): array => [
             $message->id->value,
@@ -29,15 +39,15 @@ final readonly class AuthorizedHistory
             $message->position,
             $message->revision,
             hash('sha256', $message->body),
-        ], $this->messages);
+        ], $messages);
 
         return 'chatom-history:' . hash('sha256', json_encode([
-            $this->binding->conversation->registrationKey(),
-            $this->binding->bindingRevision,
-            $this->binding->viewerBindingRef,
-            $this->binding->modelBindingRef->value,
-            $this->binding->hostScopeInputs->hostScopeHash->value,
-            (string) $this->viewer,
+            $binding->conversation->registrationKey(),
+            $binding->bindingRevision,
+            $binding->viewerBindingRef,
+            $binding->modelBindingRef->value,
+            $binding->hostScopeInputs->hostScopeHash->value,
+            (string) $viewer,
             $identities,
         ], JSON_THROW_ON_ERROR));
     }

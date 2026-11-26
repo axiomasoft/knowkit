@@ -11,7 +11,7 @@ final readonly class RerankDocument
         public ChunkRef $ref,
         private string $text,
     ) {
-        if (preg_match('//u', $text) !== 1 || hash('sha256', $text) !== $ref->chunkDigest->value) {
+        if (preg_match('//u', $text) !== 1 || !hash_equals($ref->chunkDigest->value, hash('sha256', $text))) {
             throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
         }
     }

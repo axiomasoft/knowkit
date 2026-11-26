@@ -80,9 +80,10 @@ final readonly class EmbeddingAccess
     /** @return non-empty-list<ResourceRef> */
     public function egressResources(): array
     {
-        $versions = array_values(array_filter($this->resources(), static fn(ResourceRef $r): bool => $r->kind === 'source_version'));
+        $resources = $this->resources();
+        $versions = array_values(array_filter($resources, static fn(ResourceRef $r): bool => $r->kind === 'source_version'));
 
-        return $versions === [] ? [$this->resources()[0]] : $versions;
+        return $versions === [] ? [$resources[0]] : $versions;
     }
 
     private function assertDestination(SpaceRef $space): void

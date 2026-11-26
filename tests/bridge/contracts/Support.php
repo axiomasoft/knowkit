@@ -112,6 +112,20 @@ final class Support
         return self::root() . '/packages/agentools-bridge/vendor/agentools/platform-core';
     }
 
+    public static function installedBytes(string $relative): string
+    {
+        if ($relative === '' || str_starts_with($relative, '/') || str_contains($relative, '..')) {
+            throw new \RuntimeException('Installed AgenTools host is absent: ' . $relative);
+        }
+        $path = self::donorRoot() . '/' . $relative;
+        $bytes = is_file($path) ? file_get_contents($path) : false;
+        if (!is_string($bytes)) {
+            throw new \RuntimeException('Installed AgenTools host is absent: ' . $relative);
+        }
+
+        return $bytes;
+    }
+
     public static function fixture(string $name): array
     {
         return json_decode(
@@ -128,13 +142,17 @@ final class Support
 
     public static function validator(): ContractValidator
     {
+        static $validator = null;
+        if ($validator instanceof ContractValidator) {
+            return $validator;
+        }
         $schemas = [];
         foreach (['common', 'citation-ref', 'legacy-evidence-ref'] as $name) {
             $wire = StrictJson::decode(file_get_contents(self::root() . '/schemas/' . $name . '.schema.json'));
             $schemas[$wire->get('$id')] = $wire;
         }
 
-        return new ContractValidator(new SchemaSet($schemas));
+        return $validator = new ContractValidator(new SchemaSet($schemas));
     }
 
     public static function identity(array $data): ReleaseIdentity

@@ -7,6 +7,7 @@ namespace KnowKit\Application\Reading;
 use KnowKit\Application\Access\AccessContext;
 use KnowKit\Application\Access\PolicyChecks;
 use KnowKit\Domain as D;
+use KnowKit\Domain\Contract\ContractViolation;
 use KnowKit\Domain\Reading as R;
 use KnowKit\Port\Clock;
 use KnowKit\Port\ReadingStore;
@@ -35,6 +36,8 @@ final readonly class Readings
             return $this->fresh($context, $request);
         } catch (D\DomainFailure $failure) {
             return D\Result::failure($failure);
+        } catch (ContractViolation $failure) {
+            return D\Result::failure(new D\DomainFailure(D\Outcome::Incompatible, $failure->errorCode));
         } catch (\Throwable) {
             return D\Result::failure(new D\DomainFailure(D\Outcome::Unavailable, 'reading_unavailable'));
         }

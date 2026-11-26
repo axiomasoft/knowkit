@@ -75,9 +75,20 @@ def main(module):
     return 0 if result.wasSuccessful() and result.testsRun else 1
 
 
+_CANDIDATE_FILES: tuple[str, ...] | None = None
+
+
+def candidate_files() -> tuple[str, ...]:
+    """Paths input_digests would hash. The set is fixed for this process; copies are mutated, not ROOT."""
+    global _CANDIDATE_FILES
+    if _CANDIDATE_FILES is None:
+        checker = load_checker()
+        _CANDIDATE_FILES = tuple(checker.input_digests(ROOT))
+    return _CANDIDATE_FILES
+
+
 def copy_candidate(destination):
-    checker = load_checker()
-    for relative in checker.input_digests(ROOT):
+    for relative in candidate_files():
         source, target = ROOT / relative, destination / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)

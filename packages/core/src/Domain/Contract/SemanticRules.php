@@ -251,6 +251,7 @@ final class SemanticRules
             }
         }
         $blockList = $ir->get('blocks');
+        $inCycle = self::cycleMembers($blocks);
         foreach ($blockList as $index => $block) {
             $prefix = '/blocks/' . $index;
             $blockId = $block->get('blockId');
@@ -263,19 +264,8 @@ final class SemanticRules
                     $errors[] = self::error('self_reference', $prefix . '/parentId');
                 } elseif (!isset($blocks[$parent])) {
                     $errors[] = self::error('unknown_reference', $prefix . '/parentId');
-                } else {
-                    $seen = [$blockId => true];
-                    $cursor = $parent;
-                    while ($cursor !== null && isset($blocks[$cursor])) {
-                        if (isset($seen[$cursor])) {
-                            if ($cursor === $blockId) {
-                                $errors[] = self::error('reference_cycle', $prefix . '/parentId');
-                            }
-                            break;
-                        }
-                        $seen[$cursor] = true;
-                        $cursor = $blocks[$cursor]->get('parentId');
-                    }
+                } elseif (isset($inCycle[$blockId])) {
+                    $errors[] = self::error('reference_cycle', $prefix . '/parentId');
                 }
             }
             foreach ($block->get('provenance')->get('supportingRefs') as $refIndex => $ref) {
@@ -353,5 +343,54 @@ final class SemanticRules
             $errors[] = self::error('coverage_mismatch', '/coverage/state');
         }
         return $errors;
+    }
+
+    /**
+     * Blocks whose parent chain returns to themselves. Each block has one parent, so this is
+     * linear; the previous per-block walk was quadratic on a deep outline (blocks max 200000).
+     *
+     * @param array<string, JsonObject> $blocks
+     * @return array<string, true>
+     */
+    private static function cycleMembers(array $blocks): array
+    {
+        $color = [];
+        $inCycle = [];
+        foreach ($blocks as $start => $_) {
+            if (($color[$start] ?? 0) !== 0) {
+                continue;
+            }
+            $stack = [];
+            $node = $start;
+            while (($color[$node] ?? 0) === 0) {
+                $color[$node] = 1;
+                $stack[] = $node;
+                $parent = $blocks[$node]->get('parentId');
+                if ($parent === null || !isset($blocks[$parent])) {
+                    break;
+                }
+                if (($color[$parent] ?? 0) === 1) {
+                    // Array keys coerce numeric block ids to int; parentId stays a string.
+                    $parentId = (string) $parent;
+                    for ($index = count($stack) - 1; $index >= 0; $index--) {
+                        $id = (string) $stack[$index];
+                        $inCycle[$id] = true;
+                        if ($id === $parentId) {
+                            break;
+                        }
+                    }
+                    break;
+                }
+                if (($color[$parent] ?? 0) === 2) {
+                    break;
+                }
+                $node = $parent;
+            }
+            while ($stack !== []) {
+                $color[array_pop($stack)] = 2;
+            }
+        }
+
+        return $inCycle;
     }
 }

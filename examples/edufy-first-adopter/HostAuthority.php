@@ -72,7 +72,11 @@ final class HostAuthority implements HostIdentity, AccessPolicy, EgressPolicy, I
         }
     }
 
-    /** Trusted eligibility is passed separately to core and intersected BEFORE top-k. @return list<D\SourceVersionId> */
+    /**
+     * Trusted eligibility is passed separately to core and intersected BEFORE top-k.
+     *
+     * @return list<D\SourceVersionId>
+     */
     public function eligible(): array
     {
         return $this->resolver->resolve($this->inputs->topic, $this->kbContext)->sourceVersions($this->inputs->audienceKind);

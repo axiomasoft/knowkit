@@ -20,6 +20,12 @@ final class Qa
 {
     public readonly string $root;
 
+    /** @var array<string, array{stamp: string, data: array<string, mixed>}> */
+    private static array $registries = [];
+
+    /** @var array<string, true>|null Successful suite checks for one run(); null outside run(). */
+    private ?array $verifiedSuites = null;
+
     public function __construct(string $root)
     {
         $resolved = realpath($root);
@@ -39,6 +45,45 @@ final class Qa
         $content = file_get_contents($path);
         self::ensure($content !== false, 'cannot read file: ' . $path);
         return $content;
+    }
+
+    /** Read a whole child log, or only its trailing bytes when the caller will not use the rest. */
+    private static function readOutput(string $path, ?int $tail): string
+    {
+        if ($tail === null) {
+            return self::readFile($path);
+        }
+        if ($tail === 0) {
+            return '';
+        }
+        $size = filesize($path);
+        self::ensure($size !== false, 'cannot read file: ' . $path);
+        if ($size === 0) {
+            return '';
+        }
+        if ($size <= $tail) {
+            return self::readFile($path);
+        }
+        $handle = fopen($path, 'rb');
+        self::ensure($handle !== false, 'cannot read file: ' . $path);
+        try {
+            self::ensure(fseek($handle, $size - $tail) === 0, 'cannot read file: ' . $path);
+            $content = '';
+            while (strlen($content) < $tail && !feof($handle)) {
+                $remaining = $tail - strlen($content);
+                self::ensure($remaining > 0, 'cannot read file: ' . $path);
+                $chunk = fread($handle, $remaining);
+                self::ensure($chunk !== false, 'cannot read file: ' . $path);
+                if ($chunk === '') {
+                    break;
+                }
+                $content .= $chunk;
+            }
+            self::ensure(strlen($content) === $tail, 'cannot read file: ' . $path);
+            return $content;
+        } finally {
+            fclose($handle);
+        }
     }
 
     public function file(string $relative): string
@@ -83,9 +128,11 @@ final class Qa
      *
      * @param array<int|string, mixed> $argv
      * @param array<string, string> $env
+     * @param ?int $outputTail Trailing bytes kept when output is not needed in full. Null reads everything.
+     * @param bool $keepSuccessOutput When false, successful output is discarded (JUnit/pytest already wrote a report).
      * @return array{exit: int, stdout: string, stderr: string}
      */
-    public function process(array $argv, array $env = [], int $timeout = 300): array
+    public function process(array $argv, array $env = [], int $timeout = 300, ?int $outputTail = null, bool $keepSuccessOutput = true): array
     {
         $command = [];
         foreach ($argv as $arg) {
@@ -93,6 +140,7 @@ final class Qa
             $command[] = $arg;
         }
         self::ensure($command !== [], 'invalid command argv');
+        self::ensure($outputTail === null || $outputTail >= 0, 'invalid output bound');
         $temporary = self::temporary();
         try {
             $process = proc_open($command, [0 => ['pipe', 'r'],
@@ -101,6 +149,7 @@ final class Qa
             self::ensure(is_resource($process), 'cannot start child command');
             fclose($pipes[0]);
             $start = microtime(true);
+            $slice = 1000;
             do {
                 $status = proc_get_status($process);
                 if (!$status['running']) {
@@ -111,12 +160,19 @@ final class Qa
                     proc_close($process);
                     throw new RuntimeException('child command timed out');
                 }
-                usleep(10000);
+                usleep($slice);
+                if ($slice < 20000) {
+                    $slice = min(20000, $slice * 2);
+                }
             } while (true);
             $exit = $status['exitcode'];
             proc_close($process);
-            return ['exit' => $exit, 'stdout' => self::readFile($temporary . '/stdout'),
-                'stderr' => self::readFile($temporary . '/stderr')];
+            if ($exit === 0 && $outputTail !== null && !$keepSuccessOutput) {
+                return ['exit' => $exit, 'stdout' => '', 'stderr' => ''];
+            }
+            $tail = ($exit !== 0 && $outputTail !== null) ? $outputTail : null;
+            return ['exit' => $exit, 'stdout' => self::readOutput($temporary . '/stdout', $tail),
+                'stderr' => self::readOutput($temporary . '/stderr', $tail)];
         } finally {
             self::remove($temporary);
         }
@@ -125,7 +181,14 @@ final class Qa
     /** @return array<string, mixed> */
     public function registry(): array
     {
-        $registry = $this->json('tools/qa-groups.json');
+        $path = $this->file('tools/qa-groups.json');
+        $raw = self::readFile($path);
+        $stamp = hash('sha256', $raw);
+        if (isset(self::$registries[$path]) && self::$registries[$path]['stamp'] === $stamp) {
+            return self::$registries[$path]['data'];
+        }
+        $registry = json_decode($raw, true, 512, JSON_THROW_ON_ERROR);
+        self::ensure(is_array($registry), 'expected JSON object: tools/qa-groups.json');
         self::ensure(($registry['schemaVersion'] ?? '') === 'qa-registry:1', 'unknown QA registry schema');
         $groups = $registry['groups'] ?? [];
         self::ensure($groups !== [], 'empty QA registry');
@@ -135,6 +198,7 @@ final class Qa
             self::ensure(isset($group['composerProject'], $group['minPhp'], $group['requiredCaseManifest'])
                 && ($group['commands'] ?? []) !== [], 'incomplete QA group');
         }
+        self::$registries[$path] = ['stamp' => $stamp, 'data' => $registry];
         return $registry;
     }
 
@@ -213,8 +277,20 @@ final class Qa
 
     public function suite(string $name): void
     {
+        $xmlPath = $this->file('phpunit.xml');
+        $cacheKey = null;
+        if ($this->verifiedSuites !== null) {
+            clearstatcache(true, $xmlPath);
+            $modified = filemtime($xmlPath);
+            $size = filesize($xmlPath);
+            self::ensure($modified !== false && $size !== false, 'invalid PHPUnit configuration');
+            $cacheKey = $name . "\0" . $modified . ':' . $size;
+            if (isset($this->verifiedSuites[$cacheKey])) {
+                return;
+            }
+        }
         $xml = new DOMDocument();
-        self::ensure($xml->load($this->file('phpunit.xml'), LIBXML_NONET), 'invalid PHPUnit configuration');
+        self::ensure($xml->load($xmlPath, LIBXML_NONET), 'invalid PHPUnit configuration');
         $found = false;
         foreach ($xml->getElementsByTagName('testsuite') as $suite) {
             if ($suite->getAttribute('name') !== $name) {
@@ -238,6 +314,9 @@ final class Qa
             self::ensure($count > 0, 'empty suite: ' . $name);
         }
         self::ensure($found, 'unknown suite: ' . $name);
+        if ($cacheKey !== null) {
+            $this->verifiedSuites[$cacheKey] = true;
+        }
     }
 
     /**
@@ -276,12 +355,14 @@ final class Qa
                     $this->suite($argv[$suiteIndex + 1]);
                     $this->file($argv[0]);
                 }
-                $child = $this->process($argv, ['KNOWKIT_QA_COMPOSER_PROJECT' => $project]);
+                $usesJunit = in_array('<runner-private-junit.xml>', $command, true);
+                $usesPytest = !$usesJunit && str_contains(implode(' ', $command), '<runner-private-pytest-junit.xml>');
+                $child = $this->process($argv, ['KNOWKIT_QA_COMPOSER_PROJECT' => $project], 300, 8192, !$usesJunit && !$usesPytest);
                 self::ensure($child['exit'] === 0, 'child failed: ' . $group['id'] . ' exit ' . $child['exit']
                     . "\n" . substr($child['stdout'], -8192) . "\n" . substr($child['stderr'], -8192));
-                if (in_array('<runner-private-junit.xml>', $command, true)) {
+                if ($usesJunit) {
                     $cases = array_merge($cases, self::junit($junit));
-                } elseif (str_contains(implode(' ', $command), '<runner-private-pytest-junit.xml>')) {
+                } elseif ($usesPytest) {
                     $cases = array_merge($cases, self::junit($pytest));
                 } else {
                     $report = json_decode($child['stdout'], true, 512, JSON_THROW_ON_ERROR);
@@ -315,6 +396,7 @@ final class Qa
         self::ensure(($root['config']['platform']['php'] ?? '') === '8.3.0', 'root PHP floor changed');
         $namespaces = [];
         $installed = 0;
+        $coreManifest = null;
         foreach ($architecture['packages'] as $id => $definition) {
             $relative = $definition['path'] . '/composer.json';
             if (!file_exists($this->root . '/' . $relative)) {
@@ -323,6 +405,9 @@ final class Qa
             }
             $installed++;
             $manifest = $this->json($relative);
+            if ($id === 'core') {
+                $coreManifest = $manifest;
+            }
             self::ensure(($manifest['name'] ?? '') === $definition['name'], 'package name differs: ' . $id);
             self::ensure(($manifest['type'] ?? '') === 'library', 'package must not be an installer/plugin: ' . $id);
             self::ensure(($manifest['require']['php'] ?? '') === '>=' . $definition['minPhp'], 'package PHP floor differs: ' . $id);
@@ -341,12 +426,14 @@ final class Qa
             }
             $namespaces[$id] = $definition['namespace'];
         }
-        $core = $this->json('packages/core/composer.json');
+        self::ensure(is_array($coreManifest), 'missing core package');
+        $core = $coreManifest;
         $expected = ['php' => '>=8.3', 'ext-pdo' => '*', 'ext-json' => '*', 'ext-mbstring' => '*'];
         self::ensure($core['require'] == $expected, 'core runtime graph differs');
         self::ensure(isset($core['suggest']['ext-pdo_pgsql']), 'missing PostgreSQL extension declaration');
+        $packagePaths = array_column($architecture['packages'], 'path');
         foreach (glob($this->root . '/packages/*/composer.json') ?: [] as $path) {
-            self::ensure(in_array(substr($path, strlen($this->root) + 1, -14), array_column($architecture['packages'], 'path'), true), 'unapproved Composer package');
+            self::ensure(in_array(substr($path, strlen($this->root) + 1, -14), $packagePaths, true), 'unapproved Composer package');
         }
         $files = 0;
         foreach ($architecture['packages'] as $id => $definition) {
@@ -533,22 +620,31 @@ final class Qa
         $registry = $this->registry();
         $selected = $this->select($args, $registry);
         $results = [];
-        foreach ($registry['groups'] as $group) {
-            if (!in_array($group['id'], $selected, true)) {
-                $results[] = ['id' => $group['id'], 'status' => 'NOT_SELECTED', 'qualification' => 'PENDING'];
-                continue;
+        $this->verifiedSuites = [];
+        try {
+            foreach ($registry['groups'] as $group) {
+                if (!in_array($group['id'], $selected, true)) {
+                    $results[] = ['id' => $group['id'], 'status' => 'NOT_SELECTED', 'qualification' => 'PENDING'];
+                    continue;
+                }
+                try {
+                    $results[] = $this->group($group);
+                } catch (Throwable $error) {
+                    $results[] = ['id' => $group['id'], 'status' => 'FAIL', 'error' => $error->getMessage()];
+                }
             }
-            try {
-                $results[] = $this->group($group);
-            } catch (Throwable $error) {
-                $results[] = ['id' => $group['id'], 'status' => 'FAIL', 'error' => $error->getMessage()];
-            }
+        } finally {
+            $this->verifiedSuites = null;
         }
         $checks = [];
         if ($args[0] === 'all' || $args[0] === '--profile') {
+            $ran = [];
             foreach ($registry['checks'] as $id => $argv) {
-                $result = $this->process($argv);
-                $checks[] = ['id' => $id, 'exit' => $result['exit']];
+                $key = json_encode($argv, JSON_THROW_ON_ERROR);
+                if (!array_key_exists($key, $ran)) {
+                    $ran[$key] = $this->process($argv, [], 300, 0, false)['exit'];
+                }
+                $checks[] = ['id' => $id, 'exit' => $ran[$key]];
             }
         }
         $failed = array_filter($results, static fn(array $result): bool => $result['status'] === 'FAIL');

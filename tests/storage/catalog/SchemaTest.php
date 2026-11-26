@@ -59,7 +59,7 @@ final class SchemaTest extends TestCase
         CatalogFixture::run(function($f) {
             $pdo=$f->db->pdo; $role=$pdo->query('SELECT current_user')->fetchColumn();
             $pdo->exec('RESET ROLE');
-            try { $pdo->exec(file_get_contents(__DIR__.'/fixtures/v1/metadata.sql')); }
+            try { $pdo->exec(CatalogFixture::seedSql()); }
             finally { $pdo->exec('SET ROLE '.$role); }
             $this->assertUint32Storage($pdo,$f->sandbox->schema);
         });
@@ -71,12 +71,14 @@ final class SchemaTest extends TestCase
             $baseline=CatalogFixture::root().'/packages/core/migrations/postgres/001_metadata.sql';
             $fixture=$this->uint32Fixture();
             // Reproduce an installed 001 database without letting the current migrator upgrade it.
-            self::assertSame($fixture['baselineChecksum'],hash_file('sha256',$baseline));
+            $baselineBytes=file_get_contents($baseline);
+            self::assertIsString($baselineBytes);
+            self::assertSame($fixture['baselineChecksum'],hash('sha256',$baselineBytes));
             $pdo->beginTransaction();
-            $pdo->exec(file_get_contents($baseline));
+            $pdo->exec($baselineBytes);
             $pdo->exec('CREATE TABLE schema_migrations(id text PRIMARY KEY,checksum char(64) NOT NULL,applied_at timestamptz NOT NULL)');
             $pdo->prepare("INSERT INTO schema_migrations VALUES ('001_metadata',?,'2026-11-06T12:00:00Z')")->execute([$fixture['baselineChecksum']]);
-            $pdo->exec(file_get_contents(__DIR__.'/fixtures/v1/metadata.sql'));
+            $pdo->exec(CatalogFixture::seedSql());
             $pdo->commit();
             $pages=$pdo->query('SELECT * FROM pages ORDER BY tenant_id,id')->fetchAll(\PDO::FETCH_ASSOC);
             $blocks=$pdo->query('SELECT * FROM blocks ORDER BY tenant_id,id')->fetchAll(\PDO::FETCH_ASSOC);
@@ -103,7 +105,13 @@ final class SchemaTest extends TestCase
     }
     private function uint32Fixture(): array
     {
-        return json_decode(file_get_contents(__DIR__.'/fixtures/v2/uint32.json'),true,512,JSON_THROW_ON_ERROR);
+        static $fixture;
+        if ($fixture===null) {
+            $bytes=file_get_contents(__DIR__.'/fixtures/v2/uint32.json');
+            if (!is_string($bytes)) { throw new \RuntimeException('Unreadable fixture: v2/uint32.json'); }
+            $fixture=json_decode($bytes,true,512,JSON_THROW_ON_ERROR);
+        }
+        return $fixture;
     }
     private function assertUint32Storage(\PDO $pdo,string $schema): void
     {
@@ -208,23 +216,22 @@ final class SchemaTest extends TestCase
     }
     public function testExplicitMigrationCliUsesChecksumWithoutImplicitInstall(): void
     {
-        CatalogFixture::run(function($f) {
-            $p=$f->db->pdo; $p->exec('RESET ROLE'); $schema=$f->sandbox->schema.'_cli'; $p->exec('CREATE SCHEMA '.$schema);
-            try {
-                $env=array_merge(getenv(),['KNOWKIT_PG_DSN'=>getenv('TEST_PG_DSN')?:'pgsql:host=127.0.0.1;port=55432;dbname=knowkit_test',
-                    'KNOWKIT_PG_USER'=>getenv('TEST_PG_USER')?:'knowkit_test','KNOWKIT_PG_PASSWORD'=>getenv('TEST_PG_PASSWORD')?:'']);
-                $run=function() use($schema,$env) {
-                    $pipes=[]; $process=proc_open([PHP_BINARY,CatalogFixture::root().'/packages/core/src/Adapter/Postgres/Catalog/migrate.php',$schema],
-                        [0=>['pipe','r'],1=>['pipe','w'],2=>['pipe','w']],$pipes,CatalogFixture::root(),$env);
-                    self::assertIsResource($process); fclose($pipes[0]); $out=stream_get_contents($pipes[1]); $err=stream_get_contents($pipes[2]);
-                    fclose($pipes[1]); fclose($pipes[2]); return [proc_close($process),$out,$err];
-                };
-                self::assertSame([0,"001_metadata applied\n002_metadata_uint32 applied\n003_jobs applied\n",''],$run());
-                self::assertSame([0,"001_metadata applied\n002_metadata_uint32 applied\n003_jobs applied\n",''],$run());
-                self::assertSame(14,(int)$p->query('SELECT count(*) FROM '.$schema.'.schema_migrations')->fetchColumn());
-                $p->exec("UPDATE ".$schema.".schema_migrations SET checksum=repeat('0',64)");
-                self::assertSame([1,'',"Migration failed; verify schema, connection and checksum\n"],$run());
-            } finally { $p->exec('DROP SCHEMA '.$schema.' CASCADE'); }
+        // The empty sandbox schema is the CLI target. Migrating another schema first would not isolate writes.
+        (new DatabaseSandbox())->run(function($sandbox) {
+            $p=$sandbox->connection; $schema=$sandbox->schema;
+            $env=array_merge(getenv(),['KNOWKIT_PG_DSN'=>getenv('TEST_PG_DSN')?:'pgsql:host=127.0.0.1;port=55432;dbname=knowkit_test',
+                'KNOWKIT_PG_USER'=>getenv('TEST_PG_USER')?:'knowkit_test','KNOWKIT_PG_PASSWORD'=>getenv('TEST_PG_PASSWORD')?:'']);
+            $run=function() use($schema,$env) {
+                $pipes=[]; $process=proc_open([PHP_BINARY,CatalogFixture::root().'/packages/core/src/Adapter/Postgres/Catalog/migrate.php',$schema],
+                    [0=>['pipe','r'],1=>['pipe','w'],2=>['pipe','w']],$pipes,CatalogFixture::root(),$env);
+                self::assertIsResource($process); fclose($pipes[0]); $out=stream_get_contents($pipes[1]); $err=stream_get_contents($pipes[2]);
+                fclose($pipes[1]); fclose($pipes[2]); return [proc_close($process),$out,$err];
+            };
+            self::assertSame([0,"001_metadata applied\n002_metadata_uint32 applied\n003_jobs applied\n",''],$run());
+            self::assertSame([0,"001_metadata applied\n002_metadata_uint32 applied\n003_jobs applied\n",''],$run());
+            self::assertSame(14,(int)$p->query('SELECT count(*) FROM '.$schema.'.schema_migrations')->fetchColumn());
+            $p->exec("UPDATE ".$schema.".schema_migrations SET checksum=repeat('0',64)");
+            self::assertSame([1,'',"Migration failed; verify schema, connection and checksum\n"],$run());
         });
     }
 }

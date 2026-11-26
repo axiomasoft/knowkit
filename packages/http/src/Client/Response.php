@@ -49,7 +49,7 @@ final readonly class Response
             if ($id->value !== $call->requestId->value) {
                 throw new ProtocolFailure();
             }
-            $body = StrictJson::decode($wire->body, 8388608);
+            $body = StrictJson::decode($wire->body, StreamTransport::MAX_RESPONSE_BYTES);
             $contract->validate(schema: 'Envelope', body: $body);
             $response = new self(status: $wire->status, requestId: $id, envelope: $body);
             $response->assertStatus($call);

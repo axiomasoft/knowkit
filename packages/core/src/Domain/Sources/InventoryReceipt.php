@@ -115,7 +115,12 @@ final readonly class InventoryReceipt
         $renameTuples = array_map(static fn (Rename $r): array => [
             $r->oldOriginKey, $r->newOriginKey, $r->oldPath, $r->newPath,
         ], $renames);
-        usort($renameTuples, static fn (array $a, array $b): int => strcmp(Jcs::canonicalize($a), Jcs::canonicalize($b)));
+        $orderedRenames = [];
+        foreach ($renameTuples as $tuple) {
+            $orderedRenames[] = [Jcs::canonicalize($tuple), $tuple];
+        }
+        usort($orderedRenames, static fn (array $a, array $b): int => strcmp($a[0], $b[0]));
+        $renameTuples = array_map(static fn (array $row): array => $row[1], $orderedRenames);
 
         return new D\Fingerprint(HashDomain::ResourceInventory->digest(new JsonObject([
             'kind' => 'source-inventory', 'schemaVersion' => 'source-inventory-1.0',

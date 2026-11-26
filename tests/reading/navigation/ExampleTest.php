@@ -48,7 +48,7 @@ final class ExampleTest extends TestCase
                 echo ' ' . $failure->outcome->value . ' ' . $failure->errorCode;
             }
             PHP;
-        $result = (new Qa(PortFixture::root()))->process([PHP_BINARY, '-n', '-r', $code]);
+        $result = (new Qa(PortFixture::root()))->process([PHP_BINARY, '-r', $code]);
         self::assertSame(0, $result['exit'], $result['stderr']);
         self::assertContains($result['stdout'], ['ready', 'failed incompatible normalizer_unavailable']);
     }

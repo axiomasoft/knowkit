@@ -131,7 +131,9 @@ final class Worker
     {
         $this->write('GO');
         for ($i=0;$i<350;$i++) {
-            if ($f->db()->execute('SELECT EXISTS (SELECT 1 FROM pg_locks WHERE pid=? AND NOT granted)',[$this->pid])->fetchColumn()) { return; }
+            // pdo_pgsql may yield bool or 't'/'f'. A truthy 'f' would skip the fence wait.
+            $locked = $f->db()->execute('SELECT EXISTS (SELECT 1 FROM pg_locks WHERE pid=? AND NOT granted)',[$this->pid])->fetchColumn();
+            if ($locked === true || $locked === 't' || $locked === 1 || $locked === '1') { return; }
             usleep(1000);
         }
         throw new \RuntimeException('Worker did not block on PostgreSQL semantic guard');

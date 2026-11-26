@@ -7,6 +7,8 @@ namespace KnowKit\Tests\Ops\Resilience;
 use KnowKit\Adapter\Postgres\Catalog\Connection;
 use PHPUnit\Framework\Assert;
 
+require_once dirname(__DIR__) . '/LocalIO.php';
+
 /** Trusted test IPC only. Capabilities/configuration go through stdin, never argv or evidence. */
 final class Process
 {
@@ -30,20 +32,46 @@ final class Process
         if (!is_resource($this->process)) {
             throw new \RuntimeException('Independent PHP interpreter required');
         }
-        stream_set_timeout($this->pipes[1], 15);
-        fwrite($this->pipes[0], base64_encode(serialize($config)) . "\n");
-        fflush($this->pipes[0]);
-        $ready = $this->receive('READY');
-        $this->pid = $ready['pid'];
-        $this->backend = $ready['backend'];
-        Assert::assertNotSame(getmypid(), $this->pid);
-        Assert::assertNotSame((int) $db->execute('SELECT pg_backend_pid()')->fetchColumn(), $this->backend);
+        try {
+            stream_set_timeout($this->pipes[1], 15);
+            // fgets() stores at most length-1 bytes. A short write would otherwise stall the worker on a partial frame.
+            $frame = base64_encode(serialize($config)) . "\n";
+            if (strlen($frame) > \KnowKit\Tooling\LocalIO::LINE_LIMIT - 1) {
+                throw new \RuntimeException('fault worker configuration exceeds IPC bound');
+            }
+            self::write($this->pipes[0], $frame);
+            $ready = $this->receive('READY');
+            $this->pid = $ready['pid'];
+            $this->backend = $ready['backend'];
+            Assert::assertNotSame(getmypid(), $this->pid);
+            Assert::assertNotSame((int) $db->execute('SELECT pg_backend_pid()')->fetchColumn(), $this->backend);
+        } catch (\Throwable $failure) {
+            // A constructor exception does not run __destruct, so the child must be stopped here.
+            $this->stop();
+            throw $failure;
+        }
     }
 
     public function go(): void
     {
-        fwrite($this->pipes[0], "GO\n");
-        fflush($this->pipes[0]);
+        self::write($this->pipes[0], "GO\n");
+    }
+
+    /** @param resource $stream */
+    private static function write(mixed $stream, string $frame): void
+    {
+        $offset = 0;
+        $length = strlen($frame);
+        while ($offset < $length) {
+            $written = fwrite($stream, substr($frame, $offset));
+            if ($written === false || $written < 1) {
+                throw new \RuntimeException('fault worker IPC write failed');
+            }
+            $offset += $written;
+        }
+        if (!fflush($stream)) {
+            throw new \RuntimeException('fault worker IPC flush failed');
+        }
     }
 
     public function receive(string $event): array
@@ -126,10 +154,16 @@ final class Process
 
     public function __destruct()
     {
-        if (is_resource($this->process)) {
-            proc_terminate($this->process, 9);
-            $this->close();
+        $this->stop();
+    }
+
+    private function stop(): void
+    {
+        if (!is_resource($this->process)) {
+            return;
         }
+        proc_terminate($this->process, 9);
+        $this->close();
     }
 
     public static function emit(string $event, array $data = []): void

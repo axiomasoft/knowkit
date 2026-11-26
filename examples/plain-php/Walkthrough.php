@@ -62,7 +62,9 @@ final class Walkthrough
         $citation = $fragment->get('citation');
         $read = $this->require($this->call('read source', ['citationId' => $citation->get('citationId'),
             'attemptId' => Host::id('read-attempt')]));
-        if (hash('sha256', base64_decode($read->get('contentBase64'), true)) !== hash_file('sha256', self::fixture())) {
+        $raw = base64_decode($read->get('contentBase64'), true);
+        $expected = hash_file('sha256', self::fixture());
+        if (!is_string($raw) || !is_string($expected) || hash('sha256', $raw) !== $expected) {
             throw new \RuntimeException('Source identity assertion failed');
         }
         $this->require($this->call('lifecycle revoke', ['sourceId' => Host::id('demo-source'), 'reason' => 'source_revoked'], 'revoke', '0'));

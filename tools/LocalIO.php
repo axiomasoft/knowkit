@@ -6,6 +6,9 @@ namespace KnowKit\Tooling;
 
 final class LocalIO
 {
+    /** Argument to fgets(); the returned line is at most this many bytes minus one. */
+    public const LINE_LIMIT = 1048576;
+
     public static function read(string $path): string
     {
         $data = file_get_contents($path);
@@ -26,7 +29,7 @@ final class LocalIO
     }
 
     /** @param resource $stream */
-    public static function line($stream, int $length = 1048576): string
+    public static function line($stream, int $length = self::LINE_LIMIT): string
     {
         if ($length < 1) {
             throw new \InvalidArgumentException('IPC line limit must be positive');

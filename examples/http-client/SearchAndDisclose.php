@@ -18,15 +18,20 @@ final readonly class SearchAndDisclose
         private Client $client,
         private ContractValidator $validator,
         private IdGenerator $ids,
+        private D\Limit $limit = new D\Limit(8),
     ) {}
 
     public function execute(D\Query $query): Response
     {
-        $found = $this->client->search(query: $query, limit: new D\Limit(8), requestId: $this->ids->next());
+        $found = $this->client->search(query: $query, limit: $this->limit, requestId: $this->ids->next());
         if ($found->outcome !== D\Outcome::Success) {
             return $found;
         }
+        // Success without a selection object is not a disclosure. Do not invent chunk refs.
         $selection = $found->selection($this->validator);
+        if ($selection === null) {
+            return $found;
+        }
         $request = new D\DisclosureRequest(value: new JsonObject([
             'selectionId' => $selection->id()->value,
             'chunkRefs' => array_map(static fn (D\ChunkRef $ref): JsonObject => $ref->toWire(), $selection->candidateRefs()),

@@ -23,8 +23,14 @@ final class KnowKitServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(path: __DIR__ . '/../config/knowkit.php', key: 'knowkit');
-        $this->app->bind(abstract: EnvironmentCredentials::class, concrete: fn (): EnvironmentCredentials =>
-            new EnvironmentCredentials($this->config()->get('knowkit.credentials')));
+        $this->app->bind(abstract: EnvironmentCredentials::class, concrete: function (): EnvironmentCredentials {
+            $names = $this->config()->get('knowkit.credentials');
+            if (!is_array($names)) {
+                throw new DomainFailure(outcome: Outcome::Incompatible, errorCode: 'invalid_environment_reference');
+            }
+
+            return new EnvironmentCredentials($names);
+        });
         $this->registerAdapters();
         $this->registerJobs();
     }
@@ -116,10 +122,25 @@ final class KnowKitServiceProvider extends ServiceProvider
         }
         $registrar = $this->app->make($class);
         $router = $this->app->make(Router::class);
-        $router->group(
-            attributes: ['middleware' => [AuthenticateContext::class]],
-            routes: static fn (Router $router) => $registrar->register($router),
-        );
+        $existing = [];
+        foreach ($router->getRoutes()->getRoutes() as $route) {
+            $existing[spl_object_id($route)] = true;
+        }
+        $registrar->register($router);
+        // Append, do not prepend: host auth on the route must run before this guard.
+        // Priority only sorts routes that already include this class; it is not global middleware.
+        $seen = [];
+        foreach ($router->getRoutes()->getRoutes() as $route) {
+            $id = spl_object_id($route);
+            if (isset($existing[$id]) || isset($seen[$id])) {
+                continue;
+            }
+            $seen[$id] = true;
+            $route->middleware(AuthenticateContext::class);
+        }
+        if (!in_array(AuthenticateContext::class, $router->middlewarePriority, true)) {
+            $router->middlewarePriority[] = AuthenticateContext::class;
+        }
     }
 
     private function config(): Repository

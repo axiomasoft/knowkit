@@ -37,12 +37,12 @@ final class Host implements HostIdentity, P\AccessPolicy, P\EgressPolicy, P\Cloc
     {
         $bits = '00';
         foreach (str_split(substr(hash('sha256', $seed), 0, 32)) as $digit) {
-            $bits .= str_pad(decbin(hexdec($digit)), 4, '0', STR_PAD_LEFT);
+            $bits .= str_pad(decbin((int) hexdec($digit)), 4, '0', STR_PAD_LEFT);
         }
         $alphabet = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
         $id = '';
         foreach (str_split($bits, 5) as $part) {
-            $id .= $alphabet[bindec($part)];
+            $id .= $alphabet[(int) bindec($part)];
         }
 
         return $id;
@@ -56,6 +56,9 @@ final class Host implements HostIdentity, P\AccessPolicy, P\EgressPolicy, P\Cloc
     public function now(): D\UtcInstant
     {
         $now = $this->db->execute('SELECT clock_timestamp()')->fetchColumn();
+        if (!is_string($now) || $now === '') {
+            throw new D\DomainFailure(D\Outcome::Unavailable, 'clock_unavailable');
+        }
 
         return new D\UtcInstant((new \DateTimeImmutable($now))
             ->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s.u\Z'));
@@ -121,8 +124,8 @@ final class Host implements HostIdentity, P\AccessPolicy, P\EgressPolicy, P\Cloc
             ORDER BY v.id
             SQL;
 
-        return array_map(static fn (array $row): D\SourceVersionId => new D\SourceVersionId($row['id']),
-            $this->db->execute($sql, [$s->tenantId->value, $s->kbId->value])->fetchAll(\PDO::FETCH_ASSOC));
+        return array_values(array_map(static fn (array $row): D\SourceVersionId => new D\SourceVersionId($row['id']),
+            $this->db->execute($sql, [$s->tenantId->value, $s->kbId->value])->fetchAll(\PDO::FETCH_ASSOC)));
     }
 
     public function authorizeQuery(D\Scope $scope): D\QueryGrant

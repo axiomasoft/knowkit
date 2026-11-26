@@ -8,9 +8,11 @@ use Chatom\Actors\Data\ActorRef;
 use KnowKit\Application\Reading\Readings;
 use KnowKit\Chatom\Domain\ConversationRef;
 use KnowKit\Chatom\Port\CitationViewerContext;
+use KnowKit\Domain\DisclosureReplay;
 use KnowKit\Domain\DomainFailure;
 use KnowKit\Domain\Outcome;
 use KnowKit\Domain\Reading\ReadRequest;
+use KnowKit\Domain\Reading\ReadResponse;
 use KnowKit\Domain\Result;
 use Throwable;
 
@@ -21,6 +23,7 @@ final readonly class ChatomCitationGateway
         private Readings $readings,
     ) {}
 
+    /** @return Result<ReadResponse>|Result<DisclosureReplay> */
     public function preview(ConversationRef $conversation, ActorRef $viewer, ReadRequest $request): Result
     {
         try {

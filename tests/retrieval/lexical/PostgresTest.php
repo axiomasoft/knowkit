@@ -196,13 +196,12 @@ final class PostgresTest extends TestCase
     }
     private function assertFixture(LexicalFixture $f, string $id): void
     {
-        foreach (LexicalFixture::corpus()['queries'] as $case) {
-            if ($case['id']!==$id) { continue; }
-            $list = $f->index->search($f->scope(),new D\Query($case['query']),20);
-            self::assertSame($case['expected'],$f->names($list),$id);
-            foreach ($list->candidates as $n=>$candidate) { self::assertSame($n+1,$candidate->rank); self::assertGreaterThan(0,$candidate->score); }
-            return;
-        }
-        self::fail('Missing authored query expectation');
+        static $queries;
+        $queries ??= array_column(LexicalFixture::corpus()['queries'], null, 'id');
+        $case = $queries[$id] ?? null;
+        if (!is_array($case)) { self::fail('Missing authored query expectation'); }
+        $list = $f->index->search($f->scope(),new D\Query($case['query']),20);
+        self::assertSame($case['expected'],$f->names($list),$id);
+        foreach ($list->candidates as $n=>$candidate) { self::assertSame($n+1,$candidate->rank); self::assertGreaterThan(0,$candidate->score); }
     }
 }

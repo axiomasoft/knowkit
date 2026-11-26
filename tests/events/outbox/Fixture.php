@@ -12,6 +12,7 @@ use KnowKit\Tests\Storage\Catalog\{CatalogFixture,TestIds};
 use PHPUnit\Framework\Assert;
 
 require_once dirname(__DIR__,2).'/storage/catalog/bootstrap.php';
+require_once dirname(__DIR__,2).'/jobs/leases/Fixture.php';
 
 final class Fixture
 {
@@ -19,8 +20,9 @@ final class Fixture
     public static function id(int $n): string { return PortFixture::id($n); }
     public static function root(): string { return dirname(__DIR__,3); }
     public static function run(callable $run): void
-    { CatalogFixture::run(function(CatalogFixture $c) use ($run): void { $c->tenant(); $run(new self($c)); }); }
-    public static function data(): JsonObject { return StrictJson::decode(file_get_contents(__DIR__.'/fixtures/v1/cases.json')); }
+    { \KnowKit\Tests\Jobs\Leases\MigratedSchema::run(function(CatalogFixture $c) use ($run): void { $c->tenant(); $run(new self($c)); }); }
+    public static function data(): JsonObject
+    { static $data=null; return $data ??= StrictJson::decode((string)file_get_contents(__DIR__.'/fixtures/v1/cases.json')); }
     public static function event(int $id = 500, string $version = '1', ?JsonObject $payload = null, string $type = 'source.revoked', int $tenant = 1): D\DomainEvent
     {
         $payload ??= new JsonObject(['sourceId'=>self::id(2),'reason'=>'source_revoked','lifecycleEpoch'=>$version,'appliesTo'=>'future_versions']);

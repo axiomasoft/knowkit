@@ -20,7 +20,8 @@ final class FixtureTest extends TestCase
         self::assertSame('chunking-fixtures:1', $manifest['schemaVersion']); self::assertSame($group['fixtureVersion'], $manifest['fixtureVersion']);
         self::assertNotEmpty($manifest['rights']['license']); self::assertNotEmpty($manifest['rights']['provenance']); self::assertNotEmpty($manifest['versionRationale']);
         foreach ($manifest['cases'] as $case) {
-            self::assertSame($case['sha256'], hash_file('sha256', $root . '/' . $case['path']));
+            $bytes = ChunkingFixture::file($root . '/' . $case['path']);
+            self::assertSame($case['sha256'], hash('sha256', $bytes));
             $ir = ChunkingFixture::ir($case['id']); $expected = $case['expected'];
             $options = isset($expected['maxBytes']) ? ['maxBytes' => $expected['maxBytes']] : [];
             $result = ChunkingFixture::chunker($ir)->build($ir, ChunkingFixture::profile($options));

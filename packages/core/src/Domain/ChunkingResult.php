@@ -24,12 +24,36 @@ readonly class ChunkingResult
 
     public Fingerprint $manifestDigest;
 
+    /** @var array<string, JsonObject>|null null if any entry is not an object; metadata() must then scan and fail at that entry */
+    private ?array $chunksById;
+
     final public function __construct(
         public ChunkSet $chunkSet,
         JsonObject $manifest,
     ) {
         $this->manifest = new FrozenJson($manifest);
         $this->manifestDigest = new Fingerprint(HashDomain::ChunkSetManifest->digest($manifest));
+        $this->chunksById = self::indexChunks($this->manifest->toWire()->get('chunks'));
+    }
+
+    /** @return array<string, JsonObject>|null */
+    private static function indexChunks(mixed $chunks): ?array
+    {
+        if (!is_array($chunks)) {
+            return null;
+        }
+        $index = [];
+        foreach ($chunks as $entry) {
+            if (!$entry instanceof JsonObject) {
+                return null;
+            }
+            $id = $entry->get('chunkId');
+            if (is_string($id) && !isset($index[$id])) {
+                $index[$id] = $entry;
+            }
+        }
+
+        return $index;
     }
 
     final public function manifest(): JsonObject
@@ -62,6 +86,9 @@ readonly class ChunkingResult
 
     final public function metadata(string $chunkId): JsonObject
     {
+        if ($this->chunksById !== null) {
+            return $this->chunksById[$chunkId] ?? throw new InvalidArgumentException('Unknown exact chunk');
+        }
         foreach ($this->manifest()->get('chunks') as $entry) {
             if ($entry->get('chunkId') === $chunkId) {
                 return $entry;

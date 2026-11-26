@@ -46,12 +46,17 @@ final class ContractValidator
     /** Decode and require validity; the first sorted error becomes the typed violation. */
     public function decodeValid(string $bytes, string $schemaId): JsonObject
     {
-        $errors = $this->validateBytes($bytes, $schemaId);
+        $schema = $this->schemas->root($schemaId);
+        $limit = $schema->get('x-knowkit-maxDocumentBytes');
+        try {
+            $document = StrictJson::decode($bytes, is_int($limit) ? $limit : StrictJson::DEFAULT_MAX_BYTES);
+        } catch (ContractViolation $violation) {
+            throw new ContractViolation($violation->errorCode, '');
+        }
+        $errors = $this->validateValue($document, $schemaId);
         if ($errors !== []) {
             throw new ContractViolation($errors[0]['code'], $errors[0]['path']);
         }
-        $limit = $this->schemas->root($schemaId)->get('x-knowkit-maxDocumentBytes');
-        $document = StrictJson::decode($bytes, is_int($limit) ? $limit : StrictJson::DEFAULT_MAX_BYTES);
         if (!$document instanceof JsonObject) {
             throw new ContractViolation('type');
         }

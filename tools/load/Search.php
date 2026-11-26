@@ -24,16 +24,21 @@ final class Search
         LexicalFixture::run(function (LexicalFixture $f) use (&$report): void {
             $dataset = new Dataset($f);
             $dataset->load();
+            $reference = Report::profile()['reference'];
+            $sources = Report::intField($reference, 'sources');
+            $chunks = Report::intField($reference, 'chunks');
+            $clients = Report::intField($reference, 'searchClients');
+            $ceiling = Report::intField($reference, 'lexicalWarmP95Ms');
             $lookups = Lookups::run($f->catalog->db);
             $cohort = self::cohort($dataset);
             $large = self::largePrefilter($dataset);
             $warmStats = $cohort['warmLatencyMs'];
-            $report = Report::save('lexical', ['sources' => 10000, 'chunks' => 100000, 'clients' => 20,
+            $report = Report::save('lexical', ['sources' => $sources, 'chunks' => $chunks, 'clients' => $clients,
                 'prefilterSourcesPerClient' => 64, ...$cohort,
                 'largePrefilter' => $large,
                 'immutableLookupPlans' => $lookups,
                 'manifestBytes' => $dataset->manifestBytes,
-                'targetWarmP95Ms' => 500, 'targetMet' => $warmStats['p95'] <= 500,
+                'targetWarmP95Ms' => $ceiling, 'targetMet' => $warmStats['p95'] <= $ceiling,
                 'postgres' => $f->catalog->db->execute('SHOW server_version')->fetchColumn(),
                 'providerCalls' => 0, 'tokens' => 0,
                 'setup' => 'Bulk fixture SQL excluded. 5000 EN and 5000 RU immutable source manifests, ten overlapping exact chunks per source. Existing fixture controls are outside generation 900.']);
@@ -46,10 +51,12 @@ final class Search
     {
         $sets = array_slice($dataset->sets, 0, 64);
         $scope = $dataset->scope($sets);
+        $clients = Report::intField(Report::profile()['reference'], 'searchClients');
+        $iterations = Report::intField(Report::profile()['quotas'], 'searchWarmIterationsPerClient');
         $actors = [];
-        for ($client = 0; $client < 20; ++$client) {
+        for ($client = 0; $client < $clients; ++$client) {
             $actors[] = new Actor(db: $dataset->fixture->catalog->db, config: ['operation' => 'search', 'sets' => $sets,
-                'scope' => $scope, 'iterations' => 5]);
+                'scope' => $scope, 'iterations' => $iterations]);
         }
         foreach ($actors as $actor) {
             $actor->go();

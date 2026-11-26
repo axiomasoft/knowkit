@@ -75,15 +75,17 @@ final class ContextTest extends TestCase
     public function testMalformedHostEligibilityAndUnboundedOwnerWindowAreRejected(): void
     {
         $scope=PolicyFixture::scope();
-        foreach ([fn()=>new PolicyContext($scope,''),
-            fn()=>new PolicyContext($scope,'students',['read','read']),
-            fn()=>new PolicyContext($scope,'students',['*']),
-            fn()=>new PolicyContext($scope,'students',array_map(static fn(int $i): string=>'grant:'.$i,range(0,256))),
-            fn()=>new D\Access\OwnerFreshness('',1),
-            fn()=>new D\Access\OwnerFreshness('owner:1',0),
-            fn()=>new D\Access\OwnerFreshness('owner:1',6)] as $invalid) {
+        foreach ([
+            [fn()=>new PolicyContext($scope,''), 'Bounded host policy identifier required'],
+            [fn()=>new PolicyContext($scope,'students',['read','read']), 'Bounded unique host eligibility required'],
+            [fn()=>new PolicyContext($scope,'students',['*']), 'Bounded host policy identifier required'],
+            [fn()=>new PolicyContext($scope,'students',array_map(static fn(int $i): string=>'grant:'.$i,range(0,256))), 'Bounded unique host eligibility required'],
+            [fn()=>new D\Access\OwnerFreshness('',1), 'Explicit bounded owner freshness contract required'],
+            [fn()=>new D\Access\OwnerFreshness('owner:1',0), 'Explicit bounded owner freshness contract required'],
+            [fn()=>new D\Access\OwnerFreshness('owner:1',6), 'Explicit bounded owner freshness contract required'],
+        ] as [$invalid, $message]) {
             try { $invalid(); self::fail('Invalid trusted policy composition accepted'); }
-            catch (\InvalidArgumentException) { self::assertTrue(true); }
+            catch (\InvalidArgumentException $failure) { self::assertSame($message, $failure->getMessage()); }
         }
     }
 }

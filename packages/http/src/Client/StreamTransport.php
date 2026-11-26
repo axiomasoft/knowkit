@@ -10,7 +10,11 @@ use KnowKit\Http\Server\Response;
 /** Native PHP HTTP(S), verified TLS defaults, bounded buffers and no redirects. */
 final readonly class StreamTransport implements Transport
 {
-    private const MAX_RESPONSE_BYTES = 8388608;
+    /**
+     * Read bodies are capped at 8 MiB and then base64-encoded. Citation and metadata
+     * documents are each capped at 256 KiB. The remainder is envelope framing.
+     */
+    public const MAX_RESPONSE_BYTES = 11184812 + 262144 + 262144 + 65536;
 
     /** Host-owned authentication headers only; operation headers belong to Client. */
     public function __construct(

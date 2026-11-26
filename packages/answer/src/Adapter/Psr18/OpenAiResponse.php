@@ -25,7 +25,12 @@ final class OpenAiResponse
             if (!$body instanceof JsonObject) {
                 return self::unknown($usage);
             }
-            $model = self::reference($body->get('model'));
+            // An invalid model string must not discard a valid usage observation, or the reverse.
+            try {
+                $model = self::reference($body->get('model'));
+            } catch (\Throwable) {
+                $model = null;
+            }
             $usage = self::usage($body->get('usage'));
             $choice = self::choice($body);
             $message = $choice?->get('message');

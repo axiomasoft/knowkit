@@ -247,7 +247,10 @@ final class CorpusContract extends AdapterContract
         try {
             while (!$stream->eof()) {
                 $part = $stream->read(4096);
-                if ($part === '' || strlen($bytes) + strlen($part) > 1048576) { throw new \RuntimeException('unbounded_stream'); }
+                // Honor the requested bound; a single oversized read must not be concatenated.
+                if ($part === '' || strlen($part) > 4096 || strlen($bytes) + strlen($part) > 1048576) {
+                    throw new \RuntimeException('unbounded_stream');
+                }
                 $bytes .= $part;
             }
         } finally { $stream->close(); }

@@ -47,12 +47,17 @@ final class Fixture
 
     public static function corpus(): array
     {
-        return json_decode(file_get_contents(PortFixture::root() . '/tests/fixtures/navigation/v1/corpus.json'), true, 512, JSON_THROW_ON_ERROR);
+        static $corpus;
+        return $corpus ??= json_decode(file_get_contents(PortFixture::root() . '/tests/fixtures/navigation/v1/corpus.json'), true, 512, JSON_THROW_ON_ERROR);
     }
 
     /** @return array{D\IrDocument,D\DocumentRevisionRef,D\DocumentId} */
     public static function document(): array
     {
+        static $built;
+        if ($built !== null) {
+            return $built;
+        }
         $case = self::corpus();
         $base = PortFixture::fixture()->get('history')[0]->get('ir');
         $texts = $case['texts'];
@@ -89,14 +94,18 @@ final class Fixture
         $revision = new D\DocumentRevisionRef($source, new D\DocumentRevisionId(PortFixture::id(30002)),
             new D\IrDigest(hash('sha256', $ir->canonical())), PortFixture::signature($ir->toWire()->get('parserSignature')));
 
-        return [$ir, $revision, new D\DocumentId(PortFixture::id(30003))];
+        return $built = [$ir, $revision, new D\DocumentId(PortFixture::id(30003))];
     }
 
     public static function canonical(): CanonicalDocument
     {
+        static $canonical;
+        if ($canonical instanceof CanonicalDocument) {
+            return $canonical;
+        }
         [$ir, $revision, $id] = self::document();
 
-        return new CanonicalDocument($ir, $revision, $id);
+        return $canonical = new CanonicalDocument($ir, $revision, $id);
     }
 
     public function scope(): D\Scope

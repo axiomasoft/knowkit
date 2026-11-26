@@ -57,7 +57,11 @@ final class Sandbox
     {
         $schemas = [];
         foreach (glob(dirname(__DIR__, 2) . '/schemas/*.schema.json') ?: [] as $path) {
-            $wire = StrictJson::decode(file_get_contents($path), 4194304);
+            $bytes = file_get_contents($path);
+            if (!is_string($bytes)) {
+                throw new \RuntimeException('Schema unreadable');
+            }
+            $wire = StrictJson::decode($bytes, 4194304);
             $schemas[$wire->get('$id')] = $wire;
         }
         $validator = new ContractValidator(new SchemaSet($schemas));

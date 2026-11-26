@@ -89,11 +89,12 @@ final class CanonicalTest extends TestCase
     public function testPromptInjectionAndApprovedDocumentRemainUntrustedWithoutContextMutation(): void
     {
         $case = self::corpus()['injection'];
+        $f = $this->host($case['text']);
+        $record = $this->record($f);
         foreach (['draft', $case['approvalMetadata']['status']] as $approval) {
-            $f = $this->host($case['text']);
             $context = $f->identity;
             $before = serialize($context);
-            $evidence = $this->evidence($f, $this->record($f));
+            $evidence = $this->evidence($f, $record);
             self::assertSame($case['text'], $evidence->toWire()->get('fragments')[0]->get('text'), $approval);
             self::assertSame($case['expectedTrust'], $evidence->trustClass());
             self::assertSame($case['expectedMemoryActivation'], $evidence->memoryActivation());
@@ -212,7 +213,8 @@ final class CanonicalTest extends TestCase
 
     private static function corpus(): array
     {
-        return json_decode(file_get_contents(Fixture::root() . '/tests/fixtures/evidence/v1/corpus.json'), true, 512, JSON_THROW_ON_ERROR);
+        static $corpus;
+        return $corpus ??= json_decode(file_get_contents(Fixture::root() . '/tests/fixtures/evidence/v1/corpus.json'), true, 512, JSON_THROW_ON_ERROR);
     }
 
     private function host(string $text, bool $page = false, int $revision = 4, bool $generated = false): SelectionFixture

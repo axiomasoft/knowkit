@@ -15,6 +15,7 @@ final readonly class CanonicalMap
     public array $blocks;
     /** @var array<string, JsonObject> */
     private array $units;
+    private \stdClass $memo;
 
     public function __construct(IrDocument $document, DocumentRevisionRef $revision, DocumentId $documentId)
     {
@@ -32,6 +33,10 @@ final readonly class CanonicalMap
         }
         $this->blocks = $blocks;
         $this->units = $units;
+        $this->memo = new \stdClass();
+        $this->memo->path = [];
+        $this->memo->headings = [];
+        $this->memo->headingContext = [];
     }
 
     public function span(JsonObject $locator): Span
@@ -89,12 +94,17 @@ final readonly class CanonicalMap
     /** @return list<string> */
     public function path(JsonObject $block): array
     {
-        $path = [$block->get('blockId')];
+        $id = $block->get('blockId');
+        if (isset($this->memo->path[$id])) {
+            return $this->memo->path[$id];
+        }
+        $nodes = [$id];
         while (($parent = $block->get('parentId')) !== null) {
-            array_unshift($path, $parent);
+            $nodes[] = $parent;
             $block = $this->blocks[$parent];
         }
-        return $path;
+        // Callers pop this list. Copy-on-write keeps the cached path intact.
+        return $this->memo->path[$id] = array_reverse($nodes);
     }
 
     /**
@@ -104,14 +114,27 @@ final readonly class CanonicalMap
      */
     public function headings(JsonObject $block): array
     {
+        $id = $block->get('blockId');
+        if (isset($this->memo->headings[$id])) {
+            return $this->memo->headings[$id];
+        }
         $context = [];
-        foreach (array_slice($this->path($block), 0, -1) as $id) {
-            $parent = $this->blocks[$id];
+        foreach (array_slice($this->path($block), 0, -1) as $ancestor) {
+            $parent = $this->blocks[$ancestor];
             if ($parent->get('kind') === 'heading' && $parent->get('spans') !== []) {
-                $context[] = $this->context('inherited_heading', $this->spans($parent->get('spans')));
+                $context[] = $this->headingContext($parent);
             }
         }
-        return $context;
+        return $this->memo->headings[$id] = $context;
+    }
+
+    private function headingContext(JsonObject $heading): JsonObject
+    {
+        $id = $heading->get('blockId');
+        if (isset($this->memo->headingContext[$id])) {
+            return $this->memo->headingContext[$id];
+        }
+        return $this->memo->headingContext[$id] = $this->context('inherited_heading', $this->spans($heading->get('spans')));
     }
 
     /** @param list<Span> $spans */

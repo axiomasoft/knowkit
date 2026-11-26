@@ -46,9 +46,11 @@ final class SelectionTest extends TestCase
 
     public function testAudienceHostScopeActorPurposeAndGrantChangesAreDenied(): void
     {
+        $f = new Fixture();
+        $result = $f->retrieve();
+        $base = $f->identity;
         foreach (['audience', 'hostScopeHash', 'actor', 'purpose', 'grants', 'epoch'] as $change) {
-            $f = new Fixture();
-            $result = $f->retrieve();
+            $f->identity = $base;
             $s = $f->identity->scope;
             $scope = new D\Scope($s->tenantId, $s->kbId, $change === 'actor' ? new D\ActorId(Fixture::id(102)) : $s->actorId,
                 $change === 'purpose' ? 'lesson.audit' : $s->purpose, new D\Decimal($change === 'epoch' ? '1' : '0'),

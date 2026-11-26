@@ -50,7 +50,7 @@ final class RegistryTest extends TestCase
         self::assertInstanceOf(Clock::class,$registry->resolve(new D\AdapterId('clock'),$this->profile()));
         self::assertSame(1,$factory->calls);
         try { $registry->register($this->descriptor(),$factory); self::fail('Registered after boot'); }
-        catch (D\DomainFailure) { self::assertSame(1,$factory->calls); }
+        catch (D\DomainFailure $failure) { self::assertSame('duplicate_adapter', $failure->errorCode); self::assertSame(1,$factory->calls); }
     }
 
     public function testTypoDuplicateUnknownAndMissingCapabilitiesNeverFallback(): void
@@ -87,14 +87,15 @@ final class RegistryTest extends TestCase
     {
         $registry = new AdapterRegistry(); $factory = new CountingFactory();
         $registry->register($this->descriptor([new D\CapabilityDeclaration(D\Capability::ParserText,[D\Capability::ParserOcr])]),$factory);
-        try { $registry->boot(); self::fail('Missing dependency accepted'); } catch (D\DomainFailure) {}
+        try { $registry->boot(); self::fail('Missing dependency accepted'); }
+        catch (D\DomainFailure $failure) { self::assertSame('unsupported_capability', $failure->errorCode); }
         $registry = new AdapterRegistry(); $registry->register($this->descriptor(),$factory); $registry->boot();
         foreach ([
-            new D\EffectiveProfile('test','1',['clock'=>new D\AdapterId('clock')],['clock'=>['unexpected'=>true]]),
-            new D\EffectiveProfile('test','1',[]),
-        ] as $invalid) {
+            [new D\EffectiveProfile('test','1',['clock'=>new D\AdapterId('clock')],['clock'=>['unexpected'=>true]]), 'adapter_configuration_invalid'],
+            [new D\EffectiveProfile('test','1',[]), 'unknown_adapter'],
+        ] as [$invalid, $code]) {
             try { $registry->resolve(new D\AdapterId('clock'),$invalid); self::fail('Config/binding accepted'); }
-            catch (D\DomainFailure) { self::assertSame(0,$factory->calls); }
+            catch (D\DomainFailure $failure) { self::assertSame($code, $failure->errorCode); self::assertSame(0,$factory->calls); }
         }
     }
 

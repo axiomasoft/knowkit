@@ -10,7 +10,16 @@ use KnowKit\Tests\Contract\Ports\PortFixture;
 final class ValidationFixture
 {
     public static function root(): string { return dirname(__DIR__, 3); }
-    public static function read(string $path): string { return (string) file_get_contents(self::root() . '/' . $path); }
+    public static function read(string $path): string
+    {
+        static $cache = [];
+        if (!array_key_exists($path, $cache)) {
+            $bytes = file_get_contents(self::root() . '/' . $path);
+            if (!is_string($bytes)) { throw new \RuntimeException('Unreadable fixture: ' . $path); }
+            $cache[$path] = $bytes;
+        }
+        return $cache[$path];
+    }
     public static function validator(): ContractValidator { return PortFixture::validator(); }
     public static function id(int $n): string { return PortFixture::id($n); }
     public static function manifest(): array
@@ -20,12 +29,24 @@ final class ValidationFixture
     }
     public static function entry(string $id): array
     {
-        foreach (self::manifest()['cases'] as $entry) { if ($entry['id'] === $id) { return $entry; } }
-        throw new \LogicException('Unknown fixture case');
+        static $byId = null;
+        if ($byId === null) {
+            $byId = [];
+            foreach (self::manifest()['cases'] as $entry) {
+                if (!isset($byId[$entry['id']])) { $byId[$entry['id']] = $entry; }
+            }
+        }
+        if (!isset($byId[$id])) { throw new \LogicException('Unknown fixture case'); }
+        return $byId[$id];
     }
     public static function ir(string $id = 'IR-UNICODE'): D\IrDocument
     {
-        return new D\IrDocument(StrictJson::decode(self::read(self::entry($id)['path']), 67108864), self::validator());
+        static $cache = [];
+        // Immutable documents only. A failed construct must not be cached or reused.
+        if (!isset($cache[$id])) {
+            $cache[$id] = new D\IrDocument(StrictJson::decode(self::read(self::entry($id)['path']), 67108864), self::validator());
+        }
+        return $cache[$id];
     }
     public static function input(D\IrDocument $ir, int $revisionId = 4, ?array $assets = null): ValidationInput
     {

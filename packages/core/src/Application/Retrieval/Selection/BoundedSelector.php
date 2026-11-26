@@ -27,8 +27,13 @@ final readonly class BoundedSelector
         $pool = [];
         foreach ($candidates as $candidate) {
             $scope->assertCandidate($candidate->ref);
-            $pool[$candidate->ref->chunkId->value] ??= $inventory->unit($candidate->ref);
-            $inventory->manifest->assertCandidate($candidate->ref);
+            $id = $candidate->ref->chunkId->value;
+            // unit() already checks the manifest; duplicates must still be checked.
+            if (!isset($pool[$id])) {
+                $pool[$id] = $inventory->unit($candidate->ref);
+            } else {
+                $inventory->manifest->assertCandidate($candidate->ref);
+            }
         }
 
         return $this->bound(array_values($pool), $limits);
@@ -48,7 +53,8 @@ final readonly class BoundedSelector
     /** @param list<D\SelectionUnit> $pool */
     private function bound(array $pool, D\SelectionLimits $limits): D\SelectedReferences
     {
-        $selected = $refs = $reads = $warnings = $assets = [];
+        $selected = $refs = $reads = $warnings = [];
+        $assets = [];
         $bytes = $tokens = 0;
         foreach ($pool as $unit) {
             if ($this->overlaps($unit, $selected)) {
@@ -56,7 +62,10 @@ final readonly class BoundedSelector
                 continue;
             }
             $text = $unit->budgetText();
-            $nextAssets = array_values(array_unique([...$assets, ...$unit->assetKeys]));
+            $nextAssets = $assets;
+            foreach ($unit->assetKeys as $key) {
+                $nextAssets[$key] = true;
+            }
             $count = $this->tokens($text, $limits);
             if (count($refs) >= $limits->maxFragments || strlen($text) > $limits->maxBytesPerFragment
                 || $bytes + strlen($text) > $limits->maxBytes || count($nextAssets) > $limits->maxAssets

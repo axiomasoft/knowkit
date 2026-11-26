@@ -252,6 +252,22 @@ def json_equal(left: Any, right: Any) -> bool:
     return left is None and right is None
 
 
+def _scalar_unique_key(value: Any) -> tuple[str, Any] | None:
+    """json_equal identity for scalars. Non-scalars return None so callers keep pairwise compare.
+
+    Bool is not an int. Floats and other types are never equal under json_equal, including to themselves.
+    """
+    if value is None:
+        return ("null", None)
+    if isinstance(value, bool):
+        return ("bool", value)
+    if isinstance(value, str):
+        return ("str", value)
+    if isinstance(value, int):
+        return ("int", value)
+    return None
+
+
 def _type_ok(expected: Any, value: Any) -> bool:
     names = expected if isinstance(expected, list) else [expected]
     for name in names:
@@ -433,9 +449,27 @@ class SchemaSet:
         if "maxItems" in schema and len(value) > schema["maxItems"]:
             errors.append(("max_items", path))
         if schema.get("uniqueItems") is True:
-            for index in range(len(value)):
-                if any(json_equal(value[index], value[other]) for other in range(index)):
-                    errors.append(("unique_items", path + "/" + str(index)))
+            # Pairwise json_equal is quadratic. Scalar arrays (the 4096-id ceilings) match the same
+            # later-index errors with a set. Mixed or nested values stay pairwise so floats, which
+            # json_equal never treats as duplicates, cannot be canonicalized into a false conflict.
+            keys: list[tuple[str, Any]] | None = []
+            for item in value:
+                key = _scalar_unique_key(item)
+                if key is None:
+                    keys = None
+                    break
+                keys.append(key)
+            if keys is not None:
+                seen: set[tuple[str, Any]] = set()
+                for index, key in enumerate(keys):
+                    if key in seen:
+                        errors.append(("unique_items", path + "/" + str(index)))
+                    else:
+                        seen.add(key)
+            else:
+                for index in range(len(value)):
+                    if any(json_equal(value[index], value[other]) for other in range(index)):
+                        errors.append(("unique_items", path + "/" + str(index)))
         if "contains" in schema:
             found = False
             for index, item in enumerate(value):

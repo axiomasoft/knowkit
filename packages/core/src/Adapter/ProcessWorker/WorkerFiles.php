@@ -63,30 +63,36 @@ final class WorkerFiles
             throw new DomainFailure(Outcome::Denied, 'unsafe_output');
         }
         $files = [];
-        $entries = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST,
-        );
-        $count = 0;
-        $total = 0;
-        foreach ($entries as $entry) {
-            if (++$count > 32768 || $entry->isLink()) {
-                throw new DomainFailure(Outcome::Denied, 'unsafe_output');
+        try {
+            $entries = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($root, \FilesystemIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::SELF_FIRST,
+            );
+            $count = 0;
+            $total = 0;
+            foreach ($entries as $entry) {
+                if (++$count > 32768 || $entry->isLink()) {
+                    throw new DomainFailure(Outcome::Denied, 'unsafe_output');
+                }
+                if ($entry->isDir()) {
+                    continue;
+                }
+                $relative = substr($entry->getPathname(), strlen($root) + 1);
+                $stat = @lstat($entry->getPathname());
+                if ($stat === false || !self::relative($relative) || ($stat['mode'] & 0170000) !== 0100000 || $stat['nlink'] !== 1) {
+                    throw new DomainFailure(Outcome::Denied, 'unsafe_output');
+                }
+                $files[$relative] = $stat['size'];
+                $total += $stat['size'];
+                if ($total > $limit) {
+                    throw new DomainFailure(Outcome::Incompatible, 'output_limit');
+                }
             }
-            if ($entry->isDir()) {
-                continue;
-            }
-            $relative = substr($entry->getPathname(), strlen($root) + 1);
-            $stat = @lstat($entry->getPathname());
-            if ($stat === false || !self::relative($relative) || ($stat['mode'] & 0170000) !== 0100000 || $stat['nlink'] !== 1) {
-                throw new DomainFailure(Outcome::Denied, 'unsafe_output');
-            }
-            $files[$relative] = $stat['size'];
-            $total += $stat['size'];
-            if ($total > $limit) {
-                throw new DomainFailure(Outcome::Incompatible, 'output_limit');
-            }
+        } catch (\UnexpectedValueException) {
+            // A live worker can remove entries while the budget walk is in progress.
+            throw new DomainFailure(Outcome::Denied, 'unsafe_output');
         }
+
         return $files;
     }
 

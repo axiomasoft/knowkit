@@ -44,13 +44,19 @@ final readonly class InventoryReconciler
         D\Sources\InventoryReceipt $receipt,
     ): ReconciliationOutcome {
         $old = PreviousInventory::byOrigin($previous->members);
-        $present = PreviousInventory::byOrigin(array_values(array_filter(
-            $snapshot->items, static fn (D\CrawlItem $item): bool => $item->status === 'verified',
-        )));
+        $verified = [];
+        foreach ($snapshot->items as $item) {
+            if ($item->status === 'verified') {
+                $verified[] = $item;
+            }
+        }
+        $present = PreviousInventory::byOrigin($verified);
         $this->assertRenames($receipt, $old, $present);
         $absent = array_diff_key($old, $present);
         $members = $snapshot->complete ? $present : array_replace($old, $present);
-        ksort($members, SORT_STRING);
+        if (!$snapshot->complete) {
+            ksort($members, SORT_STRING);
+        }
 
         return new ReconciliationOutcome(
             $snapshot, array_values($members), $snapshot->complete ? array_values($absent) : [],

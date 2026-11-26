@@ -363,7 +363,25 @@ final class LedgerFixture
 
     public function expireLease(): void
     {
-        // Use the authoritative database clock; no test-only bypass of the SQL invariant.
-        usleep(1100000);
+        // Authoritative database clock. Do not rewrite lease_until.
+        $deadline = microtime(true) + 3;
+        $statement = $this->blobs->catalog->db->pdo->prepare(
+            "SELECT CASE WHEN lease_until<=clock_timestamp() THEN 'yes' ELSE 'no' END
+             FROM knowkit_answer_invocations WHERE tenant_id=? AND invocation_key=?",
+        );
+        $tenant = $this->scope()->tenantId->value;
+        $key = $this->request()->invocationKey->value;
+        do {
+            $statement->execute([$tenant, $key]);
+            $expired = $statement->fetchColumn();
+            $statement->closeCursor();
+            if ($expired === 'yes') {
+                return;
+            }
+            if (microtime(true) >= $deadline) {
+                throw new \RuntimeException('Database lease did not expire');
+            }
+            usleep(10000);
+        } while (true);
     }
 }

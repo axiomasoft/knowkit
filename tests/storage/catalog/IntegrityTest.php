@@ -15,7 +15,7 @@ final class IntegrityTest extends TestCase
     private function seed(CatalogFixture $f): void
     {
         $role=$f->db->pdo->query('SELECT current_user')->fetchColumn(); $f->db->pdo->exec('RESET ROLE');
-        try { $f->db->pdo->exec(file_get_contents(__DIR__.'/fixtures/v1/metadata.sql')); }
+        try { $f->db->pdo->exec(CatalogFixture::seedSql()); }
         finally { $f->db->pdo->exec('SET ROLE '.$role); }
     }
     public function testCrossTenantSqlReferencesAcrossEveryBaselineFamilyAreRejected(): void

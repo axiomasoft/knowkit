@@ -53,5 +53,25 @@ final class DatabaseTest extends Support
         } finally {
             $before === false ? putenv('TEST_PG_DSN') : putenv('TEST_PG_DSN=' . $before);
         }
+        foreach ([
+            'pgsql:host=127.0.0.1;dbname=knowkit_test;dbname=production',
+            'pgsql:host=127.0.0.1;dbname=knowkit_test;DBNAME=production',
+            'pgsql:dbname=knowkit_test dbname=production',
+            'pgsql:dbname=\'production\'',
+            'pgsql:postgresql://127.0.0.1/knowkit_test',
+            'pgsql:dbname=knowkit_testing',
+            'mysql:dbname=knowkit_test',
+            'pgsql:dbname=knowkit_test\\ dbname=production',
+        ] as $dsn) {
+            $this->rejects(static fn() => DatabaseSandbox::assertDisposableDsn($dsn), 'disposable');
+        }
+        foreach ([
+            'pgsql:host=127.0.0.1;port=55432;dbname=knowkit_test',
+            'pgsql:dbname=knowkit_test',
+            'pgsql:dbname=production;dbname=knowkit_test',
+            'pgsql:host=127.0.0.1;dbname=\'knowkit_test\'',
+        ] as $dsn) {
+            DatabaseSandbox::assertDisposableDsn($dsn);
+        }
     }
 }

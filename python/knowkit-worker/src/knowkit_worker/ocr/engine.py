@@ -107,6 +107,9 @@ def append_word(ir: dict, page: dict, row, coordinates: tuple, size: tuple,
     confidence = int((confidence * 10).to_integral_value(rounding=ROUND_HALF_EVEN))
     left, top, right, bottom = coordinates
     width, height = image_size
+    # A positive PDF region can round to an empty raster crop. Do not divide by it.
+    if width <= 0 or height <= 0:
+        raise Refusal("invalid_geometry")
     box = bbox((left + float(row.left) * (right - left) / width,
                 top + float(row.top) * (bottom - top) / height,
                 left + (float(row.left) + float(row.width)) * (right - left) / width,

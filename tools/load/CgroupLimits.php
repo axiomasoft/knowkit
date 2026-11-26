@@ -51,9 +51,9 @@ final class CgroupLimits
                     $invalidCpu = true;
                 } else {
                     $observed['cpu']++;
-                    $ratio = $numbers[1] === 'max' ? INF : (float) $numbers[1] / (float) $numbers[2];
-                    if ($cpu === null || $ratio < $cpu[0]) {
-                        $cpu = [$ratio, $quota];
+                    // cpu.max values can exceed the float mantissa. Compare the ratio exactly.
+                    if ($cpu === null || self::cpuTighter($numbers[1], $numbers[2], $cpu[0], $cpu[1])) {
+                        $cpu = [$numbers[1], $numbers[2], $quota];
                     }
                 }
             }
@@ -75,13 +75,61 @@ final class CgroupLimits
             }
             $path = dirname($path);
         } while ($path === $mount || str_starts_with($path, rtrim($mount, '/') . '/'));
-        $result['processCpuMax'] = $invalidCpu ? null : ($cpu[1] ?? null);
+        $result['processCpuMax'] = $invalidCpu ? null : ($cpu[2] ?? null);
         $result['processMemoryMax'] = $invalidMemory ? null : $memory;
         $result['cgroupLimitObservation']['status'] = 'visible-hierarchy';
         $result['cgroupLimitObservation']['cpu'] = $invalidCpu ? 'invalid' : ($cpu === null ? 'unavailable' : 'observed');
         $result['cgroupLimitObservation']['memory'] = $invalidMemory ? 'invalid' : ($memory === null ? 'unavailable' : 'observed');
         $result['cgroupLimitObservation']['observedFiles'] = $observed;
         return $result;
+    }
+
+    /** True when quota/period is a strictly smaller share than the current observation. */
+    private static function cpuTighter(string $quota, string $period, string $currentQuota, string $currentPeriod): bool
+    {
+        if ($quota === 'max') {
+            return false;
+        }
+        if ($currentQuota === 'max') {
+            return true;
+        }
+
+        return self::decimalCmp(self::decimalMul($quota, $currentPeriod), self::decimalMul($currentQuota, $period)) < 0;
+    }
+
+    private static function decimalMul(string $left, string $right): string
+    {
+        $left = ltrim($left, '0') ?: '0';
+        $right = ltrim($right, '0') ?: '0';
+        if ($left === '0' || $right === '0') {
+            return '0';
+        }
+        $width = strlen($left);
+        $height = strlen($right);
+        $digits = array_fill(0, $width + $height, 0);
+        for ($i = $width - 1; $i >= 0; $i--) {
+            $carry = 0;
+            for ($j = $height - 1; $j >= 0; $j--) {
+                $sum = $digits[$i + $j + 1] + ((int) $left[$i]) * ((int) $right[$j]) + $carry;
+                $digits[$i + $j + 1] = $sum % 10;
+                $carry = intdiv($sum, 10);
+            }
+            $digits[$i] += $carry;
+        }
+        $product = ltrim(implode('', $digits), '0');
+
+        return $product === '' ? '0' : $product;
+    }
+
+    private static function decimalCmp(string $left, string $right): int
+    {
+        $left = ltrim($left, '0') ?: '0';
+        $right = ltrim($right, '0') ?: '0';
+        if (strlen($left) !== strlen($right)) {
+            return strlen($left) <=> strlen($right);
+        }
+
+        return strcmp($left, $right);
     }
 
     private static function absolute(string $path): bool

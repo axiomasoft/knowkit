@@ -16,10 +16,16 @@ final class RunnerTest extends TestCase
     public function testZeroMissingSkippedDuplicateAndUnexpectedExecutedCasesFail(): void
     {
         $pass = ['id'=>'required','status'=>'passed'];
-        foreach ([[],[['id'=>'required','status'=>'skipped']],[$pass,$pass],[['id'=>'other','status'=>'passed']],
-            [$pass,['id'=>'unexpected','status'=>'passed']],[$pass,['status'=>'passed']]] as $cases) {
+        foreach ([
+            [[], 'Empty/missing/duplicate/unexpected executed cases'],
+            [[['id'=>'required','status'=>'skipped']], 'Invalid/failed/skipped case'],
+            [[$pass,$pass], 'Empty/missing/duplicate/unexpected executed cases'],
+            [[['id'=>'other','status'=>'passed']], 'Empty/missing/duplicate/unexpected executed cases'],
+            [[$pass,['id'=>'unexpected','status'=>'passed']], 'Empty/missing/duplicate/unexpected executed cases'],
+            [[$pass,['status'=>'passed']], 'Empty/missing/duplicate/unexpected executed cases'],
+        ] as [$cases, $message]) {
             try { AdapterHarness::assertComplete($cases,['required']); self::fail('Invalid report accepted'); }
-            catch (\InvalidArgumentException) { $this->addToAssertionCount(1); }
+            catch (\InvalidArgumentException $failure) { self::assertSame($message, $failure->getMessage()); }
         }
         AdapterHarness::assertComplete([$pass],['required']); $this->addToAssertionCount(1);
     }

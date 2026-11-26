@@ -34,13 +34,17 @@ final class Catalog
             $c->tenant();
             $c->kb();
             self::batch(c: $c, latency: $latency, digests: $digests);
-            $bytes = count($digests) * 4194304;
+            $bytes = count($digests) * strlen(self::text());
         });
+        $quotas = Report::profile()['quotas'];
+        $documentBytes = Report::intField($quotas, 'txtDocumentBytes');
+        $documents = Report::intField($quotas, 'txtBatchDocuments');
         $peak = Metrics::peakBytes();
-        Qa::ensure($bytes === 67108864 && count(array_unique($digests)) === 1, 'batch fingerprint mismatch');
-        Qa::ensure($peak <= 268435456, 'TXT batch exceeds approved 256 MiB peak');
+        Qa::ensure(strlen(self::text()) === $documentBytes && $bytes === $documentBytes * $documents
+            && count(array_unique($digests)) === 1, 'batch fingerprint mismatch');
+        Qa::ensure($peak <= Report::intField(Report::profile()['reference'], 'txtIngestPeakBytes'), 'TXT batch exceeds approved peak');
 
-        return Report::save('catalog', ['documents' => 16, 'documentBytes' => 4194304, 'totalBytes' => $bytes,
+        return Report::save('catalog', ['documents' => $documents, 'documentBytes' => $documentBytes, 'totalBytes' => $bytes,
             'concurrent' => 1, 'latencyMs' => Metrics::percentiles($latency), 'firstDocumentMs' => $latency[0],
             'cpuMs' => Metrics::cpuMs() - $cpu, 'peakBytes' => $peak, 'textSha256' => $digests[0],
             'providerCalls' => 0, 'tokens' => 0, 'scope' => 'Register, durable original blob, accept version, extract IR; no publication/index throughput claim.']);
@@ -56,8 +60,9 @@ final class Catalog
                 transaction: $c->tx,
                 authority: $c->authority,
             );
-            $store = $blobs->makeStore(limit: 4194304);
-            foreach (range(0, 15) as $number) {
+            $documents = Report::intField(Report::profile()['quotas'], 'txtBatchDocuments');
+            $store = $blobs->makeStore(limit: Report::intField(Report::profile()['quotas'], 'txtDocumentBytes'));
+            foreach (range(0, $documents - 1) as $number) {
                 $digests[] = Metrics::timed(
                     operation: fn (): string => self::ingest($c, $commands, $blobs, $store, $number),
                     samples: $latency,
@@ -91,7 +96,7 @@ final class Catalog
         ), context: $c->context(key: 'accept-' . $number));
         $result = (new TextParser(PortFixture::validator()))->extract(
             source: new D\SourceBytes(ref: $ref, bytes: $raw, mediaType: 'text/plain'),
-            profile: ParserSettings::profile(format: 'text', maxSourceBytes: 4194304),
+            profile: ParserSettings::profile(format: 'text', maxSourceBytes: Report::intField(Report::profile()['quotas'], 'txtDocumentBytes')),
         );
         Qa::ensure($result->outcome === D\Outcome::Success && $result->normalization?->text === $raw, 'max TXT extraction failed');
         Qa::ensure(hash('sha256', $result->document->toWire()->get('segments')[0]->get('text')) === $digest, 'text identity changed');

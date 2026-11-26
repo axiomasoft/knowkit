@@ -259,17 +259,39 @@ final readonly class PdoReadingStore implements ReadingStore
     /** @param list<JsonObject> $units */
     private function requireUnits(R\CitationRecord $record, array $units): void
     {
+        $ids = ['page' => [], 'segment' => []];
         foreach ($units as $unit) {
-            $page = $unit->get('kind') === 'page';
-            $sql = 'SELECT b.state FROM ' . $this->db->table($page ? 'pages' : 'segments')
-                . ' u JOIN ' . $this->db->table('resource_ledger') . ' b ON b.tenant_id=u.tenant_id AND b.id=u.text_resource_id'
-                . ' WHERE u.tenant_id=? AND u.document_id=? AND u.' . ($page ? 'local_page_id' : 'local_segment_id') . '=?';
-            $row = $this->db->row($sql, [$record->chunk->revisionRef->sourceRef->tenantId->value,
-                $record->citation->documentId()->value, $unit->get('id')]);
-            if ($row === null || $row['state'] !== 'accepted') {
+            $ids[$unit->get('kind') === 'page' ? 'page' : 'segment'][] = (string) $unit->get('id');
+        }
+        $accepted = [
+            'page' => $this->acceptedUnits($record, true, $ids['page']),
+            'segment' => $this->acceptedUnits($record, false, $ids['segment']),
+        ];
+        foreach ($units as $unit) {
+            $kind = $unit->get('kind') === 'page' ? 'page' : 'segment';
+            if (!isset($accepted[$kind][(string) $unit->get('id')])) {
                 throw new D\DomainFailure(D\Outcome::Unavailable, 'payload_purged');
             }
         }
+    }
+
+    /** @param list<string> $ids @return array<string, true> */
+    private function acceptedUnits(R\CitationRecord $record, bool $page, array $ids): array
+    {
+        if ($ids === []) {
+            return [];
+        }
+        $column = $page ? 'local_page_id' : 'local_segment_id';
+        $rows = $this->db->execute(
+            'SELECT u.' . $column . ' AS local_id FROM ' . $this->db->table($page ? 'pages' : 'segments')
+            . ' u JOIN ' . $this->db->table('resource_ledger') . ' b ON b.tenant_id=u.tenant_id AND b.id=u.text_resource_id'
+            . ' WHERE u.tenant_id=? AND u.document_id=? AND b.state=\'accepted\' AND u.' . $column
+            . ' IN (SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))',
+            [$record->chunk->revisionRef->sourceRef->tenantId->value, $record->citation->documentId()->value,
+                json_encode(array_values(array_unique($ids)), JSON_THROW_ON_ERROR)],
+        )->fetchAll(\PDO::FETCH_COLUMN);
+
+        return array_fill_keys($rows, true);
     }
 
     private function blob(array $row, D\ExactSourceRef $source): R\BlobObject

@@ -25,16 +25,17 @@ final class Operations
     {
         $report = [];
         Events::run(function (Events $f) use (&$report): void {
-            for ($i = 0; $i < 64; ++$i) {
+            $batch = Report::intField(Report::profile()['quotas'], 'outboxBatch');
+            for ($i = 0; $i < $batch; ++$i) {
                 $f->append(Events::event(id: 500 + $i, version: (string) ($i + 1)));
             }
             $delivery = $f->delivery();
             $inbox = $f->inbox();
             $latency = $lag = [];
             $cpu = Metrics::cpuMs();
-            Qa::ensure($delivery->status()->get('outstanding') === 64, 'missing initial outbox backlog');
-            $leases = $delivery->leaseDelivery(64);
-            Qa::ensure(count($leases) === 64, 'outbox batch incomplete');
+            Qa::ensure($delivery->status()->get('outstanding') === $batch, 'missing initial outbox backlog');
+            $leases = $delivery->leaseDelivery($batch);
+            Qa::ensure(count($leases) === $batch, 'outbox batch incomplete');
             foreach ($leases as $lease) {
                 Metrics::timed(operation: function () use ($delivery, $inbox, $lease, $f, &$lag): void {
                     $event = $delivery->event($lease);
@@ -45,11 +46,12 @@ final class Operations
                     Qa::ensure($delivery->ack($lease), 'healthy outbox ack lost');
                 }, samples: $latency);
             }
-            Qa::ensure($delivery->status()->get('outstanding') === 0 && $f->catalog->count('inbox') === 64, 'outbox backlog did not drain');
+            Qa::ensure($delivery->status()->get('outstanding') === 0 && $f->catalog->count('inbox') === $batch, 'outbox backlog did not drain');
             $stats = Metrics::percentiles($lag);
-            $report = Report::save('outbox', ['events' => 64, 'backlogBefore' => 64, 'backlogAfter' => 0,
+            $ceiling = Report::intField(Report::profile()['reference'], 'outboxHealthyP95Ms');
+            $report = Report::save('outbox', ['events' => $batch, 'backlogBefore' => $batch, 'backlogAfter' => 0,
                 'lagMs' => $stats, 'deliveryLatencyMs' => Metrics::percentiles($latency), 'cpuMs' => Metrics::cpuMs() - $cpu,
-                'targetP95Ms' => 5000, 'targetMet' => $stats['p95'] <= 5000,
+                'targetP95Ms' => $ceiling, 'targetMet' => $stats['p95'] <= $ceiling,
                 'transport' => 'Local durable PdoInbox; each delivery replayed once; no remote provider.',
                 'postgres' => $f->catalog->db->execute('SHOW server_version')->fetchColumn()]);
         });

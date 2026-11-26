@@ -21,7 +21,7 @@ final readonly class Result
      */
     public static function success(object $data, bool $degraded = false, ?string $effectiveProfile = null, array $warnings = []): self
     {
-        if (!(new \ReflectionClass($data))->isReadOnly()) { throw new \InvalidArgumentException('Immutable result required'); }
+        self::requireImmutable($data);
         if ($degraded && ($effectiveProfile === null || $warnings === [])) {
             throw new \InvalidArgumentException('Explicit degraded profile and warnings required');
         }
@@ -54,5 +54,15 @@ final readonly class Result
         $result = new self($failure->outcome, null, $failure->errorCode, $retryable, false, null, []);
 
         return $result;
+    }
+
+    private static function requireImmutable(object $data): void
+    {
+        static $readonly = [];
+        $class = $data::class;
+        $readonly[$class] ??= (new \ReflectionClass($class))->isReadOnly();
+        if ($readonly[$class] !== true) {
+            throw new \InvalidArgumentException('Immutable result required');
+        }
     }
 }

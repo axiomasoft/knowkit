@@ -20,7 +20,8 @@ final class Graph
     {
         $report = [];
         CatalogFixture::run(function (CatalogFixture $c) use ($hot, &$report): void {
-            $writers = $hot ? 4 : 20;
+            $quotas = Report::profile()['quotas'];
+            $writers = $hot ? Report::intField($quotas, 'hotTenantGraphWriters') : Report::intField($quotas, 'tenants');
             self::seed(c: $c, hot: $hot);
             $actors = self::actors(c: $c, hot: $hot, writers: $writers);
             $start = hrtime(true);
@@ -37,12 +38,13 @@ final class Graph
                 $peaks[] = $result['peakBytes'];
             }
             $duration = (hrtime(true) - $start) / 1e9;
-            Qa::ensure($c->count('dependency_nodes') === $writers * 16, 'lost graph registration');
-            $report = Report::save($hot ? 'hot-tenant' : 'many-tenants', ['tenants' => $hot ? 1 : 20,
-                'writers' => $writers, 'writes' => $writers * 16, 'latencyMs' => Metrics::percentiles($latency),
+            $writes = Report::intField(Report::profile()['quotas'], 'graphWritesPerWriter');
+            Qa::ensure($c->count('dependency_nodes') === $writers * $writes, 'lost graph registration');
+            $report = Report::save($hot ? 'hot-tenant' : 'many-tenants', ['tenants' => $hot ? 1 : $writers,
+                'writers' => $writers, 'writes' => $writers * $writes, 'latencyMs' => Metrics::percentiles($latency),
                 'lockWaitMs' => Metrics::percentiles($wait), 'cpuMs' => $cpu,
                 'maxClientPeakBytes' => Metrics::maximum($peaks),
-                'throughputWritesPerSecond' => $writers * 16 / $duration,
+                'throughputWritesPerSecond' => $writers * $writes / $duration,
                 'postgres' => $c->db->execute('SHOW server_version')->fetchColumn(),
                 'lockWaitDefinition' => 'Wall time around the production tenant guard, including advisory/row guard round trips. No artificial sleep or injected lock delay.']);
         });
@@ -52,9 +54,12 @@ final class Graph
 
     private static function seed(CatalogFixture $c, bool $hot): void
     {
-        foreach (range(1, $hot ? 1 : 20) as $tenant) {
+        $quotas = Report::profile()['quotas'];
+        $writes = Report::intField($quotas, 'graphWritesPerWriter');
+        $sources = $hot ? Report::intField($quotas, 'hotTenantGraphWriters') * $writes : $writes;
+        foreach (range(1, $hot ? 1 : Report::intField($quotas, 'tenants')) as $tenant) {
             $c->tenant($tenant);
-            for ($source = 0; $source < ($hot ? 64 : 16); ++$source) {
+            for ($source = 0; $source < $sources; ++$source) {
                 $c->source(id: 100000 + $source, tenant: $tenant);
             }
         }
@@ -62,10 +67,11 @@ final class Graph
 
     private static function actors(CatalogFixture $c, bool $hot, int $writers): array
     {
+        $writes = Report::intField(Report::profile()['quotas'], 'graphWritesPerWriter');
         $actors = [];
         for ($writer = 0; $writer < $writers; ++$writer) {
             $actors[] = new Actor(db: $c->db, config: ['operation' => 'graph', 'tenant' => $hot ? 1 : $writer + 1,
-                'start' => $hot ? $writer * 16 : 0, 'count' => 16, 'writer' => $writer]);
+                'start' => $hot ? $writer * $writes : 0, 'count' => $writes, 'writer' => $writer]);
         }
 
         return $actors;

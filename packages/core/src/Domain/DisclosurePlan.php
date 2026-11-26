@@ -39,7 +39,7 @@ final readonly class DisclosurePlan
         $currentResources = array_map(static fn (ResourceRef $ref): JsonObject => $ref->toWire(), $current->resources);
         if ($sources !== $currentSources
             || Jcs::canonicalize($resources) !== Jcs::canonicalize($currentResources)
-            || $this->binding->canonical() !== Jcs::canonicalize($current->binding())) {
+            || !$this->binding->equals($current->binding)) {
             throw new DomainFailure(Outcome::Denied, 'POLICY_CHANGED');
         }
     }

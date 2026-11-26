@@ -44,6 +44,9 @@ final readonly class ChatomInvocationAuthorization implements InvocationAuthoriz
     public function assertCurrent(?A\DependencyManifest $dependencies = null): void
     {
         try {
+            if ($dependencies !== null) {
+                $this->requireHistory($dependencies);
+            }
             $this->audience->assertCurrent(
                 binding: $this->binding,
                 invocation: $this->invocation,
@@ -63,6 +66,31 @@ final readonly class ChatomInvocationAuthorization implements InvocationAuthoriz
         }
     }
 
+    private function requireHistory(A\DependencyManifest $dependencies): void
+    {
+        $expected = [];
+        foreach ($this->history->priorTurns->turns as $index => $turn) {
+            $expected[] = ['revision' => (string) $index, 'digest' => hash('sha256', $turn->text)];
+        }
+        if ($expected === []) {
+            $expected[] = ['revision' => 'empty', 'digest' => hash('sha256', '')];
+        }
+        if (count($dependencies->history) !== count($expected)) {
+            throw new ConversationDenied();
+        }
+        $ref = $this->history->manifestRef();
+        $tenant = $this->binding->hostScopeInputs->tenantId;
+        $index = 0;
+        foreach ($dependencies->history as $dependency) {
+            if (!$dependency->tenantId->equals($tenant) || $dependency->ref !== $ref
+                || $dependency->revision !== $expected[$index]['revision']
+                || $dependency->contentDigest->value !== $expected[$index]['digest']) {
+                throw new ConversationDenied();
+            }
+            $index++;
+        }
+    }
+
     private function decision(Scope $scope, A\InvocationRef $ref, ?A\DependencyManifest $dependencies): ?A\AnswerOutcome
     {
         try {
@@ -71,14 +99,10 @@ final readonly class ChatomInvocationAuthorization implements InvocationAuthoriz
                 throw new ConversationDenied();
             }
             $scope->assertTenant($ref->tenantId);
-            if ($dependencies === null || $dependencies->history === []) {
+            if ($dependencies === null) {
                 throw new ConversationDenied();
             }
-            foreach ($dependencies->history as $dependency) {
-                if ($dependency->ref !== $this->history->manifestRef()) {
-                    throw new ConversationDenied();
-                }
-            }
+            $this->requireHistory($dependencies);
             $this->assertCurrent($dependencies);
 
             return null;

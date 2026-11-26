@@ -194,10 +194,13 @@ final class BoundaryTest extends TestCase
 
     public function testVectorsAndRerankerCannotChangeSpaceOrExpandCandidates(): void
     {
-        foreach ([[1,2],[INF,2,3],[NAN,2,3]] as $values) {
-            try { new D\Vector($values,PortFixture::space()); self::fail('Invalid vector'); } catch (D\DomainFailure) {}
+        $space = PortFixture::space();
+        foreach ([[[1, 2], 'space_mismatch'], [[INF, 2, 3], 'adapter_contract_violation'], [[NAN, 2, 3], 'adapter_contract_violation']] as [$values, $code]) {
+            try { new D\Vector($values, $space); self::fail('Invalid vector'); }
+            catch (D\DomainFailure $failure) { self::assertSame($code, $failure->errorCode); }
         }
-        try { new D\Vector([0,0,0],PortFixture::space(['normalization'=>'l2'])); self::fail('Zero norm'); } catch (D\DomainFailure) {}
+        try { new D\Vector([0,0,0],PortFixture::space(['normalization'=>'l2'])); self::fail('Zero norm'); }
+        catch (D\DomainFailure $failure) { self::assertSame('space_mismatch', $failure->errorCode); }
         try { new D\EmbeddingBatch([new D\Vector([1,2,3],PortFixture::space(['revision'=>'2']))],PortFixture::space()); self::fail('Mismatched batch'); }
         catch (D\DomainFailure $failure) { self::assertSame('space_mismatch',$failure->errorCode); }
         $candidate = new D\Candidate(PortFixture::chunk(),1);
@@ -237,8 +240,10 @@ final class BoundaryTest extends TestCase
         $b = new D\ResourceRef($scope->tenantId,'source_version',new D\SourceVersionId(PortFixture::id(3)));
         $parents = new D\Parents($scope->tenantId,[$a,$b]);
         self::assertSame($parents->digest()->value,(new D\Parents($scope->tenantId,[$b,$a]))->digest()->value);
-        try { new D\Parents($scope->tenantId,[$a,$a]); self::fail('Duplicate parent'); } catch (D\DomainFailure) {}
-        try { (new D\Node($a,new D\Fingerprint(str_repeat('a',64))))->assertParents($parents); self::fail('Self parent'); } catch (D\DomainFailure) {}
+        try { new D\Parents($scope->tenantId,[$a,$a]); self::fail('Duplicate parent'); }
+        catch (D\DomainFailure $failure) { self::assertSame('duplicate_identifier', $failure->errorCode); }
+        try { (new D\Node($a,new D\Fingerprint(str_repeat('a',64))))->assertParents($parents); self::fail('Self parent'); }
+        catch (D\DomainFailure $failure) { self::assertSame('self_reference', $failure->errorCode); }
         $source = new D\Source($scope->tenantId,new D\SourceId(PortFixture::id(2)),D\SourceLifecycleState::Revoked,
             new D\Decimal('2'),new D\Decimal('3'),true,'owner:test','host:upload');
         self::assertTrue($source->retentionHold); self::assertSame(D\SourceLifecycleState::Revoked,$source->lifecycleState);

@@ -63,7 +63,8 @@ final readonly class Reconcile
                         self::fail('scope_mismatch', D\Outcome::Denied);
                     }
                     $seq = new D\Decimal($row->get('sequence'));
-                    if ($seq->value !== (new D\Decimal($after['sequence']))->next()->value || (int) $seq->value > (int) $plan->cutoff->value) {
+                    // Decimal exceeds 32-bit PHP_INT_MAX. A cast would treat distinct values as equal.
+                    if ($seq->value !== (new D\Decimal($after['sequence']))->next()->value || self::decimalGreater($seq->value, $plan->cutoff->value)) {
                         self::fail('recovery_journal_gap');
                     }
                     $after['sequence'] = $seq->value;
@@ -139,6 +140,12 @@ final readonly class Reconcile
         $state['count'] = 0;
         $state['digest'] = D\RecoveryDigest::seed();
         return $state;
+    }
+
+    /** Canonical decimal strings only: no leading zeros, as enforced by Decimal. */
+    private static function decimalGreater(string $left, string $right): bool
+    {
+        return strlen($left) > strlen($right) || (strlen($left) === strlen($right) && strcmp($left, $right) > 0);
     }
 
     private static function fail(string $code, D\Outcome $outcome = D\Outcome::Unknown): never

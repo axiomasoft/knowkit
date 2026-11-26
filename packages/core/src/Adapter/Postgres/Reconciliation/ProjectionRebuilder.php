@@ -58,15 +58,24 @@ final readonly class ProjectionRebuilder
             (new ResourceInventory($this->db))->assertExact($candidate);
             $this->db->execute("SELECT set_config('knowkit.recovery_run',?,true),set_config('knowkit.recovery_generation',?,true)", [$plan->id->value,$row->get('id')]);
             $this->db->execute('DELETE FROM '.$this->db->table('lexical_documents').' WHERE tenant_id=? AND generation_id=?', [$this->tenant->value,$row->get('id')]);
+            $lexical = [];
             foreach ($sets as $set) {
                 foreach ($set->chunkSet->chunks as $chunk) {
                     $ref = $chunk->ref; $source = $ref->revisionRef->sourceRef;
-                    $this->db->execute('INSERT INTO '.$this->db->table('lexical_documents').
-                        " (tenant_id,id,generation_id,chunk_id,source_id,source_version_id,simple_tsvector,exact_tokens,text_digest)
-                         VALUES (?,?,?,?,?,?,to_tsvector('pg_catalog.simple',CAST(? AS text)),ARRAY(SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb))),?)",
-                        [$this->tenant->value,$this->ids->next()->value,$row->get('id'),$ref->chunkId->value,$source->sourceId->value,$source->sourceVersionId->value,
-                            $chunk->text(),json_encode(LiteralQuery::identifiers($chunk->text()),JSON_THROW_ON_ERROR),$ref->chunkDigest->value]);
+                    $lexical[] = [$this->tenant->value,$this->ids->next()->value,$row->get('id'),$ref->chunkId->value,$source->sourceId->value,
+                        $source->sourceVersionId->value,$chunk->text(),json_encode(LiteralQuery::identifiers($chunk->text()),JSON_THROW_ON_ERROR),$ref->chunkDigest->value];
                 }
+            }
+            foreach (array_chunk($lexical, 32) as $batch) {
+                $values = [];
+                $params = [];
+                foreach ($batch as $item) {
+                    $values[] = "(?,?,?,?,?,?,to_tsvector('pg_catalog.simple',CAST(? AS text)),ARRAY(SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb))),?)";
+                    array_push($params, ...$item);
+                }
+                $this->db->execute('INSERT INTO '.$this->db->table('lexical_documents').
+                    ' (tenant_id,id,generation_id,chunk_id,source_id,source_version_id,simple_tsvector,exact_tokens,text_digest) VALUES '.implode(',', $values),
+                    $params);
             }
             (new PdoReadBackend($this->db,$canonical))->reload($manifest);
             return true;

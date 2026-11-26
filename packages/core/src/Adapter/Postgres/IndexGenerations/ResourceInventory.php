@@ -29,15 +29,16 @@ final readonly class ResourceInventory
                 || $row['profile_digest'] !== $revision->parserSignature->profileDigest->value
                 || Jcs::canonicalize(StrictJson::decode($row['chunker_signature'])) !== Jcs::canonicalize($set->chunkerSignature->toWire())) { self::fail(); }
             $ids = [[$row['ir_resource_id'], 'ir']];
-            foreach (['pages'=>'text_resource_id','segments'=>'text_resource_id','assets'=>'resource_id'] as $table=>$column) {
-                $query = $table === 'assets'
-                    ? 'SELECT resource_id FROM ' . $this->db->table('assets') . ' WHERE tenant_id=? AND revision_id=?'
-                    : 'SELECT u.text_resource_id FROM ' . $this->db->table($table) . ' u JOIN ' . $this->db->table('documents') .
-                        ' d ON d.tenant_id=u.tenant_id AND d.id=u.document_id WHERE u.tenant_id=? AND d.revision_id=?';
-                foreach ($this->db->execute($query,
-                    [$tenant->value, $revision->documentRevisionId->value])->fetchAll(\PDO::FETCH_COLUMN) as $id) {
-                    $ids[] = [$id, $table === 'assets' ? 'asset' : 'canonical_slice'];
-                }
+            $revisionId = $revision->documentRevisionId->value;
+            foreach ($this->db->execute(
+                'SELECT u.text_resource_id AS id, \'canonical_slice\' AS kind FROM ' . $this->db->table('pages') . ' u JOIN ' . $this->db->table('documents') .
+                ' d ON d.tenant_id=u.tenant_id AND d.id=u.document_id WHERE u.tenant_id=? AND d.revision_id=?
+                 UNION ALL SELECT u.text_resource_id, \'canonical_slice\' FROM ' . $this->db->table('segments') . ' u JOIN ' . $this->db->table('documents') .
+                ' d ON d.tenant_id=u.tenant_id AND d.id=u.document_id WHERE u.tenant_id=? AND d.revision_id=?
+                 UNION ALL SELECT a.resource_id, \'asset\' FROM ' . $this->db->table('assets') . ' a WHERE a.tenant_id=? AND a.revision_id=?',
+                [$tenant->value, $revisionId, $tenant->value, $revisionId, $tenant->value, $revisionId],
+            )->fetchAll(\PDO::FETCH_ASSOC) as $unit) {
+                $ids[] = [$unit['id'], $unit['kind']];
             }
             $chunks = $this->db->execute('SELECT id,canonical_payload_ref,content_digest FROM ' . $this->db->table('chunks') . ' WHERE tenant_id=? AND chunk_set_id=? ORDER BY id',
                 [$tenant->value, $set->chunkSetId->value])->fetchAll(\PDO::FETCH_ASSOC);
@@ -48,9 +49,19 @@ final readonly class ResourceInventory
                 if (($expected[$chunk['id']] ?? null) !== $chunk['content_digest']) { self::fail(); }
                 $ids[] = [$chunk['canonical_payload_ref'], 'canonical_slice'];
             }
+            $ledger = [];
+            $wanted = array_values(array_unique(array_map(static fn (array $pair): string => $pair[0], $ids)));
+            if ($wanted !== []) {
+                foreach ($this->db->execute(
+                    'SELECT id,state,digest,byte_length,object_version FROM ' . $this->db->table('resource_ledger') .
+                    ' WHERE tenant_id=? AND source_id=? AND id IN (SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))',
+                    [$tenant->value, $source->sourceId->value, json_encode($wanted, JSON_THROW_ON_ERROR)],
+                )->fetchAll(\PDO::FETCH_ASSOC) as $resource) {
+                    $ledger[$resource['id']] = $resource;
+                }
+            }
             foreach ($ids as [$id, $kind]) {
-                $resource = $this->db->row('SELECT * FROM ' . $this->db->table('resource_ledger') . ' WHERE tenant_id=? AND source_id=? AND id=?',
-                    [$tenant->value, $source->sourceId->value, $id]);
+                $resource = $ledger[$id] ?? null;
                 if ($resource === null || $resource['state'] !== 'accepted' || $resource['digest'] === null || $resource['object_version'] === null) {
                     throw new D\DomainFailure(D\Outcome::Unavailable, 'resource_unavailable');
                 }
@@ -78,9 +89,19 @@ final readonly class ResourceInventory
         }
         ksort($revisions, SORT_STRING); $counts = ['processed'=>0,'empty'=>0,'failed'=>0,'skipped'=>0];
         $expected = 0; $allExpected = true; $state = 'complete'; $missing = []; $diagnostics = [];
-        foreach (array_keys($revisions) as $id) {
-            $r = $this->db->row('SELECT coverage_json FROM ' . $this->db->table('document_revisions') . ' WHERE tenant_id=? AND id=?', [$tenant->value, $id]);
-            if ($r === null) { self::fail(); } $coverage = StrictJson::decode($r['coverage_json']);
+        $ids = array_keys($revisions);
+        $stored = [];
+        if ($ids !== []) {
+            foreach ($this->db->execute(
+                'SELECT id,coverage_json FROM ' . $this->db->table('document_revisions') .
+                ' WHERE tenant_id=? AND id IN (SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))',
+                [$tenant->value, json_encode($ids, JSON_THROW_ON_ERROR)],
+            )->fetchAll(\PDO::FETCH_ASSOC) as $r) {
+                $stored[$r['id']] = $r['coverage_json'];
+            }
+        }
+        foreach ($ids as $id) {
+            if (!isset($stored[$id])) { self::fail(); } $coverage = StrictJson::decode($stored[$id]);
             foreach ($counts as $key=>$n) { $counts[$key] += $coverage->get('counts')->get($key); }
             if ($coverage->get('counts')->has('expected')) { $expected += $coverage->get('counts')->get('expected'); } else { $allExpected = false; }
             if ($coverage->get('state') === 'unknown') { $state = 'unknown'; }

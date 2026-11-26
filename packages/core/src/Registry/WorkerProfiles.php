@@ -17,6 +17,8 @@ final class WorkerProfiles
     private array $profiles = [];
     /** @var array<string, true> */
     private array $revoked = [];
+    /** @var array<string, array<string, true>> */
+    private array $revokedCapabilities = [];
 
     public function register(ParserProfile $profile, ParserCapabilities $capabilities, bool $qualified, bool $network = false): void
     {
@@ -33,7 +35,8 @@ final class WorkerProfiles
 
     public function revokeCapability(string $id, Capability $capability): void
     {
-        $this->revoked[$id . ':' . $capability->value] = true;
+        // Profile ids are arbitrary text and may contain ':'. Do not join them into one map key.
+        $this->revokedCapabilities[$id][$capability->value] = true;
     }
 
     /** @param list<Capability> $required */
@@ -54,7 +57,7 @@ final class WorkerProfiles
             throw new DomainFailure(Outcome::Unavailable, 'profile_not_qualified');
         }
         foreach ($required as $capability) {
-            if (isset($this->revoked[$profile->id . ':' . $capability->value])) {
+            if (isset($this->revokedCapabilities[$profile->id][$capability->value])) {
                 throw new DomainFailure(Outcome::Denied, 'capability_revoked');
             }
             $capabilities->require($capability, 'ir-1.0');

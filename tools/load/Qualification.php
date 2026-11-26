@@ -10,8 +10,16 @@ final class Qualification
     public const CASES = ['catalog', 'limits', 'lexical', 'hybrid', 'disclosure', 'reindex',
         'hot-tenant', 'many-tenants', 'outbox', 'purge', 'ocr'];
 
+    /** Fixed disclosure loop. Warm qualification excludes the first (cold) request; the profile has no separate count. */
+    public const DISCLOSURE_REQUESTS = 20;
+
     public static function failures(array $reports): array
     {
+        $profile = Report::profile();
+        $reference = is_array($profile['reference'] ?? null) ? $profile['reference'] : [];
+        $quotas = is_array($profile['quotas'] ?? null) ? $profile['quotas'] : [];
+        $txtBytes = Report::intField($quotas, 'txtDocumentBytes') * Report::intField($quotas, 'txtBatchDocuments');
+        $lexicalSamples = Report::intField($reference, 'searchClients') * Report::intField($quotas, 'searchWarmIterationsPerClient');
         $failures = [];
         foreach (self::CASES as $case) {
             $report = $reports[$case] ?? null;
@@ -23,19 +31,21 @@ final class Qualification
                 $failures[] = 'reference_hardware_unqualified:' . $case;
             }
             $m = $report['measurements'] ?? [];
-            if (!self::sloMet(case: $case, measurements: $m)) {
+            if (!self::sloMet(case: $case, measurements: $m, reference: $reference, quotas: $quotas, lexicalSamples: $lexicalSamples)) {
                 $failures[] = 'slo_failed:' . $case;
             }
-            if ($case === 'catalog' && (($m['totalBytes'] ?? 0) !== 67108864 || ($m['peakBytes'] ?? PHP_INT_MAX) > 268435456)) {
+            if ($case === 'catalog' && (($m['totalBytes'] ?? 0) !== $txtBytes || ($m['peakBytes'] ?? PHP_INT_MAX) > Report::intField($reference, 'txtIngestPeakBytes'))) {
                 $failures[] = 'txt_capacity_failed';
             }
-            if ($case === 'lexical' && (($m['sources'] ?? 0) !== 10000 || ($m['chunks'] ?? 0) !== 100000 || ($m['clients'] ?? 0) !== 20)) {
+            if ($case === 'lexical' && (($m['sources'] ?? 0) !== Report::intField($reference, 'sources')
+                || ($m['chunks'] ?? 0) !== Report::intField($reference, 'chunks')
+                || ($m['clients'] ?? 0) !== Report::intField($reference, 'searchClients'))) {
                 $failures[] = 'reference_workload_changed';
             }
             if ($case === 'hybrid' && ($m['referenceScaleQualified'] ?? false) !== true) {
                 $failures[] = 'hybrid_scale_unqualified';
             }
-            if ($case === 'ocr' && (($m['workerPeakBytes'] ?? 0) <= 0 || ($m['workerPeakBytes'] ?? PHP_INT_MAX) > 2147483648)) {
+            if ($case === 'ocr' && (($m['workerPeakBytes'] ?? 0) <= 0 || ($m['workerPeakBytes'] ?? PHP_INT_MAX) > Report::intField($reference, 'workerPeakBytes'))) {
                 $failures[] = 'ocr_capacity_failed';
             }
         }
@@ -43,9 +53,14 @@ final class Qualification
         return $failures;
     }
 
-    private static function sloMet(string $case, array $measurements): bool
+    private static function sloMet(string $case, array $measurements, array $reference, array $quotas, int $lexicalSamples): bool
     {
-        $rules = ['lexical' => ['warmLatencyMs', 100, 500], 'disclosure' => ['warmLatencyMs', 19, 200], 'outbox' => ['lagMs', 64, 5000]];
+        // Disclosure's first of 20 requests is cold and is not a separate profile field.
+        $rules = [
+            'lexical' => ['warmLatencyMs', $lexicalSamples, Report::intField($reference, 'lexicalWarmP95Ms')],
+            'disclosure' => ['warmLatencyMs', self::DISCLOSURE_REQUESTS - 1, Report::intField($reference, 'disclosureWarmP95Ms')],
+            'outbox' => ['lagMs', Report::intField($quotas, 'outboxBatch'), Report::intField($reference, 'outboxHealthyP95Ms')],
+        ];
         if (!isset($rules[$case])) {
             return true;
         }
