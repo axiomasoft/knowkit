@@ -31,8 +31,18 @@ def verify_dependencies() -> None:
 def verify_models(root: Path) -> None:
     if root.is_symlink() or not root.is_dir():
         raise Refusal("model_assets_missing", "unavailable")
-    for asset in record()["modelAssets"]:
+    assets = record()["modelAssets"]
+    expected = {asset["path"] for asset in assets}
+    paths = list(root.rglob("*"))
+    if any(path.is_symlink() for path in paths):
+        raise Refusal("model_assets_invalid")
+    actual = {p.relative_to(root).as_posix() for p in paths if not p.is_dir()}
+    if actual - expected:
+        raise Refusal("model_assets_invalid")
+    for asset in assets:
         relative = Path(asset["path"])
+        if relative.is_absolute() or ".." in relative.parts:
+            raise Refusal("model_assets_invalid")
         path = root
         for part in relative.parts:
             path = path / part

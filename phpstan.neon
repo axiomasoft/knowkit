@@ -1,6 +1,14 @@
 parameters:
-    level: 5
+    level: 8
+    bootstrapFiles:
+        - tests/tooling/baseline/bootstrap.php
     paths:
+        - packages/core/src
+        - packages/core/conformance
+        - packages/pgvector/src
         - tools/qa.php
         - tests/tooling/baseline
+    ignoreErrors:
+        - identifier: missingType.iterableValue
+        - identifier: missingType.generics
     tmpDir: vendor/.phpstan-cache

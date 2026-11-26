@@ -7,8 +7,9 @@ Its `Domain`, `Application`, `Port`, `Registry` and singular `Adapter` layers li
 in `packages/core/src`. It requires only PHP and ext-pdo/json/mbstring;
 the PostgreSQL adapter additionally requires ext-pdo_pgsql. The root Composer
 project is development tooling. Optional answer, pgvector, HTTP, Laravel, Chatom
-and Agentools bridge Composer projects will arrive in their own phases with
-their own dependency graphs and lockfiles. Do not add their host dependencies
+and AgenTools bridge Composer projects are implemented under `packages/`, with
+their own dependency graphs and lockfiles. Laravel targets version 12; the
+separate pinned Chatom host targets Laravel 13. Do not add their host dependencies
 to the root or core. Chatom and bridge lanes require PHP >=8.4.
 
 Install PHP 8.3, 8.4 or 8.5, Composer 2, ext-pdo/pdo_pgsql/json/mbstring/dom/xml/
@@ -50,8 +51,7 @@ runs. PostgreSQL 17 qualification uses
 on a fresh project. CI qualifies PHP8.3/8.4/8.5 against PostgreSQL16/17. To start
 the separate optional vector backend, run
 `docker compose -p knowkit-test --profile vector up -d --wait pgvector`.
-It listens on loopback port 55433 and uses `pgvector/pgvector:pg16`; creating
-the extension and qualifying vector behavior belong to the semantic phase.
+It listens on loopback port 55433 and uses `pgvector/pgvector:pg16`; the pgvector package and semantic tests provide extension and adapter qualification.
 These image tags receive upstream maintenance updates; exact resolved revisions
 are reported with `docker image inspect postgres:16 pgvector/pgvector:pg16`.
 
@@ -67,11 +67,11 @@ product and adapter conformance audits R42-A01/A02 remain required at P9.5.
 
 `composer qa -- all` is deliberately strict across the complete registry,
 including the optional installed bridge. It also runs Composer strict validation,
-PHPStan, the package/import DAG validator and portable configuration lint. Until
-future suites/manifests/packages exist it must return nonzero. It is not the
-current bootstrap acceptance command. `--profile core-php83` explicitly selects
+PHPStan, the package/import DAG validator and portable configuration lint. It requires every selected suite, backend, runtime and installed host to be
+available. Source implementation alone does not satisfy these prerequisites.
+The commands above retain the original bootstrap acceptance scope. `--profile core-php83` explicitly selects
 all root Core groups plus architecture and reports the other groups
-`NOT_SELECTED/PENDING`; it also fails until its selected future Core groups exist.
+`NOT_SELECTED/PENDING`; it requires all selected Core suites and their backend prerequisites.
 `--profile local-developed --manifest <repository-relative JSON file>` requires
 `schemaVersion: qa-profile:1`, explicit `selected` completed group IDs and
 `notSelected` covering every remaining registry ID exactly once. The checked-in
@@ -84,17 +84,81 @@ Ops and the additional Laravel/Http/installed-host lanes. Core discovery does
 not load optional test classes or optional Composer autoloaders. The runner
 selects each group's declared install and executes it with the root phpunit.xml
 from the repository root. Missing suites, tests or vendor installs are failures.
-Worker groups remain unavailable until their owning phase supplies `pyproject.toml`,
-`uv.lock`, an installed `.venv` Python/pytest runtime and real tests. Install that
-runtime with `uv sync --project python/knowkit-worker --frozen` after those inputs
-exist. Declared worker checks then run locked `uv run --project
+Worker manifests, `pyproject.toml`, `uv.lock` and real tests are implemented.
+Install the locked Python 3.12 runtime with
+`uv sync --project python/knowkit-worker --frozen`. PDF/OCR tests additionally
+require their qualified local model/native assets; see the worker guides below. Declared worker checks then run locked `uv run --project
 python/knowkit-worker --frozen pytest ... --strict-markers -q`; pytest exit 5
 remains a failure. No successful worker/adapter placeholders are provided.
 
 To diagnose one bootstrap component, execute one test file, for example
 `vendor/bin/phpunit --configuration phpunit.xml tests/tooling/baseline/RunnerTest.php`.
 All new dependencies are locked in composer.lock, resolved with PHP8.3.0 as
-Composer's platform floor. Optional package manifests are intentionally absent.
+Composer's platform floor. Optional package manifests and lockfiles live under their respective package directories;
+install only the projects needed for the selected lanes.
+
+## Continuous integration and coverage
+
+`--profile ci-core` selects all 29 portable Core/architecture groups. It excludes
+`delivery:readiness`, whose cross-version host and real worker qualifications need
+additional installations. The historical `tests/tooling/baseline/profile.json`
+continues to describe only the original bootstrap scope.
+
+`--profile ci-optional` selects 14 Answer, pgvector, HTTP, Laravel, adoption,
+evaluation and observability groups. Install the four corresponding package
+Composer projects first and set `TEST_VECTOR_PG_DSN` for the vector backend.
+Both profiles explicitly list all unselected groups and retain the common strict
+Composer, PHPStan, package DAG and configuration checks. CI reports are uploaded
+even when a selected group fails; child failure diagnostics retain a bounded tail
+of both stdout and stderr. Superseded CI runs are cancelled.
+
+CI separately runs the Python protocol/regression tests without model assets.
+PDF/OCR/structure, installed AgenTools, pinned Chatom hosts, full delivery,
+resilience and capacity qualifications remain explicit environment-dependent
+checks; a green portable CI does not qualify those lanes.
+
+Core coverage is collected in one PHPUnit process rather than re-running each
+group with a coverage driver. The source filter includes all Core production
+files, including unexecuted ones. With PCOV enabled or `XDEBUG_MODE=coverage`:
+
+```sh
+vendor/bin/phpunit --testsuite Core --exclude-group delivery:readiness \
+  --coverage-clover coverage/clover.xml --coverage-text=coverage/summary.txt
+```
+
+The CI coverage job uploads both reports. This measures Core line coverage;
+optional packages, Python and subprocess execution need separate coverage
+collection. No percentage threshold is claimed for those unmeasured paths.
+See [PHPUnit's coverage documentation](https://docs.phpunit.de/en/11.5/code-coverage.html)
+for driver and source-filter semantics.
+
+## Current worker and targeted verification
+
+The worker implements exact Docling text and structure profiles plus separate
+Tesseract English/Russian OCR profiles. Read [PDF setup](../python/knowkit-worker/PDF.md),
+[OCR setup](../python/knowkit-worker/OCR.md) and [sandbox runtime setup](../deploy/worker/README.md)
+for explicit asset builds. No model download occurs during a job.
+
+```sh
+uv run --project python/knowkit-worker --frozen pytest python/knowkit-worker/tests -q
+python3 -m compileall -q python/knowkit-worker/src deploy
+php -l tools/license-audit.php
+php tools/license-audit.php
+vendor/bin/phpunit --configuration phpunit.xml tests/evaluation/MetricsTest.php
+```
+
+Pytest uses importlib mode so PDF, OCR and structure test modules can be collected
+together. The default test path remains the protocol suite for compatibility.
+The full suite includes real model extraction and a bubblewrap/network isolation
+test: missing assets or prohibited namespace/socket operations fail, never skip.
+Local Level 8 PHPStan checks can use `--debug --memory-limit=1G` where sandbox
+restrictions prevent PHPStan's parallel TCP listener. The root PHPStan config
+checks Core, its conformance SDK, pgvector and bootstrap tooling at Level 8.
+Optional CI checks Answer, pgvector, HTTP and Laravel separately at Level 8 with
+`phpstan.optional.neon` and each package's own autoloader. The shared exclusions
+may be unmatched in a package subset; other analysis errors still fail. Chatom
+requires its pinned host installation and Bridge retains its separate Level 5
+configuration. Python is outside PHPStan's scope.
 
 ## Local ecosystem setup
 
@@ -104,9 +168,10 @@ Perplexity MCP. Project memory is scoped to `project:knowkit`; topology namespac
 are `axioma` and `knowkit`. Shared memory access is not enabled.
 
 The selected Swiss Knife Man plugins are `core`, `oss-dev`, and `planner` for
-Claude Code and Codex. No language-specific stack or agent pack is selected
-because the upstream repository is empty. Serena has no language servers selected;
-configure these when source code and the stack are introduced.
+Claude Code and Codex. The initial empty-repository setup selected no language-specific stack or agent
+pack. That is a historical setup choice, not the current application architecture.
+Serena was provisioned without language servers; configure PHP/Python support
+when enabling semantic navigation in a local environment.
 
 The tracked `.swissknifeman/project.json` identifies this project. The local
 `plans/` and `tasks/` symlinks point into the workspace and are excluded through

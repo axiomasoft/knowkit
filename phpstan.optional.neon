@@ -1,0 +1,8 @@
+includes:
+    - phpstan.neon
+
+parameters:
+    # Each invocation selects one optional package. Shared Core type exclusions
+    # need not occur in every subset, but all other analysis errors still fail.
+    reportUnmatchedIgnoredErrors: false
+    tmpDir: vendor/.phpstan-optional-cache

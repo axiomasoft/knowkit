@@ -41,7 +41,7 @@ final readonly class LifecycleCommands implements Lifecycle
     {
         $scope->assertTenant($replacement->ref->tenantId);
         $scope->assertTenant($correction->oldVersion->tenantId);
-        if ($correction->replacement?->toWire() != $replacement->ref->toWire()) {
+        if ($correction->replacement === null || !$correction->replacement->equals($replacement->ref)) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
         }
         $fields = new JsonObject(['mode'=>'accept_and_correct', 'oldVersion'=>$correction->oldVersion->toWire(),

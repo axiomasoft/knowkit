@@ -74,10 +74,35 @@ final class RecordedInventoryStore implements InventoryStore
             $scope, $previous->connectorId, $previous->sourceNamespace, new D\Decimal('0'), [],
         );
         if ($this->guarded || $current->revision->value !== $previous->revision->value
-            || $current->members != $previous->members) {
+            || !self::sameMembers($current->members, $previous->members)) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'stale_write');
         }
         $context->assertExpected($previous->revision, $scope->policyEpoch);
+    }
+
+    /**
+     * @param list<D\CrawlItem> $left
+     * @param list<D\CrawlItem> $right
+     */
+    private static function sameMembers(array $left, array $right): bool
+    {
+        if (count($left) !== count($right)) {
+            return false;
+        }
+        foreach ($left as $index => $item) {
+            $other = $right[$index];
+            if (
+                $item->originKey !== $other->originKey
+                || $item->logicalPath !== $other->logicalPath
+                || $item->immutableRevision !== $other->immutableRevision
+                || $item->contentDigest->value !== $other->contentDigest->value
+                || $item->byteLength->value !== $other->byteLength->value
+                || $item->status !== $other->status
+            ) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function deny(D\Scope $scope, PreviousInventory $previous, D\CrawlItem $removed, D\MutationContext $context): void

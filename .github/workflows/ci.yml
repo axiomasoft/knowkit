@@ -1,10 +1,14 @@
-name: KnowKit bootstrap
+name: KnowKit verification
 on: [push, pull_request]
 permissions:
   contents: read
+concurrency:
+  group: knowkit-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   bootstrap:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -26,7 +30,7 @@ jobs:
       - uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter
+          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
           tools: composer:v2
           coverage: none
       - uses: actions/setup-python@v5
@@ -35,13 +39,121 @@ jobs:
       - run: composer install --no-interaction --no-progress --prefer-dist
       - name: Record resolved PostgreSQL image revision
         run: docker image inspect postgres:${{ matrix.postgres }} --format '{{json .RepoDigests}}'
-      - run: composer validate --strict
-      - run: composer validate --strict --working-dir=packages/core
-      - run: vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress
-      - run: php tools/qa.php --check dag
-      - run: php tools/qa.php --check config
-      - name: Explicit completed groups (future groups remain NOT_SELECTED/PENDING)
-        run: composer qa -- --profile local-developed --manifest tests/tooling/baseline/profile.json
+      - name: Core contracts, database, security and retrieval (29 groups)
+        run: php tools/qa.php --profile ci-core > qa-core.json
         env:
           TEST_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test
           TEST_PG_USER: knowkit_test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: core-php${{ matrix.php }}-pg${{ matrix.postgres }}
+          path: qa-core.json
+          if-no-files-found: error
+  optional:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.5']
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: knowkit_test
+          POSTGRES_DB: knowkit_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ['5432/tcp']
+        options: >-
+          --health-cmd "pg_isready -U knowkit_test -d knowkit_test"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
+          tools: composer:v2
+          coverage: none
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Install and validate isolated optional projects
+        run: |
+          for package in answer pgvector http laravel; do
+            composer install --working-dir=packages/$package --no-interaction --no-progress --prefer-dist
+            composer validate --strict --working-dir=packages/$package
+          done
+      - name: Analyse optional package sources at Level 8
+        run: |
+          for package in answer pgvector http laravel; do
+            KNOWKIT_QA_COMPOSER_PROJECT=packages/$package vendor/bin/phpstan analyse \
+              --configuration=phpstan.optional.neon packages/$package/src \
+              --autoload-file=packages/$package/vendor/autoload.php --no-progress --memory-limit=1G
+          done
+      - name: Answer, vector, HTTP, Laravel, evaluation and observability
+        run: php tools/qa.php --profile ci-optional > qa-optional.json
+        env:
+          TEST_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test
+          TEST_VECTOR_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test
+          TEST_PG_USER: knowkit_test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: optional-php${{ matrix.php }}
+          path: qa-optional.json
+          if-no-files-found: error
+  coverage:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: knowkit_test
+          POSTGRES_DB: knowkit_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ['5432/tcp']
+        options: >-
+          --health-cmd "pg_isready -U knowkit_test -d knowkit_test"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
+          tools: composer:v2
+          coverage: pcov
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Measure all core source files, including uncovered files
+        run: vendor/bin/phpunit --testsuite Core --exclude-group delivery:readiness --coverage-clover coverage/clover.xml --coverage-text=coverage/summary.txt
+        env:
+          TEST_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test
+          TEST_PG_USER: knowkit_test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: core-coverage
+          path: coverage/
+          if-no-files-found: error
+  worker-protocol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install uv==0.12.0
+      - run: uv sync --project python/knowkit-worker --frozen
+      - name: Protocol and runtime regressions without model assets
+        run: uv run --project python/knowkit-worker --frozen --offline pytest python/knowkit-worker/tests/protocol -q --junitxml=worker-protocol.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: worker-protocol
+          path: worker-protocol.xml
+          if-no-files-found: error

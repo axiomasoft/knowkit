@@ -80,10 +80,13 @@ final readonly class KnowKitDurableAgentHandler implements DurableAgentHandler
         );
         $outcome = $this->answers->create($authorization)->answer(request: $request, cancellation: $this->cancellation);
         $content = $outcome->answeredContent();
-        if ($content === null || $outcome->invocationRef != $request->invocationRef()) {
+        $expectedRef = $request->invocationRef();
+        if ($content === null
+            || $outcome->invocationRef->tenantId->value !== $expectedRef->tenantId->value
+            || $outcome->invocationRef->key->value !== $expectedRef->key->value) {
             return;
         }
-        $this->publish(invocation: $invocation, reply: $reply, request: $request, outcome: $outcome, authorization: $authorization);
+        $this->publish(invocation: $invocation, reply: $reply, request: $request, outcome: $outcome, content: $content, authorization: $authorization);
     }
 
     private function publish(
@@ -91,6 +94,7 @@ final readonly class KnowKitDurableAgentHandler implements DurableAgentHandler
         DurableAgentReply $reply,
         A\AnswerRequest $request,
         A\AnswerOutcome $outcome,
+        A\AnsweredContent $content,
         ChatomInvocationAuthorization $authorization,
     ): void {
         $record = $this->ledger->find($request->invocationRef());
@@ -99,12 +103,12 @@ final readonly class KnowKitDurableAgentHandler implements DurableAgentHandler
         }
         $record->requireOriginal($request);
         $digest = new Sha256(hash('sha256', Jcs::canonicalize($outcome->toWire())));
-        if ($record->responsePayloadHash != $digest) {
+        if ($record->responsePayloadHash === null || !$record->responsePayloadHash->equals($digest)) {
             throw new DomainFailure(outcome: Outcome::Incompatible, errorCode: 'invocation_conflict');
         }
         $dependencies = $record->dependencies;
         $authorization->assertCurrent($dependencies);
-        $document = $this->mapper->map($outcome->answeredContent());
+        $document = $this->mapper->map($content);
         $this->boundary->send(
             invocation: $invocation,
             reply: $reply,

@@ -13,7 +13,7 @@ from knowkit_worker.ocr.qualification import model_fingerprint, record, verify_n
 from knowkit_worker.profiles import DOCLING, lookup
 from knowkit_worker.protocol import Refusal, canonical, sha256
 
-from conftest import CORPUS, MODELS, NATIVE, ROOT, job_for
+from .conftest import CORPUS, MODELS, NATIVE, ROOT, job_for
 
 
 def test_missing_ocr_and_language_weights_leave_partial_without_fallback(tmp_path):

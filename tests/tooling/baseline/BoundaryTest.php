@@ -117,7 +117,9 @@ final class BoundaryTest extends Support
         $this->put('.env.example', 'CACHE=/home/example/private');
         $this->rejects(static fn() => $qa->config(), 'nonportable');
         $this->copy('.env.example');
-        $this->put('compose.yaml', str_replace('127.0.0.1:', '0.0.0.0:', file_get_contents($this->qa->file('compose.yaml'))));
+        $composeContent = file_get_contents($this->qa->file('compose.yaml'));
+        Qa::ensure($composeContent !== false, 'cannot read compose.yaml');
+        $this->put('compose.yaml', str_replace('127.0.0.1:', '0.0.0.0:', $composeContent));
         $this->rejects(static fn() => $qa->config(), 'loopback');
     }
 }

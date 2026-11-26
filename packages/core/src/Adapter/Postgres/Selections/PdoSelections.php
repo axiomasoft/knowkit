@@ -105,7 +105,9 @@ final readonly class PdoSelections implements SelectionStore
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
             }
         }
-        if (new \DateTimeImmutable($row['expires_at']) != new \DateTimeImmutable($record->selection->expiresAt()->value)) {
+        $storedExpires = (new \DateTimeImmutable((string) $row['expires_at']))->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s.u\Z');
+        $expectedExpires = (new \DateTimeImmutable($record->selection->expiresAt()->value))->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s.u\Z');
+        if ($storedExpires !== $expectedExpires) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
         }
     }
@@ -114,11 +116,11 @@ final readonly class PdoSelections implements SelectionStore
     {
         $stored = $record->context->scope;
         $scope->assertTenant($stored->tenantId);
-        if ($scope->kbId != $stored->kbId || $scope->actorId != $stored->actorId
-            || $scope->purpose !== $stored->purpose || $scope->hostScopeHash != $stored->hostScopeHash) {
+        if (!$scope->kbId->equals($stored->kbId) || !$scope->actorId->equals($stored->actorId)
+            || $scope->purpose !== $stored->purpose || !$scope->hostScopeHash->equals($stored->hostScopeHash)) {
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
         }
-        if ($scope->policyEpoch != $stored->policyEpoch) {
+        if ($scope->policyEpoch->value !== $stored->policyEpoch->value) {
             throw new D\DomainFailure(D\Outcome::Denied, 'POLICY_CHANGED');
         }
     }

@@ -1,11 +1,11 @@
 {
   "schemaVersion": "check-group:1",
   "group": "worker:acceptance",
-  "fixtureVersion": "1.0.0",
-  "versionRationale": "Initial P6.2 acceptance corpus 1.0.0. Golden bytes deliberately reuse P6.1 protocol fixture 1.0.0 unchanged; SQL tests bind runtime tenant/source/lease IDs and recompute expected envelope digests. Mutations and expected outcomes are versioned here. Digest changes require a new fixture version and a semantic rationale; never automatic snapshots.",
+  "fixtureVersion": "1.0.2",
+  "versionRationale": "Acceptance corpus 1.0.1 corrects EXACT-NEGOTIATION to use the versioned PDF profile signature, including its qualification digest, and separately checks a mismatched signature. Unknown and mismatched profiles remain incompatible; an exact unqualified profile remains unavailable. Synthetic golden envelope, IR, result and source bytes are unchanged; no PDF extraction qualification is inferred. Qualified dependency upgrade to Torch 2.13.0+cpu, Torchvision 0.28.0+cpu and pypdfium2 5.15.2 changes parser identity only: all 12 PDF/OCR IR semantics were independently equal, and fresh sandbox plus PHP persistence validated the new identities. Rebind cross-suite references without changing authored workload or outcome expectations.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private",
-    "origin": "Project-authored synthetic fixtures with reused P6.1 golden wire. No PDF, Docling, OCR or remote adapter qualification."
+    "origin": "Project-authored synthetic fixtures with reused P6.1 golden wire. The parser signature alone is reused from the project-authored PDF golden unicode-label.ir.json; no PDF, Docling, OCR or remote adapter qualification is established by this group."
   },
   "requiredCaseIds": [
     "VALID",
@@ -101,7 +101,7 @@
   "fixtures": [
     {
       "path": "tests/fixtures/worker/acceptance/v1/cases.json",
-      "sha256": "4dfb92e6528055ee5c87797bef065d6c81b098f31f43d6b3020889ad6460a0fe",
+      "sha256": "6f0a32f075cb2e84443b9af2bbea3990baa0612fa45c7f9a4e83e642510ea3ca",
       "expected": {
         "outcome": "versioned_required_cases"
       }
@@ -133,6 +133,13 @@
       "expected": {
         "outcome": "valid",
         "digest": "9948f723030218c0a068ea46acf54a329662547ebeaad8e1222bc1d4d5bea22b"
+      }
+    },
+    {
+      "path": "tests/fixtures/documents/pdf/v1/unicode-label.ir.json",
+      "sha256": "39822610d9bf2aa79f483ff5860559a0732a8fe763186916bf0a66055d767493",
+      "expected": {
+        "outcome": "profile_signature_only"
       }
     }
   ]

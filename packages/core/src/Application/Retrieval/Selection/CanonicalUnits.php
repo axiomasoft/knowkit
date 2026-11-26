@@ -20,9 +20,16 @@ final readonly class CanonicalUnits implements SelectionInventoryBuilder
             $set = $result->chunkSet;
             $document = $documents[$set->revisionRef->irDigest->value]
                 ?? throw new D\DomainFailure(D\Outcome::Unavailable, 'canonical_ir_unavailable');
+            // ManifestCandidate has already bound every chunk to this sidecar's document.
+            // Index its metadata and verify the IR once per set, not once per chunk.
+            $metadata = [];
+            foreach ($result->manifest()->get('chunks') as $entry) {
+                $metadata[$entry->get('chunkId')] = $entry;
+            }
+            $map = null;
             foreach ($set->chunks as $chunk) {
-                $map = new CanonicalMap($document, $set->revisionRef, $chunk->documentId);
-                $meta = $result->metadata($chunk->ref->chunkId->value);
+                $map ??= new CanonicalMap($document, $set->revisionRef, $chunk->documentId);
+                $meta = $metadata[$chunk->ref->chunkId->value];
                 $map->assembler->assertChunk($chunk, $meta->get('joiner'));
                 $parts = $this->context($map, $meta->get('context'));
                 $parts[] = $chunk->text();
@@ -35,7 +42,10 @@ final readonly class CanonicalUnits implements SelectionInventoryBuilder
         return new D\SelectionInventory($snapshot, $manifest, $units);
     }
 
-    /** @param list<JsonObject> $context @return list<string> */
+    /**
+     * @param list<JsonObject> $context
+     * @return list<string>
+     */
     private function context(CanonicalMap $map, array $context): array
     {
         $parts = [];
@@ -64,7 +74,10 @@ final readonly class CanonicalUnits implements SelectionInventoryBuilder
         throw new D\DomainFailure(D\Outcome::Incompatible, 'source_text_mismatch');
     }
 
-    /** @param list<string> $blockIds @return list<string> */
+    /**
+     * @param list<string> $blockIds
+     * @return list<string>
+     */
     private function assets(CanonicalMap $map, array $blockIds, D\DocumentRevisionRef $revision): array
     {
         $assets = [];

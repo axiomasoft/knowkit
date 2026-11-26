@@ -26,7 +26,7 @@ final readonly class GroundingEvidenceReader
 
     public function read(A\AnswerRequest $request): ?A\GroundingEvidence
     {
-        if ($request->retrievalProfileRef != $this->profile) {
+        if (!$request->retrievalProfileRef->equals($this->profile)) {
             throw new D\DomainFailure(D\Outcome::Unavailable, 'retrieval_profile_unavailable');
         }
         $result = $this->retrieval->retrieve($request->scope, new D\Query($request->question), new D\Limit(4))->result;
@@ -58,7 +58,7 @@ final readonly class GroundingEvidenceReader
             throw new D\DomainFailure(D\Outcome::Unavailable, 'fresh_disclosure_required');
         }
         $evidence = new A\GroundingEvidence($result->data, $selection, $request->scope, $this->validator);
-        if ($evidence->disclosureAttemptId() != $disclosure->attemptId()) {
+        if (!$evidence->disclosureAttemptId()->equals($disclosure->attemptId())) {
             throw new D\DomainFailure(D\Outcome::Unavailable, 'fresh_disclosure_required');
         }
 

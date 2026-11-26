@@ -11,7 +11,7 @@ $reports = [];
 foreach (Qualification::CASES as $case) {
     $file = Report::root() . '/.phpunit.cache/P9.4/' . $case . '.json';
     if (is_file($file)) {
-        $reports[$case] = json_decode(file_get_contents($file), true, 64, JSON_THROW_ON_ERROR);
+        $reports[$case] = json_decode(\KnowKit\Tooling\LocalIO::read($file), true, 64, JSON_THROW_ON_ERROR);
     }
 }
 $failures = Qualification::failures($reports);

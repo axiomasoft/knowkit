@@ -85,6 +85,10 @@ final readonly class InvocationReplay
 
     private function materialize(D\Scope $scope, A\InvocationRecord $record): A\AnswerOutcome
     {
+        if ($record->responsePayloadRef === null || $record->responsePayloadHash === null) {
+            return $this->unavailable($record->invocationRef, $record->dispatchCertainty,
+                !$record->pins->binding->transport->production);
+        }
         try {
             $ref = new A\InvocationPayloadRef($scope->tenantId, new D\ResourceId($record->responsePayloadRef), $record->responsePayloadHash);
             $outcome = A\AnswerOutcome::fromWire(StrictJson::decode($this->payloads->read($scope, $ref)), $this->validator);
@@ -92,7 +96,7 @@ final readonly class InvocationReplay
             return $this->unavailable($record->invocationRef, $record->dispatchCertainty,
                 !$record->pins->binding->transport->production);
         }
-        if ($outcome->invocationRef != $record->invocationRef || $outcome->code !== $record->outcomeCode
+        if (!$outcome->invocationRef->equals($record->invocationRef) || $outcome->code !== $record->outcomeCode
             || $outcome->certainty !== $record->dispatchCertainty) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'immutable_conflict');
         }

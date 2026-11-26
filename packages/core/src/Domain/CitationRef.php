@@ -50,7 +50,7 @@ final readonly class CitationRef extends SchemaValue
         }
         if ($wire->get('documentRevisionId') !== $chunk->revisionRef->documentRevisionId->value
             || $wire->get('irDigest') !== $chunk->revisionRef->irDigest->value
-            || $this->contentDigest() != $chunk->chunkDigest) {
+            || !$this->contentDigest()->equals($chunk->chunkDigest)) {
             throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict');
         }
     }

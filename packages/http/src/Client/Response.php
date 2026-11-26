@@ -68,8 +68,9 @@ final readonly class Response
             D\Outcome::Denied => $this->errorCode === 'resource_missing' ? [404]
                 : ($this->errorCode === 'unauthenticated' ? [401]
                     : ($call->route->mutation && $this->errorCode === 'POLICY_CHANGED' ? [409] : [403])),
-            D\Outcome::Unknown, D\Outcome::Unavailable => [503],
-            D\Outcome::Incompatible => [409],
+            D\Outcome::Unknown => [503],
+            D\Outcome::Unavailable => $this->errorCode === 'quota_exceeded' ? [429] : [503],
+            D\Outcome::Incompatible => $this->errorCode === 'resource_missing' ? [404] : [409],
             null => [400, 401, 404, 409, 413, 429, 500, 503],
         };
         if (!in_array($this->status, $expected, true)

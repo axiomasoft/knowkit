@@ -38,7 +38,7 @@ final class ProfilesTest extends TestCase
             $migration = new Migrate(pdo: $pdo, schema: $schema);
             $migration->apply(dirname(__DIR__, 3) . '/packages/core/migrations/postgres/001_metadata.sql');
             $pdo->exec('SET search_path TO ' . $schema);
-            self::assertSame(10, (int) $pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
+            self::assertSame(14, (int) $pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
             self::assertSame(0, (int) $pdo->query('SELECT count(*) FROM sources')->fetchColumn());
             self::assertNull($pdo->query("SELECT to_regclass('chatom_messages')")->fetchColumn());
         } finally {

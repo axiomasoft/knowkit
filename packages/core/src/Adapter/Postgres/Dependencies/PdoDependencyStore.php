@@ -25,7 +25,7 @@ final readonly class PdoDependencyStore implements DependencyStore
         $this->guard($node->ref->tenantId,true); $node->assertParents($parents);
         $seen=[];
         foreach ($parents->refs as $parent) {
-            if ($parent->id==$node->ref->id) { self::fail('self_reference'); }
+            if ($parent->id->equals($node->ref->id)) { self::fail('self_reference'); }
             if (isset($seen[$parent->id->value])) { self::fail('duplicate_identifier'); } $seen[$parent->id->value]=true;
             $this->requireNode($parent);
         }
@@ -40,7 +40,7 @@ final readonly class PdoDependencyStore implements DependencyStore
         $this->requireUsable($this->state($node->ref,$meta['source'],$meta['version'],null));
         // Verify an existing set BEFORE any insert: conflicts cannot accumulate edges.
         if ($existing!==null) {
-            if ($this->parents($node->ref->id->value)->digest()!=$parents->digest()) { self::fail('immutable_conflict'); }
+            if (!$this->parents($node->ref->id->value)->digest()->equals($parents->digest())) { self::fail('immutable_conflict'); }
             $this->requireUsable($this->checkAncestors(new D\NodeRefs($this->tenant,[$node->ref]))); return;
         }
         $this->db->execute('INSERT INTO '.$this->db->table('dependency_nodes').
@@ -96,13 +96,15 @@ final readonly class PdoDependencyStore implements DependencyStore
             'hostScopeHash'=>'host_scope_hash','runRef'=>'run_ref','policyBindingDigest'=>'policy_binding_digest'] as $key=>$column) {
             if ($u[$column]!==$w->get($key)) { self::fail('immutable_conflict'); }
         }
-        if ((new \DateTimeImmutable($u['prepared_at']))!=(new \DateTimeImmutable($w->get('checkedAt')))) { self::fail('immutable_conflict'); }
+        $preparedAt = (new \DateTimeImmutable((string) $u['prepared_at']))->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s.u\Z');
+        $checkedAt = (new \DateTimeImmutable((string) $w->get('checkedAt')))->setTimezone(new \DateTimeZone('UTC'))->format('Y-m-d\TH:i:s.u\Z');
+        if ($preparedAt !== $checkedAt) { self::fail('immutable_conflict'); }
         $expected=[]; $refs=[];
         foreach ($w->get('fragmentRefs') as $fragment) {
             $chunk=$fragment->get('chunkRef');
             if ($chunk->get('tenantId')!==$this->tenant->value) { self::fail('scope_mismatch',D\Outcome::Denied); }
             $ref=$this->ref('chunk',$chunk->get('chunkId')); $this->requireNode($ref);
-            if ($this->metadata->resolve($ref)['identity']!=$chunk) { self::fail('immutable_conflict'); }
+            if (Jcs::canonicalize($this->metadata->resolve($ref)['identity'])!==Jcs::canonicalize($chunk)) { self::fail('immutable_conflict'); }
             $expected[$ref->id->value][]=$fragment; $refs[$ref->id->value]=$ref;
         }
         foreach ($expected as $id=>$fragments) {
@@ -182,7 +184,7 @@ final readonly class PdoDependencyStore implements DependencyStore
 
     private function guard(D\TenantId $tenant, bool $write=false): void
     {
-        if ($tenant!=$this->tenant) { self::fail('scope_mismatch',D\Outcome::Denied); }
+        if (!$tenant->equals($this->tenant)) { self::fail('scope_mismatch',D\Outcome::Denied); }
         $this->tx->requireTenant($tenant,$write);
     }
     private function row(string $id): ?array

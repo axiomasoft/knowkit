@@ -37,7 +37,7 @@ final readonly class InvalidatingInbox implements EventInbox
 
     private function invalidate(D\DomainEvent $event): void
     {
-        if ($event->tenantId() != $this->tenant) {
+        if (!$event->tenantId()->equals($this->tenant)) {
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
         }
         // Before durable acknowledgement: a failed eviction remains retryable.

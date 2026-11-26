@@ -28,6 +28,7 @@ final class PostgresFlowTest extends TestCase
             $host = new GroundingFixture();
             $this->seedHost($base, $host);
             $sql = new ReplayFixture($base->blobs->catalog->db, $base->blobs->root, Fixture::scope());
+            $sql->clock->fixed = $host->date();
             $host->binding = Fixture::binding(['transport' => ScriptedTransport::testDescriptor()]);
             $transport = new ScriptedTransport(new EffectiveProfile(ProfileMode::Test, ScriptedTransport::testDescriptor()), [
                 new A\TransportResult(A\DispatchCertainty::Sent,

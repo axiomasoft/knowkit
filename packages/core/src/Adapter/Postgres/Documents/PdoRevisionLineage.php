@@ -4,7 +4,7 @@ namespace KnowKit\Adapter\Postgres\Documents;
 
 use KnowKit\Adapter\Postgres\Catalog\{Connection, PdoCatalogTransaction};
 use KnowKit\Domain\{DocumentRevisionId, DocumentRevisionRef, DomainFailure, Outcome, Parents, ResourceRef, SourceVersionId, TenantId};
-use KnowKit\Domain\Contract\{HashDomain, JsonObject};
+use KnowKit\Domain\Contract\{HashDomain, Jcs, JsonObject};
 
 /** Revision/source-version lineage only. The general lifecycle DependencyStore remains separate. */
 final readonly class PdoRevisionLineage
@@ -18,16 +18,16 @@ final readonly class PdoRevisionLineage
     {
         $tenant = $revision->sourceRef->tenantId;
         $this->tx->requireTenant($tenant, true);
-        if ($parents->tenantId != $tenant) { self::fail('scope_mismatch', Outcome::Denied); }
+        if (!$parents->tenantId->equals($tenant)) { self::fail('scope_mismatch', Outcome::Denied); }
         $sourceParent = false;
         foreach ($parents->refs as $parent) {
             if ($parent->id->value === $revision->documentRevisionId->value) { self::fail('self_reference'); }
-            if ($parent->kind === 'source_version' && $parent->id == $revision->sourceRef->sourceVersionId) { $sourceParent = true; }
+            if ($parent->kind === 'source_version' && $parent->id->equals($revision->sourceRef->sourceVersionId)) { $sourceParent = true; }
         }
         if (!$sourceParent) { self::fail('required_parent_missing'); }
         // The source-version root can be registered only from real accepted catalog metadata.
         $root = $this->sourceWire($tenant, $revision->sourceRef->sourceVersionId->value);
-        if ($root != $revision->sourceRef->toWire()) { self::fail('immutable_conflict'); }
+        if (Jcs::canonicalize($root) !== Jcs::canonicalize($revision->sourceRef->toWire())) { self::fail('immutable_conflict'); }
         $this->node($tenant, $revision->sourceRef->sourceVersionId->value, 'source_version', $root,
             $revision->sourceRef->sourceId->value, $revision->sourceRef->sourceVersionId->value, new Parents($tenant, []));
         $this->assertUsable($tenant, $parents);
@@ -39,7 +39,7 @@ final readonly class PdoRevisionLineage
                 [$tenant->value, $revision->documentRevisionId->value, $parent->id->value]);
         }
         $actual = $this->parents($tenant, $revision->documentRevisionId->value);
-        if ($actual->digest() != $parents->digest()) { self::fail('immutable_conflict'); }
+        if (!$actual->digest()->equals($parents->digest())) { self::fail('immutable_conflict'); }
     }
 
     private function node(TenantId $tenant, string $id, string $kind, JsonObject $identity, string $source, string $version, Parents $parents): void
@@ -73,7 +73,7 @@ final readonly class PdoRevisionLineage
     public function assertUsable(TenantId $tenant, Parents $parents): void
     {
         $this->tx->requireTenant($tenant);
-        if ($parents->tenantId != $tenant) { self::fail('scope_mismatch', Outcome::Denied); }
+        if (!$parents->tenantId->equals($tenant)) { self::fail('scope_mismatch', Outcome::Denied); }
         foreach ($parents->refs as $parent) {
             $this->ref($tenant, $parent->kind, $parent->id->value);
             $rows = $this->db->execute('WITH RECURSIVE ancestors(id) AS (SELECT id FROM ' . $this->db->table('dependency_nodes') .

@@ -11,7 +11,11 @@ final readonly class ExtractionResult
 {
     private FrozenJson $sidecar;
 
-    /** @param list<JsonObject> $blocks @param list<JsonObject> $structure @param list<string> $diagnostics */
+    /**
+     * @param list<JsonObject> $blocks
+     * @param list<JsonObject> $structure
+     * @param list<string> $diagnostics
+     */
     public function __construct(SourceBytes $source, ParserProfile $profile, public ?CanonicalText $normalization,
         array $blocks, array $structure, array $diagnostics, ?string $rejection, ContractValidator $validator)
     {
@@ -79,5 +83,6 @@ final readonly class ExtractionResult
         return '<pre>' . htmlspecialchars($part, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</pre>'
             . (strlen($part) < strlen($text) ? '<p>[truncated]</p>' : '');
     }
+    /** @return array<string, mixed> */
     public function __debugInfo(): array { return ['outcome' => $this->outcome->value, 'errorCode' => $this->errorCode]; }
 }

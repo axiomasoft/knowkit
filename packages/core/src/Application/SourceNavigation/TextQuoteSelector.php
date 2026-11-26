@@ -20,7 +20,7 @@ final readonly class TextQuoteSelector
 
     public function accepts(CanonicalUnit $unit, int $start, int $end): bool
     {
-        if ($this->position !== null && ($unit->ref != $this->positionUnit || $start !== $this->position)) {
+        if ($this->position !== null && ($this->positionUnit === null || !$unit->ref->equals($this->positionUnit) || $start !== $this->position)) {
             return false;
         }
         $text = $unit->text();

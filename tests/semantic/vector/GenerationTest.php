@@ -20,6 +20,19 @@ use PHPUnit\Framework\TestCase;
 #[Group('semantic:vector')]
 final class GenerationTest extends TestCase
 {
+    public function testTemporaryGenerationCannotPermitDeletingSealedVectors(): void
+    {
+        Fixture::run(function (Fixture $f): void {
+            $db = $f->lexical->catalog->db;
+            $db->execute('CREATE TEMP TABLE index_generations AS SELECT tenant_id,id,\'building\'::text AS state FROM '
+                . $db->table('index_generations'));
+            $db->execute('SET search_path TO pg_temp,public');
+            CatalogFixture::sqlReject($db->pdo, 'DELETE FROM ' . $db->table('vector_documents')
+                . ' WHERE tenant_id=? AND generation_id=?', [Fixture::id(1), Fixture::id(501)], ['23514']);
+            self::assertSame(['allowed', 'tie'], $f->names($f->index()->search($f->scope(), new D\Query('question'), 2, Fixture::space())));
+        });
+    }
+
     public function testAtomicReembedPreservesDocumentCitationIdentityAndPinnedHistory(): void
     {
         Fixture::publication(function (Publication $f): void {

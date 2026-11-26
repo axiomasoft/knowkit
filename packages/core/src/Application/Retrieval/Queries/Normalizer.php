@@ -21,8 +21,12 @@ final readonly class Normalizer
         ?string $rewrite = null,
         string $revision = 'whitespace:1',
     ): QueryBinding {
-        $text = $rewrite ?? trim(preg_replace_callback('/"[^"]*"|\s+/u',
-            static fn (array $match): string => str_starts_with($match[0], '"') ? $match[0] : ' ', $query->text()));
+        $replaced = preg_replace_callback(
+            '/"[^"]*"|\s+/u',
+            static fn (array $match): string => str_starts_with($match[0], '"') ? $match[0] : ' ',
+            $query->text(),
+        );
+        $text = $rewrite ?? trim($replaced ?? $query->text());
 
         return new QueryBinding(
             $query,

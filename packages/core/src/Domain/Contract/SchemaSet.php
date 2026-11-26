@@ -333,7 +333,7 @@ final class SchemaSet
     }
 
     /**
-     * @param list<mixed> $value
+     * @param array<array-key, mixed> $value
      * @param list<array{code: string, path: string}> $errors
      */
     private function array(JsonObject $schema, array $value, string $path, string $base, array &$errors): void

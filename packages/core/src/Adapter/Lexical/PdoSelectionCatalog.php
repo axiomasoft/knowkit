@@ -35,7 +35,7 @@ final readonly class PdoSelectionCatalog implements SelectionCatalog
     public function load(D\Scope $scope, D\SnapshotRef $snapshot, D\GenerationId $generation): D\SelectionInventory
     {
         $scope->assertTenant($snapshot->tenantId);
-        if ($scope->kbId != $snapshot->kbId) {
+        if (!$scope->kbId->equals($snapshot->kbId)) {
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
         }
         $sql = sprintf(self::LOAD_SQL, $this->db->table('publication_snapshots'),

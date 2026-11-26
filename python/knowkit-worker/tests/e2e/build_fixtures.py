@@ -49,13 +49,13 @@ def main():
         ("tests/fixtures/documents/scans/v1/approved-eng.pdf", "complete-ocr-with-preview"),
         ("tests/fixtures/documents/scans/v1/approved-eng.ir.json", "qualified-ocr-oracle"),
     ]
-    manifest = dict(schemaVersion="worker-e2e-fixtures-1.0", fixtureVersion="1.1.0",
-                    versionRationale="v1.1 adds frozen fresh-run IR/chunk-manifest digests binding tenant/source/version/revision/document and exact profiles, so fresh processing and replay are independently compared without a redundant OCR run. Original OCR and 9/10 failure oracle bytes are unchanged. No recognition snapshot rewritten; future updates require a versioned semantic rationale.",
+    manifest = dict(schemaVersion="worker-e2e-fixtures-1.0", fixtureVersion="1.2.0",
+                    versionRationale='Requalification of the exact offline CPU closure: torch 2.13.0+cpu, torchvision 0.28.0+cpu and pypdfium2 5.15.2. Independent real extraction compared all IR fields except parserSignature with the accepted corpus: source text, geometry, ordering, coverage, OCR metadata and preview digests are unchanged. Only the dependency-bound parser identity and its enclosing digests change; source PDFs, model/native assets and expected semantics are preserved. The 9/10-page failure oracle retains the same content and coverage; E2E profile and revision/chunk digests are rebound to the exact qualified identities.',
                     rights=dict(license="LicenseRef-KnowKit-Private", origin="Project-authored synthetic PDFs and parser-failure oracle; qualified OCR corpus reused unchanged."),
                     fixtures=[dict(path=p, sha256=sha256((ROOT / p).read_bytes()), expected=dict(outcome=o)) for p, o in files],
                     expected=dict(missingPages=[10], processed=9, failed=1, strict="blocked", partial="published-partial", batch="source-results-separated",
-                                  freshIrDigest="416e8067236a7bcb55526d619627b3bef0663bc6d1b27044913da0693277b761",
-                                  freshChunkManifestDigest="0d849e4649f284421d38d1cae7cf4eb7eb795da1b4b1d1e3c2158f2fb1f18d2c"))
+                                  freshIrDigest="90bb60d0cdc6f5c1112b3caec82a155e3c57e4d1e851df47097407e4de0204bd",
+                                  freshChunkManifestDigest="f68678437168b67f26cce9275e0e2db0b9875c526db9408b3ed47c6993ade822"))
     (FIXTURES / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 
 

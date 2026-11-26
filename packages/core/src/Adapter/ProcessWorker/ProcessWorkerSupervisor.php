@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace KnowKit\Adapter\ProcessWorker;
 
+use KnowKit\Adapter\LocalQuota\TenantQuota;
+use KnowKit\Domain\Capability;
+use KnowKit\Domain\Contract\Jcs;
+use KnowKit\Domain\Contract\StrictJson;
 use KnowKit\Domain\DomainFailure;
 use KnowKit\Domain\JobEnvelope;
+use KnowKit\Domain\Origins\DocumentInput;
 use KnowKit\Domain\Outcome;
-use KnowKit\Domain\Capability;
-use KnowKit\Domain\Contract\StrictJson;
 use KnowKit\Domain\ParserCapabilities;
 use KnowKit\Port\WorkerRunner;
-use KnowKit\Adapter\LocalQuota\TenantQuota;
-use KnowKit\Domain\Origins\DocumentInput;
 
 final readonly class ProcessWorkerSupervisor implements WorkerRunner
 {
@@ -49,41 +50,67 @@ final readonly class ProcessWorkerSupervisor implements WorkerRunner
             return new WorkerBundle($bundle->result, $bundle->ir, $bundle->assets, $capabilities);
         } finally {
             // Keep staging if quiescence cannot be proved; never race a live writer.
-            $group->close();
-            if (is_dir($stage)) {
-                WorkerFiles::remove($stage);
+            try {
+                $group->close();
+                if (is_dir($stage)) {
+                    WorkerFiles::remove($stage);
+                }
+            } finally {
+                $permit->release();
             }
-            $permit->release();
         }
     }
 
     private function stage(string $stage, JobEnvelope $job, string $source): void
     {
-        mkdir($stage, 0700);
-        mkdir($stage . '/input', 0700);
-        mkdir($stage . '/output', 0700);
+        if (
+            !@mkdir($stage, 0700)
+            || !@mkdir($stage . '/input', 0700)
+            || !@mkdir($stage . '/output', 0700)
+        ) {
+            throw new DomainFailure(Outcome::Unavailable, 'worker_unavailable');
+        }
         $input = $stage . '/input/' . $job->inputRelativePath();
-        if (!is_dir(dirname($input))) {
-            mkdir(dirname($input), 0700, true);
+        $inputDir = dirname($input);
+        if (!is_dir($inputDir) && !@mkdir($inputDir, 0700, true)) {
+            throw new DomainFailure(Outcome::Unavailable, 'worker_unavailable');
         }
         $output = $stage . '/output/' . $job->outputRelativePath();
-        if (!is_dir($output)) {
-            mkdir($output, 0700, true);
+        if (!is_dir($output) && !@mkdir($output, 0700, true)) {
+            throw new DomainFailure(Outcome::Unavailable, 'worker_unavailable');
         }
-        file_put_contents($input, $source);
-        file_put_contents($stage . '/input/job.json', $job->canonical());
-        chmod($input, 0400);
-        chmod($stage . '/input/job.json', 0400);
-        chmod($stage . '/input', 0500);
+        $jobJson = $job->canonical();
+        if (
+            @file_put_contents($input, $source) !== strlen($source)
+            || @file_put_contents($stage . '/input/job.json', $jobJson) !== strlen($jobJson)
+            || !@chmod($input, 0400)
+            || !@chmod($stage . '/input/job.json', 0400)
+            || !@chmod($stage . '/input', 0500)
+        ) {
+            throw new DomainFailure(Outcome::Unavailable, 'worker_unavailable');
+        }
     }
 
-    private function execute(string $stage, WorkerCgroup $group, JobEnvelope $job,
-        int $deadline, ?\Closure $cancel, bool $probe, string $command = 'run'): void
-    {
+    private function execute(
+        string $stage,
+        WorkerCgroup $group,
+        JobEnvelope $job,
+        int $deadline,
+        ?\Closure $cancel,
+        bool $probe,
+        string $command = 'run',
+    ): void {
         $limits = $job->limits();
         $seconds = max(0.0, ($deadline - hrtime(true)) / 1_000_000_000);
-        $exit = WorkerProcess::run($this->runtime->argv($stage, $group->path, $limits, $probe, $command),
-            $this->runtime->runtimeRoot . '/seccomp.bpf', $group, $limits, $stage . '/output', $seconds, $cancel);
+        $exit = WorkerProcess::run(
+            $this->runtime->argv($stage, $group->path, $limits, $probe, $command),
+            $this->runtime->runtimeRoot . '/seccomp.bpf',
+            $group,
+            $limits,
+            $stage . '/output',
+            $seconds,
+            $cancel,
+        );
         if ($exit !== 0) {
             if ($probe) {
                 throw new DomainFailure(Outcome::Unavailable, 'sandbox_unavailable');
@@ -105,18 +132,26 @@ final readonly class ProcessWorkerSupervisor implements WorkerRunner
         }
         $wire = StrictJson::decode(WorkerFiles::read($out, 'negotiated.json', 65536));
         $expected = $job->toWire();
-        if ($wire->get('schemaVersion') !== 'worker-negotiation-1.0' || $wire->get('transport') !== 'subprocess'
-            || $wire->get('jobSchema') !== 'job-envelope-1.0' || $wire->get('resultSchema') !== 'worker-result-1.0'
-            || $wire->get('irSchema') !== 'ir-1.0' || $wire->get('network') !== false
+        $wireSig = $wire->get('parserSignature');
+        $expectedSig = $expected->get('parserSignature');
+        if (
+            $wire->get('schemaVersion') !== 'worker-negotiation-1.0'
+            || $wire->get('transport') !== 'subprocess'
+            || $wire->get('jobSchema') !== 'job-envelope-1.0'
+            || $wire->get('resultSchema') !== 'worker-result-1.0'
+            || $wire->get('irSchema') !== 'ir-1.0'
+            || $wire->get('network') !== false
             || $wire->get('parserProfile') !== $expected->get('parserProfile')
-            || $wire->get('parserSignature') != $expected->get('parserSignature')
-            || !is_array($wire->get('capabilities')) || count($wire->get('capabilities')) > 64) {
+            || Jcs::canonicalize($wireSig) !== Jcs::canonicalize($expectedSig)
+            || !is_array($wire->get('capabilities'))
+            || count($wire->get('capabilities')) > 64
+        ) {
             throw new DomainFailure(Outcome::Incompatible, 'capabilities_mismatch');
         }
         $capabilities = [];
         foreach ($wire->get('capabilities') as $name) {
-            $capabilities[] = is_string($name) ? (Capability::tryFrom($name)
-                ?? throw new DomainFailure(Outcome::Incompatible, 'unsupported_capability'))
+            $capabilities[] = is_string($name)
+                ? (Capability::tryFrom($name) ?? throw new DomainFailure(Outcome::Incompatible, 'unsupported_capability'))
                 : throw new DomainFailure(Outcome::Incompatible, 'unsupported_capability');
         }
         unlink($out . '/negotiated.json');

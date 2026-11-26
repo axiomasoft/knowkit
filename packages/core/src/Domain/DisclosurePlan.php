@@ -12,7 +12,10 @@ final readonly class DisclosurePlan
 {
     private FrozenJson $binding;
 
-    /** @param list<SourceId> $sources @param list<ResourceRef> $resources */
+    /**
+     * @param list<SourceId> $sources
+     * @param list<ResourceRef> $resources
+     */
     public function __construct(
         public array $sources,
         public array $resources,
@@ -30,7 +33,12 @@ final readonly class DisclosurePlan
 
     public function requireSame(self $current): void
     {
-        if ($this->sources != $current->sources || $this->resources != $current->resources
+        $sources = array_map(static fn (SourceId $id): string => $id->value, $this->sources);
+        $currentSources = array_map(static fn (SourceId $id): string => $id->value, $current->sources);
+        $resources = array_map(static fn (ResourceRef $ref): JsonObject => $ref->toWire(), $this->resources);
+        $currentResources = array_map(static fn (ResourceRef $ref): JsonObject => $ref->toWire(), $current->resources);
+        if ($sources !== $currentSources
+            || Jcs::canonicalize($resources) !== Jcs::canonicalize($currentResources)
             || $this->binding->canonical() !== Jcs::canonicalize($current->binding())) {
             throw new DomainFailure(Outcome::Denied, 'POLICY_CHANGED');
         }

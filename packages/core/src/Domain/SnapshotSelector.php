@@ -20,7 +20,7 @@ final readonly class SnapshotSelector
     public function assertResolved(PublicationSnapshot $snapshot): void
     {
         $this->assertScope($snapshot->ref->tenantId, $snapshot->ref->kbId);
-        if ($this->ref !== null && $this->ref->toWire() != $snapshot->ref->toWire()) {
+        if ($this->ref !== null && !$this->ref->equals($snapshot->ref)) {
             throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict');
         }
     }

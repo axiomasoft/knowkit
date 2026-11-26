@@ -8,6 +8,11 @@ use KnowKit\Domain\{TenantId, LockMode, KbId, SourceId, GenerationId, JobId, Sna
 /** Adapter binds one tenant per transaction; require tenant guard before all later locks. */
 interface CatalogTransaction
 {
+    /**
+     * @template T
+     * @param callable(): T $operation
+     * @return T
+     */
     public function run(callable $operation): mixed;
     public function lockTenant(TenantId $tenantId, LockMode $mode): void;
     public function lockKb(KbId $kbId, LockMode $mode): void;

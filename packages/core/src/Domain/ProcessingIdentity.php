@@ -23,7 +23,24 @@ final readonly class ProcessingIdentity
             'chunkerSignature' => $this->chunkerSignature->toWire(), 'irSchema' => $this->irSchema,
             'indexProfileDigest' => $this->indexProfileDigest->value, 'embeddingSpaceDigest' => $this->embeddingSpaceDigest?->value]);
     }
-    public function digest(): Fingerprint { return new Fingerprint(HashDomain::ProcessingIdentity->digest($this->toWire())); }
+    public function digest(): Fingerprint
+    {
+        return new Fingerprint(HashDomain::ProcessingIdentity->digest($this->toWire()));
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->sourceVersionId->equals($other->sourceVersionId)
+            && $this->sourceDigest->equals($other->sourceDigest)
+            && $this->parserSignature->equals($other->parserSignature)
+            && $this->ocrProfileSignature->equals($other->ocrProfileSignature)
+            && $this->chunkerSignature->equals($other->chunkerSignature)
+            && $this->irSchema === $other->irSchema
+            && $this->indexProfileDigest->equals($other->indexProfileDigest)
+            && ($this->embeddingSpaceDigest === null
+                ? $other->embeddingSpaceDigest === null
+                : ($other->embeddingSpaceDigest !== null && $this->embeddingSpaceDigest->equals($other->embeddingSpaceDigest)));
+    }
 
     /** @return list<string> IDs to allocate anew; earlier refs remain immutable. */
     public function changedAxes(self $next): array
@@ -34,12 +51,18 @@ final readonly class ProcessingIdentity
         if (!$this->sourceVersionId->equals($next->sourceVersionId)) {
             return ['sourceVersionId', 'documentRevisionId', 'chunkSetId', 'generationId'];
         }
-        if ($this->parserSignature != $next->parserSignature || $this->ocrProfileSignature != $next->ocrProfileSignature
+        if (!$this->parserSignature->equals($next->parserSignature)
+            || !$this->ocrProfileSignature->equals($next->ocrProfileSignature)
             || $this->irSchema !== $next->irSchema) {
             return ['documentRevisionId', 'chunkSetId', 'generationId'];
         }
-        if ($this->chunkerSignature != $next->chunkerSignature) { return ['chunkSetId', 'generationId']; }
-        if ($this->indexProfileDigest != $next->indexProfileDigest || $this->embeddingSpaceDigest != $next->embeddingSpaceDigest) {
+        if (!$this->chunkerSignature->equals($next->chunkerSignature)) {
+            return ['chunkSetId', 'generationId'];
+        }
+        $sameSpace = $this->embeddingSpaceDigest === null
+            ? $next->embeddingSpaceDigest === null
+            : ($next->embeddingSpaceDigest !== null && $this->embeddingSpaceDigest->equals($next->embeddingSpaceDigest));
+        if (!$this->indexProfileDigest->equals($next->indexProfileDigest) || !$sameSpace) {
             return ['generationId'];
         }
         return [];

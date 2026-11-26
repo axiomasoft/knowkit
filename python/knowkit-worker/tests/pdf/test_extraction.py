@@ -5,7 +5,7 @@ from pathlib import Path
 from knowkit_worker.protocol import Contracts, canonical, sha256
 from knowkit_worker.rendering.pdf import render_page
 
-from conftest import CORPUS, ROOT, job_for
+from .conftest import CORPUS, ROOT, job_for
 
 
 def assert_ir(ir):

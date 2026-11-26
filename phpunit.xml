@@ -18,4 +18,7 @@
     <testsuite name="BridgeInstalled"><directory>packages/agentools-bridge/tests/installed</directory></testsuite>
     <testsuite name="BridgeHostQualification"><directory>packages/agentools-bridge/tests/host</directory></testsuite>
   </testsuites>
+  <source>
+    <include><directory suffix=".php">packages/core/src</directory></include>
+  </source>
 </phpunit>

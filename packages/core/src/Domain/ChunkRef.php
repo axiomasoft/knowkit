@@ -14,4 +14,12 @@ final readonly class ChunkRef
         return $this->revisionRef->toWire()->with('chunkSetId', $this->chunkSetId->value)
             ->with('chunkId', $this->chunkId->value)->with('chunkDigest', $this->chunkDigest->value);
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->revisionRef->equals($other->revisionRef)
+            && $this->chunkSetId->equals($other->chunkSetId)
+            && $this->chunkId->equals($other->chunkId)
+            && $this->chunkDigest->equals($other->chunkDigest);
+    }
 }

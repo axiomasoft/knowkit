@@ -15,13 +15,27 @@ readonly class Decimal implements \Stringable
         }
     }
 
-    public function __toString(): string { return $this->value; }
+    public function __toString(): string
+    {
+        return $this->value;
+    }
+
+    public function equals(self $other): bool
+    {
+        return $other::class === static::class && $this->value === $other->value;
+    }
+
     public function next(): static
     {
-        if ($this->value === static::MAX) { throw new DomainFailure(Outcome::Unavailable, 'decimal_exhausted'); }
+        if ($this->value === static::MAX) {
+            throw new DomainFailure(Outcome::Unavailable, 'decimal_exhausted');
+        }
         $digits = $this->value;
         for ($i = strlen($digits) - 1; $i >= 0; $i--) {
-            if ($digits[$i] !== '9') { $digits[$i] = (string) ((int) $digits[$i] + 1); return new static($digits); }
+            if ($digits[$i] !== '9') {
+                $digits[$i] = (string) ((int) $digits[$i] + 1);
+                return new static($digits);
+            }
             $digits[$i] = '0';
         }
         return new static('1' . $digits);

@@ -1,7 +1,12 @@
 # KnowKit
 
-- This repository currently contains development environment setup only. Choose
-  the application stack from the requested product work before adding dependencies.
+- This monorepo implements a PHP >=8.3 core, optional answer/pgvector/HTTP/Laravel
+  packages, PHP >=8.4 Chatom and AgenTools integrations, and a Python 3.12 worker.
+- Keep core free of third-party runtime Composer dependencies. Optional host
+  dependencies belong to their own package projects and lockfiles; worker
+  dependencies belong to `python/knowkit-worker/pyproject.toml` and `uv.lock`.
+- Worker PDF, structure and OCR capabilities require exact qualification records
+  and local assets. Preserve offline runtime behavior and sandbox boundaries.
 - See `docs/development.md` for the environment and verification commands.
 - Plans and tasks live in the `axioma` workspace through the local `plans/` and
   `tasks/` links; keep machine paths and credentials out of tracked files.

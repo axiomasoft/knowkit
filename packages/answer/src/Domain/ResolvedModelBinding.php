@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace KnowKit\Answer\Domain;
 
 use DateTimeImmutable;
+use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\CredentialRef;
 use KnowKit\Domain\DomainFailure;
@@ -119,5 +120,10 @@ final readonly class ResolvedModelBinding
             new GenerationSettings(...iterator_to_array($settings)),
             new Sha256($wire->get('bindingDigest')),
         );
+    }
+
+    public function equals(self $other): bool
+    {
+        return Jcs::canonicalize($this->toWire()) === Jcs::canonicalize($other->toWire());
     }
 }

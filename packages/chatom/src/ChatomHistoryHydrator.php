@@ -75,6 +75,7 @@ final readonly class ChatomHistoryHydrator
         $prior = [];
         $lastPosition = PHP_INT_MAX;
         $bytes = 0;
+        $budgetReached = false;
 
         foreach ($items as $message) {
             if ($message->channel->value !== $invocation->channel->value
@@ -88,11 +89,12 @@ final readonly class ChatomHistoryHydrator
                 $trigger = $message;
                 continue;
             }
-            if ($trigger === null || count($prior) >= $limits->priorTurns) {
+            if ($trigger === null || $budgetReached || count($prior) >= $limits->priorTurns) {
                 continue;
             }
             if ($bytes + strlen($message->body) > $limits->priorBytes) {
-                break;
+                $budgetReached = true;
+                continue;
             }
             $prior[] = $message;
             $bytes += strlen($message->body);

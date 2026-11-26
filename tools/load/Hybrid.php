@@ -56,7 +56,10 @@ final class Hybrid
 
     private static function assertResult(D\Result $result, D\SearchCorpus $vector): void
     {
-        Qa::ensure($result->outcome === D\Outcome::Success && count($result->data->candidates) === 2, 'real hybrid backend failed');
+        if ($result->outcome !== D\Outcome::Success || !$result->data instanceof D\CandidateList) {
+            throw new \RuntimeException('Real hybrid backend failed');
+        }
+        Qa::ensure(count($result->data->candidates) === 2, 'real hybrid backend failed');
         foreach ($result->data->candidates as $candidate) {
             Qa::ensure(in_array($candidate->ref->revisionRef->sourceRef->sourceVersionId->value,
                 array_map(static fn ($id): string => $id->value, $vector->scope->allowedSourceVersionIds), true), 'hybrid permission leak');

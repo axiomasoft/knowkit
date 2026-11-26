@@ -70,7 +70,7 @@ final class FixtureTest extends TestCase
         $qa = new Qa(F::root());
         $manifest = $qa->json('tests/fixtures/check-groups/delivery-client.json');
         $qa->fixtures($manifest);
-        self::assertSame('1.0.0', $manifest['fixtureVersion']);
+        self::assertSame('1.0.1', $manifest['fixtureVersion']);
         self::assertSame('http-client-conformance:1', CorpusTest::corpus()->get('schemaVersion'));
         self::assertCount(6, CorpusTest::corpus()->get('outcomes'));
         $receipt = $qa->json('tests/delivery/client/evidence/P7.3-reuse.json');

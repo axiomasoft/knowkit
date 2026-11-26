@@ -1,8 +1,8 @@
 {
   "schemaVersion": "check-group:1",
   "group": "worker:pdf",
-  "fixtureVersion": "1.0.0",
-  "versionRationale": "Initial real PDF corpus: independent semantic assertions require column-major layout over interleaved operators, explicit rotated/table incompleteness, xii/Unicode byte spans and distinct blank/vector/raster coverage. Digests pin the exact qualified CPU runtime; changing them requires a fixture version and a semantic rationale. Before initial acceptance, PHP semantic validation corrected visual-only empty/skipped text statuses; no previous published digest is replaced. Page previews are ordered within their physical page before later-page text in this initial version.",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "Requalification of the exact offline CPU closure: torch 2.13.0+cpu, torchvision 0.28.0+cpu and pypdfium2 5.15.2. Independent real extraction compared all IR fields except parserSignature with the accepted corpus: source text, geometry, ordering, coverage, OCR metadata and preview digests are unchanged. Only the dependency-bound parser identity and its enclosing digests change; source PDFs, model/native assets and expected semantics are preserved.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private; DejaVu and Droid font notices",
     "origin": "Project-authored real PDF corpus; font license notices and source provenance in v1/manifest.json."
@@ -117,7 +117,7 @@
     },
     {
       "path": "tests/fixtures/documents/pdf/v1/coverage.ir.json",
-      "sha256": "0b1809814dea47f4906bf62f03229aa89870508994ff3b1a49e2502b0bf08419",
+      "sha256": "255ddd9df5841fbb3fe9957d0b41466920905faf1e41bf735e278e5b5cf53cb3",
       "expected": {
         "outcome": "versioned-rights-or-native-ir"
       }
@@ -152,14 +152,14 @@
     },
     {
       "path": "tests/fixtures/documents/pdf/v1/manifest.json",
-      "sha256": "0d6424bae05125f28c625cfb7cfbfdf864d560909a11a72ab5800c592194063a",
+      "sha256": "d3ef94c2d03ce5e1065b101af30ddb33d1459ce43df18c4dcbe70443beabfd49",
       "expected": {
         "outcome": "versioned-rights-or-native-ir"
       }
     },
     {
       "path": "tests/fixtures/documents/pdf/v1/rotated-table.ir.json",
-      "sha256": "8b076f3283a66d468bc54a3a8906abb159958d00cf8ac6f8fffb70f0f0b94c2d",
+      "sha256": "a0135ffdf816e83a038067782d8a6e1eace60bfde090a1788c5f71e04b5deea4",
       "expected": {
         "outcome": "versioned-rights-or-native-ir"
       }
@@ -173,7 +173,7 @@
     },
     {
       "path": "tests/fixtures/documents/pdf/v1/two-columns.ir.json",
-      "sha256": "74f7da3995c0f07d12d5be769ee821ae0b0e22f2dc3a0d82d56ca99d12d3b1df",
+      "sha256": "d99314b83d6f8e7d1d622d38a08f6efa697ad14327c13e3a342d4abde7383148",
       "expected": {
         "outcome": "versioned-rights-or-native-ir"
       }
@@ -187,7 +187,7 @@
     },
     {
       "path": "tests/fixtures/documents/pdf/v1/unicode-label.ir.json",
-      "sha256": "b5ec789ef3e95f4de083c33b9042a0a767bde12ad47cf1c9e2ebf3d3cd85008c",
+      "sha256": "39822610d9bf2aa79f483ff5860559a0732a8fe763186916bf0a66055d767493",
       "expected": {
         "outcome": "versioned-rights-or-native-ir"
       }

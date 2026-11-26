@@ -21,10 +21,23 @@ final readonly class UtcInstant implements \Stringable
         $this->instant = $date;
     }
 
-    public function compare(self $other): int { return $this->instant <=> $other->instant; }
+    public function compare(self $other): int
+    {
+        return $this->instant <=> $other->instant;
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->value === $other->value;
+    }
+
     public function plusSeconds(int $seconds): self
     {
         return new self($this->instant->modify(sprintf('%+d seconds', $seconds))->format('Y-m-d\TH:i:s.u\Z'));
     }
-    public function __toString(): string { return $this->value; }
+
+    public function __toString(): string
+    {
+        return $this->value;
+    }
 }

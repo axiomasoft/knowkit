@@ -91,9 +91,11 @@ final class SubsetParser
                         static fn(array $cell): string => str_starts_with($cell['text'], ':')
                             ? (str_ends_with($cell['text'], ':') ? 'center' : 'left')
                             : (str_ends_with($cell['text'], ':') ? 'right' : 'none'), $separator)]);
-                    $last = array_key_last($this->blocks);
-                    $this->blocks[$last] = $this->blocks[$last]->with('table', new JsonObject([
-                        'rows' => count($rows), 'columns' => count($header), 'cells' => $cells]));
+                    $last = array_pop($this->blocks);
+                    if ($last !== null) {
+                        $this->blocks[] = $last->with('table', new JsonObject([
+                            'rows' => count($rows), 'columns' => count($header), 'cells' => $cells]));
+                    }
                     $this->cells += $count;
                 }
                 $this->lists = []; $i = $j; continue;
@@ -133,7 +135,10 @@ final class SubsetParser
         return $id;
     }
 
-    /** @param list<string> $lines @param list<int> $offsets */
+    /**
+     * @param list<string> $lines
+     * @param list<int> $offsets
+     */
     private function startsBlock(array $lines, int $i, array $offsets): bool
     {
         if (preg_match('/^(?: {0,3}#{1,6}(?:[ \t]|$)| {0,3}(?:`{3,}|~{3,})| *([-+*]|[0-9]{1,9}[.)])[ \t]+)/', $lines[$i]) === 1) { return true; }

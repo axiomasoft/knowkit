@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace KnowKit\Laravel;
 
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 use KnowKit\Domain\DomainFailure;
@@ -23,7 +24,7 @@ final class KnowKitServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(path: __DIR__ . '/../config/knowkit.php', key: 'knowkit');
         $this->app->bind(abstract: EnvironmentCredentials::class, concrete: fn (): EnvironmentCredentials =>
-            new EnvironmentCredentials($this->app['config']->get('knowkit.credentials')));
+            new EnvironmentCredentials($this->config()->get('knowkit.credentials')));
         $this->registerAdapters();
         $this->registerJobs();
     }
@@ -38,7 +39,7 @@ final class KnowKitServiceProvider extends ServiceProvider
                 return $registry;
             });
         }
-        $profile = $this->app['config']->get('knowkit.profile');
+        $profile = $this->config()->get('knowkit.profile');
         if ($profile !== null) {
             if (!is_string($profile)) {
                 throw new DomainFailure(outcome: Outcome::Incompatible, errorCode: 'host_profile_invalid');
@@ -83,7 +84,7 @@ final class KnowKitServiceProvider extends ServiceProvider
 
     private function enabled(string $key): bool
     {
-        $value = $this->app['config']->get('knowkit.' . $key);
+        $value = $this->config()->get('knowkit.' . $key);
         if (!is_bool($value)) {
             throw new DomainFailure(outcome: Outcome::Incompatible, errorCode: 'invalid_enable_flag');
         }
@@ -96,7 +97,11 @@ final class KnowKitServiceProvider extends ServiceProvider
         if (!$this->enabled('migrations.publish')) {
             return;
         }
-        $core = dirname((new \ReflectionClass(AdapterRegistry::class))->getFileName(), 3);
+        $file = (new \ReflectionClass(AdapterRegistry::class))->getFileName();
+        if ($file === false) {
+            throw new DomainFailure(outcome: Outcome::Incompatible, errorCode: 'core_path_unavailable');
+        }
+        $core = dirname($file, 3);
         $this->publishes(
             paths: [$core . '/migrations/postgres' => $this->app->databasePath('knowkit/postgres')],
             groups: 'knowkit-migrations',
@@ -105,7 +110,7 @@ final class KnowKitServiceProvider extends ServiceProvider
 
     private function registerRoutes(): void
     {
-        $class = $this->app['config']->get('knowkit.http.registrar');
+        $class = $this->config()->get('knowkit.http.registrar');
         if (!is_string($class) || !is_a($class, RouteRegistrar::class, true)) {
             throw new DomainFailure(outcome: Outcome::Incompatible, errorCode: 'http_registrar_required');
         }
@@ -115,5 +120,10 @@ final class KnowKitServiceProvider extends ServiceProvider
             attributes: ['middleware' => [AuthenticateContext::class]],
             routes: static fn (Router $router) => $registrar->register($router),
         );
+    }
+
+    private function config(): Repository
+    {
+        return $this->app->make(Repository::class);
     }
 }

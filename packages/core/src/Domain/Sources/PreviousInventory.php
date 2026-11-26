@@ -30,7 +30,10 @@ final readonly class PreviousInventory
         }
     }
 
-    /** @param list<D\CrawlItem> $members @return array<string,D\CrawlItem> */
+    /**
+     * @param list<D\CrawlItem> $members
+     * @return array<string, D\CrawlItem>
+     */
     public static function byOrigin(array $members): array
     {
         D\ValueGuard::objects($members, D\CrawlItem::class, 1000000);

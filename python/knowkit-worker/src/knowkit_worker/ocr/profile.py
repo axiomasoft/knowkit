@@ -10,7 +10,8 @@ from .qualification import NATIVE, ready, record, model_fingerprint
 
 
 def descriptor(language: str = "eng"):
-    from ..profiles import DOCLING, Profile
+    from ..profiles import DOCLING
+    from ..models import Profile
 
     if language not in ("eng", "rus"):
         raise Refusal("ocr_language_not_approved")

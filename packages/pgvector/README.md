@@ -7,7 +7,10 @@ framework, provider SDK or Python runtime dependency.
 
 Install the `vector` extension in the `public` schema explicitly as the database
 owner, apply the core catalog migrations, then apply
-`migrations/002_vector_generations.sql` in the catalog schema. Grant the runtime
+`migrations/002_vector_generations.sql` and then
+`migrations/003_vector_guard_search_path.sql` in the catalog schema. The latter
+also upgrades existing installations: it binds the staging guard to its catalog
+and places temporary tables last in its search path. Grant the runtime
 role access to these two tables and temporary-table creation in its database.
 The runtime role must be a non-superuser. No migration or extension installation
 runs on package discovery. Embedding receipts retain their separate migration.

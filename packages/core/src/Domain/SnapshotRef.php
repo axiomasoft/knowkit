@@ -14,4 +14,12 @@ final readonly class SnapshotRef
         return new JsonObject(['tenantId' => $this->tenantId->value, 'kbId' => $this->kbId->value,
             'snapshotId' => $this->snapshotId->value, 'manifestDigest' => $this->manifestDigest->value]);
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->tenantId->equals($other->tenantId)
+            && $this->kbId->equals($other->kbId)
+            && $this->snapshotId->equals($other->snapshotId)
+            && $this->manifestDigest->equals($other->manifestDigest);
+    }
 }

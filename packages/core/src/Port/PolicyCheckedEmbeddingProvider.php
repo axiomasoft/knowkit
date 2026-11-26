@@ -66,7 +66,12 @@ abstract class PolicyCheckedEmbeddingProvider implements EmbeddingProvider
         }
     }
 
-    /** @param list<EmbeddingInput> $inputs */
+    /**
+     * @param list<EmbeddingInput> $inputs
+     * @return Result<EmbeddingBatch>
+     */
     abstract protected function performDocuments(EmbeddingAccess $access, array $inputs, SpaceRef $space): Result;
+
+    /** @return Result<Vector> */
     abstract protected function performQuery(EmbeddingAccess $access, QueryInput $input, SpaceRef $space): Result;
 }

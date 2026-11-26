@@ -9,8 +9,13 @@ use KnowKit\Domain\Contract\{HashDomain, Jcs, JsonObject};
 final readonly class ManifestCandidate
 {
     public D\Fingerprint $digest;
+    /** @var array<string, D\ChunkRef> */
     private array $chunkRefs;
-    /** @param list<D\ChunkingResult> $sets @param list<JsonObject> $resources */
+
+    /**
+     * @param list<D\ChunkingResult> $sets
+     * @param list<JsonObject> $resources
+     */
     public function __construct(public D\IndexManifest $manifest, public array $sets, public array $resources)
     {
         $wire = $manifest->toWire(); $members = []; $chunks = [];
@@ -29,7 +34,9 @@ final readonly class ManifestCandidate
             if (!is_array($entries) || count($entries) !== count($set->chunks)) { self::fail(); }
             foreach ($set->chunks as $chunk) {
                 $id = $chunk->ref->chunkId->value;
-                if (isset($chunks[$id]) || $chunk->ref->revisionRef != $r || $chunk->ref->chunkSetId != $set->chunkSetId) { self::fail(); }
+                if (isset($chunks[$id]) || !$chunk->ref->revisionRef->equals($r) || !$chunk->ref->chunkSetId->equals($set->chunkSetId)) {
+                    self::fail();
+                }
                 $entry = $result->metadata($id);
                 $spans = array_map(static fn(D\Span $s): JsonObject => $s->locator->toWire()->with('textDigest', $s->textDigest->value), $chunk->spans);
                 if ($entry->get('chunkDigest') !== $chunk->ref->chunkDigest->value || $entry->get('byteLength') !== strlen($chunk->text())

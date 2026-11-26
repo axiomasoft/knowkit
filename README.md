@@ -1,11 +1,29 @@
 # KnowKit
 
+KnowKit is a PHP monorepo for document ingestion, immutable evidence retrieval,
+and grounded answers, with an optional offline Python PDF/OCR worker.
 Repository: <https://github.com/axiomasoft/knowkit>.
 
-The repository was empty when cloned. This checkout contains the development
-environment bootstrap; the application stack and package interfaces are not yet
-defined.
+| Component | Purpose |
+| --- | --- |
+| `packages/core` | PHP >=8.3 domain, application, ports, registry, local TXT/Markdown ingestion, PostgreSQL catalog, lexical retrieval and worker supervision; no third-party runtime Composer dependencies |
+| `packages/answer` | Bounded grounded answers and explicit model transport bindings |
+| `packages/pgvector` | Optional embedding receipts and PostgreSQL vector adapters |
+| `packages/http`, `packages/laravel` | HTTP transport and Laravel 12 integration |
+| `packages/chatom` | Direct Chatom integration with its pinned Laravel 13 host; PHP >=8.4 |
+| `packages/agentools-bridge` | Optional pinned AgenTools compatibility adapter; PHP >=8.4 |
+| `python/knowkit-worker` | Python 3.12, Docling PDF/structure extraction and explicit English/Russian Tesseract OCR profiles |
+| `deploy`, `tools` | Local artifact assembly, sandbox runtime builds, qualification and evaluation commands |
 
-Open this directory as the project root in Codex, Claude Code, or Cursor.
-See [development setup](docs/development.md) for the installed tools, verification
-commands, and current infrastructure limitation.
+Start with [development and checks](docs/development.md),
+[installation](docs/installation.md), [worker setup](deploy/worker/README.md),
+and [third-party qualification](docs/architecture/third-party-policy.md).
+Optional packages have separate Composer projects and lockfiles. Worker profiles
+require exact dependencies and qualified local assets; source presence alone
+does not establish readiness. Core TXT/Markdown use does not require Python,
+model keys, a GPU, Laravel, Chatom or AgenTools.
+
+The repository began as an empty checkout with environment setup on 2026-11-05.
+Those historical setup observations remain in the development guide. This is a
+private local implementation; publication, releases and pushing require the
+owner's instruction.

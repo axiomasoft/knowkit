@@ -147,7 +147,7 @@
                             },
                             {
                                 "path": "tools/license-audit.php",
-                                "sha256": "97159c12f5077585dba5f96dc8840747e064600a5daf777cd3a9304954317fde"
+                                "sha256": "1646c2b7f8355a0ef857b33306e289a6886e2fb68c2142098e4fdcf01c496a30"
                             }
                         ]
                     }
@@ -2278,7 +2278,7 @@
             }
         }
     ],
-    "catalogDigest": "5046e97af97cb87a5e632e3892d4ccd25cb24f26cc5ddeccba89766bdc84ce8f",
+    "catalogDigest": "b3e4dd248b4ef75029a899910635138ba66b2349a5b1bd0432d0995100a179c1",
     "limitations": [
         "Local qualification only; no runtime parser/provider conformance or publication approval."
     ]

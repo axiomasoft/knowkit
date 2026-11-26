@@ -26,7 +26,7 @@ final readonly class CanonicalBuffer
     {
         $refs = $request->refs($record);
         $inventory = $this->catalog->load($record->context->scope, $record->snapshot, $record->selection->generationId());
-        if ($inventory->snapshot != $record->snapshot || $inventory->generationId() != $record->selection->generationId()) {
+        if (!$inventory->snapshot->equals($record->snapshot) || !$inventory->generationId()->equals($record->selection->generationId())) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'snapshot_mismatch');
         }
         $documents = $fragments = [];
@@ -90,7 +90,7 @@ final readonly class CanonicalBuffer
     private function chunkSet(D\SelectionInventory $inventory, D\ChunkRef $ref): D\ChunkingResult
     {
         foreach ($inventory->manifest->sets as $set) {
-            if ($set->chunkSet->chunkSetId == $ref->chunkSetId) {
+            if ($set->chunkSet->chunkSetId->equals($ref->chunkSetId)) {
                 return $set;
             }
         }
@@ -118,10 +118,14 @@ final readonly class CanonicalBuffer
                     throw new D\DomainFailure(D\Outcome::Incompatible, 'tokenizer_required');
                 }
                 $this->tokenizer->capabilities()->requireExact($limits->tokenizer);
-                $tokens += $this->tokenizer->count($unit->budgetText(), $limits->tokenizer);
-                if ($tokens > $limits->maxTokens) {
+                $count = $this->tokenizer->count($unit->budgetText(), $limits->tokenizer);
+                if ($count < 0) {
+                    throw new D\DomainFailure(D\Outcome::Incompatible, 'adapter_contract_violation');
+                }
+                if ($count > $limits->maxTokens - $tokens) {
                     throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
                 }
+                $tokens += $count;
             }
         }
     }

@@ -45,9 +45,10 @@ final readonly class SandboxRuntime
         $inventory = $this->runtimeInventory();
         foreach ($bom['files'] as $relative => $digest) {
             $path = $this->runtimeRoot . '/' . $relative;
+            $fileDigest = is_string($relative) && is_file($path) ? @hash_file('sha256', $path) : false;
             if (!is_string($relative) || !is_string($digest) || preg_match('/^[a-f0-9]{64}$/D', $digest) !== 1
-                || !self::runtimePath($relative) || is_link($path) || !is_file($path)
-                || !hash_equals($digest, hash_file('sha256', $path))) {
+                || !self::runtimePath($relative) || is_link($path) || !is_string($fileDigest)
+                || !hash_equals($digest, $fileDigest)) {
                 throw new DomainFailure(Outcome::Unavailable, 'sandbox_unavailable');
             }
         }
@@ -82,7 +83,10 @@ final readonly class SandboxRuntime
                 continue;
             }
             $relative = substr($entry->getPathname(), strlen($this->runtimeRoot) + 1);
-            $stat = lstat($entry->getPathname());
+            $stat = @lstat($entry->getPathname());
+            if ($stat === false) {
+                throw new DomainFailure(Outcome::Unavailable, 'sandbox_unavailable');
+            }
             $bytes += $stat['size'];
             if (!self::runtimePath($relative) || ($stat['mode'] & 0170000) !== 0100000
                 || $stat['nlink'] !== 1 || $bytes > 4294967296) {

@@ -1,5 +1,5 @@
 The exact profile `docling-pdf-text-v1` uses Docling 2.148.0, CPU layout Heron
-8f39ad3c0b4c58e9c2d2c84a38465abf757272d8, and PDFium via pypdfium2 5.15.1.
+8f39ad3c0b4c58e9c2d2c84a38465abf757272d8, and PDFium via pypdfium2 5.15.2.
 `licenses/qualifications/pdf.json` qualifies this narrow private local profile;
 it does not enable the broader blocked candidate records or grant redistribution.
 The identical packaged qualification record, dependency versions, model bytes,

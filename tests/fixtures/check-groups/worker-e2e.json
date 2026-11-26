@@ -1,8 +1,8 @@
 {
   "schemaVersion": "check-group:1",
   "group": "worker:e2e",
-  "fixtureVersion": "1.1.0",
-  "versionRationale": "v1.1 adds frozen fresh-run IR/chunk-manifest digests binding tenant/source/version/revision/document and exact profiles, so fresh processing and replay are independently compared without a redundant OCR run. Original OCR and 9/10 failure oracle bytes are unchanged. No recognition snapshot rewritten; future updates require a versioned semantic rationale.",
+  "fixtureVersion": "1.2.0",
+  "versionRationale": "Requalification of the exact offline CPU closure: torch 2.13.0+cpu, torchvision 0.28.0+cpu and pypdfium2 5.15.2. Independent real extraction compared all IR fields except parserSignature with the accepted corpus: source text, geometry, ordering, coverage, OCR metadata and preview digests are unchanged. Only the dependency-bound parser identity and its enclosing digests change; source PDFs, model/native assets and expected semantics are preserved.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private",
     "origin": "Project-authored synthetic PDFs and parser-failure oracle; qualified OCR corpus reused unchanged."
@@ -119,14 +119,14 @@
     },
     {
       "path": "tests/worker/e2e/fixtures/v1/nine-of-ten.ir.json",
-      "sha256": "c875ee345eab6cc255126ca5bdebf909e2fb4feb21329405f51fa296aa17cfe5",
+      "sha256": "50ed2f1e294dfb9aa171e413a1e64b504b7ae3b56eb998856cbd302307822352",
       "expected": {
         "outcome": "partial-9-of-10-failed-page-10"
       }
     },
     {
       "path": "tests/worker/e2e/fixtures/v1/profiles.json",
-      "sha256": "bd1b515374e5d4b607425db29b65c39c3ccd4ca9288ea65d29811a6ee706f159",
+      "sha256": "08e7f899553be4f57364c3ad1ebbc31536a81ecf897e4a7b6f35a0e7f53c8264",
       "expected": {
         "outcome": "exact-qualified-profile-identities"
       }
@@ -140,14 +140,14 @@
     },
     {
       "path": "tests/fixtures/documents/scans/v1/approved-eng.ir.json",
-      "sha256": "7df8db3d537abe35b9132b004eb7e72d3f0d4e000a28c7fad40f529d2e0d3cf3",
+      "sha256": "4d0af4c8ce1be297110b0d388689b4c84a3e721d2be32a57f6176b2fdf17084d",
       "expected": {
         "outcome": "qualified-ocr-oracle"
       }
     },
     {
       "path": "tests/worker/e2e/fixtures/v1/manifest.json",
-      "sha256": "f498b75148a67b502476a86459a8d5063d8d6a3a9947fd56cc466e43fedb77a2",
+      "sha256": "59d308ed03ea0050275654bb89afea3695869877014e953f81e182ee2584ca92",
       "expected": {
         "outcome": "versioned-lifecycle-corpus"
       }

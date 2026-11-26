@@ -46,7 +46,12 @@ final class Guard
 
     public static function sameScope(\KnowKit\Domain\Scope $expected, \KnowKit\Domain\Scope $actual): void
     {
-        if ($expected != $actual) {
+        if ($expected->tenantId->value !== $actual->tenantId->value
+            || $expected->kbId->value !== $actual->kbId->value
+            || $expected->actorId->value !== $actual->actorId->value
+            || $expected->purpose !== $actual->purpose
+            || $expected->policyEpoch->value !== $actual->policyEpoch->value
+            || $expected->hostScopeHash->value !== $actual->hostScopeHash->value) {
             throw new \KnowKit\Domain\DomainFailure(\KnowKit\Domain\Outcome::Denied, 'scope_mismatch');
         }
     }

@@ -35,6 +35,9 @@ final readonly class CanonicalReads
             throw new D\DomainFailure(D\Outcome::Incompatible, 'digest_mismatch');
         }
         $remaining = 8388608 - strlen($document->canonical());
+        if ($remaining < 1) {
+            throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
+        }
         [$body, $object] = $this->body($record, $request->target, $document, $map, $quote, min($request->maxBytes, $remaining));
         $this->requireLimits($body, $request);
 
@@ -91,7 +94,8 @@ final readonly class CanonicalReads
 
     private function table(D\IrDocument $document, R\ReadTarget $target, CanonicalMap $map): R\ReadBody
     {
-        $block = $document->block($target->id);
+        $targetId = $target->id ?? throw new D\DomainFailure(D\Outcome::Incompatible, 'invalid_target');
+        $block = $document->block($targetId);
         if ($block->get('kind') !== 'table') {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'table_required');
         }
@@ -108,7 +112,7 @@ final readonly class CanonicalReads
             }
         }
         $table = $block->get('table')->with('cells', $cells);
-        $metadata = new JsonObject(['blockId' => $target->id->value, 'origin' => $block->get('origin'),
+        $metadata = new JsonObject(['blockId' => $targetId->value, 'origin' => $block->get('origin'),
             'provenance' => $block->get('provenance'), 'completeRows' => true, 'omittedRows' => 0,
             'sourceUnits' => array_values($units)]);
 
@@ -118,9 +122,10 @@ final readonly class CanonicalReads
     /** @return array{R\ReadBody,?R\BlobObject} */
     private function visual(R\CitationRecord $record, R\ReadTarget $target, D\IrDocument $document, int $maxBytes): array
     {
+        $targetId = $target->id ?? throw new D\DomainFailure(D\Outcome::Incompatible, 'invalid_target');
         $assets = array_values(array_filter($document->assets(), static fn (JsonObject $asset): bool =>
-            $target->kind === 'asset' ? $asset->get('assetId') === $target->id->value
-                : ($asset->get('pageId') === $target->id->value && $asset->get('bbox') == $target->region?->toWire())));
+            $target->kind === 'asset' ? $asset->get('assetId') === $targetId->value
+                : ($asset->get('pageId') === $targetId->value && Jcs::canonicalize($asset->get('bbox')) === Jcs::canonicalize($target->region?->toWire()))));
         if (count($assets) !== 1) {
             return [$this->alternatives($assets, 'assetId'), null];
         }
@@ -189,7 +194,7 @@ final readonly class CanonicalReads
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
             }
         }
-        if ($request->etag !== null && $request->etag != $body->digest) {
+        if ($request->etag !== null && !$request->etag->equals($body->digest)) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'etag_mismatch');
         }
     }

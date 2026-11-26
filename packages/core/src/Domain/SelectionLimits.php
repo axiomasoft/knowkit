@@ -66,7 +66,7 @@ final readonly class SelectionLimits
             'maxBytes' => $this->maxBytes,
             'maxBytesPerFragment' => $this->maxBytesPerFragment,
             'maxAssets' => $this->maxAssets,
-            'tokenBudget' => $this->maxTokens === null ? null
+            'tokenBudget' => $this->maxTokens === null || $this->tokenizer === null ? null
                 : $this->tokenizer->toWire()->with('maxTokens', $this->maxTokens),
         ]);
     }

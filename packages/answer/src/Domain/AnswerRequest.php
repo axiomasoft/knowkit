@@ -41,7 +41,7 @@ final readonly class AnswerRequest
     public function fingerprint(ResolvedModelBinding $binding): Sha256
     {
         $binding->requireScope($this->scope);
-        if ($binding->requestedRef != $this->modelBindingRef) {
+        if ($binding->requestedRef->value !== $this->modelBindingRef->value) {
             throw new \InvalidArgumentException('Pinned binding belongs to another requested handle');
         }
 

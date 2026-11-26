@@ -20,10 +20,21 @@ python/knowkit-worker/.venv/bin/python deploy/worker/build_runtime.py --destinat
 
 The physical venv binaries keep the QA runner's repository containment check
 valid. The build requires host libseccomp and copies only Python, its ELF dependencies, the locked runtime dependency
-closure, four canonical schemas and a seccomp filter. `bom.json` binds their
-SHA-256 and the lock digest; it contains no machine paths. Model assets are empty.
-Docling 2.148.0 is a descriptor only: PDF/table/image/OCR remain unavailable until
-their separate qualification items supply a pinned implementation and asset BOM.
+closure (including transitive extras), four canonical schemas and a seccomp filter.
+PDF and OCR extensions reuse that dependency closure. Wheel libraries already
+inside the runtime are not duplicated under build-machine paths. Unresolved
+native dependencies fail the build unless their exact library name is already
+bundled for a wheel that preloads it, such as torchvision/torch.
+`bom.json` binds their
+SHA-256 and the lock digest. Its buildInputs bind the base, PDF and OCR build
+scripts so test caches reject artifacts from an older sandbox policy. It contains
+no machine paths. The base build does not install model assets.
+Docling 2.148.0 text/structure extraction and Tesseract eng/rus OCR are implemented;
+capability activation requires the separate pinned asset inventories. Extend the
+base runtime with [build_pdf_runtime.py](../../python/knowkit-worker/build_pdf_runtime.py)
+and [build_ocr_runtime.py](../../python/knowkit-worker/build_ocr_runtime.py), following
+[PDF](../../python/knowkit-worker/PDF.md) and [OCR](../../python/knowkit-worker/OCR.md)
+build instructions. Base-build descriptors alone do not qualify extraction.
 There is no fallback parser, download, HTTP transport or arbitrary callable entry.
 
 The host explicitly wires `Adapter\ProcessWorker\ProcessWorkerSupervisor` with
@@ -34,7 +45,13 @@ bytes. Staging is private, input files become read-only, and argv is always
 joins a per-job cgroup before bubblewrap runs. Network namespaces and seccomp
 deny networking; no home, database, metadata credentials or project is mounted.
 Before exec, the trusted launcher closes inherited host descriptors except
-stdio and the supplied seccomp filter; an open host metadata handle is not a grant.
+stdio and FD 3 carrying the supplied seccomp filter. Bubblewrap owns that FD,
+reads and closes it, then installs the filter before executing the worker.
+See the [bubblewrap 0.9.0 implementation](https://github.com/containers/bubblewrap/blob/v0.9.0/bubblewrap.c#L246-L283). The outer cgroup launcher must not close it before bubblewrap starts.
+The denylist also blocks io_uring setup/enter/register and clone3. The clone3
+refusal uses ENOSYS so glibc can create native threads through its existing clone
+fallback; network syscalls still receive EPERM. An open host
+metadata handle is not a grant.
 
 Required limits include total deadline (also bounded by the lease), aggregate
 cgroup CPU budget, memory with swap disabled, pids, per-file output RLIMIT,
@@ -50,8 +67,24 @@ after quiescence. The returned bundle has no publication/acceptance methods.
 The caller must import through resource reservations, recheck access/current
 source state and use `JobQueue::complete` / the existing conditional fence,
 token, epoch and expiry predicates. Successful extraction does not accept a job
-or publish a source. Those application orchestration steps belong to P6.2.
+or publish a source. Those application orchestration steps are implemented in the PHP ingestion
+and publication layers and remain outside the Python parser.
 
 Protocol tests build a separate runtime with an explicitly synthetic fixture
 parser; this does not qualify Docling, OCR or an external backend. A delegated
 cgroup and working bwrap/seccomp are mandatory for these tests; absence fails.
+The two synthetic fixture builders explicitly select only the `jsonschema`
+dependency closure, avoiding copies of the native ML stack for protocol tests.
+The production builder defaults to the complete `knowkit-worker` closure.
+
+The original base-runtime instructions above are retained from the protocol
+bootstrap. Current parser jobs restore temporary environment and logging settings
+on success or failure. Unvisited form descendants at the PDF traversal limit
+prevent complete coverage; rendering refuses such documents before unchecked
+nested image dimensions can allocate a bitmap. Local delivery assembly preflights
+source trees, and artifact verification rejects links and special files.
+The runtime BOM builder also rejects symbolic links, hard links and special
+files, including a linked manifest destination. Fast build, I/O and parser
+regressions run with `uv run --project python/knowkit-worker --frozen pytest
+python/knowkit-worker/tests/protocol -q`; they need installed dependencies but
+no downloaded model assets or full runtime build.

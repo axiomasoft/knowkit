@@ -2,7 +2,7 @@
   "schemaVersion": "check-group:1",
   "group": "worker:protocol",
   "fixtureVersion": "1.0.0",
-  "versionRationale": "Initial authored protocol corpus 1.0.0: synthetic UTF-8 input and integer-only RFC8785 IR/result, independently calculated with Python hashlib and verified by PHP core contracts. Future expected digest changes require a fixture version and semantic rationale, never a blind snapshot rewrite. P6.3 updates only the workerLock component to the qualified Docling 2.148.0 CPU dependency lock; protocol corpus 1.0.0 golden bytes and outcomes remain unchanged.",
+  "versionRationale": "Initial authored protocol corpus 1.0.0: synthetic UTF-8 input and integer-only RFC8785 IR/result, independently calculated with Python hashlib and verified by PHP core contracts. Future expected digest changes require a fixture version and semantic rationale, never a blind snapshot rewrite. P6.3 updates only the workerLock component to the qualified Docling 2.148.0 CPU dependency lock; protocol corpus 1.0.0 golden bytes and outcomes remain unchanged. Only workerLock changes for the requalified CPU/PDFium closure; protocol golden bytes and semantics remain unchanged.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private",
     "origin": "Project-authored synthetic protocol corpus. DeepTutor lifecycle and AgenTools integrity regression adaptations; pinned provenance in evidence/P6.1-reuse.json. No real provider/PDF/OCR qualification.",
@@ -171,7 +171,7 @@
   "components": {
     "workerLock": {
       "path": "python/knowkit-worker/uv.lock",
-      "sha256": "720a3d4f0ebf8c206a72b516f8174dca4e73a6beadb6fb752056a221459f1fc2"
+      "sha256": "2dc5bc3a6dd40964ff71c2125e14772107c3567f3622e2d158d1e269eb51e146"
     }
   }
 }

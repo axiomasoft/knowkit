@@ -1,0 +1,2 @@
+# Qualification digests retain the exact bytes of upstream license notices.
+python/knowkit-worker/third_party/THIRD_PARTY_NOTICES -text -whitespace

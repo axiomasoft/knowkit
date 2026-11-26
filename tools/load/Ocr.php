@@ -39,9 +39,9 @@ final class Ocr
         if (is_string($configured) && $configured !== '') {
             return $configured;
         }
-        $path = '/sys/fs/cgroup' . trim(explode('::', file_get_contents('/proc/self/cgroup'))[1]);
+        $path = '/sys/fs/cgroup' . trim(explode('::', \KnowKit\Tooling\LocalIO::read('/proc/self/cgroup'))[1]);
         while (str_starts_with($path, '/sys/fs/cgroup/')) {
-            $enabled = explode(' ', trim(file_get_contents($path . '/cgroup.subtree_control')));
+            $enabled = explode(' ', trim(\KnowKit\Tooling\LocalIO::read($path . '/cgroup.subtree_control')));
             if (is_writable($path) && array_diff(['cpu', 'memory', 'pids'], $enabled) === []) {
                 return $path;
             }
@@ -58,8 +58,9 @@ final class Ocr
             python: Report::root() . '/python/knowkit-worker/.venv/bin/python',
             launcher: Report::root() . '/deploy/worker/cgroup_exec.py',
         );
+        \KnowKit\Tests\Worker\Protocol\RuntimeCandidate::requireCurrent($runtime->runtimeRoot, Report::root());
         $supervisor = new ProcessWorkerSupervisor(runtime: $runtime, validator: new WorkerIngressBundleValidator(Fixture::validator()));
-        $source = file_get_contents(OcrFixture::corpus() . '/approved-eng.pdf');
+        $source = \KnowKit\Tooling\LocalIO::read(OcrFixture::corpus() . '/approved-eng.pdf');
         $expected = OcrFixture::document('approved-eng');
         $signature = $expected->toWire()->get('parserSignature');
         $limits = Fixture::wire('envelope')->get('limits')->with('wallSeconds', 60)->with('cpuSeconds', 45)
@@ -74,9 +75,9 @@ final class Ocr
             $cpu[] = $used / 1000;
         }
         self::verifyOom(supervisor: $supervisor, source: $source, signature: $signature, limits: $limits);
-        Qa::ensure(glob($base . '/stages/*') === [] && glob($group . '/knowkit-*') === [], 'OCR stage/cgroup leaked');
+        Qa::ensure(\KnowKit\Tooling\LocalIO::paths($base . '/stages/*') === [] && \KnowKit\Tooling\LocalIO::paths($group . '/knowkit-*') === [], 'OCR stage/cgroup leaked');
         return Report::save('ocr', ['documents' => 3, 'pagesPerDocument' => count($expected->pages()),
-            'latencyMs' => Metrics::percentiles($samples), 'cpuMs' => array_sum($cpu), 'workerPeakBytes' => max($memory),
+            'latencyMs' => Metrics::percentiles($samples), 'cpuMs' => array_sum($cpu), 'workerPeakBytes' => Metrics::maximum($memory),
             'pagesPerSecond' => 3 * count($expected->pages()) / (array_sum($samples) / 1000),
             'sourceSha256' => hash('sha256', $source), 'irSha256' => hash('sha256', $expected->canonical()),
             'runtimeBomSha256' => hash_file('sha256', $runtime->runtimeRoot . '/bom.json'),
@@ -96,9 +97,9 @@ final class Ocr
     ): array {
         $peak = $used = 0;
         $observe = static function () use ($group, &$peak, &$used): bool {
-            foreach (glob($group . '/knowkit-*', GLOB_ONLYDIR) as $child) {
-                $peak = max($peak, (int) file_get_contents($child . '/memory.peak'));
-                preg_match('/^usage_usec (\d+)$/m', file_get_contents($child . '/cpu.stat'), $match);
+            foreach (\KnowKit\Tooling\LocalIO::paths($group . '/knowkit-*', GLOB_ONLYDIR) as $child) {
+                $peak = max($peak, (int) \KnowKit\Tooling\LocalIO::read($child . '/memory.peak'));
+                preg_match('/^usage_usec (\d+)$/m', \KnowKit\Tooling\LocalIO::read($child . '/cpu.stat'), $match);
                 $used = max($used, (int) ($match[1] ?? 0));
             }
 

@@ -86,24 +86,25 @@ def main(argv: list[str] | None = None, *, profiles: dict | None = None) -> int:
     negotiation = commands.add_parser("negotiate")
     negotiation.add_argument("--envelope", required=True)
     args = parser.parse_args(argv)
+    active_profiles = PROFILES if profiles is None else profiles
     if args.command == "capabilities":
         print(canonical({"schemaVersion": "worker-capabilities-1.0", "transport": "subprocess",
                          "jobSchema": "job-envelope-1.0", "resultSchema": "worker-result-1.0",
                          "profiles": [{"id": p.id, "parserSignature": p.signature,
                                        "qualified": p.parse is not None, "pdf": "parser.text" in p.capabilities,
                                        "ocr": "parser.ocr" in p.capabilities}
-                                      for p in PROFILES.values()]}).decode())
+                                      for p in active_profiles.values()]}).decode())
         return 0
     signal.signal(signal.SIGTERM, _cancel)
     signal.signal(signal.SIGINT, _cancel)
     os.umask(0o077)
     try:
         operation = negotiate if args.command == "negotiate" else run_job
-        operation(args.envelope, PROFILES if profiles is None else profiles,
+        operation(args.envelope, active_profiles,
                   Contracts(Path(__file__).parent / "schemas"))
     except Refusal as exc:
         print(canonical({"outcome": exc.outcome, "code": exc.code}).decode(), file=sys.stderr)
-        return {"denied": 3, "unavailable": 4, "incompatible": 5}[exc.outcome]
+        return {"denied": 3, "unavailable": 4, "incompatible": 5, "unknown": 75}.get(exc.outcome, 75)
     except Exception:
         print('{"outcome":"unavailable","code":"worker_failed"}', file=sys.stderr)
         return 4

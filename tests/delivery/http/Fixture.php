@@ -18,6 +18,8 @@ use KnowKit\Port\Clock;
 use KnowKit\Port\IdGenerator;
 
 require_once dirname(__DIR__, 3) . '/packages/http/vendor/autoload.php';
+require_once dirname(__DIR__, 2) . '/tooling/baseline/CandidateAutoload.php';
+\KnowKit\Tests\Tooling\CandidateAutoload::register(dirname(__DIR__, 3));
 
 final class Fixture implements H\Authenticator, H\HostApplication, HostIdentity, Clock, IdGenerator
 {

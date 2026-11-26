@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace KnowKit\Domain;
 
-/** @template T of object */
+/** @template-covariant T of object */
 final readonly class Result
 {
     /**
@@ -28,7 +28,10 @@ final readonly class Result
         foreach ($warnings as $warning) { ValueGuard::text($warning, 128); }
         return new self(Outcome::Success, $data, null, false, $degraded, $effectiveProfile, $warnings);
     }
-    /** @param list<string> $warnings */
+    /**
+     * @param list<string> $warnings
+     * @return self<never>
+     */
     public static function empty(?string $effectiveProfile = null, array $warnings = [], bool $degraded = false): self
     {
         if ($degraded && ($effectiveProfile === null || $warnings === [])) {
@@ -38,10 +41,18 @@ final readonly class Result
             ValueGuard::text($warning, 128);
         }
 
-        return new self(Outcome::Empty, null, null, false, $degraded, $effectiveProfile, $warnings);
+        /** @var self<never> $result */
+        $result = new self(Outcome::Empty, null, null, false, $degraded, $effectiveProfile, $warnings);
+
+        return $result;
     }
+
+    /** @return self<never> */
     public static function failure(DomainFailure $failure, bool $retryable = false): self
     {
-        return new self($failure->outcome, null, $failure->errorCode, $retryable, false, null, []);
+        /** @var self<never> $result */
+        $result = new self($failure->outcome, null, $failure->errorCode, $retryable, false, null, []);
+
+        return $result;
     }
 }

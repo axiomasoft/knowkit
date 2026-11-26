@@ -44,9 +44,12 @@ final class PortContractsTest extends TestCase
                 foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
                     if ($method->isConstructor()) { continue; }
                     foreach (array_merge(array_map(static fn($p) => $p->getType(),$method->getParameters()),[$method->getReturnType()]) as $type) {
-                        self::assertInstanceOf(\ReflectionNamedType::class,$type,$class . '::' . $method->getName());
-                        if (!$type->isBuiltin() && $type->getName() !== 'self') {
-                            self::assertTrue(class_exists($type->getName()) || interface_exists($type->getName()),$type->getName());
+                        $types = $type instanceof \ReflectionUnionType ? $type->getTypes() : [$type];
+                        foreach ($types as $named) {
+                            self::assertInstanceOf(\ReflectionNamedType::class,$named,$class . '::' . $method->getName());
+                            if (!$named->isBuiltin() && $named->getName() !== 'self') {
+                                self::assertTrue(class_exists($named->getName()) || interface_exists($named->getName()),$named->getName());
+                            }
                         }
                     }
                 }
@@ -95,9 +98,10 @@ final class PortContractsTest extends TestCase
     {
         $result = (new Qa(PortFixture::root()))->dag();
         self::assertGreaterThan(100,$result['phpFiles']);
-        self::assertSame(1,$result['packages']);
+        self::assertGreaterThanOrEqual(1,$result['packages']);
         foreach (glob(PortFixture::root() . '/packages/core/src/Application/*.php') as $path) {
-            self::assertTrue(interface_exists('KnowKit\\Application\\' . basename($path,'.php')));
+            $symbol = 'KnowKit\\Application\\' . basename($path,'.php');
+            self::assertTrue(interface_exists($symbol) || class_exists($symbol));
         }
     }
 

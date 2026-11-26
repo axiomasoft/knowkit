@@ -26,7 +26,12 @@ final readonly class SelectionToken
 
     public function hash(): Sha256
     {
-        return new Sha256(hash('sha256', hex2bin($this->value)));
+        $bytes = hex2bin($this->value);
+        if ($bytes === false) {
+            throw new DomainFailure(Outcome::Denied, 'selection_invalid');
+        }
+
+        return new Sha256(hash('sha256', $bytes));
     }
 
     public function __debugInfo(): array

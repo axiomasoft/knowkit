@@ -59,7 +59,7 @@ final class Dataset
         $coverage = StrictJson::decode(json_encode($this->fixture->data['allowed']['ir']['coverage'], JSON_THROW_ON_ERROR));
         $candidate = (new Builder(PortFixture::validator()))->build(
             scope: $this->fixture->catalog->scope(), id: new D\GenerationId(self::id(900)),
-            sets: $this->sets, resources: [], coverage: $coverage,
+            sets: array_values($this->sets), resources: [], coverage: $coverage,
         );
         $this->manifestBytes = strlen($candidate->manifest->canonical());
         $db->execute("UPDATE index_generations SET state='sealed',manifest_json=?,manifest_digest=?,chunk_count=100000 WHERE tenant_id=? AND id=?",
@@ -75,6 +75,9 @@ final class Dataset
     {
         $db = $this->fixture->catalog->db;
         $role = $db->execute('SELECT current_user')->fetchColumn();
+        if (!is_string($role)) {
+            throw new \RuntimeException('Current database role unavailable');
+        }
         \KnowKit\Adapter\Postgres\Catalog\Connection::schema($role);
         $db->pdo->exec('RESET ROLE');
         try {
@@ -274,7 +277,7 @@ final class Dataset
     {
         $f = $this->fixture;
         $scope = $f->catalog->scope();
-        $eligible = array_map(static fn (D\ChunkingResult $set): D\SourceVersionId => $set->chunkSet->revisionRef->sourceRef->sourceVersionId, $sets);
+        $eligible = array_map(static fn (D\ChunkingResult $set): D\SourceVersionId => $set->chunkSet->revisionRef->sourceRef->sourceVersionId, array_values($sets));
         $grant = new D\QueryGrant(new JsonObject(['allowedCollectionIds' => [],
             'allowedSourceVersionIds' => array_map(static fn (D\SourceVersionId $id): string => $id->value, $eligible),
             'grantEpoch' => '0', 'policyBindingDigest' => str_repeat('c', 64), 'expiresAt' => '2026-11-07T00:00:30Z']), PortFixture::validator());
@@ -289,6 +292,6 @@ final class Dataset
         $c = $this->fixture->catalog;
 
         return new PdoLexicalIndex(db: $c->db, transaction: $c->tx, validator: PortFixture::validator(),
-            canonical: new CanonicalChunkSets($sets), ids: $c->ids);
+            canonical: new CanonicalChunkSets(array_values($sets)), ids: $c->ids);
     }
 }

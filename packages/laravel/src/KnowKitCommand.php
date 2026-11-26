@@ -22,13 +22,15 @@ final class KnowKitCommand extends Command
     {
         ob_start();
         try {
-            return parent::run(input: $input, output: $output);
+            try {
+                return parent::run(input: $input, output: $output);
+            } finally {
+                ob_end_clean();
+            }
         } catch (ExceptionInterface) {
             return $this->failure(response: Response::error(code: 'invalid_command', exit: 2), output: $output);
         } catch (\Throwable) {
             return $this->failure(response: Response::error(code: 'internal_error', exit: 70), output: $output);
-        } finally {
-            ob_end_clean();
         }
     }
 
@@ -52,10 +54,19 @@ final class KnowKitCommand extends Command
             return $this->input->getRawTokens(strip: $this->input->hasArgument('command'));
         }
 
-        $arguments = $this->argument('words');
+        $words = $this->argument('words');
+        $arguments = [];
+        if (is_array($words)) {
+            foreach ($words as $word) {
+                if (is_scalar($word)) {
+                    $arguments[] = (string) $word;
+                }
+            }
+        }
         foreach (['input', 'file', 'idempotency-key', 'expected-epoch', 'expected-revision'] as $name) {
-            if ($this->option($name) !== null) {
-                $arguments[] = '--' . $name . '=' . $this->option($name);
+            $option = $this->option($name);
+            if (is_scalar($option)) {
+                $arguments[] = '--' . $name . '=' . (string) $option;
             }
         }
         $arguments[] = '--json';

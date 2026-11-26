@@ -12,7 +12,7 @@ use KnowKit\Port\IdGenerator;
 /** Restores only derived FTS rows. All immutable memberships/citation coordinates remain unchanged. */
 final readonly class ProjectionRebuilder
 {
-    /** @param \Closure(D\TenantId,JsonObject):array $loadSets Administrative verified canonical loader; I/O outside SQL. */
+    /** @param \Closure(D\TenantId,JsonObject):list<D\ChunkingResult> $loadSets Administrative verified canonical loader; I/O outside SQL. */
     public function __construct(private Connection $db, private PdoCatalogTransaction $tx,
         private D\TenantId $tenant, private ContractValidator $validator, private IdGenerator $ids, private \Closure $loadSets)
     { if ($tx->db !== $db) { throw new \InvalidArgumentException('Shared transaction required'); } }

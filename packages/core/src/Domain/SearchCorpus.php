@@ -12,8 +12,10 @@ final readonly class SearchCorpus
         public SelectionInventory $inventory,
     ) {
         $snapshot = $inventory->snapshot;
-        if ($scope->tenantId != $snapshot->tenantId || $scope->kbId != $snapshot->kbId
-            || $scope->snapshotId != $snapshot->snapshotId || $scope->generationId != $inventory->generationId()) {
+        if (!$scope->tenantId->equals($snapshot->tenantId)
+            || !$scope->kbId->equals($snapshot->kbId)
+            || !$scope->snapshotId->equals($snapshot->snapshotId)
+            || !$scope->generationId->equals($inventory->generationId())) {
             throw new DomainFailure(Outcome::Incompatible, 'snapshot_mismatch');
         }
         $this->assertSpace($scope->embeddingSpaceDigest);
@@ -21,8 +23,11 @@ final readonly class SearchCorpus
 
     public function assertSpace(?Fingerprint $expected): void
     {
+        $sameSpace = $this->scope->embeddingSpaceDigest === null
+            ? $expected === null
+            : ($expected !== null && $this->scope->embeddingSpaceDigest->equals($expected));
         if ($this->inventory->manifest->manifest->toWire()->get('embeddingSpaceDigest') !== $expected?->value
-            || $this->scope->embeddingSpaceDigest != $expected) {
+            || !$sameSpace) {
             throw new DomainFailure(Outcome::Incompatible, 'space_mismatch');
         }
     }
@@ -37,18 +42,19 @@ final readonly class SearchCorpus
 
     public function assertBinding(Scope $host): void
     {
-        if ($host->tenantId != $this->scope->tenantId || $host->kbId != $this->scope->kbId
-            || $host->hostScopeHash != $this->scope->hostScopeHash
-            || $host->bindingDigest($this->scope->policyBindingDigest) != $this->scope->scopeBindingDigest) {
+        if (!$host->tenantId->equals($this->scope->tenantId)
+            || !$host->kbId->equals($this->scope->kbId)
+            || !$host->hostScopeHash->equals($this->scope->hostScopeHash)
+            || !$host->bindingDigest($this->scope->policyBindingDigest)->equals($this->scope->scopeBindingDigest)) {
             throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
         }
     }
 
     public function assertCompanion(self $other): void
     {
-        if ($this->inventory->snapshot != $other->inventory->snapshot
+        if (!$this->inventory->snapshot->equals($other->inventory->snapshot)
             || $this->versions() !== $other->versions()
-            || $this->scope->policyBindingDigest != $other->scope->policyBindingDigest) {
+            || !$this->scope->policyBindingDigest->equals($other->scope->policyBindingDigest)) {
             throw new DomainFailure(Outcome::Incompatible, 'snapshot_mismatch');
         }
     }
@@ -64,7 +70,7 @@ final readonly class SearchCorpus
 
     public function assertList(CandidateList $list, int $topK): void
     {
-        if ($list->scope != $this->scope) {
+        if (!$list->scope->equals($this->scope)) {
             throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
         }
         if (count($list->candidates) > $topK) {

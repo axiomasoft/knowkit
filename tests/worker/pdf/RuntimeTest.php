@@ -11,6 +11,7 @@ use KnowKit\Adapter\ProcessWorker\WorkerIngressBundleValidator;
 use KnowKit\Domain\Contract\StrictJson;
 use KnowKit\Domain\DomainFailure;
 use KnowKit\Tests\Worker\Protocol\Fixture;
+use KnowKit\Tests\Worker\Protocol\RuntimeCandidate;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
@@ -25,6 +26,7 @@ final class RuntimeTest extends TestCase
         mkdir($base . '/stages', 0700);
         try {
             $runtime = $this->runtime($base . '/stages');
+            RuntimeCandidate::requireCurrent($runtime->runtimeRoot, Fixture::root());
             $supervisor = new ProcessWorkerSupervisor($runtime, new WorkerIngressBundleValidator(Fixture::validator()));
             $root = Fixture::root() . '/tests/fixtures/documents/pdf/v1/';
             $expected = json_decode(file_get_contents($root . 'manifest.json'), true, flags: JSON_THROW_ON_ERROR);
@@ -58,7 +60,7 @@ final class RuntimeTest extends TestCase
         $files = [
             'seccomp.bpf' => 'filter',
             'runtime/bin/knowkit-worker' => 'worker',
-            'torch-2.9.1+cpu.dist-info/METADATA' => 'metadata',
+            'torch-2.13.0+cpu.dist-info/METADATA' => 'metadata',
             'templates/[Content_Types].xml' => 'template',
             'templates/script (dev).tmpl' => 'template',
         ];
@@ -125,7 +127,11 @@ final class RuntimeTest extends TestCase
                 $path = dirname($path);
             }
         }
-        $root ??= getenv('KNOWKIT_PDF_RUNTIME') ?: Fixture::root() . '/python/knowkit-worker/.local-checks/pdf-runtime';
+        $defaultRoot = Fixture::root() . '/python/knowkit-worker/.local-checks/pdf-runtime';
+        if (!is_dir($defaultRoot) && is_dir(Fixture::root() . '/python/knowkit-worker/.local-checks/ocr-runtime')) {
+            $defaultRoot = Fixture::root() . '/python/knowkit-worker/.local-checks/ocr-runtime';
+        }
+        $root ??= getenv('KNOWKIT_PDF_RUNTIME') ?: $defaultRoot;
         return new SandboxRuntime(
             $root,
             $stages,

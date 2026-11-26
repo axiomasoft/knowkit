@@ -29,7 +29,7 @@ final class FixtureTest extends TestCase
         $manifest = $qa->json('tests/fixtures/check-groups/worker-pdf.json');
         $qa->fixtures($manifest);
         $corpus = $qa->json('tests/fixtures/documents/pdf/v1/manifest.json');
-        self::assertSame('1.0.0', $corpus['fixtureVersion']);
+        self::assertSame('1.1.0', $corpus['fixtureVersion']);
         foreach ($corpus['expected'] as $name => $expected) {
             $bytes = file_get_contents(Fixture::root() . "/tests/fixtures/documents/pdf/v1/{$name}.ir.json");
             self::assertIsString($bytes);

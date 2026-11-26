@@ -24,7 +24,7 @@ final readonly class InvocationDispatch
 
     public function send(A\LedgerClaim $claim, A\TransportRequest $request, A\CancellationToken $cancellation): A\TransportResult|A\AnswerOutcome
     {
-        if ($request->identity->binding->transport != $this->transport->descriptor()) {
+        if (!$request->identity->binding->transport->equals($this->transport->descriptor())) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'transport_mismatch');
         }
         $sending = $this->ledger->markSending($claim, $request->identity);

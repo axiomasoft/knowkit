@@ -19,4 +19,9 @@ final readonly class InvocationRef
     {
         return new JsonObject(['tenantId' => $this->tenantId->value, 'invocationKey' => $this->key->value]);
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->tenantId->equals($other->tenantId) && $this->key->value === $other->key->value;
+    }
 }

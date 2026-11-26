@@ -31,10 +31,13 @@ final readonly class ReferenceCacheKey
         if ($topK < 1 || $topK > 512) {
             throw new DomainFailure(Outcome::Incompatible, 'limit_exceeded');
         }
-        if ($search->tenantId != $policy->scope->tenantId || $search->kbId != $policy->scope->kbId
-            || $search->snapshotId != $snapshot->snapshotId || $snapshot->tenantId != $search->tenantId
-            || $snapshot->kbId != $search->kbId || $search->hostScopeHash != $policy->scope->hostScopeHash
-            || $search->scopeBindingDigest != $policy->scope->bindingDigest($search->policyBindingDigest)) {
+        if (!$search->tenantId->equals($policy->scope->tenantId)
+            || !$search->kbId->equals($policy->scope->kbId)
+            || !$search->snapshotId->equals($snapshot->snapshotId)
+            || !$snapshot->tenantId->equals($search->tenantId)
+            || !$snapshot->kbId->equals($search->kbId)
+            || !$search->hostScopeHash->equals($policy->scope->hostScopeHash)
+            || !$search->scopeBindingDigest->equals($policy->scope->bindingDigest($search->policyBindingDigest))) {
             throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
         }
         $versions = array_map(static fn (SourceVersionId $id): string => $id->value, $search->allowedSourceVersionIds);
@@ -52,10 +55,17 @@ final readonly class ReferenceCacheKey
             new Fingerprint(HashDomain::RetrievalCacheKey->digest($binding)));
     }
 
+    public function equals(self $other): bool
+    {
+        return $this->tenantId->equals($other->tenantId)
+            && $this->hostScopeHash->equals($other->hostScopeHash)
+            && $this->digest->equals($other->digest);
+    }
+
     public function assertScope(Scope $scope): void
     {
         $scope->assertTenant($this->tenantId);
-        if ($scope->hostScopeHash != $this->hostScopeHash) {
+        if (!$scope->hostScopeHash->equals($this->hostScopeHash)) {
             throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
         }
     }

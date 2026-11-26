@@ -84,7 +84,11 @@
       "tests/delivery/client/Support.php",
       "tests/fixtures/check-groups/delivery-client.json"
     ],
-    "sha256": "b9f070c32cf6635e17e682dd11d9fa19c6f4d82fffc12cdeeb79ab823cc43eee"
+    "sha256": "2c811dbd26a33582adee875dea326fe3435a1753fe3c5ffc9868804e3fa0417c"
   },
-  "planMirror": "Coordinator records the tracked receipt; plan_mutation=forbidden takes precedence over the requested optional plan artifact mirror."
+  "planMirror": "Coordinator records the tracked receipt; plan_mutation=forbidden takes precedence over the requested optional plan artifact mirror.",
+  "auditRequalification": {
+    "date": "2026-11-17",
+    "reason": "Rebind the existing source adaptation scope after repository audit fixes and coverage/CI configuration changes; donor pins and authored behavior expectations are unchanged. See docs/audits/2026-11-17.md for current verification."
+  }
 }

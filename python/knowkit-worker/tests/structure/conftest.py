@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from build_fixtures import job_for, retain
+from .build_fixtures import job_for, retain
 
 ROOT = Path(__file__).resolve().parents[4]
 CORPUS = ROOT / "tests/fixtures/documents/structure/v1"

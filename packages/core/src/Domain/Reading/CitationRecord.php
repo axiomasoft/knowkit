@@ -27,7 +27,7 @@ final readonly class CitationRecord
     public function requireScope(D\Scope $scope): void
     {
         $scope->assertTenant($this->chunk->revisionRef->sourceRef->tenantId);
-        if ($scope->kbId != $this->kbId || $scope->hostScopeHash != $this->hostScopeHash) {
+        if (!$scope->kbId->equals($this->kbId) || !$scope->hostScopeHash->equals($this->hostScopeHash)) {
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
         }
     }

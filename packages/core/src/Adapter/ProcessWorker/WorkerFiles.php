@@ -77,8 +77,8 @@ final class WorkerFiles
                 continue;
             }
             $relative = substr($entry->getPathname(), strlen($root) + 1);
-            $stat = lstat($entry->getPathname());
-            if (!self::relative($relative) || ($stat['mode'] & 0170000) !== 0100000 || $stat['nlink'] !== 1) {
+            $stat = @lstat($entry->getPathname());
+            if ($stat === false || !self::relative($relative) || ($stat['mode'] & 0170000) !== 0100000 || $stat['nlink'] !== 1) {
                 throw new DomainFailure(Outcome::Denied, 'unsafe_output');
             }
             $files[$relative] = $stat['size'];
@@ -95,7 +95,9 @@ final class WorkerFiles
         if (is_dir($path) && !is_link($path)) {
             chmod($path, 0700);
             foreach (new \FilesystemIterator($path) as $child) {
-                self::remove($child->getPathname());
+                if ($child instanceof \SplFileInfo) {
+                    self::remove($child->getPathname());
+                }
             }
             rmdir($path);
             return;

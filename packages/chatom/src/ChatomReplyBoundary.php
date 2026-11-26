@@ -41,7 +41,7 @@ final class ChatomReplyBoundary implements ChannelAccess
         MessageDocument $content,
         Closure $guard,
     ): MessageId {
-        if ($this->guard !== null) {
+        if ($this->guard !== null || $this->invocation !== null) {
             throw new ConversationDenied();
         }
         $this->guard = $guard;
@@ -78,8 +78,11 @@ final class ChatomReplyBoundary implements ChannelAccess
         ChannelAccessIntent $intent = ChannelAccessIntent::Read,
     ): AuthorizedChannel {
         $authorized = $this->native->reauthorize(context: $context, channel: $channel, action: $action, intent: $intent);
-        if ($this->guard === null) {
+        if ($this->guard === null && $this->invocation === null) {
             return $authorized;
+        }
+        if ($this->guard === null || $this->invocation === null) {
+            throw new ConversationDenied();
         }
         $invocation = $this->invocation;
         if ($context->operation() !== 'message.send' || $context->phase() !== Phase::Reauthorize

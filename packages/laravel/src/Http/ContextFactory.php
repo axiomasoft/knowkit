@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use KnowKit\Application\Access\AccessContext;
 use KnowKit\Application\Access\RequestBoundary;
 use KnowKit\Domain\Contract\JsonObject;
+use KnowKit\Domain\Contract\StrictJson;
 use KnowKit\Domain\DomainFailure;
 use KnowKit\Domain\Outcome;
 
@@ -32,10 +33,32 @@ final readonly class ContextFactory
         } catch (\Throwable) {
             throw new DomainFailure(outcome: Outcome::Unavailable, errorCode: 'identity_unavailable');
         }
-        $body = new JsonObject($request->all());
+        $body = $this->body($request);
         $context = (new RequestBoundary($host))->context($body);
         $context->assertCurrent();
 
         return $context;
+    }
+
+    private function body(Request $request): JsonObject
+    {
+        try {
+            $raw = (string) $request->getContent();
+            if ($raw === '') {
+                $parameters = $request->request->all();
+                if ($parameters === []) {
+                    return new JsonObject();
+                }
+                $raw = json_encode((object) $parameters, JSON_THROW_ON_ERROR);
+            }
+            $decoded = StrictJson::decode($raw);
+        } catch (\Throwable) {
+            throw new DomainFailure(outcome: Outcome::Denied, errorCode: 'untrusted_context');
+        }
+        if (!$decoded instanceof JsonObject) {
+            throw new DomainFailure(outcome: Outcome::Denied, errorCode: 'untrusted_context');
+        }
+
+        return $decoded;
     }
 }

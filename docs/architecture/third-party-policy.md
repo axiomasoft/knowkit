@@ -65,20 +65,25 @@ The [catalog](../../licenses/catalog.json) explicitly selects local profiles and
 qualification records. `allowed` or `restricted` records with fulfilled
 constraints may participate; missing, unknown, unqualified or blocked components
 make an enabled external profile fail. Disabled parser candidates remain visible
-without entering the enabled bundle. Docling, MinerU and PyMuPDF have exact source
-pins and retained code license evidence, but remain blocked pending dependency,
-asset/profile and distribution qualification. MinerU's inspected license includes
+without entering the enabled bundle. The broad Docling, MinerU and PyMuPDF candidate records retain exact source
+pins and code license evidence and remain blocked for their candidate scopes.
+Separate `pdf.json`, `structure.json` and `ocr.json` records qualify the implemented
+Docling text/structure and Tesseract eng/rus worker profiles for restricted local
+use with exact dependency and asset inventories. They do not unblock those
+broader candidates or authorize redistribution. MinerU's inspected license includes
 commercial thresholds and service attribution; worker isolation does not remove
 PyMuPDF's AGPL/commercial licensing choice. No parser, weight or dataset is
 downloaded or enabled by this gate.
 
 `local-text` and `local-markdown` represent the original core baseline and have no
 external qualification dependencies. They stay selectable without Python,
-Laravel, Agentools, GPU, model keys or optional parser records. P1.3 proves this
-policy boundary with fixtures; the core currently contains a skeleton, so this
-is not evidence of a running text parser or completed product ingestion.
-Future runtime registration must use this inclusion gate at profile/build
-qualification and supply parser conformance tests before advertising readiness.
+Laravel, Agentools, GPU, model keys or optional parser records. P1.3 established this
+policy boundary with fixtures; the current core implements TXT/Markdown ingestion,
+publication and retrieval with dedicated conformance suites. Optional worker
+registration checks qualification and exact local assets before advertising
+readiness. PDF model inventories reject extra files, links and nonregular assets.
+Each enabled catalog profile is classified from its own transitive dependency
+closure; the report component inventory is the union of selected closures.
 
 Run `php tools/license-audit.php` for the offline inclusion report. To rebuild the
 local inventory, run `php tools/license-audit.php --output licenses/generated`.

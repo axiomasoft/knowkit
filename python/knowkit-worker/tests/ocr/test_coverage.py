@@ -10,7 +10,7 @@ from knowkit_worker.ocr.engine import parse, regions
 from knowkit_worker.protocol import Refusal
 from knowkit_worker.rendering.pdf import open_pdf
 
-from conftest import CORPUS, MODELS, NATIVE, job_for
+from .conftest import CORPUS, MODELS, NATIVE, job_for
 
 
 def test_low_confidence_retains_ocr_origin_and_blocks_complete_coverage(monkeypatch):
@@ -85,7 +85,7 @@ def test_fractional_crop_restores_actual_pixel_offset_before_bbox_rounding(monke
     page = {"pageId": "page-1", "physicalNo": 1, "printedLabel": None, "text": "", "status": "skipped"}
     image = Image.new("RGB", (300, 300), "white")
     try:
-        engine.process_region(ir, page, image, (0.2, 0.2, 10.2, 10.2), (100, 100), None, "eng", 1024)
+        engine.process_region(ir, page, image, (0.2, 0.2, 10.2, 10.2), (100, 100), None, "eng", 1024, "0" * 64)
     finally:
         image.close()
     box = ir["blocks"][0]["spans"][0]["bbox"]

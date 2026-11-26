@@ -26,7 +26,7 @@
       "tests/retrieval/cache/FixtureTest.php",
       "tests/retrieval/cache/PostgresTest.php"
     ],
-    "sha256": "b5aa6c295b929a6689b3ed0cbb9924a1105d7872aafc86e0135a59a2002bd157"
+    "sha256": "3648ad1dee682e09383d4ed75ccc1abbbafff0429ca9a63775540a56fd426f76"
   },
   "sources": [
     {
@@ -236,5 +236,9 @@
   "planMirror": "Coordinator-owned: plan mutation forbidden to executor.",
   "qualificationLimits": [
     "Only the process-local ReferenceCache adapter and PostgreSQL disclosure/inbox are qualified; no optional external cache, HTTP or provider adapter is claimed."
-  ]
+  ],
+  "auditRequalification": {
+    "date": "2026-11-17",
+    "reason": "Rebind the existing source adaptation scope after repository audit fixes and coverage/CI configuration changes; donor pins and authored behavior expectations are unchanged. See docs/audits/2026-11-17.md for current verification."
+  }
 }

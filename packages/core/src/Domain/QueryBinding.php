@@ -19,8 +19,8 @@ final readonly class QueryBinding
         public ?Fingerprint $spaceFingerprint = null,
     ) {
         ValueGuard::text($normalizationRevision, 128);
-        if ($original->sourceVersionIds != $normalized->sourceVersionIds
-            || $original->collectionIds != $normalized->collectionIds) {
+        if ($this->rawIds($original->sourceVersionIds) !== $this->rawIds($normalized->sourceVersionIds)
+            || $this->rawIds($original->collectionIds) !== $this->rawIds($normalized->collectionIds)) {
             throw new DomainFailure(Outcome::Incompatible, 'rewrite_filter_mismatch');
         }
         if (self::protectedTerms($original->text()) !== self::protectedTerms($normalized->text())) {
@@ -57,13 +57,27 @@ final readonly class QueryBinding
         return $terms;
     }
 
-    /** @param list<Ulid>|null $ids @return list<string>|null */
+    /**
+     * @param list<Ulid>|null $ids
+     * @return list<string>|null
+     */
+    private function rawIds(?array $ids): ?array
+    {
+        return $ids === null
+            ? null
+            : array_map(static fn (Ulid $id): string => $id->value, $ids);
+    }
+
+    /**
+     * @param list<Ulid>|null $ids
+     * @return list<string>|null
+     */
     private function ids(?array $ids): ?array
     {
-        if ($ids === null) {
+        $values = $this->rawIds($ids);
+        if ($values === null) {
             return null;
         }
-        $values = array_map(static fn (Ulid $id): string => $id->value, $ids);
         sort($values, SORT_STRING);
 
         return $values;

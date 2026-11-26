@@ -32,8 +32,12 @@ final readonly class AuthorizedSearchScope
         }
         // Collection filters need authoritative memberships. Do not guess them or broaden the universe.
         if ($query?->collectionIds !== null) {
-            if ($memberships === null) { throw new DomainFailure(Outcome::Incompatible, 'collection_filter_requires_memberships'); }
-            if ($memberships->scope != $scope) { throw new DomainFailure(Outcome::Denied, 'scope_mismatch'); }
+            if ($memberships === null) {
+                throw new DomainFailure(Outcome::Incompatible, 'collection_filter_requires_memberships');
+            }
+            if (!$memberships->scope->equals($scope)) {
+                throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
+            }
             $collections = array_values(array_intersect(
                 array_map(static fn(CollectionId $id): string => $id->value, $query->collectionIds),
                 $wire->get('allowedCollectionIds')));
@@ -46,6 +50,30 @@ final readonly class AuthorizedSearchScope
         return new self($scope->tenantId, $scope->kbId, $snapshot->snapshotId, $generation, $allowed, $binding,
             $space, $scope->hostScopeHash, $scope->bindingDigest($binding));
     }
+
+    public function equals(self $other): bool
+    {
+        if (!$this->tenantId->equals($other->tenantId)
+            || !$this->kbId->equals($other->kbId)
+            || !$this->snapshotId->equals($other->snapshotId)
+            || !$this->generationId->equals($other->generationId)
+            || count($this->allowedSourceVersionIds) !== count($other->allowedSourceVersionIds)
+            || !$this->policyBindingDigest->equals($other->policyBindingDigest)
+            || ($this->embeddingSpaceDigest === null
+                ? $other->embeddingSpaceDigest !== null
+                : ($other->embeddingSpaceDigest === null || !$this->embeddingSpaceDigest->equals($other->embeddingSpaceDigest)))
+            || !$this->hostScopeHash->equals($other->hostScopeHash)
+            || !$this->scopeBindingDigest->equals($other->scopeBindingDigest)) {
+            return false;
+        }
+        foreach ($this->allowedSourceVersionIds as $index => $id) {
+            if (!$id->equals($other->allowedSourceVersionIds[$index])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public function toWire(): JsonObject
     {
         return new JsonObject(['tenantId'=>$this->tenantId->value,'kbId'=>$this->kbId->value,

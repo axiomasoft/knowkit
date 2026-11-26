@@ -10,8 +10,10 @@ use KnowKit\Tests\Ops\Resilience\Runtime;
 require_once dirname(__DIR__, 2) . '/tests/tooling/baseline/bootstrap.php';
 require_once dirname(__DIR__, 2) . '/tests/ops/resilience/bootstrap.php';
 
+require_once dirname(__DIR__) . '/LocalIO.php';
+
 // The parent is repository-owned test code. This is not a product deserialization endpoint.
-$config = unserialize(base64_decode(trim((string) fgets(STDIN, 1048576)), true), ['allowed_classes' => true]);
+$config = unserialize(\KnowKit\Tooling\LocalIO::decode(trim(\KnowKit\Tooling\LocalIO::line(STDIN))), ['allowed_classes' => true]);
 Connection::schema($config['schema']);
 Connection::schema($config['role']);
 $pdo = new PDO(

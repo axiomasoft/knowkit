@@ -28,3 +28,7 @@
 __pycache__/
 vendor/
 .phpunit.cache/
+coverage/
+.venv/
+.pytest_cache/
+.ruff_cache/

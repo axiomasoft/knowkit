@@ -1,6 +1,6 @@
 {
   "id": "ocr",
-  "version": "docling-tesseract-page-selective-v1.1",
+  "version": "docling-tesseract-page-selective-v1.2",
   "sourceUrl": "https://github.com/tesseract-ocr/tesseract",
   "sourceRevision": "7e548e6eff172f38f97664afe7f7ce40db36c8d6",
   "codeLicense": "Apache-2.0",
@@ -281,7 +281,7 @@
     "docling-pdf-ocr-rus-v1"
   ],
   "verdict": "restricted",
-  "reason": "Explicit local page/raster-region OCR, confidence is extraction quality. Native source spans retained, raster language/orientation/low confidence gaps remain partial. No redistribution or external provider implementation.",
-  "checkedAt": "2026-11-08",
-  "lockDigest": "720a3d4f0ebf8c206a72b516f8174dca4e73a6beadb6fb752056a221459f1fc2"
+  "reason": "Explicit local page/raster-region OCR, confidence is extraction quality. Native source spans retained; raster language/orientation/low confidence gaps remain partial. Requalification inherits PDF torch 2.13.0+cpu, torchvision 0.28.0+cpu and pypdfium2 5.15.2; Tesseract, traineddata and native build inventory remain unchanged. Offline corpus and sandbox assertions are required before acceptance. No redistribution or external provider implementation.",
+  "checkedAt": "2026-11-17",
+  "lockDigest": "2dc5bc3a6dd40964ff71c2125e14772107c3567f3622e2d158d1e269eb51e146"
 }

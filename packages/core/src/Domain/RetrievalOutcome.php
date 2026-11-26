@@ -5,14 +5,20 @@ namespace KnowKit\Domain;
 
 final readonly class RetrievalOutcome
 {
-    /** Runtime checks the generic data type at this PHP boundary. */
-    /** @param list<ChunkRef> $readRequirements Exact separate-read refs, never permission to disclose. */
+    /**
+     * Runtime checks the generic data type at this PHP boundary.
+     *
+     * @param Result<Selection> $result
+     * @param list<ChunkRef> $readRequirements Exact separate-read refs, never permission to disclose.
+     */
     public function __construct(
         public Result $result,
         public ?SelectionToken $token = null,
         public array $readRequirements = [],
     ) {
-        if ($result->data !== null && !$result->data instanceof Selection) {
+        /** @var object|null $data */
+        $data = $result->data;
+        if ($data !== null && !$data instanceof Selection) {
             throw new \InvalidArgumentException('Selection outcome required');
         }
         ValueGuard::objects($readRequirements, ChunkRef::class, 512);

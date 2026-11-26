@@ -12,6 +12,7 @@ use KnowKit\Adapter\Postgres\Catalog\PdoCatalogRepository;
 use KnowKit\Adapter\Postgres\Catalog\PdoCatalogTransaction;
 use KnowKit\Domain\ChunkerProfile;
 use KnowKit\Domain\ChunkingResult;
+use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\DocumentId;
 use KnowKit\Domain\DocumentRevisionRef;
 use KnowKit\Domain\DomainFailure;
@@ -59,7 +60,7 @@ final readonly class PdoChunkSetStore
         $revision = $chunker->revision();
         $documentId = $chunker->documentId();
 
-        if ($revision->sourceRef->tenantId != $tenant) {
+        if (!$revision->sourceRef->tenantId->equals($tenant)) {
             self::fail('scope_mismatch', Outcome::Denied);
         }
 
@@ -84,14 +85,14 @@ final readonly class PdoChunkSetStore
         ChunkingResult $result,
     ): void {
         if (
-            $result->chunkSet->revisionRef != $revision
-            || $result->chunkSet->chunkerSignature != $profile->signature
+            Jcs::canonicalize($result->chunkSet->revisionRef->toWire()) !== Jcs::canonicalize($revision->toWire())
+            || Jcs::canonicalize($result->chunkSet->chunkerSignature->toWire()) !== Jcs::canonicalize($profile->signature->toWire())
         ) {
             self::fail('binding_mismatch');
         }
 
         foreach ($result->chunkSet->chunks as $chunk) {
-            if ($chunk->documentId != $documentId) {
+            if (!$chunk->documentId->equals($documentId)) {
                 self::fail('binding_mismatch');
             }
         }

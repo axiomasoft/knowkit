@@ -12,14 +12,16 @@ final class InstallTest extends Support
     public function testLockedCleanInstallAndDiscoveryWithoutHostRuntimes(): void
     {
         foreach (['composer.json', 'composer.lock', 'packages/core/composer.json', 'packages/core/bin/knowkit', 'phpunit.xml',
-            'tests/tooling/baseline/bootstrap.php', 'tools/qa.php'] as $path) {
+            'tests/tooling/baseline/bootstrap.php', 'tests/tooling/baseline/CandidateAutoload.php', 'tools/qa.php'] as $path) {
             $this->copy($path);
         }
         $xml = new \SimpleXMLElement((string) file_get_contents($this->qa->file('phpunit.xml')));
         foreach ($xml->xpath('//testsuite/directory') ?: [] as $dir) {
             $this->put(trim((string) $dir) . '/.gitkeep', '');
         }
-        $this->put('tests/tooling/baseline/DiscoveryCanaryTest.php', file_get_contents($this->qa->file('tests/tooling/baseline/fixtures/v1/DiscoveryTest.php.fixture')));
+        $fixture = file_get_contents($this->qa->file('tests/tooling/baseline/fixtures/v1/DiscoveryTest.php.fixture'));
+        Qa::ensure($fixture !== false, 'cannot read discovery fixture');
+        $this->put('tests/tooling/baseline/DiscoveryCanaryTest.php', $fixture);
         $this->put('packages/core/src/Domain/.gitkeep', '');
         $qa = new Qa($this->temporary);
         $before = hash_file('sha256', $qa->file('composer.lock'));

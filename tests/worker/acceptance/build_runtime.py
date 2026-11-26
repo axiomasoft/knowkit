@@ -10,7 +10,8 @@ spec = importlib.util.spec_from_file_location("worker_builder", repo / "deploy/w
 builder = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(builder)
 root = Path(sys.argv[1])
-builder.build(root, repo)
+# Qualify the synthetic protocol fixture only; production profiles remain unavailable.
+builder.build(root, repo, requirements=("jsonschema",))
 shutil.copy2(repo / "tests/worker/protocol/fixture_parser.py",
              root / "runtime/lib/python3.12/site-packages/knowkit_worker/_protocol_fixture.py")
 (root / "runtime/bin/knowkit-worker").write_text(

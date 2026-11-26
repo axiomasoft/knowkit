@@ -25,7 +25,7 @@ final readonly class HistoryReadAttestation
     public function requireCurrent(Scope $scope, Sha256 $digest, DateTimeImmutable $now): void
     {
         Guard::sameScope($this->scope, $scope);
-        if ($this->expiresAt <= $now || $this->orderedTurnsDigest != $digest) {
+        if ($this->expiresAt <= $now || !$this->orderedTurnsDigest->equals($digest)) {
             throw new DomainFailure(Outcome::Denied, 'history_attestation_invalid');
         }
     }

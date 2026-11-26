@@ -19,7 +19,7 @@ final class MigrationTest extends TestCase
     {
         CatalogFixture::run(function (CatalogFixture $c): void {
             $before = $c->db->execute('SELECT id,checksum FROM schema_migrations ORDER BY id')->fetchAll(\PDO::FETCH_KEY_PAIR);
-            self::assertCount(13, $before);
+            self::assertCount(14, $before);
             foreach ($before as $id => $checksum) {
                 self::assertSame(hash_file('sha256', Report::root() . '/packages/core/migrations/postgres/' . $id . '.sql'), $checksum);
             }

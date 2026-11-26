@@ -19,7 +19,7 @@ FIXTURES = ROOT / "tests/worker/e2e/fixtures/v1"
 
 def test_versioned_fixtures_pin_provenance_digests_and_failure_outcomes():
     manifest = json.loads((FIXTURES / "manifest.json").read_bytes())
-    assert manifest["fixtureVersion"] == "1.1.0"
+    assert manifest["fixtureVersion"] == "1.2.0"
     assert manifest["versionRationale"] and manifest["rights"]["license"] and manifest["rights"]["origin"]
     for entry in manifest["fixtures"]:
         assert sha256((ROOT / entry["path"]).read_bytes()) == entry["sha256"]

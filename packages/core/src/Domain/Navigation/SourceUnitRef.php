@@ -23,4 +23,11 @@ final readonly class SourceUnitRef
     {
         return new JsonObject(['kind' => $this->kind, 'id' => $this->id->value, 'textDigest' => $this->textDigest->value]);
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->kind === $other->kind
+            && $this->id->equals($other->id)
+            && $this->textDigest->equals($other->textDigest);
+    }
 }

@@ -10,7 +10,7 @@ from knowkit_worker.profiles import DOCLING, PROFILES, lookup, pdf_profile
 from knowkit_worker.protocol import Contracts, Refusal, canonical, sha256
 from knowkit_worker.rendering.pdf import bbox, dimensions, open_pdf, render_page
 
-from conftest import CORPUS, MODELS, ROOT, job_for
+from .conftest import CORPUS, MODELS, ROOT, job_for
 
 
 def test_malicious_and_malformed_pdf_fail_closed():

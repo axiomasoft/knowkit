@@ -97,15 +97,15 @@ final class CorpusContract extends AdapterContract
                 $tokenizer = $rig->adapter('tokenizer',P\Tokenizer::class);
                 $positive = null;
                 foreach ($f->data->get('tokenVectors') as $vector) { if ($vector->get('count') > 0) { $positive = $vector; break; } }
-                self::check($positive !== null,'positive_token_vector_required');
-                $text = $positive->get('text'); $count = $positive->get('count');
+                if (!$positive instanceof JsonObject) { throw new \RuntimeException('positive_token_vector_required'); }
+                $text = (string) $positive->get('text'); $count = (int) $positive->get('count');
                 TokenBudget::require($text,strlen($text),$count,$tokenizer,$f->tokenizer());
                 self::failure(fn() => TokenBudget::require($text,strlen($text),$count - 1,$tokenizer,$f->tokenizer()),D\Outcome::Incompatible,'token_budget_exceeded');
                 break;
             case 'SDK-JOBS':
                 $queue = $rig->adapter('jobs',P\JobQueue::class);
                 $lease = $queue->lease(new D\JobType('ingest'),new D\WorkerId(Fixture::id(62)));
-                self::check($lease !== null,'no_fixture_lease');
+                if ($lease === null) { throw new \RuntimeException('no_fixture_lease'); }
                 foreach ([$f->lease(1),$f->lease(2,'B'),$f->lease(2,'A',str_repeat('x',32)),$f->lease(2,'A',null,'2')] as $stale) {
                     self::check(!$queue->heartbeat($stale) && !$queue->checkpoint($stale,new D\Checkpoint(new D\Sha256(str_repeat('a',64)),false))
                         && !$queue->complete($stale,new D\JobResult(D\Outcome::Success,new D\Sha256(str_repeat('b',64)))),'stale_fence_accepted');
@@ -126,7 +126,10 @@ final class CorpusContract extends AdapterContract
                 $rig->control('now',new D\UtcInstant('2026-11-06T12:00:06Z'));
                 $retry = $delivery->leaseDelivery(10);
                 self::check(count($retry) === 1 && $retry[0]->fence != $lease->fence && !$delivery->ack($lease),'lost_delivery_not_fenced');
-                self::check($delivery->ack($retry[0]) && !$delivery->ack($retry[0]) && $delivery->leaseDelivery(10) === [],'duplicate_ack');
+                $firstAck = $delivery->ack($retry[0]);
+                /** @var bool $secondAck */
+                $secondAck = $delivery->ack($retry[0]);
+                self::check($firstAck && !$secondAck && $delivery->leaseDelivery(10) === [],'duplicate_ack');
                 self::failure(fn() => $outbox->append($f->event(false,'B')),D\Outcome::Denied);
                 break;
             case 'SDK-DELETION':

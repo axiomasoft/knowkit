@@ -77,7 +77,8 @@ final class SearchSql
 
         return <<<SQL
             WITH corpus AS MATERIALIZED ($permitted)
-            SELECT chunk_id, embedding OPERATOR(public.<->) CAST(? AS public.vector) AS distance
+            SELECT chunk_id, embedding OPERATOR(public.<->) CAST(? AS public.vector) AS distance,
+                count(*) OVER () AS permitted_count
             FROM corpus ORDER BY distance, chunk_id COLLATE "C" LIMIT CAST(? AS integer)
             SQL;
     }

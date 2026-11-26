@@ -56,6 +56,9 @@ final class Backup
     public function restore(string $blob): void
     {
         $role = $this->db->execute('SELECT current_user')->fetchColumn();
+        if (!is_string($role)) {
+            throw new \RuntimeException('Current database role unavailable');
+        }
         Connection::schema($role);
         $this->command([$this->binaryDirectory . '/pg_restore', '--clean', '--if-exists', '--no-owner', '--no-acl', '--exit-on-error',
             '--single-transaction', '--dbname=' . $this->environment['PGDATABASE'], $this->directory . '/metadata.dump']);
@@ -73,6 +76,7 @@ final class Backup
         chmod($blob, 0400);
     }
 
+    /** @param list<string> $arguments */
     private function command(array $arguments): string
     {
         $pipes = [];
@@ -80,21 +84,68 @@ final class Backup
         if (!is_resource($process)) {
             throw new \RuntimeException('Required PostgreSQL backup executable unavailable');
         }
-        stream_set_timeout($pipes[1], 15);
-        stream_set_timeout($pipes[2], 15);
-        $output = stream_get_contents($pipes[1]);
-        $error = stream_get_contents($pipes[2]);
-        fclose($pipes[1]);
-        fclose($pipes[2]);
-        Assert::assertSame(0, proc_close($process), $output . $error);
+        $output = $error = '';
+        $completed = false;
+        try {
+            stream_set_blocking($pipes[1], false);
+            stream_set_blocking($pipes[2], false);
+            $pending = [1 => $pipes[1], 2 => $pipes[2]];
+            $deadline = hrtime(true) + 15_000_000_000;
+            while ($pending !== []) {
+                $read = array_values($pending);
+                $write = $except = null;
+                $remaining = $deadline - hrtime(true);
+                if ($remaining <= 0) {
+                    throw new \RuntimeException('Backup command deadline exceeded');
+                }
+                $selected = stream_select($read, $write, $except, 0, min(100000, (int) ceil($remaining / 1000)));
+                if ($selected === false) {
+                    throw new \RuntimeException('Cannot monitor backup command');
+                }
+                foreach ($read as $pipe) {
+                    $chunk = fread($pipe, 65536);
+                    if ($chunk === false) {
+                        throw new \RuntimeException('Cannot read backup command output');
+                    }
+                    if ($pipe === $pipes[1]) {
+                        $output .= $chunk;
+                    } else {
+                        $error .= $chunk;
+                    }
+                    if (feof($pipe)) {
+                        unset($pending[$pipe === $pipes[1] ? 1 : 2]);
+                    }
+                }
+            }
+            $completed = true;
+        } finally {
+            if (!$completed) {
+                proc_terminate($process, 9);
+            }
+            fclose($pipes[1]);
+            fclose($pipes[2]);
+            $exit = proc_close($process);
+        }
+        Assert::assertSame(0, $exit, $output . $error);
 
         return $output;
     }
 
     public function __destruct()
     {
-        foreach (glob($this->directory . '/*') ?: [] as $file) {
-            unlink($file);
+        if (!is_dir($this->directory)) {
+            return;
+        }
+        $entries = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($this->directory, \FilesystemIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::CHILD_FIRST,
+        );
+        foreach ($entries as $entry) {
+            if ($entry->isDir() && !$entry->isLink()) {
+                rmdir($entry->getPathname());
+            } else {
+                unlink($entry->getPathname());
+            }
         }
         rmdir($this->directory);
     }

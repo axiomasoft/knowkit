@@ -14,10 +14,12 @@ use KnowKit\Port\IdGenerator;
 /** Durable ledger and checkpoint persistence are bound by the host, as for Upload/VerifiedCheckpoints. */
 final readonly class WorkerArtifactImporter
 {
-    /** @param \Closure(D\BlobWriteReservation, D\JobId): D\BlobWriteReservation $reserveWriter
-     *  @param \Closure(D\BlobRef): void $requireAccepted
-     *  @param \Closure(D\BlobWriteReservation): void $markUncertain
-     *  @param \Closure(D\JobCheckpointManifest): void $saveCheckpoint Durable immutable manifest storage. */
+    /**
+     * @param \Closure(D\BlobWriteReservation, D\JobId): D\BlobWriteReservation $reserveWriter
+     * @param \Closure(D\BlobRef): void $requireAccepted
+     * @param \Closure(D\BlobWriteReservation): void $markUncertain
+     * @param \Closure(D\JobCheckpointManifest): void $saveCheckpoint Durable immutable manifest storage.
+     */
     public function __construct(
         private BlobStore $blobs,
         private IdGenerator $ids,
@@ -32,7 +34,7 @@ final readonly class WorkerArtifactImporter
     {
         $reservation = $this->reservation($lease);
         $stored = ($this->reserveWriter)($reservation, $lease->jobId);
-        if ($stored != $reservation) {
+        if (!$stored->equals($reservation)) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'reservation_mismatch');
         }
         return $stored;

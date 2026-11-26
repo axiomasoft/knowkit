@@ -500,7 +500,7 @@ final readonly class PdoLifecycleStore implements LifecycleCommandStore
     {
         $rows = $this->db->execute('SELECT DISTINCT source_version_id FROM '.$this->db->table('snapshot_memberships').
             ' WHERE tenant_id=? AND snapshot_id=? ORDER BY source_version_id', [$this->tenant->value, $snapshot->value])->fetchAll(\PDO::FETCH_COLUMN);
-        $refs = array_map(fn ($id) => new D\ResourceRef($this->tenant, 'source_version', new D\SourceVersionId($id)), $rows);
+        $refs = array_values(array_map(fn ($id): D\ResourceRef => new D\ResourceRef($this->tenant, 'source_version', new D\SourceVersionId((string) $id)), $rows));
         $report = $this->dependencies->checkAncestors(new D\NodeRefs($this->tenant, $refs));
         if ($report->decision !== D\Decision::Allow) {
             self::fail($report->decision === D\Decision::Deny ? 'source_unusable' : 'ancestor_unknown',

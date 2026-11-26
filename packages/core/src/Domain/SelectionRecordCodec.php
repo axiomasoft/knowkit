@@ -75,25 +75,33 @@ final readonly class SelectionRecordCodec
         return $binding;
     }
 
-    /** @param list<string>|null $ids @param class-string<D\Ulid> $class @return list<D\Ulid>|null */
+    /**
+     * @template T of D\Ulid
+     * @param list<string>|null $ids
+     * @param class-string<T> $class
+     * @return list<T>|null
+     */
     private function ids(?array $ids, string $class): ?array
     {
-        return $ids === null ? null : array_map(static fn (string $id): D\Ulid => new $class($id), $ids);
+        return $ids === null ? null : array_map(static fn (string $id) => new $class($id), $ids);
     }
 
     private function profile(JsonObject $wire): D\EffectiveProfile
     {
-        $bindings = $config = $capabilities = [];
+        $bindings = $config = [];
+        /** @var array<string, list<D\Capability>> $capabilities */
+        $capabilities = [];
         foreach ($wire->get('adapterBindings') as $port => $binding) {
-            $id = $binding->get('adapterId');
+            $id = (string) $binding->get('adapterId');
             $bindings[$port] = new D\AdapterId($id);
             $config[$id] = $this->configuration($binding->get('config'));
-            $capabilities[$id] = array_map(D\Capability::from(...), $binding->get('capabilities'));
+            $capabilities[$id] = array_values(array_map(D\Capability::from(...), $binding->get('capabilities')));
         }
 
         return new D\EffectiveProfile($wire->get('id'), $wire->get('version'), $bindings, $config, $capabilities);
     }
 
+    /** @return array<string, mixed> */
     private function configuration(JsonObject $wire): array
     {
         $values = [];

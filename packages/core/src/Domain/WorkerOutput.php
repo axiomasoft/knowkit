@@ -16,7 +16,11 @@ readonly class WorkerOutput
     ) {
     }
 
-    /** Independently bind the transport inventory to local IR asset IDs. @return array<string, string> */
+    /**
+     * Independently bind the transport inventory to local IR asset IDs.
+     *
+     * @return array<string, string>
+     */
     public function assetsForIr(): array
     {
         $byDigest = [];

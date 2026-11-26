@@ -36,7 +36,7 @@ final class Catalog
             self::batch(c: $c, latency: $latency, digests: $digests);
             $bytes = count($digests) * 4194304;
         });
-        $peak = max(memory_get_peak_usage(true), getrusage()['ru_maxrss'] * 1024);
+        $peak = Metrics::peakBytes();
         Qa::ensure($bytes === 67108864 && count(array_unique($digests)) === 1, 'batch fingerprint mismatch');
         Qa::ensure($peak <= 268435456, 'TXT batch exceeds approved 256 MiB peak');
 

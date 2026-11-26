@@ -45,7 +45,7 @@
       "tests/fixtures/check-groups/delivery-cli.json",
       "tests/storage/catalog/SchemaTest.php"
     ],
-    "sha256": "fd5c9a1b476b4357065d983c0b4af5c1be38d6aa89145401cd9f0c6eda042625"
+    "sha256": "f8c8e003bada6c2104c40e6bbff7c1945a9826bd61b9f0a05efb835e4c94bcd9"
   },
   "sources": [
     {
@@ -255,5 +255,9 @@
     "Restore/reconcile CLI grammar is available; the TXT example returns typed unavailable for unconfigured host recovery integration.",
     "Owner answer P4.5 Q1=a defers R01-A02 real HTTP transport conformance to HTTP delivery; it is not selected or passed here.",
     "V1 and independent review are coordinator-owned and were not launched."
-  ]
+  ],
+  "auditRequalification": {
+    "date": "2026-11-17",
+    "reason": "Rebind the existing source adaptation scope after repository audit fixes and coverage/CI configuration changes; donor pins and authored behavior expectations are unchanged. See docs/audits/2026-11-17.md for current verification."
+  }
 }

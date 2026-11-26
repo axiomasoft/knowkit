@@ -22,9 +22,27 @@ readonly class EmbeddingSpace
             'dimensions'=>$this->dimensions,'normalization'=>$this->normalization,'indexVersion'=>$this->indexVersion,
             'documentRole'=>$this->documentRole,'queryRole'=>$this->queryRole]);
     }
-    public function digest(): Fingerprint { return new Fingerprint(HashDomain::EmbeddingSpace->digest($this->toWire())); }
+    public function digest(): Fingerprint
+    {
+        return new Fingerprint(HashDomain::EmbeddingSpace->digest($this->toWire()));
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->provider === $other->provider
+            && $this->model === $other->model
+            && $this->revision === $other->revision
+            && $this->dimensions === $other->dimensions
+            && $this->normalization === $other->normalization
+            && $this->indexVersion === $other->indexVersion
+            && $this->documentRole === $other->documentRole
+            && $this->queryRole === $other->queryRole;
+    }
+
     public function assertCompatible(self $other): void
     {
-        if (!$this->digest()->equals($other->digest())) { throw new DomainFailure(Outcome::Incompatible, 'space_mismatch'); }
+        if (!$this->digest()->equals($other->digest())) {
+            throw new DomainFailure(Outcome::Incompatible, 'space_mismatch');
+        }
     }
 }

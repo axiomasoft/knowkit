@@ -3,7 +3,7 @@
   "id": "docling-pdf-structure-v1",
   "version": "1",
   "verdict": "restricted",
-  "baseQualificationDigest": "808aa026a3ef2a5bec6046d7b6bca865f2862280400f8a05d6c71ae1621a4260",
+  "baseQualificationDigest": "970d9386a12ad25b5fcb8fa0865c27704ddd385c39a1326895968aeee2e04173",
   "fixtureManifestDigest": "ae83d112606acf08ceeffa46db1ffbb2a82f119e175747e5cc14d906656ed367",
   "enabledCapabilities": [
     "parser.text",

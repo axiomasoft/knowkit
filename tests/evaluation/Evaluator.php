@@ -147,6 +147,9 @@ final readonly class Evaluator
             $r = $doc['chunkSetManifest']['revisionRef'];
             $row = $f->db()->row('SELECT coverage_json FROM ' . $f->db()->table('document_revisions') . ' WHERE tenant_id=? AND id=?',
                 [$r['tenantId'], $r['documentRevisionId']]);
+            if ($row === null || !is_string($row['coverage_json'] ?? null)) {
+                throw new \RuntimeException('Document coverage unavailable');
+            }
             $coverage = json_decode($row['coverage_json'], true, 512, JSON_THROW_ON_ERROR);
             $correct += Corpus::fingerprint($coverage) === Corpus::fingerprint($doc['ir']['coverage']) ? 1 : 0;
         }
@@ -156,18 +159,21 @@ final readonly class Evaluator
 
     public static function qualifies(array $report): bool
     {
-        if ($report['executionCount'] !== 2 * $report['datasetSize'] || $report['datasetSize'] === 0) {
+        if ($report['executionCount'] !== 2 * $report['datasetSize'] || $report['datasetSize'] === 0
+            || (array_key_exists('auditCases', $report) && (!is_array($report['auditCases']) || $report['auditCases'] === []))) {
             return false;
         }
         $s = $report['summary'];
         foreach ($report['auditCases'] ?? [] as $case) {
-            if ($case['status'] !== 'passed') {
+            if (!is_array($case) || ($case['status'] ?? '') !== 'passed') {
                 return false;
             }
         }
         foreach (self::THRESHOLDS as $name => $threshold) {
             $key = $name === 'recallAt10' ? 'fragmentRecallAt10' : $name;
-            if (!isset($s[$key]) || ($threshold === 0 ? $s[$key] !== 0 : $s[$key] < $threshold)) {
+            if (!isset($s[$key]) || (!is_int($s[$key]) && !is_float($s[$key]))
+                || (is_float($s[$key]) && !is_finite($s[$key]))
+                || ($threshold === 0 ? $s[$key] !== 0 : $s[$key] < $threshold)) {
                 return false;
             }
         }

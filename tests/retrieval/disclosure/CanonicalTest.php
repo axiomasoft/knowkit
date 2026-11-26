@@ -178,6 +178,38 @@ final class CanonicalTest extends TestCase
         $this->failure(fn () => $prepared->requireRequest($record, $request, $f->now->plusSeconds(1)), 'immutable_conflict', D\Outcome::Incompatible);
     }
 
+    public function testDisclosureRejectsNegativeAndExcessiveTokenizerCounts(): void
+    {
+        $f = $this->host('gravity evidence');
+        $record = $this->record($f);
+        $identity = new D\TokenizerIdentity(new D\AdapterId('test.disclosure'), '1', new D\Sha256(str_repeat('c', 64)));
+        $tokenizer = new class($identity) implements \KnowKit\Port\Tokenizer {
+            public int $tokens = 1;
+
+            public function __construct(private D\TokenizerIdentity $identity) {}
+
+            public function capabilities(): D\TokenizerCapabilities
+            {
+                return new D\TokenizerCapabilities($this->identity, true);
+            }
+
+            public function count(string $utf8, D\TokenizerIdentity $identity): int
+            {
+                $this->capabilities()->requireExact($identity);
+                return $this->tokens;
+            }
+        };
+        $query = $f->query(D\SelectionLimits::profile('compact', maxTokens: 1, tokenizer: $identity));
+        $selection = new D\Selection($record->selection->toWire()->with('limits', $query->limits->toWire())
+            ->with('queryDigest', $query->digest()->value), PortFixture::validator());
+        $restricted = new D\SelectionRecord($selection, $record->context, $query, $record->snapshot, $record->createdAt);
+        self::assertSame('gravity evidence', $this->evidence($f, $restricted, $tokenizer)->toWire()->get('fragments')[0]->get('text'));
+        $tokenizer->tokens = -1;
+        $this->failure(fn () => $this->evidence($f, $restricted, $tokenizer), 'adapter_contract_violation', D\Outcome::Incompatible);
+        $tokenizer->tokens = PHP_INT_MAX;
+        $this->failure(fn () => $this->evidence($f, $restricted, $tokenizer), 'limit_exceeded', D\Outcome::Incompatible);
+    }
+
     private static function corpus(): array
     {
         return json_decode(file_get_contents(Fixture::root() . '/tests/fixtures/evidence/v1/corpus.json'), true, 512, JSON_THROW_ON_ERROR);
@@ -224,7 +256,7 @@ final class CanonicalTest extends TestCase
         return $f->service()->requireBound($f->context(), $result->token, $f->query(), $f->inventory->snapshot, 'run-1');
     }
 
-    private function evidence(SelectionFixture $f, D\SelectionRecord $record): D\EvidenceSet
+    private function evidence(SelectionFixture $f, D\SelectionRecord $record, ?\KnowKit\Port\Tokenizer $tokenizer = null): D\EvidenceSet
     {
         $reader = new class($f) implements CanonicalDocuments {
             public function __construct(private SelectionFixture $fixture) {}
@@ -243,7 +275,7 @@ final class CanonicalTest extends TestCase
         $request = new D\DisclosureRequest(new JsonObject(['selectionId' => $record->selection->id()->value,
             'disclosureAttemptId' => $f->next()->value, 'chunkRefs' => array_map(static fn (D\ChunkRef $ref): JsonObject => $ref->toWire(), $record->selection->candidateRefs()),
             'usageContext' => new JsonObject(['runRef' => 'run-1'])]), PortFixture::validator());
-        $buffer = (new CanonicalBuffer($f, $reader, $f))->preload($record, $request);
+        $buffer = (new CanonicalBuffer($f, $reader, $f, $tokenizer))->preload($record, $request);
 
         return $buffer->prepare($record, $request, new D\UsageId($f->next()->value), $f->now, PortFixture::validator())->evidence;
     }

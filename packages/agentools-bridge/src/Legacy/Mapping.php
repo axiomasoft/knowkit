@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace KnowKit\Bridge\AgenTools\Legacy;
 
 use KnowKit\Domain\CitationRef;
+use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\DomainFailure;
 use KnowKit\Domain\Outcome;
 use KnowKit\Domain\ValueGuard;
@@ -63,7 +64,7 @@ final readonly class Mapping
             return null;
         }
         foreach ($this->target->citations as $binding) {
-            if ($binding->legacy->toWire() == $locator->toWire()) {
+            if (Jcs::canonicalize($binding->legacy->toWire()) === Jcs::canonicalize($locator->toWire())) {
                 return $binding->canonical;
             }
         }

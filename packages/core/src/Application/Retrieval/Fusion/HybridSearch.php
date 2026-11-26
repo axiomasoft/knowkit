@@ -60,7 +60,11 @@ final readonly class HybridSearch
         $lexical->assertBinding($context->scope());
         $lexical->assertSpace(null);
         $lexical->assertProfile($profile->lexicalBackend, 'lexical');
-        if ($query->spaceFingerprint != $profile->space?->digest()) {
+        $expectedSpace = $profile->space?->digest();
+        if (
+            ($query->spaceFingerprint === null) !== ($expectedSpace === null)
+            || ($query->spaceFingerprint !== null && $expectedSpace !== null && !$query->spaceFingerprint->equals($expectedSpace))
+        ) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'space_mismatch');
         }
         if ($profile->space === null) {
@@ -76,7 +80,10 @@ final readonly class HybridSearch
         $lexical->assertCompanion($vector);
     }
 
-    /** @param list<D\Candidate> $matches @return D\Result<D\CandidateList> */
+    /**
+     * @param list<D\Candidate> $matches
+     * @return D\Result<D\CandidateList>
+     */
     private function enhance(
         AccessContext $context,
         D\SearchCorpus $lexical,
@@ -128,7 +135,10 @@ final readonly class HybridSearch
         return $hits->candidates;
     }
 
-    /** @param list<string> $warnings @return D\Result<D\CandidateList> */
+    /**
+     * @param list<string> $warnings
+     * @return D\Result<D\CandidateList>
+     */
     private function result(D\CandidateList $candidates, D\SearchProfile $profile, bool $degraded = false, array $warnings = []): D\Result
     {
         $effective = $degraded ? 'lexical-v1' : $profile->id;

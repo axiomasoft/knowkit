@@ -7,6 +7,7 @@ namespace KnowKit\Application\Embeddings;
 use KnowKit\Domain\Capability;
 use KnowKit\Domain\DomainFailure;
 use KnowKit\Domain\EmbeddingAccess;
+use KnowKit\Domain\EmbeddingBatch;
 use KnowKit\Domain\EmbeddingCapabilities;
 use KnowKit\Domain\EmbeddingInput;
 use KnowKit\Domain\Fingerprint;
@@ -15,6 +16,7 @@ use KnowKit\Domain\QueryInput;
 use KnowKit\Domain\Result;
 use KnowKit\Domain\Sha256;
 use KnowKit\Domain\SpaceRef;
+use KnowKit\Domain\Vector;
 use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Embeddings\ProviderLimits;
 use KnowKit\Domain\Embeddings\ProviderResponse;
@@ -72,6 +74,7 @@ final readonly class ConfiguredProvider implements EmbeddingProvider
     /**
      * @param list<string> $texts
      * @param list<mixed> $identities
+     * @return ($query is true ? Result<Vector> : Result<EmbeddingBatch>)
      */
     private function execute(EmbeddingAccess $access, array $texts, array $identities, SpaceRef $space, bool $query): Result
     {
@@ -91,7 +94,10 @@ final readonly class ConfiguredProvider implements EmbeddingProvider
         return $this->transmit($access, $texts, $space, $query, $binding, $attempt);
     }
 
-    /** @param list<string> $texts */
+    /**
+     * @param list<string> $texts
+     * @return ($query is true ? Result<Vector> : Result<EmbeddingBatch>)
+     */
     private function transmit(EmbeddingAccess $access, array $texts, SpaceRef $space, bool $query, Sha256 $binding, RequestReceipt $attempt): Result
     {
         $response = null;
@@ -118,6 +124,7 @@ final readonly class ConfiguredProvider implements EmbeddingProvider
         return $this->reject($access, $attempt, $failure, $requestId);
     }
 
+    /** @return ($query is true ? Result<Vector> : Result<EmbeddingBatch>) */
     private function accept(
         EmbeddingAccess $access,
         ProviderResponse $response,
@@ -133,9 +140,10 @@ final readonly class ConfiguredProvider implements EmbeddingProvider
         $receipt = $attempt->finish(ReceiptStatus::Accepted, ProviderResponse::fingerprint($batch, $role), $response->providerRequestId);
         $this->receipts->complete($access->scope, $receipt);
 
-        return Result::success($query ? $batch->vectors[0] : $batch);
+        return $query ? Result::success($batch->vectors[0]) : Result::success($batch);
     }
 
+    /** @return Result<never> */
     private function reject(EmbeddingAccess $access, RequestReceipt $attempt, DomainFailure $failure, ?string $requestId): Result
     {
         $status = $failure->outcome === Outcome::Unknown ? ReceiptStatus::Unknown : ReceiptStatus::Failed;

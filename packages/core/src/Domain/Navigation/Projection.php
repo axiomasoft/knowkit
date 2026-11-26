@@ -76,6 +76,12 @@ final readonly class Projection
     /** @return array{int,int,int,int} */
     private function entry(int $index): array
     {
-        return array_values(unpack('N4', $this->map, $index * 16));
+        /** @var array{1: int, 2: int, 3: int, 4: int}|false $unpacked */
+        $unpacked = unpack('N4', $this->map, $index * 16);
+        if ($unpacked === false) {
+            throw new DomainFailure(Outcome::Incompatible, 'projection_limit');
+        }
+
+        return [$unpacked[1], $unpacked[2], $unpacked[3], $unpacked[4]];
     }
 }

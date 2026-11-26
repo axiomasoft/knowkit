@@ -25,10 +25,19 @@ final readonly class ExtractionCacheEntry
     public function reuse(ValidationInput $input, IrDocument $document): ValidationReport
     {
         $report = (new TechnicalValidator($input))->validate($document, $input->source->ref);
-        if ($report->status !== 'valid') { return $report; }
-        if ($input->source->ref->tenantId != $this->revision->sourceRef->tenantId) { return new ValidationReport('invalid', ['scope_mismatch']); }
-        if ($input->revision->toWire() != $this->revision->toWire() || $input->processing->digest() != $this->processingDigest
-            || self::inventory($input) != $this->inventoryDigest) { return new ValidationReport('invalid', ['cache_identity_mismatch']); }
+        if ($report->status !== 'valid') {
+            return $report;
+        }
+        if (!$input->source->ref->tenantId->equals($this->revision->sourceRef->tenantId)) {
+            return new ValidationReport('invalid', ['scope_mismatch']);
+        }
+        if (
+            !$input->revision->equals($this->revision)
+            || !$input->processing->digest()->equals($this->processingDigest)
+            || !self::inventory($input)->equals($this->inventoryDigest)
+        ) {
+            return new ValidationReport('invalid', ['cache_identity_mismatch']);
+        }
         return $report;
     }
 

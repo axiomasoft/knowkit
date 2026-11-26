@@ -84,7 +84,7 @@ final readonly class PdoReceipts implements EmbeddingReceiptStore
                 throw new DomainFailure(Outcome::Incompatible, 'embedding_receipt_missing');
             }
             $current = $this->hydrate($row, $receipt->scopeDigest, $receipt->requestDigest, $receipt->spaceDigest);
-            if ($current == $receipt) {
+            if ($this->sameReceipt($current, $receipt)) {
                 return;
             }
             if ($current->status !== ReceiptStatus::Unknown || $current->failureOutcome !== null) {
@@ -107,13 +107,13 @@ final readonly class PdoReceipts implements EmbeddingReceiptStore
         $rows = $this->connection->execute($this->sql(self::ATTEMPT_SQL, 'embedding_receipts') . ' ORDER BY attempt',
             $this->key($scope, $request))->fetchAll(\PDO::FETCH_ASSOC);
 
-        return array_map(fn(array $row): RequestReceipt => $this->hydrate($row,
-            RequestReceipt::scopeDigest($scope), $request, new Fingerprint($head['space_digest'])), $rows);
+        return array_values(array_map(fn(array $row): RequestReceipt => $this->hydrate($row,
+            RequestReceipt::scopeDigest($scope), $request, new Fingerprint($head['space_digest'])), $rows));
     }
 
     private function accept(Scope $scope, RequestReceipt $receipt, ?string $accepted): void
     {
-        if ($receipt->status !== ReceiptStatus::Accepted) {
+        if ($receipt->status !== ReceiptStatus::Accepted || $receipt->resultFingerprint === null) {
             return;
         }
         if ($accepted !== null && $accepted !== $receipt->resultFingerprint->value) {
@@ -121,6 +121,18 @@ final readonly class PdoReceipts implements EmbeddingReceiptStore
         }
         $this->connection->execute($this->sql(self::ACCEPT_SQL, 'embedding_requests'),
             [$receipt->resultFingerprint->value, ...$this->key($scope, $receipt->requestDigest)]);
+    }
+
+    private function sameReceipt(RequestReceipt $left, RequestReceipt $right): bool
+    {
+        return $left->scopeDigest->equals($right->scopeDigest)
+            && $left->requestDigest->equals($right->requestDigest)
+            && $left->spaceDigest->equals($right->spaceDigest)
+            && $left->attempt === $right->attempt
+            && $left->status === $right->status
+            && $left->resultFingerprint?->value === $right->resultFingerprint?->value
+            && $left->providerRequestId === $right->providerRequestId
+            && $left->failureOutcome === $right->failureOutcome;
     }
 
     private function head(Scope $scope, Fingerprint $request, bool $lock = false): ?array

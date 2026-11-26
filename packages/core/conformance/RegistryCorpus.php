@@ -18,6 +18,10 @@ final class RegistryCorpus extends AdapterContract
             'coveragePolicy'=>new JsonObject(['version'=>'1','state'=>'complete']),
             'quotas'=>new JsonObject(['maxBytes'=>4096,'maxFragments'=>4,'maxAssets'=>0])]);
     }
+    /**
+     * @param list<D\CapabilityDeclaration> $caps
+     * @param array<string, bool> $features
+     */
     public static function descriptor(array $caps = [], array $features = [], ?D\Fingerprint $package = null,
         ?D\Fingerprint $weights = null): AdapterDescriptor
     {
@@ -25,6 +29,7 @@ final class RegistryCorpus extends AdapterContract
             new JsonObject(['$schema'=>'https://json-schema.org/draft/2020-12/schema','$id'=>'urn:knowkit:sdk:empty-config:1',
                 'type'=>'object','properties'=>new JsonObject(),'unevaluatedProperties'=>false]), $caps, [], $features, $package, $weights);
     }
+    /** @return Factory&object{calls: int} */
     public static function factory(): Factory
     {
         return new class implements Factory {

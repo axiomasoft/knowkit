@@ -28,10 +28,11 @@ use PDO;
 final class LedgerClock implements Clock
 {
     public int $offset = 0;
+    public ?DateTimeImmutable $fixed = null;
 
     public function now(): D\UtcInstant
     {
-        $now = new DateTimeImmutable('now', new \DateTimeZone('UTC'));
+        $now = $this->fixed ?? new DateTimeImmutable('now', new \DateTimeZone('UTC'));
 
         return new D\UtcInstant($now->modify("+{$this->offset} seconds")->format('Y-m-d\TH:i:s.u\Z'));
     }

@@ -4,7 +4,7 @@ from knowkit_worker.ocr.metadata import OcrMetadata
 from knowkit_worker.ocr.qualification import model_fingerprint
 from knowkit_worker.protocol import Contracts, canonical, sha256
 
-from conftest import CORPUS, ROOT
+from .conftest import CORPUS, ROOT
 
 
 def assert_ir(parsed):

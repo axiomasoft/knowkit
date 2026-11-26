@@ -11,7 +11,11 @@ final readonly class AdapterRig
     /** @param array<string, object> $adapters */
     public function __construct(private array $adapters, private \Closure $control, private \Closure $observe) {}
 
-    /** @template T of object @param class-string<T> $type @return T */
+    /**
+     * @template T of object
+     * @param class-string<T> $type
+     * @return T
+     */
     public function adapter(string $name, string $type): object
     {
         $adapter = $this->adapters[$name] ?? null;

@@ -32,7 +32,10 @@ final class ReciprocalRankFusion
         return $this->withoutOverlap($corpus, $ids, $refs, $scores);
     }
 
-    /** @param list<D\Candidate> $ranking @return array<string, D\Candidate> */
+    /**
+     * @param list<D\Candidate> $ranking
+     * @return array<string, D\Candidate>
+     */
     private function unique(D\SearchCorpus $corpus, array $ranking): array
     {
         D\ValueGuard::objects($ranking, D\Candidate::class, 512);
@@ -49,7 +52,11 @@ final class ReciprocalRankFusion
         return $unique;
     }
 
-    /** @param list<string> $ids @param array<string, D\ChunkRef> $refs @param array<string, float> $scores */
+    /**
+     * @param list<string> $ids
+     * @param array<string, D\ChunkRef> $refs
+     * @param array<string, float> $scores
+     */
     private function withoutOverlap(D\SearchCorpus $corpus, array $ids, array $refs, array $scores): D\CandidateList
     {
         $units = [];

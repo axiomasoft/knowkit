@@ -47,7 +47,11 @@ final readonly class EvidenceRepresentation
         return $this->value->toWire();
     }
 
-    /** Joiner bytes have no source range; source ranges never bridge separate page/segment spans. */
+    /**
+     * Joiner bytes have no source range; source ranges never bridge separate page/segment spans.
+     *
+     * @return list<JsonObject>
+     */
     private function ranges(JsonObject $fragment, int $start, int $end): array
     {
         $ranges = [];

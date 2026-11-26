@@ -24,9 +24,19 @@ final class WorkerProcess
         float $seconds,
         ?\Closure $cancel,
     ): int {
-        $process = proc_open($argv, [0 => ['file', '/dev/null', 'r'], 1 => ['pipe', 'w'],
-            2 => ['pipe', 'w'], 3 => ['file', $seccomp, 'r']], $pipes, null,
-            ['LANG' => 'C.UTF-8', 'PATH' => '/usr/bin:/bin'], ['bypass_shell' => true]);
+        $process = proc_open(
+            $argv,
+            [
+                0 => ['file', '/dev/null', 'r'],
+                1 => ['pipe', 'w'],
+                2 => ['pipe', 'w'],
+                3 => ['file', $seccomp, 'r'],
+            ],
+            $pipes,
+            null,
+            ['LANG' => 'C.UTF-8', 'PATH' => '/usr/bin:/bin'],
+            ['bypass_shell' => true],
+        );
         if (!is_resource($process)) {
             throw new DomainFailure(Outcome::Unavailable, 'sandbox_unavailable');
         }
@@ -36,20 +46,29 @@ final class WorkerProcess
         try {
             return self::monitor($process, $pipes, $group, $limits, $output, $seconds, $cancel);
         } finally {
-            // Cancellation may arrive before the trusted launcher has joined its cgroup.
-            if (proc_get_status($process)['running']) {
-                proc_terminate($process, 9);
+            try {
+                try {
+                    // Cancellation may arrive before the trusted launcher has joined its cgroup.
+                    if (proc_get_status($process)['running']) {
+                        proc_terminate($process, 9);
+                    }
+                    $group->stop();
+                } finally {
+                    self::join($process);
+                }
+            } finally {
+                foreach ($pipes as $pipe) {
+                    @fclose($pipe);
+                }
+                @proc_close($process);
             }
-            $group->stop();
-            self::join($process);
-            foreach ($pipes as $pipe) {
-                fclose($pipe);
-            }
-            proc_close($process);
         }
     }
 
-    private static function join($process): void
+    /**
+     * @param resource $process
+     */
+    private static function join(mixed $process): void
     {
         $deadline = hrtime(true) + 2_000_000_000;
         while (proc_get_status($process)['running']) {
@@ -60,15 +79,26 @@ final class WorkerProcess
         }
     }
 
-    private static function monitor($process, array $pipes, WorkerCgroup $group,
-        WorkerLimits $limits, string $output, float $seconds, ?\Closure $cancel): int
-    {
+    /**
+     * @param resource $process
+     * @param array<int, resource> $pipes
+     */
+    private static function monitor(
+        mixed $process,
+        array $pipes,
+        WorkerCgroup $group,
+        WorkerLimits $limits,
+        string $output,
+        float $seconds,
+        ?\Closure $cancel,
+    ): int {
         $deadline = hrtime(true) + (int) ($seconds * 1_000_000_000);
         $count = [1 => 0, 2 => 0];
         $exit = null;
         while (true) {
             foreach ($pipes as $index => $pipe) {
-                $count[$index] += strlen(stream_get_contents($pipe, 65537));
+                $chunk = stream_get_contents($pipe, 65537);
+                $count[$index] += is_string($chunk) ? strlen($chunk) : 0;
                 if ($count[$index] > 65536) {
                     throw new DomainFailure(Outcome::Incompatible, 'output_limit');
                 }
@@ -90,9 +120,13 @@ final class WorkerProcess
         }
     }
 
-    private static function assertBudget(WorkerCgroup $group, WorkerLimits $limits,
-        string $output, int $deadline, ?\Closure $cancel): void
-    {
+    private static function assertBudget(
+        WorkerCgroup $group,
+        WorkerLimits $limits,
+        string $output,
+        int $deadline,
+        ?\Closure $cancel,
+    ): void {
         if ($cancel !== null && $cancel()) {
             throw new DomainFailure(Outcome::Denied, 'cancelled');
         }

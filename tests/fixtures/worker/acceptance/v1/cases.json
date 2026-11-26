@@ -1,9 +1,9 @@
 {
   "schemaVersion": "worker-acceptance-fixtures-1.0",
-  "fixtureVersion": "1.0.0",
-  "versionRationale": "Initial P6.2 acceptance corpus 1.0.0. Golden bytes deliberately reuse P6.1 protocol fixture 1.0.0 unchanged; SQL tests bind runtime tenant/source/lease IDs and recompute expected envelope digests. Mutations and expected outcomes are versioned here. Digest changes require a new fixture version and a semantic rationale; never automatic snapshots.",
+  "fixtureVersion": "1.0.2",
+  "versionRationale": "Acceptance corpus 1.0.1 corrects EXACT-NEGOTIATION to use the versioned PDF profile signature, including its qualification digest, and separately checks a mismatched signature. Unknown and mismatched profiles remain incompatible; an exact unqualified profile remains unavailable. Synthetic golden envelope, IR, result and source bytes are unchanged; no PDF extraction qualification is inferred. Qualified dependency upgrade to Torch 2.13.0+cpu, Torchvision 0.28.0+cpu and pypdfium2 5.15.2 changes parser identity only: all 12 PDF/OCR IR semantics were independently equal, and fresh sandbox plus PHP persistence validated the new identities. Rebind cross-suite references without changing authored workload or outcome expectations.",
   "license": "LicenseRef-KnowKit-Private",
-  "provenance": "Project-authored synthetic fixtures with reused P6.1 golden wire. No PDF, Docling, OCR or remote adapter qualification.",
+  "provenance": "Project-authored synthetic fixtures with reused P6.1 golden wire. The parser signature alone is reused from the project-authored PDF golden unicode-label.ir.json; no PDF, Docling, OCR or remote adapter qualification is established by this group.",
   "expectedDigests": {
     "source": "9948f723030218c0a068ea46acf54a329662547ebeaad8e1222bc1d4d5bea22b",
     "ir": "6604116e5ea7f1dad4bb1a1e03664edfe71dcf1c5c775877301c73fe2861d0da",
@@ -103,7 +103,7 @@
     {
       "id": "EXACT-NEGOTIATION",
       "assertion": "KnowKit\\Tests\\Worker\\Acceptance\\SandboxAcceptanceTest::testRuntimeCannotNegotiateAnUnsupportedOrUnqualifiedProfile",
-      "expected": "unknown incompatible; unqualified Docling unavailable; no implicit fallback"
+      "expected": "unknown and mismatched profiles incompatible; exact unqualified Docling signature unavailable; no implicit fallback; private staging removed"
     },
     {
       "id": "QA-FAIL-CLOSED",

@@ -35,9 +35,9 @@ final class MigrationTest extends TestCase
             self::assertSame($eventBefore,$pdo->query('SELECT event_json,payload_digest,aggregate_version FROM outbox')->fetch(\PDO::FETCH_ASSOC));
             self::assertSame($inboxBefore,$pdo->query('SELECT tenant_id,id,consumer_id,event_id,payload_digest,applied_at FROM inbox')->fetchAll(\PDO::FETCH_ASSOC));
             self::assertSame('pending',$pdo->query('SELECT delivery_state FROM outbox')->fetchColumn());
-            self::assertSame(10,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
+            self::assertSame(14,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
             $migrate->apply($directory.'/001_metadata.sql');
-            self::assertCount(10,$pdo->query('SELECT id FROM schema_migrations')->fetchAll(\PDO::FETCH_COLUMN));
+            self::assertCount(14,$pdo->query('SELECT id FROM schema_migrations')->fetchAll(\PDO::FETCH_COLUMN));
             CatalogFixture::sqlReject($pdo,"UPDATE outbox SET delivery_state='leased'",[],['23514']);
             CatalogFixture::sqlReject($pdo,"UPDATE outbox SET lease_until=clock_timestamp()",[],['23514']);
             CatalogFixture::sqlReject($pdo,"UPDATE inbox SET payload_digest=repeat('0',64)",[],['23514']);

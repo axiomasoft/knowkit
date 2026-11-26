@@ -8,7 +8,7 @@ version = "0.4.0"
 description = "Offline staged-file subprocess runtime for KnowKit"
 requires-python = ">=3.12,<3.13"
 license = "LicenseRef-KnowKit-Private"
-dependencies = ["jsonschema==4.26.0", "docling==2.148.0", "torch==2.9.1+cpu", "torchvision==0.24.1+cpu"]
+dependencies = ["jsonschema==4.26.0", "docling==2.148.0", "torch==2.13.0+cpu", "torchvision==0.28.0+cpu"]
 
 [[tool.uv.index]]
 name = "pytorch-cpu"
@@ -27,7 +27,7 @@ dev = ["packaging==26.3", "pytest==9.1.1", "reportlab==4.4.10"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests/protocol"]
-addopts = "--strict-markers"
+addopts = "--strict-markers --import-mode=importlib"
 junit_family = "xunit2"
 
 [tool.hatch.build.targets.wheel]

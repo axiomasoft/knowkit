@@ -34,7 +34,9 @@ final readonly class StreamTransport implements Transport
 
     public function send(Request $request, int $timeoutMs): Response
     {
-        if ($timeoutMs < 1 || !str_starts_with($request->target, '/v1/')) {
+        if ($timeoutMs < 1 || preg_match('/^[A-Z]+$/D', $request->method) !== 1
+            || strlen($request->target) > 2048
+            || preg_match('~^/v1/[a-zA-Z0-9/._-]+$~D', $request->target) !== 1) {
             throw new \InvalidArgumentException('Bounded versioned request required');
         }
         $headers = $this->headers($request);
@@ -88,7 +90,7 @@ final readonly class StreamTransport implements Transport
             }
             $microseconds = max(1, (int) ceil($remaining / 1000));
             stream_set_timeout($stream, intdiv($microseconds, 1000000), $microseconds % 1000000);
-            $part = @fread($stream, min(8192, self::MAX_RESPONSE_BYTES + 1 - strlen($body)));
+            $part = @fread($stream, max(1, min(8192, self::MAX_RESPONSE_BYTES + 1 - strlen($body))));
             $metadata = stream_get_meta_data($stream);
             if ($metadata['timed_out']) {
                 throw new TransportFailure(timedOut: true);

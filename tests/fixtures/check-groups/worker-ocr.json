@@ -1,8 +1,8 @@
 {
   "schemaVersion": "check-group:1",
   "group": "worker:ocr",
-  "fixtureVersion": "1.4.0",
-  "versionRationale": "Initial authored offline OCR corpus. Exact IR/model fingerprints include native engine/build/weights and explicit language. English/Russian positive scans, original mixed page/region offsets, blank versus vector versus unreadable, rotation and wrong language have independent semantic assertions. Expected digests may only change with a new fixture version and semantic rationale, never a snapshot-only rewrite. Version 1.2 uses an explicit 60s/45CPU/2GiB fixture budget and gives the native-only mixed page a body paragraph below its title. The qualified layout engine discarded the earlier isolated header and correctly flagged text_extraction; that sparse failure is retained as a separate negative regression. Native text/body and caption assertions now prove mixed extraction without relaxing source preservation. Version 1.3 pins actual-rendered-pixels geometry: restore the integer pixel crop offset before the single half-even normalization. A fractional-bound regression proves the earlier ideal-region offset would mislocate OCR boxes; the explicit geometry option changes the parser profile fingerprint. Source PDFs and recognized text are unchanged. Version 1.4 binds qualification to the executable produced by the final controlled build recipe with transitive ELF DT_RPATH, rather than the diagnostic post-link patch. The BOM includes the recipe SHA256. This changes the native/model/profile fingerprints; independent assertions require all canonical page text digests and coverage outcomes to remain unchanged.",
+  "fixtureVersion": "1.5.0",
+  "versionRationale": "Requalification of the exact offline CPU closure: torch 2.13.0+cpu, torchvision 0.28.0+cpu and pypdfium2 5.15.2. Independent real extraction compared all IR fields except parserSignature with the accepted corpus: source text, geometry, ordering, coverage, OCR metadata and preview digests are unchanged. Only the dependency-bound parser identity and its enclosing digests change; source PDFs, model/native assets and expected semantics are preserved.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private; DejaVu font notice",
     "origin": "Project-authored deterministic ReportLab PDFs; raster glyphs rendered with DejaVuSans.ttf. No external document corpus or provider data."
@@ -140,7 +140,7 @@
     },
     {
       "path": "tests/fixtures/documents/scans/v1/approved-eng.ir.json",
-      "sha256": "7df8db3d537abe35b9132b004eb7e72d3f0d4e000a28c7fad40f529d2e0d3cf3",
+      "sha256": "4d0af4c8ce1be297110b0d388689b4c84a3e721d2be32a57f6176b2fdf17084d",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
@@ -154,7 +154,7 @@
     },
     {
       "path": "tests/fixtures/documents/scans/v1/approved-rus.ir.json",
-      "sha256": "816f24a63c230d0b772e3ff414953b61c44bc9db8b18d31316cfb4d13a71cd68",
+      "sha256": "8554e39b4f7a5e96cd400d01cf42be56799266d85c70ad99c613c299459bade1",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
@@ -168,21 +168,21 @@
     },
     {
       "path": "tests/fixtures/documents/scans/v1/manifest.json",
-      "sha256": "048fc0f1ee269bc6fb7eede1aa71f4f4e091e2d4794fcae833962b8cf73294d0",
+      "sha256": "60ecebf1fd5ae9fe1ec6e942f2d9715018026a00ca7d420f953c1ab7f2d3641a",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
     },
     {
       "path": "tests/fixtures/documents/scans/v1/missing-weights.ir.json",
-      "sha256": "820e6becd51b61318c93a96e4982dae142ceee89ff20f0f090f3c9f1e9c68cd8",
+      "sha256": "d3eae9b6d8f7ef5b243daab94292d0289b8a234a6abe8b0e0d6d3d14dc2590a5",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
     },
     {
       "path": "tests/fixtures/documents/scans/v1/mixed.ir.json",
-      "sha256": "a1fd90b0facc9cede9efb367ec22cb407738a0d0d79dfd06fda9b5fa654dcc2f",
+      "sha256": "d128e71b7cb16e1bf50f4722ee6ecb47fc0359d6e7f7a6207a3aac1afcbaaa1e",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
@@ -196,14 +196,14 @@
     },
     {
       "path": "tests/fixtures/documents/scans/v1/page-limit.ir.json",
-      "sha256": "7fd9013ec4723eb92bfc0e8a4aac2d639d33f317d3c259df27b0184595d7768f",
+      "sha256": "5ba6a015e74f1706d9913561c5fcb298f8071dd7100105efddce806b2943f938",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
     },
     {
       "path": "tests/fixtures/documents/scans/v1/rotated.ir.json",
-      "sha256": "47f3aca8d4c8e211fd92305db73d023c7e173de043937f3fdfbe4057de8f8b49",
+      "sha256": "92fe1b922e370b0f75f19757f1ea47239be5726e729fe8a79068fb632c3deaee",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
@@ -224,7 +224,7 @@
     },
     {
       "path": "tests/fixtures/documents/scans/v1/unreadable.ir.json",
-      "sha256": "04293fe60464b0d71cd51d9ec46fd1ee26bb182002505040dcd5071e192630f2",
+      "sha256": "bfd02da8e637b12ec1860d4674ca0f5a5a37b25cf48641a519492821a05a88ba",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
@@ -238,21 +238,21 @@
     },
     {
       "path": "tests/fixtures/documents/scans/v1/wrong-language.ir.json",
-      "sha256": "a2308d82b09eb7a502d2f5dccd11522b66e609f6efbd64a918207a6318845d43",
+      "sha256": "c634a3be625ae1ff11bd149940c51bf41f3cd7961969b8d2a9b2820b5001f2d8",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
     },
     {
       "path": "licenses/qualifications/ocr.json",
-      "sha256": "e61ea878380679c68e9fb8ab1abc33fea042f363c0943405d4441eb5712153f4",
+      "sha256": "f2acf805ab768c01631c3de51ca9366290babe3c032efe332d0c8b58083adb7e",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
     },
     {
       "path": "python/knowkit-worker/src/knowkit_worker/ocr/qualification.json",
-      "sha256": "e61ea878380679c68e9fb8ab1abc33fea042f363c0943405d4441eb5712153f4",
+      "sha256": "f2acf805ab768c01631c3de51ca9366290babe3c032efe332d0c8b58083adb7e",
       "expected": {
         "outcome": "versioned-rights-provenance-or-qualified-native-ir"
       }
@@ -266,7 +266,7 @@
     },
     {
       "path": "tests/fixtures/documents/pdf/v1/manifest.json",
-      "sha256": "0d6424bae05125f28c625cfb7cfbfdf864d560909a11a72ab5800c592194063a",
+      "sha256": "d3ef94c2d03ce5e1065b101af30ddb33d1459ce43df18c4dcbe70443beabfd49",
       "expected": {
         "outcome": "versioned-upstream-pdf-provenance-and-outcomes"
       }

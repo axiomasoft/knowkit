@@ -14,7 +14,7 @@ final class Summary
         foreach (Qualification::CASES as $case) {
             $path = Report::root() . '/.phpunit.cache/P9.4/' . $case . '.json';
             Qa::ensure(is_file($path), 'missing measured workload: ' . $case);
-            $reports[$case] = json_decode(file_get_contents($path), true, 64, JSON_THROW_ON_ERROR);
+            $reports[$case] = json_decode(\KnowKit\Tooling\LocalIO::read($path), true, 64, JSON_THROW_ON_ERROR);
             foreach ($reports[$case]['fingerprints'] as $file => $expected) {
                 Qa::ensure(hash_file('sha256', Report::root() . '/' . $file) === $expected, 'measurement candidate changed: ' . $file);
             }
@@ -22,7 +22,7 @@ final class Summary
             $measurements[$case] = $reports[$case]['measurements'];
         }
 
-        $fixture = json_decode(file_get_contents(Report::root() . '/tests/ops/performance/fixtures/v1/cases.json'), true, 64, JSON_THROW_ON_ERROR);
+        $fixture = json_decode(\KnowKit\Tooling\LocalIO::read(Report::root() . '/tests/ops/performance/fixtures/v1/cases.json'), true, 64, JSON_THROW_ON_ERROR);
 
         return ['schemaVersion' => 'capacity-observation:1', 'fixtureVersion' => $fixture['fixtureVersion'],
             'profileSha256' => hash_file('sha256', Report::root() . '/deploy/profiles/capacity.v1.json'),

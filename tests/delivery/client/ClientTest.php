@@ -264,7 +264,7 @@ final class ClientTest extends TestCase
     {
         $wire = H\Response::error(status: 429, code: 'rate_quota', requestId: new D\Ulid(F::id(500)));
 
-        return new H\Response(status: $wire->status, body: $wire->body, headers: $wire->headers + ['Retry-After' => $retryAfter]);
+        return new H\Response(status: $wire->status, body: $wire->body, headers: [...$wire->headers, 'Retry-After' => $retryAfter]);
     }
 
     public static function mutation(

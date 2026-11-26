@@ -58,8 +58,9 @@ final readonly class OpenAiCompatibleTransport implements ModelTransport
 
     public function send(A\TransportRequest $request, A\CancellationToken $cancellation): A\TransportResult
     {
-        if (!$this->readiness()->configured()) {
-            throw new A\TransportUnavailable($this->readiness()->unavailable);
+        $unavailable = $this->readiness()->unavailable;
+        if ($unavailable !== null) {
+            throw new A\TransportUnavailable($unavailable);
         }
         $started = hrtime(true);
         try {
@@ -71,6 +72,8 @@ final readonly class OpenAiCompatibleTransport implements ModelTransport
             if ($http === null || $this->stopped($request, $cancellation) || $this->elapsed($started)) {
                 return $this->notSent();
             }
+            // Host credential/policy callbacks may outlive the pinned capability lease.
+            $request->identity->binding->requireCurrent($this->now());
         } catch (A\TransportUnavailable $unavailable) {
             throw $unavailable;
         } catch (\Throwable) {
@@ -88,6 +91,9 @@ final readonly class OpenAiCompatibleTransport implements ModelTransport
     ): A\TransportResult {
         // From the first sendRequest instruction onward, failure cannot prove non-dispatch.
         try {
+            if ($this->client === null || $this->deployment === null) {
+                return OpenAiResponse::unknown();
+            }
             $response = $this->client->sendRequest($http);
             $bytes = $this->read($response->getBody(), $request, $cancellation, $started);
             if ($bytes === null || $this->stopped($request, $cancellation) || $this->elapsed($started)) {
@@ -106,14 +112,25 @@ final readonly class OpenAiCompatibleTransport implements ModelTransport
         A\CancellationToken $cancellation,
         int $started,
     ): ?string {
+        if ($this->deployment === null) {
+            return null;
+        }
+        $limit = $this->deployment->http->responseBytes;
         try {
             $bytes = '';
-            while (!$body->eof()) {
+            while (!self::isEof($body)) {
                 if ($this->stopped($request, $cancellation) || $this->elapsed($started)) {
                     return null;
                 }
-                $chunk = $body->read(min(8192, $this->deployment->http->responseBytes + 1 - strlen($bytes)));
-                if ($chunk === '' || strlen($bytes) + strlen($chunk) > $this->deployment->http->responseBytes) {
+                $chunk = $body->read(max(1, min(8192, $limit + 1 - strlen($bytes))));
+                if ($chunk === '') {
+                    if (self::isEof($body)) {
+                        break;
+                    }
+
+                    return null;
+                }
+                if (strlen($bytes) + strlen($chunk) > $limit) {
                     return null;
                 }
                 $bytes .= $chunk;
@@ -125,10 +142,19 @@ final readonly class OpenAiCompatibleTransport implements ModelTransport
         }
     }
 
+    /** @phpstan-impure */
+    private static function isEof(\Psr\Http\Message\StreamInterface $body): bool
+    {
+        return $body->eof();
+    }
+
     private function requireRequest(A\TransportRequest $request): void
     {
+        if ($this->deployment === null) {
+            throw new A\TransportUnavailable(A\UnavailableComponent::Transport);
+        }
         $binding = $request->identity->binding;
-        if ($binding != $this->deployment->binding || $binding->transport != $this->descriptor()) {
+        if (!$binding->equals($this->deployment->binding) || !$binding->transport->equals($this->descriptor())) {
             throw new \InvalidArgumentException('Pinned deployment mismatch');
         }
         $binding->requireCurrent($this->now());
@@ -138,6 +164,10 @@ final readonly class OpenAiCompatibleTransport implements ModelTransport
 
     private function prepare(A\TransportRequest $request, int $started): ?\Psr\Http\Message\RequestInterface
     {
+        if ($this->deployment === null || $this->policy === null || $this->client === null
+            || $this->requests === null || $this->streams === null || $this->credentials === null) {
+            return null;
+        }
         $binding = $request->identity->binding;
         $credential = $this->credentials->resolve($binding->scope, $binding->credentialRef, $binding);
         if ($credential === null) {
@@ -186,6 +216,9 @@ final readonly class OpenAiCompatibleTransport implements ModelTransport
 
     private function elapsed(int $started): bool
     {
+        if ($this->deployment === null) {
+            return true;
+        }
         $limit = min($this->deployment->http->totalMilliseconds, $this->deployment->limits->deadlineSeconds * 1000);
 
         return (hrtime(true) - $started) / 1000000 >= $limit;

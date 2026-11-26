@@ -68,7 +68,7 @@ final class Search
         }
 
         return ['coldLatencyMs' => Metrics::percentiles($cold), 'warmLatencyMs' => Metrics::percentiles($warm),
-            'clientCpuMs' => array_sum($cpus), 'maxClientPeakBytes' => max($peaks),
+            'clientCpuMs' => array_sum($cpus), 'maxClientPeakBytes' => Metrics::maximum($peaks),
             'languageLatencyMs' => array_map(Metrics::percentiles(...), $languages)];
     }
 
@@ -111,7 +111,7 @@ final class Search
         $cold = array_shift($samples);
 
         return ['coldMs' => $cold, 'warmMs' => $samples, 'languageMs' => $languages, 'cpuMs' => Metrics::cpuMs() - $cpu,
-            'peakBytes' => max(memory_get_peak_usage(true), getrusage()['ru_maxrss'] * 1024)];
+            'peakBytes' => Metrics::peakBytes()];
     }
 
     private static function assertHits(D\CandidateList $hits, array $sets): void

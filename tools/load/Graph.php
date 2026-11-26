@@ -41,7 +41,7 @@ final class Graph
             $report = Report::save($hot ? 'hot-tenant' : 'many-tenants', ['tenants' => $hot ? 1 : 20,
                 'writers' => $writers, 'writes' => $writers * 16, 'latencyMs' => Metrics::percentiles($latency),
                 'lockWaitMs' => Metrics::percentiles($wait), 'cpuMs' => $cpu,
-                'maxClientPeakBytes' => max($peaks),
+                'maxClientPeakBytes' => Metrics::maximum($peaks),
                 'throughputWritesPerSecond' => $writers * 16 / $duration,
                 'postgres' => $c->db->execute('SHOW server_version')->fetchColumn(),
                 'lockWaitDefinition' => 'Wall time around the production tenant guard, including advisory/row guard round trips. No artificial sleep or injected lock delay.']);
@@ -96,7 +96,7 @@ final class Graph
         self::rejectForeign(tx: $tx, tenant: $tenant, graph: $graph);
 
         return ['latencyMs' => $latency, 'lockWaitMs' => $wait, 'cpuMs' => Metrics::cpuMs() - $cpu,
-            'peakBytes' => max(memory_get_peak_usage(true), getrusage()['ru_maxrss'] * 1024)];
+            'peakBytes' => Metrics::peakBytes()];
     }
 
     private static function rejectForeign(PdoCatalogTransaction $tx, D\TenantId $tenant, PdoDependencyStore $graph): void

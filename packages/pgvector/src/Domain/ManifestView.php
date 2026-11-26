@@ -77,7 +77,7 @@ final readonly class ManifestView
             self::invalid();
         }
         foreach ($this->candidate->sets as $result) {
-            if ($result->chunkSet == $set) {
+            if (self::sameChunkSet($result->chunkSet, $set)) {
                 return new D\Fingerprint($digest);
             }
         }
@@ -104,13 +104,41 @@ final readonly class ManifestView
             $ref->chunkSetId->value, $ref->chunkDigest->value, $chunk->documentId->value];
         $actual = [$row['source_version_id'], $row['revision_id'], $row['chunk_set_id'],
             $row['chunk_digest'], $row['document_id']];
-        $spans = array_map(static fn (D\Span $span): JsonObject => $span->locator->toWire()
-            ->with('textDigest', $span->textDigest->value), $chunk->spans);
+        $spans = self::wireSpans($chunk);
         if ($actual !== $expected || (int) $row['byte_length'] !== strlen($chunk->text())
             || $row['content_digest'] !== $ref->chunkDigest->value
             || Jcs::canonicalize(StrictJson::decode($row['spans_json'])) !== Jcs::canonicalize($spans)) {
             self::invalid();
         }
+    }
+
+    private static function sameChunkSet(D\ChunkSet $expected, D\ChunkSet $actual): bool
+    {
+        if (!$expected->chunkSetId->equals($actual->chunkSetId)
+            || Jcs::canonicalize($expected->revisionRef->toWire()) !== Jcs::canonicalize($actual->revisionRef->toWire())
+            || Jcs::canonicalize($expected->chunkerSignature->toWire()) !== Jcs::canonicalize($actual->chunkerSignature->toWire())
+            || count($expected->chunks) !== count($actual->chunks)) {
+            return false;
+        }
+        foreach ($expected->chunks as $index => $chunk) {
+            $candidate = $actual->chunks[$index] ?? null;
+            if ($candidate === null
+                || Jcs::canonicalize($chunk->ref->toWire()) !== Jcs::canonicalize($candidate->ref->toWire())
+                || !$chunk->documentId->equals($candidate->documentId)
+                || $chunk->text() !== $candidate->text()
+                || Jcs::canonicalize(self::wireSpans($chunk)) !== Jcs::canonicalize(self::wireSpans($candidate))) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /** @return list<JsonObject> */
+    private static function wireSpans(D\Chunk $chunk): array
+    {
+        return array_map(static fn (D\Span $span): JsonObject => $span->locator->toWire()
+            ->with('textDigest', $span->textDigest->value), $chunk->spans);
     }
 
     private static function invalid(): never

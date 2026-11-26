@@ -52,7 +52,7 @@ final class FixtureHost
             $host, $host, $host->scope()->tenantId, new D\SourceId(Host::id('payload-owner')), 'local', $host->validator);
         $this->ledger = new PostgresInvocationLedger($host->db, $runtime->tx, $payloads, $host,
             $host->scope()->tenantId, 'fixture:worker', 120);
-        $budget = new StaticCeilingBudget();
+        $budget = new StaticCeilingBudget(inputTokens: null);
         $this->answering = new App\GroundedAnswerService(
             new App\InvocationAdmission($this->ledger, $this->bindings), $this->ledger,
             new App\InvocationReplay($this->ledger, $payloads, $this->authority, $host->validator),

@@ -19,11 +19,20 @@ final readonly class Lease
     public function tokenHash(): Sha256 { return new Sha256(hash('sha256', $this->token)); }
     public function isCurrent(self $presented, UtcInstant $now): bool
     {
-        return $this->scope == $presented->scope && $this->jobId == $presented->jobId
-            && $this->attemptId == $presented->attemptId && $this->sourceRef == $presented->sourceRef
-            && $this->generationId == $presented->generationId && $this->sourceEpoch == $presented->sourceEpoch
-            && $this->fence == $presented->fence && hash_equals($this->tokenHash()->value, $presented->tokenHash()->value)
-            && $this->leaseUntil->compare($now) > 0 && $this->attemptDeadline->compare($now) > 0;
+        $sameGeneration = $this->generationId === null
+            ? $presented->generationId === null
+            : ($presented->generationId !== null && $this->generationId->equals($presented->generationId));
+
+        return $this->scope->equals($presented->scope)
+            && $this->jobId->equals($presented->jobId)
+            && $this->attemptId->equals($presented->attemptId)
+            && $this->sourceRef->equals($presented->sourceRef)
+            && $sameGeneration
+            && $this->sourceEpoch->equals($presented->sourceEpoch)
+            && $this->fence->equals($presented->fence)
+            && hash_equals($this->tokenHash()->value, $presented->tokenHash()->value)
+            && $this->leaseUntil->compare($now) > 0
+            && $this->attemptDeadline->compare($now) > 0;
     }
     public function __debugInfo(): array { return ['jobId'=>$this->jobId,'fence'=>$this->fence,'leaseUntil'=>$this->leaseUntil]; }
 }

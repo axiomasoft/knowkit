@@ -26,4 +26,11 @@ final readonly class ResourceRef
     {
         return new JsonObject(['tenantId' => $this->tenantId->value, 'kind' => $this->kind, 'id' => $this->id->value]);
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->tenantId->equals($other->tenantId)
+            && $this->kind === $other->kind
+            && $this->id->equals($other->id);
+    }
 }

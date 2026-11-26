@@ -85,8 +85,10 @@ final readonly class EvidenceSet
     /** @return list<EvidenceRepresentation> Search text is labelled separately from canonical quotes. */
     public function searchRepresentations(): array
     {
-        return array_map(static fn (JsonObject $fragment): EvidenceRepresentation =>
-            new EvidenceRepresentation($fragment), $this->toWire()->get('fragments'));
+        return array_values(array_map(
+            static fn (JsonObject $fragment): EvidenceRepresentation => new EvidenceRepresentation($fragment),
+            $this->toWire()->get('fragments'),
+        ));
     }
 
     public function toWire(): JsonObject

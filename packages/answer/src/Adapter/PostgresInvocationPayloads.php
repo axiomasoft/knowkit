@@ -95,6 +95,9 @@ final readonly class PostgresInvocationPayloads implements InvocationPayloads
         return $this->tx->run(function () use ($scope, $dependencies, $retention, $resource, $writer, $digest, $length): D\BlobWriteReservation {
             $this->guards($scope, $dependencies);
             $source = $this->db->row('SELECT lifecycle_epoch FROM ' . $this->db->table('sources') . ' WHERE tenant_id=? AND id=?', [$this->tenant->value, $this->owner->value]);
+            if ($source === null) {
+                throw new D\DomainFailure(D\Outcome::Denied, 'payload_source_unavailable');
+            }
             $r = new D\BlobWriteReservation($resource, $this->owner, $writer, new D\Decimal('0'),
                 new D\Decimal((string) $source['lifecycle_epoch']), $digest, $length, null);
             // The acceptance reference exists before PUT, including the gap before writer creation.
@@ -156,8 +159,14 @@ final readonly class PostgresInvocationPayloads implements InvocationPayloads
         $bytes = '';
         try {
             while (!$stream->eof()) {
-                $chunk = $stream->read(8192);
-                if ($chunk === '' || strlen($bytes) + strlen($chunk) > 1048576) {
+                $chunk = $stream->read(max(1, min(8192, 1048576 + 1 - strlen($bytes))));
+                if ($chunk === '') {
+                    if ($stream->eof()) {
+                        break;
+                    }
+                    throw new D\DomainFailure(D\Outcome::Unavailable, 'payload_unavailable');
+                }
+                if (strlen($bytes) + strlen($chunk) > 1048576) {
                     throw new D\DomainFailure(D\Outcome::Unavailable, 'payload_unavailable');
                 }
                 $bytes .= $chunk;
@@ -180,7 +189,7 @@ final readonly class PostgresInvocationPayloads implements InvocationPayloads
 
     private function metadata(InvocationPayloadRef $ref): array
     {
-        if ($ref->tenantId != $this->tenant) {
+        if (!$ref->tenantId->equals($this->tenant)) {
             throw new D\DomainFailure(D\Outcome::Denied, 'scope_mismatch');
         }
         $row = $this->db->row('SELECT r.*,p.kb_id,p.kind,p.retention_deadline,p.dependencies_json FROM '
