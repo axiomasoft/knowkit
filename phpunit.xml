@@ -17,6 +17,7 @@
     <testsuite name="Http"><directory>tests/delivery/http</directory><directory>tests/delivery/client</directory><directory>tests/conformance/http</directory></testsuite>
     <testsuite name="BridgeInstalled"><directory>packages/agentools-bridge/tests/installed</directory></testsuite>
     <testsuite name="BridgeHostQualification"><directory>packages/agentools-bridge/tests/host</directory></testsuite>
+    <testsuite name="ContextCompilers"><directory>tests/compilers/codecs</directory></testsuite>
   </testsuites>
   <source>
     <include><directory suffix=".php">packages/core/src</directory></include>

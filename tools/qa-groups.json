@@ -1349,6 +1349,25 @@
             ],
             "composerProject": ".",
             "minPhp": "8.3"
+        },
+        {
+            "id": "compilers:codecs",
+            "requiredCaseManifest": "tests/fixtures/check-groups/compilers-codecs.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "ContextCompilers",
+                    "--group",
+                    "compilers:codecs",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/context-compilers",
+            "minPhp": "8.3"
         }
     ],
     "checks": {
@@ -1455,7 +1474,8 @@
                 "security:disclosure-modes",
                 "artifacts:pyramid",
                 "retrieval:graph",
-                "retrieval:pruning"
+                "retrieval:pruning",
+                "compilers:codecs"
             ]
         },
         "ci-core": {
@@ -1529,7 +1549,8 @@
                 "ops:performance",
                 "delivery:readiness",
                 "bridge-installed",
-                "bridge-host-qualification"
+                "bridge-host-qualification",
+                "compilers:codecs"
             ]
         },
         "ci-optional": {
@@ -1547,7 +1568,8 @@
                 "delivery:laravel",
                 "delivery:http",
                 "delivery:client",
-                "ops:observability"
+                "ops:observability",
+                "compilers:codecs"
             ],
             "notSelected": [
                 "contract:architecture",

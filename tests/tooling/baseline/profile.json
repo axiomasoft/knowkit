@@ -74,6 +74,7 @@
         "security:disclosure-modes",
         "artifacts:pyramid",
         "retrieval:graph",
-        "retrieval:pruning"
+        "retrieval:pruning",
+        "compilers:codecs"
     ]
 }
