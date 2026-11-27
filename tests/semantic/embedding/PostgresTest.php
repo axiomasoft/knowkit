@@ -23,7 +23,9 @@ final class PostgresTest extends TestCase
     {
         (new DatabaseSandbox())->run(function (DatabaseSandbox $sandbox) use ($test): void {
             $pdo = $sandbox->connection;
-            $pdo->exec(file_get_contents(Fixture::root() . '/packages/pgvector/migrations/001_pgvector_schema.sql'));
+            $pgvSql = file_get_contents(Fixture::root() . '/packages/pgvector/migrations/001_pgvector_schema.sql');
+            $receiptsSql = explode('CREATE TABLE vector_generations', (string) $pgvSql, 2)[0];
+            $pdo->exec($receiptsSql);
             $role = 'embedding_test_' . bin2hex(random_bytes(8));
             $pdo->exec('CREATE ROLE ' . $role . ' NOLOGIN NOSUPERUSER');
             try {
