@@ -59,27 +59,29 @@ CREATE TABLE vector_documents (
 
 CREATE TABLE vector_documents_halfvec (
     tenant_id kk_ulid NOT NULL,
-    kb_id kk_ulid NOT NULL,
     generation_id kk_ulid NOT NULL,
     chunk_id kk_ulid NOT NULL,
+    space_digest kk_digest NOT NULL,
+    vector_digest kk_digest NOT NULL,
     embedding public.halfvec NOT NULL,
-    PRIMARY KEY (tenant_id, kb_id, generation_id, chunk_id),
-    FOREIGN KEY (tenant_id, generation_id)
-        REFERENCES vector_generations(tenant_id, generation_id) ON DELETE RESTRICT,
+    PRIMARY KEY (tenant_id, generation_id, chunk_id),
+    FOREIGN KEY (tenant_id, generation_id, space_digest)
+        REFERENCES vector_generations(tenant_id, generation_id, space_digest) ON DELETE RESTRICT,
     FOREIGN KEY (tenant_id, generation_id, chunk_id)
         REFERENCES index_memberships(tenant_id, generation_id, chunk_id) ON DELETE RESTRICT
 );
 
 CREATE TABLE vector_documents_binary (
     tenant_id kk_ulid NOT NULL,
-    kb_id kk_ulid NOT NULL,
     generation_id kk_ulid NOT NULL,
     chunk_id kk_ulid NOT NULL,
-    quantized bit NOT NULL,
+    space_digest kk_digest NOT NULL,
+    vector_digest kk_digest NOT NULL,
+    quantized bit varying NOT NULL,
     rescore_halfvec public.halfvec NOT NULL,
-    PRIMARY KEY (tenant_id, kb_id, generation_id, chunk_id),
-    FOREIGN KEY (tenant_id, generation_id)
-        REFERENCES vector_generations(tenant_id, generation_id) ON DELETE RESTRICT,
+    PRIMARY KEY (tenant_id, generation_id, chunk_id),
+    FOREIGN KEY (tenant_id, generation_id, space_digest)
+        REFERENCES vector_generations(tenant_id, generation_id, space_digest) ON DELETE RESTRICT,
     FOREIGN KEY (tenant_id, generation_id, chunk_id)
         REFERENCES index_memberships(tenant_id, generation_id, chunk_id) ON DELETE RESTRICT
 );
