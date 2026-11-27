@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "training:export",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Required contract cases for packages/training-export: fail-closed TrainingRightsPolicy, DerivedOnly verbatim guard, DependencyStore/Tombstone revocation, StrictRegexPiiRedactor + post-scan guard, audit-without-plaintext, deterministic JCS exporters, and integer-only DeterministicRewardSuite.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic contract data; no provider or customer content.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "training-export:rights-gate",
+    "training-export:pii-guard",
+    "training-export:exporters-determinism",
+    "training-export:reward-verifiers"
+  ],
+  "testCaseMap": {
+    "training-export:rights-gate": [
+      "KnowKit\\Tests\\Training\\RightsGateTest::testDenyAllTrainingRightsPolicyIsFailClosedByDefault",
+      "KnowKit\\Tests\\Training\\RightsGateTest::testAccessPolicyAndPerSourceRightsCheckedBeforeExport",
+      "KnowKit\\Tests\\Training\\RightsGateTest::testDerivedOnlyRejectsVerbatimEvidenceLeak",
+      "KnowKit\\Tests\\Training\\RightsGateTest::testDependencyStoreRevocationAndTombstoneExcludeTrace"
+    ],
+    "training-export:pii-guard": [
+      "KnowKit\\Tests\\Training\\PiiGuardTest::testStrictRegexRedactsEmailPhoneJwtApiKeysPassportInnSnils",
+      "KnowKit\\Tests\\Training\\PiiGuardTest::testResidualPiiPostScanGuardFailsClosed",
+      "KnowKit\\Tests\\Training\\PiiGuardTest::testAuditSummaryContainsOnlyTraceIdsAndReasonCodesNeverPlaintext"
+    ],
+    "training-export:exporters-determinism": [
+      "KnowKit\\Tests\\Training\\ExportersDeterminismTest::testContextDistillationExporterProducesCanonicalDistillPairs",
+      "KnowKit\\Tests\\Training\\ExportersDeterminismTest::testGroundedSftExporterRequiresVerifiedOutcomeAndValidCitations",
+      "KnowKit\\Tests\\Training\\ExportersDeterminismTest::testGrpoTaskExporterAndJobHandlerProduceBitwiseIdenticalManifestAndShards"
+    ],
+    "training-export:reward-verifiers": [
+      "KnowKit\\Tests\\Training\\RewardVerifiersTest::testGroundingRewardVerifierScoresValidInventedAndMissingAliases",
+      "KnowKit\\Tests\\Training\\RewardVerifiersTest::testInvariantComplianceVerifierScoresPassAndViolation",
+      "KnowKit\\Tests\\Training\\RewardVerifiersTest::testDeterministicRewardSuiteCombinesVerifiersAndHostHookWithIntegerClamp"
+    ]
+  }
+}
