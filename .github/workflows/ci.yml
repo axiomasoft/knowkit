@@ -6,7 +6,23 @@ concurrency:
   group: knowkit-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter
+      - run: composer install --no-interaction --no-progress
+      - run: php tools/qa.php --check config
+      - run: php tools/qa.php --check dag
+      - run: python3 tools/check-spec-contract.py --specs specs --check architecture
   core-matrix:
+    needs: bootstrap
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
