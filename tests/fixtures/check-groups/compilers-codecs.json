@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "compilers:codecs",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Context compilers package skeleton, CacheProfile schema validation, CitationAliasMap bijection, ToonCodec >=30% savings & round-trip, CompactMarkdownCodec, and CanonicalJsonCodec.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "compilers-codecs:cache-profile-schema",
+    "compilers-codecs:cache-profile-bounds",
+    "compilers-codecs:cache-profile-codec",
+    "compilers-codecs:citation-alias-bijection",
+    "compilers-codecs:toon-savings-and-roundtrip",
+    "compilers-codecs:toon-escaping-and-types",
+    "compilers-codecs:canonical-json-and-markdown"
+  ],
+  "testCaseMap": {
+    "compilers-codecs:cache-profile-schema": [
+      "KnowKit\\Tests\\Compilers\\Codecs\\CacheProfileTest::testValidatesAllFiveReferenceProfilesAgainstSchema"
+    ],
+    "compilers-codecs:cache-profile-bounds": [
+      "KnowKit\\Tests\\Compilers\\Codecs\\CacheProfileTest::testRejectsInvalidBoundsAndUnknownCodec"
+    ],
+    "compilers-codecs:cache-profile-codec": [
+      "KnowKit\\Tests\\Compilers\\Codecs\\CacheProfileTest::testRejectsInvalidPreferredCodec"
+    ],
+    "compilers-codecs:citation-alias-bijection": [
+      "KnowKit\\Tests\\Compilers\\Codecs\\CitationAliasMapTest::testAssignsDeterministicBijectiveAliasesAndPreservesExactCitationRef"
+    ],
+    "compilers-codecs:toon-savings-and-roundtrip": [
+      "KnowKit\\Tests\\Compilers\\Codecs\\ToonCodecTest::testToonAchievesAtLeastThirtyPercentSavingsAndRoundTripsTenPlusRecords"
+    ],
+    "compilers-codecs:toon-escaping-and-types": [
+      "KnowKit\\Tests\\Compilers\\Codecs\\ToonCodecTest::testToonRoundTripsEscapingTypesAndEmptyTable"
+    ],
+    "compilers-codecs:canonical-json-and-markdown": [
+      "KnowKit\\Tests\\Compilers\\Codecs\\ToonCodecTest::testCanonicalJsonAndCompactMarkdownCodecs"
+    ]
+  }
+}
