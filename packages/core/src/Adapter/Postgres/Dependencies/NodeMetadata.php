@@ -4,7 +4,7 @@ namespace KnowKit\Adapter\Postgres\Dependencies;
 
 use KnowKit\Adapter\Postgres\Catalog\{Connection, PdoCatalogTransaction};
 use KnowKit\Domain\{DomainFailure, Outcome, ResourceRef};
-use KnowKit\Domain\Contract\JsonObject;
+use KnowKit\Domain\Contract\{JsonObject, StrictJson};
 
 /** Exact catalog identities, without lifecycle filtering or payload I/O. */
 final readonly class NodeMetadata
@@ -28,6 +28,14 @@ final readonly class NodeMetadata
             if ($r['state']!=='accepted') { throw new DomainFailure(Outcome::Incompatible,'resource_not_accepted'); }
             return ['source'=>$r['source_id'],'version'=>null,'identity'=>new JsonObject([
                 'tenantId'=>$t,'sourceId'=>$r['source_id'],'resourceId'=>$id,'contentDigest'=>$r['digest']])];
+        }
+        if ($ref->kind==='directive_artifact') {
+            $r=$this->db->row('SELECT derived_from,artifact_digest FROM '.$this->db->table('directive_artifacts').' WHERE tenant_id=? AND id=?',[$t,$id]);
+            if ($r===null) { self::missing(); }
+            $derivedFrom=StrictJson::decode((string)$r['derived_from']);
+            if (!is_array($derivedFrom) || $derivedFrom===[] || !$derivedFrom[0] instanceof JsonObject) { self::missing(); }
+            return ['source'=>(string)$derivedFrom[0]->get('sourceId'),'version'=>null,'identity'=>new JsonObject([
+                'tenantId'=>$t,'directiveId'=>$id,'artifactDigest'=>(string)$r['artifact_digest']])];
         }
         $version=$id; $revision=null; $chunk=null;
         if ($ref->kind==='chunk') {

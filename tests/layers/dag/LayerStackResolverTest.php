@@ -313,4 +313,131 @@ final class LayerStackResolverTest extends TestCase
             self::assertSame('unknown_layer_dependency', $e->errorCode);
         }
     }
+
+    public function testRejectsPreLockConflictWhenOverrideSortsBeforeImmutableSeal(): void
+    {
+        $tenantId = new TenantId('01JSC420000000000000000000');
+        $stackId = new Ulid('01JST000000000000000000006');
+        $resolver = new LayerStackResolver();
+
+        $overrideFirst = $this->node(
+            'a.override',
+            [],
+            TrustTier::DynamicOverlay,
+            DeliveryMode::VolatileSuffix,
+            MergeStrategy::OverrideAllowed,
+            DisclosureMode::VerbatimAllowed,
+            [],
+            ['safety.no_harm' => false],
+        );
+        $sealSecond = $this->node(
+            'b.seal',
+            [],
+            TrustTier::TrustedDirective,
+            DeliveryMode::PinnedPrefix,
+            MergeStrategy::ImmutableSeal,
+            DisclosureMode::VerbatimAllowed,
+            ['safety.no_harm'],
+            ['safety.no_harm' => true],
+        );
+
+        try {
+            $resolver->resolve($tenantId, $stackId, [$overrideFirst, $sealSecond]);
+            self::fail('Expected DomainFailure for pre-lock conflict');
+        } catch (DomainFailure $e) {
+            self::assertSame(Outcome::Denied, $e->outcome);
+            self::assertSame('invariant_violation', $e->errorCode);
+        }
+    }
+
+    public function testRejectsNestedDottedKeyBypassInBothDirections(): void
+    {
+        $tenantId = new TenantId('01JSC420000000000000000000');
+        $stackId = new Ulid('01JST000000000000000000007');
+        $resolver = new LayerStackResolver();
+
+        $sealParent = $this->node(
+            'a.seal',
+            [],
+            TrustTier::TrustedDirective,
+            DeliveryMode::PinnedPrefix,
+            MergeStrategy::ImmutableSeal,
+            DisclosureMode::VerbatimAllowed,
+            ['safety'],
+            ['safety' => 'strict'],
+        );
+        $overrideChild = $this->node(
+            'b.override',
+            ['a.seal'],
+            TrustTier::DynamicOverlay,
+            DeliveryMode::VolatileSuffix,
+            MergeStrategy::OverrideAllowed,
+            DisclosureMode::VerbatimAllowed,
+            [],
+            ['safety.no_harm' => false],
+        );
+
+        try {
+            $resolver->resolve($tenantId, $stackId, [$sealParent, $overrideChild]);
+            self::fail('Expected DomainFailure for descendant key override');
+        } catch (DomainFailure $e) {
+            self::assertSame(Outcome::Denied, $e->outcome);
+            self::assertSame('invariant_violation', $e->errorCode);
+        }
+
+        $sealChild = $this->node(
+            'a.seal',
+            [],
+            TrustTier::TrustedDirective,
+            DeliveryMode::PinnedPrefix,
+            MergeStrategy::ImmutableSeal,
+            DisclosureMode::VerbatimAllowed,
+            ['safety.no_harm'],
+            ['safety.no_harm' => true],
+        );
+        $overrideParent = $this->node(
+            'b.override',
+            ['a.seal'],
+            TrustTier::DynamicOverlay,
+            DeliveryMode::VolatileSuffix,
+            MergeStrategy::OverrideAllowed,
+            DisclosureMode::VerbatimAllowed,
+            [],
+            ['safety' => 'relaxed'],
+        );
+
+        try {
+            $resolver->resolve($tenantId, $stackId, [$sealChild, $overrideParent]);
+            self::fail('Expected DomainFailure for ancestor key override');
+        } catch (DomainFailure $e) {
+            self::assertSame(Outcome::Denied, $e->outcome);
+            self::assertSame('invariant_violation', $e->errorCode);
+        }
+
+        $unrelatedSibling = $this->node(
+            'b.sibling',
+            ['a.seal'],
+            TrustTier::DynamicOverlay,
+            DeliveryMode::VolatileSuffix,
+            MergeStrategy::OverrideAllowed,
+            DisclosureMode::VerbatimAllowed,
+            [],
+            ['safety_extra' => false],
+        );
+        $resolved = $resolver->resolve($tenantId, $stackId, [$sealChild, $unrelatedSibling]);
+        self::assertCount(2, $resolved->nodes);
+    }
+
+    public function testRejectsZeroWeightBpsInLayerBudgetPolicy(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        new LayerBudgetPolicy(
+            minGuaranteedTokens: 0,
+            maxCeilingTokens: 100,
+            maxBytes: 1024,
+            weightBps: 0,
+            preferredTier: ResolutionTier::R1Digest,
+            compactFallbackTier: ResolutionTier::R0Outline,
+        );
+    }
 }

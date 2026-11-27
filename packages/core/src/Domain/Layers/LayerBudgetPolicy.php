@@ -24,8 +24,8 @@ final readonly class LayerBudgetPolicy
         if ($maxBytes < 1 || $maxBytes > 4194304) {
             throw new \InvalidArgumentException('maxBytes out of bounds');
         }
-        if ($weightBps < 0 || $weightBps > 10000) {
-            throw new \InvalidArgumentException('weightBps must be integer 0..10000');
+        if ($weightBps < 1 || $weightBps > 10000) {
+            throw new \InvalidArgumentException('weightBps must be integer 1..10000');
         }
     }
 

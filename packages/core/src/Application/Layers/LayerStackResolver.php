@@ -93,21 +93,6 @@ final readonly class LayerStackResolver
         $effectiveDeny = [];
 
         foreach ($sorted as $node) {
-            foreach ($lockedOwners as $key => $owner) {
-                if ($node->ruleValues->has($key)) {
-                    $candidate = Jcs::canonicalize($node->ruleValues->get($key));
-                    if ($candidate !== $owner['canonicalValue']) {
-                        throw new DomainFailure(Outcome::Denied, 'invariant_violation');
-                    }
-                } elseif (
-                    $node->mergeStrategy === MergeStrategy::ImmutableSeal
-                    && in_array($key, $node->lockedKeys, true)
-                    && $owner['canonicalValue'] !== 'null'
-                ) {
-                    throw new DomainFailure(Outcome::Denied, 'invariant_violation');
-                }
-            }
-
             if ($node->mergeStrategy === MergeStrategy::ImmutableSeal) {
                 foreach ($node->lockedKeys as $key) {
                     if (isset($lockedOwners[$key])) {
@@ -126,6 +111,40 @@ final readonly class LayerStackResolver
 
             foreach ($node->denySelectors as $selector) {
                 $effectiveDeny[$selector->value] = $selector;
+            }
+        }
+
+        foreach ($sorted as $node) {
+            foreach ($node->ruleValues as $candKey => $candVal) {
+                foreach ($lockedOwners as $lockedKey => $owner) {
+                    if ($candKey === $lockedKey) {
+                        if (Jcs::canonicalize($candVal) !== $owner['canonicalValue']) {
+                            throw new DomainFailure(Outcome::Denied, 'invariant_violation');
+                        }
+                    } elseif (
+                        str_starts_with($candKey, $lockedKey . '.')
+                        || str_starts_with($lockedKey, $candKey . '.')
+                    ) {
+                        throw new DomainFailure(Outcome::Denied, 'invariant_violation');
+                    }
+                }
+            }
+
+            if ($node->mergeStrategy === MergeStrategy::ImmutableSeal) {
+                foreach ($node->lockedKeys as $candLock) {
+                    foreach ($lockedOwners as $lockedKey => $owner) {
+                        if ($candLock === $lockedKey) {
+                            if (!$node->ruleValues->has($lockedKey) && $owner['canonicalValue'] !== 'null') {
+                                throw new DomainFailure(Outcome::Denied, 'invariant_violation');
+                            }
+                        } elseif (
+                            str_starts_with($candLock, $lockedKey . '.')
+                            || str_starts_with($lockedKey, $candLock . '.')
+                        ) {
+                            throw new DomainFailure(Outcome::Denied, 'invariant_violation');
+                        }
+                    }
+                }
             }
         }
 

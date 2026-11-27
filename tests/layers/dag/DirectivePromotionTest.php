@@ -3,6 +3,10 @@ declare(strict_types=1);
 
 namespace KnowKit\Tests\Layers\Dag;
 
+require_once dirname(__DIR__, 2) . '/storage/catalog/bootstrap.php';
+
+use KnowKit\Adapter\Postgres\Dependencies\{NodeMetadata, PdoDependencyStore};
+use KnowKit\Adapter\Postgres\Layers\PdoLayerStore;
 use KnowKit\Application\Layers\{DirectivePromotionService, PromoteDirective};
 use KnowKit\Domain\{
     ActorId,
@@ -10,8 +14,10 @@ use KnowKit\Domain\{
     DecisionReceipt,
     Decimal,
     DomainFailure,
+    Fingerprint,
     KbId,
     LifecycleEvent,
+    LockMode,
     MutationContext,
     Node,
     NodeRefs,
@@ -36,6 +42,7 @@ use KnowKit\Domain\{
 use KnowKit\Domain\Contract\{ContractValidator, HashDomain, JsonObject, SchemaSet, StrictJson};
 use KnowKit\Domain\Layers\{DirectiveArtifact, LayerNode, ResolvedLayerStack};
 use KnowKit\Port\{AccessPolicy, Clock, DependencyStore, LayerStore};
+use KnowKit\Tests\Storage\Catalog\CatalogFixture;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
@@ -232,5 +239,152 @@ final class DirectivePromotionTest extends TestCase
             self::assertSame(Outcome::Denied, $e->outcome);
             self::assertSame('policy_denied', $e->errorCode);
         }
+    }
+
+    public function testPgPromotionRegistersLineageAndInvalidateSynchronouslyDeniesCheckAncestors(): void
+    {
+        CatalogFixture::run(function (CatalogFixture $fx): void {
+            $fx->tenant(1);
+            $fx->kb(1);
+            $fx->source(2, 1);
+
+            $tenantId = new TenantId(CatalogFixture::id(1));
+            $sourceId = new SourceId(CatalogFixture::id(2));
+            $versionId = new SourceVersionId(CatalogFixture::id(3));
+            $sourceDigest = new SourceDigest(hash('sha256', 'version-3'));
+
+            $fx->resource(3003, 2, 1, 'owned', $sourceDigest->value);
+            $fx->db->execute(
+                "INSERT INTO {$fx->db->table('source_versions')} VALUES (?,?,?,?,?,15,'text/plain','synthetic',?,'2026-11-06T12:00:00Z')",
+                [$tenantId->value, $versionId->value, $sourceId->value, CatalogFixture::id(3003), $sourceDigest->value, hash('sha256', 'version-request-3')],
+            );
+            $fx->db->execute(
+                "INSERT INTO {$fx->db->table('source_version_state')} VALUES (?,?,'usable',NULL,NULL)",
+                [$tenantId->value, $versionId->value],
+            );
+
+            $depStore = new PdoDependencyStore($fx->db, $fx->tx, $tenantId, $fx->ids);
+            $layerStore = new PdoLayerStore($fx->db, $fx->tx, $fx->clock, $fx->ids);
+
+            $fx->tx->run(function () use ($fx, $tenantId, $sourceId, $versionId, $depStore): void {
+                $fx->tx->lockTenant($tenantId, LockMode::Update);
+                $meta = new NodeMetadata($fx->db, $fx->tx);
+
+                $sourceRef = new ResourceRef($tenantId, 'source', $sourceId);
+                $sourceMeta = $meta->resolve($sourceRef);
+                $depStore->register(
+                    new Node($sourceRef, new Fingerprint(HashDomain::DependencyNodeIdentity->digest($sourceMeta['identity']))),
+                    new Parents($tenantId, []),
+                );
+
+                $versionRef = new ResourceRef($tenantId, 'source_version', $versionId);
+                $versionMeta = $meta->resolve($versionRef);
+                $depStore->register(
+                    new Node($versionRef, new Fingerprint(HashDomain::DependencyNodeIdentity->digest($versionMeta['identity']))),
+                    new Parents($tenantId, [$sourceRef]),
+                );
+            });
+
+            $service = new DirectivePromotionService($fx->owner, $layerStore, $depStore, $fx->clock, $fx->tx);
+            $scope = $fx->scope(1);
+            $directiveId = new Ulid(CatalogFixture::id(501));
+            $sourceVersionRef = new SourceVersionRef($tenantId, $sourceId, $versionId, $sourceDigest);
+
+            $artifact = $service->promote(
+                $scope,
+                new PromoteDirective(
+                    directiveId: $directiveId,
+                    version: 1,
+                    title: 'PG Lineage Directive',
+                    contentFormat: 'compact_markdown',
+                    body: 'Must remain grounded in active source.',
+                    lockedRules: new JsonObject(['answer.must_cite' => true]),
+                    derivedFrom: [$sourceVersionRef],
+                    approvalDigest: new Sha256(str_repeat('5', 64)),
+                ),
+                $fx->context('promote-pg-1', null, 'current'),
+            );
+
+            self::assertNotNull($layerStore->findDirective($tenantId, $directiveId));
+
+            $directiveRef = new ResourceRef($tenantId, 'directive_artifact', $artifact->directiveId);
+            $beforeDecision = $fx->tx->run(function () use ($fx, $tenantId, $depStore, $directiveRef): Decision {
+                $fx->tx->lockTenant($tenantId, LockMode::Share);
+                return $depStore->checkAncestors(new NodeRefs($tenantId, [$directiveRef]))->decision;
+            });
+            self::assertSame(Decision::Allow, $beforeDecision);
+
+            // Empty derivedFrom skips dependency registration cleanly.
+            $standaloneId = new Ulid(CatalogFixture::id(502));
+            $service->promote(
+                $scope,
+                new PromoteDirective(
+                    directiveId: $standaloneId,
+                    version: 1,
+                    title: 'Standalone Directive',
+                    contentFormat: 'compact_markdown',
+                    body: 'No source lineage.',
+                    lockedRules: new JsonObject([]),
+                    derivedFrom: [],
+                    approvalDigest: new Sha256(str_repeat('6', 64)),
+                ),
+                $fx->context('promote-pg-2', null, 'current'),
+            );
+            self::assertNotNull($layerStore->findDirective($tenantId, $standaloneId));
+
+            // Invalidate the derivedFrom source and verify synchronous Deny on checkAncestors().
+            $revokeEvent = new LifecycleEvent($fx->events->create(
+                $tenantId,
+                'source',
+                $sourceId,
+                new Decimal('1'),
+                'source.revoked',
+                new JsonObject([
+                    'sourceId' => $sourceId->value,
+                    'reason' => 'source_revoked',
+                    'lifecycleEpoch' => '1',
+                    'appliesTo' => 'future_versions',
+                ]),
+            ));
+
+            $fx->tx->run(function () use ($fx, $tenantId, $sourceId, $depStore, $revokeEvent): void {
+                $fx->tx->lockTenant($tenantId, LockMode::Update);
+                $fx->db->execute(
+                    "UPDATE {$fx->db->table('sources')} SET lifecycle_state='revoked',lifecycle_epoch=1 WHERE tenant_id=? AND id=?",
+                    [$tenantId->value, $sourceId->value],
+                );
+                $depStore->invalidate($revokeEvent);
+            });
+
+            $afterDecision = $fx->tx->run(function () use ($fx, $tenantId, $depStore, $directiveRef): Decision {
+                $fx->tx->lockTenant($tenantId, LockMode::Share);
+                return $depStore->checkAncestors(new NodeRefs($tenantId, [$directiveRef]))->decision;
+            });
+            self::assertSame(Decision::Deny, $afterDecision);
+
+            // Promoting a new directive against the revoked source fails before saving directive_artifacts.
+            $blockedId = new Ulid(CatalogFixture::id(503));
+            try {
+                $service->promote(
+                    $scope,
+                    new PromoteDirective(
+                        directiveId: $blockedId,
+                        version: 1,
+                        title: 'Blocked Directive',
+                        contentFormat: 'compact_markdown',
+                        body: 'Should not persist.',
+                        lockedRules: new JsonObject([]),
+                        derivedFrom: [$sourceVersionRef],
+                        approvalDigest: new Sha256(str_repeat('7', 64)),
+                    ),
+                    $fx->context('promote-pg-3', null, 'current'),
+                );
+                self::fail('Expected DomainFailure for revoked derivedFrom source');
+            } catch (DomainFailure $e) {
+                self::assertSame(Outcome::Denied, $e->outcome);
+                self::assertSame('ancestor_unusable', $e->errorCode);
+            }
+            self::assertNull($layerStore->findDirective($tenantId, $blockedId));
+        });
     }
 }
