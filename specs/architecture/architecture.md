@@ -30,7 +30,7 @@ Decision: [0001-independent-core-and-delivery.md](../../docs/adr/0001-independen
 
 ## ARCH-PACKAGE-DAG — One package DAG
 
-Optional packages MUST follow the dependency edges in manifest.v1.json. answer/pgvector/http/laravel depend on core; chatom depends on answer/core and explicit Chatom contracts; agentools-bridge depends on core and the existing Agentools core/platform-chatom seam. Bridge MUST NOT depend on answer/chatom; Chatom and bridge MUST NOT depend on one another. No knowkit/edufy package exists.
+Optional packages MUST follow the dependency edges in manifest.v1.json. context-compilers/pgvector/http/laravel/distill depend on core; answer, agentools-bridge, mcp-bridge, and training-export depend on core and context-compilers (every package importing KnowKit\ContextCompilers\* MUST declare context-compilers in dependsOn); chatom depends on answer/core and explicit Chatom contracts; agentools-bridge also depends on the existing Agentools core/platform-chatom seam. Bridge MUST NOT depend on answer/chatom; Chatom and bridge MUST NOT depend on one another. No knowkit/edufy package exists.
 
 Decision: [0001-independent-core-and-delivery.md](../../docs/adr/0001-independent-core-and-delivery.md).
 
@@ -278,7 +278,7 @@ Decision: [0003-access-publication-and-disclosure.md](../../docs/adr/0003-access
 
 ## ARCH-OPERATIONS — Operation is separate from purpose
 
-Operation MUST distinguish retrieve, disclose, publish, model_egress_context, navigate and explicit mutation operations: catalog_create, collection_create, membership_mutate, source_register, source_version_add, ingest, reprocess, job_cancel, lifecycle_correct, lifecycle_revoke, lifecycle_delete, legal_hold_set, purge_status, provider_acceptance, diagnostics. Business purpose does not substitute for an operation.
+Operation MUST distinguish retrieve, disclose, publish, model_egress_context, navigate and explicit mutation/governance operations: catalog_create, collection_create, membership_mutate, source_register, source_version_add, ingest, reprocess, job_cancel, lifecycle_correct, lifecycle_revoke, lifecycle_delete, legal_hold_set, purge_status, provider_acceptance, diagnostics, layer_resolve, directive_promote, catalog_mount, training_export. Business purpose does not substitute for an operation.
 
 Decision: [0003-access-publication-and-disclosure.md](../../docs/adr/0003-access-publication-and-disclosure.md).
 
@@ -529,3 +529,75 @@ Decision: [0004-optional-answer-and-host-seams.md](../../docs/adr/0004-optional-
 Migration MUST distinguish wire/semantic/storage/citation compatibility, import tombstones/dependencies and switch one authoritative writer per KB/source. Limited legacy evidence retains its original hash type/provenance uncertainty and exact resolver; it MUST NOT be called freshly validated or silently remapped to similar/latest content.
 
 Decision: [0002-immutable-identity-and-authority.md](../../docs/adr/0002-immutable-identity-and-authority.md).
+
+<a id="arch-instances"></a>
+
+## ARCH-INSTANCES — Multi-instance process isolation
+
+Named KnowKit instances (`InstanceId`) within a single PHP process MUST remain strictly isolated across registries, caches, connection pools, policy epochs, and isolation presets (including `shared_catalog_readonly`). No static global or singleton state may leak across `InstanceId` boundaries.
+
+Decision: [0005-multi-instance-and-isolation-presets.md](../../docs/adr/0005-multi-instance-and-isolation-presets.md).
+
+<a id="arch-layer-dag"></a>
+
+## ARCH-LAYER-DAG — Domain-independent layer DAG and monotonic locks
+
+Context layer composition MUST form a domain-independent acyclic directed graph ordered deterministically via Kahn topological sort. Layer resolution MUST preserve monotonic `lockedKeys` protection and enforce `ExclusionDeny` precedence so lower-priority layers cannot override or re-enable excluded entries.
+
+Decision: [0006-generalized-layer-dag-and-catalog-mounts.md](../../docs/adr/0006-generalized-layer-dag-and-catalog-mounts.md).
+
+<a id="arch-catalog-mount"></a>
+
+## ARCH-CATALOG-MOUNT — Unidirectional read-only catalog mounts
+
+Cross-tenant catalog mounts MUST be unidirectional and read-only, referencing only sealed publication snapshots from source tenants configured with `isolation_kind = 'shared_catalog_readonly'`. Mounted catalogs MUST NOT accept writes or leak consumer tenant state back to the catalog owner.
+
+Decision: [0006-generalized-layer-dag-and-catalog-mounts.md](../../docs/adr/0006-generalized-layer-dag-and-catalog-mounts.md).
+
+<a id="arch-directive-promotion"></a>
+
+## ARCH-DIRECTIVE-PROMOTION — Explicit directive promotion gate
+
+Untrusted documents and worker outputs MUST NOT undergo automatic promotion (auto-promotion is forbidden) into `TrustedDirective`. Promotion requires an explicit `directive_promote` gate authorized by `AccessPolicy` with recorded `derived_from` lineage.
+
+Decision: [0006-generalized-layer-dag-and-catalog-mounts.md](../../docs/adr/0006-generalized-layer-dag-and-catalog-mounts.md).
+
+<a id="arch-multi-res"></a>
+
+## ARCH-MULTI-RES — Immutable multi-resolution derived artifacts
+
+Derived artifacts `R0`–`R2` MUST be immutable, bound to exact `DocumentRevisionRef` and `DependencyStore` lineage, and protected by `AtomicSpanGuard` so atomic spans cannot be split. Derived resolutions never override canonical `R3` authority when full evidence is required.
+
+Decision: [0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md](../../docs/adr/0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md).
+
+<a id="arch-disclosure-modes"></a>
+
+## ARCH-DISCLOSURE-MODES — Physical R3 blocking in restricted disclosure modes
+
+Under `derived_only`, `summary_only`, `metadata_only`, or `index_only` disclosure modes, raw `R3` text MUST be physically blocked in both `FreshDisclosure` and `SourceNavigation`. Only explicitly permitted derived projections or metadata may be returned.
+
+Decision: [0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md](../../docs/adr/0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md).
+
+<a id="arch-pruning-integrity"></a>
+
+## ARCH-PRUNING-INTEGRITY — Verifiable span-preserving context pruning
+
+`ContextPruner` MUST return only verifiable UTF-8 sub-spans of existing canonical or derived units. Pruning MUST NOT rewrite text, fabricate transitions, or split protected atoms.
+
+Decision: [0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md](../../docs/adr/0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md).
+
+<a id="arch-mcp-boundary"></a>
+
+## ARCH-MCP-BOUNDARY — MCP server scope and untrusted external MCP evidence
+
+In MCP server endpoints, `Scope` MUST be constructed strictly from the transport authenticator and never from tool arguments or model output. Responses from external MCP servers MUST enter as `UntrustedEvidence` and cannot escalate privileges or bypass policy.
+
+Decision: [0008-context-compilers-mcp-distill-and-training-export.md](../../docs/adr/0008-context-compilers-mcp-distill-and-training-export.md).
+
+<a id="arch-training-rights"></a>
+
+## ARCH-TRAINING-RIGHTS — Fail-closed training export rights and manifest
+
+`training_export` MUST enforce fail-closed `training_allowed` rights per source/revision, apply mandatory PII redaction before serialization, and emit a cryptographic export manifest recording exact source digests and policy decisions.
+
+Decision: [0008-context-compilers-mcp-distill-and-training-export.md](../../docs/adr/0008-context-compilers-mcp-distill-and-training-export.md).

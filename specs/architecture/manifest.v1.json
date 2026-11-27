@@ -41,12 +41,58 @@
       "namespace": "KnowKit\\Answer\\",
       "minPhp": "8.3",
       "dependsOn": [
+        "core",
+        "context-compilers"
+      ],
+      "externalRuntime": [
+        "psr/http-client:^1",
+        "psr/http-factory:^1"
+      ]
+    },
+    "context-compilers": {
+      "path": "packages/context-compilers",
+      "name": "knowkit/context-compilers",
+      "namespace": "KnowKit\\ContextCompilers\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core"
+      ],
+      "externalRuntime": []
+    },
+    "mcp-bridge": {
+      "path": "packages/mcp-bridge",
+      "name": "knowkit/mcp-bridge",
+      "namespace": "KnowKit\\Bridge\\Mcp\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core",
+        "context-compilers"
+      ],
+      "externalRuntime": []
+    },
+    "distill": {
+      "path": "packages/distill",
+      "name": "knowkit/distill",
+      "namespace": "KnowKit\\Distill\\",
+      "minPhp": "8.3",
+      "dependsOn": [
         "core"
       ],
       "externalRuntime": [
         "psr/http-client:^1",
         "psr/http-factory:^1"
       ]
+    },
+    "training-export": {
+      "path": "packages/training-export",
+      "name": "knowkit/training-export",
+      "namespace": "KnowKit\\TrainingExport\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core",
+        "context-compilers"
+      ],
+      "externalRuntime": []
     },
     "pgvector": {
       "path": "packages/pgvector",
@@ -107,7 +153,8 @@
       "namespace": "KnowKit\\Bridge\\AgenTools\\",
       "minPhp": "8.4",
       "dependsOn": [
-        "core"
+        "core",
+        "context-compilers"
       ],
       "externalRuntime": [
         "Agentools core",
@@ -210,7 +257,11 @@
     "legal_hold_set",
     "purge_status",
     "provider_acceptance",
-    "diagnostics"
+    "diagnostics",
+    "layer_resolve",
+    "directive_promote",
+    "catalog_mount",
+    "training_export"
   ],
   "outcomes": [
     "success",
@@ -228,7 +279,11 @@
     "docs/adr/0001-independent-core-and-delivery.md",
     "docs/adr/0002-immutable-identity-and-authority.md",
     "docs/adr/0003-access-publication-and-disclosure.md",
-    "docs/adr/0004-optional-answer-and-host-seams.md"
+    "docs/adr/0004-optional-answer-and-host-seams.md",
+    "docs/adr/0005-multi-instance-and-isolation-presets.md",
+    "docs/adr/0006-generalized-layer-dag-and-catalog-mounts.md",
+    "docs/adr/0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md",
+    "docs/adr/0008-context-compilers-mcp-distill-and-training-export.md"
   ],
   "anchors": [
     {
@@ -626,6 +681,60 @@
       "kind": "invariant",
       "ref": "specs/architecture/architecture.md#arch-migration",
       "adr": "docs/adr/0002-immutable-identity-and-authority.md"
+    },
+    {
+      "id": "ARCH-INSTANCES",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-instances",
+      "adr": "docs/adr/0005-multi-instance-and-isolation-presets.md"
+    },
+    {
+      "id": "ARCH-LAYER-DAG",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-layer-dag",
+      "adr": "docs/adr/0006-generalized-layer-dag-and-catalog-mounts.md"
+    },
+    {
+      "id": "ARCH-CATALOG-MOUNT",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-catalog-mount",
+      "adr": "docs/adr/0006-generalized-layer-dag-and-catalog-mounts.md"
+    },
+    {
+      "id": "ARCH-DIRECTIVE-PROMOTION",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-directive-promotion",
+      "adr": "docs/adr/0006-generalized-layer-dag-and-catalog-mounts.md"
+    },
+    {
+      "id": "ARCH-MULTI-RES",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-multi-res",
+      "adr": "docs/adr/0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md"
+    },
+    {
+      "id": "ARCH-DISCLOSURE-MODES",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-disclosure-modes",
+      "adr": "docs/adr/0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md"
+    },
+    {
+      "id": "ARCH-PRUNING-INTEGRITY",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-pruning-integrity",
+      "adr": "docs/adr/0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md"
+    },
+    {
+      "id": "ARCH-MCP-BOUNDARY",
+      "kind": "boundary",
+      "ref": "specs/architecture/architecture.md#arch-mcp-boundary",
+      "adr": "docs/adr/0008-context-compilers-mcp-distill-and-training-export.md"
+    },
+    {
+      "id": "ARCH-TRAINING-RIGHTS",
+      "kind": "invariant",
+      "ref": "specs/architecture/architecture.md#arch-training-rights",
+      "adr": "docs/adr/0008-context-compilers-mcp-distill-and-training-export.md"
     }
   ],
   "deferredContracts": [

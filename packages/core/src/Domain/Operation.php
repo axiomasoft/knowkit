@@ -25,4 +25,8 @@ enum Operation: string
     case PurgeStatus = 'purge_status';
     case ProviderAcceptance = 'provider_acceptance';
     case Diagnostics = 'diagnostics';
+    case LayerResolve = 'layer_resolve';
+    case DirectivePromote = 'directive_promote';
+    case CatalogMount = 'catalog_mount';
+    case TrainingExport = 'training_export';
 }

@@ -40,7 +40,7 @@ class ManifestTests(unittest.TestCase):
     def test_manifest_and_all_normative_links(self):
         manifest = CHECKER.validate_contract(self.root)
         self.assertGreaterEqual(len(manifest["anchors"]), 40)
-        self.assertEqual(len(manifest["anchors"]), 66)
+        self.assertEqual(len(manifest["anchors"]), 75)
         self.assertEqual(manifest["authority"]["blockingDecisions"], [])
 
     @case("architecture.forbidden-dependency")

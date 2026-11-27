@@ -47,12 +47,58 @@ APPROVED_PACKAGES = {
         "namespace": "KnowKit\\Answer\\",
         "minPhp": "8.3",
         "dependsOn": [
+            "core",
+            "context-compilers"
+        ],
+        "externalRuntime": [
+            "psr/http-client:^1",
+            "psr/http-factory:^1"
+        ]
+    },
+    "context-compilers": {
+        "path": "packages/context-compilers",
+        "name": "knowkit/context-compilers",
+        "namespace": "KnowKit\\ContextCompilers\\",
+        "minPhp": "8.3",
+        "dependsOn": [
+            "core"
+        ],
+        "externalRuntime": []
+    },
+    "mcp-bridge": {
+        "path": "packages/mcp-bridge",
+        "name": "knowkit/mcp-bridge",
+        "namespace": "KnowKit\\Bridge\\Mcp\\",
+        "minPhp": "8.3",
+        "dependsOn": [
+            "core",
+            "context-compilers"
+        ],
+        "externalRuntime": []
+    },
+    "distill": {
+        "path": "packages/distill",
+        "name": "knowkit/distill",
+        "namespace": "KnowKit\\Distill\\",
+        "minPhp": "8.3",
+        "dependsOn": [
             "core"
         ],
         "externalRuntime": [
             "psr/http-client:^1",
             "psr/http-factory:^1"
         ]
+    },
+    "training-export": {
+        "path": "packages/training-export",
+        "name": "knowkit/training-export",
+        "namespace": "KnowKit\\TrainingExport\\",
+        "minPhp": "8.3",
+        "dependsOn": [
+            "core",
+            "context-compilers"
+        ],
+        "externalRuntime": []
     },
     "pgvector": {
         "path": "packages/pgvector",
@@ -113,7 +159,8 @@ APPROVED_PACKAGES = {
         "namespace": "KnowKit\\Bridge\\AgenTools\\",
         "minPhp": "8.4",
         "dependsOn": [
-            "core"
+            "core",
+            "context-compilers"
         ],
         "externalRuntime": [
             "Agentools core",
@@ -799,6 +846,100 @@ REQUIRED_ANCHORS = {
             "tombstones",
             "legacy"
         ]
+    },
+    "ARCH-INSTANCES": {
+        "kind": "invariant",
+        "adr": "docs/adr/0005-multi-instance-and-isolation-presets.md",
+        "tokens": [
+            "InstanceId",
+            "isolated",
+            "process",
+            "shared_catalog_readonly"
+        ]
+    },
+    "ARCH-LAYER-DAG": {
+        "kind": "invariant",
+        "adr": "docs/adr/0006-generalized-layer-dag-and-catalog-mounts.md",
+        "tokens": [
+            "Kahn",
+            "acyclic",
+            "lockedKeys",
+            "ExclusionDeny"
+        ]
+    },
+    "ARCH-CATALOG-MOUNT": {
+        "kind": "boundary",
+        "adr": "docs/adr/0006-generalized-layer-dag-and-catalog-mounts.md",
+        "tokens": [
+            "read-only",
+            "shared_catalog_readonly",
+            "sealed",
+            "unidirectional"
+        ]
+    },
+    "ARCH-DIRECTIVE-PROMOTION": {
+        "kind": "invariant",
+        "adr": "docs/adr/0006-generalized-layer-dag-and-catalog-mounts.md",
+        "tokens": [
+            "TrustedDirective",
+            "derived_from",
+            "directive_promote",
+            "auto-promotion"
+        ]
+    },
+    "ARCH-MULTI-RES": {
+        "kind": "invariant",
+        "adr": "docs/adr/0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md",
+        "tokens": [
+            "R0",
+            "R2",
+            "DocumentRevisionRef",
+            "DependencyStore",
+            "AtomicSpanGuard"
+        ]
+    },
+    "ARCH-DISCLOSURE-MODES": {
+        "kind": "boundary",
+        "adr": "docs/adr/0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md",
+        "tokens": [
+            "FreshDisclosure",
+            "SourceNavigation",
+            "derived_only",
+            "summary_only",
+            "metadata_only",
+            "index_only",
+            "R3"
+        ]
+    },
+    "ARCH-PRUNING-INTEGRITY": {
+        "kind": "invariant",
+        "adr": "docs/adr/0007-multi-resolution-artifacts-pruning-and-disclosure-modes.md",
+        "tokens": [
+            "ContextPruner",
+            "UTF-8",
+            "sub-spans",
+            "atoms"
+        ]
+    },
+    "ARCH-MCP-BOUNDARY": {
+        "kind": "boundary",
+        "adr": "docs/adr/0008-context-compilers-mcp-distill-and-training-export.md",
+        "tokens": [
+            "Scope",
+            "transport authenticator",
+            "UntrustedEvidence",
+            "MCP"
+        ]
+    },
+    "ARCH-TRAINING-RIGHTS": {
+        "kind": "invariant",
+        "adr": "docs/adr/0008-context-compilers-mcp-distill-and-training-export.md",
+        "tokens": [
+            "training_allowed",
+            "PII",
+            "manifest",
+            "training_export"
+        ]
     }
 }
 TEST_CASES = {
@@ -843,7 +984,7 @@ TEST_CASES = {
         "architecture.disclosure-replay-uncertainty"
     ]
 }
-OPERATIONS = ["retrieve","disclose","publish","model_egress_context","navigate","catalog_create","collection_create","membership_mutate","source_register","source_version_add","ingest","reprocess","job_cancel","lifecycle_correct","lifecycle_revoke","lifecycle_delete","legal_hold_set","purge_status","provider_acceptance","diagnostics"]
+OPERATIONS = ["retrieve","disclose","publish","model_egress_context","navigate","catalog_create","collection_create","membership_mutate","source_register","source_version_add","ingest","reprocess","job_cancel","lifecycle_correct","lifecycle_revoke","lifecycle_delete","legal_hold_set","purge_status","provider_acceptance","diagnostics","layer_resolve","directive_promote","catalog_mount","training_export"]
 OUTCOMES = ["success","empty","denied","unknown","unavailable","incompatible"]
 
 

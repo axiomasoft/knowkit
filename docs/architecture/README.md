@@ -1,6 +1,6 @@
 # Approved KnowKit architecture
 
-This package materializes approved D1/D2 into [66 normative anchors](../../specs/architecture/architecture.md), a [versioned manifest](../../specs/architecture/manifest.v1.json), four [ADRs](../adr/0001-independent-core-and-delivery.md) and the [threat model](threat-model.md). It records design authority; implementation, production readiness, release and publication require their own evidence.
+This package materializes approved D1/D2 and generalized context extensions into [75 normative anchors](../../specs/architecture/architecture.md), a [versioned manifest](../../specs/architecture/manifest.v1.json), eight [ADRs](../adr/0001-independent-core-and-delivery.md) and the [threat model](threat-model.md). It records design authority; implementation, production readiness, release and publication require their own evidence.
 
 Authority is the consolidated `knowledge/architecture` plus exact `knowledge/contracts#identity,#ports`, `knowledge/api#shapes`, `knowledge/access#contract`, `knowledge/locks#contract`, `knowledge/publication#contract`, `knowledge/disclosure#contract`, `knowledge/lifecycle#contract` and the final canonical registry refinement in `knowledge/extensibility#matrix`. These references are read through the plan read API. Detailed wire/schema definitions remain P1.4's deliverable. Historical audit suggestions and raw model answers do not compete with this contract.
 

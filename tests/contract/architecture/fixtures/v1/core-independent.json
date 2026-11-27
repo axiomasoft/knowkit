@@ -27,12 +27,58 @@
       "namespace": "KnowKit\\Answer\\",
       "minPhp": "8.3",
       "dependsOn": [
+        "core",
+        "context-compilers"
+      ],
+      "externalRuntime": [
+        "psr/http-client:^1",
+        "psr/http-factory:^1"
+      ]
+    },
+    "context-compilers": {
+      "path": "packages/context-compilers",
+      "name": "knowkit/context-compilers",
+      "namespace": "KnowKit\\ContextCompilers\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core"
+      ],
+      "externalRuntime": []
+    },
+    "mcp-bridge": {
+      "path": "packages/mcp-bridge",
+      "name": "knowkit/mcp-bridge",
+      "namespace": "KnowKit\\Bridge\\Mcp\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core",
+        "context-compilers"
+      ],
+      "externalRuntime": []
+    },
+    "distill": {
+      "path": "packages/distill",
+      "name": "knowkit/distill",
+      "namespace": "KnowKit\\Distill\\",
+      "minPhp": "8.3",
+      "dependsOn": [
         "core"
       ],
       "externalRuntime": [
         "psr/http-client:^1",
         "psr/http-factory:^1"
       ]
+    },
+    "training-export": {
+      "path": "packages/training-export",
+      "name": "knowkit/training-export",
+      "namespace": "KnowKit\\TrainingExport\\",
+      "minPhp": "8.3",
+      "dependsOn": [
+        "core",
+        "context-compilers"
+      ],
+      "externalRuntime": []
     },
     "pgvector": {
       "path": "packages/pgvector",
@@ -93,7 +139,8 @@
       "namespace": "KnowKit\\Bridge\\AgenTools\\",
       "minPhp": "8.4",
       "dependsOn": [
-        "core"
+        "core",
+        "context-compilers"
       ],
       "externalRuntime": [
         "Agentools core",

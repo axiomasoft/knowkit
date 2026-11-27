@@ -1,7 +1,7 @@
 {
   "schemaVersion": "architecture-fixture-manifest:1",
-  "fixtureVersion": "1.0.0",
-  "versionRationale": "Initial approved-architecture corpus: separate four immutable axes and model local revoke versus bounded external-owner freshness. Expected digests are computed from these deliberate synthetic UTF-8 bytes, not captured runtime snapshots.",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "W0.1: add context-compilers, mcp-bridge, distill, training-export packages and update answer/agentools-bridge DAG edges in core-independent fixture.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private",
     "origin": "Project-authored synthetic architecture contract examples; no donor document or provider data.",
@@ -11,7 +11,7 @@
     {
       "id": "core-independent",
       "path": "tests/contract/architecture/fixtures/v1/core-independent.json",
-      "sha256": "1f2de0d97f067238149021b1f4ac99e0f2737838a9dd9999be5ef01594876622",
+      "sha256": "394e4fed469b64743bc95f1e77553f51e87517b157fc3d7a9020b78456ca74cd",
       "schemaId": "architecture-fixture:1",
       "rights": {
         "license": "LicenseRef-KnowKit-Private",
