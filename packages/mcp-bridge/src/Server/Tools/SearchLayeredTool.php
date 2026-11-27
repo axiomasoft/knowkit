@@ -6,6 +6,8 @@ namespace KnowKit\Bridge\Mcp\Server\Tools;
 use KnowKit\Bridge\Mcp\Server\AuthenticatedMcpContext;
 use KnowKit\Bridge\Mcp\Server\McpBackend;
 use KnowKit\Bridge\Mcp\Server\McpTool;
+use KnowKit\Domain\Operation;
+use KnowKit\Domain\ResourceRef;
 use KnowKit\Port\AccessPolicy;
 
 final readonly class SearchLayeredTool implements McpTool
@@ -61,6 +63,9 @@ final readonly class SearchLayeredTool implements McpTool
 
         if ($this->accessPolicy !== null) {
             $this->accessPolicy->authorizeQuery($context->scope);
+            $resource = new ResourceRef($context->scope->tenantId, 'knowledge_base', $context->scope->kbId);
+            $receipt = $this->accessPolicy->decide($context->scope, $resource, Operation::Retrieve);
+            $receipt->requireAuthorized($context->scope, Operation::Retrieve, $resource);
         }
 
         $result = $this->backend->searchLayered($context, $query, $stackId, $topK);

@@ -17,6 +17,7 @@ final readonly class DecisionReceipt extends SchemaValue
 
     public function requireTier(ResolutionTier $tier): void
     {
+        $this->assertAllowedDecision();
         if (!$this->maxDisclosureMode()->allowsTier($tier)) {
             throw new DomainFailure(Outcome::Denied, 'verbatim_disclosure_forbidden');
         }
@@ -24,9 +25,24 @@ final readonly class DecisionReceipt extends SchemaValue
 
     public function requireDirectRead(): void
     {
+        $this->assertAllowedDecision();
         if (!$this->maxDisclosureMode()->allowsDirectRead()) {
             throw new DomainFailure(Outcome::Denied, 'verbatim_disclosure_forbidden');
         }
+    }
+
+    public function requireAuthorized(Scope $scope, Operation $operation, ?ResourceRef $resource = null): void
+    {
+        if ($resource !== null) {
+            $scope->assertTenant($resource->tenantId);
+        }
+        $value = $this->toWire();
+        if ($value->get('hostScopeHash') !== $scope->hostScopeHash->value
+            || $value->get('operation') !== $operation->value
+            || ($resource !== null && !in_array($resource->toWire(), $value->get('resourceRefs'), false))) {
+            throw new DomainFailure(Outcome::Denied, 'scope_mismatch');
+        }
+        $this->assertAllowedDecision();
     }
 
     /** Freshness is local evidence only; the host still owns remote-owner freshness. */
@@ -47,7 +63,17 @@ final readonly class DecisionReceipt extends SchemaValue
             || (new UtcInstant($value->get('expiresAt')))->compare($now) <= 0) {
             throw new DomainFailure(Outcome::Denied, 'POLICY_CHANGED');
         }
-        if ($value->get('decision') === 'Unknown') { throw new DomainFailure(Outcome::Unknown, 'policy_unknown'); }
-        if ($value->get('decision') !== 'Allow') { throw new DomainFailure(Outcome::Denied, 'policy_denied'); }
+        $this->assertAllowedDecision();
+    }
+
+    private function assertAllowedDecision(): void
+    {
+        $decision = $this->toWire()->get('decision');
+        if ($decision === 'Unknown') {
+            throw new DomainFailure(Outcome::Unknown, 'policy_unknown');
+        }
+        if ($decision !== 'Allow') {
+            throw new DomainFailure(Outcome::Denied, 'policy_denied');
+        }
     }
 }

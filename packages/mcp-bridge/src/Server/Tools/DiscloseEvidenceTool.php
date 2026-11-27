@@ -71,11 +71,13 @@ final readonly class DiscloseEvidenceTool implements McpTool
         }
 
         if ($this->accessPolicy !== null) {
+            $resource = new ResourceRef($context->scope->tenantId, 'knowledge_base', $context->scope->kbId);
             $receipt = $this->accessPolicy->decide(
                 $context->scope,
-                new ResourceRef($context->scope->tenantId, 'knowledge_base', $context->scope->kbId),
+                $resource,
                 Operation::Disclose,
             );
+            $receipt->requireAuthorized($context->scope, Operation::Disclose, $resource);
             $receipt->requireTier($tier);
         }
 

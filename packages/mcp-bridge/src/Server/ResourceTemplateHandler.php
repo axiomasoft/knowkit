@@ -90,6 +90,7 @@ final readonly class ResourceTemplateHandler
             };
             $operation = $kind === 'outline' ? Operation::Navigate : Operation::Disclose;
             $receipt = $this->accessPolicy->decide($context->scope, $resource, $operation);
+            $receipt->requireAuthorized($context->scope, $operation, $resource);
             $receipt->requireTier($tier);
         }
 

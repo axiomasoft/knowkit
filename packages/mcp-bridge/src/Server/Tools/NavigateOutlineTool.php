@@ -67,11 +67,13 @@ final readonly class NavigateOutlineTool implements McpTool
             || throw new \KnowKit\Domain\DomainFailure(\KnowKit\Domain\Outcome::Denied, 'disclosure_tier_forbidden');
 
         if ($this->accessPolicy !== null) {
+            $resource = new ResourceRef($context->scope->tenantId, 'document_revision', new DocumentRevisionId($revisionId));
             $receipt = $this->accessPolicy->decide(
                 $context->scope,
-                new ResourceRef($context->scope->tenantId, 'document_revision', new DocumentRevisionId($revisionId)),
+                $resource,
                 Operation::Navigate,
             );
+            $receipt->requireAuthorized($context->scope, Operation::Navigate, $resource);
             $receipt->requireTier(ResolutionTier::R0Outline);
         }
 

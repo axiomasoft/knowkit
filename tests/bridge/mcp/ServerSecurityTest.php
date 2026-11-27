@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace KnowKit\Tests\Bridge\Mcp;
 
+use KnowKit\Application\Access\DenyAll;
+use KnowKit\Application\Access\ReceiptFactory;
 use KnowKit\Bridge\Mcp\Server\AuthenticatedMcpContext;
 use KnowKit\Bridge\Mcp\Server\CanonicalToolRegistry;
 use KnowKit\Bridge\Mcp\Server\DirectivePromptHandler;
@@ -10,6 +12,7 @@ use KnowKit\Bridge\Mcp\Server\McpBackend;
 use KnowKit\Bridge\Mcp\Server\McpScopeAuthenticator;
 use KnowKit\Bridge\Mcp\Server\ResourceTemplateHandler;
 use KnowKit\Bridge\Mcp\Server\StatelessMcpServer;
+use KnowKit\Conformance\SchemaLoader;
 use KnowKit\Domain\ActorId;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Decimal;
@@ -30,8 +33,11 @@ use KnowKit\Domain\TenantId;
 use KnowKit\Domain\Ulid;
 use KnowKit\Domain\UtcInstant;
 use KnowKit\Port\AccessPolicy;
+use KnowKit\Port\Clock;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
+
+require_once dirname(__DIR__, 3) . '/packages/core/conformance/autoload.php';
 
 #[Group('bridge:mcp-server')]
 final class ServerSecurityTest extends TestCase
@@ -164,6 +170,74 @@ final class ServerSecurityTest extends TestCase
         ], ['authorization' => 'Bearer valid']);
         self::assertSame(-32003, $policyResp['error']['code']);
         self::assertSame('policy_denied', $policyResp['error']['message']);
+    }
+
+    public function testDenyAllPolicyReceiptsRejectAllToolsAndResourceRead(): void
+    {
+        $validator = SchemaLoader::load(dirname(__DIR__, 3) . '/schemas');
+        $clock = new class() implements Clock {
+            public function now(): UtcInstant
+            {
+                return new UtcInstant('2026-11-27T12:00:00Z');
+            }
+        };
+        $denyAll = new DenyAll(new ReceiptFactory($validator, $clock));
+        $server = $this->createServer(DisclosureMode::VerbatimAllowed, policy: $denyAll);
+        $headers = ['authorization' => 'Bearer valid'];
+
+        $requests = [
+            'knowkit.disclose_evidence' => [
+                'jsonrpc' => '2.0',
+                'id' => 'deny-disclose',
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'knowkit.disclose_evidence',
+                    'arguments' => ['selectionToken' => str_repeat('a', 64), 'resolutionTier' => 'R1'],
+                ],
+            ],
+            'knowkit.navigate_outline' => [
+                'jsonrpc' => '2.0',
+                'id' => 'deny-navigate',
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'knowkit.navigate_outline',
+                    'arguments' => ['revisionId' => self::REVISION_ID],
+                ],
+            ],
+            'knowkit.read_units' => [
+                'jsonrpc' => '2.0',
+                'id' => 'deny-read-units',
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'knowkit.read_units',
+                    'arguments' => ['revisionId' => self::REVISION_ID, 'unitIds' => ['unit-1']],
+                ],
+            ],
+            'knowkit.search_layered' => [
+                'jsonrpc' => '2.0',
+                'id' => 'deny-search',
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'knowkit.search_layered',
+                    'arguments' => ['query' => 'salaries'],
+                ],
+            ],
+            'resources/read' => [
+                'jsonrpc' => '2.0',
+                'id' => 'deny-resource-read',
+                'method' => 'resources/read',
+                'params' => [
+                    'uri' => 'knowkit://support_faq/' . self::KB_ID . '/outline/' . self::REVISION_ID,
+                ],
+            ],
+        ];
+
+        foreach ($requests as $label => $request) {
+            $resp = $server->handle($request, $headers);
+            self::assertSame(-32003, $resp['error']['code'], $label);
+            self::assertSame('policy_denied', $resp['error']['message'], $label);
+            self::assertSame('denied', $resp['error']['data']['outcome'], $label);
+        }
     }
 
     public function testRejectsCrossInstanceResourceReadAndCrossTenantPrompt(): void
