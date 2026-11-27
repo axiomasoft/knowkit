@@ -1292,6 +1292,44 @@
             ],
             "composerProject": ".",
             "minPhp": "8.3"
+        },
+        {
+            "id": "artifacts:pyramid",
+            "requiredCaseManifest": "tests/fixtures/check-groups/artifacts-pyramid.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "artifacts:pyramid",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "retrieval:graph",
+            "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-graph.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "retrieval:graph",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
         }
     ],
     "checks": {
@@ -1395,7 +1433,9 @@
                 "runtime:multi-instance",
                 "layers:dag",
                 "layers:mounts",
-                "security:disclosure-modes"
+                "security:disclosure-modes",
+                "artifacts:pyramid",
+                "retrieval:graph"
             ]
         },
         "ci-core": {
@@ -1432,7 +1472,9 @@
                 "runtime:multi-instance",
                 "layers:dag",
                 "layers:mounts",
-                "security:disclosure-modes"
+                "security:disclosure-modes",
+                "artifacts:pyramid",
+                "retrieval:graph"
             ],
             "notSelected": [
                 "answer:contracts",
@@ -1537,7 +1579,9 @@
                 "runtime:multi-instance",
                 "layers:dag",
                 "layers:mounts",
-                "security:disclosure-modes"
+                "security:disclosure-modes",
+                "artifacts:pyramid",
+                "retrieval:graph"
             ]
         }
     }

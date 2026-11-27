@@ -71,6 +71,8 @@
         "runtime:multi-instance",
         "layers:dag",
         "layers:mounts",
-        "security:disclosure-modes"
+        "security:disclosure-modes",
+        "artifacts:pyramid",
+        "retrieval:graph"
     ]
 }
