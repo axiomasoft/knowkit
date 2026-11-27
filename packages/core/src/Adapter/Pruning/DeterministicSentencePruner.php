@@ -178,6 +178,16 @@ final readonly class DeterministicSentencePruner implements ContextPruner
         $cursor = 0;
 
         if ($contextEndByte !== null && $contextEndByte > 0 && $contextEndByte <= $len) {
+            $changed = true;
+            while ($changed) {
+                $changed = false;
+                foreach ($sortedAtoms as $atom) {
+                    if ($atom->startByte < $contextEndByte && $atom->endByte > $contextEndByte) {
+                        $contextEndByte = min($len, $atom->endByte);
+                        $changed = true;
+                    }
+                }
+            }
             $trimmed = $this->trimSpan($text, 0, $contextEndByte);
             if ($trimmed !== null) {
                 $segments[] = $trimmed;
@@ -308,7 +318,7 @@ final readonly class DeterministicSentencePruner implements ContextPruner
             }
         }
 
-        $score = (int) floor(($matched * 1000) / count($queryTokens));
+        $score = intdiv($matched * 1000, count($queryTokens));
 
         return max(0, min(1000, $score));
     }

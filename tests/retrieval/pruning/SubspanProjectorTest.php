@@ -81,6 +81,20 @@ use PHPUnit\Framework\TestCase;
 #[Group('retrieval:pruning')]
 final class SubspanProjectorTest extends TestCase
 {
+    private function realValidator(): ContractValidator
+    {
+        $schemas = [];
+        $files = glob(dirname(__DIR__, 3) . '/schemas/*.schema.json') ?: [];
+        sort($files, SORT_STRING);
+        foreach ($files as $file) {
+            $schema = StrictJson::decode((string) file_get_contents($file), 4194304);
+            self::assertInstanceOf(JsonObject::class, $schema);
+            $schemas['urn:knowkit:schema:' . basename($file, '.schema.json') . ':1.0'] = $schema;
+        }
+
+        return new ContractValidator(new SchemaSet($schemas));
+    }
+
     private function permissiveValidator(): ContractValidator
     {
         $ids = [
@@ -107,10 +121,10 @@ final class SubspanProjectorTest extends TestCase
     /**
      * @return array{0: IrDocument, 1: DocumentRevisionRef, 2: Chunk, 3: CanonicalMap}
      */
-    private function buildMultiSpanFixture(): array
+    private function buildMultiSpanFixture(?string $seg2Override = null): array
     {
         $seg1 = '## § 4.2. Закон сохранения импульса';
-        $seg2 = 'Исторически это восходит к Декарту 🚀. Суммарный импульс системы сохраняется строго.';
+        $seg2 = $seg2Override ?? 'Исторически это восходит к Декарту 🚀. Суммарный импульс системы сохраняется строго.';
 
         $irWire = StrictJson::decode((string) json_encode([
             'schemaVersion' => 'ir-1.0',
@@ -223,6 +237,38 @@ final class SubspanProjectorTest extends TestCase
         $projector->project($chunk, $document, [], new PrunedSelection($chunk->ref, [new PrunedSubspan(0, $emojiPos + 2)]), $map);
     }
 
+    public function testRejectsZwjClusterSplitsAndNonVerbatimOrigin(): void
+    {
+        $family = "👨\u{200D}👩";
+        [$document, , $chunk, $map] = $this->buildMultiSpanFixture('Семья ' . $family . ' вместе.');
+        $projector = new SubspanProjector();
+        $text = $chunk->text();
+        $man = strpos($text, '👨');
+        self::assertIsInt($man);
+        $zwj = $man + 4;
+        $cuts = [
+            [0, $zwj],         // ends before ZWJ
+            [0, $zwj + 3],     // ends right after ZWJ
+            [$zwj, $zwj + 7],  // starts on ZWJ
+            [$zwj + 3, $zwj + 7], // starts right after ZWJ
+        ];
+        foreach ($cuts as [$a, $b]) {
+            try {
+                $projector->project($chunk, $document, [], new PrunedSelection($chunk->ref, [new PrunedSubspan($a, $b)]), $map);
+                self::fail('Expected ZWJ split failure');
+            } catch (DomainFailure $e) {
+                self::assertSame('invalid_pruned_subspan', $e->errorCode);
+            }
+        }
+        $whole = new PrunedSelection($chunk->ref, [new PrunedSubspan($man, $zwj + 7)]);
+        self::assertSame($family, $projector->project($chunk, $document, [], $whole, $map)->get('text'));
+
+        $meta = new JsonObject(['origin' => 'extracted', 'supportingRefs' => []]);
+        $this->expectException(DomainFailure::class);
+        $this->expectExceptionMessage('invalid_pruned_subspan');
+        $projector->project($chunk, $document, [], $whole, $map, ' … ', false, null, null, $meta);
+    }
+
     public function testRejectsOverlappingAndUnsortedSubspans(): void
     {
         [$document, , $chunk, $map] = $this->buildMultiSpanFixture();
@@ -282,6 +328,8 @@ final class SubspanProjectorTest extends TestCase
 
         $citation = $fragment->get('citation');
         self::assertInstanceOf(JsonObject::class, $citation);
+        self::assertSame('source', $citation->get('origin'));
+        self::assertSame([], $this->realValidator()->validateValue($citation, 'urn:knowkit:schema:citation-ref:1.0'));
         $spans = $map->spans($citation->get('spans'));
         $assembler = new SpanAssembler($document, $revision, $chunk->documentId);
         self::assertSame($expectedText, $assembler->assemble($spans, $fragment->get('joiner')));
@@ -318,7 +366,7 @@ final class SubspanProjectorTest extends TestCase
                 'byteLength' => strlen($chunk->text()),
                 'spans' => $map->wire($chunk->spans),
                 'joiner' => "\n",
-                'origin' => 'extracted',
+                'origin' => 'source',
                 'kind' => 'verbatim',
                 'supportingRefs' => [],
             ])],

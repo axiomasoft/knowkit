@@ -55,13 +55,20 @@ final readonly class PolicyCheckedContextPruner
             ]),
         ];
         $contents = [$queryText];
+        $seen = [hash('sha256', "QUERY\0" . hash('sha256', $queryText) . "\0[]") => true];
 
         foreach ($units as $unit) {
-            $items[] = new JsonObject([
+            $item = new JsonObject([
                 'category' => 'EVIDENCE',
                 'contentDigest' => $unit->chunk->ref->chunkDigest->value,
                 'sourceVersionRefs' => [$unit->chunk->ref->revisionRef->sourceRef->toWire()],
             ]);
+            $key = hash('sha256', 'EVIDENCE' . "\0" . $unit->chunk->ref->chunkDigest->value . "\0" . Jcs::canonicalize($item));
+            if (isset($seen[$key])) {
+                continue;
+            }
+            $seen[$key] = true;
+            $items[] = $item;
             $contents[] = $unit->text();
         }
 

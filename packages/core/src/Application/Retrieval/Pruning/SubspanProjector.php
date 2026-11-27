@@ -129,17 +129,23 @@ final readonly class SubspanProjector
             }
         }
 
-        if ($mappedSpans === []) {
+        if ($mappedSpans === [] || count($mappedSpans) > 64) {
             throw new DomainFailure(Outcome::Incompatible, 'invalid_pruned_subspan');
         }
 
         // 4. Verify via SpanAssembler and recompute fragmentDigest.
         $effectiveJoiner = count($mappedSpans) > 1 ? $joiner : null;
         $prunedText = $map->assembler->assemble($mappedSpans, $effectiveJoiner);
+        if ($maxKeptBytes !== null && strlen($prunedText) > $maxKeptBytes) {
+            throw new DomainFailure(Outcome::Incompatible, 'invalid_pruned_subspan');
+        }
         $fragmentDigest = hash('sha256', $prunedText);
 
         $source = $chunk->ref->revisionRef->sourceRef;
-        $origin = $chunkMetadata?->get('origin');
+        $origin = $chunkMetadata?->get('origin') ?? 'source';
+        if (!is_string($origin) || !in_array($origin, ['source', 'ocr'], true)) {
+            throw new DomainFailure(Outcome::Incompatible, 'invalid_pruned_subspan');
+        }
         $supportingRefs = $chunkMetadata?->get('supportingRefs');
 
         $citation = new JsonObject([
@@ -152,7 +158,7 @@ final readonly class SubspanProjector
             'documentId' => $chunk->documentId->value,
             'irDigest' => $chunk->ref->revisionRef->irDigest->value,
             'contentDigest' => $fragmentDigest,
-            'origin' => is_string($origin) ? $origin : 'extracted',
+            'origin' => $origin,
             'spans' => $map->wire($mappedSpans),
         ]);
         if (is_array($supportingRefs) && $supportingRefs !== []) {
@@ -175,6 +181,12 @@ final readonly class SubspanProjector
         }
         if ($end < $textLen && (ord($text[$end]) & 0xC0) === 0x80) {
             throw new DomainFailure(Outcome::Incompatible, 'invalid_pruned_subspan');
+        }
+        $zwj = "\xE2\x80\x8D";
+        foreach ([$start, $end] as $cut) {
+            if (($cut >= 3 && substr($text, $cut - 3, 3) === $zwj) || substr($text, $cut, 3) === $zwj) {
+                throw new DomainFailure(Outcome::Incompatible, 'invalid_pruned_subspan');
+            }
         }
         $slice = substr($text, $start, $end - $start);
         if ($slice === '' || preg_match('//u', $slice) !== 1) {

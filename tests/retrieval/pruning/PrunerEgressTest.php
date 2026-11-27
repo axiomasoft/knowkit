@@ -20,6 +20,7 @@ use KnowKit\Domain\Contract\ContractValidator;
 use KnowKit\Domain\Contract\HashDomain;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Contract\SchemaSet;
+use KnowKit\Domain\Contract\StrictJson;
 use KnowKit\Domain\DecisionReceipt;
 use KnowKit\Domain\Decimal;
 use KnowKit\Domain\DocumentId;
@@ -66,6 +67,20 @@ use PHPUnit\Framework\TestCase;
 #[Group('retrieval:pruning')]
 final class PrunerEgressTest extends TestCase
 {
+    private function realValidator(): ContractValidator
+    {
+        $schemas = [];
+        $files = glob(dirname(__DIR__, 3) . '/schemas/*.schema.json') ?: [];
+        sort($files, SORT_STRING);
+        foreach ($files as $file) {
+            $schema = StrictJson::decode((string) file_get_contents($file), 4194304);
+            self::assertInstanceOf(JsonObject::class, $schema);
+            $schemas['urn:knowkit:schema:' . basename($file, '.schema.json') . ':1.0'] = $schema;
+        }
+
+        return new ContractValidator(new SchemaSet($schemas));
+    }
+
     private function permissiveValidator(): ContractValidator
     {
         $ids = [
@@ -265,7 +280,7 @@ final class PrunerEgressTest extends TestCase
             public function __construct(private int &$calls) {}
             public function prune(QueryBinding $query, array $units, PruningPolicy $policy): array {
                 $this->calls++;
-                return [new PrunedSelection($units[0]->chunkRef(), [new PrunedSubspan(0, strlen($units[0]->text()), 1000)])];
+                return array_map(static fn (PrunableUnit $u): PrunedSelection => new PrunedSelection($u->chunkRef(), [new PrunedSubspan(0, strlen($u->text()), 1000)]), $units);
             }
         };
 
@@ -276,14 +291,16 @@ final class PrunerEgressTest extends TestCase
             new JsonObject(['providerId' => 'ext', 'accountId' => 'acc', 'region' => 'eu-central-1']),
         );
 
-        $result = $pruner->prune($context, $query, [$unit], $policy, static fn (): JsonObject => $binding);
+        // Duplicate identical unit: egress manifest must deduplicate it.
+        $result = $pruner->prune($context, $query, [$unit, $unit], $policy, static fn (): JsonObject => $binding);
         self::assertSame(1, $calls);
-        self::assertCount(1, $result);
+        self::assertCount(2, $result);
         self::assertInstanceOf(EgressRequest::class, $observedRequest);
         $items = $observedRequest->toWire()->get('items');
         self::assertCount(2, $items);
         self::assertSame('QUERY', $items[0]->get('category'));
         self::assertSame('EVIDENCE', $items[1]->get('category'));
         self::assertCount(1, $items[1]->get('sourceVersionRefs'));
+        self::assertSame([], $this->realValidator()->validateValue($observedRequest->toWire(), 'urn:knowkit:schema:egress-request:1.0'));
     }
 }

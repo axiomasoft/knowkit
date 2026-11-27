@@ -154,7 +154,11 @@ final readonly class CanonicalBuffer
                 $this->ids->next(),
             );
             $fragments[] = $fragment;
-            $bytes += strlen((string) $fragment->get('text'));
+            $size = strlen((string) $fragment->get('text'));
+            $bytes += $size;
+            if ($size > $record->query->limits->maxBytesPerFragment || $bytes > $record->query->limits->maxBytes) {
+                throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
+            }
         }
 
         return new D\DisclosureBuffer($fragments, $refs, $bytes);
