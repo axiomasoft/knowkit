@@ -37,7 +37,10 @@ final class FixtureTransport implements ModelTransport
         $this->lastRequest = $request;
         $bytes = Jcs::canonicalize(new JsonObject([
             'text' => $this->answer,
-            'citations' => array_map(static fn (CitationRef $ref): JsonObject => $ref->toWire(), $request->identity->dependencies->evidence),
+            'citations' => array_map(
+                static fn (int $index): string => '#' . ($index + 1),
+                array_keys($request->identity->dependencies->evidence),
+            ),
         ]));
         $transport = new ScriptedTransport(new EffectiveProfile(ProfileMode::Test, $this->descriptor()), [
             new A\TransportResult(A\DispatchCertainty::Sent, $this->partial ? null : $bytes, !$this->partial,

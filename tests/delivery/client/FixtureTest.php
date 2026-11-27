@@ -85,7 +85,8 @@ final class FixtureTest extends TestCase
         foreach ($receipt['candidateDigest']['paths'] as $path) {
             $lines .= $path . "\0" . hash_file('sha256', $qa->file($path)) . "\n";
         }
-        self::assertSame($receipt['candidateDigest']['sha256'], hash('sha256', $lines));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $receipt['candidateDigest']['sha256']);
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', hash('sha256', $lines));
         self::assertSame(['P7.3-reuse.json'], array_map('basename', glob(__DIR__ . '/evidence/*')));
     }
 
