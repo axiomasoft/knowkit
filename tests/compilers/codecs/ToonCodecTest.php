@@ -141,20 +141,25 @@ final class ToonCodecTest extends TestCase
     public function testToonRejectsIntegersOutsideTheJsonSafeRange(): void
     {
         $codec = new ToonCodec();
-        $unsafe = '9007199254740993';
-
-        try {
-            $codec->decode("items[1]{n}:\n  {$unsafe}");
-            self::fail('Expected unsafe integer rejection');
-        } catch (\InvalidArgumentException $error) {
-            self::assertStringContainsString('safe range', $error->getMessage());
+        foreach ([9007199254740991, -9007199254740991, 0, 17, -3, '9007199254740993'] as $cell) {
+            $rows = [['n' => $cell]];
+            self::assertSame($rows, $codec->decode($codec->encode($rows)));
         }
-
-        try {
-            $codec->encode([['n' => 9007199254740993]]);
-            self::fail('Expected unsafe integer rejection');
-        } catch (\InvalidArgumentException $error) {
-            self::assertStringContainsString('safe range', $error->getMessage());
+        foreach ([9007199254740992, -9007199254740992, PHP_INT_MAX, PHP_INT_MIN] as $unsafe) {
+            try {
+                $codec->encode([['n' => $unsafe]]);
+                self::fail('Expected unsafe integer rejection');
+            } catch (\InvalidArgumentException $error) {
+                self::assertStringContainsString('safe range', $error->getMessage());
+            }
+        }
+        foreach (['9007199254740992', '-9007199254740992', str_repeat('9', 40)] as $raw) {
+            try {
+                $codec->decode("items[1]{n}:\n  {$raw}");
+                self::fail('Expected unsafe integer rejection');
+            } catch (\InvalidArgumentException $error) {
+                self::assertStringContainsString('safe range', $error->getMessage());
+            }
         }
     }
 }

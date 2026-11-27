@@ -14,12 +14,12 @@ final class OutlineTitleTest extends TestCase
 {
     public function testCyrillicTitleIsCutOnACharacterBoundary(): void
     {
-        $title = str_repeat('я', 200);
+        $title = 'A' . str_repeat('я', 200);
         $cut = R0OutlineDistiller::boundedTitle($title);
 
         self::assertLessThanOrEqual(NavigationTreeNode::MAX_TITLE_BYTES, strlen($cut));
         self::assertSame(1, preg_match('//u', $cut));
         self::assertNotSame('', $cut);
-        self::assertSame(0, strlen($cut) % strlen('я'));
+        self::assertSame('A' . str_repeat('я', 79), $cut);
     }
 }
