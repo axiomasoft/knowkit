@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "distill:contracts",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Required contract cases for packages/distill: 4 distillation job kinds, collision-free @@KK_ATOM_*@@ placeholder integrity, PolicyChecks::transmit egress gate, and fenced JobCheckpointManifest commits.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic contract data; no provider or customer content.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "distill-contracts:job-kinds-and-profile",
+    "distill-contracts:r0-r2-and-concept-edges",
+    "distill-contracts:fenced-checkpoints",
+    "distill-contracts:atom-integrity-and-collision",
+    "distill-contracts:egress-gate-zero-io"
+  ],
+  "testCaseMap": {
+    "distill-contracts:job-kinds-and-profile": [
+      "KnowKit\\Tests\\Distill\\DistillContractsTest::testDistillJobKindsExposeFourSnakeCaseTypes",
+      "KnowKit\\Tests\\Distill\\DistillContractsTest::testScriptedTransportRejectsProductionProfile",
+      "KnowKit\\Tests\\Distill\\DistillContractsTest::testDistillProfileUsesIntegerOnlyBpsAndCanonicalDigest"
+    ],
+    "distill-contracts:r0-r2-and-concept-edges": [
+      "KnowKit\\Tests\\Distill\\DistillContractsTest::testR0OutlineAndR2PropositionsDistillersEnrichAndBindR3Spans",
+      "KnowKit\\Tests\\Distill\\DistillContractsTest::testConceptEdgeExtractorSortsAndValidatesAgainstSchema"
+    ],
+    "distill-contracts:fenced-checkpoints": [
+      "KnowKit\\Tests\\Distill\\DistillContractsTest::testOrchestratorCommitsFencedCheckpointAndRejectsStaleLease"
+    ],
+    "distill-contracts:atom-integrity-and-collision": [
+      "KnowKit\\Tests\\Distill\\AtomIntegrityTest::testR1DigestDistillerPreservesAtomsAndIgnoresLiteralAtomTrap",
+      "KnowKit\\Tests\\Distill\\AtomIntegrityTest::testCollisionInSourceTextEscalatesNonceLength",
+      "KnowKit\\Tests\\Distill\\AtomIntegrityTest::testMissingDuplicatedOrInventedMarkerFailsAtomIntegrity",
+      "KnowKit\\Tests\\Distill\\AtomIntegrityTest::testR2PropositionDistillerRejectsLostAtomMarker"
+    ],
+    "distill-contracts:egress-gate-zero-io": [
+      "KnowKit\\Tests\\Distill\\DistillEgressGateTest::testDenyAllPerformsZeroTransportCallsAcrossAllFourDistillers",
+      "KnowKit\\Tests\\Distill\\DistillEgressGateTest::testUnknownDecisionPerformsZeroTransportCallsAcrossAllFourDistillers"
+    ]
+  },
+  "fixtures": []
+}
