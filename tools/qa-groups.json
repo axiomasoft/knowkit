@@ -1425,6 +1425,25 @@
             ],
             "composerProject": "packages/mcp-bridge",
             "minPhp": "8.3"
+        },
+        {
+            "id": "distill:contracts",
+            "requiredCaseManifest": "tests/fixtures/check-groups/distill-contracts.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Distill",
+                    "--group",
+                    "distill:contracts",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/distill",
+            "minPhp": "8.3"
         }
     ],
     "checks": {
@@ -1535,7 +1554,8 @@
                 "compilers:codecs",
                 "compilers:strategies",
                 "bridge:mcp-server",
-                "bridge:mcp-client"
+                "bridge:mcp-client",
+                "distill:contracts"
             ]
         },
         "ci-core": {
@@ -1613,7 +1633,8 @@
                 "compilers:codecs",
                 "compilers:strategies",
                 "bridge:mcp-server",
-                "bridge:mcp-client"
+                "bridge:mcp-client",
+                "distill:contracts"
             ]
         },
         "ci-optional": {
@@ -1635,7 +1656,8 @@
                 "compilers:codecs",
                 "compilers:strategies",
                 "bridge:mcp-server",
-                "bridge:mcp-client"
+                "bridge:mcp-client",
+                "distill:contracts"
             ],
             "notSelected": [
                 "contract:architecture",

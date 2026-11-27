@@ -123,7 +123,7 @@ final class LicenseAuditTest extends Support
         $report = $audit->audit($audit->json('licenses/catalog.json'));
         self::assertSame($report, $this->qa->json('licenses/generated/sbom.json'));
         self::assertCount(33, $report['components']);
-        self::assertSame(['allowed', 'allowed', 'restricted', 'restricted', 'disabled', 'disabled', 'disabled'],
+        self::assertSame(['allowed', 'allowed', 'restricted', 'restricted', 'disabled', 'disabled', 'disabled', 'disabled', 'disabled', 'disabled'],
             array_column($report['profiles'], 'status'));
         foreach ($report['components'] as $record) {
             foreach ($record['notices'] as $notice) {

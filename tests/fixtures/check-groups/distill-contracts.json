@@ -38,6 +38,5 @@
       "KnowKit\\Tests\\Distill\\DistillEgressGateTest::testDenyAllPerformsZeroTransportCallsAcrossAllFourDistillers",
       "KnowKit\\Tests\\Distill\\DistillEgressGateTest::testUnknownDecisionPerformsZeroTransportCallsAcrossAllFourDistillers"
     ]
-  },
-  "fixtures": []
+  }
 }

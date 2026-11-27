@@ -78,6 +78,7 @@
         "compilers:codecs",
         "compilers:strategies",
         "bridge:mcp-server",
-        "bridge:mcp-client"
+        "bridge:mcp-client",
+        "distill:contracts"
     ]
 }

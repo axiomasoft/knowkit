@@ -19,6 +19,7 @@
     <testsuite name="BridgeHostQualification"><directory>packages/agentools-bridge/tests/host</directory></testsuite>
     <testsuite name="ContextCompilers"><directory>tests/compilers/codecs</directory><directory>tests/compilers/strategies</directory><directory>tests/compilers/telemetry</directory></testsuite>
     <testsuite name="McpBridge"><directory>tests/bridge/mcp</directory></testsuite>
+    <testsuite name="Distill"><directory>tests/distill</directory></testsuite>
   </testsuites>
   <source>
     <include><directory suffix=".php">packages/core/src</directory></include>

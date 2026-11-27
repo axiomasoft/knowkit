@@ -1,99 +1,126 @@
 {
-  "schemaVersion": "license-catalog:1",
-  "scope": "Unpublished local source reuse and development inventory; no runtime adapter certification.",
-  "composerLock": {
-    "path": "composer.lock",
-    "sha256": "d76fdb70e0f66cf5f2b7f2a85cc1f8be3cfe0941dfb6eda3969981bf91c474bd"
-  },
-  "qualificationFiles": [
-    "licenses/qualifications/agentools-source-patterns.json",
-    "licenses/qualifications/deeptutor-source-patterns.json",
-    "licenses/qualifications/docling.json",
-    "licenses/qualifications/mineru.json",
-    "licenses/qualifications/myclabs--deep-copy.json",
-    "licenses/qualifications/nikic--php-parser.json",
-    "licenses/qualifications/phar-io--manifest.json",
-    "licenses/qualifications/phar-io--version.json",
-    "licenses/qualifications/phpstan--phpstan.json",
-    "licenses/qualifications/phpunit--php-code-coverage.json",
-    "licenses/qualifications/phpunit--php-file-iterator.json",
-    "licenses/qualifications/phpunit--php-invoker.json",
-    "licenses/qualifications/phpunit--php-text-template.json",
-    "licenses/qualifications/phpunit--php-timer.json",
-    "licenses/qualifications/phpunit--phpunit.json",
-    "licenses/qualifications/pymupdf.json",
-    "licenses/qualifications/sebastian--cli-parser.json",
-    "licenses/qualifications/sebastian--code-unit-reverse-lookup.json",
-    "licenses/qualifications/sebastian--code-unit.json",
-    "licenses/qualifications/sebastian--comparator.json",
-    "licenses/qualifications/sebastian--complexity.json",
-    "licenses/qualifications/sebastian--diff.json",
-    "licenses/qualifications/sebastian--environment.json",
-    "licenses/qualifications/sebastian--exporter.json",
-    "licenses/qualifications/sebastian--global-state.json",
-    "licenses/qualifications/sebastian--lines-of-code.json",
-    "licenses/qualifications/sebastian--object-enumerator.json",
-    "licenses/qualifications/sebastian--object-reflector.json",
-    "licenses/qualifications/sebastian--recursion-context.json",
-    "licenses/qualifications/sebastian--type.json",
-    "licenses/qualifications/sebastian--version.json",
-    "licenses/qualifications/staabm--side-effects-detector.json",
-    "licenses/qualifications/symfony--deprecation-contracts.json",
-    "licenses/qualifications/symfony--polyfill-ctype.json",
-    "licenses/qualifications/symfony--yaml.json",
-    "licenses/qualifications/theseer--tokenizer.json",
-    "licenses/qualifications/xprovence-bgem3.json"
-  ],
-  "profiles": [
-    {
-      "id": "local-text",
-      "enabled": true,
-      "implementation": "original-core",
-      "components": []
+    "schemaVersion": "license-catalog:1",
+    "scope": "Unpublished local source reuse and development inventory; no runtime adapter certification.",
+    "composerLock": {
+        "path": "composer.lock",
+        "sha256": "d76fdb70e0f66cf5f2b7f2a85cc1f8be3cfe0941dfb6eda3969981bf91c474bd"
     },
-    {
-      "id": "local-markdown",
-      "enabled": true,
-      "implementation": "original-core",
-      "components": []
-    },
-    {
-      "id": "reuse-tooling",
-      "enabled": true,
-      "components": [
-        "agentools-source-patterns",
-        "deeptutor-source-patterns"
-      ]
-    },
-    {
-      "id": "development",
-      "enabled": true,
-      "components": [
-        "phpunit/phpunit",
-        "phpstan/phpstan",
-        "symfony/yaml"
-      ]
-    },
-    {
-      "id": "docling-parser",
-      "enabled": false,
-      "components": [
-        "docling"
-      ]
-    },
-    {
-      "id": "mineru-parser",
-      "enabled": false,
-      "components": [
-        "mineru"
-      ]
-    },
-    {
-      "id": "pymupdf-parser",
-      "enabled": false,
-      "components": [
-        "pymupdf"
-      ]
-    }
-  ]
+    "qualificationFiles": [
+        "licenses/qualifications/agentools-source-patterns.json",
+        "licenses/qualifications/deeptutor-source-patterns.json",
+        "licenses/qualifications/docling.json",
+        "licenses/qualifications/mineru.json",
+        "licenses/qualifications/myclabs--deep-copy.json",
+        "licenses/qualifications/nikic--php-parser.json",
+        "licenses/qualifications/olmocr2-math.json",
+        "licenses/qualifications/paddleocr-vl.json",
+        "licenses/qualifications/phar-io--manifest.json",
+        "licenses/qualifications/phar-io--version.json",
+        "licenses/qualifications/phpstan--phpstan.json",
+        "licenses/qualifications/phpunit--php-code-coverage.json",
+        "licenses/qualifications/phpunit--php-file-iterator.json",
+        "licenses/qualifications/phpunit--php-invoker.json",
+        "licenses/qualifications/phpunit--php-text-template.json",
+        "licenses/qualifications/phpunit--php-timer.json",
+        "licenses/qualifications/phpunit--phpunit.json",
+        "licenses/qualifications/pymupdf.json",
+        "licenses/qualifications/sebastian--cli-parser.json",
+        "licenses/qualifications/sebastian--code-unit-reverse-lookup.json",
+        "licenses/qualifications/sebastian--code-unit.json",
+        "licenses/qualifications/sebastian--comparator.json",
+        "licenses/qualifications/sebastian--complexity.json",
+        "licenses/qualifications/sebastian--diff.json",
+        "licenses/qualifications/sebastian--environment.json",
+        "licenses/qualifications/sebastian--exporter.json",
+        "licenses/qualifications/sebastian--global-state.json",
+        "licenses/qualifications/sebastian--lines-of-code.json",
+        "licenses/qualifications/sebastian--object-enumerator.json",
+        "licenses/qualifications/sebastian--object-reflector.json",
+        "licenses/qualifications/sebastian--recursion-context.json",
+        "licenses/qualifications/sebastian--type.json",
+        "licenses/qualifications/sebastian--version.json",
+        "licenses/qualifications/staabm--side-effects-detector.json",
+        "licenses/qualifications/symfony--deprecation-contracts.json",
+        "licenses/qualifications/symfony--polyfill-ctype.json",
+        "licenses/qualifications/symfony--yaml.json",
+        "licenses/qualifications/sympy-formula-verify.json",
+        "licenses/qualifications/theseer--tokenizer.json",
+        "licenses/qualifications/xprovence-bgem3.json"
+    ],
+    "profiles": [
+        {
+            "id": "local-text",
+            "enabled": true,
+            "implementation": "original-core",
+            "components": []
+        },
+        {
+            "id": "local-markdown",
+            "enabled": true,
+            "implementation": "original-core",
+            "components": []
+        },
+        {
+            "id": "reuse-tooling",
+            "enabled": true,
+            "components": [
+                "agentools-source-patterns",
+                "deeptutor-source-patterns"
+            ]
+        },
+        {
+            "id": "development",
+            "enabled": true,
+            "components": [
+                "phpunit/phpunit",
+                "phpstan/phpstan",
+                "symfony/yaml"
+            ]
+        },
+        {
+            "id": "docling-parser",
+            "enabled": false,
+            "components": [
+                "docling"
+            ]
+        },
+        {
+            "id": "mineru-parser",
+            "enabled": false,
+            "components": [
+                "mineru"
+            ]
+        },
+        {
+            "id": "pymupdf-parser",
+            "enabled": false,
+            "components": [
+                "pymupdf"
+            ]
+        },
+        {
+            "id": "formula-sympy-verify-v1",
+            "enabled": false,
+            "implementation": "python-worker",
+            "components": [
+                "sympy-formula-verify"
+            ]
+        },
+        {
+            "id": "paddleocr-vl-v1",
+            "enabled": false,
+            "implementation": "python-worker",
+            "components": [
+                "paddleocr-vl"
+            ]
+        },
+        {
+            "id": "olmocr2-math-v1",
+            "enabled": false,
+            "implementation": "python-worker",
+            "components": [
+                "olmocr2-math"
+            ]
+        }
+    ]
 }

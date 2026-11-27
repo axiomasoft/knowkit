@@ -17,6 +17,7 @@ final class CandidateAutoload
             'KnowKit\\Bridge\\AgenTools\\' => 'agentools-bridge',
             'KnowKit\\Bridge\\Mcp\\' => 'mcp-bridge',
             'KnowKit\\ContextCompilers\\' => 'context-compilers',
+            'KnowKit\\Distill\\' => 'distill',
             'KnowKit\\PgVector\\' => 'pgvector',
             'KnowKit\\Laravel\\' => 'laravel',
             'KnowKit\\Chatom\\' => 'chatom',

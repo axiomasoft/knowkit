@@ -30,6 +30,18 @@
         {
             "id": "pymupdf-parser",
             "status": "disabled"
+        },
+        {
+            "id": "formula-sympy-verify-v1",
+            "status": "disabled"
+        },
+        {
+            "id": "paddleocr-vl-v1",
+            "status": "disabled"
+        },
+        {
+            "id": "olmocr2-math-v1",
+            "status": "disabled"
         }
     ],
     "components": [
@@ -2278,7 +2290,7 @@
             }
         }
     ],
-    "catalogDigest": "e99c1778e3e94693dbd4252abe3effade4532c46b74937fd671a754e7e574598",
+    "catalogDigest": "6f59b6c44f61b6128e4f162c49ec0bf0582e4d1785ad80912e80de1f6fd2af69",
     "limitations": [
         "Local qualification only; no runtime parser/provider conformance or publication approval."
     ]
