@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "bridge:mcp-client",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Progressive MCP discovery client (>90% token savings on 50 tools), UntrustedEvidence tagging, and McpSourceConnector completeness/integrity verification.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "bridge-mcp-client:lazy-50-tools",
+    "bridge-mcp-client:untrusted-output",
+    "bridge-mcp-client:complete-inventory",
+    "bridge-mcp-client:connector-partial",
+    "bridge-mcp-client:sha256-mismatch"
+  ],
+  "testCaseMap": {
+    "bridge-mcp-client:lazy-50-tools": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ProgressiveDiscoveryTest::testMcpLazy50ToolsAchievesOver90PercentSavingsAndRespectsSep2549Ttl"
+    ],
+    "bridge-mcp-client:untrusted-output": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ProgressiveDiscoveryTest::testMcpUntrustedOutputAlwaysTaggedUntrustedEvidence"
+    ],
+    "bridge-mcp-client:complete-inventory": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\McpSourceConnectorTest::testCompleteInventoryVerifiesSha256DownloadsAndSealsReceipt"
+    ],
+    "bridge-mcp-client:connector-partial": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\McpSourceConnectorTest::testMcpConnectorPartialPaginationBreakPreservesExistingSources"
+    ],
+    "bridge-mcp-client:sha256-mismatch": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\McpSourceConnectorTest::testSha256MismatchMarksSnapshotIncomplete"
+    ]
+  }
+}
