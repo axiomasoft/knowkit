@@ -101,6 +101,15 @@ final class ToonCodecTest extends TestCase
         ];
         $rendered = $md->encode($tree);
         self::assertSame("- Chapter 1\n  - Momentum", $rendered);
+        $skill = [[
+            'id' => 'support.refund',
+            'title' => 'Refund a ticket',
+            'steps' => ['verify identity', 'issue refund'],
+        ]];
+        self::assertSame(
+            "- Refund a ticket\n  - **steps**:\n    - verify identity\n    - issue refund",
+            $md->encode($skill),
+        );
         self::assertSame(['Chapter 1', '  - Momentum'], $md->decode("- Chapter 1\n-   - Momentum"));
 
         $this->expectException(ContractViolation::class);
