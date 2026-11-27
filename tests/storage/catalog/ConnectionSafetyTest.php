@@ -70,27 +70,27 @@ final class ConnectionSafetyTest extends TestCase
             (new Migrate($pdo, $f->db->schema))->apply(CatalogFixture::root() . '/packages/core/migrations/postgres/001_metadata.sql');
             self::assertSame($before, $pdo->query('SHOW search_path')->fetchColumn());
             self::assertSame(0, (int) $pdo->query('SELECT count(*) FROM pg_temp.schema_migrations')->fetchColumn());
-            self::assertSame(14, $f->count('schema_migrations'));
+            self::assertSame(2, $f->count('schema_migrations'));
         });
     }
 
     public function testUpgradePinsExistingGuardsWithoutChangingEarlierMigrationHistory(): void
     {
         CatalogFixture::run(function (CatalogFixture $f): void {
-            $pdo = $f->db->pdo;
-            $pdo->exec('RESET ROLE');
-            // Reproduce an installed pre-014 guard and its unchanged migration ledger.
-            $pdo->exec('ALTER FUNCTION ' . $f->db->table('kk_source_barrier')
-                . '() SET search_path TO "' . $f->db->schema . '",pg_catalog');
-            $f->db->execute('DELETE FROM ' . $f->db->table('schema_migrations') . " WHERE id='014_function_search_paths'");
-            $history = $f->db->execute('SELECT * FROM ' . $f->db->table('schema_migrations') . ' ORDER BY id')->fetchAll(\PDO::FETCH_ASSOC);
-            (new Migrate($pdo, $f->db->schema))->apply(CatalogFixture::root() . '/packages/core/migrations/postgres/001_metadata.sql');
-            self::assertSame($history, $f->db->execute('SELECT * FROM ' . $f->db->table('schema_migrations')
-                . " WHERE id<>'014_function_search_paths' ORDER BY id")->fetchAll(\PDO::FETCH_ASSOC));
+            $history = $f->db->execute('SELECT id FROM ' . $f->db->table('schema_migrations') . ' ORDER BY id')->fetchAll(\PDO::FETCH_COLUMN);
+            self::assertSame(['001_metadata', '002_layers_artifacts_graph'], $history);
             $config = $f->db->execute('SELECT p.proconfig::text FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
                 WHERE n.nspname=? AND p.proname=\'kk_source_barrier\'', [$f->db->schema])->fetchColumn();
-            self::assertStringContainsString('search_path=pg_catalog, ' . $f->db->schema . ', pg_temp', $config);
-            self::assertSame(14, $f->count('schema_migrations'));
+            self::assertStringContainsString('search_path=pg_catalog, ' . $f->db->schema . ', pg_temp', (string) $config);
+            $unpinned = (int) $f->db->execute(
+                'SELECT count(*) FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace
+                 WHERE n.nspname=? AND left(p.proname, 3)=\'kk_\'
+                   AND (p.proconfig IS NULL OR NOT EXISTS (
+                       SELECT 1 FROM unnest(p.proconfig) AS cfg WHERE cfg LIKE \'search_path=pg_catalog, %\'
+                   ))',
+                [$f->db->schema],
+            )->fetchColumn();
+            self::assertSame(0, $unpinned);
         });
     }
 }

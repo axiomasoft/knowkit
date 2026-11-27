@@ -78,8 +78,7 @@ final class Fixture
         Connection::schema($role);
         $db->pdo->exec('RESET ROLE');
         try {
-            $db->pdo->exec(file_get_contents(self::root() . '/packages/pgvector/migrations/002_vector_generations.sql'));
-            $db->pdo->exec(file_get_contents(self::root() . '/packages/pgvector/migrations/003_vector_guard_search_path.sql'));
+            $db->pdo->exec(file_get_contents(self::root() . '/packages/pgvector/migrations/001_pgvector_schema.sql'));
             $db->pdo->exec('GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA ' . $db->schema . ' TO ' . $role);
         } finally {
             $db->pdo->exec('SET ROLE ' . $role);

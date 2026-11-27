@@ -1,114 +1,117 @@
 {
-  "schemaVersion": "check-group:1",
-  "group": "semantic:vector",
-  "fixtureVersion": "1.0.1",
-  "versionRationale": "Initial independent Python SHA256 and float32 byte oracles; denied/foreign/other-snapshot nearest vectors must never compete with the permitted corpus. Any changed oracle requires a new version and behavior rationale. Audit 2026-11-17: require the reproduced security/reliability regressions alongside existing case IDs; authored fixture bytes and behavior oracles are unchanged.",
-  "rights": {
-    "license": "LicenseRef-KnowKit-Private",
-    "origin": "Project-authored synthetic vectors; canonical document fixtures reused from retrieval lexical and publication manifest. No external provider or Python runtime.",
-    "redistributionAllowed": false
-  },
-  "requiredCaseIds": [
-    "R05-A01",
-    "R05-A02",
-    "R20-A01",
-    "R20-A02",
-    "R22-A01",
-    "R22-A02",
-    "DT-Q03",
-    "model-revision-change",
-    "denied-nearest-neighbors",
-    "missing-vector",
-    "nonfinite-input",
-    "rebuild-crash",
-    "old-pointer-remains-active",
-    "rogue-id",
-    "ann-filtering-recall",
-    "fresh-lifecycle",
-    "scoped-persistence",
-    "full-space-receipt",
-    "persisted-vector-integrity",
-    "fixture-integrity",
-    "runner-negatives"
-  ],
-  "testCaseMap": {
-    "R05-A01": [
-      "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testProcessingAxesRetainHistoricalSourceRevisionChunksetAndIndexRefs"
-    ],
-    "R05-A02": [
-      "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testChangedOriginalUnderExistingVersionIsRejected"
-    ],
-    "R20-A01": [
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testDeniedNearestNeighborsTenantAndSnapshotAreExcludedBeforeTopK"
-    ],
-    "R20-A02": [
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testUnsupportedPrefilterIsRejectedBeforeAnyProviderCall"
-    ],
-    "R22-A01": [
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testEveryEqualDimensionSpaceMutationIsIncompatibleBeforeEmbedding"
-    ],
-    "R22-A02": [
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testDocumentQueryRolesAndQueryBindingsAreEnforced"
-    ],
-    "DT-Q03": [
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testDeniedNearestNeighborsTenantAndSnapshotAreExcludedBeforeTopK",
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testUnsupportedPrefilterIsRejectedBeforeAnyProviderCall"
-    ],
-    "model-revision-change": [
-      "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testAtomicReembedPreservesDocumentCitationIdentityAndPinnedHistory",
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testEveryEqualDimensionSpaceMutationIsIncompatibleBeforeEmbedding"
-    ],
-    "denied-nearest-neighbors": [
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testDeniedNearestNeighborsTenantAndSnapshotAreExcludedBeforeTopK"
-    ],
-    "missing-vector": [
-      "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testMissingVectorCannotSealAndOldPointerRemainsActive",
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testMissingOrChangedPersistedVectorIsNeverAnEmptyResult"
-    ],
-    "nonfinite-input": [
-      "KnowKit\\Tests\\Semantic\\Vector\\DomainTest::testNonfiniteDimensionsFloat32AndNormalizationAreRejected"
-    ],
-    "rebuild-crash": [
-      "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testRebuildCrashRollsBackMembershipsAndActivationOutboxAtomically"
-    ],
-    "old-pointer-remains-active": [
-      "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testRebuildCrashRollsBackMembershipsAndActivationOutboxAtomically",
-      "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testMissingVectorCannotSealAndOldPointerRemainsActive"
-    ],
-    "rogue-id": [
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testRogueDocumentIdAndAlteredIdentityAreRejected"
-    ],
-    "ann-filtering-recall": [
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testAuthorizedHnswMeasuresRecallAndExposesExactFallback"
-    ],
-    "fresh-lifecycle": ["KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testLifecycleChangeDuringEmbeddingClosesTheCorpus", "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testTemporaryGenerationCannotPermitDeletingSealedVectors"],
-    "scoped-persistence": [
-      "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testIndexReplayTenantGuardAndSealedSqlImmutability"
-    ],
-    "full-space-receipt": [
-      "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testFullSpaceReceiptAndProcessingFenceRejectTampering"
-    ],
-    "persisted-vector-integrity": [
-      "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testPersistedVectorDigestMismatchIsRejectedBeforeEmbedding",
-      "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testFloat32PersistenceReplayAndChangedVectorConflict"
-    ],
-    "fixture-integrity": [
-      "KnowKit\\Tests\\Semantic\\Vector\\FixtureTest::testVersionedDigestsProvenanceAndReuseReceipt"
-    ],
-    "runner-negatives": [
-      "KnowKit\\Tests\\Semantic\\Vector\\FixtureTest::testRequiredCaseInventoryRejectsMissingSkippedFailedDuplicateAndEmpty"
-    ]
-  },
-  "fixtures": [
-    {
-      "path": "tests/fixtures/retrieval/vector/corpus.v1.json",
-      "sha256": "d42f896f81306df9b35295a7f9bffa36783f175d12e1a28f1bf4b289d8fd1f4d",
-      "expected": "Immutable reference and independently authored vector/processing outcomes."
+    "schemaVersion": "check-group:1",
+    "group": "semantic:vector",
+    "fixtureVersion": "1.0.1",
+    "versionRationale": "Initial independent Python SHA256 and float32 byte oracles; denied/foreign/other-snapshot nearest vectors must never compete with the permitted corpus. Any changed oracle requires a new version and behavior rationale. Audit 2026-11-17: require the reproduced security/reliability regressions alongside existing case IDs; authored fixture bytes and behavior oracles are unchanged.",
+    "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic vectors; canonical document fixtures reused from retrieval lexical and publication manifest. No external provider or Python runtime.",
+        "redistributionAllowed": false
     },
-    {
-      "path": "tests/fixtures/retrieval/vector/manifest.v1.json",
-      "sha256": "6d0f1cb2631715cb33ffc2d1d8f9af205207360940f862e5b4fee4d7c7c09c3d",
-      "expected": "Versioned provenance and immutable fixture inventory."
-    }
-  ]
+    "requiredCaseIds": [
+        "R05-A01",
+        "R05-A02",
+        "R20-A01",
+        "R20-A02",
+        "R22-A01",
+        "R22-A02",
+        "DT-Q03",
+        "model-revision-change",
+        "denied-nearest-neighbors",
+        "missing-vector",
+        "nonfinite-input",
+        "rebuild-crash",
+        "old-pointer-remains-active",
+        "rogue-id",
+        "ann-filtering-recall",
+        "fresh-lifecycle",
+        "scoped-persistence",
+        "full-space-receipt",
+        "persisted-vector-integrity",
+        "fixture-integrity",
+        "runner-negatives"
+    ],
+    "testCaseMap": {
+        "R05-A01": [
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testProcessingAxesRetainHistoricalSourceRevisionChunksetAndIndexRefs"
+        ],
+        "R05-A02": [
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testChangedOriginalUnderExistingVersionIsRejected"
+        ],
+        "R20-A01": [
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testDeniedNearestNeighborsTenantAndSnapshotAreExcludedBeforeTopK"
+        ],
+        "R20-A02": [
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testUnsupportedPrefilterIsRejectedBeforeAnyProviderCall"
+        ],
+        "R22-A01": [
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testEveryEqualDimensionSpaceMutationIsIncompatibleBeforeEmbedding"
+        ],
+        "R22-A02": [
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testDocumentQueryRolesAndQueryBindingsAreEnforced"
+        ],
+        "DT-Q03": [
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testDeniedNearestNeighborsTenantAndSnapshotAreExcludedBeforeTopK",
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testUnsupportedPrefilterIsRejectedBeforeAnyProviderCall"
+        ],
+        "model-revision-change": [
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testAtomicReembedPreservesDocumentCitationIdentityAndPinnedHistory",
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testEveryEqualDimensionSpaceMutationIsIncompatibleBeforeEmbedding"
+        ],
+        "denied-nearest-neighbors": [
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testDeniedNearestNeighborsTenantAndSnapshotAreExcludedBeforeTopK"
+        ],
+        "missing-vector": [
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testMissingVectorCannotSealAndOldPointerRemainsActive",
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testMissingOrChangedPersistedVectorIsNeverAnEmptyResult"
+        ],
+        "nonfinite-input": [
+            "KnowKit\\Tests\\Semantic\\Vector\\DomainTest::testNonfiniteDimensionsFloat32AndNormalizationAreRejected"
+        ],
+        "rebuild-crash": [
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testRebuildCrashRollsBackMembershipsAndActivationOutboxAtomically"
+        ],
+        "old-pointer-remains-active": [
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testRebuildCrashRollsBackMembershipsAndActivationOutboxAtomically",
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testMissingVectorCannotSealAndOldPointerRemainsActive"
+        ],
+        "rogue-id": [
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testRogueDocumentIdAndAlteredIdentityAreRejected"
+        ],
+        "ann-filtering-recall": [
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testAuthorizedHnswMeasuresRecallAndExposesExactFallback"
+        ],
+        "fresh-lifecycle": [
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testLifecycleChangeDuringEmbeddingClosesTheCorpus",
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testTemporaryGenerationCannotPermitDeletingSealedVectors"
+        ],
+        "scoped-persistence": [
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testIndexReplayTenantGuardAndSealedSqlImmutability"
+        ],
+        "full-space-receipt": [
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testFullSpaceReceiptAndProcessingFenceRejectTampering"
+        ],
+        "persisted-vector-integrity": [
+            "KnowKit\\Tests\\Semantic\\Vector\\SearchTest::testPersistedVectorDigestMismatchIsRejectedBeforeEmbedding",
+            "KnowKit\\Tests\\Semantic\\Vector\\GenerationTest::testFloat32PersistenceReplayAndChangedVectorConflict"
+        ],
+        "fixture-integrity": [
+            "KnowKit\\Tests\\Semantic\\Vector\\FixtureTest::testVersionedDigestsProvenanceAndReuseReceipt"
+        ],
+        "runner-negatives": [
+            "KnowKit\\Tests\\Semantic\\Vector\\FixtureTest::testRequiredCaseInventoryRejectsMissingSkippedFailedDuplicateAndEmpty"
+        ]
+    },
+    "fixtures": [
+        {
+            "path": "tests/fixtures/retrieval/vector/corpus.v1.json",
+            "sha256": "91b552de6a7b481e227cbd41fefea20e8fccfd69b61dd7db92e09593624a4b85",
+            "expected": "Immutable reference and independently authored vector/processing outcomes."
+        },
+        {
+            "path": "tests/fixtures/retrieval/vector/manifest.v1.json",
+            "sha256": "fc2f3c7c3c070ac1357f6d82ab569c6710674f34c22bd8245afc44d572596dad",
+            "expected": "Versioned provenance and immutable fixture inventory."
+        }
+    ]
 }
