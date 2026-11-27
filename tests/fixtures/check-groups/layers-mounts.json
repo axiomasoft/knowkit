@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "layers:mounts",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "PostgreSQL 17 adapters for LayerStore (directives, layer definitions, resolved stacks) and CatalogMountStore (shared catalog mount guards, revoke, outbox, policy epochs).",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "layers-mounts:directive-roundtrip-immutable",
+    "layers-mounts:layer-node-sql-trust-matrix",
+    "layers-mounts:resolved-stack-roundtrip-isolation",
+    "layers-mounts:mount-shared-sealed-catalog",
+    "layers-mounts:reject-private-and-unsealed-mount",
+    "layers-mounts:reject-denied-or-intx-mount",
+    "layers-mounts:revoke-mount-epochs-and-outbox"
+  ],
+  "testCaseMap": {
+    "layers-mounts:directive-roundtrip-immutable": [
+      "KnowKit\\Tests\\Layers\\Mounts\\PdoLayerStoreTest::testSavesAndFindsDirectiveArtifactAndEnforcesImmutability"
+    ],
+    "layers-mounts:layer-node-sql-trust-matrix": [
+      "KnowKit\\Tests\\Layers\\Mounts\\PdoLayerStoreTest::testSavesLayerNodesAndRejectsInvalidTrustTierDeliveryMatrixInSql"
+    ],
+    "layers-mounts:resolved-stack-roundtrip-isolation": [
+      "KnowKit\\Tests\\Layers\\Mounts\\PdoLayerStoreTest::testSavesAndFindsResolvedLayerStackWithTenantIsolation"
+    ],
+    "layers-mounts:mount-shared-sealed-catalog": [
+      "KnowKit\\Tests\\Layers\\Mounts\\CatalogMountTest::testMountsSharedSealedCatalogSnapshotAndListsActiveMounts"
+    ],
+    "layers-mounts:reject-private-and-unsealed-mount": [
+      "KnowKit\\Tests\\Layers\\Mounts\\CatalogMountTest::testRejectsPrivateTenantAndUnsealedSnapshotMount"
+    ],
+    "layers-mounts:reject-denied-or-intx-mount": [
+      "KnowKit\\Tests\\Layers\\Mounts\\CatalogMountTest::testRejectsDeniedOrInTransactionMount"
+    ],
+    "layers-mounts:revoke-mount-epochs-and-outbox": [
+      "KnowKit\\Tests\\Layers\\Mounts\\CatalogMountTest::testRevokeMountTransitionsStateIncrementsEpochsAndWritesOutbox"
+    ]
+  }
+}
