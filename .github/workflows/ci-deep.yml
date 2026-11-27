@@ -30,8 +30,7 @@ jobs:
           extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
           tools: composer:v2
           coverage: none
-      - run: composer install --no-interaction --no-progress --prefer-dist
-      - run: composer install --working-dir=packages/pgvector --no-interaction --no-progress --prefer-dist
+          ini-values: zend.assertions=1
       - name: 100k+ pgvector load & 1% selective isolation check
         run: |
           php -r '
@@ -50,8 +49,16 @@ jobs:
           $pdo->exec("SET hnsw.iterative_scan = strict_order");
           $q = "[" . implode(",", array_fill(0, 64, "0.1")) . "]";
           $rows = $pdo->query("SELECT id, tenant FROM vec_100k WHERE tenant = 0 ORDER BY emb <-> '\''$q'\'' LIMIT 20")->fetchAll(PDO::FETCH_ASSOC);
-          assert(count($rows) === 20);
-          foreach ($rows as $r) { assert((int) $r["tenant"] === 0); }
+          if (count($rows) !== 20) {
+              fwrite(STDERR, "expected 20 rows, got " . count($rows) . "\n");
+              exit(1);
+          }
+          foreach ($rows as $r) {
+              if ((int) $r["tenant"] !== 0) {
+                  fwrite(STDERR, "tenant isolation failed for id " . $r["id"] . "\n");
+                  exit(1);
+              }
+          }
           echo "100k pgvector load OK\n";
           '
         env:
