@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "security:disclosure-modes",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Physical DisclosureMode enforcement in DecisionReceipt, ReceiptFactory, PreparedDecision, Disclosures, FreshDisclosure, SourceNavigation, CanonicalReads, and Readings before loading IR or original bytes.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "disclosure-mode:receipt-intersection",
+    "disclosure-mode:fresh-disclosure-matrix",
+    "disclosure-mode:source-navigation-zero-bytes",
+    "disclosure-mode:readings-and-canonical-reads-blocked"
+  ],
+  "testCaseMap": {
+    "disclosure-mode:receipt-intersection": [
+      "KnowKit\\Tests\\Security\\DisclosureModes\\DisclosureModeTest::testReceiptFactoryAndPreparedDecisionIntersection"
+    ],
+    "disclosure-mode:fresh-disclosure-matrix": [
+      "KnowKit\\Tests\\Security\\DisclosureModes\\DisclosureModeTest::testFreshDisclosureEnforcesDisclosureModeMatrixBeforeLoadingBytes"
+    ],
+    "disclosure-mode:source-navigation-zero-bytes": [
+      "KnowKit\\Tests\\Security\\DisclosureModes\\DisclosureModeTest::testSourceNavigationEnforcesDisclosureModeBeforeLoadingIr"
+    ],
+    "disclosure-mode:readings-and-canonical-reads-blocked": [
+      "KnowKit\\Tests\\Security\\DisclosureModes\\DisclosureModeTest::testReadingsAndCanonicalReadsBlockDirectReadsWhenNotVerbatimAllowed"
+    ]
+  }
+}

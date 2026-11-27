@@ -37,7 +37,7 @@ final readonly class SourceNavigation
             if ($depth < 1 || $depth > 24 || $limit < 1 || $limit > $this->limits->maxUnits) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
             }
-            [$plan, $document, $authorize] = $this->load($scope, $revision, D\Operation::Navigate);
+            [$plan, $document, $authorize] = $this->load($scope, $revision, D\Operation::Navigate, D\Layers\ResolutionTier::R0Outline);
             $outline = $document->outline($revision, $depth, $limit, $this->limits);
             $this->store->check($scope, $revision, $plan, $document->sourceUnits(), $authorize);
 
@@ -56,7 +56,7 @@ final readonly class SourceNavigation
             if ($maxBytes < 1 || $maxBytes > $this->limits->maxTextBytes) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'limit_exceeded');
             }
-            [$plan, $document, $authorize] = $this->load($scope, $revision, D\Operation::Disclose);
+            [$plan, $document, $authorize] = $this->load($scope, $revision, D\Operation::Disclose, null);
             $units = $document->read($range, $maxBytes, $this->limits);
             $result = $this->store->disclose($scope, $revision, $plan, $units, $this->ids->next(), $authorize);
 
@@ -72,7 +72,7 @@ final readonly class SourceNavigation
             if ($quote === '' || strlen($quote) > $this->limits->maxTextBytes || preg_match('//u', $quote) !== 1) {
                 throw new D\DomainFailure(D\Outcome::Incompatible, 'invalid_quote');
             }
-            [$plan, $document, $authorize] = $this->load($scope, $revision, D\Operation::Navigate);
+            [$plan, $document, $authorize] = $this->load($scope, $revision, D\Operation::Navigate, null);
             $location = (new QuoteLocator($this->normalizer))->locate($document, $revision,
                 new TextQuoteSelector($quote), $mode, $this->limits);
             $this->store->check($scope, $revision, $plan, $document->sourceUnits(), $authorize);
@@ -86,7 +86,7 @@ final readonly class SourceNavigation
     }
 
     /** @return array{N\NavigationPlan,CanonicalDocument,Closure(N\NavigationPlan,D\UtcInstant):D\DisclosureDeadline} */
-    private function load(D\Scope $scope, D\DocumentRevisionRef $revision, D\Operation $operation): array
+    private function load(D\Scope $scope, D\DocumentRevisionRef $revision, D\Operation $operation, ?D\Layers\ResolutionTier $requiredTier): array
     {
         $context = AccessContext::fromHost($this->host);
         $requested = new D\Access\PolicyContext($scope, $context->policy->audience,
@@ -94,7 +94,7 @@ final readonly class SourceNavigation
         $requested->assertSame($context->policy);
         $scope->assertTenant($revision->sourceRef->tenantId);
         $plan = $this->store->plan($scope, $revision);
-        $authorize = $this->authorize($context, $revision, $plan, $operation);
+        $authorize = $this->authorize($context, $revision, $plan, $operation, $requiredTier);
         $ir = $this->documents->read($revision, 8388608);
         $context->assertCurrent();
         $document = new CanonicalDocument($ir, $revision, $plan->documentId);
@@ -107,11 +107,16 @@ final readonly class SourceNavigation
 
     /** @return Closure(N\NavigationPlan,D\UtcInstant):D\DisclosureDeadline */
     private function authorize(AccessContext $context, D\DocumentRevisionRef $revision,
-        N\NavigationPlan $plan, D\Operation $operation): Closure
+        N\NavigationPlan $plan, D\Operation $operation, ?D\Layers\ResolutionTier $requiredTier): Closure
     {
         $scope = $context->scope();
         $grant = $this->grant($scope, $revision);
         $decision = $this->checks->prepare($context, $plan->guards->resources, $operation, $plan->guards->binding());
+        if ($requiredTier !== null) {
+            $decision->requireTier($requiredTier);
+        } else {
+            $decision->requireDirectRead();
+        }
 
         return static function (N\NavigationPlan $current, D\UtcInstant $now) use ($context, $scope, $revision, $grant, $decision): D\DisclosureDeadline {
             $context->assertCurrent();

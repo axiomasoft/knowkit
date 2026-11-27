@@ -6,6 +6,7 @@ namespace KnowKit\Application\Access;
 use KnowKit\Domain\{DecisionReceipt, DisclosureDeadline, DomainFailure, Operation, Outcome, ResourceRef, Sha256, UtcInstant};
 use KnowKit\Domain\Access\OwnerFreshness;
 use KnowKit\Domain\Contract\{HashDomain, JsonObject};
+use KnowKit\Domain\Layers\{DisclosureMode, ResolutionTier};
 
 /** One bounded boundary attempt, checked with authoritative epochs and DB time under shared guards. */
 final class PreparedDecision
@@ -48,5 +49,39 @@ final class PreparedDecision
         }
 
         return new DisclosureDeadline($deadline ?? throw new \LogicException('Nonempty receipt set required'), $this->freshness !== null);
+    }
+
+    public function maxDisclosureMode(): DisclosureMode
+    {
+        $effective = DisclosureMode::VerbatimAllowed;
+        $rank = static fn (DisclosureMode $mode): int => match ($mode) {
+            DisclosureMode::VerbatimAllowed => 4,
+            DisclosureMode::DerivedOnly => 3,
+            DisclosureMode::SummaryOnly => 2,
+            DisclosureMode::MetadataOnly => 1,
+            DisclosureMode::IndexOnly => 0,
+        };
+        foreach ($this->receipts as [, $receipt]) {
+            $mode = $receipt->maxDisclosureMode();
+            if ($rank($mode) < $rank($effective)) {
+                $effective = $mode;
+            }
+        }
+
+        return $effective;
+    }
+
+    public function requireTier(ResolutionTier $tier): void
+    {
+        if (!$this->maxDisclosureMode()->allowsTier($tier)) {
+            throw new DomainFailure(Outcome::Denied, 'verbatim_disclosure_forbidden');
+        }
+    }
+
+    public function requireDirectRead(): void
+    {
+        if (!$this->maxDisclosureMode()->allowsDirectRead()) {
+            throw new DomainFailure(Outcome::Denied, 'verbatim_disclosure_forbidden');
+        }
     }
 }

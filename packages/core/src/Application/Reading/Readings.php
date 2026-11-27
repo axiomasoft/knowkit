@@ -53,13 +53,15 @@ final readonly class Readings
         $record->requirePayload();
         $plan = $this->store->plan($scope, $record);
         // Authorize before preloading, and prepare a fresh receipt after all object I/O.
-        $this->checks->prepare($context, $plan->resources, D\Operation::Disclose, $plan->binding());
-        [$body, $object] = $this->canonical->preload($record, $request);
+        $precheck = $this->checks->prepare($context, $plan->resources, D\Operation::Disclose, $plan->binding());
+        $precheck->requireDirectRead();
+        [$body, $object] = $this->canonical->preload($record, $request, $precheck->maxDisclosureMode());
         $resources = $plan->resources;
         if ($object !== null) {
             $resources[] = new D\ResourceRef($scope->tenantId, 'resource', $object->resourceId);
         }
         $decision = $this->checks->prepare($context, $resources, D\Operation::Disclose, $plan->binding());
+        $decision->requireDirectRead();
 
         return $this->store->commit($scope, $record, $request, $plan, $body, $object,
             static function (D\DisclosurePlan $current, D\UtcInstant $now) use ($context, $decision): D\DisclosureDeadline {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace KnowKit\Domain;
 
 use KnowKit\Domain\Contract\HashDomain;
-use KnowKit\Domain\Layers\DisclosureMode;
+use KnowKit\Domain\Layers\{DisclosureMode, ResolutionTier};
 
 final readonly class DecisionReceipt extends SchemaValue
 {
@@ -13,6 +13,20 @@ final readonly class DecisionReceipt extends SchemaValue
     public function maxDisclosureMode(): DisclosureMode
     {
         return DisclosureMode::from($this->toWire()->get('maxDisclosureMode') ?? DisclosureMode::VerbatimAllowed->value);
+    }
+
+    public function requireTier(ResolutionTier $tier): void
+    {
+        if (!$this->maxDisclosureMode()->allowsTier($tier)) {
+            throw new DomainFailure(Outcome::Denied, 'verbatim_disclosure_forbidden');
+        }
+    }
+
+    public function requireDirectRead(): void
+    {
+        if (!$this->maxDisclosureMode()->allowsDirectRead()) {
+            throw new DomainFailure(Outcome::Denied, 'verbatim_disclosure_forbidden');
+        }
     }
 
     /** Freshness is local evidence only; the host still owns remote-owner freshness. */

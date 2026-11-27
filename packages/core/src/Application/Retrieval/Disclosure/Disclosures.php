@@ -42,6 +42,7 @@ final readonly class Disclosures
             $request->refs($record);
             $plan = $this->store->plan($context->scope(), $record, $request);
             $prepared = $this->policy->prepare($context, $plan->resources, D\Operation::Disclose, $plan->binding());
+            $prepared->requireTier($request->resolutionTier());
             $buffer = $this->canonical->preload($record, $request);
             $usageId = new D\UsageId($this->ids->next()->value);
             $context->assertCurrent();
@@ -49,6 +50,7 @@ final readonly class Disclosures
                 function (D\DisclosurePlan $current, D\UtcInstant $now) use ($context, $record, $request, $query, $snapshot, $prepared, $buffer, $usageId): D\PreparedDisclosure {
                     $record->requireBinding($context->policy, $query, $snapshot, $request->runRef(), $now);
                     $prepared->requireAllow($context, $current->binding(), $now);
+                    $prepared->requireTier($request->resolutionTier());
 
                     return $buffer->prepare($record, $request, $usageId, $now, $this->validator, $prepared->disclosureDeadline());
                 });

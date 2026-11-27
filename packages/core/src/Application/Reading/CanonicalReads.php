@@ -8,6 +8,7 @@ use KnowKit\Application\Chunking\CanonicalMap;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
+use KnowKit\Domain\Layers\DisclosureMode;
 use KnowKit\Domain\Reading as R;
 use KnowKit\Port\CanonicalDocuments;
 use KnowKit\Port\PreviewObjects;
@@ -25,8 +26,11 @@ final readonly class CanonicalReads
     ) {}
 
     /** @return array{R\ReadBody,?R\BlobObject} */
-    public function preload(R\CitationRecord $record, R\ReadRequest $request): array
+    public function preload(R\CitationRecord $record, R\ReadRequest $request, DisclosureMode $mode = DisclosureMode::VerbatimAllowed): array
     {
+        if (!$mode->allowsDirectRead()) {
+            throw new D\DomainFailure(D\Outcome::Denied, 'verbatim_disclosure_forbidden');
+        }
         $record->requirePayload();
         $document = $this->documents->read($record->chunk->revisionRef, 8388608);
         $map = new CanonicalMap($document, $record->chunk->revisionRef, $record->citation->documentId());
