@@ -1,0 +1,50 @@
+{
+  "name": "knowkit/mcp-bridge",
+  "description": "Stateless MCP 2026 server, progressive discovery client, and source connector for KnowKit",
+  "type": "library",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.3",
+    "knowkit/context-compilers": "dev-main",
+    "knowkit/core": "dev-main"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^11.5"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../core",
+      "options": {
+        "symlink": false,
+        "versions": {
+          "knowkit/core": "dev-main"
+        }
+      }
+    },
+    {
+      "type": "path",
+      "url": "../context-compilers",
+      "options": {
+        "symlink": false,
+        "versions": {
+          "knowkit/context-compilers": "dev-main"
+        }
+      }
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "KnowKit\\Bridge\\Mcp\\": "src/"
+    }
+  },
+  "config": {
+    "allow-plugins": false,
+    "sort-packages": true,
+    "platform": {
+      "php": "8.3.0"
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

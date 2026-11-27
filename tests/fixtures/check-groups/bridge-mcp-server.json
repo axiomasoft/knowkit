@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "bridge:mcp-server",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Stateless MCP 2026 server protocol, JCS-canonicalized 5 tools, boundary enforcement, DisclosureMode & AccessPolicy checks, resource templates, and directive prompts.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "bridge-mcp-server:discover-sep2549-jcs",
+    "bridge-mcp-server:tools-list-deterministic",
+    "bridge-mcp-server:five-tools-execution",
+    "bridge-mcp-server:resources-and-prompts",
+    "bridge-mcp-server:schema-boundary-free",
+    "bridge-mcp-server:reject-tenant-spoof",
+    "bridge-mcp-server:derived-only-blocks-verbatim",
+    "bridge-mcp-server:auth-and-policy-checks",
+    "bridge-mcp-server:cross-scope-isolation"
+  ],
+  "testCaseMap": {
+    "bridge-mcp-server:discover-sep2549-jcs": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ServerProtocolTest::testServerDiscoverReturnsSingleRoundTripWithSep2549AndJcsSortedTools"
+    ],
+    "bridge-mcp-server:tools-list-deterministic": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ServerProtocolTest::testToolsListHasDeterministicJcsSchemaDigests"
+    ],
+    "bridge-mcp-server:five-tools-execution": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ServerProtocolTest::testAllFiveToolsExecuteStatelesslyAndSearchLayeredReturnsZeroChunkText"
+    ],
+    "bridge-mcp-server:resources-and-prompts": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ServerProtocolTest::testResourcesAndPromptsAreServedForAuthorizedTenant"
+    ],
+    "bridge-mcp-server:schema-boundary-free": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ServerSecurityTest::testNoToolExposesScopeOrTenantFieldsInSchema"
+    ],
+    "bridge-mcp-server:reject-tenant-spoof": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ServerSecurityTest::testRejectsTenantIdSpoofingInToolArguments"
+    ],
+    "bridge-mcp-server:derived-only-blocks-verbatim": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ServerSecurityTest::testRejectsVerbatimReadUnitsAndCitationResourceUnderDerivedOnly"
+    ],
+    "bridge-mcp-server:auth-and-policy-checks": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ServerSecurityTest::testAuthenticatesBeforeParsingBusinessArgumentsAndEnforcesFreshAccessPolicy"
+    ],
+    "bridge-mcp-server:cross-scope-isolation": [
+      "KnowKit\\Tests\\Bridge\\Mcp\\ServerSecurityTest::testRejectsCrossInstanceResourceReadAndCrossTenantPrompt"
+    ]
+  }
+}
