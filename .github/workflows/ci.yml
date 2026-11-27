@@ -143,8 +143,7 @@ jobs:
         if: matrix.php != '8.3'
         run: |
           set -euo pipefail
-          chatom_root="$(cd packages/chatom && php -r 'echo realpath("../../../chatom/packages/core") ?: "";')"
-          if [ -n "$chatom_root" ]; then
+          if [ -d ../chatom/packages/core ]; then
             composer install --working-dir=packages/chatom --no-interaction --no-progress --prefer-dist
             composer validate --strict --working-dir=packages/chatom
             KNOWKIT_QA_COMPOSER_PROJECT=packages/chatom vendor/bin/phpstan analyse \
@@ -153,7 +152,9 @@ jobs:
           else
             echo "Sibling chatom checkout is absent. Portable CI does not qualify the host package."
           fi
-          if composer install --working-dir=packages/agentools-bridge --no-interaction --no-progress --prefer-dist; then
+          if [ -d packages/agentools-bridge/vendor/agentools/platform-core ] || [ -d ../agentools ] || \
+              GIT_TERMINAL_PROMPT=0 git ls-remote --exit-code https://github.com/axiomasoft/agentools.git HEAD >/dev/null; then
+            composer install --working-dir=packages/agentools-bridge --no-interaction --no-progress --prefer-dist
             composer validate --strict --working-dir=packages/agentools-bridge
             KNOWKIT_QA_COMPOSER_PROJECT=packages/agentools-bridge vendor/bin/phpstan analyse \
               --configuration=phpstan.optional.neon --level=5 packages/agentools-bridge/src \

@@ -102,6 +102,23 @@ final class BoundaryTest extends Support
         $this->rejects(static fn() => $qa->dag(), 'unapproved Composer package');
     }
 
+    public function testOptionalCiPropagatesInstallFailureWithAgentoolsPresent(): void
+    {
+        $workflow = \Symfony\Component\Yaml\Yaml::parseFile($this->qa->file('.github/workflows/ci.yml'));
+        $commands = array_column($workflow['jobs']['optional-matrix']['steps'], 'run', 'name');
+        $script = $commands['Analyse host packages when their checkouts are present'];
+        $this->put('repo/packages/agentools-bridge/vendor/agentools/platform-core/composer.json', '{}');
+        $this->put('repo/packages/chatom/composer.json', '{}');
+        $this->put('bin/composer', "#!/bin/sh\nexit 17\n");
+        chmod($this->temporary . '/bin/composer', 0700);
+
+        $result = (new Qa($this->temporary . '/repo'))->process(
+            ['bash', '-e', '-c', $script],
+            ['PATH' => $this->temporary . '/bin:' . getenv('PATH')],
+        );
+        self::assertSame(17, $result['exit'], $result['stderr']);
+    }
+
     public function testPortableConfigurationRejectsHostPathsAndPublicDatabasePorts(): void
     {
         self::assertSame(['files' => 6], $this->qa->config());

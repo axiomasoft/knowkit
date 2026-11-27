@@ -30,7 +30,6 @@ jobs:
           extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
           tools: composer:v2
           coverage: none
-          ini-values: zend.assertions=1
       - name: 100k+ pgvector load & 1% selective isolation check
         run: |
           php -r '
