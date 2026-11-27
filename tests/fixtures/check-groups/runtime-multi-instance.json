@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "runtime:multi-instance",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Initial multi-instance runtime, isolation presets, ScopedAllowPolicy, SingleLocalScopeFactory, and KnowledgeFacade verification on PostgreSQL 17.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures and multi-instance isolation tests."
+  },
+  "requiredCaseIds": [
+    "MULTI-INST-ISOLATION",
+    "MULTI-INST-FAULT-CONTAINMENT",
+    "SINGLE-LOCAL-CYCLE",
+    "SCOPED-ALLOW-DENY-FOREIGN"
+  ],
+  "testCaseMap": {
+    "MULTI-INST-ISOLATION": [
+      "KnowKit\\Tests\\Runtime\\MultiInstance\\KnowledgeFacadeTest::testMultiInstanceIsolationInSameProcess"
+    ],
+    "MULTI-INST-FAULT-CONTAINMENT": [
+      "KnowKit\\Tests\\Runtime\\MultiInstance\\InstanceRegistryTest::testFaultContainmentIsolatesBrokenInstanceReadiness"
+    ],
+    "SINGLE-LOCAL-CYCLE": [
+      "KnowKit\\Tests\\Runtime\\MultiInstance\\KnowledgeFacadeTest::testSingleLocalFullLifecycleOnPostgres17"
+    ],
+    "SCOPED-ALLOW-DENY-FOREIGN": [
+      "KnowKit\\Tests\\Runtime\\MultiInstance\\IsolationPresetsTest::testScopedAllowPolicyAllowsExactScopeAndDeniesForeignScope"
+    ]
+  },
+  "expected": {
+    "multiInstanceIsolation": "denied(scope_mismatch)",
+    "faultContainment": "healthy_ready_broken_failed",
+    "singleLocalCycle": "ingest_publish_search_disclose_revoke_denied",
+    "scopedAllowDenyForeign": "deny_foreign_tenant_kb_or_hash"
+  }
+}
