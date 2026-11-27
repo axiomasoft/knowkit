@@ -11,6 +11,8 @@ use KnowKit\Port\ConceptEdgeIndex;
 /** PostgreSQL 17 adapter for snapshot-scoped concept_edges. */
 final readonly class PdoConceptEdgeIndex implements ConceptEdgeIndex
 {
+    /** Eight bound columns. 512 stays under PostgreSQL's 65535-parameter limit. */
+    private const INSERT_BATCH = 512;
     public function __construct(
         private Connection $db,
         private PdoCatalogTransaction $tx,
@@ -32,22 +34,25 @@ final readonly class PdoConceptEdgeIndex implements ConceptEdgeIndex
         $this->tx->run(function () use ($tenant, $kbId, $snapshotId, $edges): void {
             $this->tx->lockTenant($tenant, LockMode::Update);
             $table = $this->db->table('concept_edges');
-            foreach ($edges as $edge) {
+            foreach (array_chunk($edges, self::INSERT_BATCH) as $batch) {
+                $placeholders = implode(', ', array_fill(0, count($batch), '(?, ?, ?, ?, ?, ?, ?, ?)'));
+                $params = [];
+                foreach ($batch as $edge) {
+                    $params[] = $tenant->value;
+                    $params[] = $kbId->value;
+                    $params[] = $snapshotId->value;
+                    $params[] = $edge->fromChunkId->value;
+                    $params[] = $edge->toChunkId->value;
+                    $params[] = $edge->relation;
+                    $params[] = $edge->weightBps;
+                    $params[] = $edge->origin;
+                }
                 $this->db->execute(
                     'INSERT INTO ' . $table .
                     ' (tenant_id, kb_id, snapshot_id, from_chunk_id, to_chunk_id, relation, weight_bps, origin)' .
-                    ' VALUES (?, ?, ?, ?, ?, ?, ?, ?)' .
+                    ' VALUES ' . $placeholders .
                     ' ON CONFLICT (tenant_id, kb_id, snapshot_id, from_chunk_id, relation, to_chunk_id) DO NOTHING',
-                    [
-                        $tenant->value,
-                        $kbId->value,
-                        $snapshotId->value,
-                        $edge->fromChunkId->value,
-                        $edge->toChunkId->value,
-                        $edge->relation,
-                        $edge->weightBps,
-                        $edge->origin,
-                    ],
+                    $params,
                 );
             }
         });
