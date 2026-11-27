@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "concurrency:layers",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Multi-process PostgreSQL 17 race tests for CatalogMount revoke, pgvector iterative_scan tenant isolation, and distillation job lease fencing.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored multi-process PostgreSQL 17 concurrency test suite."
+  },
+  "requiredCaseIds": [
+    "RACE-CATALOG-MOUNT-REVOKE",
+    "RACE-VECTOR-ITERATIVE-SCAN-ISOLATION",
+    "RACE-DISTILL-LEASE-FENCING"
+  ],
+  "testCaseMap": {
+    "RACE-CATALOG-MOUNT-REVOKE": [
+      "KnowKit\\Tests\\Concurrency\\Layers\\CatalogMountRevokeRaceTest::testConcurrentRevokeMountStopsAllSubsequentReadsWithZeroSqlErrors"
+    ],
+    "RACE-VECTOR-ITERATIVE-SCAN-ISOLATION": [
+      "KnowKit\\Tests\\Concurrency\\Layers\\VectorIterativeScanIsolationRaceTest::testConcurrentIterativeScanAcrossTwoHundredIterationsNeverLeaksForeignChunks"
+    ],
+    "RACE-DISTILL-LEASE-FENCING": [
+      "KnowKit\\Tests\\Concurrency\\Layers\\DistillLeaseFencingRaceTest::testExpiredWorkerFencingTokenCannotHeartbeatOrCompleteAfterNewWorkerAcquiresLease"
+    ]
+  },
+  "expected": {
+    "mountRevokeSqlErrors": 0,
+    "vectorForeignChunkLeaks": 0,
+    "staleFenceRejected": true
+  }
+}

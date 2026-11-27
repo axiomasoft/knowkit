@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "property:invariants",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Seeded property-based invariant checks for LayerStackResolver DAGs, SubspanProjector UTF-8/atom preservation, ToonCodec round-trip, and JCS integer-only enforcement.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored property-based test suite."
+  },
+  "requiredCaseIds": [
+    "PROP-LAYER-DAG-PERMUTATION",
+    "PROP-LAYER-DAG-FAULT-REJECTION",
+    "PROP-SUBSPAN-MULTIBYTE-ATOM",
+    "PROP-TOON-ROUNDTRIP",
+    "PROP-JCS-NO-FLOAT"
+  ],
+  "testCaseMap": {
+    "PROP-LAYER-DAG-PERMUTATION": [
+      "KnowKit\\Tests\\Property\\LayerDagPropertyTest::testRandomDagsArePermutationInvariantAndEnforceDenyMonotonicity"
+    ],
+    "PROP-LAYER-DAG-FAULT-REJECTION": [
+      "KnowKit\\Tests\\Property\\LayerDagPropertyTest::testCycleInjectionAndLockedKeyMutationAlwaysFailClosed"
+    ],
+    "PROP-SUBSPAN-MULTIBYTE-ATOM": [
+      "KnowKit\\Tests\\Property\\SubspanProjectorPropertyTest::testSubspanProjectorRoundTripsMultibyteAndRejectsUtf8OrAtomSplits"
+    ],
+    "PROP-TOON-ROUNDTRIP": [
+      "KnowKit\\Tests\\Property\\CodecsAndJcsPropertyTest::testToonRoundTripsThreeHundredRandomHomogeneousTables"
+    ],
+    "PROP-JCS-NO-FLOAT": [
+      "KnowKit\\Tests\\Property\\CodecsAndJcsPropertyTest::testFloatInjectionAlwaysTriggersNonIntegerNumber"
+    ]
+  },
+  "expected": {
+    "dags": 100,
+    "subspans": 500,
+    "toonTables": 300
+  }
+}

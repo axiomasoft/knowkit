@@ -1,0 +1,124 @@
+name: KnowKit deep nightly verification
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  load-100k-pgvector:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_USER: knowkit_test
+          POSTGRES_DB: knowkit_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ['5432/tcp']
+        options: >-
+          --health-cmd "pg_isready -U knowkit_test -d knowkit_test"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
+          tools: composer:v2
+          coverage: none
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      - run: composer install --working-dir=packages/pgvector --no-interaction --no-progress --prefer-dist
+      - name: 100k+ pgvector load & 1% selective isolation check
+        run: |
+          php -r '
+          $dsn = getenv("TEST_VECTOR_PG_DSN");
+          $pdo = new PDO($dsn);
+          $pdo->exec("CREATE EXTENSION IF NOT EXISTS vector");
+          $pdo->exec("CREATE TEMP TABLE vec_100k (id int primary key, tenant int, emb halfvec(64))");
+          $pdo->beginTransaction();
+          $stmt = $pdo->prepare("INSERT INTO vec_100k VALUES (?, ?, ?)");
+          for ($i = 0; $i < 100000; $i++) {
+              $vals = array_fill(0, 64, ($i % 100 === 0) ? "0.1" : "0.9");
+              $stmt->execute([$i, $i % 100, "[" . implode(",", $vals) . "]"]);
+          }
+          $pdo->commit();
+          $pdo->exec("CREATE INDEX ON vec_100k USING hnsw (emb halfvec_l2_ops)");
+          $pdo->exec("SET hnsw.iterative_scan = strict_order");
+          $q = "[" . implode(",", array_fill(0, 64, "0.1")) . "]";
+          $rows = $pdo->query("SELECT id, tenant FROM vec_100k WHERE tenant = 0 ORDER BY emb <-> '\''$q'\'' LIMIT 20")->fetchAll(PDO::FETCH_ASSOC);
+          assert(count($rows) === 20);
+          foreach ($rows as $r) { assert((int) $r["tenant"] === 0); }
+          echo "100k pgvector load OK\n";
+          '
+        env:
+          TEST_VECTOR_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test;user=knowkit_test
+
+  extended-property-soak:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_USER: knowkit_test
+          POSTGRES_DB: knowkit_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ['5432/tcp']
+        options: >-
+          --health-cmd "pg_isready -U knowkit_test -d knowkit_test"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: '8.3'
+          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
+          tools: composer:v2
+          coverage: none
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      - run: python -m pip install uv==0.12.0 && uv sync --project python/knowkit-worker --frozen
+      - name: Multi-seed property and formula fuzz soak (10 seeds)
+        run: |
+          set -euo pipefail
+          for seed in 20261127 101 202 303 404 505 606 707 808 909; do
+            KNOWKIT_FUZZ_SEED=$seed vendor/bin/phpunit --configuration phpunit.xml tests/property/
+            KNOWKIT_FUZZ_SEED=$seed uv run --project python/knowkit-worker --frozen --offline pytest python/knowkit-worker/tests/structure/test_formula_fuzz.py -q
+          done
+      - name: Multi-process concurrency soak
+        run: |
+          for round in 1 2 3; do
+            vendor/bin/phpunit --configuration phpunit.xml tests/concurrency/layers/
+          done
+        env:
+          TEST_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test;user=knowkit_test
+          TEST_VECTOR_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test;user=knowkit_test
+
+  sandbox-bwrap-seccomp:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Install bubblewrap and uv
+        run: |
+          sudo apt-get update && sudo apt-get install -y bubblewrap
+          python -m pip install uv==0.12.0
+          uv sync --project python/knowkit-worker --frozen
+      - name: Run knowkit-worker sandbox probe under unshare-net bubblewrap
+        run: |
+          bwrap --unshare-net --ro-bind / / --dev /dev --proc /proc --tmpfs /tmp \
+            uv run --project python/knowkit-worker --frozen --offline \
+            python -m knowkit_worker.sandbox_probe

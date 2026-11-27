@@ -6,17 +6,17 @@ concurrency:
   group: knowkit-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  bootstrap:
+  core-matrix:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
         php: ['8.3', '8.4', '8.5']
-        postgres: ['17']
+        zstd: ['off', 'on']
     services:
       postgres:
-        image: postgres:${{ matrix.postgres }}
+        image: postgres:17
         env:
           POSTGRES_USER: knowkit_test
           POSTGRES_DB: knowkit_test
@@ -32,7 +32,7 @@ jobs:
       - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
         with:
           php-version: ${{ matrix.php }}
-          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
+          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl${{ matrix.zstd == 'on' && ', zstd' || '' }}
           tools: composer:v2
           coverage: none
       - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
@@ -41,7 +41,6 @@ jobs:
       - name: Resolve Composer package cache
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-      # Download cache only. The install below still uses the lockfile.
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -49,22 +48,34 @@ jobs:
           restore-keys: |
             composer-${{ runner.os }}-
       - run: composer install --no-interaction --no-progress --prefer-dist
-      - name: Record resolved PostgreSQL image revision
-        run: docker image inspect postgres:${{ matrix.postgres }} --format '{{json .RepoDigests}}'
-      - name: Core contracts, database, security and retrieval (29 groups)
-        run: php tools/qa.php --profile ci-core > qa-core.json
+      - name: Check QA DAG and config registries
+        run: |
+          php tools/qa.php --check dag
+          php tools/qa.php --check config
+      - name: Core PHPStan Level 8
+        run: vendor/bin/phpstan analyse --configuration phpstan.neon --no-progress --memory-limit=1G
+      - name: Core QA profile, pairwise matrix, and property invariants
+        run: |
+          php tools/qa.php --profile ci-core > qa-core.json
+          php tools/qa.php matrix:combinatorial > qa-matrix.json
+          php tools/qa.php property:invariants > qa-property.json
         env:
           TEST_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test
           TEST_PG_USER: knowkit_test
+          KNOWKIT_FUZZ_SEED: '20261127'
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
-          name: core-php${{ matrix.php }}-pg${{ matrix.postgres }}
-          path: qa-core.json
-          if-no-files-found: error
-  optional:
+          name: core-php${{ matrix.php }}-zstd-${{ matrix.zstd }}
+          path: |
+            qa-core.json
+            qa-matrix.json
+            qa-property.json
+          if-no-files-found: ignore
+
+  optional-matrix:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     strategy:
       fail-fast: false
       matrix:
@@ -96,7 +107,6 @@ jobs:
       - name: Resolve Composer package cache
         id: composer-cache
         run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-      # Download cache only. The install below still uses the lockfile.
       - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -104,22 +114,29 @@ jobs:
           restore-keys: |
             composer-${{ runner.os }}-
       - run: composer install --no-interaction --no-progress --prefer-dist
-      - name: Install and validate isolated optional projects
+      - name: Install, validate, and analyse optional packages
         run: |
           set -euo pipefail
-          for package in answer pgvector http laravel; do
+          for package in answer pgvector http laravel context-compilers mcp-bridge distill training-export; do
             composer install --working-dir=packages/$package --no-interaction --no-progress --prefer-dist
             composer validate --strict --working-dir=packages/$package
-          done
-      - name: Analyse optional package sources at Level 8
-        run: |
-          set -euo pipefail
-          for package in answer pgvector http laravel; do
             KNOWKIT_QA_COMPOSER_PROJECT=packages/$package vendor/bin/phpstan analyse \
               --configuration=phpstan.optional.neon packages/$package/src \
               --autoload-file=packages/$package/vendor/autoload.php --no-progress --memory-limit=1G
           done
-      - name: Answer, vector, HTTP, Laravel, evaluation and observability
+          if [ "${{ matrix.php }}" != "8.3" ]; then
+            for package in chatom agentools-bridge; do
+              composer install --working-dir=packages/$package --no-interaction --no-progress --prefer-dist
+              composer validate --strict --working-dir=packages/$package
+            done
+            KNOWKIT_QA_COMPOSER_PROJECT=packages/chatom vendor/bin/phpstan analyse \
+              --configuration=phpstan.optional.neon packages/chatom/src \
+              --autoload-file=packages/chatom/vendor/autoload.php --no-progress --memory-limit=1G
+            KNOWKIT_QA_COMPOSER_PROJECT=packages/agentools-bridge vendor/bin/phpstan analyse \
+              --configuration=phpstan.optional.neon --level=5 packages/agentools-bridge/src \
+              --autoload-file=packages/agentools-bridge/vendor/autoload.php --no-progress --memory-limit=1G
+          fi
+      - name: Optional QA profile
         run: php tools/qa.php --profile ci-optional > qa-optional.json
         env:
           TEST_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test
@@ -131,7 +148,72 @@ jobs:
           name: optional-php${{ matrix.php }}
           path: qa-optional.json
           if-no-files-found: error
-  coverage:
+
+  concurrency-and-adversarial:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.3', '8.4']
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_USER: knowkit_test
+          POSTGRES_DB: knowkit_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports: ['5432/tcp']
+        options: >-
+          --health-cmd "pg_isready -U knowkit_test -d knowkit_test"
+          --health-interval 2s --health-timeout 3s --health-retries 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
+          tools: composer:v2
+          coverage: none
+      - run: composer install --no-interaction --no-progress --prefer-dist
+      - name: Run concurrency races, adversarial hardening, resilience, and compression KPIs
+        run: |
+          vendor/bin/phpunit --configuration phpunit.xml tests/concurrency/layers/ tests/security/hardening/ tests/ops/resilience/ tests/evaluation/CompressionBenchmarkTest.php
+          if [ -f examples/plain-php/multi-instance.php ]; then
+            php examples/plain-php/multi-instance.php
+          fi
+        env:
+          TEST_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test;user=knowkit_test
+          TEST_VECTOR_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test;user=knowkit_test
+
+  worker-protocol-and-fuzz:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - name: Compile worker and deploy Python
+        run: python -m compileall -q python/knowkit-worker/src deploy
+      - run: python -m pip install uv==0.12.0
+      - run: uv sync --project python/knowkit-worker --frozen
+      - name: Worker protocol and structure fuzzing (offline)
+        run: uv run --project python/knowkit-worker --frozen --offline pytest python/knowkit-worker/tests/protocol python/knowkit-worker/tests/structure -q --junitxml=worker-protocol.xml
+        env:
+          KNOWKIT_FUZZ_SEED: '20261127'
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: worker-protocol-and-fuzz
+          path: worker-protocol.xml
+          if-no-files-found: error
+
+  coverage-and-audits:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     services:
@@ -155,92 +237,25 @@ jobs:
           extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
           tools: composer:v2
           coverage: pcov
-      - name: Resolve Composer package cache
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-      # Download cache only. The install below still uses the lockfile.
-      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock', 'packages/*/composer.lock') }}
-          restore-keys: |
-            composer-${{ runner.os }}-
+          python-version: '3.12'
       - run: composer install --no-interaction --no-progress --prefer-dist
-      - name: Measure all core source files, including uncovered files
+      - name: Measure core coverage (PCOV)
         run: vendor/bin/phpunit --testsuite Core --exclude-group delivery:readiness --coverage-clover coverage/clover.xml --coverage-text=coverage/summary.txt
         env:
           TEST_PG_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=knowkit_test
           TEST_PG_USER: knowkit_test
+      - name: Spec contract, license audit, and composer audit
+        run: |
+          python3 tools/check-spec-contract.py --specs specs --check architecture
+          php tools/license-audit.php > license-audit.json
+          composer audit --locked --no-interaction --abandoned=fail
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         if: always()
         with:
-          name: core-coverage
-          path: coverage/
-          if-no-files-found: error
-  composer-audit:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
-        with:
-          php-version: '8.3'
-          extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
-          tools: composer:v2
-          coverage: none
-      - name: Resolve Composer package cache
-        id: composer-cache
-        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-      # Download cache only. The install below still uses the lockfile.
-      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock', 'packages/*/composer.lock') }}
-          restore-keys: |
-            composer-${{ runner.os }}-
-      - run: composer install --no-interaction --no-progress --prefer-dist
-      - name: Audit locked root dependencies
-        run: composer audit --locked --no-interaction --abandoned=fail
-  license-audit:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
-        with:
-          php-version: '8.3'
-          coverage: none
-      - name: Offline license audit
-        run: php tools/license-audit.php > license-audit.json
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        if: always()
-        with:
-          name: license-audit
-          path: license-audit.json
-          if-no-files-found: error
-  worker-protocol:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
-        with:
-          python-version: '3.12'
-      - name: Compile worker and deploy Python
-        run: python -m compileall -q python/knowkit-worker/src deploy
-      - run: python -m pip install uv==0.12.0
-      - run: uv sync --project python/knowkit-worker --frozen
-      - name: Protocol and runtime regressions without model assets
-        run: uv run --project python/knowkit-worker --frozen --offline pytest python/knowkit-worker/tests/protocol -q --junitxml=worker-protocol.xml
-      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
-        if: always()
-        with:
-          name: worker-protocol
-          path: worker-protocol.xml
+          name: coverage-and-audits
+          path: |
+            coverage/
+            license-audit.json
           if-no-files-found: error

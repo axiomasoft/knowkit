@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "matrix:combinatorial",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Pairwise combinatorial matrix across 9 KnowKit configuration axes plus full negative truth tables for TrustTier x DeliveryMode and DisclosureMode x ResolutionTier.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic pairwise test matrix."
+  },
+  "requiredCaseIds": [
+    "MATRIX-TRUST-DELIVERY-TRUTH-TABLE",
+    "MATRIX-DISCLOSURE-TIER-TRUTH-TABLE",
+    "MATRIX-PAIRWISE-E2E"
+  ],
+  "testCaseMap": {
+    "MATRIX-TRUST-DELIVERY-TRUTH-TABLE": [
+      "KnowKit\\Tests\\Matrix\\CombinatorialMatrixTest::testTrustTierDeliveryModeTruthTable"
+    ],
+    "MATRIX-DISCLOSURE-TIER-TRUTH-TABLE": [
+      "KnowKit\\Tests\\Matrix\\CombinatorialMatrixTest::testDisclosureModeResolutionTierTruthTable"
+    ],
+    "MATRIX-PAIRWISE-E2E": [
+      "KnowKit\\Tests\\Matrix\\CombinatorialMatrixTest::testPairwiseValidAndForbiddenMatrixEndToEnd"
+    ]
+  },
+  "expected": {
+    "trustDeliveryPairs": 20,
+    "disclosureTierPairs": 20,
+    "pairwiseCoverage": "100_percent"
+  }
+}
