@@ -199,12 +199,17 @@ final readonly class R1DigestDistiller
      */
     public static function restoreMarkers(string $text, array $indexedAtoms): array
     {
+        $replacements = [];
         $usedAtoms = [];
         foreach ($indexedAtoms as $entry) {
             if (str_contains($text, $entry['marker'])) {
-                $text = str_replace($entry['marker'], $entry['atom']->content, $text);
+                $replacements[$entry['marker']] = $entry['atom']->content;
                 $usedAtoms[] = $entry['atom'];
             }
+        }
+        // str_replace would rescan inserted atom text and can mint the next marker.
+        if ($replacements !== []) {
+            $text = strtr($text, $replacements);
         }
 
         return ['text' => $text, 'atoms' => $usedAtoms];
