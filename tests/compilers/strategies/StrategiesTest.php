@@ -125,6 +125,10 @@ final class StrategiesTest extends TestCase
             ['role' => 'user', 'content' => '<thinking>student pasted this</thinking>'],
         ], true);
         self::assertSame('', $unclosed[0]['content']);
+        $nested = $stripper->strip([
+            ['role' => 'assistant', 'content' => '<thinking>outer <thinking>inner</thinking> rest</thinking>end'],
+        ], true);
+        self::assertSame('end', $nested[0]['content']);
         self::assertSame('shown', $unclosed[1]['content'][0]['text']);
         self::assertStringContainsString('student pasted this', $unclosed[2]['content']);
         self::assertArrayNotHasKey('reasoning_content', $stripped[1]);

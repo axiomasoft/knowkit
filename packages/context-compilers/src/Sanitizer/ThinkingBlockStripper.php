@@ -7,8 +7,8 @@ namespace KnowKit\ContextCompilers\Sanitizer;
 final readonly class ThinkingBlockStripper
 {
     private const PART_TYPES = ['thinking', 'redacted_thinking', 'reasoning'];
-    // An unclosed tag runs to the end of the turn. A closed tag removes only its body.
-    private const TAG_PATTERN = '#<(think|thinking|reasoning)\b[^>]*>.*?(?:</\1\s*>|$)#isu';
+    private const CLOSED_TAG_PATTERN = '#<(think|thinking|reasoning)\b[^>]*>(?:(?!</?\1\b).)*?</\1\s*>#isu';
+    private const UNCLOSED_TAG_PATTERN = '#<(think|thinking|reasoning)\b[^>]*>.*$#isu';
 
     /**
      * @param list<array<string, mixed>> $history
@@ -36,9 +36,7 @@ final readonly class ThinkingBlockStripper
     private function stripContent(mixed $content): mixed
     {
         if (is_string($content)) {
-            $clean = preg_replace(self::TAG_PATTERN, '', $content);
-
-            return is_string($clean) ? ltrim($clean) : $content;
+            return ltrim($this->stripTags($content));
         }
         if (!is_array($content)) {
             return $content;
@@ -59,5 +57,22 @@ final readonly class ThinkingBlockStripper
         }
 
         return $parts;
+    }
+
+    /** Innermost closed pairs first, then an unclosed tag through the end of the turn. */
+    private function stripTags(string $content): string
+    {
+        $previous = null;
+        while ($content !== $previous) {
+            $previous = $content;
+            $clean = preg_replace(self::CLOSED_TAG_PATTERN, '', $content);
+            if (!is_string($clean)) {
+                return $content;
+            }
+            $content = $clean;
+        }
+        $clean = preg_replace(self::UNCLOSED_TAG_PATTERN, '', $content);
+
+        return is_string($clean) ? $clean : $content;
     }
 }
