@@ -12,24 +12,53 @@ final class ReciprocalRankFusion
     /** @param list<list<D\Candidate>> $rankings */
     public function fuse(D\SearchCorpus $corpus, array $rankings): D\CandidateList
     {
+        $weighted = array_map(
+            static fn (array $ranking): D\WeightedRanking => new D\WeightedRanking($ranking, 10000),
+            $rankings,
+        );
+
+        return $this->fuseWeighted($corpus, $weighted);
+    }
+
+    /** @param list<D\WeightedRanking> $weightedRankings */
+    public function fuseWeighted(D\SearchCorpus $corpus, array $weightedRankings, int $k = 60): D\CandidateList
+    {
+        if ($k < 1) {
+            throw new \InvalidArgumentException('k must be positive');
+        }
+        D\ValueGuard::objects($weightedRankings, D\WeightedRanking::class, 256);
+
+        /** @var array<string, list<array{int, int}>> $contributions */
         $contributions = [];
+        /** @var array<string, D\ChunkRef> $refs */
         $refs = [];
-        foreach ($rankings as $ranking) {
-            $unique = $this->unique($corpus, $ranking);
+        foreach ($weightedRankings as $weightedRanking) {
+            $unique = $this->unique($corpus, $weightedRanking->candidates);
             foreach ($unique as $id => $candidate) {
-                $contributions[$id][] = $candidate->rank;
+                $contributions[$id][] = [$weightedRanking->weightBps, $candidate->rank];
                 $refs[$id] = $candidate->ref;
             }
         }
-        $scores = [];
-        foreach ($contributions as $id => $ranks) {
-            sort($ranks, SORT_NUMERIC);
-            $scores[$id] = array_sum(array_map(static fn (int $rank): float => 1.0 / (60 + $rank), $ranks));
-        }
-        $ids = array_keys($scores);
-        usort($ids, static fn (string $a, string $b): int => ($scores[$b] <=> $scores[$a]) ?: strcmp($a, $b));
 
-        return $this->withoutOverlap($corpus, $ids, $refs, $scores);
+        // Exact scaled integer comparison (0 float nondeterminism) with deterministic chunkId tie-break.
+        $scaledScores = [];
+        $displayScores = [];
+        foreach ($contributions as $id => $items) {
+            usort($items, static fn (array $a, array $b): int => ($a[1] <=> $b[1]) ?: ($a[0] <=> $b[0]));
+            $scaled = 0;
+            $display = 0.0;
+            foreach ($items as [$weightBps, $rank]) {
+                $scaled += intdiv($weightBps * 1_000_000_000, $k + $rank);
+                $display += ($weightBps / 10000.0) / ($k + $rank);
+            }
+            $scaledScores[$id] = $scaled;
+            $displayScores[$id] = $display;
+        }
+
+        $ids = array_keys($scaledScores);
+        usort($ids, static fn (string $a, string $b): int => ($scaledScores[$b] <=> $scaledScores[$a]) ?: strcmp($a, $b));
+
+        return $this->withoutOverlap($corpus, $ids, $refs, $displayScores);
     }
 
     /**

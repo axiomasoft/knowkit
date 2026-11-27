@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "retrieval:graph",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Weighted RRF integer-scaled scoring, LayeredRetriever deny-set pre-filtering, PdoConceptEdgeIndex PG 17 persistence/sealing, and GraphExpander scope/deny-set isolation.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "weighted-rrf:scaled-weights",
+    "weighted-rrf:deterministic-tiebreak",
+    "weighted-rrf:overlap-guard",
+    "layered-retriever:deny-before-search",
+    "layered-retriever:fail-closed-scope",
+    "concept-graph:pdo-sealed-guard",
+    "concept-graph:expander-scope-and-deny",
+    "concept-graph:policy-hard-caps"
+  ],
+  "testCaseMap": {
+    "weighted-rrf:scaled-weights": [
+      "KnowKit\\Tests\\Retrieval\\Graph\\WeightedRrfTest::testWeightedRrfUsesIntegerScaledScoresAndRespectsWeights"
+    ],
+    "weighted-rrf:deterministic-tiebreak": [
+      "KnowKit\\Tests\\Retrieval\\Graph\\WeightedRrfTest::testWeightedRrfTieBreaksDeterministicallyByChunkId"
+    ],
+    "weighted-rrf:overlap-guard": [
+      "KnowKit\\Tests\\Retrieval\\Graph\\WeightedRrfTest::testFuseDelegatesToFuseWeightedAndPreservesOverlapGuard"
+    ],
+    "layered-retriever:deny-before-search": [
+      "KnowKit\\Tests\\Retrieval\\Graph\\LayeredRetrieverTest::testAppliesEffectiveDenySetBeforeBackendSearchAndFusesWithLayerWeights"
+    ],
+    "layered-retriever:fail-closed-scope": [
+      "KnowKit\\Tests\\Retrieval\\Graph\\LayeredRetrieverTest::testFailsClosedWhenResolverLeavesDeniedVersionInScope"
+    ],
+    "concept-graph:pdo-sealed-guard": [
+      "KnowKit\\Tests\\Retrieval\\Graph\\GraphExpanderTest::testPdoConceptEdgeIndexPutNeighborsAndEnforcesSealedSnapshotGuard"
+    ],
+    "concept-graph:expander-scope-and-deny": [
+      "KnowKit\\Tests\\Retrieval\\Graph\\GraphExpanderTest::testGraphExpanderEnforcesScopeAndEffectiveDenySetBeforeAddingCandidates"
+    ],
+    "concept-graph:policy-hard-caps": [
+      "KnowKit\\Tests\\Retrieval\\Graph\\GraphExpanderTest::testGraphExpansionPolicyEnforcesHardCaps"
+    ]
+  }
+}
