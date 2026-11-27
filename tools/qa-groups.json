@@ -1463,6 +1463,63 @@
             ],
             "composerProject": "packages/training-export",
             "minPhp": "8.3"
+        },
+        {
+            "id": "matrix:combinatorial",
+            "requiredCaseManifest": "tests/fixtures/check-groups/matrix-combinatorial.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "matrix:combinatorial",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "property:invariants",
+            "requiredCaseManifest": "tests/fixtures/check-groups/property-invariants.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "property:invariants",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "concurrency:layers",
+            "requiredCaseManifest": "tests/fixtures/check-groups/concurrency-layers.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "concurrency:layers",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
         }
     ],
     "checks": {
@@ -1575,7 +1632,10 @@
                 "bridge:mcp-server",
                 "bridge:mcp-client",
                 "distill:contracts",
-                "training:export"
+                "training:export",
+                "matrix:combinatorial",
+                "property:invariants",
+                "concurrency:layers"
             ]
         },
         "ci-core": {
@@ -1655,7 +1715,10 @@
                 "bridge:mcp-server",
                 "bridge:mcp-client",
                 "distill:contracts",
-                "training:export"
+                "training:export",
+                "matrix:combinatorial",
+                "property:invariants",
+                "concurrency:layers"
             ]
         },
         "ci-optional": {
@@ -1735,7 +1798,10 @@
                 "security:disclosure-modes",
                 "artifacts:pyramid",
                 "retrieval:graph",
-                "retrieval:pruning"
+                "retrieval:pruning",
+                "matrix:combinatorial",
+                "property:invariants",
+                "concurrency:layers"
             ]
         }
     }

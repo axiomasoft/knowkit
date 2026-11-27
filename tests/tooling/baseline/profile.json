@@ -80,6 +80,9 @@
         "bridge:mcp-server",
         "bridge:mcp-client",
         "distill:contracts",
-        "training:export"
+        "training:export",
+        "matrix:combinatorial",
+        "property:invariants",
+        "concurrency:layers"
     ]
 }
