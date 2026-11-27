@@ -45,7 +45,7 @@ final readonly class PdoVectorWriter
         (new ResourceInventory($this->db))->assertExact($view->candidate);
         $this->stageSpace($view, $space);
         foreach ($set->chunks as $chunk) {
-            $this->write($view, $chunk, $payloads[$chunk->ref->chunkId->value]);
+            $this->write($view, $chunk, $payloads[$chunk->ref->chunkId->value], $space);
         }
         $this->db->execute('UPDATE ' . $this->db->table('index_generations') . ' g SET chunk_count=(SELECT count(*) FROM '
             . $this->db->table('index_memberships') . ' i WHERE i.tenant_id=g.tenant_id AND i.generation_id=g.id)
@@ -58,21 +58,20 @@ final readonly class PdoVectorWriter
     private function stageSpace(ManifestView $view, D\EmbeddingSpace $space): void
     {
         $table = $this->db->table('vector_generations');
-        $this->db->execute("INSERT INTO $table (tenant_id,generation_id,manifest_digest,space_digest,space_json)
-            VALUES (?,?,?,?,?) ON CONFLICT (tenant_id,generation_id) DO NOTHING",
+        $this->db->execute("INSERT INTO $table (tenant_id,generation_id,manifest_digest,space_digest,space_json,storage_format)
+            VALUES (?,?,?,?,?,?) ON CONFLICT (tenant_id,generation_id) DO NOTHING",
             [$view->tenant->value, $view->generation->value, $view->candidate->digest->value,
-                $space->digest()->value, Jcs::canonicalize($space->toWire())]);
+                $space->digest()->value, Jcs::canonicalize($space->toWire()), $space->storageFormat]);
         $this->backend->assertSpaceReceipt($view);
     }
 
-    private function write(ManifestView $view, D\Chunk $chunk, VectorPayload $payload): void
+    private function write(ManifestView $view, D\Chunk $chunk, VectorPayload $payload, D\EmbeddingSpace $space): void
     {
         $ref = $chunk->ref;
         $keys = [$view->tenant->value, $view->generation->value, $ref->chunkId->value];
         $identity = [$ref->chunkDigest->value, $ref->revisionRef->sourceRef->sourceVersionId->value,
             $ref->revisionRef->documentRevisionId->value, $ref->chunkSetId->value];
         $members = $this->db->table('index_memberships');
-        $vectors = $this->db->table('vector_documents');
         $this->db->execute("INSERT INTO $members (id,tenant_id,generation_id,chunk_id,chunk_digest,source_version_id,revision_id,chunk_set_id)
             VALUES (?,?,?,?,?,?,?,?) ON CONFLICT (tenant_id,generation_id,chunk_id) DO NOTHING",
             [$this->ids->next()->value, ...$keys, ...$identity]);
@@ -81,15 +80,48 @@ final readonly class PdoVectorWriter
         if ($match === null) {
             self::conflict();
         }
-        $this->db->execute("INSERT INTO $vectors (tenant_id,generation_id,chunk_id,space_digest,vector_digest,embedding)
-            VALUES (?,?,?,?,?,CAST(? AS public.vector)) ON CONFLICT (tenant_id,generation_id,chunk_id) DO NOTHING",
-            [...$keys, $view->fingerprint->value, $payload->digest, $payload->literal]);
-        $match = $this->db->row("SELECT vector_digest FROM $vectors WHERE tenant_id=? AND generation_id=? AND chunk_id=?
-            AND space_digest=? AND vector_digest=? AND embedding OPERATOR(public.=) CAST(? AS public.vector)",
-            [...$keys, $view->fingerprint->value, $payload->digest, $payload->literal]);
+        if ($space->storageFormat === 'halfvec') {
+            $vectors = $this->db->table('vector_documents_halfvec');
+            $this->db->execute("INSERT INTO $vectors (tenant_id,generation_id,chunk_id,space_digest,vector_digest,embedding)
+                VALUES (?,?,?,?,?,CAST(? AS public.halfvec)) ON CONFLICT (tenant_id,generation_id,chunk_id) DO NOTHING",
+                [...$keys, $view->fingerprint->value, $payload->digest, $payload->literal]);
+            $match = $this->db->row("SELECT vector_digest FROM $vectors WHERE tenant_id=? AND generation_id=? AND chunk_id=?
+                AND space_digest=? AND vector_digest=? AND embedding OPERATOR(public.=) CAST(? AS public.halfvec)",
+                [...$keys, $view->fingerprint->value, $payload->digest, $payload->literal]);
+        } elseif ($space->storageFormat === 'binary_quantized') {
+            $bits = self::bitString($payload->literal);
+            $vectors = $this->db->table('vector_documents_binary');
+            $this->db->execute("INSERT INTO $vectors (tenant_id,generation_id,chunk_id,space_digest,vector_digest,quantized,rescore_halfvec)
+                VALUES (?,?,?,?,?,CAST(? AS bit varying),CAST(? AS public.halfvec)) ON CONFLICT (tenant_id,generation_id,chunk_id) DO NOTHING",
+                [...$keys, $view->fingerprint->value, $payload->digest, $bits, $payload->literal]);
+            $match = $this->db->row("SELECT vector_digest FROM $vectors WHERE tenant_id=? AND generation_id=? AND chunk_id=?
+                AND space_digest=? AND vector_digest=? AND quantized = CAST(? AS bit varying)
+                AND rescore_halfvec OPERATOR(public.=) CAST(? AS public.halfvec)",
+                [...$keys, $view->fingerprint->value, $payload->digest, $bits, $payload->literal]);
+        } else {
+            $vectors = $this->db->table('vector_documents');
+            $this->db->execute("INSERT INTO $vectors (tenant_id,generation_id,chunk_id,space_digest,vector_digest,embedding)
+                VALUES (?,?,?,?,?,CAST(? AS public.vector)) ON CONFLICT (tenant_id,generation_id,chunk_id) DO NOTHING",
+                [...$keys, $view->fingerprint->value, $payload->digest, $payload->literal]);
+            $match = $this->db->row("SELECT vector_digest FROM $vectors WHERE tenant_id=? AND generation_id=? AND chunk_id=?
+                AND space_digest=? AND vector_digest=? AND embedding OPERATOR(public.=) CAST(? AS public.vector)",
+                [...$keys, $view->fingerprint->value, $payload->digest, $payload->literal]);
+        }
         if ($match === null) {
             self::conflict();
         }
+    }
+
+    private static function bitString(string $literal): string
+    {
+        /** @var list<float|int> $values */
+        $values = json_decode($literal, true, 512, JSON_THROW_ON_ERROR);
+        $bits = '';
+        foreach ($values as $value) {
+            $bits .= $value > 0 ? '1' : '0';
+        }
+
+        return $bits;
     }
 
     private static function conflict(): never

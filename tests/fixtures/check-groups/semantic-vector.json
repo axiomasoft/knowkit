@@ -29,7 +29,10 @@
         "full-space-receipt",
         "persisted-vector-integrity",
         "fixture-integrity",
-        "runner-negatives"
+        "runner-negatives",
+        "mrl-validation",
+        "compressed-vector-search",
+        "iterative-scan"
     ],
     "testCaseMap": {
         "R05-A01": [
@@ -100,6 +103,17 @@
         ],
         "runner-negatives": [
             "KnowKit\\Tests\\Semantic\\Vector\\FixtureTest::testRequiredCaseInventoryRejectsMissingSkippedFailedDuplicateAndEmpty"
+        ],
+        "mrl-validation": [
+            "KnowKit\\Tests\\Semantic\\Vector\\CompressedVectorTest::testMrlAndStorageFormatValidationAndDigestSensitivity",
+            "KnowKit\\Tests\\Semantic\\Vector\\CompressedVectorTest::testBm25ProfileContractEnforcesIntegerJcsAndPrefilterCapability"
+        ],
+        "compressed-vector-search": [
+            "KnowKit\\Tests\\Semantic\\Vector\\CompressedVectorTest::testHalfvecAndBinaryQuantizedWriteAndSearchExcludeDeniedRows"
+        ],
+        "iterative-scan": [
+            "KnowKit\\Tests\\Semantic\\Vector\\IterativeScanTest::testIterativeScanPolicySetsPgvector08GucsAndLeaksZeroDeniedRows",
+            "KnowKit\\Tests\\Semantic\\Vector\\IterativeScanTest::testBinaryQuantized2StageCteMaterializesPermittedBeforeCoarseAndFinal"
         ]
     },
     "fixtures": [

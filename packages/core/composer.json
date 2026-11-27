@@ -4,7 +4,11 @@
   "type": "library",
   "license": "proprietary",
   "require": {"php": ">=8.3", "ext-pdo": "*", "ext-json": "*", "ext-mbstring": "*"},
-  "suggest": {"ext-pdo_pgsql": "Required when explicitly using the PostgreSQL adapter"},
+  "suggest": {
+    "ext-pdo_pgsql": "Required when explicitly using the PostgreSQL adapter",
+    "ext-zlib": "Required when using gzip blob compression",
+    "ext-zstd": "Required when using zstd blob compression"
+  },
   "autoload": {"psr-4": {"KnowKit\\": "src/"}},
   "bin": ["bin/knowkit"],
   "config": {"allow-plugins": false},

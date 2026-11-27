@@ -27,7 +27,10 @@
     "R03-A02",
     "DT-I06",
     "DT-R13",
-    "BLOB-FIXTURE"
+    "BLOB-FIXTURE",
+    "BLOB-COMPRESSION-GZIP",
+    "BLOB-ZIP-BOMB",
+    "BLOB-ZSTD-READINESS"
   ],
   "testCaseMap": {
     "BLOB-RESERVATION": [
@@ -92,6 +95,15 @@
     ],
     "BLOB-FIXTURE": [
       "KnowKit\\Tests\\Storage\\Blobs\\FixtureTest::testVersionedFixtureDigestsProvenanceOutcomesAndCaseBindings"
+    ],
+    "BLOB-COMPRESSION-GZIP": [
+      "KnowKit\\Tests\\Storage\\Blobs\\CompressionTest::testGzipCompressionPreservesUncompressedIdentityAndReadsTransparently"
+    ],
+    "BLOB-ZIP-BOMB": [
+      "KnowKit\\Tests\\Storage\\Blobs\\CompressionTest::testZipBombExceedingExpectedByteLengthByOneByteAbortsClosed"
+    ],
+    "BLOB-ZSTD-READINESS": [
+      "KnowKit\\Tests\\Storage\\Blobs\\CompressionTest::testZstdWithoutExtensionFailsExplicitlyWithoutFallback"
     ]
   },
   "fixtures": [

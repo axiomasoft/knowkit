@@ -25,7 +25,9 @@ final readonly class LocalBlobStore implements BlobStore
         private Clock $clock,
         private ContractValidator $validator,
         ?\Closure $sync = null,
+        private BlobCompressionCodec $codec = BlobCompressionCodec::None,
     ) {
+        $this->codec->assertAvailable();
         if ($maxBytes < 1 || $maxBytes >= PHP_INT_MAX || $storageId === '' || strlen($storageId) > 128) {
             throw new \InvalidArgumentException('Explicit bounded storage configuration required');
         }
@@ -102,11 +104,19 @@ final readonly class LocalBlobStore implements BlobStore
             $active = $state['writer']['state'] === 'active';
             if ($active) {
                 $handle = $this->fs->open($this->staging($r), true);
+                if ($this->codec !== BlobCompressionCodec::None) {
+                    $this->writeAll($handle, str_repeat("\0", BlobCompressionCodec::HEADER_BYTES));
+                }
+            }
+            $this->codec->assertAvailable();
+            $deflate = ($active && $this->codec === BlobCompressionCodec::Gzip) ? deflate_init(ZLIB_ENCODING_GZIP) : false;
+            if ($active && $this->codec === BlobCompressionCodec::Gzip && $deflate === false) {
+                throw new DomainFailure(Outcome::Unavailable, 'blob_io_failed');
             }
             $hash = hash_init('sha256');
             $length = 0;
             while (!$stream->eof()) {
-                $bound = min(65536, $this->maxBytes - $length + 1);
+                $bound = min(BlobCompressionCodec::CHUNK_BYTES, $this->maxBytes - $length + 1);
                 $chunk = $this->readChunk($stream, $bound);
                 $length += strlen($chunk);
                 if ($length > $this->maxBytes) {
@@ -114,15 +124,42 @@ final readonly class LocalBlobStore implements BlobStore
                 }
                 hash_update($hash, $chunk);
                 if ($handle !== null) {
-                    $offset = 0;
-                    while ($offset < strlen($chunk)) {
-                        $written = @fwrite($handle, substr($chunk, $offset));
-                        if ($written === false || $written === 0) {
+                    if ($this->codec === BlobCompressionCodec::None) {
+                        $this->writeAll($handle, $chunk);
+                    } elseif ($this->codec === BlobCompressionCodec::Gzip && $deflate !== false) {
+                        $compressed = deflate_add($deflate, $chunk, ZLIB_NO_FLUSH);
+                        if ($compressed === false) {
                             throw new DomainFailure(Outcome::Unavailable, 'blob_io_failed');
                         }
-                        $offset += $written;
+                        if ($compressed !== '') {
+                            $this->writeAll($handle, $compressed);
+                        }
+                    } elseif ($this->codec === BlobCompressionCodec::Zstd) {
+                        if (!function_exists('zstd_compress')) {
+                            throw new DomainFailure(Outcome::Unavailable, 'missing_extension:zstd');
+                        }
+                        $compressed = zstd_compress($chunk);
+                        if (!is_string($compressed)) {
+                            throw new DomainFailure(Outcome::Unavailable, 'blob_io_failed');
+                        }
+                        $this->writeAll($handle, $compressed);
                     }
                 }
+            }
+            if ($handle !== null && $this->codec === BlobCompressionCodec::Gzip && $deflate !== false) {
+                $tail = deflate_add($deflate, '', ZLIB_FINISH);
+                if ($tail === false) {
+                    throw new DomainFailure(Outcome::Unavailable, 'blob_io_failed');
+                }
+                if ($tail !== '') {
+                    $this->writeAll($handle, $tail);
+                }
+            }
+            if ($handle !== null && $this->codec !== BlobCompressionCodec::None) {
+                if (rewind($handle) === false) {
+                    throw new DomainFailure(Outcome::Unavailable, 'blob_io_failed');
+                }
+                $this->writeAll($handle, $this->codec->encodeHeader($length));
             }
             $digest = new Sha256(hash_final($hash));
             $size = new Uint64((string) $length);
@@ -142,7 +179,7 @@ final readonly class LocalBlobStore implements BlobStore
                 if ($this->fs->present($key)) {
                     $existing = $this->fs->open($key);
                     try {
-                        $this->fs->verify($existing, $ref, $this->maxBytes);
+                        VerifiedStream::verifyHandle($existing, $this->fs, $ref, $this->maxBytes);
                     } finally {
                         fclose($existing);
                     }
@@ -153,7 +190,7 @@ final readonly class LocalBlobStore implements BlobStore
             }
             $verify = $this->fs->open($key);
             try {
-                $this->fs->verify($verify, $ref, $this->maxBytes);
+                VerifiedStream::verifyHandle($verify, $this->fs, $ref, $this->maxBytes);
             } finally {
                 fclose($verify);
             }
@@ -291,6 +328,20 @@ final readonly class LocalBlobStore implements BlobStore
             'knownExpiry' => null,
             'observedAt' => $this->clock->now()->value,
         ]), $this->validator);
+    }
+
+    /** @param resource $handle */
+    private function writeAll(mixed $handle, string $bytes): void
+    {
+        $offset = 0;
+        $total = strlen($bytes);
+        while ($offset < $total) {
+            $written = @fwrite($handle, substr($bytes, $offset));
+            if ($written === false || $written === 0) {
+                throw new DomainFailure(Outcome::Unavailable, 'blob_io_failed');
+            }
+            $offset += $written;
+        }
     }
 
     private static function sameBlobRef(BlobRef $left, BlobRef $right): bool

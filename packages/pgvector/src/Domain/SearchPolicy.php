@@ -14,12 +14,19 @@ final readonly class SearchPolicy
         public int $efSearch = 40,
         public string $fallback = 'exact',
         string $filterCapability = 'sql-prefilter',
+        public string $iterativeScan = 'off',
+        public int $maxScanTuples = 20000,
+        public int $oversampleFactor = 4,
     ) {
         if ($filterCapability !== 'sql-prefilter') {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'prefilter_unsupported');
         }
         if (!in_array($mode, ['exact', 'authorized-hnsw'], true)
-            || !in_array($fallback, ['exact', 'reject'], true) || $efSearch < 1 || $efSearch > 1000) {
+            || !in_array($fallback, ['exact', 'reject'], true)
+            || !in_array($iterativeScan, ['off', 'relaxed_order', 'strict_order'], true)
+            || $efSearch < 1 || $efSearch > 1000
+            || $maxScanTuples < 1 || $maxScanTuples > 1_000_000
+            || $oversampleFactor < 1 || $oversampleFactor > 64) {
             throw new \InvalidArgumentException('Explicit vector search policy required');
         }
     }
