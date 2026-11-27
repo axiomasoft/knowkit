@@ -55,9 +55,27 @@ final readonly class PromptCacheCompiler implements PromptCacheCompilerInterface
         foreach ($stack->nodes as $node) {
             $this->route($node, $system, $static, $volatile);
         }
-        $evidenceWire = $evidence->canonical();
-        if ($evidence->toWire()->get('fragments') !== []) {
-            $volatile[] = self::block('user', TrustTier::UntrustedEvidence, $evidenceWire);
+        $aliasMap = CitationAliasMap::fromEvidenceSet($evidence);
+        $evidenceLines = [];
+        $fragments = $evidence->toWire()->get('fragments');
+        if (is_array($fragments)) {
+            foreach ($fragments as $fragment) {
+                if (!$fragment instanceof \KnowKit\Domain\Contract\JsonObject) {
+                    continue;
+                }
+                $citationWire = $fragment->get('citation');
+                if (!$citationWire instanceof \KnowKit\Domain\Contract\JsonObject) {
+                    continue;
+                }
+                $alias = $aliasMap->aliasFor(new \KnowKit\Domain\Ulid((string) $citationWire->get('citationId')));
+                if ($alias === null) {
+                    throw new \InvalidArgumentException('Missing citation alias for evidence fragment');
+                }
+                $evidenceLines[] = '[' . $alias . '] ' . (string) $fragment->get('text');
+            }
+        }
+        if ($evidenceLines !== []) {
+            $volatile[] = self::block('user', TrustTier::UntrustedEvidence, implode("\n\n", $evidenceLines));
         }
 
         $canonicalTools = self::canonicalTools($tools);
@@ -99,7 +117,7 @@ final readonly class PromptCacheCompiler implements PromptCacheCompilerInterface
             $historyBlocks,
             $volatile,
             [],
-            CitationAliasMap::fromEvidenceSet($evidence),
+            $aliasMap,
             0,
             0,
             false,
@@ -118,6 +136,12 @@ final readonly class PromptCacheCompiler implements PromptCacheCompilerInterface
             CacheSemantics::CompactNoCache => $this->compact
                 ->apply($base, $profile, $stack, $expectedCohortCallsPerHour),
         };
+
+        if ($previousPrefixHash !== null) {
+            $hints = $envelope->routingHints;
+            $hints['prefix_drift_detected'] = hash_equals($previousPrefixHash, $prefixHash->value) ? 'false' : 'true';
+            $envelope = self::replace($envelope, ['routingHints' => $hints]);
+        }
 
         self::assertTrustBoundary($envelope);
 

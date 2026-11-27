@@ -43,15 +43,26 @@ final readonly class GroundingPromptComposer
             $this->appendHistoryBlocks($envelope->historyBlocks, $messages, $items);
         }
         $aliasMap = $envelope !== null ? $envelope->citationAliasMap : CitationAliasMap::fromEvidenceSet($evidence->set);
-        foreach ($evidence->fragments as $fragment) {
-            $alias = $aliasMap->aliasFor($fragment->citation->id());
-            if ($alias === null) {
-                throw new \InvalidArgumentException('Missing citation alias for evidence fragment');
+        $hasEnvelopeEvidence = false;
+        if ($envelope !== null) {
+            foreach ($envelope->volatileSuffixBlocks as $block) {
+                if ($block->trustTier === TrustTier::UntrustedEvidence) {
+                    $hasEnvelopeEvidence = true;
+                    break;
+                }
             }
-            $label = '[' . $alias . ']';
-            foreach ([$label, $fragment->text] as $text) {
-                $messages[] = new ChatMessage(A\MessageRole::User, $text);
-                $items[] = new A\EgressContentItem(A\EgressCategory::Evidence, $this->digest($text), [$fragment->source()]);
+        }
+        if (!$hasEnvelopeEvidence) {
+            foreach ($evidence->fragments as $fragment) {
+                $alias = $aliasMap->aliasFor($fragment->citation->id());
+                if ($alias === null) {
+                    throw new \InvalidArgumentException('Missing citation alias for evidence fragment');
+                }
+                $label = '[' . $alias . ']';
+                foreach ([$label, $fragment->text] as $text) {
+                    $messages[] = new ChatMessage(A\MessageRole::User, $text);
+                    $items[] = new A\EgressContentItem(A\EgressCategory::Evidence, $this->digest($text), [$fragment->source()]);
+                }
             }
         }
         if ($envelope !== null) {

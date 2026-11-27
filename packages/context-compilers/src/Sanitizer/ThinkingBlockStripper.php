@@ -7,7 +7,7 @@ namespace KnowKit\ContextCompilers\Sanitizer;
 final readonly class ThinkingBlockStripper
 {
     private const PART_TYPES = ['thinking', 'redacted_thinking', 'reasoning'];
-    private const TAG_PATTERN = '#<(thinking|reasoning)\b[^>]*>.*?</\1\s*>#isu';
+    private const TAG_PATTERN = '#<(think|thinking|reasoning)\b[^>]*>.*?</\1\s*>#isu';
 
     /**
      * @param list<array<string, mixed>> $history
@@ -20,9 +20,11 @@ final readonly class ThinkingBlockStripper
         }
         $result = [];
         foreach ($history as $message) {
-            if (($message['role'] ?? null) === 'assistant' && array_key_exists('content', $message)) {
-                $message['content'] = $this->stripContent($message['content']);
+            if (($message['role'] ?? null) === 'assistant') {
                 unset($message['reasoning_content'], $message['thinking']);
+                if (array_key_exists('content', $message)) {
+                    $message['content'] = $this->stripContent($message['content']);
+                }
             }
             $result[] = $message;
         }

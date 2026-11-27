@@ -110,5 +110,50 @@ final class StrategiesTest extends TestCase
         self::assertSame('final', $on->historyBlocks[2]->content);
         $off = $this->compile(S::LocalRadixPrefix, history: $history, strip: false);
         self::assertStringContainsString('secret', $off->historyBlocks[1]->content);
+
+        $stripper = new \KnowKit\ContextCompilers\Sanitizer\ThinkingBlockStripper();
+        $stripped = $stripper->strip([
+            ['role' => 'assistant', 'content' => '<think>internal</think>visible'],
+            ['role' => 'assistant', 'reasoning_content' => 'secret', 'thinking' => 'hidden', 'tool_calls' => [['id' => 'call_1']]],
+        ], true);
+        self::assertSame('visible', $stripped[0]['content']);
+        self::assertArrayNotHasKey('reasoning_content', $stripped[1]);
+        self::assertArrayNotHasKey('thinking', $stripped[1]);
+        self::assertArrayNotHasKey('content', $stripped[1]);
+        self::assertSame([['id' => 'call_1']], $stripped[1]['tool_calls']);
+    }
+
+    public function testPrefixDriftDetectionAndTenTurnDriftFreeSession(): void
+    {
+        $compiler = new PromptCacheCompiler();
+        $profile = StrategyFixtures::profile(S::ImplicitPrefix);
+        $scope = StrategyFixtures::scope();
+        $stack = StrategyFixtures::stack(StrategyFixtures::standardNodes());
+        $evidence = StrategyFixtures::evidence('hello');
+
+        $history = [];
+        $prevHash = null;
+        $firstHash = null;
+        for ($turn = 1; $turn <= 10; $turn++) {
+            $history[] = ['role' => 'user', 'content' => 'question ' . $turn];
+            $env = $compiler->compile($scope, $stack, $evidence, $profile, $history, [], 5, $prevHash);
+            if ($firstHash === null) {
+                $firstHash = $env->expectedPrefixHash;
+                self::assertArrayNotHasKey('prefix_drift_detected', $env->routingHints);
+            } else {
+                self::assertTrue($firstHash->equals($env->expectedPrefixHash));
+                self::assertSame('false', $env->routingHints['prefix_drift_detected']);
+            }
+            $prevHash = $env->expectedPrefixHash->value;
+            $history[] = ['role' => 'assistant', 'content' => 'answer ' . $turn];
+        }
+
+        $driftedStack = StrategyFixtures::stack([
+            StrategyFixtures::node('l0.core', TrustTier::TrustedDirective, DeliveryMode::PinnedPrefix, ['rule' => 'changed directive']),
+            StrategyFixtures::node('l2.ref', TrustTier::CuratedReference, DeliveryMode::PinnedPrefix, ['chapter' => 'reference']),
+        ]);
+        $drifted = $compiler->compile($scope, $driftedStack, $evidence, $profile, $history, [], 5, $prevHash);
+        self::assertFalse($firstHash->equals($drifted->expectedPrefixHash));
+        self::assertSame('true', $drifted->routingHints['prefix_drift_detected']);
     }
 }

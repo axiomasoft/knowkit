@@ -106,4 +106,26 @@ final class ToonCodecTest extends TestCase
         $this->expectException(ContractViolation::class);
         $json->encode(['ratio' => 0.25]);
     }
+
+    public function testToonPreservesCrlfInsideQuotedCells(): void
+    {
+        $codec = new ToonCodec();
+        $rows = [
+            ['id' => 1, 'text' => "line1\r\nline2"],
+            ['id' => 2, 'text' => "plain\r\nend"],
+        ];
+
+        $encoded = $codec->encode($rows);
+        self::assertSame($rows, $codec->decode($encoded));
+
+        $crlfTable = str_replace("\n  ", "\r\n  ", $encoded);
+        self::assertSame($rows, $codec->decode($crlfTable));
+    }
+
+    public function testToonRejectsUnterminatedQuotedCell(): void
+    {
+        $codec = new ToonCodec();
+        $this->expectException(\InvalidArgumentException::class);
+        $codec->decode("items[1]{a}:\n  \"unterminated");
+    }
 }

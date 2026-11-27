@@ -58,8 +58,8 @@ final readonly class ToonCodec implements ContextFormatCodec
     /** @return list<array<string, string|int|bool|null>> */
     public function decode(string $encoded): array
     {
-        $normalized = str_replace("\r\n", "\n", trim($encoded, "\r\n"));
-        if (preg_match('/^items\[(\d+)\]\{([^}]*)\}:(?:\n(.*))?$/s', $normalized, $matches) !== 1) {
+        $trimmed = trim($encoded, "\r\n");
+        if (preg_match('/^items\[(\d+)\]\{([^}]*)\}:(?:\r?\n(.*))?$/s', $trimmed, $matches) !== 1) {
             throw new \InvalidArgumentException('Invalid TOON header');
         }
 
@@ -173,6 +173,7 @@ final readonly class ToonCodec implements ContextFormatCodec
 
                 if ($pos < $len && $body[$pos] === '"') {
                     $wasQuoted = true;
+                    $closed = false;
                     ++$pos;
                     while ($pos < $len) {
                         $ch = $body[$pos];
@@ -183,16 +184,20 @@ final readonly class ToonCodec implements ContextFormatCodec
                                 continue;
                             }
                             ++$pos;
+                            $closed = true;
                             break;
                         }
                         $value .= $ch;
                         ++$pos;
                     }
-                    if ($pos < $len && $body[$pos] !== ',' && $body[$pos] !== "\n") {
+                    if (!$closed) {
+                        throw new \InvalidArgumentException('Unterminated quoted string in TOON');
+                    }
+                    if ($pos < $len && $body[$pos] !== ',' && $body[$pos] !== "\n" && !($body[$pos] === "\r" && $pos + 1 < $len && $body[$pos + 1] === "\n")) {
                         throw new \InvalidArgumentException('Unexpected character after closing quote in TOON');
                     }
                 } else {
-                    while ($pos < $len && $body[$pos] !== ',' && $body[$pos] !== "\n") {
+                    while ($pos < $len && $body[$pos] !== ',' && $body[$pos] !== "\n" && !($body[$pos] === "\r" && $pos + 1 < $len && $body[$pos + 1] === "\n")) {
                         $value .= $body[$pos];
                         ++$pos;
                     }
@@ -206,6 +211,10 @@ final readonly class ToonCodec implements ContextFormatCodec
                 if ($body[$pos] === ',') {
                     ++$pos;
                     continue;
+                }
+                if ($body[$pos] === "\r" && $pos + 1 < $len && $body[$pos + 1] === "\n") {
+                    $pos += 2;
+                    break;
                 }
                 if ($body[$pos] === "\n") {
                     ++$pos;

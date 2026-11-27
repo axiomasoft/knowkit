@@ -289,6 +289,61 @@ final class GroundingTest extends TestCase
         $composer->compose($request, $f->binding, $evidence, $badEnvelope);
     }
 
+    public function testPromptCacheCompilerToGroundingPromptComposerAvoidsEvidenceDuplication(): void
+    {
+        $f = new GroundingFixture();
+        $request = $f->request();
+        $evidence = new A\GroundingEvidence($f->evidence(GroundingFixture::id(20)), $f->selection(), Fixture::scope(), $f->validator);
+        $backing = D\Layers\LayerBacking::directive(new D\Ulid('01JSC420000000000000000003'), new D\Sha256(str_repeat('f', 64)));
+        $budget = new D\Layers\LayerBudgetPolicy(0, 1000, 10000, 100, D\Layers\ResolutionTier::R1Digest, D\Layers\ResolutionTier::R0Outline);
+        $nodes = [
+            new D\Layers\LayerNode(new D\Layers\LayerId('l0.core'), [], D\Layers\TrustTier::TrustedDirective, D\Layers\DeliveryMode::PinnedPrefix, D\Layers\MergeStrategy::OverrideAllowed, D\Layers\DisclosureMode::VerbatimAllowed, [], new JsonObject(['rule' => 'Pinned directive']), [], $budget, $backing),
+            new D\Layers\LayerNode(new D\Layers\LayerId('l2.ref'), [], D\Layers\TrustTier::CuratedReference, D\Layers\DeliveryMode::PinnedPrefix, D\Layers\MergeStrategy::OverrideAllowed, D\Layers\DisclosureMode::VerbatimAllowed, [], new JsonObject(['chapter' => 'Curated R0']), [], $budget, $backing),
+        ];
+        $stack = new D\Layers\ResolvedLayerStack(
+            Fixture::scope()->tenantId,
+            new D\Ulid('01JSC420000000000000000004'),
+            $nodes,
+            [],
+            [],
+            new D\Fingerprint(str_repeat('1', 64)),
+            new D\Fingerprint(str_repeat('2', 64)),
+            new D\Fingerprint(str_repeat('3', 64)),
+        );
+        $profile = new \KnowKit\ContextCompilers\Domain\CacheProfile(
+            'p-implicit',
+            \KnowKit\ContextCompilers\Domain\CacheSemantics::ImplicitPrefix,
+            0,
+            0,
+            1000,
+            10000,
+            0,
+            300,
+            false,
+            true,
+            false,
+            'toon',
+        );
+
+        $envelope = (new \KnowKit\ContextCompilers\Compiler\PromptCacheCompiler())->compile(
+            Fixture::scope(),
+            $stack,
+            $evidence->set,
+            $profile,
+        );
+        $prompt = (new \KnowKit\Answer\Application\GroundingPromptComposer())->compose($request, $f->binding, $evidence, $envelope);
+
+        $fragmentText = $evidence->fragments[0]->text;
+        $contents = array_map(static fn ($m): string => $m->text, $prompt->messages);
+        $matches = array_values(array_filter($contents, static fn (string $c): bool => str_contains($c, $fragmentText)));
+
+        self::assertCount(1, $matches);
+        self::assertStringContainsString('[#1]', $matches[0]);
+        foreach ($contents as $c) {
+            self::assertStringNotContainsString('evidenceSetDigest', $c);
+        }
+    }
+
     private function ordered(array $actual, array $expected): void
     {
         $position = 0;
