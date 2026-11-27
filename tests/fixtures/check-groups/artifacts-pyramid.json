@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "artifacts:pyramid",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "R0-R2 artifact pyramid, DeterministicOutlineBuilder (<=2% R0 budget), AtomicSpanGuard (mandatory atom preservation), ResolutionAcceptance, and PdoResolutionStore.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "artifacts-pyramid:deterministic-outline",
+    "artifacts-pyramid:outline-fallback-no-headings",
+    "artifacts-pyramid:atomic-span-preserved",
+    "artifacts-pyramid:atomic-span-rejected",
+    "artifacts-pyramid:atomic-span-verifier",
+    "artifacts-pyramid:pdo-resolution-store-acceptance"
+  ],
+  "testCaseMap": {
+    "artifacts-pyramid:deterministic-outline": [
+      "KnowKit\\Tests\\Artifacts\\Pyramid\\DeterministicOutlineTest::testBuildsDeterministicHierarchyWithinTwoPercentBudget"
+    ],
+    "artifacts-pyramid:outline-fallback-no-headings": [
+      "KnowKit\\Tests\\Artifacts\\Pyramid\\DeterministicOutlineTest::testBuildsFallbackNodeWhenNoHeadingsExist"
+    ],
+    "artifacts-pyramid:atomic-span-preserved": [
+      "KnowKit\\Tests\\Artifacts\\Pyramid\\AtomicSpanGuardTest::testAcceptsExactProtectedAtomsInDigestAndPropositionArtifacts"
+    ],
+    "artifacts-pyramid:atomic-span-rejected": [
+      "KnowKit\\Tests\\Artifacts\\Pyramid\\AtomicSpanGuardTest::testRejectsMissingOrDistortedAtomWithIncompatibleFailure"
+    ],
+    "artifacts-pyramid:atomic-span-verifier": [
+      "KnowKit\\Tests\\Artifacts\\Pyramid\\AtomicSpanGuardTest::testAcceptsEquivalentAtomViaVerifier"
+    ],
+    "artifacts-pyramid:pdo-resolution-store-acceptance": [
+      "KnowKit\\Tests\\Artifacts\\Pyramid\\PdoResolutionStoreTest::testAcceptanceSavesAndFindsArtifactsAndRejectsConflicts"
+    ]
+  }
+}
