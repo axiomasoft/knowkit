@@ -79,6 +79,7 @@
         "compilers:strategies",
         "bridge:mcp-server",
         "bridge:mcp-client",
-        "distill:contracts"
+        "distill:contracts",
+        "training:export"
     ]
 }

@@ -1444,6 +1444,25 @@
             ],
             "composerProject": "packages/distill",
             "minPhp": "8.3"
+        },
+        {
+            "id": "training:export",
+            "requiredCaseManifest": "tests/fixtures/check-groups/training-export.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "TrainingExport",
+                    "--group",
+                    "training:export",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/training-export",
+            "minPhp": "8.3"
         }
     ],
     "checks": {
@@ -1555,7 +1574,8 @@
                 "compilers:strategies",
                 "bridge:mcp-server",
                 "bridge:mcp-client",
-                "distill:contracts"
+                "distill:contracts",
+                "training:export"
             ]
         },
         "ci-core": {
@@ -1634,7 +1654,8 @@
                 "compilers:strategies",
                 "bridge:mcp-server",
                 "bridge:mcp-client",
-                "distill:contracts"
+                "distill:contracts",
+                "training:export"
             ]
         },
         "ci-optional": {
@@ -1657,7 +1678,8 @@
                 "compilers:strategies",
                 "bridge:mcp-server",
                 "bridge:mcp-client",
-                "distill:contracts"
+                "distill:contracts",
+                "training:export"
             ],
             "notSelected": [
                 "contract:architecture",
