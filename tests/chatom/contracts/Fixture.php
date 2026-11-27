@@ -7,10 +7,12 @@ namespace KnowKit\Tests\Chatom\Contracts;
 use KnowKit\Answer\Domain\ModelBindingRef;
 use KnowKit\Chatom\Domain\ConversationBinding;
 use KnowKit\Chatom\Domain\ConversationRef;
+use KnowKit\Chatom\Domain\LayerStackRef;
 use KnowKit\Chatom\Port\ConversationBindingResolver;
 use KnowKit\Domain\ActorId;
 use KnowKit\Domain\ConversationRoute;
 use KnowKit\Domain\Decimal;
+use KnowKit\Domain\InstanceId;
 use KnowKit\Domain\KbId;
 use KnowKit\Domain\Scope;
 use KnowKit\Domain\Sha256;
@@ -160,6 +162,8 @@ final class Fixture implements ConversationBindingResolver
             hostScopeInputs: $scope,
             viewerBindingRef: $values['viewerBindingRef'],
             bindingRevision: $values['bindingRevision'],
+            instanceId: InstanceId::fromString($values['instanceId'] ?? 'default'),
+            layerStackRef: isset($values['layerStackRef']) ? new LayerStackRef($values['layerStackRef']) : null,
         );
     }
 

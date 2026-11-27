@@ -32,6 +32,7 @@ use KnowKit\Chatom\Domain\AuthorizedHistory;
 use KnowKit\Chatom\Domain\ConversationBinding;
 use KnowKit\Chatom\Domain\ConversationRef;
 use KnowKit\Chatom\Domain\HandlerConfiguration;
+use KnowKit\Chatom\Domain\LayerStackRef;
 use KnowKit\Chatom\Domain\RouteRegistration;
 use KnowKit\Chatom\KnowKitDurableAgentHandler;
 use KnowKit\Chatom\Port\ConversationAnswerFactory;
@@ -39,6 +40,7 @@ use KnowKit\Chatom\Port\ConversationAudience;
 use KnowKit\Chatom\Port\ConversationBindingResolver;
 use KnowKit\Chatom\RouteRegistrationAssertion;
 use KnowKit\Domain\ConversationRoute;
+use KnowKit\Domain\InstanceId;
 use KnowKit\Tests\Answer\Contracts\Fixture as AnswerFixture;
 use KnowKit\Tests\Answer\Grounding\GroundingFixture;
 use PHPUnit\Framework\Assert;
@@ -59,6 +61,8 @@ final class HandlerFixture implements ConversationAudience, ConversationBindingR
     public ?AuthorizedHistory $lastHistory = null;
     public ?A\DependencyManifest $lastDependencies = null;
     public ?ViewerMessageHistory $lastQuery = null;
+    public ?InstanceId $lastInstanceId = null;
+    public ?LayerStackRef $lastLayerStackRef = null;
 
     public function __construct()
     {
@@ -78,6 +82,8 @@ final class HandlerFixture implements ConversationAudience, ConversationBindingR
             hostScopeInputs: $scope,
             viewerBindingRef: 'learner:class:lesson:consent:1',
             bindingRevision: 'binding:1',
+            instanceId: InstanceId::fromString('default'),
+            layerStackRef: new LayerStackRef('stack:1'),
         );
         $this->messages = [
             $this->message(id: 'trigger', position: 100, text: self::corpus()['question']),
@@ -254,11 +260,18 @@ final class HandlerFixture implements ConversationAudience, ConversationBindingR
             hostScopeInputs: $old->hostScopeInputs,
             viewerBindingRef: $old->viewerBindingRef,
             bindingRevision: 'binding:2',
+            instanceId: $old->instanceId,
+            layerStackRef: $old->layerStackRef,
         );
     }
 
-    public function create(InvocationAuthorization $authorization): GroundedAnswering
-    {
+    public function create(
+        InvocationAuthorization $authorization,
+        InstanceId $instanceId,
+        ?LayerStackRef $layerStackRef = null,
+    ): GroundedAnswering {
+        $this->lastInstanceId = $instanceId;
+        $this->lastLayerStackRef = $layerStackRef;
         $f = $this->answer;
 
         $service = new App\GroundedAnswerService(

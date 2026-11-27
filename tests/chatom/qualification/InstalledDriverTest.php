@@ -299,6 +299,8 @@ final class InstalledDriverTest extends TestCase
                     hostScopeInputs: $binding->hostScopeInputs,
                     viewerBindingRef: $binding->viewerBindingRef,
                     bindingRevision: $binding->bindingRevision,
+                    instanceId: $binding->instanceId,
+                    layerStackRef: $binding->layerStackRef,
                 );
             };
             $host->relay();

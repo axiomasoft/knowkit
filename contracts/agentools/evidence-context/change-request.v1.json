@@ -141,7 +141,12 @@
         "pin": "AgenToolsPlatform\\Chatom\\ContributionPin",
         "blocks": "array",
         "dependencies": "array",
-        "receipt": "AgenToolsPlatform\\Chatom\\ContributionReceipt"
+        "receipt": "AgenToolsPlatform\\Chatom\\ContributionReceipt",
+        "prefixBlocks": "array",
+        "sessionBlocks": "array",
+        "expectedPrefixHash": "?string",
+        "cacheHints": "?array",
+        "citationAliasMapDigest": "?string"
       }
     },
     "AgenToolsPlatform\\Chatom\\BoundaryStage": {
@@ -487,7 +492,12 @@
               "pin": "AgenToolsPlatform\\Chatom\\ContributionPin",
               "blocks": "array",
               "dependencies": "array",
-              "receipt": "AgenToolsPlatform\\Chatom\\ContributionReceipt"
+              "receipt": "AgenToolsPlatform\\Chatom\\ContributionReceipt",
+              "prefixBlocks": "array",
+              "sessionBlocks": "array",
+              "expectedPrefixHash": "?string",
+              "cacheHints": "?array",
+              "citationAliasMapDigest": "?string"
             }
           },
           "AgenToolsPlatform\\Chatom\\BoundaryStage": {
@@ -1145,6 +1155,165 @@
                     "uniqueItems": true
                   }
                 }
+              },
+              "prefixBlocks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "role",
+                    "trustTier",
+                    "content",
+                    "contentDigest",
+                    "cacheControlHint"
+                  ],
+                  "properties": {
+                    "role": {
+                      "enum": [
+                        "system",
+                        "user"
+                      ]
+                    },
+                    "trustTier": {
+                      "enum": [
+                        "trusted_directive",
+                        "curated_reference",
+                        "untrusted_evidence",
+                        "dynamic_overlay"
+                      ]
+                    },
+                    "content": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 65536
+                    },
+                    "contentDigest": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    },
+                    "cacheControlHint": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "minLength": 1,
+                      "maxLength": 256
+                    }
+                  }
+                },
+                "minItems": 0,
+                "maxItems": 32
+              },
+              "sessionBlocks": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "role",
+                    "trustTier",
+                    "content",
+                    "cacheControlHint",
+                    "tokenEstimate",
+                    "contentDigest"
+                  ],
+                  "properties": {
+                    "role": {
+                      "enum": [
+                        "system",
+                        "user",
+                        "assistant"
+                      ]
+                    },
+                    "trustTier": {
+                      "enum": [
+                        "trusted_directive",
+                        "curated_reference",
+                        "untrusted_evidence",
+                        "dynamic_overlay"
+                      ]
+                    },
+                    "content": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 65536
+                    },
+                    "cacheControlHint": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "minLength": 1,
+                      "maxLength": 256
+                    },
+                    "tokenEstimate": {
+                      "type": "integer",
+                      "minimum": 0
+                    },
+                    "contentDigest": {
+                      "type": "string",
+                      "pattern": "^[0-9a-f]{64}$"
+                    }
+                  }
+                },
+                "minItems": 0,
+                "maxItems": 32
+              },
+              "expectedPrefixHash": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "cacheHints": {
+                "type": [
+                  "object",
+                  "null"
+                ],
+                "additionalProperties": false,
+                "required": [
+                  "profileId",
+                  "semantics",
+                  "externalCacheKey",
+                  "cacheSalt"
+                ],
+                "properties": {
+                  "profileId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "semantics": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "externalCacheKey": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 256
+                  },
+                  "cacheSalt": {
+                    "type": [
+                      "string",
+                      "null"
+                    ],
+                    "minLength": 1,
+                    "maxLength": 256
+                  }
+                }
+              },
+              "citationAliasMapDigest": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^[0-9a-f]{64}$"
               }
             }
           }

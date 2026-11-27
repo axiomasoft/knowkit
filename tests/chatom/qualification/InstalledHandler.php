@@ -120,6 +120,8 @@ final class InstalledHandler implements DurableAgentHandler
             hostScopeInputs: $old->hostScopeInputs,
             viewerBindingRef: $old->viewerBindingRef,
             bindingRevision: $old->bindingRevision,
+            instanceId: $old->instanceId,
+            layerStackRef: $old->layerStackRef,
         );
 
         return $host;

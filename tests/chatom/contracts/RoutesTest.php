@@ -111,6 +111,14 @@ final class RoutesTest extends TestCase
             $this->assertNoEffects($result->isHandled());
         }
 
+        foreach ([['instanceId' => 'other-instance'], ['layerStackRef' => 'stack:other']] as $changes) {
+            $resolver->binding = Fixture::binding($changes);
+            $result = $guard->check(conversation: $admitted->conversation, route: $admitted->route, expectedBinding: $admitted);
+            self::assertSame(expected: NotHandledReason::ChangedBinding, actual: $result->reason);
+            self::assertNull($result->binding);
+            $this->assertNoEffects($result->isHandled());
+        }
+
         $resolver->binding = Fixture::binding();
         self::assertTrue($guard->check(conversation: $admitted->conversation, route: $admitted->route, expectedBinding: $admitted)->isHandled());
         self::assertSame(expected: 'model:tutor-original', actual: $admitted->modelBindingRef->value);
@@ -151,6 +159,8 @@ final class RoutesTest extends TestCase
                 hostScopeInputs: $scope,
                 viewerBindingRef: $binding->viewerBindingRef,
                 bindingRevision: $binding->bindingRevision,
+                instanceId: $binding->instanceId,
+                layerStackRef: $binding->layerStackRef,
             ));
         }
 

@@ -6,6 +6,8 @@ namespace KnowKit\Chatom\Port;
 
 use KnowKit\Answer\GroundedAnswering;
 use KnowKit\Answer\Port\InvocationAuthorization;
+use KnowKit\Chatom\Domain\LayerStackRef;
+use KnowKit\Domain\InstanceId;
 
 /** Explicit host composition, sharing the existing answer ledger/transport/budget.
  * Install the supplied guard in BOTH GroundedAnswerService and InvocationReplay.
@@ -14,5 +16,9 @@ use KnowKit\Answer\Port\InvocationAuthorization;
  */
 interface ConversationAnswerFactory
 {
-    public function create(InvocationAuthorization $authorization): GroundedAnswering;
+    public function create(
+        InvocationAuthorization $authorization,
+        InstanceId $instanceId,
+        ?LayerStackRef $layerStackRef = null,
+    ): GroundedAnswering;
 }

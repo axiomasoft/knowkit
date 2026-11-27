@@ -49,9 +49,15 @@ pins and installed schema/reflection parity remain separate upstream obligations
 
 `ContributionPin` is `{id, version, contractDigest, configDigest}`. All four fields
 are immutable and credential-free. `EvidenceContribution` is `{pin, blocks,
-dependencies, receipt}`: blocks are a bounded list of native ContextBlock values,
+dependencies, receipt, prefixBlocks, sessionBlocks, expectedPrefixHash, cacheHints,
+citationAliasMapDigest}`: blocks are a bounded list of native ContextBlock values,
 dependencies are exact `{ref, version, hash}` records. Every selected block must
-have an exact dependency; conflicting identities/hashes refuse. The fixture
+have an exact dependency; conflicting identities/hashes refuse. `prefixBlocks`
+(`list<{role, trustTier, content, contentDigest, cacheControlHint}>`),
+`sessionBlocks` (`list<CompiledBlock>` for `SessionPinned` layers),
+`expectedPrefixHash` (`?sha256`), `cacheHints` (`?{profileId, semantics,
+externalCacheKey, cacheSalt}`), and `citationAliasMapDigest` (`?sha256`) extend
+`v1` directly with closed schemas (`additionalProperties: false`). The fixture
 retention manifest binds the complete pin, receipt and dependencies, and does not
 claim to implement native SnapshotPins or native context hashing.
 

@@ -313,6 +313,64 @@ final class SeamTest extends TestCase
         $this->rejects(static fn () => Contract::assertSchema(schema: $schema, value: $invalid));
         $scenario = new Scenario();
         $this->rejects(static fn () => new EvidenceContextRequest(...array_replace($scenario->requestData(), ['now' => '2026-99-09T00:00:00Z'])));
+        $validContribution = new EvidenceContribution(
+            pin: $scenario->pin,
+            blocks: [$scenario->block],
+            dependencies: $scenario->contributor->contribution->dependencies,
+            receipt: $scenario->receipt,
+            prefixBlocks: [[
+                'role' => 'system',
+                'trustTier' => 'trusted_directive',
+                'content' => 'System directive',
+                'contentDigest' => hash('sha256', 'System directive'),
+                'cacheControlHint' => 'ephemeral',
+            ]],
+            sessionBlocks: [[
+                'role' => 'user',
+                'trustTier' => 'curated_reference',
+                'content' => 'Session reference',
+                'cacheControlHint' => null,
+                'tokenEstimate' => 4,
+                'contentDigest' => hash('sha256', 'Session reference'),
+            ]],
+            expectedPrefixHash: hash('sha256', 'prefix'),
+            cacheHints: [
+                'profileId' => 'anthropic-explicit',
+                'semantics' => 'explicit_breakpoints',
+                'externalCacheKey' => null,
+                'cacheSalt' => 'tenant:1',
+            ],
+            citationAliasMapDigest: hash('sha256', 'aliases'),
+        );
+        self::assertCount(1, $validContribution->prefixBlocks);
+        self::assertCount(1, $validContribution->sessionBlocks);
+        $this->rejects(static fn () => new EvidenceContribution(
+            pin: $scenario->pin,
+            blocks: [$scenario->block],
+            dependencies: $scenario->contributor->contribution->dependencies,
+            receipt: $scenario->receipt,
+            prefixBlocks: [[
+                'role' => 'system',
+                'trustTier' => 'trusted_directive',
+                'content' => 'System directive',
+                'contentDigest' => hash('sha256', 'System directive'),
+                'cacheControlHint' => 'ephemeral',
+                'extra' => 'forbidden',
+            ]],
+        ));
+        $this->rejects(static fn () => new EvidenceContribution(
+            pin: $scenario->pin,
+            blocks: [$scenario->block],
+            dependencies: $scenario->contributor->contribution->dependencies,
+            receipt: $scenario->receipt,
+            cacheHints: [
+                'profileId' => 'anthropic-explicit',
+                'semantics' => 'explicit_breakpoints',
+                'externalCacheKey' => null,
+                'cacheSalt' => 'tenant:1',
+                'extra' => 'forbidden',
+            ],
+        ));
     }
 
     public function testFixtureCannotRunInProductionOrProductionAutoload(): void

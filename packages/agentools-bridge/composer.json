@@ -6,10 +6,12 @@
   "require": {
     "php": ">=8.4",
     "agentools/platform-core": "dev-pinned",
+    "knowkit/context-compilers": "dev-main",
     "knowkit/core": "dev-main"
   },
   "require-dev": {"phpunit/phpunit": "^11.5"},
   "repositories": [
+    {"type": "path", "url": "../context-compilers", "options": {"symlink": false, "versions": {"knowkit/context-compilers": "dev-main"}}},
     {"type": "path", "url": "../core", "options": {"symlink": false, "versions": {"knowkit/core": "dev-main"}}},
     {
       "type": "package",

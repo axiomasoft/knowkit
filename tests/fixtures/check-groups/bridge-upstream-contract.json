@@ -119,12 +119,12 @@
   "fixtures": [
     {
       "path": "contracts/agentools/evidence-context/change-request.v1.json",
-      "sha256": "95cec91c7183c9d10647c218f91e13dc14127e5c7a29aac5def25949f6324536",
+      "sha256": "a522da3ca53d1189bf49933aa47503e995ec95c5f227fd1bfb7911f7633d600c",
       "expected": "Immutable versioned proposal, strict test fixture, reuse provenance and signature/schema/source/request pin bindings; upstream remains pending."
     },
     {
       "path": "contracts/agentools/evidence-context/fixture.v1.json",
-      "sha256": "f74eef46022ac01bc90f7b66692997700361721cd5aaa760eee187a53e2395ca",
+      "sha256": "7b54312454d08c679dccad664fdefbae40e943e718f29e607936f53f7ac65df9",
       "expected": "Immutable versioned proposal, strict test fixture, reuse provenance and signature/schema/source/request pin bindings; upstream remains pending."
     },
     {
@@ -134,7 +134,7 @@
     },
     {
       "path": "contracts/agentools/pin-matrix.json",
-      "sha256": "da3c7af1be10b3d827db92c507ff7351121f351ae3e19fe425659faaed1d71e0",
+      "sha256": "6906969192454c41f34cd63e4f442e5cd4629dddd229d501162e0069c3a41c9a",
       "expected": "Pending upstream cannot qualify as merged+installed; exact source, signature, schema and artifact hashes are immutable."
     }
   ],

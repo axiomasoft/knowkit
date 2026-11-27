@@ -3,8 +3,8 @@
   "contract": "KAT-EVIDENCE-CONTEXT-1",
   "upstream_seam": "pending",
   "hashAlgorithm": "SHA-256; structured signature/schema values use RFC8785 JCS UTF-8 bytes; source/request/artifact values hash exact bytes. Pin digest hashes the complete ContributionPin with the same JCS domain.",
-  "signatureDigest": "389e7eaae9bcb8cb3115f3290e1d98ef990beb02fb5e471db17deab859c108a6",
-  "schemaDigest": "e620fd08b9a61784a9688ed1e3be604635aac7463b71c9982439ed48a702e4cd",
+  "signatureDigest": "3f8f57b14c2d9ec4b4ea95c85128049bc30e026f5775b0e2879936836d68fc91",
+  "schemaDigest": "94436296c9c95b203f8ae8c30537a338b4aa2065d12057ef0b2ca6db39047a47",
   "sourcePins": [
     {
       "repository": "agentools",
@@ -40,11 +40,11 @@
   "artifacts": [
     {
       "path": "contracts/agentools/evidence-context/change-request.v1.json",
-      "sha256": "95cec91c7183c9d10647c218f91e13dc14127e5c7a29aac5def25949f6324536"
+      "sha256": "a522da3ca53d1189bf49933aa47503e995ec95c5f227fd1bfb7911f7633d600c"
     },
     {
       "path": "contracts/agentools/evidence-context/fixture.v1.json",
-      "sha256": "f74eef46022ac01bc90f7b66692997700361721cd5aaa760eee187a53e2395ca"
+      "sha256": "7b54312454d08c679dccad664fdefbae40e943e718f29e607936f53f7ac65df9"
     },
     {
       "path": "tests/bridge/upstream-contract/evidence/P8.4-reuse.json",
@@ -68,6 +68,6 @@
     "host": "unavailable",
     "runtimeQualified": false
   },
-  "contractDigest": "95cec91c7183c9d10647c218f91e13dc14127e5c7a29aac5def25949f6324536",
+  "contractDigest": "a522da3ca53d1189bf49933aa47503e995ec95c5f227fd1bfb7911f7633d600c",
   "emptyDefaultRequestHash": "428c5db2b3837990937a93b35598130ef92f02025e3c2b579195db20fdb08b73"
 }

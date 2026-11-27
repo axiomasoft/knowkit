@@ -50,13 +50,17 @@ bots/bindings, including two bots in the same channel.
 The host implements `ConversationBindingResolver::resolve(ConversationRef)`
 and returns the current immutable `ConversationBinding`: exact conversation,
 route, `kbId`, `ModelBindingRef`, full trusted `Scope` as `hostScopeInputs`,
-`viewerBindingRef` and opaque `bindingRevision`. The scope retains tenant, kb,
+`viewerBindingRef`, opaque `bindingRevision`, `InstanceId` (`instanceId`), and
+optional `?LayerStackRef` (`layerStackRef = null`). The scope retains tenant, kb,
 actor, business purpose, policy epoch and `hostScopeHash`; it is never rebuilt
 from model input. Business purpose remains distinct from `Operation`.
 The host's hash preserves acting-as, learner, audience, consent, session and
 other host facts. Tenant/kb mismatches are invalid bindings. Missing/unknown
 authority throws; the guard returns `NotHandled(binding_unavailable)` with no
-exception text or protected binding.
+exception text or protected binding. `KnowKitDurableAgentHandler` forwards
+`instanceId` and `layerStackRef` from `ConversationBinding` to
+`ConversationAnswerFactory::create(...)` without owning history or writing to
+Chatom tables (`ARCH-CHATOM`).
 
 `ConversationRouteGuard::check(conversation, route, expectedBinding?)` checks
 the frozen registration before consulting the resolver. Registered-route

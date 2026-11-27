@@ -109,7 +109,7 @@
   "components": {
     "composerLock": {
       "path": "packages/agentools-bridge/composer.lock",
-      "sha256": "043c34b0583e98be5b51d0420ab3797602c08df9596dfeafd3aba6eecbeb429e"
+      "sha256": "11604d4b356ed825a5cd4cccdd979e530f77c5d881e8238c506f813c43aa88eb"
     },
     "phpFloor": "8.4",
     "sourceRevision": "2054acda51eb69eca1579c78900858c5ff3de01e",

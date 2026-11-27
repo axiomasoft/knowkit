@@ -7,6 +7,7 @@ namespace KnowKit\Chatom\Domain;
 use InvalidArgumentException;
 use KnowKit\Answer\Domain\ModelBindingRef;
 use KnowKit\Domain\ConversationRoute;
+use KnowKit\Domain\InstanceId;
 use KnowKit\Domain\KbId;
 use KnowKit\Domain\Scope;
 
@@ -21,6 +22,8 @@ final readonly class ConversationBinding
         public Scope $hostScopeInputs,
         public string $viewerBindingRef,
         public string $bindingRevision,
+        public InstanceId $instanceId,
+        public ?LayerStackRef $layerStackRef = null,
     ) {
         ConversationRef::assertReference($viewerBindingRef);
         ConversationRef::assertReference($bindingRevision);
@@ -42,6 +45,9 @@ final readonly class ConversationBinding
             && $this->hostScopeInputs->policyEpoch->value === $other->hostScopeInputs->policyEpoch->value
             && $this->hostScopeInputs->hostScopeHash->equals($other->hostScopeInputs->hostScopeHash)
             && $this->viewerBindingRef === $other->viewerBindingRef
-            && $this->bindingRevision === $other->bindingRevision;
+            && $this->bindingRevision === $other->bindingRevision
+            && $this->instanceId->equals($other->instanceId)
+            && (($this->layerStackRef === null && $other->layerStackRef === null)
+                || ($this->layerStackRef !== null && $other->layerStackRef !== null && $this->layerStackRef->equals($other->layerStackRef)));
     }
 }

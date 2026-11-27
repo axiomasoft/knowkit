@@ -50,6 +50,11 @@ final class HandlerTest extends TestCase
         self::assertStringContainsString('knowkit:citation:', json_encode($reply->saved));
         self::assertSame($f->lastHistory->manifestRef(), $f->answer->ledger->record->dependencies->history[0]->ref);
         self::assertSame($f->answer->ledger->record->dependencies, $f->lastDependencies);
+        self::assertNotNull($f->lastInstanceId);
+        self::assertTrue($f->lastInstanceId->equals($f->binding->instanceId));
+        self::assertNotNull($f->lastLayerStackRef);
+        self::assertNotNull($f->binding->layerStackRef);
+        self::assertTrue($f->lastLayerStackRef->equals($f->binding->layerStackRef));
     }
 
     public function testRevokedUnknownAndChangedHistoryDenyWithoutProtectedEffects(): void

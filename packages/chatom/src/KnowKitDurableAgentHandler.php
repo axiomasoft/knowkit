@@ -78,7 +78,11 @@ final readonly class KnowKitDurableAgentHandler implements DurableAgentHandler
             invocationKey: new A\InvocationKey($invocation->invocationKey),
             limits: $this->configuration->limits,
         );
-        $outcome = $this->answers->create($authorization)->answer(request: $request, cancellation: $this->cancellation);
+        $outcome = $this->answers->create(
+            authorization: $authorization,
+            instanceId: $binding->instanceId,
+            layerStackRef: $binding->layerStackRef,
+        )->answer(request: $request, cancellation: $this->cancellation);
         $content = $outcome->answeredContent();
         $expectedRef = $request->invocationRef();
         if ($content === null
