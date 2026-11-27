@@ -24,8 +24,10 @@ use KnowKit\Domain\{
 use KnowKit\Domain\Contract\StrictJson;
 use KnowKit\Domain\Layers\{CatalogMountRef, DisclosureMode};
 use KnowKit\Tests\Storage\Catalog\CatalogFixture;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
+#[Group('layers:mounts')]
 final class CatalogMountTest extends TestCase
 {
     private function seedSharedCatalogTenant(

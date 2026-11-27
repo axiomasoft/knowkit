@@ -1,1456 +1,1544 @@
 {
-  "schemaVersion": "qa-registry:1",
-  "groups": [
-    {
-      "id": "contract:architecture",
-      "requiredCaseManifest": "tests/fixtures/check-groups/contract-architecture.json",
-      "commands": [
-        [
-          "python3",
-          "tools/check-spec-contract.py",
-          "--specs",
-          "specs",
-          "--check",
-          "architecture"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "tooling:baseline",
-      "requiredCaseManifest": "tests/fixtures/check-groups/tooling-baseline.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "tooling:baseline",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "contract:licensing",
-      "requiredCaseManifest": "tests/fixtures/check-groups/contract-licensing.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "contract:licensing",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "contract:schemas",
-      "requiredCaseManifest": "tests/fixtures/check-groups/contract-schemas.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "contract:schemas",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "contract:ports",
-      "requiredCaseManifest": "tests/fixtures/check-groups/contract-ports.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "contract:ports",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "extension:conformance-sdk",
-      "requiredCaseManifest": "tests/fixtures/check-groups/extension-conformance-sdk.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "extension:conformance-sdk",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "storage:catalog",
-      "requiredCaseManifest": "tests/fixtures/check-groups/storage-catalog.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "storage:catalog",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "storage:blobs",
-      "requiredCaseManifest": "tests/fixtures/check-groups/storage-blobs.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "storage:blobs",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "security:policy",
-      "requiredCaseManifest": "tests/fixtures/check-groups/security-policy.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "security:policy",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "ingest:text",
-      "requiredCaseManifest": "tests/fixtures/check-groups/ingest-text.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "ingest:text",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "ingest:validation",
-      "requiredCaseManifest": "tests/fixtures/check-groups/ingest-validation.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "ingest:validation",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "ingest:chunking",
-      "requiredCaseManifest": "tests/fixtures/check-groups/ingest-chunking.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "ingest:chunking",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "jobs:leases",
-      "requiredCaseManifest": "tests/fixtures/check-groups/jobs-leases.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "jobs:leases",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "retrieval:lexical",
-      "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-lexical.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "retrieval:lexical",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "lifecycle:dependencies",
-      "requiredCaseManifest": "tests/fixtures/check-groups/lifecycle-dependencies.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "lifecycle:dependencies",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "lifecycle:commands",
-      "requiredCaseManifest": "tests/fixtures/check-groups/lifecycle-commands.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "lifecycle:commands",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "publication:manifest",
-      "requiredCaseManifest": "tests/fixtures/check-groups/publication-manifest.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "publication:manifest",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "publication:activate",
-      "requiredCaseManifest": "tests/fixtures/check-groups/publication-activate.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "publication:activate",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "events:outbox",
-      "requiredCaseManifest": "tests/fixtures/check-groups/events-outbox.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "events:outbox",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "lifecycle:purge",
-      "requiredCaseManifest": "tests/fixtures/check-groups/lifecycle-purge.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "lifecycle:purge",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "lifecycle:restore",
-      "requiredCaseManifest": "tests/fixtures/check-groups/lifecycle-restore.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "lifecycle:restore",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "sources:inventory",
-      "requiredCaseManifest": "tests/fixtures/check-groups/sources-inventory.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "sources:inventory",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "retrieval:selection",
-      "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-selection.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "retrieval:selection",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "retrieval:disclosure",
-      "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-disclosure.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "retrieval:disclosure",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "retrieval:reading",
-      "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-reading.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "retrieval:reading",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "retrieval:cache",
-      "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-cache.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "retrieval:cache",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "delivery:cli",
-      "requiredCaseManifest": "tests/fixtures/check-groups/delivery-cli.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "delivery:cli",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "reading:navigation",
-      "requiredCaseManifest": "tests/fixtures/check-groups/reading-navigation.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "reading:navigation",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "answer:contracts",
-      "requiredCaseManifest": "tests/fixtures/check-groups/answer-contracts.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Answer",
-          "--group",
-          "answer:contracts",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/answer",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "answer:ledger",
-      "requiredCaseManifest": "tests/fixtures/check-groups/answer-ledger.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Answer",
-          "--group",
-          "answer:ledger",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/answer",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "answer:transport",
-      "requiredCaseManifest": "tests/fixtures/check-groups/answer-transport.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Answer",
-          "--group",
-          "answer:transport",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/answer",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "answer:grounding",
-      "requiredCaseManifest": "tests/fixtures/check-groups/answer-grounding.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Answer",
-          "--group",
-          "answer:grounding",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/answer",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "answer:conformance",
-      "requiredCaseManifest": "tests/fixtures/check-groups/answer-conformance.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Answer",
-          "--group",
-          "answer:conformance",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/answer",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "adoption:edufy",
-      "requiredCaseManifest": "tests/fixtures/check-groups/adoption-edufy.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Answer",
-          "--group",
-          "adoption:edufy",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "semantic:embedding",
-      "requiredCaseManifest": "tests/fixtures/check-groups/semantic-embedding.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Semantic",
-          "--group",
-          "semantic:embedding",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/pgvector",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "semantic:vector",
-      "requiredCaseManifest": "tests/fixtures/check-groups/semantic-vector.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Semantic",
-          "--group",
-          "semantic:vector",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/pgvector",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "semantic:hybrid",
-      "requiredCaseManifest": "tests/fixtures/check-groups/semantic-hybrid.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Semantic",
-          "--group",
-          "semantic:hybrid",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/pgvector",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "quality:retrieval",
-      "requiredCaseManifest": "tests/fixtures/check-groups/quality-retrieval.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Evaluation",
-          "--group",
-          "quality:retrieval",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "worker:protocol",
-      "requiredCaseManifest": "tests/fixtures/check-groups/worker-protocol.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Worker",
-          "--group",
-          "worker:protocol",
-          "--log-junit",
-          "<runner-private-junit.xml>"
+    "schemaVersion": "qa-registry:1",
+    "groups": [
+        {
+            "id": "contract:architecture",
+            "requiredCaseManifest": "tests/fixtures/check-groups/contract-architecture.json",
+            "commands": [
+                [
+                    "python3",
+                    "tools/check-spec-contract.py",
+                    "--specs",
+                    "specs",
+                    "--check",
+                    "architecture"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "tooling:baseline",
+            "requiredCaseManifest": "tests/fixtures/check-groups/tooling-baseline.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "tooling:baseline",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "contract:licensing",
+            "requiredCaseManifest": "tests/fixtures/check-groups/contract-licensing.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "contract:licensing",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "contract:schemas",
+            "requiredCaseManifest": "tests/fixtures/check-groups/contract-schemas.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "contract:schemas",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "contract:ports",
+            "requiredCaseManifest": "tests/fixtures/check-groups/contract-ports.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "contract:ports",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "extension:conformance-sdk",
+            "requiredCaseManifest": "tests/fixtures/check-groups/extension-conformance-sdk.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "extension:conformance-sdk",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "storage:catalog",
+            "requiredCaseManifest": "tests/fixtures/check-groups/storage-catalog.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "storage:catalog",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "storage:blobs",
+            "requiredCaseManifest": "tests/fixtures/check-groups/storage-blobs.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "storage:blobs",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "security:policy",
+            "requiredCaseManifest": "tests/fixtures/check-groups/security-policy.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "security:policy",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "ingest:text",
+            "requiredCaseManifest": "tests/fixtures/check-groups/ingest-text.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "ingest:text",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "ingest:validation",
+            "requiredCaseManifest": "tests/fixtures/check-groups/ingest-validation.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "ingest:validation",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "ingest:chunking",
+            "requiredCaseManifest": "tests/fixtures/check-groups/ingest-chunking.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "ingest:chunking",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "jobs:leases",
+            "requiredCaseManifest": "tests/fixtures/check-groups/jobs-leases.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "jobs:leases",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "retrieval:lexical",
+            "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-lexical.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "retrieval:lexical",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "lifecycle:dependencies",
+            "requiredCaseManifest": "tests/fixtures/check-groups/lifecycle-dependencies.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "lifecycle:dependencies",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "lifecycle:commands",
+            "requiredCaseManifest": "tests/fixtures/check-groups/lifecycle-commands.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "lifecycle:commands",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "publication:manifest",
+            "requiredCaseManifest": "tests/fixtures/check-groups/publication-manifest.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "publication:manifest",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "publication:activate",
+            "requiredCaseManifest": "tests/fixtures/check-groups/publication-activate.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "publication:activate",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "events:outbox",
+            "requiredCaseManifest": "tests/fixtures/check-groups/events-outbox.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "events:outbox",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "lifecycle:purge",
+            "requiredCaseManifest": "tests/fixtures/check-groups/lifecycle-purge.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "lifecycle:purge",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "lifecycle:restore",
+            "requiredCaseManifest": "tests/fixtures/check-groups/lifecycle-restore.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "lifecycle:restore",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "sources:inventory",
+            "requiredCaseManifest": "tests/fixtures/check-groups/sources-inventory.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "sources:inventory",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "retrieval:selection",
+            "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-selection.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "retrieval:selection",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "retrieval:disclosure",
+            "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-disclosure.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "retrieval:disclosure",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "retrieval:reading",
+            "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-reading.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "retrieval:reading",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "retrieval:cache",
+            "requiredCaseManifest": "tests/fixtures/check-groups/retrieval-cache.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "retrieval:cache",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "delivery:cli",
+            "requiredCaseManifest": "tests/fixtures/check-groups/delivery-cli.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "delivery:cli",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "reading:navigation",
+            "requiredCaseManifest": "tests/fixtures/check-groups/reading-navigation.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "reading:navigation",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "answer:contracts",
+            "requiredCaseManifest": "tests/fixtures/check-groups/answer-contracts.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Answer",
+                    "--group",
+                    "answer:contracts",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/answer",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "answer:ledger",
+            "requiredCaseManifest": "tests/fixtures/check-groups/answer-ledger.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Answer",
+                    "--group",
+                    "answer:ledger",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/answer",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "answer:transport",
+            "requiredCaseManifest": "tests/fixtures/check-groups/answer-transport.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Answer",
+                    "--group",
+                    "answer:transport",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/answer",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "answer:grounding",
+            "requiredCaseManifest": "tests/fixtures/check-groups/answer-grounding.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Answer",
+                    "--group",
+                    "answer:grounding",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/answer",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "answer:conformance",
+            "requiredCaseManifest": "tests/fixtures/check-groups/answer-conformance.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Answer",
+                    "--group",
+                    "answer:conformance",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/answer",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "adoption:edufy",
+            "requiredCaseManifest": "tests/fixtures/check-groups/adoption-edufy.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Answer",
+                    "--group",
+                    "adoption:edufy",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "semantic:embedding",
+            "requiredCaseManifest": "tests/fixtures/check-groups/semantic-embedding.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Semantic",
+                    "--group",
+                    "semantic:embedding",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/pgvector",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "semantic:vector",
+            "requiredCaseManifest": "tests/fixtures/check-groups/semantic-vector.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Semantic",
+                    "--group",
+                    "semantic:vector",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/pgvector",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "semantic:hybrid",
+            "requiredCaseManifest": "tests/fixtures/check-groups/semantic-hybrid.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Semantic",
+                    "--group",
+                    "semantic:hybrid",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/pgvector",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "quality:retrieval",
+            "requiredCaseManifest": "tests/fixtures/check-groups/quality-retrieval.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Evaluation",
+                    "--group",
+                    "quality:retrieval",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "worker:protocol",
+            "requiredCaseManifest": "tests/fixtures/check-groups/worker-protocol.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Worker",
+                    "--group",
+                    "worker:protocol",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ],
+                [
+                    "uv",
+                    "run",
+                    "--project",
+                    "python/knowkit-worker",
+                    "--frozen",
+                    "pytest",
+                    "python/knowkit-worker/tests/protocol",
+                    "--strict-markers",
+                    "-q",
+                    "--junitxml=<runner-private-pytest-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "worker:acceptance",
+            "requiredCaseManifest": "tests/fixtures/check-groups/worker-acceptance.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Worker",
+                    "--group",
+                    "worker:acceptance",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "worker:pdf",
+            "requiredCaseManifest": "tests/fixtures/check-groups/worker-pdf.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Worker",
+                    "--group",
+                    "worker:pdf",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ],
+                [
+                    "uv",
+                    "run",
+                    "--project",
+                    "python/knowkit-worker",
+                    "--frozen",
+                    "pytest",
+                    "python/knowkit-worker/tests/pdf",
+                    "--strict-markers",
+                    "-q",
+                    "--junitxml=<runner-private-pytest-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "worker:ocr",
+            "requiredCaseManifest": "tests/fixtures/check-groups/worker-ocr.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Worker",
+                    "--group",
+                    "worker:ocr",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ],
+                [
+                    "uv",
+                    "run",
+                    "--project",
+                    "python/knowkit-worker",
+                    "--frozen",
+                    "pytest",
+                    "python/knowkit-worker/tests/ocr",
+                    "--strict-markers",
+                    "-q",
+                    "--junitxml=<runner-private-pytest-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "worker:structure",
+            "requiredCaseManifest": "tests/fixtures/check-groups/worker-structure.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Worker",
+                    "--group",
+                    "worker:structure",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ],
+                [
+                    "uv",
+                    "run",
+                    "--project",
+                    "python/knowkit-worker",
+                    "--frozen",
+                    "pytest",
+                    "python/knowkit-worker/tests/structure",
+                    "--strict-markers",
+                    "-q",
+                    "--junitxml=<runner-private-pytest-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "worker:e2e",
+            "requiredCaseManifest": "tests/fixtures/check-groups/worker-e2e.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Worker",
+                    "--group",
+                    "worker:e2e",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ],
+                [
+                    "uv",
+                    "run",
+                    "--project",
+                    "python/knowkit-worker",
+                    "--frozen",
+                    "pytest",
+                    "python/knowkit-worker/tests/e2e",
+                    "--strict-markers",
+                    "-q",
+                    "--junitxml=<runner-private-pytest-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "delivery:laravel",
+            "requiredCaseManifest": "tests/fixtures/check-groups/delivery-laravel.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Laravel",
+                    "--group",
+                    "delivery:laravel",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/laravel",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "delivery:http",
+            "requiredCaseManifest": "tests/fixtures/check-groups/delivery-http.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Http",
+                    "--group",
+                    "delivery:http",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/http",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "delivery:client",
+            "requiredCaseManifest": "tests/fixtures/check-groups/delivery-client.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Http",
+                    "--group",
+                    "delivery:client",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/http",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "chatom:contracts",
+            "requiredCaseManifest": "tests/fixtures/check-groups/chatom-contracts.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Chatom",
+                    "--group",
+                    "chatom:contracts",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/chatom",
+            "minPhp": "8.4"
+        },
+        {
+            "id": "chatom:handler",
+            "requiredCaseManifest": "tests/fixtures/check-groups/chatom-handler.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Chatom",
+                    "--group",
+                    "chatom:handler",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/chatom",
+            "minPhp": "8.4"
+        },
+        {
+            "id": "chatom:qualification",
+            "requiredCaseManifest": "tests/fixtures/check-groups/chatom-qualification.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Chatom",
+                    "--group",
+                    "chatom:qualification",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/chatom",
+            "minPhp": "8.4"
+        },
+        {
+            "id": "bridge:contracts",
+            "requiredCaseManifest": "tests/fixtures/check-groups/bridge-contracts.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Bridge",
+                    "--group",
+                    "bridge:contracts",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/agentools-bridge",
+            "minPhp": "8.4"
+        },
+        {
+            "id": "bridge:runtime",
+            "requiredCaseManifest": "tests/fixtures/check-groups/bridge-runtime.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Bridge",
+                    "--group",
+                    "bridge:runtime",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/agentools-bridge",
+            "minPhp": "8.4"
+        },
+        {
+            "id": "bridge:migration",
+            "requiredCaseManifest": "tests/fixtures/check-groups/bridge-migration.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Bridge",
+                    "--group",
+                    "bridge:migration",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/agentools-bridge",
+            "minPhp": "8.4"
+        },
+        {
+            "id": "bridge:upstream-contract",
+            "requiredCaseManifest": "tests/fixtures/check-groups/bridge-upstream-contract.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Bridge",
+                    "--group",
+                    "bridge:upstream-contract",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/agentools-bridge",
+            "minPhp": "8.4"
+        },
+        {
+            "id": "ops:observability",
+            "requiredCaseManifest": "tests/fixtures/check-groups/ops-observability.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Ops",
+                    "--group",
+                    "ops:observability",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "security:hardening",
+            "requiredCaseManifest": "tests/fixtures/check-groups/security-hardening.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "security:hardening",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "ops:resilience",
+            "requiredCaseManifest": "tests/fixtures/check-groups/ops-resilience.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Ops",
+                    "--group",
+                    "ops:resilience",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "ops:performance",
+            "requiredCaseManifest": "tests/fixtures/check-groups/ops-performance.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Ops",
+                    "--group",
+                    "ops:performance",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "delivery:readiness",
+            "requiredCaseManifest": "tests/fixtures/check-groups/delivery-readiness.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "delivery:readiness",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "bridge-installed",
+            "requiredCaseManifest": "tests/fixtures/check-groups/bridge-installed.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "BridgeInstalled",
+                    "--group",
+                    "bridge-installed",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/agentools-bridge",
+            "minPhp": "8.4"
+        },
+        {
+            "id": "bridge-host-qualification",
+            "requiredCaseManifest": "tests/fixtures/check-groups/bridge-host-qualification.json",
+            "commands": [
+                [
+                    "<composer-project>/vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "BridgeHostQualification",
+                    "--group",
+                    "bridge-host-qualification",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/agentools-bridge",
+            "minPhp": "8.4"
+        },
+        {
+            "id": "runtime:multi-instance",
+            "requiredCaseManifest": "tests/fixtures/check-groups/runtime-multi-instance.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "runtime:multi-instance",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "layers:dag",
+            "requiredCaseManifest": "tests/fixtures/check-groups/layers-dag.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "layers:dag",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "layers:mounts",
+            "requiredCaseManifest": "tests/fixtures/check-groups/layers-mounts.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "layers:mounts",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "security:disclosure-modes",
+            "requiredCaseManifest": "tests/fixtures/check-groups/security-disclosure-modes.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "Core",
+                    "--group",
+                    "security:disclosure-modes",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": ".",
+            "minPhp": "8.3"
+        }
+    ],
+    "checks": {
+        "composer:validate": [
+            "composer",
+            "validate",
+            "--strict"
         ],
-        [
-          "uv",
-          "run",
-          "--project",
-          "python/knowkit-worker",
-          "--frozen",
-          "pytest",
-          "python/knowkit-worker/tests/protocol",
-          "--strict-markers",
-          "-q",
-          "--junitxml=<runner-private-pytest-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "worker:acceptance",
-      "requiredCaseManifest": "tests/fixtures/check-groups/worker-acceptance.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Worker",
-          "--group",
-          "worker:acceptance",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "worker:pdf",
-      "requiredCaseManifest": "tests/fixtures/check-groups/worker-pdf.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Worker",
-          "--group",
-          "worker:pdf",
-          "--log-junit",
-          "<runner-private-junit.xml>"
+        "composer:core": [
+            "composer",
+            "validate",
+            "--strict",
+            "--working-dir=packages/core"
         ],
-        [
-          "uv",
-          "run",
-          "--project",
-          "python/knowkit-worker",
-          "--frozen",
-          "pytest",
-          "python/knowkit-worker/tests/pdf",
-          "--strict-markers",
-          "-q",
-          "--junitxml=<runner-private-pytest-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "worker:ocr",
-      "requiredCaseManifest": "tests/fixtures/check-groups/worker-ocr.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Worker",
-          "--group",
-          "worker:ocr",
-          "--log-junit",
-          "<runner-private-junit.xml>"
+        "static:phpstan": [
+            "vendor/bin/phpstan",
+            "analyse",
+            "--configuration",
+            "phpstan.neon",
+            "--no-progress"
         ],
-        [
-          "uv",
-          "run",
-          "--project",
-          "python/knowkit-worker",
-          "--frozen",
-          "pytest",
-          "python/knowkit-worker/tests/ocr",
-          "--strict-markers",
-          "-q",
-          "--junitxml=<runner-private-pytest-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "worker:structure",
-      "requiredCaseManifest": "tests/fixtures/check-groups/worker-structure.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Worker",
-          "--group",
-          "worker:structure",
-          "--log-junit",
-          "<runner-private-junit.xml>"
+        "static:dag": [
+            "php",
+            "tools/qa.php",
+            "--check",
+            "dag"
         ],
-        [
-          "uv",
-          "run",
-          "--project",
-          "python/knowkit-worker",
-          "--frozen",
-          "pytest",
-          "python/knowkit-worker/tests/structure",
-          "--strict-markers",
-          "-q",
-          "--junitxml=<runner-private-pytest-junit.xml>"
+        "config:portable": [
+            "php",
+            "tools/qa.php",
+            "--check",
+            "config"
         ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
     },
-    {
-      "id": "worker:e2e",
-      "requiredCaseManifest": "tests/fixtures/check-groups/worker-e2e.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Worker",
-          "--group",
-          "worker:e2e",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ],
-        [
-          "uv",
-          "run",
-          "--project",
-          "python/knowkit-worker",
-          "--frozen",
-          "pytest",
-          "python/knowkit-worker/tests/e2e",
-          "--strict-markers",
-          "-q",
-          "--junitxml=<runner-private-pytest-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "delivery:laravel",
-      "requiredCaseManifest": "tests/fixtures/check-groups/delivery-laravel.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Laravel",
-          "--group",
-          "delivery:laravel",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/laravel",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "delivery:http",
-      "requiredCaseManifest": "tests/fixtures/check-groups/delivery-http.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Http",
-          "--group",
-          "delivery:http",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/http",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "delivery:client",
-      "requiredCaseManifest": "tests/fixtures/check-groups/delivery-client.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Http",
-          "--group",
-          "delivery:client",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/http",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "chatom:contracts",
-      "requiredCaseManifest": "tests/fixtures/check-groups/chatom-contracts.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Chatom",
-          "--group",
-          "chatom:contracts",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/chatom",
-      "minPhp": "8.4"
-    },
-    {
-      "id": "chatom:handler",
-      "requiredCaseManifest": "tests/fixtures/check-groups/chatom-handler.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Chatom",
-          "--group",
-          "chatom:handler",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/chatom",
-      "minPhp": "8.4"
-    },
-    {
-      "id": "chatom:qualification",
-      "requiredCaseManifest": "tests/fixtures/check-groups/chatom-qualification.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Chatom",
-          "--group",
-          "chatom:qualification",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/chatom",
-      "minPhp": "8.4"
-    },
-    {
-      "id": "bridge:contracts",
-      "requiredCaseManifest": "tests/fixtures/check-groups/bridge-contracts.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Bridge",
-          "--group",
-          "bridge:contracts",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/agentools-bridge",
-      "minPhp": "8.4"
-    },
-    {
-      "id": "bridge:runtime",
-      "requiredCaseManifest": "tests/fixtures/check-groups/bridge-runtime.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Bridge",
-          "--group",
-          "bridge:runtime",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/agentools-bridge",
-      "minPhp": "8.4"
-    },
-    {
-      "id": "bridge:migration",
-      "requiredCaseManifest": "tests/fixtures/check-groups/bridge-migration.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Bridge",
-          "--group",
-          "bridge:migration",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/agentools-bridge",
-      "minPhp": "8.4"
-    },
-    {
-      "id": "bridge:upstream-contract",
-      "requiredCaseManifest": "tests/fixtures/check-groups/bridge-upstream-contract.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Bridge",
-          "--group",
-          "bridge:upstream-contract",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/agentools-bridge",
-      "minPhp": "8.4"
-    },
-    {
-      "id": "ops:observability",
-      "requiredCaseManifest": "tests/fixtures/check-groups/ops-observability.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Ops",
-          "--group",
-          "ops:observability",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "security:hardening",
-      "requiredCaseManifest": "tests/fixtures/check-groups/security-hardening.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "security:hardening",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "ops:resilience",
-      "requiredCaseManifest": "tests/fixtures/check-groups/ops-resilience.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Ops",
-          "--group",
-          "ops:resilience",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "ops:performance",
-      "requiredCaseManifest": "tests/fixtures/check-groups/ops-performance.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Ops",
-          "--group",
-          "ops:performance",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "delivery:readiness",
-      "requiredCaseManifest": "tests/fixtures/check-groups/delivery-readiness.json",
-      "commands": [
-        [
-          "vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "Core",
-          "--group",
-          "delivery:readiness",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": ".",
-      "minPhp": "8.3"
-    },
-    {
-      "id": "bridge-installed",
-      "requiredCaseManifest": "tests/fixtures/check-groups/bridge-installed.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "BridgeInstalled",
-          "--group",
-          "bridge-installed",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/agentools-bridge",
-      "minPhp": "8.4"
-    },
-    {
-      "id": "bridge-host-qualification",
-      "requiredCaseManifest": "tests/fixtures/check-groups/bridge-host-qualification.json",
-      "commands": [
-        [
-          "<composer-project>/vendor/bin/phpunit",
-          "--configuration",
-          "phpunit.xml",
-          "--testsuite",
-          "BridgeHostQualification",
-          "--group",
-          "bridge-host-qualification",
-          "--log-junit",
-          "<runner-private-junit.xml>"
-        ]
-      ],
-      "composerProject": "packages/agentools-bridge",
-      "minPhp": "8.4"
+    "profiles": {
+        "core-php83": {
+            "selected": [
+                "contract:architecture",
+                "tooling:baseline",
+                "contract:licensing",
+                "contract:schemas",
+                "contract:ports",
+                "extension:conformance-sdk",
+                "storage:catalog",
+                "storage:blobs",
+                "security:policy",
+                "ingest:text",
+                "ingest:validation",
+                "ingest:chunking",
+                "jobs:leases",
+                "retrieval:lexical",
+                "lifecycle:dependencies",
+                "lifecycle:commands",
+                "publication:manifest",
+                "publication:activate",
+                "events:outbox",
+                "lifecycle:purge",
+                "lifecycle:restore",
+                "sources:inventory",
+                "retrieval:selection",
+                "retrieval:disclosure",
+                "retrieval:reading",
+                "retrieval:cache",
+                "delivery:cli",
+                "reading:navigation",
+                "security:hardening",
+                "delivery:readiness"
+            ],
+            "notSelected": [
+                "answer:contracts",
+                "answer:ledger",
+                "answer:transport",
+                "answer:grounding",
+                "answer:conformance",
+                "adoption:edufy",
+                "semantic:embedding",
+                "semantic:vector",
+                "semantic:hybrid",
+                "quality:retrieval",
+                "worker:protocol",
+                "worker:acceptance",
+                "worker:pdf",
+                "worker:ocr",
+                "worker:structure",
+                "worker:e2e",
+                "delivery:laravel",
+                "delivery:http",
+                "delivery:client",
+                "chatom:contracts",
+                "chatom:handler",
+                "chatom:qualification",
+                "bridge:contracts",
+                "bridge:runtime",
+                "bridge:migration",
+                "bridge:upstream-contract",
+                "ops:observability",
+                "ops:resilience",
+                "ops:performance",
+                "bridge-installed",
+                "bridge-host-qualification",
+                "runtime:multi-instance",
+                "layers:dag",
+                "layers:mounts",
+                "security:disclosure-modes"
+            ]
+        },
+        "ci-core": {
+            "selected": [
+                "contract:architecture",
+                "tooling:baseline",
+                "contract:licensing",
+                "contract:schemas",
+                "contract:ports",
+                "extension:conformance-sdk",
+                "storage:catalog",
+                "storage:blobs",
+                "security:policy",
+                "ingest:text",
+                "ingest:validation",
+                "ingest:chunking",
+                "jobs:leases",
+                "retrieval:lexical",
+                "lifecycle:dependencies",
+                "lifecycle:commands",
+                "publication:manifest",
+                "publication:activate",
+                "events:outbox",
+                "lifecycle:purge",
+                "lifecycle:restore",
+                "sources:inventory",
+                "retrieval:selection",
+                "retrieval:disclosure",
+                "retrieval:reading",
+                "retrieval:cache",
+                "delivery:cli",
+                "reading:navigation",
+                "security:hardening",
+                "runtime:multi-instance",
+                "layers:dag",
+                "layers:mounts",
+                "security:disclosure-modes"
+            ],
+            "notSelected": [
+                "answer:contracts",
+                "answer:ledger",
+                "answer:transport",
+                "answer:grounding",
+                "answer:conformance",
+                "adoption:edufy",
+                "semantic:embedding",
+                "semantic:vector",
+                "semantic:hybrid",
+                "quality:retrieval",
+                "worker:protocol",
+                "worker:acceptance",
+                "worker:pdf",
+                "worker:ocr",
+                "worker:structure",
+                "worker:e2e",
+                "delivery:laravel",
+                "delivery:http",
+                "delivery:client",
+                "chatom:contracts",
+                "chatom:handler",
+                "chatom:qualification",
+                "bridge:contracts",
+                "bridge:runtime",
+                "bridge:migration",
+                "bridge:upstream-contract",
+                "ops:observability",
+                "ops:resilience",
+                "ops:performance",
+                "delivery:readiness",
+                "bridge-installed",
+                "bridge-host-qualification"
+            ]
+        },
+        "ci-optional": {
+            "selected": [
+                "answer:contracts",
+                "answer:ledger",
+                "answer:transport",
+                "answer:grounding",
+                "answer:conformance",
+                "adoption:edufy",
+                "semantic:embedding",
+                "semantic:vector",
+                "semantic:hybrid",
+                "quality:retrieval",
+                "delivery:laravel",
+                "delivery:http",
+                "delivery:client",
+                "ops:observability"
+            ],
+            "notSelected": [
+                "contract:architecture",
+                "tooling:baseline",
+                "contract:licensing",
+                "contract:schemas",
+                "contract:ports",
+                "extension:conformance-sdk",
+                "storage:catalog",
+                "storage:blobs",
+                "security:policy",
+                "ingest:text",
+                "ingest:validation",
+                "ingest:chunking",
+                "jobs:leases",
+                "retrieval:lexical",
+                "lifecycle:dependencies",
+                "lifecycle:commands",
+                "publication:manifest",
+                "publication:activate",
+                "events:outbox",
+                "lifecycle:purge",
+                "lifecycle:restore",
+                "sources:inventory",
+                "retrieval:selection",
+                "retrieval:disclosure",
+                "retrieval:reading",
+                "retrieval:cache",
+                "delivery:cli",
+                "reading:navigation",
+                "worker:protocol",
+                "worker:acceptance",
+                "worker:pdf",
+                "worker:ocr",
+                "worker:structure",
+                "worker:e2e",
+                "chatom:contracts",
+                "chatom:handler",
+                "chatom:qualification",
+                "bridge:contracts",
+                "bridge:runtime",
+                "bridge:migration",
+                "bridge:upstream-contract",
+                "security:hardening",
+                "ops:resilience",
+                "ops:performance",
+                "delivery:readiness",
+                "bridge-installed",
+                "bridge-host-qualification",
+                "runtime:multi-instance",
+                "layers:dag",
+                "layers:mounts",
+                "security:disclosure-modes"
+            ]
+        }
     }
-  ],
-  "checks": {
-    "composer:validate": [
-      "composer",
-      "validate",
-      "--strict"
-    ],
-    "composer:core": [
-      "composer",
-      "validate",
-      "--strict",
-      "--working-dir=packages/core"
-    ],
-    "static:phpstan": [
-      "vendor/bin/phpstan",
-      "analyse",
-      "--configuration",
-      "phpstan.neon",
-      "--no-progress"
-    ],
-    "static:dag": [
-      "php",
-      "tools/qa.php",
-      "--check",
-      "dag"
-    ],
-    "config:portable": [
-      "php",
-      "tools/qa.php",
-      "--check",
-      "config"
-    ]
-  },
-  "profiles": {
-    "core-php83": {
-      "selected": [
-        "contract:architecture",
-        "tooling:baseline",
-        "contract:licensing",
-        "contract:schemas",
-        "contract:ports",
-        "extension:conformance-sdk",
-        "storage:catalog",
-        "storage:blobs",
-        "security:policy",
-        "ingest:text",
-        "ingest:validation",
-        "ingest:chunking",
-        "jobs:leases",
-        "retrieval:lexical",
-        "lifecycle:dependencies",
-        "lifecycle:commands",
-        "publication:manifest",
-        "publication:activate",
-        "events:outbox",
-        "lifecycle:purge",
-        "lifecycle:restore",
-        "sources:inventory",
-        "retrieval:selection",
-        "retrieval:disclosure",
-        "retrieval:reading",
-        "retrieval:cache",
-        "delivery:cli",
-        "reading:navigation",
-        "security:hardening",
-        "delivery:readiness"
-      ],
-      "notSelected": [
-        "answer:contracts",
-        "answer:ledger",
-        "answer:transport",
-        "answer:grounding",
-        "answer:conformance",
-        "adoption:edufy",
-        "semantic:embedding",
-        "semantic:vector",
-        "semantic:hybrid",
-        "quality:retrieval",
-        "worker:protocol",
-        "worker:acceptance",
-        "worker:pdf",
-        "worker:ocr",
-        "worker:structure",
-        "worker:e2e",
-        "delivery:laravel",
-        "delivery:http",
-        "delivery:client",
-        "chatom:contracts",
-        "chatom:handler",
-        "chatom:qualification",
-        "bridge:contracts",
-        "bridge:runtime",
-        "bridge:migration",
-        "bridge:upstream-contract",
-        "ops:observability",
-        "ops:resilience",
-        "ops:performance",
-        "bridge-installed",
-        "bridge-host-qualification"
-      ]
-    },
-    "ci-core": {
-      "selected": [
-        "contract:architecture",
-        "tooling:baseline",
-        "contract:licensing",
-        "contract:schemas",
-        "contract:ports",
-        "extension:conformance-sdk",
-        "storage:catalog",
-        "storage:blobs",
-        "security:policy",
-        "ingest:text",
-        "ingest:validation",
-        "ingest:chunking",
-        "jobs:leases",
-        "retrieval:lexical",
-        "lifecycle:dependencies",
-        "lifecycle:commands",
-        "publication:manifest",
-        "publication:activate",
-        "events:outbox",
-        "lifecycle:purge",
-        "lifecycle:restore",
-        "sources:inventory",
-        "retrieval:selection",
-        "retrieval:disclosure",
-        "retrieval:reading",
-        "retrieval:cache",
-        "delivery:cli",
-        "reading:navigation",
-        "security:hardening"
-      ],
-      "notSelected": [
-        "answer:contracts",
-        "answer:ledger",
-        "answer:transport",
-        "answer:grounding",
-        "answer:conformance",
-        "adoption:edufy",
-        "semantic:embedding",
-        "semantic:vector",
-        "semantic:hybrid",
-        "quality:retrieval",
-        "worker:protocol",
-        "worker:acceptance",
-        "worker:pdf",
-        "worker:ocr",
-        "worker:structure",
-        "worker:e2e",
-        "delivery:laravel",
-        "delivery:http",
-        "delivery:client",
-        "chatom:contracts",
-        "chatom:handler",
-        "chatom:qualification",
-        "bridge:contracts",
-        "bridge:runtime",
-        "bridge:migration",
-        "bridge:upstream-contract",
-        "ops:observability",
-        "ops:resilience",
-        "ops:performance",
-        "delivery:readiness",
-        "bridge-installed",
-        "bridge-host-qualification"
-      ]
-    },
-    "ci-optional": {
-      "selected": [
-        "answer:contracts",
-        "answer:ledger",
-        "answer:transport",
-        "answer:grounding",
-        "answer:conformance",
-        "adoption:edufy",
-        "semantic:embedding",
-        "semantic:vector",
-        "semantic:hybrid",
-        "quality:retrieval",
-        "delivery:laravel",
-        "delivery:http",
-        "delivery:client",
-        "ops:observability"
-      ],
-      "notSelected": [
-        "contract:architecture",
-        "tooling:baseline",
-        "contract:licensing",
-        "contract:schemas",
-        "contract:ports",
-        "extension:conformance-sdk",
-        "storage:catalog",
-        "storage:blobs",
-        "security:policy",
-        "ingest:text",
-        "ingest:validation",
-        "ingest:chunking",
-        "jobs:leases",
-        "retrieval:lexical",
-        "lifecycle:dependencies",
-        "lifecycle:commands",
-        "publication:manifest",
-        "publication:activate",
-        "events:outbox",
-        "lifecycle:purge",
-        "lifecycle:restore",
-        "sources:inventory",
-        "retrieval:selection",
-        "retrieval:disclosure",
-        "retrieval:reading",
-        "retrieval:cache",
-        "delivery:cli",
-        "reading:navigation",
-        "worker:protocol",
-        "worker:acceptance",
-        "worker:pdf",
-        "worker:ocr",
-        "worker:structure",
-        "worker:e2e",
-        "chatom:contracts",
-        "chatom:handler",
-        "chatom:qualification",
-        "bridge:contracts",
-        "bridge:runtime",
-        "bridge:migration",
-        "bridge:upstream-contract",
-        "security:hardening",
-        "ops:resilience",
-        "ops:performance",
-        "delivery:readiness",
-        "bridge-installed",
-        "bridge-host-qualification"
-      ]
-    }
-  }
 }

@@ -17,8 +17,10 @@ use KnowKit\Domain\Layers\{
     ResolutionTier,
     TrustTier,
 };
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
+#[Group('layers:dag')]
 final class LayerStackResolverTest extends TestCase
 {
     private function budget(): LayerBudgetPolicy

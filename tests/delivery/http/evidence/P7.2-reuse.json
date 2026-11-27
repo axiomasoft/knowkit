@@ -1,87 +1,87 @@
 {
-  "schemaVersion": "reuse-receipt:1",
-  "item": "P7.2",
-  "sources": [
-    {
-      "repository": "agentools",
-      "path": "extensions/knowledge/tests/Golden/HostValidationTest.php",
-      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
-      "sha256": "aae68e7953fd27727b3b1080dbc018ceccce3a4ad3ef2fd1b40bfd2abf0cf91b",
-      "observedSha256": "aae68e7953fd27727b3b1080dbc018ceccce3a4ad3ef2fd1b40bfd2abf0cf91b",
-      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Golden/HostValidationTest.php",
-      "decision": "adapt",
-      "reason": "Adapt host-owned validation and distinct Unknown tests; donor formula/extractor/domain contracts are not the approved HTTP/core API."
-    },
-    {
-      "repository": "agentools",
-      "path": "packages/agentools-core/src/Security/ExecutionContext.php",
-      "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
-      "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
-      "observedSha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
-      "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Security/ExecutionContext.php",
-      "decision": "adapt",
-      "reason": "Reuse the existing core AccessContext/RequestBoundary adaptation: host identity before scope, current identity and scope binding, never identity from JSON. Do not copy donor types or recompute hostScopeHash."
-    },
-    {
-      "repository": "deeptutor",
-      "path": "tests/runtime/test_import_layering.py",
-      "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
-      "sha256": "f50d98ac585c4f8426acc7a8e709ca4bcd34176ca64e5b42862191481b9ebbe1",
-      "observedSha256": "f50d98ac585c4f8426acc7a8e709ca4bcd34176ca64e5b42862191481b9ebbe1",
-      "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_import_layering.py",
-      "decision": "adapt",
-      "reason": "Adapt fresh-process import-isolation assertion to the optional PHP Composer package. No Python runtime or provider graph is imported."
-    }
-  ],
-  "reuse": [
-    "Existing core AccessContext and RequestBoundary; closed offline SchemaSet/StrictJson; MutationContext and durable core command boundaries.",
-    "Existing CatalogCommands/SourceCommands/Lifecycle, Retrieval/Disclosure/FreshDisclosure and Readings, with PostgreSQL-backed HTTP regression tests.",
-    "Existing Qa required-case checking and optional-project isolation; no acceptance runner changes."
-  ],
-  "newCodeRationale": "Pinned donors have no approved KnowKit HTTP/OpenAPI transport. New package contains only delivery schema/route/input/response/SAPI glue and explicit host composition decorators. Core remains vendor-free; supplemental operations stay host-owned.",
-  "sourceGaps": [
-    "No donor implements the approved versioned routes or exact disclosure DTO.",
-    "Host credentials, upload reservations, ingest/publish scheduling, usage/diagnostics composition are deployment-specific and supplied through HostApplication, not invented by transport."
-  ],
-  "candidateDigest": {
-    "algorithm": "sha256(path NUL sha256(bytes) LF), sorted paths, receipt excluded",
-    "paths": [
-      "packages/http/README.md",
-      "packages/http/bin/generate.php",
-      "packages/http/composer.json",
-      "packages/http/composer.lock",
-      "packages/http/resources/openapi.json",
-      "packages/http/src/Server/Authenticator.php",
-      "packages/http/src/Server/Command.php",
-      "packages/http/src/Server/CommandFactory.php",
-      "packages/http/src/Server/Contract.php",
-      "packages/http/src/Server/CoreCommands.php",
-      "packages/http/src/Server/CoreReads.php",
-      "packages/http/src/Server/HostApplication.php",
-      "packages/http/src/Server/InputFailure.php",
-      "packages/http/src/Server/Reply.php",
-      "packages/http/src/Server/Request.php",
-      "packages/http/src/Server/Response.php",
-      "packages/http/src/Server/Route.php",
-      "packages/http/src/Server/Sapi.php",
-      "packages/http/src/Server/Server.php",
-      "phpunit.xml",
-      "specs/http/openapi.yaml",
-      "tests/delivery/http/ApplicationTest.php",
-      "tests/delivery/http/Fixture.php",
-      "tests/delivery/http/FixtureTest.php",
-      "tests/delivery/http/SapiTest.php",
-      "tests/delivery/http/SelectionBindings.php",
-      "tests/delivery/http/TransportTest.php",
-      "tests/fixtures/check-groups/delivery-http.json",
-      "tests/fixtures/http/v1/cases.json",
-      "tests/fixtures/http/v1/router.php"
+    "schemaVersion": "reuse-receipt:1",
+    "item": "P7.2",
+    "sources": [
+        {
+            "repository": "agentools",
+            "path": "extensions/knowledge/tests/Golden/HostValidationTest.php",
+            "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+            "sha256": "aae68e7953fd27727b3b1080dbc018ceccce3a4ad3ef2fd1b40bfd2abf0cf91b",
+            "observedSha256": "aae68e7953fd27727b3b1080dbc018ceccce3a4ad3ef2fd1b40bfd2abf0cf91b",
+            "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/extensions/knowledge/tests/Golden/HostValidationTest.php",
+            "decision": "adapt",
+            "reason": "Adapt host-owned validation and distinct Unknown tests; donor formula/extractor/domain contracts are not the approved HTTP/core API."
+        },
+        {
+            "repository": "agentools",
+            "path": "packages/agentools-core/src/Security/ExecutionContext.php",
+            "revision": "2054acda51eb69eca1579c78900858c5ff3de01e",
+            "sha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+            "observedSha256": "4c59a921749c2e806eaefc05693b871ff0c8ed1ba67d413b60a59ce1d8c9cc0c",
+            "url": "https://github.com/axiomasoft/agentools/blob/2054acda51eb69eca1579c78900858c5ff3de01e/packages/agentools-core/src/Security/ExecutionContext.php",
+            "decision": "adapt",
+            "reason": "Reuse the existing core AccessContext/RequestBoundary adaptation: host identity before scope, current identity and scope binding, never identity from JSON. Do not copy donor types or recompute hostScopeHash."
+        },
+        {
+            "repository": "deeptutor",
+            "path": "tests/runtime/test_import_layering.py",
+            "revision": "f7aed0744c36c5afef16a4261c31ebee1208cac2",
+            "sha256": "f50d98ac585c4f8426acc7a8e709ca4bcd34176ca64e5b42862191481b9ebbe1",
+            "observedSha256": "f50d98ac585c4f8426acc7a8e709ca4bcd34176ca64e5b42862191481b9ebbe1",
+            "url": "https://github.com/HKUDS/DeepTutor/blob/f7aed0744c36c5afef16a4261c31ebee1208cac2/tests/runtime/test_import_layering.py",
+            "decision": "adapt",
+            "reason": "Adapt fresh-process import-isolation assertion to the optional PHP Composer package. No Python runtime or provider graph is imported."
+        }
     ],
-    "sha256": "800d25aaef28f4342d40819c55d5d625129712a7242fd4ae6698ab958f11ca91"
-  },
-  "planMirror": "Coordinator records the tracked receipt; executor does not mutate native plan artifacts.",
-  "auditRequalification": {
-    "date": "2026-11-17",
-    "reason": "Rebind the existing source adaptation scope after repository audit fixes and coverage/CI configuration changes; donor pins and authored behavior expectations are unchanged. See docs/audits/2026-11-17.md for current verification."
-  }
+    "reuse": [
+        "Existing core AccessContext and RequestBoundary; closed offline SchemaSet/StrictJson; MutationContext and durable core command boundaries.",
+        "Existing CatalogCommands/SourceCommands/Lifecycle, Retrieval/Disclosure/FreshDisclosure and Readings, with PostgreSQL-backed HTTP regression tests.",
+        "Existing Qa required-case checking and optional-project isolation; no acceptance runner changes."
+    ],
+    "newCodeRationale": "Pinned donors have no approved KnowKit HTTP/OpenAPI transport. New package contains only delivery schema/route/input/response/SAPI glue and explicit host composition decorators. Core remains vendor-free; supplemental operations stay host-owned.",
+    "sourceGaps": [
+        "No donor implements the approved versioned routes or exact disclosure DTO.",
+        "Host credentials, upload reservations, ingest/publish scheduling, usage/diagnostics composition are deployment-specific and supplied through HostApplication, not invented by transport."
+    ],
+    "candidateDigest": {
+        "algorithm": "sha256(path NUL sha256(bytes) LF), sorted paths, receipt excluded",
+        "paths": [
+            "packages/http/README.md",
+            "packages/http/bin/generate.php",
+            "packages/http/composer.json",
+            "packages/http/composer.lock",
+            "packages/http/resources/openapi.json",
+            "packages/http/src/Server/Authenticator.php",
+            "packages/http/src/Server/Command.php",
+            "packages/http/src/Server/CommandFactory.php",
+            "packages/http/src/Server/Contract.php",
+            "packages/http/src/Server/CoreCommands.php",
+            "packages/http/src/Server/CoreReads.php",
+            "packages/http/src/Server/HostApplication.php",
+            "packages/http/src/Server/InputFailure.php",
+            "packages/http/src/Server/Reply.php",
+            "packages/http/src/Server/Request.php",
+            "packages/http/src/Server/Response.php",
+            "packages/http/src/Server/Route.php",
+            "packages/http/src/Server/Sapi.php",
+            "packages/http/src/Server/Server.php",
+            "phpunit.xml",
+            "specs/http/openapi.yaml",
+            "tests/delivery/http/ApplicationTest.php",
+            "tests/delivery/http/Fixture.php",
+            "tests/delivery/http/FixtureTest.php",
+            "tests/delivery/http/SapiTest.php",
+            "tests/delivery/http/SelectionBindings.php",
+            "tests/delivery/http/TransportTest.php",
+            "tests/fixtures/check-groups/delivery-http.json",
+            "tests/fixtures/http/v1/cases.json",
+            "tests/fixtures/http/v1/router.php"
+        ],
+        "sha256": "94ae133e525d10fb7a7261ed2817ab8bf5e06a2793d6c3cd7607170a8251089a"
+    },
+    "planMirror": "Coordinator records the tracked receipt; executor does not mutate native plan artifacts.",
+    "auditRequalification": {
+        "date": "2026-11-17",
+        "reason": "Rebind the existing source adaptation scope after repository audit fixes and coverage/CI configuration changes; donor pins and authored behavior expectations are unchanged. See docs/audits/2026-11-17.md for current verification."
+    }
 }

@@ -36,8 +36,10 @@ use KnowKit\Domain\{
 use KnowKit\Domain\Contract\{ContractValidator, HashDomain, JsonObject, SchemaSet, StrictJson};
 use KnowKit\Domain\Layers\{DirectiveArtifact, LayerNode, ResolvedLayerStack};
 use KnowKit\Port\{AccessPolicy, Clock, DependencyStore, LayerStore};
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
+#[Group('layers:dag')]
 final class DirectivePromotionTest extends TestCase
 {
     private function validator(): ContractValidator

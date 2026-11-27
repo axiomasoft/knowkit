@@ -38,8 +38,10 @@ use KnowKit\Domain\Layers\{
     TrustTier,
 };
 use KnowKit\Tests\Storage\Catalog\CatalogFixture;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
+#[Group('layers:mounts')]
 final class PdoLayerStoreTest extends TestCase
 {
     public function testSavesAndFindsDirectiveArtifactAndEnforcesImmutability(): void
