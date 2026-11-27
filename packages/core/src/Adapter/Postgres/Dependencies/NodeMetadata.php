@@ -37,6 +37,17 @@ final readonly class NodeMetadata
             return ['source'=>(string)$derivedFrom[0]->get('sourceId'),'version'=>null,'identity'=>new JsonObject([
                 'tenantId'=>$t,'directiveId'=>$id,'artifactDigest'=>(string)$r['artifact_digest']])];
         }
+        if ($ref->kind==='resolution_manifest') {
+            $r=$this->db->row(
+                'SELECT sv.source_id, dr.source_version_id, rm.manifest_digest FROM '.$this->db->table('resolution_manifests').
+                ' rm JOIN '.$this->db->table('document_revisions').' dr ON dr.tenant_id=rm.tenant_id AND dr.id=rm.document_revision_id JOIN '.
+                $this->db->table('source_versions').' sv ON sv.tenant_id=dr.tenant_id AND sv.id=dr.source_version_id WHERE rm.tenant_id=? AND rm.id=?',
+                [$t,$id],
+            );
+            if ($r===null) { self::missing(); }
+            return ['source'=>$r['source_id'],'version'=>$r['source_version_id'],'identity'=>new JsonObject([
+                'tenantId'=>$t,'manifestId'=>$id,'manifestDigest'=>(string)$r['manifest_digest']])];
+        }
         $version=$id; $revision=null; $chunk=null;
         if ($ref->kind==='chunk') {
             $chunk=$this->db->row('SELECT c.*,cs.revision_id FROM '.$this->db->table('chunks').' c JOIN '.$this->db->table('chunk_sets').

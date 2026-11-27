@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace KnowKit\Application\Artifacts;
 
 use KnowKit\Domain\{
+    Decision,
     DomainFailure,
     Fingerprint,
     IrDocument,
@@ -11,7 +12,6 @@ use KnowKit\Domain\{
     Node,
     Outcome,
     Parents,
-    ResourceId,
     ResourceRef,
     TenantId,
 };
@@ -57,18 +57,26 @@ final readonly class ResolutionAcceptance
                 new ResourceRef($tenantId, 'source_version', $revisionRef->sourceRef->sourceVersionId),
                 new ResourceRef($tenantId, 'document_revision', $revisionRef->documentRevisionId),
             ]);
+            $report = $this->dependencies->checkAncestors($parents);
+            if ($report->decision !== Decision::Allow) {
+                throw new DomainFailure(
+                    $report->decision === Decision::Deny ? Outcome::Denied : Outcome::Unknown,
+                    $report->decision === Decision::Deny ? 'ancestor_unusable' : 'ancestor_unknown',
+                );
+            }
+
             $identity = new JsonObject([
                 'tenantId' => $tenantId->value,
                 'manifestId' => $manifest->manifestId->value,
                 'manifestDigest' => $manifest->manifestDigest->value,
             ]);
             $node = new Node(
-                new ResourceRef($tenantId, 'resource', new ResourceId($manifest->manifestId->value)),
+                new ResourceRef($tenantId, 'resolution_manifest', $manifest->manifestId),
                 new Fingerprint(HashDomain::DependencyNodeIdentity->digest($identity)),
             );
 
-            $this->dependencies->register($node, $parents);
             $this->store->saveManifest($manifest);
+            $this->dependencies->register($node, $parents);
         };
 
         if ($this->tx !== null) {

@@ -211,4 +211,151 @@ final class AtomicSpanGuardTest extends TestCase
         $guard->assertPreserved($ir, $digest, $verifier);
         $this->addToAssertionCount(1);
     }
+
+    /** @return array{0: IrDocument, 1: TextLocator} */
+    private function singleFormulaIr(string $formula = 'E = mc^2'): array
+    {
+        $irWire = StrictJson::decode((string) json_encode([
+            'schemaVersion' => 'ir-1.0',
+            'tenantId' => '01JSC420000000000000000000',
+            'sourceVersionId' => '01JSSV00000000000000000001',
+            'parserSignature' => ['name' => 'pdf-parser', 'version' => '1.0.0', 'profileDigest' => str_repeat('c', 64)],
+            'pages' => [],
+            'segments' => [
+                ['segmentId' => 'seg-1', 'text' => $formula, 'textDigest' => hash('sha256', $formula), 'status' => 'ok'],
+            ],
+            'blocks' => [
+                [
+                    'blockId' => 'b-formula',
+                    'kind' => 'formula',
+                    'parentId' => null,
+                    'order' => 1,
+                    'origin' => 'source',
+                    'spans' => [['kind' => 'segment', 'segmentId' => 'seg-1', 'blockId' => 'b-formula', 'byteStart' => 0, 'byteEnd' => strlen($formula)]],
+                    'provenance' => ['kind' => 'verbatim', 'supportingRefs' => []],
+                ],
+            ],
+            'assets' => [],
+            'coverage' => [
+                'state' => 'complete',
+                'counts' => ['expected' => 1, 'processed' => 1, 'empty' => 0, 'failed' => 0, 'skipped' => 0],
+                'missingFeatures' => [],
+                'diagnostics' => [],
+            ],
+        ], JSON_THROW_ON_ERROR));
+        \assert($irWire instanceof JsonObject);
+
+        return [
+            new IrDocument($irWire, $this->permissiveValidator()),
+            TextLocator::segment(new LocalId('seg-1'), new LocalId('b-formula'), 0, strlen($formula)),
+        ];
+    }
+
+    public function testRejectsSubstringBypassWithEmptyVerbatimAtoms(): void
+    {
+        [$ir, $formulaLoc] = $this->singleFormulaIr('E = mc^2');
+        $guard = new AtomicSpanGuard();
+        $digest = new DigestArtifact(
+            documentRevisionRef: $this->revisionRef(),
+            blocks: [
+                new DigestBlock(new LocalId('d-1'), 'Wrong: NOT E = mc^20 + 999', [], [$formulaLoc]),
+            ],
+        );
+
+        try {
+            $guard->assertPreserved($ir, $digest);
+            self::fail('Expected atom_integrity_failed');
+        } catch (DomainFailure $failure) {
+            self::assertSame(Outcome::Incompatible, $failure->outcome);
+            self::assertSame('atom_integrity_failed', $failure->errorCode);
+        }
+    }
+
+    public function testRejectsCrossBlockDecouplingBypass(): void
+    {
+        [$ir, $formulaLoc] = $this->singleFormulaIr('E = mc^2');
+        $guard = new AtomicSpanGuard();
+        $digest = new DigestArtifact(
+            documentRevisionRef: $this->revisionRef(),
+            blocks: [
+                new DigestBlock(new LocalId('d-1'), 'Unrelated prose mentioning E = mc^2', [], []),
+                new DigestBlock(new LocalId('d-2'), 'Formula is E = mc^99', [], [$formulaLoc]),
+            ],
+        );
+
+        try {
+            $guard->assertPreserved($ir, $digest);
+            self::fail('Expected atom_integrity_failed');
+        } catch (DomainFailure $failure) {
+            self::assertSame(Outcome::Incompatible, $failure->outcome);
+            self::assertSame('atom_integrity_failed', $failure->errorCode);
+        }
+    }
+
+    public function testRejectsStructuredTableCellTampering(): void
+    {
+        $rawTableText = 'Revenue | 100';
+        $irWire = StrictJson::decode((string) json_encode([
+            'schemaVersion' => 'ir-1.0',
+            'tenantId' => '01JSC420000000000000000000',
+            'sourceVersionId' => '01JSSV00000000000000000001',
+            'parserSignature' => ['name' => 'pdf-parser', 'version' => '1.0.0', 'profileDigest' => str_repeat('c', 64)],
+            'pages' => [],
+            'segments' => [
+                ['segmentId' => 'seg-1', 'text' => $rawTableText, 'textDigest' => hash('sha256', $rawTableText), 'status' => 'ok'],
+            ],
+            'blocks' => [
+                [
+                    'blockId' => 'b-table',
+                    'kind' => 'table',
+                    'parentId' => null,
+                    'order' => 1,
+                    'origin' => 'source',
+                    'spans' => [['kind' => 'segment', 'segmentId' => 'seg-1', 'blockId' => 'b-table', 'byteStart' => 0, 'byteEnd' => strlen($rawTableText)]],
+                    'provenance' => ['kind' => 'table_representation', 'supportingRefs' => []],
+                    'table' => [
+                        'rows' => 1,
+                        'columns' => 2,
+                        'cells' => [
+                            ['cellId' => 'c1', 'row' => 0, 'column' => 0, 'rowSpan' => 1, 'colSpan' => 1, 'header' => true, 'headerRefs' => [], 'unit' => null, 'noteRefs' => [], 'spans' => []],
+                            ['cellId' => 'c2', 'row' => 0, 'column' => 1, 'rowSpan' => 1, 'colSpan' => 1, 'header' => false, 'headerRefs' => ['c1'], 'unit' => 'USD', 'noteRefs' => [], 'spans' => []],
+                        ],
+                    ],
+                ],
+            ],
+            'assets' => [],
+            'coverage' => [
+                'state' => 'complete',
+                'counts' => ['expected' => 1, 'processed' => 1, 'empty' => 0, 'failed' => 0, 'skipped' => 0],
+                'missingFeatures' => [],
+                'diagnostics' => [],
+            ],
+        ], JSON_THROW_ON_ERROR));
+        \assert($irWire instanceof JsonObject);
+
+        $ir = new IrDocument($irWire, $this->permissiveValidator());
+        $guard = new AtomicSpanGuard();
+        $extracted = $guard->extractRequiredAtoms($ir);
+        self::assertCount(1, $extracted);
+
+        $validDigest = new DigestArtifact(
+            documentRevisionRef: $this->revisionRef(),
+            blocks: [new DigestBlock(new LocalId('d-1'), 'Table summary', [$extracted[0]])],
+        );
+        $guard->assertPreserved($ir, $validDigest);
+
+        $tamperedAtom = ProtectedAtom::fromContent(new LocalId('b-table'), 'table', $rawTableText);
+        $tamperedDigest = new DigestArtifact(
+            documentRevisionRef: $this->revisionRef(),
+            blocks: [new DigestBlock(new LocalId('d-1'), 'Table summary', [$tamperedAtom])],
+        );
+
+        try {
+            $guard->assertPreserved($ir, $tamperedDigest);
+            self::fail('Expected atom_integrity_failed');
+        } catch (DomainFailure $failure) {
+            self::assertSame(Outcome::Incompatible, $failure->outcome);
+            self::assertSame('atom_integrity_failed', $failure->errorCode);
+        }
+    }
 }

@@ -7,6 +7,7 @@ require_once dirname(__DIR__, 2) . '/storage/catalog/bootstrap.php';
 
 use KnowKit\Adapter\Postgres\Artifacts\PdoResolutionStore;
 use KnowKit\Adapter\Postgres\Catalog\{Connection, Migrate, PdoCatalogTransaction};
+use KnowKit\Adapter\Postgres\Dependencies\{NodeMetadata, PdoDependencyStore};
 use KnowKit\Application\Artifacts\{AtomicSpanGuard, ResolutionAcceptance};
 use KnowKit\Domain\{
     Decision,
@@ -19,11 +20,13 @@ use KnowKit\Domain\{
     IrDocument,
     LifecycleEvent,
     LocalId,
+    LockMode,
     Node,
     NodeRefs,
     Outcome,
     Parents,
     ParserSignature,
+    ResourceRef,
     Sha256,
     SourceDigest,
     SourceId,
@@ -41,7 +44,7 @@ use KnowKit\Domain\Artifacts\{
     ProtectedAtom,
     ResolutionManifest,
 };
-use KnowKit\Domain\Contract\{ContractValidator, JsonObject, SchemaSet, StrictJson};
+use KnowKit\Domain\Contract\{ContractValidator, HashDomain, JsonObject, SchemaSet, StrictJson};
 use KnowKit\Domain\Layers\ResolutionTier;
 use KnowKit\Port\DependencyStore;
 use KnowKit\Tests\Storage\Catalog\{CatalogFixture, TestClock};
@@ -251,6 +254,188 @@ final class PdoResolutionStoreTest extends TestCase
                 self::assertSame(Outcome::Incompatible, $failure->outcome);
                 self::assertSame('immutable_conflict', $failure->errorCode);
             }
+        });
+    }
+
+    public function testAcceptanceRegistersResolutionManifestInRealPdoDependencyStore(): void
+    {
+        CatalogFixture::run(function (CatalogFixture $fx): void {
+            $db = $fx->db;
+            $tx = $fx->tx;
+            $clock = $fx->clock;
+            $store = new PdoResolutionStore($db, $tx, $clock);
+
+            $tenantId = new TenantId(CatalogFixture::id(1));
+            $sourceId = new SourceId(CatalogFixture::id(2));
+            $versionId = new SourceVersionId(CatalogFixture::id(3));
+            $resourceId = CatalogFixture::id(4);
+            $revisionId = new DocumentRevisionId(CatalogFixture::id(5));
+            $blobResourceId = CatalogFixture::id(6);
+            $unregisteredRevisionId = new DocumentRevisionId(CatalogFixture::id(7));
+            $now = $clock->now()->value;
+            $digestA = str_repeat('a', 64);
+            $digestB = str_repeat('b', 64);
+            $digestC = str_repeat('c', 64);
+
+            $depStore = new PdoDependencyStore($db, $tx, $tenantId, $fx->ids);
+
+            $tx->run(static function () use ($db, $tx, $depStore, $tenantId, $sourceId, $versionId, $resourceId, $blobResourceId, $revisionId, $unregisteredRevisionId, $now, $digestA, $digestB, $digestC): void {
+                $tx->lockTenant($tenantId, LockMode::Update);
+                $db->execute('INSERT INTO ' . $db->table('tenants') . ' (id, name, tenant_policy_epoch, serving_state) VALUES (?, ?, 1, ?)', [$tenantId->value, 'Tenant One', 'ready']);
+                $db->execute(
+                    'INSERT INTO ' . $db->table('sources') . ' (tenant_id, id, owner_ref, origin, lifecycle_state, lifecycle_epoch, source_policy_epoch) VALUES (?, ?, ?, ?, ?, 1, 1)',
+                    [$tenantId->value, $sourceId->value, 'owner-1', 'local-fs', 'active'],
+                );
+                $db->execute(
+                    'INSERT INTO ' . $db->table('resource_ledger') . ' (tenant_id, id, source_id, owner_kind, storage_id, object_version, digest, byte_length, state, resource_class) VALUES (?, ?, ?, ?, ?, ?, ?, 1024, ?, ?)',
+                    [$tenantId->value, $blobResourceId, $sourceId->value, 'owned', 'local', 'v1', $digestA, 'accepted', 'original'],
+                );
+                $db->execute(
+                    'INSERT INTO ' . $db->table('resource_ledger') . ' (tenant_id, id, source_id, owner_kind, storage_id, object_version, digest, byte_length, state, resource_class) VALUES (?, ?, ?, ?, ?, ?, ?, 1024, ?, ?)',
+                    [$tenantId->value, $resourceId, $sourceId->value, 'owned', 'local', 'v1', $digestB, 'accepted', 'ir'],
+                );
+                $db->execute(
+                    'INSERT INTO ' . $db->table('source_versions') . ' (tenant_id, id, source_id, blob_resource_id, source_digest, byte_length, media_type, rights_ref, idempotency_fingerprint, created_at) VALUES (?, ?, ?, ?, ?, 1024, ?, ?, ?, ?)',
+                    [$tenantId->value, $versionId->value, $sourceId->value, $blobResourceId, $digestA, 'text/markdown', 'internal', $digestA, $now],
+                );
+                $db->execute(
+                    'INSERT INTO ' . $db->table('source_version_state') . ' (tenant_id, id, usability, corrected_by_version_id, event_id) VALUES (?, ?, ?, NULL, NULL)',
+                    [$tenantId->value, $versionId->value, 'usable'],
+                );
+                $db->execute(
+                    'INSERT INTO ' . $db->table('document_revisions') . ' (tenant_id, id, source_version_id, parser_name, parser_version, profile_digest, ir_schema, ir_digest, ir_resource_id, coverage_state, coverage_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::jsonb, ?)',
+                    [$tenantId->value, $revisionId->value, $versionId->value, 'pdf-parser', '1.0.0', $digestC, 'ir-1.0', $digestB, $resourceId, 'complete', '{"state":"complete","counts":{"processed":1,"empty":0,"failed":0,"skipped":0},"missingFeatures":[],"diagnostics":[]}', $now],
+                );
+                $db->execute(
+                    'INSERT INTO ' . $db->table('document_revisions') . ' (tenant_id, id, source_version_id, parser_name, parser_version, profile_digest, ir_schema, ir_digest, ir_resource_id, coverage_state, coverage_json, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?::jsonb, ?)',
+                    [$tenantId->value, $unregisteredRevisionId->value, $versionId->value, 'pdf-parser', '1.0.0', $digestC, 'ir-1.0', $digestB, $resourceId, 'complete', '{"state":"complete","counts":{"processed":1,"empty":0,"failed":0,"skipped":0},"missingFeatures":[],"diagnostics":[]}', $now],
+                );
+
+                $meta = new NodeMetadata($db, $tx);
+                $sourceRef = new ResourceRef($tenantId, 'source', $sourceId);
+                $depStore->register(
+                    new Node($sourceRef, new Fingerprint(HashDomain::DependencyNodeIdentity->digest($meta->resolve($sourceRef)['identity']))),
+                    new Parents($tenantId, []),
+                );
+                $versionRef = new ResourceRef($tenantId, 'source_version', $versionId);
+                $depStore->register(
+                    new Node($versionRef, new Fingerprint(HashDomain::DependencyNodeIdentity->digest($meta->resolve($versionRef)['identity']))),
+                    new Parents($tenantId, [$sourceRef]),
+                );
+                $revNodeRef = new ResourceRef($tenantId, 'document_revision', $revisionId);
+                $depStore->register(
+                    new Node($revNodeRef, new Fingerprint(HashDomain::DependencyNodeIdentity->digest($meta->resolve($revNodeRef)['identity']))),
+                    new Parents($tenantId, [$versionRef]),
+                );
+            });
+
+            $formula = '$$ a^2 + b^2 = c^2 $$';
+            $irWire = StrictJson::decode((string) json_encode([
+                'schemaVersion' => 'ir-1.0',
+                'tenantId' => $tenantId->value,
+                'sourceVersionId' => $versionId->value,
+                'parserSignature' => ['name' => 'pdf-parser', 'version' => '1.0.0', 'profileDigest' => $digestC],
+                'pages' => [],
+                'segments' => [
+                    ['segmentId' => 'seg-1', 'text' => $formula, 'textDigest' => hash('sha256', $formula), 'status' => 'ok'],
+                ],
+                'blocks' => [
+                    [
+                        'blockId' => 'b-f1',
+                        'kind' => 'formula',
+                        'parentId' => null,
+                        'order' => 1,
+                        'origin' => 'source',
+                        'spans' => [['kind' => 'segment', 'segmentId' => 'seg-1', 'blockId' => 'b-f1', 'byteStart' => 0, 'byteEnd' => strlen($formula)]],
+                        'provenance' => ['kind' => 'verbatim', 'supportingRefs' => []],
+                    ],
+                ],
+                'assets' => [],
+                'coverage' => [
+                    'state' => 'complete',
+                    'counts' => ['expected' => 1, 'processed' => 1, 'empty' => 0, 'failed' => 0, 'skipped' => 0],
+                    'missingFeatures' => [],
+                    'diagnostics' => [],
+                ],
+            ], JSON_THROW_ON_ERROR));
+            \assert($irWire instanceof JsonObject);
+            $ir = new IrDocument($irWire, $this->validator());
+
+            $revRef = new DocumentRevisionRef(
+                new ExactSourceRef($tenantId, $sourceId, $versionId, new SourceDigest($digestA)),
+                $revisionId,
+                new IrDigest($digestB),
+                new ParserSignature('pdf-parser', '1.0.0', new Fingerprint($digestC)),
+            );
+
+            $locator = TextLocator::segment(new LocalId('seg-1'), new LocalId('b-f1'), 0, strlen($formula));
+            $fAtom = ProtectedAtom::fromContent(new LocalId('b-f1'), 'formula', $formula, $locator);
+            $digestArtifact = new DigestArtifact($revRef, [new DigestBlock(new LocalId('d-1'), 'Pythagoras', [$fAtom], [$locator])]);
+
+            $r0 = new DerivedArtifactRef(
+                ResolutionTier::R0Outline,
+                new Ulid(CatalogFixture::id(30)),
+                new Sha256(str_repeat('1', 64)),
+                120,
+                30,
+                'cl100k',
+                'deterministic',
+                'navigation_outline',
+                new Ulid(CatalogFixture::id(31)),
+                0,
+                [$locator],
+            );
+            $manifest = ResolutionManifest::create(
+                new Ulid(CatalogFixture::id(40)),
+                $revRef,
+                new Fingerprint(str_repeat('d', 64)),
+                [$r0],
+                $this->validator(),
+            );
+
+            $acceptance = new ResolutionAcceptance(
+                $this->validator(),
+                new AtomicSpanGuard(),
+                $depStore,
+                $store,
+                null,
+                $tx,
+            );
+
+            $acceptance->accept($manifest, $ir, $digestArtifact);
+
+            $manifestRef = new ResourceRef($tenantId, 'resolution_manifest', $manifest->manifestId);
+            $decision = $tx->run(static function () use ($tx, $depStore, $tenantId, $manifestRef): Decision {
+                $tx->lockTenant($tenantId, LockMode::Share);
+                return $depStore->checkAncestors(new NodeRefs($tenantId, [$manifestRef]))->decision;
+            });
+            self::assertSame(Decision::Allow, $decision);
+
+            // Idempotent re-acceptance succeeds with real PdoDependencyStore
+            $acceptance->accept($manifest, $ir, $digestArtifact);
+
+            // Missing/unregistered ancestor fails before saving manifest
+            $unregisteredRevRef = new DocumentRevisionRef(
+                new ExactSourceRef($tenantId, $sourceId, $versionId, new SourceDigest($digestA)),
+                $unregisteredRevisionId,
+                new IrDigest($digestB),
+                new ParserSignature('pdf-parser', '1.0.0', new Fingerprint($digestC)),
+            );
+            $unregisteredManifest = ResolutionManifest::create(
+                new Ulid(CatalogFixture::id(41)),
+                $unregisteredRevRef,
+                new Fingerprint(str_repeat('e', 64)),
+                [$r0],
+                $this->validator(),
+            );
+            try {
+                $acceptance->accept($unregisteredManifest, $ir);
+                self::fail('Expected ancestor_unknown');
+            } catch (DomainFailure $failure) {
+                self::assertSame(Outcome::Unknown, $failure->outcome);
+                self::assertSame('ancestor_unknown', $failure->errorCode);
+            }
+            self::assertNull($store->findArtifact($tenantId, $unregisteredRevisionId, ResolutionTier::R0Outline));
         });
     }
 }

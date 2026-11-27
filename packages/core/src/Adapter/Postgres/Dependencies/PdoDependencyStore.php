@@ -210,6 +210,7 @@ final readonly class PdoDependencyStore implements DependencyStore
         return new D\ResourceRef($this->tenant,$kind,match ($kind) {
             'source'=>new D\SourceId($id),'source_version'=>new D\SourceVersionId($id),'document_revision'=>new D\DocumentRevisionId($id),
             'chunk'=>new D\ChunkId($id),'resource'=>new D\ResourceId($id),'directive_artifact'=>new D\Ulid($id),
+            'resolution_manifest'=>new D\Ulid($id),
             default=>self::fail('unsupported_node_kind'),
         });
     }

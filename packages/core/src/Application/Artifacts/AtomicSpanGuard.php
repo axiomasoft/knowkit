@@ -83,11 +83,9 @@ final readonly class AtomicSpanGuard
         }
 
         $derivedAtoms = $artifact->allVerbatimAtoms();
-        $derivedSpans = $artifact->allSupportingSpans();
-        $derivedTextCorpus = $this->collectDerivedText($artifact);
 
         foreach ($required as $sourceAtom) {
-            if ($this->isAtomPreserved($sourceAtom, $derivedAtoms, $derivedSpans, $derivedTextCorpus, $verifier)) {
+            if ($this->isAtomPreserved($sourceAtom, $derivedAtoms, $verifier)) {
                 continue;
             }
             throw new DomainFailure(Outcome::Incompatible, 'atom_integrity_failed');
@@ -96,13 +94,10 @@ final readonly class AtomicSpanGuard
 
     /**
      * @param list<ProtectedAtom> $derivedAtoms
-     * @param list<TextLocator> $derivedSpans
      */
     private function isAtomPreserved(
         ProtectedAtom $sourceAtom,
         array $derivedAtoms,
-        array $derivedSpans,
-        string $derivedTextCorpus,
         ?AtomVerifier $verifier,
     ): bool {
         foreach ($derivedAtoms as $derivedAtom) {
@@ -119,31 +114,7 @@ final readonly class AtomicSpanGuard
             }
         }
 
-        if ($sourceAtom->locator !== null && str_contains($derivedTextCorpus, $sourceAtom->content)) {
-            $sourceLocWire = Jcs::canonicalize($sourceAtom->locator->toWire());
-            foreach ($derivedSpans as $span) {
-                if (Jcs::canonicalize($span->toWire()) === $sourceLocWire) {
-                    return true;
-                }
-            }
-        }
-
         return false;
-    }
-
-    private function collectDerivedText(DigestArtifact|PropositionSetArtifact $artifact): string
-    {
-        $parts = [];
-        if ($artifact instanceof DigestArtifact) {
-            foreach ($artifact->blocks as $block) {
-                $parts[] = $block->text;
-            }
-        } else {
-            foreach ($artifact->propositions as $item) {
-                $parts[] = $item->statement;
-            }
-        }
-        return implode("\n", $parts);
     }
 
     /**
@@ -168,13 +139,11 @@ final readonly class AtomicSpanGuard
             }
         }
         $joined = implode('', $parts);
-        if ($joined !== '') {
-            return $joined;
-        }
         if ((string) $block->get('kind') === 'table' && $block->has('table')) {
-            return Jcs::canonicalize($block->get('table'));
+            $canonicalTable = Jcs::canonicalize($block->get('table'));
+            return $joined !== '' ? $joined . "\n" . $canonicalTable : $canonicalTable;
         }
-        return '';
+        return $joined;
     }
 
     private function toLocator(JsonObject $span): TextLocator

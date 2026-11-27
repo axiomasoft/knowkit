@@ -9,7 +9,8 @@ use KnowKit\Domain\Contract\JsonObject;
 final readonly class ResourceRef
 {
     private const KINDS = ['knowledge_base', 'collection', 'source', 'source_version', 'document_revision',
-        'chunk_set', 'chunk', 'generation', 'snapshot', 'job', 'resource', 'selection', 'usage', 'deletion_task', 'directive_artifact'];
+        'chunk_set', 'chunk', 'generation', 'snapshot', 'job', 'resource', 'selection', 'usage', 'deletion_task',
+        'directive_artifact', 'resolution_manifest'];
     public function __construct(public TenantId $tenantId, public string $kind, public Ulid $id)
     {
         if (!in_array($kind, self::KINDS, true)) { throw new \InvalidArgumentException('Resource kind required'); }
@@ -19,7 +20,7 @@ final readonly class ResourceRef
             'chunk_set'=>ChunkSetId::class, 'chunk'=>ChunkId::class, 'generation'=>GenerationId::class,
             'snapshot'=>SnapshotId::class, 'job'=>JobId::class, 'resource'=>ResourceId::class,
             'selection'=>SelectionId::class, 'usage'=>UsageId::class, 'deletion_task'=>DeletionTaskId::class,
-            'directive_artifact'=>null,
+            'directive_artifact'=>null, 'resolution_manifest'=>null,
         };
         if ($type !== null && !$id instanceof $type) { throw new \InvalidArgumentException('Resource kind and ID type must agree'); }
     }
