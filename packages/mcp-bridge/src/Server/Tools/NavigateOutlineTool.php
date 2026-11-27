@@ -7,8 +7,10 @@ use KnowKit\Bridge\Mcp\Server\AuthenticatedMcpContext;
 use KnowKit\Bridge\Mcp\Server\McpBackend;
 use KnowKit\Bridge\Mcp\Server\McpTool;
 use KnowKit\Domain\DocumentRevisionId;
+use KnowKit\Domain\DomainFailure;
 use KnowKit\Domain\Layers\ResolutionTier;
 use KnowKit\Domain\Operation;
+use KnowKit\Domain\Outcome;
 use KnowKit\Domain\ResourceRef;
 use KnowKit\Port\AccessPolicy;
 
@@ -66,16 +68,17 @@ final readonly class NavigateOutlineTool implements McpTool
         $context->disclosureMode->allowsTier(ResolutionTier::R0Outline)
             || throw new \KnowKit\Domain\DomainFailure(\KnowKit\Domain\Outcome::Denied, 'disclosure_tier_forbidden');
 
-        if ($this->accessPolicy !== null) {
-            $resource = new ResourceRef($context->scope->tenantId, 'document_revision', new DocumentRevisionId($revisionId));
-            $receipt = $this->accessPolicy->decide(
-                $context->scope,
-                $resource,
-                Operation::Navigate,
-            );
-            $receipt->requireAuthorized($context->scope, Operation::Navigate, $resource);
-            $receipt->requireTier(ResolutionTier::R0Outline);
+        if ($this->accessPolicy === null) {
+            throw new DomainFailure(Outcome::Denied, 'policy_denied');
         }
+        $resource = new ResourceRef($context->scope->tenantId, 'document_revision', new DocumentRevisionId($revisionId));
+        $receipt = $this->accessPolicy->decide(
+            $context->scope,
+            $resource,
+            Operation::Navigate,
+        );
+        $receipt->requireAuthorized($context->scope, Operation::Navigate, $resource);
+        $receipt->requireTier(ResolutionTier::R0Outline);
 
         return $this->backend->navigateOutline($context, $revisionId, $maxDepth, $limit);
     }

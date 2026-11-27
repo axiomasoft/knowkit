@@ -82,17 +82,18 @@ final readonly class ResourceTemplateHandler
             );
         }
 
-        if ($this->accessPolicy !== null) {
-            $resource = match ($kind) {
-                'outline' => new ResourceRef($context->scope->tenantId, 'document_revision', new DocumentRevisionId($id)),
-                'digest' => new ResourceRef($context->scope->tenantId, 'directive_artifact', new Ulid($id)),
-                'citation' => new ResourceRef($context->scope->tenantId, 'knowledge_base', $context->scope->kbId),
-            };
-            $operation = $kind === 'outline' ? Operation::Navigate : Operation::Disclose;
-            $receipt = $this->accessPolicy->decide($context->scope, $resource, $operation);
-            $receipt->requireAuthorized($context->scope, $operation, $resource);
-            $receipt->requireTier($tier);
+        if ($this->accessPolicy === null) {
+            throw new DomainFailure(Outcome::Denied, 'policy_denied');
         }
+        $resource = match ($kind) {
+            'outline' => new ResourceRef($context->scope->tenantId, 'document_revision', new DocumentRevisionId($id)),
+            'digest' => new ResourceRef($context->scope->tenantId, 'directive_artifact', new Ulid($id)),
+            'citation' => new ResourceRef($context->scope->tenantId, 'knowledge_base', $context->scope->kbId),
+        };
+        $operation = $kind === 'outline' ? Operation::Navigate : Operation::Disclose;
+        $receipt = $this->accessPolicy->decide($context->scope, $resource, $operation);
+        $receipt->requireAuthorized($context->scope, $operation, $resource);
+        $receipt->requireTier($tier);
 
         $payload = match ($kind) {
             'outline' => $this->backend->readOutlineResource($context, $kb, $id),

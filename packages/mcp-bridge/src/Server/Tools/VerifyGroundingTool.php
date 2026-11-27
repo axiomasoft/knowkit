@@ -6,11 +6,17 @@ namespace KnowKit\Bridge\Mcp\Server\Tools;
 use KnowKit\Bridge\Mcp\Server\AuthenticatedMcpContext;
 use KnowKit\Bridge\Mcp\Server\McpBackend;
 use KnowKit\Bridge\Mcp\Server\McpTool;
+use KnowKit\Domain\DomainFailure;
+use KnowKit\Domain\Operation;
+use KnowKit\Domain\Outcome;
+use KnowKit\Domain\ResourceRef;
+use KnowKit\Port\AccessPolicy;
 
 final readonly class VerifyGroundingTool implements McpTool
 {
     public function __construct(
         private McpBackend $backend,
+        private ?AccessPolicy $accessPolicy = null,
     ) {
     }
 
@@ -61,6 +67,13 @@ final readonly class VerifyGroundingTool implements McpTool
         $responseText = (string) $arguments['responseText'];
         /** @var list<string> $citations */
         $citations = array_values(array_map('strval', (array) $arguments['citations']));
+
+        if ($this->accessPolicy === null) {
+            throw new DomainFailure(Outcome::Denied, 'policy_denied');
+        }
+        $resource = new ResourceRef($context->scope->tenantId, 'knowledge_base', $context->scope->kbId);
+        $receipt = $this->accessPolicy->decide($context->scope, $resource, Operation::Retrieve);
+        $receipt->requireAuthorized($context->scope, Operation::Retrieve, $resource);
 
         return $this->backend->verifyGrounding($context, $selectionToken, $responseText, $citations);
     }

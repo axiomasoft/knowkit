@@ -26,16 +26,22 @@ final class McpToolCatalogLayer
         return DeliveryMode::ToolDiscoverable;
     }
 
-    public function syncCatalog(string $serverId, int $nowMs = 0): void
+    public function syncCatalog(string $serverId, ?int $nowMs = null): void
     {
+        // A default of 0 made expiresAtMs = ttl and every later default call a permanent hit.
+        $nowMs ??= (int) floor(microtime(true) * 1000);
+        if ($nowMs < 0) {
+            throw new \InvalidArgumentException('nowMs must be non-negative');
+        }
         if (isset($this->catalogByServer[$serverId]) && $nowMs < $this->catalogByServer[$serverId]['expiresAtMs']) {
             return;
         }
 
         $response = $this->transport->call($serverId, 'tools/index', []);
         $cache = is_array($response['cache'] ?? null) ? $response['cache'] : [];
+        // The server is untrusted. It may shorten the host TTL, not extend it.
         $ttlMs = isset($cache['ttlMs']) && is_int($cache['ttlMs']) && $cache['ttlMs'] >= 0
-            ? $cache['ttlMs']
+            ? min($cache['ttlMs'], $this->defaultTtlMs)
             : $this->defaultTtlMs;
 
         $rawTools = is_array($response['tools'] ?? null) ? $response['tools'] : [];
@@ -48,7 +54,9 @@ final class McpToolCatalogLayer
             $summary = (string) ($rawTool['summary'] ?? ($rawTool['description'] ?? $toolName));
             $schemaDigest = (string) ($rawTool['schemaDigest'] ?? '');
             $requiresApproval = (bool) ($rawTool['requiresApproval'] ?? false);
-            $itemTtlMs = isset($rawTool['ttlMs']) && is_int($rawTool['ttlMs']) ? $rawTool['ttlMs'] : $ttlMs;
+            $itemTtlMs = isset($rawTool['ttlMs']) && is_int($rawTool['ttlMs']) && $rawTool['ttlMs'] >= 0
+                ? min($rawTool['ttlMs'], $this->defaultTtlMs)
+                : $ttlMs;
 
             if ($toolName === '') {
                 continue;
@@ -98,7 +106,7 @@ final class McpToolCatalogLayer
      *
      * @return list<McpToolDescriptor>
      */
-    public function discoverRelevant(string $query, int $limit = 4, int $nowMs = 0): array
+    public function discoverRelevant(string $query, int $limit = 4, ?int $nowMs = null): array
     {
         if ($limit < 1) {
             return [];

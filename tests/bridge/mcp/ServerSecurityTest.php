@@ -63,6 +63,23 @@ final class ServerSecurityTest extends TestCase
         }
     }
 
+    public function testToolCallWithoutAccessPolicyIsDenied(): void
+    {
+        $server = $this->createServer(DisclosureMode::VerbatimAllowed);
+        $response = $server->handle([
+            'jsonrpc' => '2.0',
+            'id' => 'req-no-policy',
+            'method' => 'tools/call',
+            'params' => [
+                'name' => 'knowkit.search_layered',
+                'arguments' => ['query' => 'refund'],
+            ],
+        ], ['authorization' => 'Bearer valid']);
+
+        self::assertSame(-32003, $response['error']['code']);
+        self::assertSame('policy_denied', $response['error']['message']);
+    }
+
     public function testRejectsTenantIdSpoofingInToolArguments(): void
     {
         $server = $this->createServer(DisclosureMode::VerbatimAllowed);
