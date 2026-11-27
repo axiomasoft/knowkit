@@ -137,6 +137,23 @@ final class StrategiesTest extends TestCase
         self::assertSame([['id' => 'call_1']], $stripped[1]['tool_calls']);
     }
 
+    public function testThinkingSpansTextPartsWithinOneAssistantTurn(): void
+    {
+        $stripper = new \KnowKit\ContextCompilers\Sanitizer\ThinkingBlockStripper();
+        $texts = ['shown<think>private', 'still private', '</think> final', '  indented'];
+        $parts = array_map(static fn (string $text): array => ['type' => 'text', 'text' => $text], $texts);
+        $result = $stripper->strip([['role' => 'assistant', 'content' => $parts]], true);
+        self::assertSame(['shown', '', ' final', '  indented'], array_column($result[0]['content'], 'text'));
+    }
+
+    public function testLongNestedThinkingPreservesOnlyTheAnswer(): void
+    {
+        $stripper = new \KnowKit\ContextCompilers\Sanitizer\ThinkingBlockStripper();
+        $text = '<thinking><think>' . str_repeat('x', 65536) . '</think></thinking>final';
+        $result = $stripper->strip([['role' => 'assistant', 'content' => $text]], true);
+        self::assertSame('final', $result[0]['content']);
+    }
+
     public function testPrefixDriftDetectionAndTenTurnDriftFreeSession(): void
     {
         $compiler = new PromptCacheCompiler();
