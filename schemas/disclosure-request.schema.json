@@ -10,7 +10,21 @@
     "selectionId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
     "chunkRefs": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/chunkRefs"},
     "disclosureAttemptId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
-    "usageContext": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/usageContext"}
+    "usageContext": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/usageContext"},
+    "resolutionTier": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/resolutionTier"},
+    "pruningPolicy": {
+      "type": ["object", "null"],
+      "required": ["thresholdPermille", "alwaysKeepContext", "keepAdjacentForCoreference", "minKeptBytes", "maxKeptBytes"],
+      "properties": {
+        "thresholdPermille": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/permille"},
+        "alwaysKeepContext": {"type": "boolean"},
+        "keepAdjacentForCoreference": {"type": "boolean"},
+        "minKeptBytes": {"type": "integer", "minimum": 0, "maximum": 262144},
+        "maxKeptBytes": {"type": "integer", "minimum": 1, "maximum": 262144}
+      },
+      "unevaluatedProperties": false,
+      "x-knowkit-lessThan": {"code": "limit_exceeded", "orEqual": true, "pairs": [["minKeptBytes", "maxKeptBytes"]]}
+    }
   },
   "unevaluatedProperties": false
 }

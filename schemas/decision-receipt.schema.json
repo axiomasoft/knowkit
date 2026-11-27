@@ -15,7 +15,8 @@
     "checkedAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"},
     "expiresAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"},
     "receiptDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
-    "hostScopeHash": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/hostScopeHash"}
+    "hostScopeHash": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/hostScopeHash"},
+    "maxDisclosureMode": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/disclosureMode"}
   },
   "unevaluatedProperties": false
 }

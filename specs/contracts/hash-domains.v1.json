@@ -25,7 +25,17 @@
     "resourceInventory": "knowkit:resource-inventory:v1",
     "tombstoneSet": "knowkit:tombstone-set:v1",
     "answerInvocationFingerprint": "knowkit:answer-invocation:v1",
-    "answerOutcomeRecord": "knowkit:answer-outcome:v1"
+    "answerOutcomeRecord": "knowkit:answer-outcome:v1",
+    "layerNode": "knowkit:layer-node:v1",
+    "layerPrefix": "knowkit:layer-prefix:v1",
+    "layerSession": "knowkit:layer-session:v1",
+    "layerStack": "knowkit:layer-stack:v1",
+    "directiveArtifact": "knowkit:directive-artifact:v1",
+    "catalogMount": "knowkit:catalog-mount:v1",
+    "resolutionManifest": "knowkit:resolution-manifest:v1",
+    "conceptEdgeSet": "knowkit:concept-edge-set:v1",
+    "compiledContext": "knowkit:compiled-context:v1",
+    "trainingExportManifest": "knowkit:training-export-manifest:v1"
   },
   "untaggedDigests": {
     "irDigest": "SHA256(UTF8(JCS(IR)))",

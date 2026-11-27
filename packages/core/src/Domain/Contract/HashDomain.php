@@ -33,6 +33,16 @@ enum HashDomain: string
     case TombstoneSet = 'knowkit:tombstone-set:v1';
     case AnswerInvocationFingerprint = 'knowkit:answer-invocation:v1';
     case AnswerOutcomeRecord = 'knowkit:answer-outcome:v1';
+    case LayerNode = 'knowkit:layer-node:v1';
+    case LayerPrefix = 'knowkit:layer-prefix:v1';
+    case LayerSession = 'knowkit:layer-session:v1';
+    case LayerStack = 'knowkit:layer-stack:v1';
+    case DirectiveArtifact = 'knowkit:directive-artifact:v1';
+    case CatalogMount = 'knowkit:catalog-mount:v1';
+    case ResolutionManifest = 'knowkit:resolution-manifest:v1';
+    case ConceptEdgeSet = 'knowkit:concept-edge-set:v1';
+    case CompiledContext = 'knowkit:compiled-context:v1';
+    case TrainingExportManifest = 'knowkit:training-export-manifest:v1';
 
     /** Table key, e.g. indexManifest. */
     public function key(): string

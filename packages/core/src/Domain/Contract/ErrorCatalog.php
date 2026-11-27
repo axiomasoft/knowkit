@@ -29,6 +29,13 @@ final class ErrorCatalog
         'scope_mismatch' => 'denied', 'selection_ref_mismatch' => 'denied', 'POLICY_CHANGED' => 'denied',
         'missing_coordinate_system' => 'input_error', 'invalid_decimal' => 'input_error', 'invalid_page_index' => 'input_error',
         'unknown_schema' => 'input_error', 'missing_file' => 'input_error', 'empty_case_group' => 'input_error',
+        'layer_cycle' => 'incompatible', 'unknown_layer_dependency' => 'incompatible',
+        'invariant_violation' => 'denied', 'invalid_trust_tier' => 'denied',
+        'catalog_mount_forbidden' => 'denied', 'verbatim_disclosure_forbidden' => 'denied',
+        'atom_integrity_failed' => 'incompatible', 'invalid_pruned_subspan' => 'incompatible',
+        'resolution_unavailable' => 'incompatible', 'training_rights_denied' => 'denied',
+        'pii_redaction_failed' => 'denied', 'instance_not_found' => 'incompatible',
+        'prefix_drift_detected' => 'incompatible',
     ];
 
     public static function classOf(string $code): string

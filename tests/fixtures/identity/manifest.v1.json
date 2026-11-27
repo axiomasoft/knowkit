@@ -6,7 +6,7 @@
     {
       "id": "processing",
       "path": "tests/fixtures/identity/v1/processing.json",
-      "sha256": "c3de61ab9381c14a32baca3135294c379bd826bd124e7e75d566c50b137af3b3",
+      "sha256": "428e8f6ffcc2282ac026d5cfe820e65e4c961a4e36514bfba939ce8cf931a45d",
       "schemaId": "urn:knowkit:test:identity-fixture:1",
       "expected": {
         "scenarios": 5,

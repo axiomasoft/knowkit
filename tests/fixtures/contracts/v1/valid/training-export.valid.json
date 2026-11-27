@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "training-export:1",
+  "exportId": "01JC0000000000000000000001",
+  "tenantId": "01JC0000000000000000000002",
+  "format": "sft-grounded-v1",
+  "createdAt": "2026-11-06T12:00:00Z",
+  "layerStackDigests": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  ],
+  "snapshotRefs": [
+    {
+      "tenantId": "01JC0000000000000000000001",
+      "kbId": "01JC0000000000000000000002",
+      "snapshotId": "01JC0000000000000000000003",
+      "manifestDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "shards": [
+    {
+      "path": "shards/part-000.jsonl",
+      "recordCount": 10,
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "byteLength": 2048
+    }
+  ],
+  "includedCount": 10,
+  "excludedCountsByReason": {
+    "training_rights_denied": 1
+  },
+  "piiRedactorId": "presidio-strict-v1",
+  "manifestDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+}

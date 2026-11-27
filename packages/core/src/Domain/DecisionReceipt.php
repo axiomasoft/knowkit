@@ -4,10 +4,16 @@ declare(strict_types=1);
 namespace KnowKit\Domain;
 
 use KnowKit\Domain\Contract\HashDomain;
+use KnowKit\Domain\Layers\DisclosureMode;
 
 final readonly class DecisionReceipt extends SchemaValue
 {
     protected const SCHEMA = 'decision-receipt';
+
+    public function maxDisclosureMode(): DisclosureMode
+    {
+        return DisclosureMode::from($this->toWire()->get('maxDisclosureMode') ?? DisclosureMode::VerbatimAllowed->value);
+    }
 
     /** Freshness is local evidence only; the host still owns remote-owner freshness. */
     public function requireAllow(Scope $scope, ResourceRef $resource, Operation $operation,

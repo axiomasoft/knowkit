@@ -1,0 +1,15 @@
+{
+  "schemaVersion": "cache-profile:1",
+  "profileId": "anthropic-explicit-v1",
+  "semantics": "explicit_breakpoints",
+  "minCacheableTokens": 1024,
+  "maxBreakpoints": 4,
+  "readCostBps": 1000,
+  "writeCostBps": 12500,
+  "hourlyStorageBps": 0,
+  "ttlSeconds": 300,
+  "supportsSessionAffinity": true,
+  "discountsToolTokens": true,
+  "stripPriorThinkingBlocks": true,
+  "preferredCodec": "compact_markdown"
+}

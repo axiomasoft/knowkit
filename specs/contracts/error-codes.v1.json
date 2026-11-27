@@ -60,7 +60,20 @@
     "invalid_page_index": {"stage": "conversion", "class": "input_error"},
     "unknown_schema": {"stage": "corpus", "class": "input_error"},
     "missing_file": {"stage": "corpus", "class": "input_error"},
-    "empty_case_group": {"stage": "corpus", "class": "input_error"}
+    "empty_case_group": {"stage": "corpus", "class": "input_error"},
+    "layer_cycle": {"stage": "semantic", "class": "incompatible"},
+    "unknown_layer_dependency": {"stage": "semantic", "class": "incompatible"},
+    "invariant_violation": {"stage": "binding", "class": "denied"},
+    "invalid_trust_tier": {"stage": "binding", "class": "denied"},
+    "catalog_mount_forbidden": {"stage": "binding", "class": "denied"},
+    "verbatim_disclosure_forbidden": {"stage": "binding", "class": "denied"},
+    "atom_integrity_failed": {"stage": "semantic", "class": "incompatible"},
+    "invalid_pruned_subspan": {"stage": "semantic", "class": "incompatible"},
+    "resolution_unavailable": {"stage": "semantic", "class": "incompatible"},
+    "training_rights_denied": {"stage": "binding", "class": "denied"},
+    "pii_redaction_failed": {"stage": "binding", "class": "denied"},
+    "instance_not_found": {"stage": "semantic", "class": "incompatible"},
+    "prefix_drift_detected": {"stage": "semantic", "class": "incompatible"}
   },
   "outcomeCodes": {
     "description": "Approved application codes carried verbatim in Result.error.code (common#/$defs/errorCode). Case is part of the code: no lowercase or uppercase conversion. Codes are written as the knowledge documents write them.",

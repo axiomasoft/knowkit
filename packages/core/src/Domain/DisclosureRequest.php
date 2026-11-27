@@ -6,10 +6,21 @@ namespace KnowKit\Domain;
 use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Contract\ScopeBinding;
+use KnowKit\Domain\Layers\ResolutionTier;
 
 final readonly class DisclosureRequest extends SchemaValue
 {
     protected const SCHEMA = 'disclosure-request';
+
+    public function resolutionTier(): ResolutionTier
+    {
+        return ResolutionTier::from($this->toWire()->get('resolutionTier') ?? ResolutionTier::R3Verbatim->value);
+    }
+
+    public function pruningPolicy(): ?JsonObject
+    {
+        return $this->toWire()->get('pruningPolicy');
+    }
 
     public function attemptId(): Ulid
     {

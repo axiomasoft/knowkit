@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "concept-edges:1",
+  "tenantId": "01JC0000000000000000000001",
+  "kbId": "01JC0000000000000000000002",
+  "snapshotId": "01JC0000000000000000000003",
+  "edges": [
+    {
+      "fromChunkId": "01JC0000000000000000000001",
+      "toChunkId": "01JC0000000000000000000002",
+      "relation": "defines",
+      "weightBps": 8500,
+      "origin": "deterministic"
+    }
+  ],
+  "edgeSetDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+}

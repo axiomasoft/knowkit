@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:cache-profile:1.0",
+  "title": "KnowKit CacheProfile 1.0",
+  "x-knowkit-maxDocumentBytes": 16384,
+  "x-knowkit-schemaVersion": "cache-profile:1",
+  "type": "object",
+  "required": [
+    "schemaVersion", "profileId", "semantics", "minCacheableTokens",
+    "maxBreakpoints", "readCostBps", "writeCostBps", "hourlyStorageBps",
+    "ttlSeconds", "supportsSessionAffinity", "discountsToolTokens",
+    "stripPriorThinkingBlocks", "preferredCodec"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "cache-profile:1"},
+    "profileId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/profileId"},
+    "semantics": {"enum": ["explicit_server_object", "explicit_breakpoints", "implicit_prefix", "local_radix_prefix", "compact_no_cache"]},
+    "minCacheableTokens": {"type": "integer", "minimum": 0, "maximum": 1048576},
+    "maxBreakpoints": {"type": "integer", "minimum": 0, "maximum": 16},
+    "readCostBps": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/bps"},
+    "writeCostBps": {"type": "integer", "minimum": 10000, "maximum": 50000},
+    "hourlyStorageBps": {"type": "integer", "minimum": 0, "maximum": 100000},
+    "ttlSeconds": {"type": "integer", "minimum": 0, "maximum": 86400},
+    "supportsSessionAffinity": {"type": "boolean"},
+    "discountsToolTokens": {"type": "boolean"},
+    "stripPriorThinkingBlocks": {"type": "boolean"},
+    "preferredCodec": {"enum": ["toon", "compact_markdown", "canonical_json"]}
+  },
+  "unevaluatedProperties": false
+}

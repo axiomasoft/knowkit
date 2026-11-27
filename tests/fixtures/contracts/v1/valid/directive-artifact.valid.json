@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "directive-artifact:1",
+  "tenantId": "01JC0000000000000000000001",
+  "directiveId": "01JC0000000000000000000002",
+  "version": 1,
+  "title": "System Safety Policy",
+  "contentFormat": "compact_markdown",
+  "body": "# Policy\nAlways cite sources.",
+  "bodyDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "lockedRules": {
+    "citation.required": true
+  },
+  "promotedBy": "01JC0000000000000000000003",
+  "promotedAt": "2026-11-06T12:00:00Z",
+  "derivedFrom": [],
+  "approvalDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+}

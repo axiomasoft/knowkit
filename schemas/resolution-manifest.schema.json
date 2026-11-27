@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:resolution-manifest:1.0",
+  "title": "KnowKit ResolutionManifest 1.0",
+  "x-knowkit-maxDocumentBytes": 1048576,
+  "x-knowkit-schemaVersion": "resolution-manifest:1",
+  "type": "object",
+  "required": ["schemaVersion", "manifestId", "documentRevisionRef", "processingDigest", "artifacts", "manifestDigest"],
+  "properties": {
+    "schemaVersion": {"const": "resolution-manifest:1"},
+    "manifestId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "documentRevisionRef": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/documentRevisionRef"},
+    "processingDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 3,
+      "x-knowkit-sortedBy": ["tier"],
+      "items": {
+        "type": "object",
+        "required": [
+          "tier", "artifactId", "blobDigest", "byteLength", "tokenCount",
+          "tokenizerId", "origin", "provenanceKind", "dependencyNodeId",
+          "protectedAtomCount", "supportingLocators"
+        ],
+        "properties": {
+          "tier": {"enum": ["R0", "R1", "R2"]},
+          "artifactId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+          "blobDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+          "byteLength": {"type": "integer", "minimum": 1, "maximum": 16777216},
+          "tokenCount": {"type": "integer", "minimum": 1, "maximum": 1048576},
+          "tokenizerId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/name"},
+          "origin": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/origin"},
+          "provenanceKind": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/provenanceKind"},
+          "dependencyNodeId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+          "protectedAtomCount": {"type": "integer", "minimum": 0, "maximum": 65536},
+          "supportingLocators": {
+            "type": "array",
+            "maxItems": 512,
+            "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/textLocator"}
+          }
+        },
+        "unevaluatedProperties": false
+      }
+    },
+    "manifestDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+  },
+  "unevaluatedProperties": false
+}

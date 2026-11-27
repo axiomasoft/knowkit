@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:concept-edges:1.0",
+  "title": "KnowKit ConceptEdgeSet 1.0",
+  "x-knowkit-maxDocumentBytes": 4194304,
+  "x-knowkit-schemaVersion": "concept-edges:1",
+  "type": "object",
+  "required": ["schemaVersion", "tenantId", "kbId", "snapshotId", "edges", "edgeSetDigest"],
+  "properties": {
+    "schemaVersion": {"const": "concept-edges:1"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "kbId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "snapshotId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "edges": {
+      "type": "array",
+      "maxItems": 8192,
+      "x-knowkit-sortedBy": ["fromChunkId", "relation", "toChunkId"],
+      "items": {
+        "type": "object",
+        "required": ["fromChunkId", "toChunkId", "relation", "weightBps", "origin"],
+        "properties": {
+          "fromChunkId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+          "toChunkId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+          "relation": {"enum": ["prerequisite_of", "defines", "proves", "exemplifies", "refines", "contradicts", "cites", "applies_to"]},
+          "weightBps": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/positiveBps"},
+          "origin": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/origin"}
+        },
+        "unevaluatedProperties": false
+      }
+    },
+    "edgeSetDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+  },
+  "unevaluatedProperties": false
+}

@@ -167,7 +167,7 @@
   "fixtures": [
     {
       "path": "tests/fixtures/contracts/manifest.v1.json",
-      "sha256": "e17a273e5a61649790bb228da8596927043483a7ecaa8173d3221a478f389e79",
+      "sha256": "8e98abb5351b52e6664dd5b3f17ddae1652d52f8a544f750a3de5d5b105caf54",
       "expected": {
         "corpusVersion": "1.1.0",
         "entries": 187,
@@ -202,14 +202,14 @@
     },
     {
       "path": "specs/contracts/error-codes.v1.json",
-      "sha256": "873c93a64bc531563b82ce15a9490bc28557e5b4462b340f8b2ef3b7158158c4",
+      "sha256": "2ce7e305d6faac4e85bbb28e6eb19bddf6995dddb64c60aed7c321f465a5e25f",
       "expected": {
         "outcome": "mirrored-by-php-and-python"
       }
     },
     {
       "path": "specs/contracts/hash-domains.v1.json",
-      "sha256": "cf70b30322098a24dde744782821759887ff3c5e722325f0bb428a4529c6a1cd",
+      "sha256": "6accf71eee55623fd6a38bcf7574d1778d18fb57dc1106ff4a0f1a20966ca38e",
       "expected": {
         "outcome": "mirrored-by-php-and-python"
       }
@@ -237,14 +237,14 @@
     },
     {
       "path": "schemas/common.schema.json",
-      "sha256": "34a123400c04cc88c1e01eb17a78bcfec950b6cd141918447da2a03ba513cae1",
+      "sha256": "c9600c770e1eec5252efa6a4efdf8c16fe9709a2ecca65936690fd2b97987cb8",
       "expected": {
         "schemaId": "urn:knowkit:schema:common:1.0"
       }
     },
     {
       "path": "schemas/decision-receipt.schema.json",
-      "sha256": "42d816e3834bd94b9e95f810d3a680bb55d1c9b5329ee68c698f12074dd5033f",
+      "sha256": "672e049bc803681142552c2bfb1dada9069cb562e11ea7c2368a570c808748cf",
       "expected": {
         "schemaId": "urn:knowkit:schema:decision-receipt:1.0"
       }
@@ -265,7 +265,7 @@
     },
     {
       "path": "schemas/disclosure-request.schema.json",
-      "sha256": "1e8b6a7f528322ce33ba1bb75b7c1c26425e2fc7a6b6071f2fe1eae2371e15a7",
+      "sha256": "9cf9c28370857c50685663c1604a58e64378cd24055c98a6b2cd45268a9bd2aa",
       "expected": {
         "schemaId": "urn:knowkit:schema:disclosure-request:1.0"
       }

@@ -160,7 +160,7 @@ final class ContractSchemasTest extends Support
     public function testSchemaRegistryIsOfflineClosedAndVersioned(): void
     {
         $ids = $this->harness()->schemas->ids();
-        self::assertCount(29, $ids);
+        self::assertCount(35, $ids);
         $corpusSchemas = array_count_values(array_map(static fn(array $entry): string
             => $entry['schemaId'] . '#' . $entry['expected'], $this->entries()));
         foreach ($ids as $id) {
@@ -228,7 +228,7 @@ final class ContractSchemasTest extends Support
         }
         self::assertSame($table['domains'], $domains);
         self::assertSameJson($domains, $this->pythonReport()['hashDomains']);
-        self::assertCount(23, array_unique($domains));
+        self::assertCount(33, array_unique($domains));
         foreach ($domains as $key => $domain) {
             self::assertStringNotContainsStringIgnoringCase('legacy', $key . $domain);
         }
@@ -642,7 +642,7 @@ final class ContractSchemasTest extends Support
         $this->assertTag('disclosure-attempt', 3, 4);
         $schema = $this->harness()->json('schemas/disclosure-request.schema.json');
         self::assertSame(['selectionId', 'chunkRefs', 'disclosureAttemptId'], $schema->get('required'));
-        self::assertSame(['selectionId', 'chunkRefs', 'disclosureAttemptId', 'usageContext'], $schema->get('properties')->keys());
+        self::assertSame(['selectionId', 'chunkRefs', 'disclosureAttemptId', 'usageContext', 'resolutionTier', 'pruningPolicy'], $schema->get('properties')->keys());
     }
 
     public function testUsageContextIsTrustedHostDataOnly(): void
@@ -846,5 +846,30 @@ final class ContractSchemasTest extends Support
         self::assertSame($this->fixture('scope.valid')->get('hostScopeHash'), $selection->get('hostScopeHash'));
         self::assertSame($selection->get('hostScopeHash'), $this->fixture('evidence-set.valid')->get('hostScopeHash'));
         self::assertSame($selection->get('hostScopeHash'), $this->fixture('usage.valid')->get('hostScopeHash'));
+    }
+
+    public function testExtendedHashVectorsAndW02Schemas(): void
+    {
+        $this->assertTag('w02-schemas', 6, 6);
+        $vectors = $this->harness()->vectors('tests/fixtures/contracts/v1/extended-hash-vectors.json', 'urn:knowkit:schema:hash-vectors:1.0');
+        self::assertCount(13, $vectors);
+        foreach ($vectors as $vector) {
+            $id = $vector->get('id');
+            if ($vector->get('algorithm') === 'domain') {
+                $payload = $vector->get('payload');
+                self::assertSame($vector->get('expectedCanonical'), Jcs::canonicalize($payload), $id);
+                self::assertSame($vector->get('expectedSha256'), HashDomain::fromKey($vector->get('domain'))->digest($payload), $id);
+            } elseif ($vector->get('algorithm') === 'decode') {
+                $this->rejectsWith($vector->get('expectedErrorCode'), '', static fn() => StrictJson::decode((string) base64_decode($vector->get('inputBase64'), true)));
+            }
+        }
+        foreach (['directive-artifact', 'layer-stack', 'resolution-manifest', 'concept-edges', 'cache-profile', 'training-export'] as $name) {
+            self::assertStringNotContainsString('"number"', $this->harness()->read("schemas/{$name}.schema.json"), $name);
+        }
+        $space = new \KnowKit\Domain\EmbeddingSpace('openai', 'text-embedding-3-large', '2024-01-25', 1536, 'l2', 'v1', 'doc', 'query', 'halfvec', 3072);
+        self::assertSame([], $this->harness()->validator->validateValue($space->toWire(), 'urn:knowkit:schema:embedding-space:1.0'));
+        self::assertTrue(\KnowKit\Domain\Layers\DisclosureMode::DerivedOnly->allowsTier(\KnowKit\Domain\Layers\ResolutionTier::R2Propositions));
+        self::assertFalse(\KnowKit\Domain\Layers\DisclosureMode::DerivedOnly->allowsTier(\KnowKit\Domain\Layers\ResolutionTier::R3Verbatim));
+        self::assertFalse(\KnowKit\Domain\Layers\DisclosureMode::DerivedOnly->allowsDirectRead());
     }
 }

@@ -177,7 +177,7 @@
   "fixtures": [
     {
       "path": "tests/fixtures/identity/v1/processing.json",
-      "sha256": "c3de61ab9381c14a32baca3135294c379bd826bd124e7e75d566c50b137af3b3",
+      "sha256": "428e8f6ffcc2282ac026d5cfe820e65e4c961a4e36514bfba939ce8cf931a45d",
       "expected": {
         "scenarios": 5,
         "history": 2,
@@ -203,7 +203,7 @@
     },
     {
       "path": "tests/fixtures/identity/manifest.v1.json",
-      "sha256": "eae133c8710c273d56dc0f27f3673ed31a1eb65212991765746968150a244cc1",
+      "sha256": "1046790468b09cbe5edc56d0e72ecdd973ebcaa7ef0ebfd12b1dfef74685ad74",
       "expected": {
         "entries": 3,
         "outcome": "strict-corpus"

@@ -24,10 +24,20 @@
     "name": {"type": "string", "minLength": 1, "maxLength": 128},
     "shortText": {"type": "string", "minLength": 1, "maxLength": 256},
     "purpose": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,31}(\\.[a-z][a-z0-9_]{0,31}){1,3}$", "description": "Host business purpose such as lesson.read; never an Operation value."},
-    "operation": {"enum": ["retrieve", "disclose", "publish", "model_egress_context", "navigate", "catalog_create", "collection_create", "membership_mutate", "source_register", "source_version_add", "ingest", "reprocess", "job_cancel", "lifecycle_correct", "lifecycle_revoke", "lifecycle_delete", "legal_hold_set", "purge_status", "provider_acceptance", "diagnostics"]},
+    "operation": {"enum": ["retrieve", "disclose", "publish", "model_egress_context", "navigate", "catalog_create", "collection_create", "membership_mutate", "source_register", "source_version_add", "ingest", "reprocess", "job_cancel", "lifecycle_correct", "lifecycle_revoke", "lifecycle_delete", "legal_hold_set", "purge_status", "provider_acceptance", "diagnostics", "layer_resolve", "directive_promote", "catalog_mount", "training_export"]},
     "outcome": {"enum": ["success", "empty", "denied", "unknown", "unavailable", "incompatible"]},
-    "origin": {"enum": ["source", "ocr", "generated"]},
-    "provenanceKind": {"enum": ["verbatim", "table_representation", "description", "summary"]},
+    "origin": {"enum": ["source", "ocr", "generated", "deterministic"]},
+    "provenanceKind": {"enum": ["verbatim", "table_representation", "description", "summary", "pruned_verbatim_subspans", "navigation_outline", "proposition_set"]},
+    "instanceId": {"type": "string", "pattern": "^[a-z][a-z0-9_-]{1,63}$"},
+    "layerId": {"type": "string", "pattern": "^[a-z][a-z0-9._-]{1,63}$"},
+    "bps": {"type": "integer", "minimum": 0, "maximum": 10000},
+    "positiveBps": {"type": "integer", "minimum": 1, "maximum": 10000},
+    "permille": {"type": "integer", "minimum": 0, "maximum": 1000},
+    "trustTier": {"enum": ["trusted_directive", "curated_reference", "untrusted_evidence", "dynamic_overlay"]},
+    "deliveryMode": {"enum": ["pinned_prefix", "session_pinned", "hybrid_retrievable", "tool_discoverable", "volatile_suffix"]},
+    "mergeStrategy": {"enum": ["immutable_seal", "guarded_extend", "override_allowed", "weighted_mix", "exclusion_deny"]},
+    "resolutionTier": {"enum": ["R0", "R1", "R2", "R3"]},
+    "disclosureMode": {"enum": ["verbatim_allowed", "derived_only", "summary_only", "metadata_only", "index_only"]},
     "metadata": {
       "type": "object",
       "maxProperties": 32,
@@ -103,7 +113,7 @@
       "required": ["tenantId", "kind", "id"],
       "properties": {
         "tenantId": {"$ref": "#/$defs/ulid"},
-        "kind": {"enum": ["knowledge_base", "collection", "source", "source_version", "document_revision", "chunk_set", "chunk", "generation", "snapshot", "job", "resource", "selection", "usage", "deletion_task"]},
+        "kind": {"enum": ["knowledge_base", "collection", "source", "source_version", "document_revision", "chunk_set", "chunk", "generation", "snapshot", "job", "resource", "selection", "usage", "deletion_task", "directive_artifact", "layer_definition", "layer_stack", "catalog_mount", "resolution_manifest", "training_export"]},
         "id": {"$ref": "#/$defs/ulid"}
       },
       "unevaluatedProperties": false
@@ -232,7 +242,9 @@
         "normalization": {"enum": ["none", "l2"]},
         "indexVersion": {"type": "string", "minLength": 1, "maxLength": 64},
         "documentRole": {"type": "string", "minLength": 1, "maxLength": 64},
-        "queryRole": {"type": "string", "minLength": 1, "maxLength": 64}
+        "queryRole": {"type": "string", "minLength": 1, "maxLength": 64},
+        "storageFormat": {"enum": ["float32", "halfvec", "binary_quantized"]},
+        "mrlSourceDimensions": {"type": ["integer", "null"], "minimum": 1, "maximum": 65536}
       },
       "unevaluatedProperties": false
     },

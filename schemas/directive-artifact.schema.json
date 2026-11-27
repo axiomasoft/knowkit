@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:knowkit:schema:directive-artifact:1.0",
+  "title": "KnowKit DirectiveArtifact 1.0",
+  "x-knowkit-maxDocumentBytes": 262144,
+  "x-knowkit-schemaVersion": "directive-artifact:1",
+  "type": "object",
+  "required": [
+    "schemaVersion", "tenantId", "directiveId", "version", "title",
+    "contentFormat", "body", "bodyDigest", "lockedRules",
+    "promotedBy", "promotedAt", "derivedFrom", "approvalDigest"
+  ],
+  "properties": {
+    "schemaVersion": {"const": "directive-artifact:1"},
+    "tenantId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "directiveId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "version": {"type": "integer", "minimum": 1, "maximum": 1000000},
+    "title": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/shortText"},
+    "contentFormat": {"enum": ["compact_markdown", "canonical_json"]},
+    "body": {"type": "string", "minLength": 1, "maxLength": 131072},
+    "bodyDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"},
+    "lockedRules": {
+      "type": "object",
+      "maxProperties": 64,
+      "propertyNames": {"type": "string", "pattern": "^[a-z][a-z0-9_]{0,31}(\\.[a-z][a-z0-9_]{0,31}){0,3}$"},
+      "additionalProperties": {"type": ["string", "integer", "boolean"], "maxLength": 256}
+    },
+    "promotedBy": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/ulid"},
+    "promotedAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"},
+    "derivedFrom": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/exactSourceRef"}
+    },
+    "approvalDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
+  },
+  "unevaluatedProperties": false
+}

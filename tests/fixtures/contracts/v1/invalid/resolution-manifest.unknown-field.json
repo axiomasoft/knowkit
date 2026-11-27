@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "resolution-manifest:1",
+  "manifestId": "01JC0000000000000000000001",
+  "documentRevisionRef": {
+    "tenantId": "01JC0000000000000000000001",
+    "sourceId": "01JC0000000000000000000002",
+    "sourceVersionId": "01JC0000000000000000000003",
+    "sourceDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "documentRevisionId": "01JC0000000000000000000004",
+    "irDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "parserSignature": {
+      "name": "docling",
+      "version": "2.148.0",
+      "profileDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "processingDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "artifacts": [
+    {
+      "tier": "R0",
+      "artifactId": "01JC0000000000000000000002",
+      "blobDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "byteLength": 128,
+      "tokenCount": 32,
+      "tokenizerId": "cl100k_base",
+      "origin": "deterministic",
+      "provenanceKind": "navigation_outline",
+      "dependencyNodeId": "01JC0000000000000000000003",
+      "protectedAtomCount": 0,
+      "supportingLocators": []
+    }
+  ],
+  "manifestDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "extraUnexpectedField": true
+}

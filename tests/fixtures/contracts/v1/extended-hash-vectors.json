@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "hash-vectors-1.0",
+  "vectors": [
+    {
+      "id": "domain.layer-node",
+      "algorithm": "domain",
+      "domain": "layerNode",
+      "payload": {
+        "layerId": "base.policy",
+        "trustTier": "trusted_directive",
+        "deliveryMode": "pinned_prefix"
+      },
+      "expectedCanonical": "{\"deliveryMode\":\"pinned_prefix\",\"layerId\":\"base.policy\",\"trustTier\":\"trusted_directive\"}",
+      "expectedSha256": "42ab456127ccd9b3dd95952eeb66b9178156949027f4502b6d3b0910920cd980"
+    },
+    {
+      "id": "domain.layer-prefix",
+      "algorithm": "domain",
+      "domain": "layerPrefix",
+      "payload": {
+        "layerIds": [
+          "base.policy"
+        ],
+        "digests": [
+          "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        ]
+      },
+      "expectedCanonical": "{\"digests\":[\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"],\"layerIds\":[\"base.policy\"]}",
+      "expectedSha256": "8ff48726572566cd830aefea17e9b52b94eb9db31b9449ed3b276a29b6c29c8d"
+    },
+    {
+      "id": "domain.layer-session",
+      "algorithm": "domain",
+      "domain": "layerSession",
+      "payload": {
+        "staticPrefixDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "sessionLayerIds": [
+          "session.ctx"
+        ]
+      },
+      "expectedCanonical": "{\"sessionLayerIds\":[\"session.ctx\"],\"staticPrefixDigest\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}",
+      "expectedSha256": "e055439e1f76a6a0d779920017448b42d64b61d0c0aa2dc6dc66223a83981f3a"
+    },
+    {
+      "id": "domain.layer-stack",
+      "algorithm": "domain",
+      "domain": "layerStack",
+      "payload": {
+        "stackId": "01JC0000000000000000000001",
+        "nodeDigests": [
+          "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        ]
+      },
+      "expectedCanonical": "{\"nodeDigests\":[\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"],\"stackId\":\"01JC0000000000000000000001\"}",
+      "expectedSha256": "bb1086972df26e9b5a5d30712ef173eacdc3ea8579e654c0a432ce918bd98be9"
+    },
+    {
+      "id": "domain.directive-artifact",
+      "algorithm": "domain",
+      "domain": "directiveArtifact",
+      "payload": {
+        "directiveId": "01JC0000000000000000000002",
+        "version": 1,
+        "bodyDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "expectedCanonical": "{\"bodyDigest\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"directiveId\":\"01JC0000000000000000000002\",\"version\":1}",
+      "expectedSha256": "13f46b37231ec1dbdd2d76228614fb73aa3239c1dc5e6636eaa9f7b13beb820e"
+    },
+    {
+      "id": "domain.catalog-mount",
+      "algorithm": "domain",
+      "domain": "catalogMount",
+      "payload": {
+        "catalogMountId": "01JC0000000000000000000003",
+        "catalogTenantId": "01JC0000000000000000000004"
+      },
+      "expectedCanonical": "{\"catalogMountId\":\"01JC0000000000000000000003\",\"catalogTenantId\":\"01JC0000000000000000000004\"}",
+      "expectedSha256": "166dc60a6a53885054c6f72a7a7226a6cb9aba346594eb39c361339977446f13"
+    },
+    {
+      "id": "domain.resolution-manifest",
+      "algorithm": "domain",
+      "domain": "resolutionManifest",
+      "payload": {
+        "manifestId": "01JC0000000000000000000005",
+        "processingDigest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "expectedCanonical": "{\"manifestId\":\"01JC0000000000000000000005\",\"processingDigest\":\"dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd\"}",
+      "expectedSha256": "fff5532cb220f4ea79d2363ae8caf15572e7e62e4bdd8b352b07dc3752d1c788"
+    },
+    {
+      "id": "domain.concept-edge-set",
+      "algorithm": "domain",
+      "domain": "conceptEdgeSet",
+      "payload": {
+        "snapshotId": "01JC0000000000000000000006",
+        "edgeCount": 2
+      },
+      "expectedCanonical": "{\"edgeCount\":2,\"snapshotId\":\"01JC0000000000000000000006\"}",
+      "expectedSha256": "cf3d8b6ddc845260fe380b515ac9b2a3520474fa7956b58968e784696b3cf1b5"
+    },
+    {
+      "id": "domain.compiled-context",
+      "algorithm": "domain",
+      "domain": "compiledContext",
+      "payload": {
+        "profileId": "anthropic-explicit-v1",
+        "prefixDigest": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "expectedCanonical": "{\"prefixDigest\":\"eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee\",\"profileId\":\"anthropic-explicit-v1\"}",
+      "expectedSha256": "45559be5b8063965fe2946340ddbdd46a110aabe33c7c4504a02c12200fb3475"
+    },
+    {
+      "id": "domain.training-export-manifest",
+      "algorithm": "domain",
+      "domain": "trainingExportManifest",
+      "payload": {
+        "exportId": "01JC0000000000000000000007",
+        "includedCount": 42
+      },
+      "expectedCanonical": "{\"exportId\":\"01JC0000000000000000000007\",\"includedCount\":42}",
+      "expectedSha256": "08b0ebff2565482c8427e234f33893468ecb7e38125c1ef22c5ee652732c0ff5"
+    },
+    {
+      "id": "decode.ext-float",
+      "algorithm": "decode",
+      "inputBase64": "eyJ3ZWlnaHQiOjEuNX0=",
+      "expectedErrorCode": "non_integer_number"
+    },
+    {
+      "id": "decode.ext-duplicate-key",
+      "algorithm": "decode",
+      "inputBase64": "eyJhIjoxLCJhIjoyfQ==",
+      "expectedErrorCode": "duplicate_key"
+    },
+    {
+      "id": "decode.ext-lone-surrogate",
+      "algorithm": "decode",
+      "inputBase64": "eyJzIjoiXHVkODAwIn0=",
+      "expectedErrorCode": "invalid_surrogate"
+    }
+  ]
+}

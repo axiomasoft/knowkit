@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "layer-stack:1",
+  "tenantId": "01JC0000000000000000000001",
+  "stackId": "01JC0000000000000000000002",
+  "nodes": [
+    {
+      "layerId": "base.policy",
+      "dependsOnLayerIds": [],
+      "trustTier": "trusted_directive",
+      "deliveryMode": "pinned_prefix",
+      "mergeStrategy": "immutable_seal",
+      "disclosureMode": "verbatim_allowed",
+      "lockedKeys": [
+        "citation.required"
+      ],
+      "ruleValues": {
+        "citation.required": true
+      },
+      "denySelectors": [],
+      "budget": {
+        "minGuaranteedTokens": 64,
+        "maxCeilingTokens": 512,
+        "maxBytes": 4096,
+        "weightBps": 1000,
+        "preferredTier": "R1",
+        "compactFallbackTier": "R0"
+      },
+      "backing": {
+        "kind": "directive",
+        "directiveId": "01JC0000000000000000000003",
+        "directiveDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "nodeDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "lockedKeyOwners": {
+    "citation.required": {
+      "layerId": "base.policy",
+      "valueDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  },
+  "effectiveDenySelectors": [],
+  "staticPrefixDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "sessionPrefixDigest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "stackDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+}

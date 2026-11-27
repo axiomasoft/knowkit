@@ -98,3 +98,24 @@ def test_jcs_uses_utf16_and_typed_result_domain():
     assert fingerprint("knowkit:worker-result:v1", payload) == hashlib.sha256(
         b'knowkit:worker-result:v1\0{"status":"complete"}').hexdigest()
     assert fingerprint("knowkit:worker-result:v1", payload) != hashlib.sha256(canonical(payload)).hexdigest()
+
+
+def test_extended_hash_vectors_and_new_schemas():
+    import base64
+    vectors_doc = json.loads((ROOT / "tests/fixtures/contracts/v1/extended-hash-vectors.json").read_text())
+    domains = json.loads((ROOT / "specs/contracts/hash-domains.v1.json").read_text())["domains"]
+    for vec in vectors_doc["vectors"]:
+        if vec["algorithm"] == "domain":
+            canon = canonical(vec["payload"])
+            assert canon.decode("utf-8") == vec["expectedCanonical"], vec["id"]
+            assert fingerprint(domains[vec["domain"]], vec["payload"]) == vec["expectedSha256"], vec["id"]
+        elif vec["algorithm"] == "decode":
+            with pytest.raises(Refusal):
+                decode(base64.b64decode(vec["inputBase64"]))
+    contracts = Contracts(ROOT / "schemas")
+    for name in ("directive-artifact", "layer-stack", "resolution-manifest", "concept-edges", "cache-profile", "training-export"):
+        valid_doc = decode((ROOT / f"tests/fixtures/contracts/v1/valid/{name}.valid.json").read_bytes())
+        contracts.validate(valid_doc, name)
+        invalid_doc = decode((ROOT / f"tests/fixtures/contracts/v1/invalid/{name}.unknown-field.json").read_bytes())
+        with pytest.raises(Refusal):
+            contracts.validate(invalid_doc, name)
