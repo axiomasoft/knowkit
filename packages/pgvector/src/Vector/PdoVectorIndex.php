@@ -10,7 +10,6 @@ use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\ContractValidator;
 use KnowKit\Domain\Contract\StrictJson;
 use KnowKit\PgVector\Domain\QueryVector;
-use KnowKit\PgVector\Domain\ManifestView;
 use KnowKit\PgVector\Domain\SearchPolicy;
 use KnowKit\PgVector\Domain\SearchResult;
 use KnowKit\Port\VectorIndex;
@@ -91,6 +90,6 @@ final readonly class PdoVectorIndex implements VectorIndex
 
     public function __debugInfo(): array
     {
-        return ['profile' => ManifestView::PROFILE, 'searchMode' => $this->policy->mode];
+        return ['profile' => $this->backend->profile(), 'searchMode' => $this->policy->mode];
     }
 }

@@ -152,6 +152,46 @@ final class CompressionTest extends TestCase
         });
     }
 
+    public function testTruncatedCompressedStreamFailsClosed(): void
+    {
+        $root = sys_get_temp_dir() . '/knowkit-truncated-' . bin2hex(random_bytes(8));
+        mkdir($root, 0700);
+        try {
+            $fs = new PrivateFilesystem($root);
+            $expectedLength = 100;
+            $canonical = str_repeat('A', $expectedLength);
+            $ref = new D\BlobRef(
+                new D\TenantId(BlobFixture::id(1)),
+                new D\SourceId(BlobFixture::id(2)),
+                new D\Sha256(hash('sha256', $canonical)),
+                new D\Uint64((string) $expectedLength),
+                'local-v1',
+                BlobFixture::id(501),
+                'owned',
+            );
+            $shortGz = gzencode(str_repeat('A', 50));
+            self::assertIsString($shortGz);
+            $h = $fs->open('short.bin', true);
+            fwrite($h, BlobCompressionCodec::Gzip->encodeHeader($expectedLength) . $shortGz);
+            fclose($h);
+
+            $open = $fs->open('short.bin');
+            try {
+                new VerifiedStream($open, $fs, $ref, 1048576, static function (): void {});
+                self::fail('Expected digest_mismatch on truncated compressed stream');
+            } catch (D\DomainFailure $e) {
+                self::assertSame(D\Outcome::Incompatible, $e->outcome);
+                self::assertSame('digest_mismatch', $e->errorCode);
+            } finally {
+                if (is_resource($open)) {
+                    fclose($open);
+                }
+            }
+        } finally {
+            BlobFixture::removeTree($root);
+        }
+    }
+
     private function makeCodecStore(BlobFixture $f, BlobCompressionCodec $codec): LocalBlobStore
     {
         $l = $f->ledger;

@@ -20,7 +20,7 @@ final readonly class PdoGenerationBackend implements GenerationReadBackend
 {
     private const MEMBERS_SQL = <<<'SQL'
         SELECT i.*, c.document_id, c.content_digest, c.byte_length, c.spans_json,
-            v.space_digest, v.vector_digest, v.embedding::text AS vector_literal
+            v.space_digest, v.vector_digest, %s
         FROM %s i
         JOIN %s c ON c.tenant_id=i.tenant_id AND c.id=i.chunk_id AND c.chunk_set_id=i.chunk_set_id
         LEFT JOIN %s v ON v.tenant_id=i.tenant_id AND v.generation_id=i.generation_id AND v.chunk_id=i.chunk_id
@@ -33,6 +33,11 @@ final readonly class PdoGenerationBackend implements GenerationReadBackend
         private ContractValidator $validator,
         private D\SpaceRef $space,
     ) {}
+
+    public function profile(): string
+    {
+        return SearchSql::profileForFormat($this->space->storageFormat);
+    }
 
     public function view(D\IndexManifest $manifest): ManifestView
     {
@@ -67,6 +72,7 @@ final readonly class PdoGenerationBackend implements GenerationReadBackend
         }
         if ($row['manifest_digest'] !== $view->candidate->digest->value
             || $row['space_digest'] !== $this->space->digest()->value
+            || ($row['storage_format'] ?? 'float32') !== $this->space->storageFormat
             || Jcs::canonicalize(StrictJson::decode($row['space_json'])) !== Jcs::canonicalize($this->space->toWire())) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'space_mismatch');
         }
@@ -78,10 +84,11 @@ final readonly class PdoGenerationBackend implements GenerationReadBackend
         $generation = $this->generation($view);
         $this->assertSpaceReceipt($view);
         (new ResourceInventory($this->db))->assertExact($view->candidate);
-        $sql = sprintf(self::MEMBERS_SQL, $this->db->table('index_memberships'),
-            $this->db->table('chunks'), $this->db->table('vector_documents'));
+        [$vectorTable, $vectorColumns] = $this->vectorStorage();
+        $sql = sprintf(self::MEMBERS_SQL, $vectorColumns, $this->db->table('index_memberships'),
+            $this->db->table('chunks'), $vectorTable);
         $rows = $this->db->execute($sql, [$view->tenant->value, $view->generation->value])->fetchAll(\PDO::FETCH_ASSOC);
-        $vectors = (int) $this->db->execute('SELECT count(*) FROM ' . $this->db->table('vector_documents')
+        $vectors = (int) $this->db->execute('SELECT count(*) FROM ' . $vectorTable
             . ' WHERE tenant_id=? AND generation_id=?', [$view->tenant->value, $view->generation->value])->fetchColumn();
         if (count($rows) !== $view->count() || $vectors !== $view->count() || (int) $generation['chunk_count'] !== $view->count()) {
             self::unreadable();
@@ -94,15 +101,101 @@ final readonly class PdoGenerationBackend implements GenerationReadBackend
         return $view;
     }
 
+    /** @return array{0: string, 1: string} */
+    private function vectorStorage(): array
+    {
+        return match ($this->space->storageFormat) {
+            'float32' => [$this->db->table('vector_documents'), 'v.embedding::text AS vector_literal'],
+            'halfvec' => [$this->db->table('vector_documents_halfvec'), 'v.embedding::text AS vector_literal'],
+            'binary_quantized' => [
+                $this->db->table('vector_documents_binary'),
+                'v.quantized::text AS quantized_bits, v.rescore_halfvec::text AS vector_literal',
+            ],
+            default => throw new D\DomainFailure(D\Outcome::Incompatible, 'storage_format_unsupported'),
+        };
+    }
+
     private function assertVector(array $row): void
     {
         if ($row['vector_literal'] === null || $row['space_digest'] !== $this->space->digest()->value) {
             self::unreadable();
         }
         $payload = VectorPayload::decode($row['vector_literal'], $this->space);
-        if ($payload->digest !== $row['vector_digest']) {
+        if ($this->space->storageFormat === 'float32') {
+            if ($payload->digest !== $row['vector_digest']) {
+                throw new D\DomainFailure(D\Outcome::Incompatible, 'vector_digest_mismatch');
+            }
+            return;
+        }
+
+        if (!is_string($row['vector_digest']) || preg_match('/^[0-9a-f]{64}$/', $row['vector_digest']) !== 1) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'vector_digest_mismatch');
         }
+        /** @var list<float|int> $values */
+        $values = json_decode($payload->literal, true, 512, JSON_THROW_ON_ERROR);
+        foreach ($values as $value) {
+            $f = (float) $value;
+            if (abs($f - self::roundToFloat16($f)) > 1e-4 * max(1.0, abs($f))) {
+                throw new D\DomainFailure(D\Outcome::Incompatible, 'vector_digest_mismatch');
+            }
+        }
+        if ($this->space->storageFormat === 'binary_quantized') {
+            $bits = $row['quantized_bits'] ?? null;
+            if (!is_string($bits) || strlen($bits) !== $this->space->dimensions || preg_match('/^[01]+$/', $bits) !== 1) {
+                throw new D\DomainFailure(D\Outcome::Incompatible, 'vector_digest_mismatch');
+            }
+            foreach ($values as $index => $value) {
+                if ((float) $value !== 0.0 && ($value > 0 ? '1' : '0') !== $bits[$index]) {
+                    throw new D\DomainFailure(D\Outcome::Incompatible, 'vector_digest_mismatch');
+                }
+            }
+        }
+    }
+
+    private static function roundToFloat16(float $value): float
+    {
+        if ($value == 0.0) {
+            return 0.0;
+        }
+        $f32 = unpack('N', pack('G', $value));
+        if ($f32 === false) {
+            return $value;
+        }
+        $bits = $f32[1];
+        $sign = ($bits >> 16) & 0x8000;
+        $exp = (($bits >> 23) & 0xFF) - 127;
+        $mant = $bits & 0x7FFFFF;
+        if ($exp > 15) {
+            $h = $sign | 0x7C00;
+        } elseif ($exp < -14) {
+            $shift = -14 - $exp;
+            if ($shift > 10) {
+                return 0.0;
+            }
+            $h = $sign | ((0x800000 | $mant) >> (13 + $shift));
+        } else {
+            $roundBit = ($mant >> 12) & 1;
+            $mant16 = $mant >> 13;
+            if ($roundBit === 1 && ((($mant & 0xFFF) !== 0) || (($mant16 & 1) === 1))) {
+                ++$mant16;
+                if ($mant16 === 0x400) {
+                    $mant16 = 0;
+                    ++$exp;
+                }
+            }
+            $h = $sign | (($exp + 15) << 10) | $mant16;
+        }
+        $hExp = ($h >> 10) & 0x1F;
+        $hMant = $h & 0x3FF;
+        $hSign = ($h & 0x8000) !== 0 ? -1.0 : 1.0;
+        if ($hExp === 0) {
+            return $hSign * ($hMant / 1024.0) * (2.0 ** -14);
+        }
+        if ($hExp === 31) {
+            return $hMant === 0 ? $hSign * INF : NAN;
+        }
+
+        return $hSign * (1.0 + $hMant / 1024.0) * (2.0 ** ($hExp - 15));
     }
 
     public function sealed(D\AuthorizedSearchScope $scope): ManifestView
@@ -139,7 +232,7 @@ final readonly class PdoGenerationBackend implements GenerationReadBackend
     {
         $view = $this->inspect($manifest);
 
-        return new D\PersistedIndexRead(new D\ProfileId(ManifestView::PROFILE), $view->fingerprint, $view->refs());
+        return new D\PersistedIndexRead(new D\ProfileId($view->profile), $view->fingerprint, $view->refs());
     }
 
     private static function unreadable(): never

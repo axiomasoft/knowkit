@@ -8,12 +8,14 @@ use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Contract\StrictJson;
+use KnowKit\PgVector\Vector\SearchSql;
 
 /** Typed view of the approved core manifest; no new public manifest schema. */
 final readonly class ManifestView
 {
     public const PROFILE = 'pgvector-l2-v1';
 
+    public string $profile;
     public D\ManifestCandidate $candidate;
     public D\TenantId $tenant;
     public D\KbId $kb;
@@ -28,8 +30,9 @@ final readonly class ManifestView
     public function __construct(D\IndexManifest $manifest, array $sets, D\EmbeddingSpace $space)
     {
         VectorPayload::assertSpace($space);
+        $this->profile = SearchSql::profileForFormat($space->storageFormat);
         $wire = $manifest->toWire();
-        if ($wire->get('profile')->get('id') !== self::PROFILE || $wire->get('profile')->get('kind') !== 'vector'
+        if ($wire->get('profile')->get('id') !== $this->profile || $wire->get('profile')->get('kind') !== 'vector'
             || $wire->get('embeddingSpaceDigest') !== $space->digest()->value) {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'space_or_profile_mismatch');
         }
@@ -87,7 +90,7 @@ final readonly class ManifestView
     public function assertGeneration(array $row): void
     {
         if ($row['tenant_id'] !== $this->tenant->value || $row['kb_id'] !== $this->kb->value
-            || $row['id'] !== $this->generation->value || $row['profile_id'] !== self::PROFILE
+            || $row['id'] !== $this->generation->value || $row['profile_id'] !== $this->profile
             || $row['embedding_space_digest'] !== $this->fingerprint->value
             || $row['manifest_digest'] !== $this->candidate->digest->value
             || Jcs::canonicalize(StrictJson::decode($row['manifest_json'])) !== $this->candidate->manifest->canonical()) {

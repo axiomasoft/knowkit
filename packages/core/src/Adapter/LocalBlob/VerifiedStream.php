@@ -13,6 +13,8 @@ final class VerifiedStream implements ReadableStream
     private ?BlobCompressionCodec $codec = null;
     /** @var resource|null */
     private mixed $filter = null;
+    private mixed $zstdContext = null;
+    private string $zstdBuffer = '';
     private int $uncompressedRead = 0;
     private int $expectedLength = 0;
     private bool $streamEof = false;
@@ -133,15 +135,39 @@ final class VerifiedStream implements ReadableStream
 
         if ($codec === BlobCompressionCodec::Zstd) {
             $codec->assertAvailable();
-            if (!function_exists('zstd_uncompress')) {
-                throw new DomainFailure(Outcome::Unavailable, 'missing_extension:zstd');
+            if (!function_exists('zstd_uncompress_init') || !function_exists('zstd_uncompress_add')) {
+                throw new DomainFailure(Outcome::Unavailable, 'missing_extension_zstd');
             }
-            $compressed = stream_get_contents($handle);
-            if ($compressed === false) {
-                throw new DomainFailure(Outcome::Unavailable, 'blob_io_failed');
+            $ctx = @zstd_uncompress_init();
+            if ($ctx === false || $ctx === null) {
+                throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
             }
-            $raw = @zstd_uncompress($compressed);
-            if (!is_string($raw) || strlen($raw) !== $expectedLength || !hash_equals($expectedDigest, hash('sha256', $raw))) {
+            $hash = hash_init('sha256');
+            $total = 0;
+            while (!feof($handle)) {
+                $chunk = @fread($handle, BlobCompressionCodec::CHUNK_BYTES);
+                if ($chunk === false) {
+                    throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+                }
+                if ($chunk === '') {
+                    if (!feof($handle)) {
+                        throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+                    }
+                    break;
+                }
+                $decoded = @zstd_uncompress_add($ctx, $chunk);
+                if (!is_string($decoded)) {
+                    throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+                }
+                if ($decoded !== '') {
+                    $total += strlen($decoded);
+                    if ($total > $expectedLength) {
+                        throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+                    }
+                    hash_update($hash, $decoded);
+                }
+            }
+            if ($total !== $expectedLength || !hash_equals($expectedDigest, hash_final($hash))) {
                 throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
             }
         }
@@ -153,6 +179,8 @@ final class VerifiedStream implements ReadableStream
             @stream_filter_remove($this->filter);
             $this->filter = null;
         }
+        $this->zstdContext = null;
+        $this->zstdBuffer = '';
         if (fseek($this->handle, BlobCompressionCodec::HEADER_BYTES) !== 0) {
             throw new DomainFailure(Outcome::Unavailable, 'blob_io_failed');
         }
@@ -162,6 +190,18 @@ final class VerifiedStream implements ReadableStream
                 throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
             }
             $this->filter = $filter;
+            return;
+        }
+        if ($codec === BlobCompressionCodec::Zstd) {
+            $codec->assertAvailable();
+            if (!function_exists('zstd_uncompress_init') || !function_exists('zstd_uncompress_add')) {
+                throw new DomainFailure(Outcome::Unavailable, 'missing_extension_zstd');
+            }
+            $ctx = @zstd_uncompress_init();
+            if ($ctx === false || $ctx === null) {
+                throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+            }
+            $this->zstdContext = $ctx;
         }
     }
 
@@ -170,11 +210,12 @@ final class VerifiedStream implements ReadableStream
         if ($this->closed || $maxBytes < 1) {
             throw new \InvalidArgumentException('Open bounded stream required');
         }
+        $limit = max(1, min(BlobCompressionCodec::CHUNK_BYTES, $maxBytes));
         if ($this->codec === BlobCompressionCodec::None) {
             // Verify before exposing any buffer, including after the object changed since open.
             $this->fs->verify($this->handle, $this->ref, $this->maxBytes);
             ($this->authorize)($this->ref);
-            $chunk = fread($this->handle, max(1, min(BlobCompressionCodec::CHUNK_BYTES, $maxBytes)));
+            $chunk = fread($this->handle, $limit);
             if ($chunk === false) {
                 throw new DomainFailure(Outcome::Unavailable, 'blob_io_failed');
             }
@@ -182,17 +223,57 @@ final class VerifiedStream implements ReadableStream
         }
 
         ($this->authorize)($this->ref);
-        $chunk = @fread($this->handle, max(1, min(BlobCompressionCodec::CHUNK_BYTES, $maxBytes)));
-        if ($chunk === false) {
-            $this->close();
-            throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+        if ($this->codec === BlobCompressionCodec::Zstd) {
+            if (!function_exists('zstd_uncompress_add')) {
+                $this->close();
+                throw new DomainFailure(Outcome::Unavailable, 'missing_extension_zstd');
+            }
+            while (strlen($this->zstdBuffer) < $limit && !feof($this->handle)) {
+                $compressed = @fread($this->handle, BlobCompressionCodec::CHUNK_BYTES);
+                if ($compressed === false) {
+                    $this->close();
+                    throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+                }
+                if ($compressed === '') {
+                    if (!feof($this->handle)) {
+                        $this->close();
+                        throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+                    }
+                    break;
+                }
+                $decoded = @zstd_uncompress_add($this->zstdContext, $compressed);
+                if (!is_string($decoded)) {
+                    $this->close();
+                    throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+                }
+                $this->zstdBuffer .= $decoded;
+                if ($this->uncompressedRead + strlen($this->zstdBuffer) > $this->expectedLength) {
+                    $this->close();
+                    throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+                }
+            }
+            $chunk = substr($this->zstdBuffer, 0, $limit);
+            $this->zstdBuffer = substr($this->zstdBuffer, strlen($chunk));
+        } else {
+            $chunk = @fread($this->handle, $limit);
+            if ($chunk === false) {
+                $this->close();
+                throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+            }
         }
+
         $this->uncompressedRead += strlen($chunk);
         if ($this->uncompressedRead > $this->expectedLength) {
             $this->close();
             throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
         }
-        if ($chunk === '' || $this->uncompressedRead >= $this->expectedLength) {
+        if ($chunk === '') {
+            if ($this->uncompressedRead < $this->expectedLength) {
+                $this->close();
+                throw new DomainFailure(Outcome::Incompatible, 'digest_mismatch');
+            }
+            $this->streamEof = true;
+        } elseif ($this->uncompressedRead >= $this->expectedLength) {
             $this->streamEof = true;
         }
 
@@ -207,6 +288,9 @@ final class VerifiedStream implements ReadableStream
         if ($this->codec !== BlobCompressionCodec::None && $this->uncompressedRead >= $this->expectedLength) {
             return true;
         }
+        if ($this->codec === BlobCompressionCodec::Zstd && $this->zstdBuffer !== '') {
+            return false;
+        }
 
         return feof($this->handle);
     }
@@ -218,6 +302,8 @@ final class VerifiedStream implements ReadableStream
                 @stream_filter_remove($this->filter);
                 $this->filter = null;
             }
+            $this->zstdContext = null;
+            $this->zstdBuffer = '';
             fclose($this->handle);
             $this->closed = true;
         }

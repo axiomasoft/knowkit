@@ -16,7 +16,7 @@ final readonly class SearchPolicy
         string $filterCapability = 'sql-prefilter',
         public string $iterativeScan = 'off',
         public int $maxScanTuples = 20000,
-        public int $oversampleFactor = 4,
+        public int $oversampleFactor = 10,
     ) {
         if ($filterCapability !== 'sql-prefilter') {
             throw new D\DomainFailure(D\Outcome::Incompatible, 'prefilter_unsupported');

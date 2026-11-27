@@ -10,8 +10,10 @@ use KnowKit\Adapter\Lexical\Bm25ProfileContract;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\Jcs;
 use KnowKit\PgVector\Domain\DocumentVectors;
+use KnowKit\PgVector\Domain\QueryVector;
 use KnowKit\PgVector\Domain\SearchPolicy;
 use KnowKit\PgVector\Domain\VectorPayload;
+use KnowKit\PgVector\Vector\PdoVectorIndex;
 use KnowKit\PgVector\Vector\PdoVectorSearch;
 use KnowKit\PgVector\Vector\PdoVectorWriter;
 use KnowKit\PgVector\Vector\SearchSql;
@@ -64,18 +66,20 @@ final class CompressedVectorTest extends TestCase
             Fixture::run(function (Fixture $f) use ($format): void {
                 $db = $f->lexical->catalog->db;
                 $space = Fixture::space(['storageFormat' => $format]);
+                $profile = SearchSql::profileForFormat($format);
                 $baseManifest = $f->candidates['1:501']->manifest;
                 $genId = new D\GenerationId(Fixture::id(503));
                 $manifest503 = new D\IndexManifest(
                     $baseManifest->toWire()
                         ->with('generationId', $genId->value)
+                        ->with('profile', $baseManifest->toWire()->get('profile')->with('id', $profile))
                         ->with('embeddingSpaceDigest', $space->digest()->value),
                     \KnowKit\Tests\Contract\Ports\PortFixture::validator(),
                 );
                 $view503 = $f->backend($space)->view($manifest503);
                 $db->execute("INSERT INTO index_generations (tenant_id,id,kb_id,profile_id,state,manifest_json,manifest_digest,embedding_space_digest)
                     VALUES (?,?,?,?,'building',?,?,?)",
-                    [Fixture::id(1), $genId->value, Fixture::id(100), 'pgvector-l2-v1', $manifest503->canonical(), $view503->candidate->digest->value, $space->digest()->value]);
+                    [Fixture::id(1), $genId->value, Fixture::id(100), $profile, $manifest503->canonical(), $view503->candidate->digest->value, $space->digest()->value]);
                 $writer = new PdoVectorWriter(
                     $db,
                     $f->lexical->catalog->tx,
@@ -100,13 +104,13 @@ final class CompressedVectorTest extends TestCase
                 $db->execute("INSERT INTO publication_snapshots (tenant_id,id,kb_id,manifest_digest,created_at) VALUES (?,?,?,?,clock_timestamp())",
                     [Fixture::id(1), $snapId->value, Fixture::id(100), str_repeat('b', 64)]);
                 $db->execute("INSERT INTO snapshot_generations VALUES (?,?,?,?,?)",
-                    [Fixture::id(1), $snapId->value, Fixture::id(100), $genId->value, 'pgvector-l2-v1']);
+                    [Fixture::id(1), $snapId->value, Fixture::id(100), $genId->value, $profile]);
                 foreach (['allowed', 'tie', 'denied'] as $name) {
                     $r = $f->lexical->sets[$name]->chunkSet->revisionRef;
                     $db->execute("INSERT INTO snapshot_memberships VALUES (?,?,?,?,?,?,?,?,?,?)",
                         [Fixture::id(1), $f->lexical->catalog->ids->next()->value, $snapId->value, Fixture::id(100),
                             $r->sourceRef->sourceId->value, $r->sourceRef->sourceVersionId->value, $r->documentRevisionId->value,
-                            $f->lexical->sets[$name]->chunkSet->chunkSetId->value, $genId->value, 'pgvector-l2-v1']);
+                            $f->lexical->sets[$name]->chunkSet->chunkSetId->value, $genId->value, $profile]);
                 }
                 $db->execute("UPDATE publication_snapshots SET sealed=true WHERE tenant_id=? AND id=?", [Fixture::id(1), $snapId->value]);
 
@@ -140,6 +144,111 @@ final class CompressedVectorTest extends TestCase
                 $returnedIds = array_map(static fn (D\Candidate $c): string => $c->ref->chunkId->value, $result->candidates->candidates);
                 $deniedId = $f->lexical->sets['denied']->chunkSet->chunks[0]->ref->chunkId->value;
                 self::assertNotContains($deniedId, $returnedIds);
+            });
+        }
+    }
+
+    public function testHalfvecAndBinaryQuantizedEndToEndIndexReloadAndSearch(): void
+    {
+        foreach (['halfvec', 'binary_quantized'] as $format) {
+            Fixture::run(function (Fixture $f) use ($format): void {
+                $db = $f->lexical->catalog->db;
+                $tx = $f->lexical->catalog->tx;
+                $space = Fixture::space(['storageFormat' => $format]);
+                $profile = SearchSql::profileForFormat($format);
+                $baseManifest = $f->candidates['1:501']->manifest;
+                $genId = new D\GenerationId(Fixture::id(504));
+                $manifest504 = new D\IndexManifest(
+                    $baseManifest->toWire()
+                        ->with('generationId', $genId->value)
+                        ->with('profile', $baseManifest->toWire()->get('profile')->with('id', $profile))
+                        ->with('embeddingSpaceDigest', $space->digest()->value),
+                    \KnowKit\Tests\Contract\Ports\PortFixture::validator(),
+                );
+                $backend = $f->backend($space);
+                $view504 = $backend->view($manifest504);
+                $db->execute("INSERT INTO index_generations (tenant_id,id,kb_id,profile_id,state,manifest_json,manifest_digest,embedding_space_digest)
+                    VALUES (?,?,?,?,'building',?,?,?)",
+                    [Fixture::id(1), $genId->value, Fixture::id(100), $profile, $manifest504->canonical(), $view504->candidate->digest->value, $space->digest()->value]);
+
+                $writer = new PdoVectorWriter(
+                    $db,
+                    $tx,
+                    $backend,
+                    new DocumentVectors($space, $space->documentRole, $this->vectors($f, $space), $this->refs($f)),
+                    $f->lexical->catalog->ids,
+                );
+                $index = new PdoVectorIndex(
+                    $db,
+                    $tx,
+                    \KnowKit\Tests\Contract\Ports\PortFixture::validator(),
+                    $backend,
+                    $writer,
+                    static fn (D\AuthorizedSearchScope $scope, D\Query $query, D\EmbeddingSpace $s): QueryVector =>
+                        QueryVector::bind(new D\Vector([0.0, 0.0, 1.0], $s), $s->queryRole, $scope, $query),
+                    new SearchPolicy('authorized-hnsw', 40, 'exact', 'sql-prefilter', 'strict_order', 20000),
+                );
+
+                $tx->run(function () use ($tx, $index, $genId, $f, $space): void {
+                    $tx->lockTenant(new D\TenantId(Fixture::id(1)), D\LockMode::Update);
+                    foreach (['allowed', 'tie', 'denied'] as $name) {
+                        $index->index($genId, $f->lexical->sets[$name]->chunkSet, $space);
+                    }
+                });
+
+                $reloaded = $backend->reload($manifest504);
+                self::assertSame($profile, $reloaded->profile->value);
+                self::assertSame($space->digest()->value, $reloaded->embeddingSpaceDigest?->value);
+                self::assertCount(3, $reloaded->chunks);
+
+                $snapId = new D\SnapshotId(Fixture::id(513));
+                $db->execute("UPDATE index_generations SET state='active' WHERE tenant_id=? AND id=?", [Fixture::id(1), $genId->value]);
+                $db->execute("INSERT INTO publication_snapshots (tenant_id,id,kb_id,manifest_digest,created_at) VALUES (?,?,?,?,clock_timestamp())",
+                    [Fixture::id(1), $snapId->value, Fixture::id(100), str_repeat('b', 64)]);
+                $db->execute("INSERT INTO snapshot_generations VALUES (?,?,?,?,?)",
+                    [Fixture::id(1), $snapId->value, Fixture::id(100), $genId->value, $profile]);
+                foreach (['allowed', 'tie', 'denied'] as $name) {
+                    $r = $f->lexical->sets[$name]->chunkSet->revisionRef;
+                    $db->execute("INSERT INTO snapshot_memberships VALUES (?,?,?,?,?,?,?,?,?,?)",
+                        [Fixture::id(1), $f->lexical->catalog->ids->next()->value, $snapId->value, Fixture::id(100),
+                            $r->sourceRef->sourceId->value, $r->sourceRef->sourceVersionId->value, $r->documentRevisionId->value,
+                            $f->lexical->sets[$name]->chunkSet->chunkSetId->value, $genId->value, $profile]);
+                }
+                $db->execute("UPDATE publication_snapshots SET sealed=true WHERE tenant_id=? AND id=?", [Fixture::id(1), $snapId->value]);
+
+                $eligible = array_map(
+                    static fn (string $name): D\SourceVersionId => $f->lexical->sets[$name]->chunkSet->revisionRef->sourceRef->sourceVersionId,
+                    ['allowed', 'tie'],
+                );
+                $catScope = $f->lexical->catalog->scope(1);
+                $grant = new D\QueryGrant(new \KnowKit\Domain\Contract\JsonObject([
+                    'allowedCollectionIds' => [],
+                    'allowedSourceVersionIds' => array_map(static fn (D\SourceVersionId $id): string => $id->value, $eligible),
+                    'grantEpoch' => $catScope->policyEpoch->value,
+                    'policyBindingDigest' => str_repeat('c', 64),
+                    'expiresAt' => '2026-11-06T12:00:30Z',
+                ]), \KnowKit\Tests\Contract\Ports\PortFixture::validator());
+                $scope = D\AuthorizedSearchScope::materialize(
+                    $catScope,
+                    $grant,
+                    new D\SnapshotRef($catScope->tenantId, $catScope->kbId, $snapId, new D\Fingerprint(str_repeat('b', 64))),
+                    $genId,
+                    $eligible,
+                    new D\UtcInstant('2026-11-06T12:00:00Z'),
+                    $space->digest(),
+                );
+
+                $deniedId = $f->lexical->sets['denied']->chunkSet->chunks[0]->ref->chunkId->value;
+                $candidates = $index->search($scope, new D\Query('q'), 2, $space);
+                self::assertCount(2, $candidates->candidates);
+                $returnedIds = array_map(static fn (D\Candidate $c): string => $c->ref->chunkId->value, $candidates->candidates);
+                self::assertNotContains($deniedId, $returnedIds);
+
+                $diag = $index->searchWithDiagnostics($scope, new D\Query('q'), 2, $space);
+                self::assertSame(2, $diag->permittedCount);
+                self::assertCount(2, $diag->candidates->candidates);
+                $diagIds = array_map(static fn (D\Candidate $c): string => $c->ref->chunkId->value, $diag->candidates->candidates);
+                self::assertNotContains($deniedId, $diagIds);
             });
         }
     }
