@@ -1,0 +1,48 @@
+{
+  "name": "knowkit/distill",
+  "description": "Optional bounded document distillation jobs, @@ATOM_N@@ integrity guard, and egress-gated model transport",
+  "type": "library",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.3",
+    "knowkit/core": "dev-main",
+    "psr/http-client": "^1.0",
+    "psr/http-factory": "^1.1"
+  },
+  "require-dev": {
+    "nyholm/psr7": "^1.8",
+    "phpunit/phpunit": "^11.5"
+  },
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../core",
+      "options": {
+        "symlink": false,
+        "versions": {
+          "knowkit/core": "dev-main"
+        }
+      }
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "KnowKit\\Distill\\": "src/"
+    }
+  },
+  "config": {
+    "allow-plugins": false,
+    "sort-packages": true,
+    "platform": {
+      "php": "8.3.0"
+    }
+  },
+  "archive": {
+    "exclude": [
+      "/tests",
+      "/vendor"
+    ]
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
