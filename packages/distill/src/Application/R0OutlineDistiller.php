@@ -70,6 +70,7 @@ final readonly class R0OutlineDistiller
 
         /** @var array<string, array{title: string, terms: list<string>}> $updates */
         $updates = [];
+        $decodedOutputBytes = 0;
         foreach ($decoded->get('nodes') as $item) {
             if (!$item instanceof JsonObject) {
                 throw new DomainFailure(Outcome::Incompatible, 'invalid_r0_outline_output');
@@ -80,11 +81,13 @@ final readonly class R0OutlineDistiller
             if (!is_string($nodeId) || !is_string($title) || !is_array($terms)) {
                 throw new DomainFailure(Outcome::Incompatible, 'invalid_r0_outline_output');
             }
+            $decodedOutputBytes += strlen($title);
             $cleanTerms = [];
             foreach ($terms as $term) {
                 if (!is_string($term) || trim($term) === '') {
                     throw new DomainFailure(Outcome::Incompatible, 'invalid_r0_outline_output');
                 }
+                $decodedOutputBytes += strlen($term);
                 if (!in_array($term, $cleanTerms, true)) {
                     $cleanTerms[] = $term;
                 }
@@ -96,20 +99,33 @@ final readonly class R0OutlineDistiller
         }
 
         $enrichedNodes = [];
+        $enrichedOutputBytes = 0;
         foreach ($base->nodes as $node) {
             $update = $updates[$node->nodeId->value] ?? null;
+            $title = $update !== null ? $update['title'] : $node->title;
+            $terms = $update !== null ? $update['terms'] : $node->terms;
+            $enrichedOutputBytes += strlen($title);
+            foreach ($terms as $term) {
+                $enrichedOutputBytes += strlen($term);
+            }
             $enrichedNodes[] = new NavigationTreeNode(
                 nodeId: $node->nodeId,
                 parentId: $node->parentId,
-                title: $update !== null ? $update['title'] : $node->title,
+                title: $title,
                 depth: $node->depth,
                 unitRange: $node->unitRange,
                 formulaCount: $node->formulaCount,
                 codeCount: $node->codeCount,
                 tableCount: $node->tableCount,
-                terms: $update !== null ? $update['terms'] : $node->terms,
+                terms: $terms,
             );
         }
+
+        R1DigestDistiller::assertWithinRatioCeiling(
+            max($decodedOutputBytes, $enrichedOutputBytes),
+            $base->sourceByteLength,
+            $profile->r0MaxRatioBps,
+        );
 
         return new NavigationTreeArtifact(
             documentRevisionRef: $base->documentRevisionRef,

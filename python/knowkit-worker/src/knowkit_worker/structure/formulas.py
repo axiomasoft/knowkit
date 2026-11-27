@@ -45,6 +45,34 @@ class FormulaMetadata:
         return cls(confidence, representation, tuple(regions))
 
 
+def _replace_single_span_text(ir: dict, span: dict, new_text: str) -> None:
+    """Update the backing IR unit text, digest, and span byte bounds for a single-span formula."""
+    kind = span["kind"]
+    key = "pageId" if kind == "page" else "segmentId"
+    unit_id = span[key]
+    units = ir["pages"] if kind == "page" else ir["segments"]
+    unit = next(u for u in units if u[key] == unit_id)
+    old_raw = unit["text"].encode("utf-8")
+    old_lo, old_hi = span["byteStart"], span["byteEnd"]
+    new_span_raw = new_text.encode("utf-8")
+    new_raw = old_raw[:old_lo] + new_span_raw + old_raw[old_hi:]
+    unit["text"] = new_raw.decode("utf-8")
+    unit["textDigest"] = sha256(new_raw)
+    delta = len(new_span_raw) - (old_hi - old_lo)
+    span["byteEnd"] = old_lo + len(new_span_raw)
+    if delta == 0:
+        return
+    for other_block in ir["blocks"]:
+        for other_span in other_block["spans"]:
+            if other_span is span or other_span["kind"] != kind or other_span[key] != unit_id:
+                continue
+            if other_span["byteStart"] >= old_hi:
+                other_span["byteStart"] += delta
+                other_span["byteEnd"] += delta
+            elif other_span["byteStart"] <= old_lo and other_span["byteEnd"] >= old_hi:
+                other_span["byteEnd"] += delta
+
+
 def retain_formula(
     ir: dict,
     block_id: str,
@@ -78,7 +106,9 @@ def retain_formula(
             retry_check = verify_latex_formula(retried_text)
             if retry_check.valid:
                 verify_result = retry_check
-                text = retried_text
+                if len(regions) == 1:
+                    _replace_single_span_text(ir, regions[0], retried_text)
+                    text = retried_text
                 if retried_confidence is not None:
                     effective_confidence = retried_confidence
         if not verify_result.valid:

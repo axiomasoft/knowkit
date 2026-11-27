@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace KnowKit\Tests\Distill;
 
 use KnowKit\Application\Access\{AccessContext, HostIdentity, PolicyChecks, ReceiptFactory};
-use KnowKit\Distill\Application\{ConceptEdgeExtractor, DistillationOrchestrator, R0OutlineDistiller, R2PropositionDistiller};
+use KnowKit\Distill\Application\{ConceptEdgeExtractor, DistillationOrchestrator, R0OutlineDistiller, R1DigestDistiller, R2PropositionDistiller};
 use KnowKit\Distill\Domain\{DistillJobKinds, DistillOutput, DistillProfile, DistillRequest};
 use KnowKit\Distill\Testing\ScriptedDistillTransport;
 use KnowKit\Domain\Access\PolicyContext;
@@ -320,5 +320,121 @@ final class DistillContractsTest extends TestCase
         $profile = new DistillProfile('openai', 'acc1', 'us-east-1', 'gpt-test', 'cl100k', production: false);
 
         return [$validator, $policy, $context, $binding, $revision, $ir, $profile];
+    }
+
+    public function testDistillersEnforceIntegerRatioCeilingsAboveSmallDocumentFloor(): void
+    {
+        [$validator, $policy, $context, $binding, $revision, , $profile] = $this->fixture();
+        $tenant = $revision->sourceRef->tenantId;
+        $prose = str_repeat('a', 5000);
+        $formula = '\\int_0^1 ' . str_repeat('x+', 3000) . 'x\\,dx';
+        $irWire = StrictJson::decode((string) json_encode([
+            'schemaVersion' => 'ir-1.0',
+            'tenantId' => $tenant->value,
+            'sourceVersionId' => $revision->sourceRef->sourceVersionId->value,
+            'parserSignature' => ['name' => 'pdf-parser', 'version' => '1.0.0', 'profileDigest' => str_repeat('c', 64)],
+            'pages' => [],
+            'segments' => [
+                ['segmentId' => 'seg1', 'text' => $prose, 'textDigest' => hash('sha256', $prose), 'status' => 'ok'],
+                ['segmentId' => 'seg2', 'text' => $formula, 'textDigest' => hash('sha256', $formula), 'status' => 'ok'],
+            ],
+            'blocks' => [
+                [
+                    'blockId' => 'b1',
+                    'kind' => 'text',
+                    'parentId' => null,
+                    'order' => 0,
+                    'origin' => 'source',
+                    'spans' => [['kind' => 'segment', 'segmentId' => 'seg1', 'blockId' => 'b1', 'byteStart' => 0, 'byteEnd' => strlen($prose)]],
+                    'provenance' => ['kind' => 'verbatim', 'supportingRefs' => []],
+                ],
+                [
+                    'blockId' => 'b2',
+                    'kind' => 'formula',
+                    'parentId' => null,
+                    'order' => 1,
+                    'origin' => 'source',
+                    'spans' => [['kind' => 'segment', 'segmentId' => 'seg2', 'blockId' => 'b2', 'byteStart' => 0, 'byteEnd' => strlen($formula)]],
+                    'provenance' => ['kind' => 'verbatim', 'supportingRefs' => []],
+                ],
+            ],
+            'assets' => [],
+            'coverage' => [
+                'state' => 'complete',
+                'counts' => ['expected' => 2, 'processed' => 2, 'empty' => 0, 'failed' => 0, 'skipped' => 0],
+                'missingFeatures' => [],
+                'diagnostics' => [],
+            ],
+        ], JSON_THROW_ON_ERROR));
+        self::assertInstanceOf(JsonObject::class, $irWire);
+        $ir = new IrDocument($irWire, $validator);
+
+        $nonce = R1DigestDistiller::selectCollisionFreeNonce(
+            $revision,
+            (new \KnowKit\Application\Artifacts\AtomicSpanGuard())->extractRequiredAtoms($ir),
+            $prose . "\n" . $formula,
+        );
+        $marker = R1DigestDistiller::markerFor($nonce, 0);
+
+        // R0: sourceByteLength ~11005, r0MaxRatioBps=200 => max 220 bytes. 300 bytes must fail.
+        $r0TooLarge = json_encode([
+            'nodes' => [['nodeId' => 'n1', 'title' => str_repeat('t', 300), 'terms' => ['x']]],
+        ], JSON_THROW_ON_ERROR);
+        $r0Transport = new ScriptedDistillTransport($profile, [new DistillOutput(true, $r0TooLarge, 50, 20)]);
+        try {
+            (new R0OutlineDistiller($policy, $validator, $r0Transport))->distill(
+                $context, $ir, $revision, $profile, static fn (): JsonObject => $binding,
+            );
+            self::fail('Expected R0 limit_exceeded');
+        } catch (DomainFailure $e) {
+            self::assertSame(Outcome::Incompatible, $e->outcome);
+            self::assertSame('limit_exceeded', $e->errorCode);
+        }
+
+        // R1: prose=5000, r1MaxRatioBps=1000 => max 500 non-atom bytes.
+        // 100 non-atom bytes + large verbatim atom must pass; 501 non-atom bytes must fail.
+        $r1Ok = json_encode([
+            'blocks' => [
+                ['blockId' => 'b1', 'text' => str_repeat('d', 100)],
+                ['blockId' => 'b2', 'text' => $marker],
+            ],
+        ], JSON_THROW_ON_ERROR);
+        $r1TooLarge = json_encode([
+            'blocks' => [
+                ['blockId' => 'b1', 'text' => str_repeat('d', 501)],
+                ['blockId' => 'b2', 'text' => $marker],
+            ],
+        ], JSON_THROW_ON_ERROR);
+        $r1Transport = new ScriptedDistillTransport($profile, [
+            new DistillOutput(true, $r1Ok, 50, 20),
+            new DistillOutput(true, $r1TooLarge, 50, 20),
+        ]);
+        $r1Distiller = new R1DigestDistiller($policy, $validator, $r1Transport);
+        $r1Artifact = $r1Distiller->distill($context, $ir, $revision, $profile, static fn (): JsonObject => $binding);
+        self::assertCount(2, $r1Artifact->blocks);
+        try {
+            $r1Distiller->distill($context, $ir, $revision, $profile, static fn (): JsonObject => $binding);
+            self::fail('Expected R1 limit_exceeded');
+        } catch (DomainFailure $e) {
+            self::assertSame(Outcome::Incompatible, $e->outcome);
+            self::assertSame('limit_exceeded', $e->errorCode);
+        }
+
+        // R2: prose=5000, r2MaxRatioBps=2200 => max 1100 non-atom bytes. 1101 bytes must fail.
+        $r2TooLarge = json_encode([
+            'propositions' => [
+                ['propositionId' => 'p1', 'statement' => str_repeat('p', 1101) . ' ' . $marker, 'blockIds' => ['b1', 'b2']],
+            ],
+        ], JSON_THROW_ON_ERROR);
+        $r2Transport = new ScriptedDistillTransport($profile, [new DistillOutput(true, $r2TooLarge, 50, 20)]);
+        try {
+            (new R2PropositionDistiller($policy, $validator, $r2Transport))->distill(
+                $context, $ir, $revision, $profile, static fn (): JsonObject => $binding,
+            );
+            self::fail('Expected R2 limit_exceeded');
+        } catch (DomainFailure $e) {
+            self::assertSame(Outcome::Incompatible, $e->outcome);
+            self::assertSame('limit_exceeded', $e->errorCode);
+        }
     }
 }

@@ -129,6 +129,12 @@ def _check_brace_depth(text: str) -> str | None:
                     return "formula_too_deep"
                 stack.append("left")
                 i += 5
+                while i < n and text[i].isspace():
+                    i += 1
+                if i < n and text[i] == "\\" and i + 1 < n and text[i + 1] in "{}()[]|":
+                    i += 2
+                elif i < n and text[i] in "()[]|.":
+                    i += 1
                 continue
             if text.startswith(r"\right", i) and (i + 6 == n or not text[i + 6].isalpha()):
                 if not stack or stack[-1] != "left":
@@ -136,6 +142,12 @@ def _check_brace_depth(text: str) -> str | None:
                 stack.pop()
                 depth -= 1
                 i += 6
+                while i < n and text[i].isspace():
+                    i += 1
+                if i < n and text[i] == "\\" and i + 1 < n and text[i + 1] in "{}()[]|":
+                    i += 2
+                elif i < n and text[i] in "()[]|.":
+                    i += 1
                 continue
             i += 1
             continue
