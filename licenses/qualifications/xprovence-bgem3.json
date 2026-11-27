@@ -1,0 +1,61 @@
+{
+  "id": "xprovence-bgem3",
+  "version": "naver/xprovence-reranker-bgem3-v1",
+  "sourceUrl": "https://huggingface.co/naver/xprovence-reranker-bgem3-v1",
+  "sourceRevision": "naver/xprovence-reranker-bgem3-v1",
+  "codeLicense": "CC-BY-NC-ND-4.0",
+  "licenseFileDigest": null,
+  "notices": [],
+  "transitiveComponents": [],
+  "modelAssets": [
+    {
+      "id": "naver/xprovence-reranker-bgem3-v1",
+      "version": "v1",
+      "sha256": null,
+      "license": "CC-BY-NC-ND-4.0",
+      "source": "https://huggingface.co/naver/xprovence-reranker-bgem3-v1",
+      "sourceRevision": "v1"
+    },
+    {
+      "id": "naver/xprovence-reranker-bgem3-v2",
+      "version": "v2",
+      "sha256": null,
+      "license": "CC-BY-NC-ND-4.0",
+      "source": "https://huggingface.co/naver/xprovence-reranker-bgem3-v2",
+      "sourceRevision": "v2"
+    }
+  ],
+  "datasets": [],
+  "networkAtBuild": {
+    "required": null,
+    "destinations": [],
+    "reason": "Blocked by CC BY-NC-ND 4.0 non-commercial and no-derivatives license; never download or bundle."
+  },
+  "networkAtRuntime": {
+    "required": null,
+    "destinations": [],
+    "reason": "Blocked by CC BY-NC-ND 4.0 non-commercial license; runtime use prohibited."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": false,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "commercial-and-derivative-rights",
+        "fulfilled": false,
+        "evidence": []
+      }
+    ],
+    "notes": [
+      "CC BY-NC-ND 4.0 prohibits commercial use and derivative works; permanently blocked for KnowKit."
+    ]
+  },
+  "enabledProfiles": [],
+  "verdict": "blocked",
+  "reason": "CC BY-NC-ND 4.0 non-commercial",
+  "checkedAt": "2026-11-27",
+  "qualificationGaps": [
+    "CC BY-NC-ND 4.0 non-commercial restriction incompatible with KnowKit commercial deployment",
+    "No-Derivatives restriction incompatible with adapter integration and distillation"
+  ]
+}

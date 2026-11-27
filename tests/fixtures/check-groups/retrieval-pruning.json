@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "retrieval:pruning",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Extractive context pruning: SubspanProjector UTF-8 & SpanAssembler roundtrip, AtomicByteRange protection, DeterministicSentencePruner, and PolicyCheckedContextPruner egress gate.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "retrieval-pruning:out-of-bounds",
+    "retrieval-pruning:mid-utf8",
+    "retrieval-pruning:overlap-or-unsorted",
+    "retrieval-pruning:span-roundtrip",
+    "retrieval-pruning:canonical-buffer-integration",
+    "retrieval-pruning:atomic-strict-rejection",
+    "retrieval-pruning:atomic-non-strict-expansion",
+    "retrieval-pruning:deterministic-pruner-reduction",
+    "retrieval-pruning:deterministic-pruner-coreference",
+    "retrieval-pruning:egress-deny-all",
+    "retrieval-pruning:egress-allow-manifest"
+  ],
+  "testCaseMap": {
+    "retrieval-pruning:out-of-bounds": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\SubspanProjectorTest::testRejectsOutOfBoundsSubspan"
+    ],
+    "retrieval-pruning:mid-utf8": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\SubspanProjectorTest::testRejectsMidUtf8CyrillicAndEmojiBoundaries"
+    ],
+    "retrieval-pruning:overlap-or-unsorted": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\SubspanProjectorTest::testRejectsOverlappingAndUnsortedSubspans"
+    ],
+    "retrieval-pruning:span-roundtrip": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\SubspanProjectorTest::testRoundtripsMultiSpanSubspansThroughSpanAssembler"
+    ],
+    "retrieval-pruning:canonical-buffer-integration": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\SubspanProjectorTest::testCanonicalBufferIntegratesOptionalContextPruner"
+    ],
+    "retrieval-pruning:atomic-strict-rejection": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\AtomicProtectionTest::testStrictModeRejectsPartialFormulaCut"
+    ],
+    "retrieval-pruning:atomic-non-strict-expansion": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\AtomicProtectionTest::testNonStrictModeExpandsAtomWithinMaxKeptBytesAndRejectsWhenExceeded"
+    ],
+    "retrieval-pruning:deterministic-pruner-reduction": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\DeterministicPrunerTest::testPrunesIrrelevantSentencesWhileKeepingContextAndFormulaAtom"
+    ],
+    "retrieval-pruning:deterministic-pruner-coreference": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\DeterministicPrunerTest::testKeepsPrecedingSentenceForAnaphoricCoreference"
+    ],
+    "retrieval-pruning:egress-deny-all": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\PrunerEgressTest::testDenyAllBlocksBeforeAnyTransportCall"
+    ],
+    "retrieval-pruning:egress-allow-manifest": [
+      "KnowKit\\Tests\\Retrieval\\Pruning\\PrunerEgressTest::testAllowForwardsQueryAndEvidenceManifestAndCallsInnerPruner"
+    ]
+  }
+}

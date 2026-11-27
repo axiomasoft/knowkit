@@ -5,13 +5,19 @@ declare(strict_types=1);
 namespace KnowKit\Application\Retrieval\Disclosure;
 
 use KnowKit\Application\Chunking\CanonicalMap;
+use KnowKit\Application\Retrieval\Pruning\SubspanProjector;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Artifacts\DerivedArtifactRef;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Layers\DisclosureMode;
 use KnowKit\Domain\Layers\ResolutionTier;
+use KnowKit\Domain\Pruning\AtomicByteRange;
+use KnowKit\Domain\Pruning\PrunableUnit;
+use KnowKit\Domain\Pruning\PrunedSelection;
+use KnowKit\Domain\Pruning\PruningPolicy;
 use KnowKit\Port\BlobStore;
 use KnowKit\Port\CanonicalDocuments;
+use KnowKit\Port\ContextPruner;
 use KnowKit\Port\IdGenerator;
 use KnowKit\Port\ResolutionStore;
 use KnowKit\Port\SelectionCatalog;
@@ -29,6 +35,7 @@ final readonly class CanonicalBuffer
         private ?Tokenizer $tokenizer = null,
         private ?ResolutionStore $resolutions = null,
         private ?BlobStore $blobs = null,
+        private ?ContextPruner $pruner = null,
     ) {}
 
     public function preload(
@@ -80,7 +87,162 @@ final readonly class CanonicalBuffer
         }
         $this->requireLimits($units, $record->query->limits);
 
+        $policyWire = $request->pruningPolicy();
+        if ($policyWire !== null && $this->pruner !== null) {
+            return $this->pruneVerbatim($record, $refs, $units, $sets, $documents, $maps, PruningPolicy::fromWire($policyWire));
+        }
+
         return new D\DisclosureBuffer($fragments, $refs, $bytes);
+    }
+
+    /**
+     * @param list<D\ChunkRef> $refs
+     * @param list<D\SelectionUnit> $units
+     * @param array<string, D\ChunkingResult> $sets
+     * @param array<string, D\IrDocument> $documents
+     * @param array<string, CanonicalMap> $maps
+     */
+    private function pruneVerbatim(
+        D\SelectionRecord $record,
+        array $refs,
+        array $units,
+        array $sets,
+        array $documents,
+        array &$maps,
+        PruningPolicy $policy,
+    ): D\DisclosureBuffer {
+        $prunableUnits = [];
+        $atomMap = [];
+        foreach ($units as $index => $unit) {
+            $chunk = $unit->chunk;
+            $doc = $documents[$chunk->ref->revisionRef->irDigest->value];
+            $result = $sets[$chunk->ref->chunkSetId->value];
+            $meta = $result->metadata($chunk->ref->chunkId->value);
+            $map = $this->canonicalMap($chunk, $doc, $maps);
+            $atoms = $this->atomicRangesForChunk($chunk, $doc, $map, $meta->get('joiner'));
+            $atomMap[$index] = $atoms;
+            $prunableUnits[] = new PrunableUnit($chunk, $atoms);
+        }
+
+        $selections = $this->pruner?->prune($record->query, $prunableUnits, $policy) ?? [];
+        if (count($selections) !== count($units)) {
+            throw new D\DomainFailure(D\Outcome::Incompatible, 'invalid_pruned_subspan');
+        }
+
+        $projector = new SubspanProjector();
+        $fragments = [];
+        $bytes = 0;
+        foreach ($units as $index => $unit) {
+            $chunk = $unit->chunk;
+            $doc = $documents[$chunk->ref->revisionRef->irDigest->value];
+            $result = $sets[$chunk->ref->chunkSetId->value];
+            $meta = $result->metadata($chunk->ref->chunkId->value);
+            $map = $this->canonicalMap($chunk, $doc, $maps);
+            /** @var PrunedSelection $selection */
+            $selection = $selections[$index];
+            $fragment = $projector->project(
+                $chunk,
+                $doc,
+                $atomMap[$index],
+                $selection,
+                $map,
+                ' … ',
+                false,
+                $policy->maxKeptBytes,
+                $meta->get('joiner'),
+                $meta,
+                $this->ids->next(),
+            );
+            $fragments[] = $fragment;
+            $bytes += strlen((string) $fragment->get('text'));
+        }
+
+        return new D\DisclosureBuffer($fragments, $refs, $bytes);
+    }
+
+    /**
+     * @param array<string, CanonicalMap> $maps
+     */
+    private function canonicalMap(D\Chunk $chunk, D\IrDocument $document, array &$maps): CanonicalMap
+    {
+        $ref = $chunk->ref;
+        $source = $ref->revisionRef->sourceRef;
+        $parser = $ref->revisionRef->parserSignature;
+        $mapKey = implode("\0", [
+            $source->tenantId->value, $source->sourceId->value, $source->sourceVersionId->value, $source->sourceDigest->value,
+            $ref->revisionRef->documentRevisionId->value, $ref->revisionRef->irDigest->value,
+            $parser->name, $parser->version, $parser->profileDigest->value, $chunk->documentId->value,
+        ]);
+
+        return $maps[$mapKey] ??= new CanonicalMap($document, $ref->revisionRef, $chunk->documentId);
+    }
+
+    /**
+     * @return list<AtomicByteRange>
+     */
+    private function atomicRangesForChunk(
+        D\Chunk $chunk,
+        D\IrDocument $document,
+        CanonicalMap $map,
+        ?string $chunkJoiner,
+    ): array {
+        $atomicBlocks = [];
+        foreach ($document->toWire()->get('blocks') as $block) {
+            if (!$block instanceof JsonObject) {
+                continue;
+            }
+            $kind = (string) $block->get('kind');
+            $isAtomic = in_array($kind, ['formula', 'code', 'table'], true);
+            if (!$isAtomic && $block->has('metadata')) {
+                $meta = $block->get('metadata');
+                if ($meta instanceof JsonObject && $meta->has('atomic') && $meta->get('atomic') === true) {
+                    $isAtomic = true;
+                    $kind = 'atomic';
+                }
+            }
+            if ($isAtomic) {
+                $atomicBlocks[] = ['kind' => $kind, 'spans' => $block->get('spans')];
+            }
+        }
+        if ($atomicBlocks === []) {
+            return [];
+        }
+
+        $ranges = [];
+        $offset = 0;
+        $joinerLen = $chunkJoiner === null ? 0 : strlen($chunkJoiner);
+        foreach ($chunk->spans as $spanIndex => $span) {
+            $wire = $span->locator->toWire();
+            $unitKeyName = $wire->get('kind') === 'page' ? 'pageId' : 'segmentId';
+            $unitId = $wire->get($unitKeyName);
+            $spanStart = (int) $wire->get('byteStart');
+            $spanEnd = (int) $wire->get('byteEnd');
+            $partLen = strlen($map->assembler->assemble([$span], null));
+
+            foreach ($atomicBlocks as $block) {
+                foreach ($block['spans'] as $bSpan) {
+                    if (!$bSpan instanceof JsonObject) {
+                        continue;
+                    }
+                    if ($bSpan->get('kind') !== $wire->get('kind') || $bSpan->get($unitKeyName) !== $unitId) {
+                        continue;
+                    }
+                    $ovStart = max($spanStart, (int) $bSpan->get('byteStart'));
+                    $ovEnd = min($spanEnd, (int) $bSpan->get('byteEnd'));
+                    if ($ovStart < $ovEnd) {
+                        $ranges[] = new AtomicByteRange(
+                            $offset + ($ovStart - $spanStart),
+                            $offset + ($ovEnd - $spanStart),
+                            $block['kind'],
+                        );
+                    }
+                }
+            }
+
+            $offset += $partLen + ($spanIndex < count($chunk->spans) - 1 ? $joinerLen : 0);
+        }
+
+        return $ranges;
     }
 
     /**
