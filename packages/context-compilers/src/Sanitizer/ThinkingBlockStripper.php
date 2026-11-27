@@ -7,7 +7,8 @@ namespace KnowKit\ContextCompilers\Sanitizer;
 final readonly class ThinkingBlockStripper
 {
     private const PART_TYPES = ['thinking', 'redacted_thinking', 'reasoning'];
-    private const TAG_PATTERN = '#<(think|thinking|reasoning)\b[^>]*>.*?</\1\s*>#isu';
+    // An unclosed tag runs to the end of the turn. A closed tag removes only its body.
+    private const TAG_PATTERN = '#<(think|thinking|reasoning)\b[^>]*>.*?(?:</\1\s*>|$)#isu';
 
     /**
      * @param list<array<string, mixed>> $history
@@ -46,6 +47,13 @@ final readonly class ThinkingBlockStripper
         foreach ($content as $part) {
             if (is_array($part) && in_array($part['type'] ?? null, self::PART_TYPES, true)) {
                 continue;
+            }
+            if (is_array($part)) {
+                foreach (['text', 'content'] as $field) {
+                    if (isset($part[$field]) && is_string($part[$field])) {
+                        $part[$field] = $this->stripContent($part[$field]);
+                    }
+                }
             }
             $parts[] = $part;
         }

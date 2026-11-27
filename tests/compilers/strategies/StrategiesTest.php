@@ -117,6 +117,16 @@ final class StrategiesTest extends TestCase
             ['role' => 'assistant', 'reasoning_content' => 'secret', 'thinking' => 'hidden', 'tool_calls' => [['id' => 'call_1']]],
         ], true);
         self::assertSame('visible', $stripped[0]['content']);
+        $unclosed = $stripper->strip([
+            ['role' => 'assistant', 'content' => "<thinking>answer key\nstill hidden"],
+            ['role' => 'assistant', 'content' => [
+                ['type' => 'text', 'text' => '<thinking>secret</thinking>shown'],
+            ]],
+            ['role' => 'user', 'content' => '<thinking>student pasted this</thinking>'],
+        ], true);
+        self::assertSame('', $unclosed[0]['content']);
+        self::assertSame('shown', $unclosed[1]['content'][0]['text']);
+        self::assertStringContainsString('student pasted this', $unclosed[2]['content']);
         self::assertArrayNotHasKey('reasoning_content', $stripped[1]);
         self::assertArrayNotHasKey('thinking', $stripped[1]);
         self::assertArrayNotHasKey('content', $stripped[1]);
