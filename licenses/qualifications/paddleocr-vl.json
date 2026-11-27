@@ -1,0 +1,62 @@
+{
+  "id": "paddleocr-vl",
+  "version": "0.9-unqualified",
+  "sourceUrl": "https://github.com/PaddlePaddle/PaddleOCR",
+  "sourceRevision": "unpinned-local-weights-required",
+  "codeLicense": "Apache-2.0",
+  "licenseFileDigest": null,
+  "notices": [],
+  "transitiveComponents": [],
+  "modelAssets": [
+    {
+      "id": "paddleocr-vl-weights",
+      "version": null,
+      "sha256": null,
+      "license": "unknown",
+      "source": null,
+      "sourceRevision": null
+    }
+  ],
+  "datasets": [
+    {
+      "id": "unqualified-paddleocr-vl-training-data",
+      "version": null,
+      "sha256": null,
+      "license": "unknown",
+      "source": null,
+      "sourceRevision": null
+    }
+  ],
+  "networkAtBuild": {
+    "required": null,
+    "destinations": [],
+    "reason": "Optional GPU VLM-OCR descriptor only; no download authorized."
+  },
+  "networkAtRuntime": {
+    "required": false,
+    "destinations": [],
+    "reason": "Requires pre-staged local GPU weights; networkAtRuntime is strictly false."
+  },
+  "distributionConstraints": {
+    "localUseAllowed": false,
+    "redistributionAllowed": false,
+    "requirements": [
+      {
+        "id": "exact-local-weights-and-gpu-bom",
+        "fulfilled": false,
+        "evidence": []
+      }
+    ],
+    "notes": [
+      "Descriptor registered in profiles.py as unqualified (parse=None) until local weights and GPU BOM are staged."
+    ]
+  },
+  "enabledProfiles": [],
+  "verdict": "blocked",
+  "reason": "Optional GPU VLM-OCR profile descriptor; local weights SHA256, dataset provenance, and PaddlePaddle GPU dependency lock are not yet staged.",
+  "checkedAt": "2026-11-27",
+  "qualificationGaps": [
+    "Exact local model weights SHA256 and pinned revision",
+    "Pinned offline GPU runtime dependency lock and license notices"
+  ]
+}
