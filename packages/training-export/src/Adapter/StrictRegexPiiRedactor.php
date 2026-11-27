@@ -9,6 +9,9 @@ use KnowKit\TrainingExport\Port\PiiRedactor;
 
 final readonly class StrictRegexPiiRedactor implements PiiRedactor
 {
+    // Only an explicitly labelled lesson ID is exempt from the bare passport rule.
+    private const BARE_PASSPORT = '/\b(?:урок|lesson)\h+\d{2}\h\d{2}\h\d{6}\b(*SKIP)(*F)|\b\d{2}\s\d{2}\s\d{6}\b/ui';
+
     private const REDACT_RULES = [
         // Private keys / PEM headers
         '/-----BEGIN [A-Z0-9 ]+PRIVATE KEY-----[\s\S]*?-----END [A-Z0-9 ]+PRIVATE KEY-----/' => '[REDACTED_KEY]',
@@ -26,17 +29,17 @@ final readonly class StrictRegexPiiRedactor implements PiiRedactor
         '/\b\d{3}-\d{3}-\d{3}[\s\-]\d{2}\b/' => '[REDACTED_SNILS]',
         // INN (with keyword prefix, 10 or 12 digits)
         '/(?<=\bИНН|\bINN)\s*[:#№]?\s*\d{10}(?:\d{2})?\b/ui' => ' [REDACTED_INN]',
-        // Passport only with a label or a number sign. A bare "12 05 123456"
-        // is also a lesson or exercise id, so it must survive a tutor export.
+        // Handle explicit passport labels before considering lesson IDs.
         '/\b(?:паспорт|passport)\s*(?:серия|series)?\s*[:#№]?\s*\d{2}\s*\d{2}\s*(?:№|#)?\s*\d{6}\b/ui' => '[REDACTED_PASSPORT]',
         '/\b(?:серия|series)\s*[:#№]?\s*\d{2}\s*\d{2}\s*(?:№|#)?\s*\d{6}\b/ui' => '[REDACTED_PASSPORT]',
         '/\b\d{2}\s\d{2}\s*[№#]\s*\d{6}\b/u' => '[REDACTED_PASSPORT]',
+        self::BARE_PASSPORT => '[REDACTED_PASSPORT]',
         // Phones need a cue. Dashed groups such as 123-456-7890 are ticket and
         // order ids in a support transcript, not phones. Compact +7/8 numbers
         // and a tel/phone label are the forms that were previously leaked.
-        '/(?<![\w.])\+(?:[\s\-().]*\d){10,15}(?![\w.])/' => '[REDACTED_PHONE]',
-        '/(?<![\w.\-])8(?:[\s\-().]*\d){10}(?![\w.])/' => '[REDACTED_PHONE]',
-        '/(?<![\w.])\(\d{3}\)[\s\-.]?\d{3}[\s\-.]?\d{2}[\s\-.]?\d{2}(?![\w.])/' => '[REDACTED_PHONE]',
+        '/(?<![\w.])\+(?:[\s\-().]*\d){10,15}(?!\w|\.\d)/' => '[REDACTED_PHONE]',
+        '/(?<![\w.\-])8(?:[\s\-().]*\d){10}(?!\w|\.\d)/' => '[REDACTED_PHONE]',
+        '/(?<![\w.])\(\d{3}\)[\s\-.]?\d{3}[\s\-.]?\d{2}[\s\-.]?\d{2}(?!\w|\.\d)/' => '[REDACTED_PHONE]',
         '/\b(?:тел(?:ефон)?|phone|mobile|mob|моб)\.?\s*[:#]?\s*\+?(?:[\s\-().]*\d){10,15}\b/ui' => '[REDACTED_PHONE]',
     ];
 
@@ -52,9 +55,10 @@ final readonly class StrictRegexPiiRedactor implements PiiRedactor
         '/\b(?:паспорт|passport)\s*(?:серия|series)?\s*[:#№]?\s*\d{2}\s*\d{2}\s*(?:№|#)?\s*\d{6}\b/ui',
         '/\b(?:серия|series)\s*[:#№]?\s*\d{2}\s*\d{2}\s*(?:№|#)?\s*\d{6}\b/ui',
         '/\b\d{2}\s\d{2}\s*[№#]\s*\d{6}\b/u',
-        '/(?<![\w.])\+(?:[\s\-().]*\d){10,15}(?![\w.])/',
-        '/(?<![\w.\-])8(?:[\s\-().]*\d){10}(?![\w.])/',
-        '/(?<![\w.])\(\d{3}\)[\s\-.]?\d{3}[\s\-.]?\d{2}[\s\-.]?\d{2}(?![\w.])/',
+        self::BARE_PASSPORT,
+        '/(?<![\w.])\+(?:[\s\-().]*\d){10,15}(?!\w|\.\d)/',
+        '/(?<![\w.\-])8(?:[\s\-().]*\d){10}(?!\w|\.\d)/',
+        '/(?<![\w.])\(\d{3}\)[\s\-.]?\d{3}[\s\-.]?\d{2}[\s\-.]?\d{2}(?!\w|\.\d)/',
         '/\b(?:тел(?:ефон)?|phone|mobile|mob|моб)\.?\s*[:#]?\s*\+?(?:[\s\-().]*\d){10,15}\b/ui',
     ];
 

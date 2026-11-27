@@ -70,16 +70,16 @@ final readonly class TrainingExportJobHandler
         foreach ($sortedTraces as $trace) {
             try {
                 $admitted = $this->admissionGate->admit($trace);
-                foreach ($admitted->snapshotRefs as $snap) {
-                    $key = $snap->tenantId->value . ':' . $snap->kbId->value . ':' . $snap->snapshotId->value . ':' . $snap->manifestDigest->value;
-                    $snapshotRefs[$key] ??= $snap;
-                }
-                $layerStackDigests[$admitted->layerStackDigest->value] ??= $admitted->layerStackDigest;
                 $lines[] = match ($format) {
                     TrainingFormat::DistillPairsV1 => $this->distillExporter->exportJsonlLine($admitted),
                     TrainingFormat::GroundedSftV1 => $this->sftExporter->exportJsonlLine($admitted),
                     TrainingFormat::GrpoTasksV1 => $this->grpoExporter->exportJsonlLine($admitted),
                 };
+                foreach ($admitted->snapshotRefs as $snap) {
+                    $key = $snap->tenantId->value . ':' . $snap->kbId->value . ':' . $snap->snapshotId->value . ':' . $snap->manifestDigest->value;
+                    $snapshotRefs[$key] ??= $snap;
+                }
+                $layerStackDigests[$admitted->layerStackDigest->value] ??= $admitted->layerStackDigest;
             } catch (DomainFailure $failure) {
                 $code = $failure->errorCode;
                 $excludedCounts[$code] = ($excludedCounts[$code] ?? 0) + 1;

@@ -30,6 +30,8 @@ final class PiiGuardTest extends TestCase
             ['8 999 123 45 67', '[REDACTED_PHONE]'],
             ['тел. 9991234567', '[REDACTED_PHONE]'],
             ['+1 202 555 0143', '[REDACTED_PHONE]'],
+            ['45 09 123456', '[REDACTED_PASSPORT]'],
+            ['+79991234567.', '[REDACTED_PHONE]'],
             ['паспорт 45 09 123456', '[REDACTED_PASSPORT]'],
             ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c', '[REDACTED_JWT]'],
             ['sk-live-abcdefghijklmnopqrstuvwxyz1234', '[REDACTED_API_KEY]'],
@@ -63,6 +65,39 @@ final class PiiGuardTest extends TestCase
             self::assertStringNotContainsString('REDACTED', $redacted);
             self::assertFalse($redactor->containsResidualPii($redacted));
         }
+    }
+
+    public function testInvariantsRejectKeysThatWouldBeRedacted(): void
+    {
+        $redactor = new StrictRegexPiiRedactor();
+        foreach (['alice@example.org', '89991234567', 'Bearer abcdefghijklmnop'] as $key) {
+            $trace = TrainingTestSupport::makeTrace(lockedInvariants: [$key => true]);
+            $gate = new ExportAdmissionGate(
+                TrainingTestSupport::allowAccessPolicy($trace->scope),
+                TrainingTestSupport::allowRightsPolicy(),
+                TrainingTestSupport::allowDependencyStore(),
+                $redactor,
+            );
+            try {
+                $gate->admit($trace);
+                self::fail('Expected denial for a sensitive invariant key');
+            } catch (DomainFailure $error) {
+                self::assertSame('pii_redaction_failed', $error->errorCode);
+            }
+        }
+    }
+
+    public function testManifestRedactorIdMustMatchAdmission(): void
+    {
+        $trace = TrainingTestSupport::makeTrace();
+        $gate = new ExportAdmissionGate(
+            TrainingTestSupport::allowAccessPolicy($trace->scope),
+            TrainingTestSupport::allowRightsPolicy(),
+            TrainingTestSupport::allowDependencyStore(),
+            new StrictRegexPiiRedactor(),
+        );
+        $this->expectException(\InvalidArgumentException::class);
+        new TrainingExportJobHandler($gate, new ProfileId('different-redactor'));
     }
 
     public function testResidualPiiPostScanGuardFailsClosed(): void

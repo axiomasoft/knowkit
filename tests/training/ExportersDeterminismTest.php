@@ -141,6 +141,13 @@ final class ExportersDeterminismTest extends TestCase
             snapshotRef: $deniedSnapshot,
         );
 
+        $unverified = TrainingTestSupport::makeTrace(
+            traceId: new Ulid('01JTR000000000000000000098'),
+            hostOutcomeVerified: false,
+            layerStackDigest: new Sha256(str_repeat('8', 64)),
+            snapshotRef: $deniedSnapshot,
+        );
+
         $redactor = new StrictRegexPiiRedactor();
         $handler = new TrainingExportJobHandler(
             new ExportAdmissionGate(
@@ -156,12 +163,12 @@ final class ExportersDeterminismTest extends TestCase
             $admitted->scope->tenantId,
             TrainingFormat::GroundedSftV1,
             new UtcInstant('2026-11-27T12:00:00Z'),
-            [$denied, $admitted],
+            [$denied, $admitted, $unverified],
             TrainingTestSupport::validator(),
         );
 
         self::assertSame(1, $result['manifest']->includedCount);
-        self::assertSame(['verbatim_disclosure_forbidden' => 1], $result['manifest']->excludedCountsByReason);
+        self::assertSame(['host_outcome_unverified' => 1, 'verbatim_disclosure_forbidden' => 1], $result['manifest']->excludedCountsByReason);
         self::assertCount(1, $result['manifest']->snapshotRefs);
         self::assertSame('01JSN000000000000000000001', $result['manifest']->snapshotRefs[0]->snapshotId->value);
         self::assertSame([str_repeat('3', 64)], array_map(

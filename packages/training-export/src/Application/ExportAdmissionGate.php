@@ -128,7 +128,7 @@ final readonly class ExportAdmissionGate
         $redactedTarget = $trace->targetResponse !== null ? $this->redactText($trace->targetResponse) : null;
         $redactedInvariants = [];
         foreach ($trace->lockedInvariants as $key => $value) {
-            if ($this->piiRedactor->containsResidualPii($key)) {
+            if ($this->redactText((string) $key) !== (string) $key) {
                 throw new DomainFailure(Outcome::Denied, 'pii_redaction_failed');
             }
             $redactedInvariants[$key] = is_string($value) ? $this->redactText($value) : $value;
