@@ -23,6 +23,20 @@ final readonly class R0OutlineDistiller
     ) {
     }
 
+    /** Cut on a UTF-8 boundary. A byte substr can make NavigationTreeNode reject a Cyrillic title. */
+    public static function boundedTitle(string $title): string
+    {
+        if (preg_match('//u', $title) !== 1) {
+            throw new DomainFailure(Outcome::Incompatible, 'invalid_r0_outline_output');
+        }
+        $cut = mb_strcut($title, 0, NavigationTreeNode::MAX_TITLE_BYTES, 'UTF-8');
+        if (trim($cut) === '') {
+            throw new DomainFailure(Outcome::Incompatible, 'invalid_r0_outline_output');
+        }
+
+        return $cut;
+    }
+
     /**
      * @param \Closure(Scope, \KnowKit\Domain\EgressRequest): JsonObject $currentBinding
      * @param list<ResourceRef> $collections
@@ -93,7 +107,7 @@ final readonly class R0OutlineDistiller
                 }
             }
             $updates[$nodeId] = [
-                'title' => substr($title, 0, NavigationTreeNode::MAX_TITLE_BYTES),
+                'title' => self::boundedTitle($title),
                 'terms' => array_slice($cleanTerms, 0, NavigationTreeNode::MAX_TERMS),
             ];
         }

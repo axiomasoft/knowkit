@@ -128,4 +128,24 @@ final class ToonCodecTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $codec->decode("items[1]{a}:\n  \"unterminated");
     }
+
+    public function testToonRejectsIntegersOutsideTheJsonSafeRange(): void
+    {
+        $codec = new ToonCodec();
+        $unsafe = '9007199254740993';
+
+        try {
+            $codec->decode("items[1]{n}:\n  {$unsafe}");
+            self::fail('Expected unsafe integer rejection');
+        } catch (\InvalidArgumentException $error) {
+            self::assertStringContainsString('safe range', $error->getMessage());
+        }
+
+        try {
+            $codec->encode([['n' => 9007199254740993]]);
+            self::fail('Expected unsafe integer rejection');
+        } catch (\InvalidArgumentException $error) {
+            self::assertStringContainsString('safe range', $error->getMessage());
+        }
+    }
 }
