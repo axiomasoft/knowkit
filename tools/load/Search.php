@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace KnowKit\Load;
 
+use KnowKit\Adapter\Lexical\Bm25ProfileContract;
 use KnowKit\Adapter\Lexical\CanonicalChunkSets;
 use KnowKit\Adapter\Lexical\PdoLexicalIndex;
 use KnowKit\Adapter\Postgres\Catalog\Connection;
@@ -40,6 +41,7 @@ final class Search
                 'manifestBytes' => $dataset->manifestBytes,
                 'targetWarmP95Ms' => $ceiling, 'targetMet' => $warmStats['p95'] <= $ceiling,
                 'postgres' => $f->catalog->db->execute('SHOW server_version')->fetchColumn(),
+                'bm25Contract' => (new Bm25ProfileContract())->profileId,
                 'providerCalls' => 0, 'tokens' => 0,
                 'setup' => 'Bulk fixture SQL excluded. 5000 EN and 5000 RU immutable source manifests, ten overlapping exact chunks per source. Existing fixture controls are outside generation 900.']);
         }, seal: false);

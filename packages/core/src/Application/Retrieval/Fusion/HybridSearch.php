@@ -76,7 +76,13 @@ final readonly class HybridSearch
         }
         $vector->assertBinding($context->scope());
         $vector->assertSpace($profile->space->digest());
-        $vector->assertProfile('pgvector-l2-v1', 'vector');
+        $vectorProfile = match ($profile->space->storageFormat) {
+            'float32' => 'pgvector-l2-v1',
+            'halfvec' => 'pgvector-halfvec-cos-v1',
+            'binary_quantized' => 'pgvector-bit-rescore-v1',
+            default => throw new D\DomainFailure(D\Outcome::Incompatible, 'profile_invalid'),
+        };
+        $vector->assertProfile($vectorProfile, 'vector');
         $lexical->assertCompanion($vector);
     }
 

@@ -74,13 +74,13 @@ final readonly class PdoVectorIndex implements VectorIndex
         $this->backend->sealed($scope);
         $vector = ($this->embedQuery)($scope, $query, $space)->payload($scope, $query, $space);
 
-        return $this->tx->run(function () use ($scope, $query, $k, $vector): SearchResult {
+        return $this->tx->run(function () use ($scope, $query, $k, $vector, $space): SearchResult {
             $this->tx->lockTenant($scope->tenantId, D\LockMode::Share);
             $this->tx->lockKb($scope->kbId, D\LockMode::Share);
             // Re-resolve after remote provider I/O; a rebuild cannot swap this pinned generation.
             $view = $this->backend->sealed($scope);
 
-            return (new PdoVectorSearch($this->db, $this->policy))->search($scope, $query, $k, $view, $vector);
+            return (new PdoVectorSearch($this->db, $this->policy))->search($scope, $query, $k, $view, $vector, $space->storageFormat);
         });
     }
 

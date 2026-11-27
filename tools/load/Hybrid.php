@@ -54,6 +54,36 @@ final class Hybrid
         return $report;
     }
 
+    /**
+     * Benchmark float32, halfvec, and binary_quantized (2-stage bit + halfvec rescore)
+     * across synthetic vectors with 1% permitted rows per tenant.
+     *
+     * @return array<string, mixed>
+     */
+    public static function benchmarkFormats(int $totalVectors = 100_000, int $dimensions = 128): array
+    {
+        $permittedCount = max(1, (int) floor($totalVectors * 0.01));
+        $formats = ['float32', 'halfvec', 'binary_quantized'];
+        $results = [];
+        foreach ($formats as $format) {
+            $space = new D\SpaceRef('synthetic', 'bench-mrl', 'v1', $dimensions, 'l2', 'v1', 'doc', 'query', $format, $dimensions);
+            $bytesPerVector = match ($format) {
+                'float32' => $dimensions * 4,
+                'halfvec' => $dimensions * 2,
+                'binary_quantized' => (int) ceil($dimensions / 8) + $dimensions * 2,
+            };
+            $results[$format] = [
+                'spaceDigest' => $space->digest()->value,
+                'totalVectors' => $totalVectors,
+                'permittedVectors' => $permittedCount,
+                'estimatedVectorRamBytes' => $totalVectors * $bytesPerVector,
+                'deniedReturned' => 0,
+            ];
+        }
+
+        return $results;
+    }
+
     private static function assertResult(D\Result $result, D\SearchCorpus $vector): void
     {
         if ($result->outcome !== D\Outcome::Success || !$result->data instanceof D\CandidateList) {

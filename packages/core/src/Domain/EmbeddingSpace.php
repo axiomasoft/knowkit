@@ -15,7 +15,7 @@ readonly class EmbeddingSpace
         foreach ([$provider,$model,$revision,$indexVersion,$documentRole,$queryRole] as $text) { ValueGuard::text($text, 128); }
         if ($dimensions < 1 || $dimensions > 65536 || !in_array($normalization, ['none','l2'], true)
             || !in_array($storageFormat, ['float32', 'halfvec', 'binary_quantized'], true)
-            || ($mrlSourceDimensions !== null && ($mrlSourceDimensions < 1 || $mrlSourceDimensions > 65536))) {
+            || ($mrlSourceDimensions !== null && ($mrlSourceDimensions < $dimensions || $mrlSourceDimensions > 65536))) {
             throw new \InvalidArgumentException('Embedding space required');
         }
     }

@@ -11,11 +11,29 @@ use KnowKit\PgVector\Domain\ManifestView;
 /** No distance, rank or LIMIT until tenant/snapshot/current eligibility have materialized. */
 final class SearchSql
 {
-    public static function permitted(Connection $db): string
+    public static function profileForFormat(string $storageFormat): string
+    {
+        return match ($storageFormat) {
+            'float32' => 'pgvector-l2-v1',
+            'halfvec' => 'pgvector-halfvec-cos-v1',
+            'binary_quantized' => 'pgvector-bit-rescore-v1',
+            default => throw new D\DomainFailure(D\Outcome::Incompatible, 'storage_format_unsupported'),
+        };
+    }
+
+    public static function permittedCte(Connection $db, string $storageFormat = 'float32'): string
     {
         $snapshots = $db->table('snapshot_memberships');
         $members = $db->table('index_memberships');
-        $vectors = $db->table('vector_documents');
+        $vectorTable = match ($storageFormat) {
+            'float32' => $db->table('vector_documents'),
+            'halfvec' => $db->table('vector_documents_halfvec'),
+            'binary_quantized' => $db->table('vector_documents_binary'),
+            default => throw new D\DomainFailure(D\Outcome::Incompatible, 'storage_format_unsupported'),
+        };
+        $vectorColumns = $storageFormat === 'binary_quantized'
+            ? 'v.chunk_id, v.quantized, v.rescore_halfvec'
+            : 'v.chunk_id, v.embedding';
         $sources = $db->table('sources');
         $versions = $db->table('source_version_state');
         $originals = $db->table('source_versions');
@@ -32,7 +50,7 @@ final class SearchSql
             ), verified AS MATERIALIZED (
                 SELECT value::char(26) chunk_id FROM pg_catalog.jsonb_array_elements_text(CAST(? AS jsonb))
             ), permitted AS MATERIALIZED (
-                SELECT v.chunk_id, v.embedding FROM args a
+                SELECT $vectorColumns FROM args a
                 JOIN $tenants t ON t.id=a.tenant AND t.serving_state='ready'
                 JOIN $bases k ON k.tenant_id=t.id AND k.id=a.kb AND k.removed_at IS NULL
                 JOIN $snapshots s ON s.tenant_id=a.tenant AND s.kb_id=a.kb
@@ -40,22 +58,33 @@ final class SearchSql
                 JOIN $members i ON i.tenant_id=s.tenant_id AND i.generation_id=s.generation_id
                     AND i.source_version_id=s.source_version_id AND i.revision_id=s.revision_id AND i.chunk_set_id=s.chunk_set_id
                 JOIN verified x ON x.chunk_id=i.chunk_id
-                JOIN $vectors v ON v.tenant_id=i.tenant_id AND v.generation_id=i.generation_id
+                JOIN $vectorTable v ON v.tenant_id=i.tenant_id AND v.generation_id=i.generation_id
                     AND v.chunk_id=i.chunk_id AND v.space_digest=a.space
                 JOIN $sources src ON src.tenant_id=s.tenant_id AND src.id=s.source_id AND src.lifecycle_state='active'
                 JOIN $originals original ON original.tenant_id=s.tenant_id AND original.id=s.source_version_id
                     AND original.source_id=s.source_id
                 JOIN $versions sv ON sv.tenant_id=s.tenant_id AND sv.id=s.source_version_id AND sv.usability='usable'
-                WHERE s.profile_id='pgvector-l2-v1'
+                WHERE s.profile_id IN ('pgvector-l2-v1', 'pgvector-halfvec-cos-v1', 'pgvector-bit-rescore-v1')
                     AND s.source_version_id IN (SELECT value::char(26) FROM pg_catalog.jsonb_array_elements_text(a.allowed))
                     AND NOT EXISTS (SELECT 1 FROM $tombstones ts WHERE ts.tenant_id=s.tenant_id AND ts.source_id=s.source_id)
                     AND EXISTS (SELECT 1 FROM $memberships m WHERE m.tenant_id=s.tenant_id AND m.kb_id=s.kb_id
                         AND m.source_id=s.source_id AND (a.collections IS NULL OR m.collection_id IN (
                             SELECT value::char(26) FROM pg_catalog.jsonb_array_elements_text(a.collections))))
-            ) SELECT chunk_id, embedding FROM permitted
+            )
             SQL;
     }
 
+    public static function permitted(Connection $db, string $storageFormat = 'float32'): string
+    {
+        $cte = self::permittedCte($db, $storageFormat);
+        if ($storageFormat === 'binary_quantized') {
+            return $cte . ' SELECT chunk_id, quantized, rescore_halfvec FROM permitted';
+        }
+
+        return $cte . ' SELECT chunk_id, embedding FROM permitted';
+    }
+
+    /** @return list<string|null> */
     public static function values(D\AuthorizedSearchScope $scope, D\Query $query, ManifestView $view): array
     {
         $allowed = array_map(static fn (D\SourceVersionId $id): string => $id->value, $scope->allowedSourceVersionIds);
@@ -71,13 +100,38 @@ final class SearchSql
             json_encode(array_map(static fn (D\ChunkRef $ref): string => $ref->chunkId->value, $view->refs()), JSON_THROW_ON_ERROR)];
     }
 
-    public static function exact(Connection $db): string
+    public static function exact(Connection $db, string $storageFormat = 'float32'): string
     {
-        $permitted = self::permitted($db);
+        if ($storageFormat === 'binary_quantized') {
+            $cte = self::permittedCte($db, $storageFormat);
+
+            return <<<SQL
+                $cte,
+                coarse AS MATERIALIZED (
+                    SELECT chunk_id, rescore_halfvec
+                    FROM permitted
+                    ORDER BY quantized OPERATOR(public.<~>) CAST(? AS bit varying), chunk_id COLLATE "C"
+                    LIMIT LEAST(512, CAST(? AS integer) * CAST(? AS integer))
+                ),
+                counted AS (
+                    SELECT count(*) AS permitted_count FROM permitted
+                )
+                SELECT coarse.chunk_id,
+                    (coarse.rescore_halfvec OPERATOR(public.<=>) CAST(? AS public.halfvec)) AS distance,
+                    counted.permitted_count
+                FROM coarse CROSS JOIN counted
+                ORDER BY distance ASC, coarse.chunk_id COLLATE "C" ASC
+                LIMIT CAST(? AS integer)
+                SQL;
+        }
+
+        $permitted = self::permitted($db, $storageFormat);
+        $operator = $storageFormat === 'halfvec' ? 'OPERATOR(public.<=>)' : 'OPERATOR(public.<->)';
+        $castType = $storageFormat === 'halfvec' ? 'public.halfvec' : 'public.vector';
 
         return <<<SQL
             WITH corpus AS MATERIALIZED ($permitted)
-            SELECT chunk_id, embedding OPERATOR(public.<->) CAST(? AS public.vector) AS distance,
+            SELECT chunk_id, embedding $operator CAST(? AS $castType) AS distance,
                 count(*) OVER () AS permitted_count
             FROM corpus ORDER BY distance, chunk_id COLLATE "C" LIMIT CAST(? AS integer)
             SQL;

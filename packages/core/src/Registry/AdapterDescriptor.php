@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace KnowKit\Registry;
 
-use KnowKit\Domain\{AdapterId, AdapterKind, CapabilityDeclaration, Fingerprint, FrozenJson, TokenizerIdentity, ValueGuard};
+use KnowKit\Domain\{AdapterId, AdapterKind, CapabilityDeclaration, DomainFailure, Fingerprint, FrozenJson, Outcome, Readiness, TokenizerIdentity, ValueGuard};
 use KnowKit\Domain\Contract\JsonObject;
 
 /** Static discovery metadata. Describing it never runs factory code. */
@@ -41,6 +41,38 @@ final readonly class AdapterDescriptor
         }
         $this->features = $validatedFeatures;
         $this->configSchema = new FrozenJson($configSchema);
+    }
+
+    /** @return list<string> */
+    public function missingExtensions(): array
+    {
+        $missing = [];
+        foreach ($this->requiresExt as $ext) {
+            if (!extension_loaded($ext)) {
+                $missing[] = $ext;
+            }
+        }
+
+        return $missing;
+    }
+
+    /** @return array{readiness: Readiness, reason: ?string} */
+    public function extensionReadiness(): array
+    {
+        $missing = $this->missingExtensions();
+        if ($missing !== []) {
+            return ['readiness' => Readiness::Failed, 'reason' => 'missing_extension:' . $missing[0]];
+        }
+
+        return ['readiness' => Readiness::Ready, 'reason' => null];
+    }
+
+    public function assertExtensionsLoaded(): void
+    {
+        $missing = $this->missingExtensions();
+        if ($missing !== []) {
+            throw new DomainFailure(Outcome::Unavailable, 'missing_extension_' . $missing[0]);
+        }
     }
 
     public function toWire(): JsonObject
