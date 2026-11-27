@@ -21,7 +21,33 @@ final readonly class Server
         private CommandFactory $commands,
         private IdGenerator $ids,
         private Limits\RequestQuotas $quotas = new Limits\RequestQuotas(),
+        private ?D\InstanceId $instanceId = null,
     ) {}
+
+    public static function forInstance(
+        D\InstanceId $instanceId,
+        Authenticator $authenticator,
+        HostApplication $application,
+        Contract $contract,
+        CommandFactory $commands,
+        IdGenerator $ids,
+        Limits\RequestQuotas $quotas = new Limits\RequestQuotas(),
+    ): self {
+        return new self(
+            authenticator: $authenticator,
+            application: $application,
+            contract: $contract,
+            commands: $commands,
+            ids: $ids,
+            quotas: $quotas,
+            instanceId: $instanceId,
+        );
+    }
+
+    public function instanceId(): ?D\InstanceId
+    {
+        return $this->instanceId;
+    }
 
     public function handle(Request $request): Response
     {
@@ -56,6 +82,11 @@ final readonly class Server
         // Authenticate before route/schema/body processing. Never construct Scope from request JSON.
         AccessContext::fromHost($host)->assertCurrent();
         [$route, $parameters] = $this->contract->match($request);
+        if ($this->instanceId !== null) {
+            if (!$host instanceof AuthenticatedContext || !$host->instanceId->equals($this->instanceId)) {
+                throw new D\DomainFailure(outcome: D\Outcome::Denied, errorCode: 'scope_mismatch');
+            }
+        }
         $version = $request->header('KnowKit-Schema-Version');
         if ($version !== null && $version !== '1.0') {
             throw new InputFailure(status: 409, errorCode: 'schema_mismatch');

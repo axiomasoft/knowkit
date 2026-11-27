@@ -68,13 +68,17 @@ final class ProviderTest extends TestCase
         self::assertDirectoryDoesNotExist($this->temporary . '/database');
         $artisan = new Artisan(laravel: $app, events: $app['events'], version: 'test');
         self::assertArrayNotHasKey('knowkit', $artisan->all());
-        $this->assertFailure(fn () => $app->make(Jobs::class), 'jobs_disabled');
+        $this->assertFailure(fn () => $app->make(Jobs::class), 'instance_not_found');
     }
 
     public function testRoutesMigrationsAndCommandsRequireIndependentOptIns(): void
     {
         $app = Fixture::app($this->temporary, [
-            'http' => ['enabled' => true, 'registrar' => Routes::class],
+            'instances' => [
+                'default' => [
+                    'http' => ['enabled' => true, 'registrar' => Routes::class],
+                ],
+            ],
             'migrations' => ['publish' => true],
             'commands' => ['enabled' => true],
         ]);
@@ -104,7 +108,9 @@ final class ProviderTest extends TestCase
         $factory->expects(self::never())->method('create');
         $vectors = json_decode(file_get_contents(__DIR__ . '/fixtures/v1/invalid-profiles.json'));
         foreach ($vectors as $vector) {
-            $app = Fixture::app($this->temporary, ['profile' => json_encode($vector->profile)]);
+            $app = Fixture::app($this->temporary, [
+                'instances' => ['default' => ['profile' => json_encode($vector->profile)]],
+            ]);
             $app->instance(AdapterRegistry::class, Fixture::registry($factory));
             $this->assertFailure(fn () => Fixture::boot($app), $vector->expected);
         }
@@ -116,7 +122,9 @@ final class ProviderTest extends TestCase
         $factory = $this->createMock(Factory::class);
         $factory->expects(self::once())->method('create')->willReturn($clock);
         $profile = file_get_contents(__DIR__ . '/fixtures/v1/profile.json');
-        $app = Fixture::app($this->temporary, ['profile' => $profile]);
+        $app = Fixture::app($this->temporary, [
+            'instances' => ['default' => ['profile' => $profile]],
+        ]);
         $app->instance(AdapterRegistry::class, Fixture::registry($factory));
         Fixture::boot($app);
         self::assertTrue($app->bound(Clock::class));
@@ -126,9 +134,12 @@ final class ProviderTest extends TestCase
 
     public function testInvalidOptInFlagsAndMissingRegistrarFailClosed(): void
     {
-        foreach ([['http' => ['enabled' => true]], ['jobs' => ['enabled' => 'false']]] as $config) {
+        foreach ([
+            ['instances' => ['default' => ['http' => ['enabled' => true]]]],
+            ['instances' => ['default' => ['jobs' => ['enabled' => 'false']]]],
+        ] as $config) {
             $app = Fixture::app($this->temporary, $config);
-            $code = isset($config['jobs']) ? 'invalid_enable_flag' : 'http_registrar_required';
+            $code = isset($config['instances']['default']['jobs']) ? 'invalid_enable_flag' : 'http_registrar_required';
             $this->assertFailure(fn () => Fixture::boot($app), $code);
         }
     }
@@ -136,7 +147,7 @@ final class ProviderTest extends TestCase
     public function testEachCapabilityCanBeEnabledAlone(): void
     {
         $configurations = [
-            ['http' => ['enabled' => true, 'registrar' => Routes::class]],
+            ['instances' => ['default' => ['http' => ['enabled' => true, 'registrar' => Routes::class]]]],
             ['migrations' => ['publish' => true]],
             ['commands' => ['enabled' => true]],
         ];
@@ -144,7 +155,7 @@ final class ProviderTest extends TestCase
             Artisan::forgetBootstrappers();
             $app = Fixture::app($this->temporary, $config);
             Fixture::boot($app);
-            self::assertCount(isset($config['http']) ? 1 : 0, $app['router']->getRoutes());
+            self::assertCount(isset($config['instances']) ? 1 : 0, $app['router']->getRoutes());
             self::assertCount(isset($config['migrations']) ? 1 : 0, ServiceProvider::pathsToPublish(group: 'knowkit-migrations'));
             $artisan = new Artisan(laravel: $app, events: $app['events'], version: 'test');
             self::assertSame(isset($config['commands']), array_key_exists('knowkit', $artisan->all()));

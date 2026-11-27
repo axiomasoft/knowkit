@@ -32,7 +32,8 @@ final class ConsoleTest extends TestCase
         $temporary = Qa::temporary();
         try {
             foreach (Fixture::json('scenarios.json')['outcomes'] as $vector) {
-                $app = Fixture::app($temporary);
+                $app = Fixture::app($temporary, ['instances' => ['default' => []]]);
+                $app->register(\KnowKit\Laravel\KnowKitServiceProvider::class);
                 $host = new Identity(Fixture::policy());
                 $app->instance(HostIdentity::class, $host);
                 $application = $this->createMock(HostApplication::class);
@@ -99,7 +100,8 @@ final class ConsoleTest extends TestCase
     {
         $temporary = Qa::temporary();
         try {
-            $app = Fixture::app($temporary);
+            $app = Fixture::app($temporary, ['instances' => ['default' => []]]);
+            $app->register(\KnowKit\Laravel\KnowKitServiceProvider::class);
             $host = new Identity(Fixture::policy());
             $app->instance(HostIdentity::class, $host);
             $application = $this->createMock(HostApplication::class);
@@ -137,7 +139,8 @@ final class ConsoleTest extends TestCase
     {
         $temporary = Qa::temporary();
         try {
-            $app = Fixture::app($temporary);
+            $app = Fixture::app($temporary, ['instances' => ['default' => []]]);
+            $app->register(\KnowKit\Laravel\KnowKitServiceProvider::class);
             $app->instance(HostIdentity::class, new Identity(Fixture::policy()));
             $application = $this->createMock(HostApplication::class);
             $application->expects(self::never())->method('execute');
