@@ -76,16 +76,16 @@ final class McpSourceConnectorTest extends TestCase
 
     public function testMissingResourceListIsNotACompleteInventory(): void
     {
-        $transport = (new ScriptedMcpTransport())
-            ->enqueue('mcp:docs', 'resources/list', [
-                'pinnedRevision' => 'rev-100',
-            ]);
-        $connector = new McpSourceConnector(new AdapterId('mcp_connector'), $transport);
-        $snapshot = $connector->inventory($this->scope(), new ConnectorRequest('mcp:docs', 'all'));
+        foreach ([[], ['resources' => ['name' => 'document']], ['resources' => [42]]] as $page) {
+            $transport = (new ScriptedMcpTransport())
+                ->enqueue('mcp:docs', 'resources/list', ['pinnedRevision' => 'rev-100'] + $page);
+            $connector = new McpSourceConnector(new AdapterId('mcp_connector'), $transport);
+            $snapshot = $connector->inventory($this->scope(), new ConnectorRequest('mcp:docs', 'all'));
 
-        self::assertFalse($snapshot->complete);
-        self::assertContains('inventory_incomplete', $snapshot->failures);
-        self::assertSame([], $snapshot->items);
+            self::assertFalse($snapshot->complete);
+            self::assertContains('inventory_incomplete', $snapshot->failures);
+            self::assertSame([], $snapshot->items);
+        }
     }
 
     public function testMcpConnectorPartialPaginationBreakPreservesExistingSources(): void

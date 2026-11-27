@@ -77,6 +77,7 @@ final class McpToolCatalogLayer
             );
         }
 
+        unset($this->schemaCache[$serverId]);
         $this->catalogByServer[$serverId] = [
             'expiresAtMs' => $nowMs + $ttlMs,
             'descriptors' => $descriptors,

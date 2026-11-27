@@ -65,19 +65,7 @@ final class ServerSecurityTest extends TestCase
 
     public function testToolCallWithoutAccessPolicyIsDenied(): void
     {
-        $server = $this->createServer(DisclosureMode::VerbatimAllowed);
-        $response = $server->handle([
-            'jsonrpc' => '2.0',
-            'id' => 'req-no-policy',
-            'method' => 'tools/call',
-            'params' => [
-                'name' => 'knowkit.search_layered',
-                'arguments' => ['query' => 'refund'],
-            ],
-        ], ['authorization' => 'Bearer valid']);
-
-        self::assertSame(-32003, $response['error']['code']);
-        self::assertSame('policy_denied', $response['error']['message']);
+        $this->assertAllCallsDenied($this->createServer(DisclosureMode::VerbatimAllowed));
     }
 
     public function testRejectsTenantIdSpoofingInToolArguments(): void
@@ -200,9 +188,22 @@ final class ServerSecurityTest extends TestCase
         };
         $denyAll = new DenyAll(new ReceiptFactory($validator, $clock));
         $server = $this->createServer(DisclosureMode::VerbatimAllowed, policy: $denyAll);
-        $headers = ['authorization' => 'Bearer valid'];
+        $this->assertAllCallsDenied($server);
+    }
 
+    private function assertAllCallsDenied(StatelessMcpServer $server): void
+    {
+        $headers = ['authorization' => 'Bearer valid'];
         $requests = [
+            'knowkit.verify_grounding' => [
+                'jsonrpc' => '2.0',
+                'id' => 'deny-verify',
+                'method' => 'tools/call',
+                'params' => [
+                    'name' => 'knowkit.verify_grounding',
+                    'arguments' => ['selectionToken' => 'selection', 'responseText' => 'answer', 'citations' => []],
+                ],
+            ],
             'knowkit.disclose_evidence' => [
                 'jsonrpc' => '2.0',
                 'id' => 'deny-disclose',
