@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "layers:dag",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Layer DAG domain invariants, Kahn UTF-16BE topological resolution, TrustTier x DeliveryMode matrix, ImmutableSeal monotonicity, and DirectivePromotionService.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "layer-dag:canonical-resolve",
+    "layer-dag:kahn-utf16be-tiebreak",
+    "layer-dag:immutable-seal-violation",
+    "layer-dag:trust-delivery-matrix",
+    "layer-dag:cycle-and-unknown-dep",
+    "layer-dag:directive-promotion",
+    "layer-dag:directive-promotion-denied"
+  ],
+  "testCaseMap": {
+    "layer-dag:canonical-resolve": [
+      "KnowKit\\Tests\\Layers\\Dag\\LayerStackResolverTest::testResolvesCanonicalFiveLayerDagAndPreservesPrefixDigests"
+    ],
+    "layer-dag:kahn-utf16be-tiebreak": [
+      "KnowKit\\Tests\\Layers\\Dag\\LayerStackResolverTest::testKahnTieBreakUsesUtf16BeOrdering"
+    ],
+    "layer-dag:immutable-seal-violation": [
+      "KnowKit\\Tests\\Layers\\Dag\\LayerStackResolverTest::testRejectsImmutableSealOverrideEvenWithOverrideAllowed"
+    ],
+    "layer-dag:trust-delivery-matrix": [
+      "KnowKit\\Tests\\Layers\\Dag\\LayerStackResolverTest::testRejectsInvalidTrustTierDeliveryMatrix"
+    ],
+    "layer-dag:cycle-and-unknown-dep": [
+      "KnowKit\\Tests\\Layers\\Dag\\LayerStackResolverTest::testRejectsLayerCycleDuplicateAndUnknownDependency"
+    ],
+    "layer-dag:directive-promotion": [
+      "KnowKit\\Tests\\Layers\\Dag\\DirectivePromotionTest::testPromotesDirectiveAndRegistersDependencyEdges"
+    ],
+    "layer-dag:directive-promotion-denied": [
+      "KnowKit\\Tests\\Layers\\Dag\\DirectivePromotionTest::testDeniesPromotionWhenAccessPolicyDenies"
+    ]
+  }
+}
