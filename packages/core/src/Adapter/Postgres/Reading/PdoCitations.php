@@ -46,7 +46,7 @@ final readonly class PdoCitations
                 $citation->get('tenantId'), $citation->get('citationId'), $prepared->usage->id()->value,
                 $prepared->usage->hostScopeHash()->value, $citation->get('sourceId'), $citation->get('sourceVersionId'),
                 $citation->get('documentRevisionId'), $citation->get('documentId'), $chunk->get('chunkSetId'),
-                $chunk->get('chunkId'), $citation->get('contentDigest'), $citation->get('sourceDigest'), $citation->get('irDigest'),
+                $chunk->get('chunkId'), $chunk->get('chunkDigest'), $citation->get('sourceDigest'), $citation->get('irDigest'),
                 Jcs::canonicalize($citation->get('spans')),
                 Jcs::canonicalize(new JsonObject(['citation' => $citation, 'joiner' => $fragment->get('joiner')])),
             ]);

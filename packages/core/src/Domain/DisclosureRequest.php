@@ -17,6 +17,11 @@ final readonly class DisclosureRequest extends SchemaValue
         return ResolutionTier::from($this->toWire()->get('resolutionTier') ?? ResolutionTier::R3Verbatim->value);
     }
 
+    public function isDerivedTier(): bool
+    {
+        return $this->resolutionTier() !== ResolutionTier::R3Verbatim;
+    }
+
     public function pruningPolicy(): ?JsonObject
     {
         return $this->toWire()->get('pruningPolicy');

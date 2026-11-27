@@ -50,8 +50,12 @@ final readonly class EvidenceSet
                     throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict');
                 }
             }
+            $provenanceKind = $fragment->get('provenanceKind');
+            $origin = $citation->get('origin');
+            $isVerbatim = ($provenanceKind === null || $provenanceKind === 'verbatim')
+                && ($origin === null || $origin === 'source' || $origin === 'ocr');
             if ($refs[$index]->get('fragmentDigest') !== $fragment->get('fragmentDigest')
-                || $ref->get('chunkDigest') !== $fragment->get('fragmentDigest')) {
+                || ($isVerbatim && $ref->get('chunkDigest') !== $fragment->get('fragmentDigest'))) {
                 throw new DomainFailure(Outcome::Incompatible, 'immutable_conflict');
             }
         }

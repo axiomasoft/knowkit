@@ -87,6 +87,14 @@ final readonly class DisclosureBuffer
         ContractValidator $validator,
     ): Usage {
         $scope = $record->context->scope;
+        $fragments = $this->body->toWire()->get('fragments');
+        $fragmentRefs = [];
+        foreach ($this->refs as $index => $ref) {
+            $fragmentRefs[] = new JsonObject([
+                'chunkRef' => $ref->toWire(),
+                'fragmentDigest' => $fragments[$index]->get('fragmentDigest'),
+            ]);
+        }
 
         return new Usage(new JsonObject([
             'usageId' => $id->value,
@@ -100,9 +108,7 @@ final readonly class DisclosureBuffer
             'checkedAt' => $now->value,
             'policyBindingDigest' => ScopeBinding::policyBindingDigest($record->selection->policyBinding()),
             'status' => 'prepared_disclosure',
-            'fragmentRefs' => array_map(static fn (ChunkRef $ref): JsonObject => new JsonObject([
-                'chunkRef' => $ref->toWire(), 'fragmentDigest' => $ref->chunkDigest->value,
-            ]), $this->refs),
+            'fragmentRefs' => $fragmentRefs,
         ]), $validator);
     }
 

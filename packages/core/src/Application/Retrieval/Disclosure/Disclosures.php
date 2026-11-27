@@ -10,6 +10,7 @@ use KnowKit\Application\Retrieval\Selection\Selections;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Contract\ContractValidator;
 use KnowKit\Domain\Contract\ContractViolation;
+use KnowKit\Port\DependencyStore;
 use KnowKit\Port\DisclosureStore;
 use KnowKit\Port\IdGenerator;
 
@@ -23,6 +24,7 @@ final readonly class Disclosures
         private DisclosureStore $store,
         private IdGenerator $ids,
         private ContractValidator $validator,
+        private ?DependencyStore $dependencies = null,
     ) {}
 
     public function disclose(
@@ -43,7 +45,7 @@ final readonly class Disclosures
             $plan = $this->store->plan($context->scope(), $record, $request);
             $prepared = $this->policy->prepare($context, $plan->resources, D\Operation::Disclose, $plan->binding());
             $prepared->requireTier($request->resolutionTier());
-            $buffer = $this->canonical->preload($record, $request);
+            $buffer = $this->canonical->preload($record, $request, $prepared->maxDisclosureMode());
             $usageId = new D\UsageId($this->ids->next()->value);
             $context->assertCurrent();
             $result = $this->store->commit($context->scope(), $record, $request, $plan,
@@ -51,6 +53,7 @@ final readonly class Disclosures
                     $record->requireBinding($context->policy, $query, $snapshot, $request->runRef(), $now);
                     $prepared->requireAllow($context, $current->binding(), $now);
                     $prepared->requireTier($request->resolutionTier());
+                    $this->requireDerivedAncestors($context->scope(), $record, $request);
 
                     return $buffer->prepare($record, $request, $usageId, $now, $this->validator, $prepared->disclosureDeadline());
                 });
@@ -62,6 +65,30 @@ final readonly class Disclosures
             return new D\DisclosureOutcome(D\Result::failure(new D\DomainFailure(D\Outcome::Incompatible, $failure->errorCode)));
         } catch (\Throwable) {
             return new D\DisclosureOutcome(D\Result::failure(new D\DomainFailure(D\Outcome::Unavailable, 'disclosure_unavailable')));
+        }
+    }
+
+    private function requireDerivedAncestors(D\Scope $scope, D\SelectionRecord $record, D\DisclosureRequest $request): void
+    {
+        if (!$request->isDerivedTier() || $this->dependencies === null) {
+            return;
+        }
+
+        $seen = [];
+        $nodes = [];
+        foreach ($request->refs($record) as $ref) {
+            $revisionId = $ref->revisionRef->documentRevisionId;
+            if (!isset($seen[$revisionId->value])) {
+                $seen[$revisionId->value] = true;
+                $nodes[] = new D\ResourceRef($scope->tenantId, 'document_revision', $revisionId);
+            }
+        }
+        $report = $this->dependencies->checkAncestors(new D\NodeRefs($scope->tenantId, $nodes));
+        if ($report->decision !== D\Decision::Allow) {
+            throw new D\DomainFailure(
+                $report->decision === D\Decision::Deny ? D\Outcome::Denied : D\Outcome::Unknown,
+                $report->decision === D\Decision::Deny ? 'ancestor_unusable' : 'ancestor_unknown',
+            );
         }
     }
 }
