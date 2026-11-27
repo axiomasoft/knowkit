@@ -73,6 +73,7 @@
         "layers:mounts",
         "security:disclosure-modes",
         "artifacts:pyramid",
-        "retrieval:graph"
+        "retrieval:graph",
+        "retrieval:pruning"
     ]
 }

@@ -2278,7 +2278,7 @@
             }
         }
     ],
-    "catalogDigest": "b3e4dd248b4ef75029a899910635138ba66b2349a5b1bd0432d0995100a179c1",
+    "catalogDigest": "e99c1778e3e94693dbd4252abe3effade4532c46b74937fd671a754e7e574598",
     "limitations": [
         "Local qualification only; no runtime parser/provider conformance or publication approval."
     ]

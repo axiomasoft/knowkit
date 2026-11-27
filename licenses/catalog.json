@@ -41,7 +41,8 @@
     "licenses/qualifications/symfony--deprecation-contracts.json",
     "licenses/qualifications/symfony--polyfill-ctype.json",
     "licenses/qualifications/symfony--yaml.json",
-    "licenses/qualifications/theseer--tokenizer.json"
+    "licenses/qualifications/theseer--tokenizer.json",
+    "licenses/qualifications/xprovence-bgem3.json"
   ],
   "profiles": [
     {
