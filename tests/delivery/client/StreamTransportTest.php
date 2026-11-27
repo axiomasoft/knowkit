@@ -66,7 +66,7 @@ final class StreamTransportTest extends TestCase
             } catch (C\TransportFailure $failure) {
                 self::assertTrue($failure->timedOut);
                 self::assertLessThan(1000000000, hrtime(true) - $start);
-                self::assertStringNotContainsString('gravity', (string) $failure);
+                self::assertStringNotContainsString('gravity', $failure->getMessage());
             }
         } finally {
             $remote->close();

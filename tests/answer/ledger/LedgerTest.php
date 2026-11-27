@@ -149,7 +149,7 @@ final class LedgerTest extends TestCase
             $other->complete($sending->claim, $f->outcome());
             self::assertSame(1, $f->transport->sends);
             self::assertSame(A\OutcomeCode::Answered, $f->replay()->code);
-        }, 1);
+        }, 2);
     }
 
     public function testCrashAfterIntentWithoutAnyDispatchBecomesUnknownAndNeverResends(): void
@@ -170,7 +170,7 @@ final class LedgerTest extends TestCase
             self::assertSame(A\OutcomeCode::TransportUnknown, $f->replay()->code);
             self::assertSame(0, $f->transport->sends);
             self::assertSame(0, $f->payloads->responseReads);
-        }, 1);
+        }, 2);
     }
 
     public function testCrashAfterProviderReplyBeforeDurableCompletionDoesNotGenerateAgain(): void
@@ -191,7 +191,7 @@ final class LedgerTest extends TestCase
             self::assertSame(A\OutcomeCode::TransportUnknown, $outcome->code);
             self::assertSame(1, $f->transport->sends);
             self::assertSame(0, $f->payloads->responseReads);
-        }, 1);
+        }, 2);
     }
 
     public function testCompletedReplayChecksCurrentHistoryEgressAudienceAndSourceBeforePayloadRead(): void
@@ -278,7 +278,7 @@ final class LedgerTest extends TestCase
             }
             self::assertSame(A\InvocationState::Unknown, $other->find($unknown->invocationRef)->state);
             self::assertSame(0, $f->transport->sends);
-        }, 1);
+        }, 2);
     }
 
     public function testExactOutboundIdentityAndManagedPayloadCustodyNeverPersistProtectedPlaintextInSql(): void

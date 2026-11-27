@@ -8,6 +8,7 @@ spl_autoload_register(static function (string $class): void {
     $prefixes = [
         'KnowKitExample\\Edufy\\' => __DIR__ . '/',
         'KnowKit\\Answer\\' => dirname(__DIR__, 2) . '/packages/answer/src/',
+        'KnowKit\\ContextCompilers\\' => dirname(__DIR__, 2) . '/packages/context-compilers/src/',
     ];
     foreach ($prefixes as $prefix => $directory) {
         if (str_starts_with($class, $prefix)) {

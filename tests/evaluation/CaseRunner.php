@@ -49,6 +49,7 @@ final readonly class CaseRunner
     private function configure(array $case): void
     {
         $f = $this->fixture;
+        $f->host->now = Fixture::databaseNow($f->db());
         $f->host->eligible = [];
         $sources = [];
         foreach ($case['securityFixture']['allowed'] as $name) {

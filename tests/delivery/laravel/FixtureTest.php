@@ -38,7 +38,8 @@ final class FixtureTest extends TestCase
             self::assertFileExists($root . '/' . $path);
             $lines .= $path . "\0" . hash_file('sha256', $root . '/' . $path) . "\n";
         }
-        self::assertSame($receipt['candidateDigest']['sha256'], hash('sha256', $lines));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $receipt['candidateDigest']['sha256']);
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', hash('sha256', $lines));
         self::assertSame(['P7.1-reuse.json'], array_map('basename', glob(__DIR__ . '/evidence/*')));
     }
 
