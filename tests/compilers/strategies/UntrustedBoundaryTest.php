@@ -15,16 +15,14 @@ use PHPUnit\Framework\TestCase;
 #[Group('compilers:strategies')]
 final class UntrustedBoundaryTest extends TestCase
 {
-    /** @return iterable<string, array{CacheSemantics}> */
-    public static function semantics(): iterable
+    public function testTrustTiersLandInCorrectBlocksForEveryStrategy(): void
     {
         foreach (CacheSemantics::cases() as $s) {
-            yield $s->value => [$s];
+            $this->assertTrustTiersLandInCorrectBlocksForStrategy($s);
         }
     }
 
-    #[DataProvider('semantics')]
-    public function testTrustTiersLandInCorrectBlocksForEveryStrategy(CacheSemantics $s): void
+    private function assertTrustTiersLandInCorrectBlocksForStrategy(CacheSemantics $s): void
     {
         $nodes = [
             ...StrategyFixtures::standardNodes(),
