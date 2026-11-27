@@ -32,7 +32,7 @@ final class PostgresFlowTest extends TestCase
             $host->binding = Fixture::binding(['transport' => ScriptedTransport::testDescriptor()]);
             $transport = new ScriptedTransport(new EffectiveProfile(ProfileMode::Test, ScriptedTransport::testDescriptor()), [
                 new A\TransportResult(A\DispatchCertainty::Sent,
-                    Jcs::canonicalize(new JsonObject(['text' => ReplayFixture::corpus()['answer'], 'citations' => [$host->citation()->toWire()]])),
+                    Jcs::canonicalize(new JsonObject(['text' => ReplayFixture::corpus()['answer'], 'citations' => ['#1']])),
                     true, new A\UsageObservation(123, 17, 'script:public-flow'), $host->binding->model, true),
             ]);
             $service = $this->service($host, $sql, $transport);

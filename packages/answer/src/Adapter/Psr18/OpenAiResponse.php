@@ -76,8 +76,48 @@ final class OpenAiResponse
             throw new \InvalidArgumentException('Invalid usage');
         }
         self::tokens($wire->get('total_tokens'));
+        $details = self::details($wire->get('prompt_tokens_details') ?? $wire->get('input_tokens_details'));
+        $cacheRead = self::firstTokens(
+            $wire->get('cache_read_input_tokens'),
+            $details?->get('cached_tokens'),
+            $wire->get('cachedContentTokenCount'),
+            $wire->get('cached_tokens'),
+        );
+        $cacheWrite = self::firstTokens(
+            $wire->get('cache_creation_input_tokens'),
+            $wire->get('cache_write_tokens'),
+            $details?->get('cache_write_tokens'),
+        );
 
-        return new A\UsageObservation(self::tokens($wire->get('prompt_tokens')), self::tokens($wire->get('completion_tokens')));
+        return new A\UsageObservation(
+            self::tokens($wire->get('prompt_tokens')),
+            self::tokens($wire->get('completion_tokens')),
+            cacheReadTokens: $cacheRead,
+            cacheWriteTokens: $cacheWrite,
+        );
+    }
+
+    private static function details(mixed $wire): ?JsonObject
+    {
+        if ($wire === null) {
+            return null;
+        }
+        if (!$wire instanceof JsonObject) {
+            throw new \InvalidArgumentException('Invalid usage details');
+        }
+
+        return $wire;
+    }
+
+    private static function firstTokens(mixed ...$candidates): ?int
+    {
+        foreach ($candidates as $candidate) {
+            if ($candidate !== null) {
+                return self::tokens($candidate);
+            }
+        }
+
+        return null;
     }
 
     private static function tokens(mixed $value): ?int

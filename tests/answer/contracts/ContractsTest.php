@@ -369,10 +369,14 @@ final class ContractsTest extends TestCase
         $this->rejects(fn () => $make(A\InvocationState::Preparing, lease: $foreignClaim));
         $this->rejects(fn () => new A\Estimate(Fixture::scope(), -1, null, 1, 1));
         $this->rejects(fn () => new A\UsageObservation(outputTokens: -1));
+        $this->rejects(fn () => new A\UsageObservation(cacheReadTokens: -1));
+        $this->rejects(fn () => new A\UsageObservation(cacheWriteTokens: -1));
         $reservation = new A\BudgetReservation($key, 'reservation:1', A\ReservationStatus::Unknown);
         self::assertSame($key, $reservation->invocationRef);
         self::assertSame(A\ReservationStatus::Unknown, $reservation->status);
         self::assertNull((new A\UsageObservation())->providerRequestId);
+        self::assertNull((new A\UsageObservation())->cacheReadTokens);
+        self::assertNull((new A\UsageObservation())->cacheWriteTokens);
     }
 
     public function testCheckpointCannotReplaceOriginalRequestDigestOrPinnedTenant(): void

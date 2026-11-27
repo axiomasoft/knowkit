@@ -5,6 +5,7 @@
   "license": "proprietary",
   "require": {
     "php": ">=8.3",
+    "knowkit/context-compilers": "dev-main",
     "knowkit/core": "dev-main",
     "psr/http-client": "^1.0",
     "psr/http-factory": "^1.1"
@@ -14,6 +15,16 @@
     "phpunit/phpunit": "^11.5"
   },
   "repositories": [
+    {
+      "type": "path",
+      "url": "../context-compilers",
+      "options": {
+        "symlink": false,
+        "versions": {
+          "knowkit/context-compilers": "dev-main"
+        }
+      }
+    },
     {
       "type": "path",
       "url": "../core",

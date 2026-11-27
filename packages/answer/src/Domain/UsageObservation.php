@@ -11,8 +11,10 @@ final readonly class UsageObservation
         public ?int $inputTokens = null,
         public ?int $outputTokens = null,
         public ?string $providerRequestId = null,
+        public ?int $cacheReadTokens = null,
+        public ?int $cacheWriteTokens = null,
     ) {
-        foreach ([$inputTokens, $outputTokens] as $tokens) {
+        foreach ([$inputTokens, $outputTokens, $cacheReadTokens, $cacheWriteTokens] as $tokens) {
             if ($tokens !== null && $tokens < 0) {
                 throw new \InvalidArgumentException('Nonnegative observed usage required');
             }

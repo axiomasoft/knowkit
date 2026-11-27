@@ -175,6 +175,23 @@ final class TransportTest extends TestCase
         self::assertTrue($result->complete);
         self::assertNull($result->usage->inputTokens);
         self::assertNull($result->usage->outputTokens);
+        self::assertNull($result->usage->cacheReadTokens);
+        self::assertNull($result->usage->cacheWriteTokens);
+        $cached = new TransportFixture([TransportFixture::response([
+            'usage' => [
+                'prompt_tokens' => 120,
+                'completion_tokens' => 15,
+                'prompt_tokens_details' => ['cached_tokens' => 80, 'cache_write_tokens' => 20],
+            ],
+        ])]);
+        $cachedResult = $cached->transport->send(TransportFixture::request(), Fixture::cancellation());
+        self::assertTrue($cachedResult->complete);
+        self::assertSame(80, $cachedResult->usage->cacheReadTokens);
+        self::assertSame(20, $cachedResult->usage->cacheWriteTokens);
+        $badCache = new TransportFixture([TransportFixture::response([
+            'usage' => ['prompt_tokens' => 10, 'completion_tokens' => 2, 'cache_read_input_tokens' => -1],
+        ])]);
+        $this->assertUnknown($badCache->transport->send(TransportFixture::request(), Fixture::cancellation()));
     }
 
     public function testCapabilityExpiryDuringHostPreparationPreventsDispatch(): void

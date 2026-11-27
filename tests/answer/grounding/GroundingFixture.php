@@ -371,11 +371,11 @@ final class GroundingFixture implements Clock, IdGenerator, Retrieval, Disclosur
         if ($this->incomplete) {
             return new A\TransportResult(A\DispatchCertainty::Sent, null, false, $usage, $this->binding->model, true);
         }
-        $citation = $this->citation()->toWire();
+        $citations = ['#1'];
         if ($this->mutateCitation !== null) {
-            $citation = ($this->mutateCitation)($citation);
+            $citations = ($this->mutateCitation)($citations);
         }
-        $output = Jcs::canonicalize(new JsonObject(['text' => self::corpus()['answer'], 'citations' => [$citation]]));
+        $output = Jcs::canonicalize(new JsonObject(['text' => self::corpus()['answer'], 'citations' => $citations]));
 
         return new A\TransportResult(A\DispatchCertainty::Sent, $this->outputText ?? $output, true, $usage, $this->observedModel ?? $this->binding->model, true);
     }

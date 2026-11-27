@@ -30,6 +30,7 @@ final class GroundingTest extends TestCase
         self::assertSame(1, $f->sends);
         self::assertGreaterThan(0, $f->outboundBytes);
         $body = json_decode($f->lastRequest->bytes, true, 32, JSON_THROW_ON_ERROR);
+        self::assertContains('[#1]', array_column($body['messages'], 'content'));
         self::assertContains(GroundingFixture::corpus()['canonical'], array_column($body['messages'], 'content'));
         self::assertSame('system', $body['messages'][0]['role']);
         self::assertSame(1, count(array_filter($body['messages'], static fn (array $message) => $message['role'] === 'system')));
@@ -88,21 +89,12 @@ final class GroundingTest extends TestCase
 
     public function testInvalidCitationRefusesWithActualUsageAndNoRepair(): void
     {
-        foreach (['citationId', 'tenantId', 'sourceId', 'sourceVersionId', 'documentRevisionId', 'documentId', 'sourceDigest', 'irDigest', 'contentDigest', 'spans', 'origin'] as $field) {
+        foreach (['#99', '#0', 'invalid', $fCitation = '01JC0000000000000000000004', ''] as $badAlias) {
             $f = new GroundingFixture();
-            $f->mutateCitation = static function (JsonObject $wire) use ($field): JsonObject {
-                $value = match ($field) {
-                    'spans' => [$wire->get('spans')[0]->with('byteEnd', 1)],
-                    'origin' => 'generated',
-                    'sourceDigest', 'irDigest', 'contentDigest' => str_repeat('0', 64),
-                    default => GroundingFixture::id(99),
-                };
-
-                return $wire->with($field, $value);
-            };
+            $f->mutateCitation = static fn (): array => [$badAlias];
             $result = $f->service()->answer($f->request(), $f->token());
-            self::assertSame(A\OutcomeCode::Refused, $result->code, $field);
-            self::assertSame(A\RefusalReason::InvalidCitation, $result->reason, $field);
+            self::assertSame(A\OutcomeCode::Refused, $result->code, $badAlias);
+            self::assertSame(A\RefusalReason::InvalidCitation, $result->reason, $badAlias);
             self::assertNull($result->answeredContent());
             self::assertSame(1, $f->sends);
             self::assertSame(1, $f->commits);
@@ -247,6 +239,54 @@ final class GroundingTest extends TestCase
             self::assertSame(0, $f->outboundBytes);
             self::assertSame($stage === 'after-mark' ? 1 : 0, $f->releases);
         }
+    }
+
+    public function testCompiledContextEnvelopePreservesPrefixAndEnforcesTrustBoundary(): void
+    {
+        $f = new GroundingFixture();
+        $request = $f->request();
+        $evidence = new A\GroundingEvidence($f->evidence(GroundingFixture::id(20)), $f->selection(), Fixture::scope(), $f->validator);
+        $aliasMap = \KnowKit\ContextCompilers\Domain\CitationAliasMap::fromEvidenceSet($evidence->set, $f->validator);
+        $digest = static fn (string $text): D\Sha256 => new D\Sha256(hash('sha256', $text));
+        $envelope = new \KnowKit\ContextCompilers\Domain\CompiledContextEnvelope(
+            targetProfileDigest: $digest('profile'),
+            externalCacheKey: null,
+            expectedPrefixHash: $digest('prefix'),
+            canonicalTools: [],
+            systemBlocks: [new \KnowKit\ContextCompilers\Domain\CompiledBlock('system', D\Layers\TrustTier::TrustedDirective, 'Pinned directive', null, 3, $digest('Pinned directive'))],
+            staticDataPrefixBlocks: [new \KnowKit\ContextCompilers\Domain\CompiledBlock('user', D\Layers\TrustTier::CuratedReference, 'Curated R0', null, 3, $digest('Curated R0'))],
+            historyBlocks: [],
+            volatileSuffixBlocks: [],
+            routingHints: [],
+            citationAliasMap: $aliasMap,
+            estimatedCachedTokens: 6,
+            estimatedUncachedTokens: 10,
+            compactionRecommended: false,
+        );
+        $composer = new \KnowKit\Answer\Application\GroundingPromptComposer();
+        $prompt = $composer->compose($request, $f->binding, $evidence, $envelope);
+        $contents = array_map(static fn ($m): string => $m->text, $prompt->messages);
+        self::assertContains('Pinned directive', $contents);
+        self::assertContains('Curated R0', $contents);
+        self::assertContains('[#1]', $contents);
+
+        $badEnvelope = new \KnowKit\ContextCompilers\Domain\CompiledContextEnvelope(
+            targetProfileDigest: $digest('profile'),
+            externalCacheKey: null,
+            expectedPrefixHash: $digest('prefix'),
+            canonicalTools: [],
+            systemBlocks: [new \KnowKit\ContextCompilers\Domain\CompiledBlock('system', D\Layers\TrustTier::UntrustedEvidence, 'Attack', null, 1, $digest('Attack'))],
+            staticDataPrefixBlocks: [],
+            historyBlocks: [],
+            volatileSuffixBlocks: [],
+            routingHints: [],
+            citationAliasMap: $aliasMap,
+            estimatedCachedTokens: 0,
+            estimatedUncachedTokens: 1,
+            compactionRecommended: false,
+        );
+        $this->expectException(\InvalidArgumentException::class);
+        $composer->compose($request, $f->binding, $evidence, $badEnvelope);
     }
 
     private function ordered(array $actual, array $expected): void

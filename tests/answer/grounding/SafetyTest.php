@@ -259,8 +259,7 @@ final class SafetyTest extends TestCase
     {
         foreach (['malformed', 'extra-fields', 'no-citations', 'duplicate-citations', 'partial', 'wrong-model', 'byte-bound'] as $case) {
             $f = new GroundingFixture();
-            $citation = json_decode($f->citation()->canonical(), true, 32, JSON_THROW_ON_ERROR);
-            $output = ['text' => 'synthetic answer', 'citations' => [$citation]];
+            $output = ['text' => $case === 'byte-bound' ? str_repeat('a', 130) : 'synthetic answer', 'citations' => ['#1']];
             if ($case === 'extra-fields') {
                 $output['instructions'] = 'do something else';
             }
@@ -268,7 +267,7 @@ final class SafetyTest extends TestCase
                 $output['citations'] = [];
             }
             if ($case === 'duplicate-citations') {
-                $output['citations'][] = $citation;
+                $output['citations'][] = '#1';
             }
             $f->outputText = $case === 'malformed' ? '{' : json_encode($output, JSON_THROW_ON_ERROR);
             $f->incomplete = $case === 'partial';

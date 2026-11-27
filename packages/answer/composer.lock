@@ -4,8 +4,38 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "076eccc6500a1513067869d377be5652",
+    "content-hash": "22aa24531a3629404bee57bf41e6db85",
     "packages": [
+        {
+            "name": "knowkit/context-compilers",
+            "version": "dev-main",
+            "dist": {
+                "type": "path",
+                "url": "../context-compilers",
+                "reference": "051e05373e05c4e976efc927e6a34dc648626836"
+            },
+            "require": {
+                "knowkit/core": "dev-main",
+                "php": ">=8.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "KnowKit\\ContextCompilers\\": "src/"
+                }
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Prompt cache compilation, citation alias mapping, and compact context codecs for KnowKit",
+            "transport-options": {
+                "symlink": false,
+                "relative": true
+            }
+        },
         {
             "name": "knowkit/core",
             "version": "dev-main",
@@ -2056,6 +2086,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "knowkit/context-compilers": 20,
         "knowkit/core": 20
     },
     "prefer-stable": true,
