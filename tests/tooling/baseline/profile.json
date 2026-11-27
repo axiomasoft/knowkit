@@ -75,6 +75,9 @@
         "artifacts:pyramid",
         "retrieval:graph",
         "retrieval:pruning",
-        "compilers:codecs"
+        "compilers:codecs",
+        "compilers:strategies",
+        "bridge:mcp-server",
+        "bridge:mcp-client"
     ]
 }

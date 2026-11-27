@@ -1368,6 +1368,63 @@
             ],
             "composerProject": "packages/context-compilers",
             "minPhp": "8.3"
+        },
+        {
+            "id": "compilers:strategies",
+            "requiredCaseManifest": "tests/fixtures/check-groups/compilers-strategies.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "ContextCompilers",
+                    "--group",
+                    "compilers:strategies",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/context-compilers",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "bridge:mcp-server",
+            "requiredCaseManifest": "tests/fixtures/check-groups/bridge-mcp-server.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "McpBridge",
+                    "--group",
+                    "bridge:mcp-server",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/mcp-bridge",
+            "minPhp": "8.3"
+        },
+        {
+            "id": "bridge:mcp-client",
+            "requiredCaseManifest": "tests/fixtures/check-groups/bridge-mcp-client.json",
+            "commands": [
+                [
+                    "vendor/bin/phpunit",
+                    "--configuration",
+                    "phpunit.xml",
+                    "--testsuite",
+                    "McpBridge",
+                    "--group",
+                    "bridge:mcp-client",
+                    "--log-junit",
+                    "<runner-private-junit.xml>"
+                ]
+            ],
+            "composerProject": "packages/mcp-bridge",
+            "minPhp": "8.3"
         }
     ],
     "checks": {
@@ -1475,7 +1532,10 @@
                 "artifacts:pyramid",
                 "retrieval:graph",
                 "retrieval:pruning",
-                "compilers:codecs"
+                "compilers:codecs",
+                "compilers:strategies",
+                "bridge:mcp-server",
+                "bridge:mcp-client"
             ]
         },
         "ci-core": {
@@ -1550,7 +1610,10 @@
                 "delivery:readiness",
                 "bridge-installed",
                 "bridge-host-qualification",
-                "compilers:codecs"
+                "compilers:codecs",
+                "compilers:strategies",
+                "bridge:mcp-server",
+                "bridge:mcp-client"
             ]
         },
         "ci-optional": {
@@ -1569,7 +1632,10 @@
                 "delivery:http",
                 "delivery:client",
                 "ops:observability",
-                "compilers:codecs"
+                "compilers:codecs",
+                "compilers:strategies",
+                "bridge:mcp-server",
+                "bridge:mcp-client"
             ],
             "notSelected": [
                 "contract:architecture",

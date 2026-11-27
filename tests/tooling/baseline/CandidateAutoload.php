@@ -15,6 +15,7 @@ final class CandidateAutoload
     {
         $packages = [
             'KnowKit\\Bridge\\AgenTools\\' => 'agentools-bridge',
+            'KnowKit\\Bridge\\Mcp\\' => 'mcp-bridge',
             'KnowKit\\ContextCompilers\\' => 'context-compilers',
             'KnowKit\\PgVector\\' => 'pgvector',
             'KnowKit\\Laravel\\' => 'laravel',
