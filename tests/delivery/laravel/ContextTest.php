@@ -27,9 +27,10 @@ final class ContextTest extends TestCase
 {
     public function testUntrustedHttpIdentityNeverReachesApplication(): void
     {
+        $httpConfig = ['instances' => ['default' => ['http' => ['enabled' => true, 'registrar' => SearchRoutes::class]]]];
         $temporary = Qa::temporary();
         try {
-            $app = Fixture::app($temporary, ['http' => ['enabled' => true, 'registrar' => SearchRoutes::class]]);
+            $app = Fixture::app($temporary, $httpConfig);
             $identity = $this->createMock(HttpIdentity::class);
             $host = new Identity(Fixture::policy());
             $identity->method('forUser')->willReturn($host);
@@ -79,7 +80,7 @@ final class ContextTest extends TestCase
         $temporary = Qa::temporary();
         try {
             foreach ([D\Outcome::Unknown, D\Outcome::Unavailable, D\Outcome::Incompatible] as $outcome) {
-                $app = Fixture::app($temporary, ['http' => ['enabled' => true, 'registrar' => SearchRoutes::class]]);
+                $app = Fixture::app($temporary, ['instances' => ['default' => ['http' => ['enabled' => true, 'registrar' => SearchRoutes::class]]]]);
                 $identity = $this->createMock(HttpIdentity::class);
                 $identity->method('forUser')->willThrowException(new D\DomainFailure($outcome, 'identity_failure'));
                 $app->instance(HttpIdentity::class, $identity);
@@ -98,9 +99,10 @@ final class ContextTest extends TestCase
 
     public function testExampleRouteDelegatesToHostApplicationWithTrustedContext(): void
     {
+        $httpConfig = ['instances' => ['default' => ['http' => ['enabled' => true, 'registrar' => SearchRoutes::class]]]];
         $temporary = Qa::temporary();
         try {
-            $app = Fixture::app($temporary, ['http' => ['enabled' => true, 'registrar' => SearchRoutes::class]]);
+            $app = Fixture::app($temporary, $httpConfig);
             $identity = $this->createMock(HttpIdentity::class);
             $policy = Fixture::policy();
             $identity->method('forUser')->willReturn(new Identity($policy));
@@ -127,7 +129,7 @@ final class ContextTest extends TestCase
         $temporary = Qa::temporary();
         try {
             foreach (Fixture::json('scenarios.json')['outcomes'] as $vector) {
-                $app = Fixture::app($temporary, ['http' => ['enabled' => true, 'registrar' => SearchRoutes::class]]);
+                $app = Fixture::app($temporary, ['instances' => ['default' => ['http' => ['enabled' => true, 'registrar' => SearchRoutes::class]]]]);
                 $identity = $this->createMock(HttpIdentity::class);
                 $identity->method('forUser')->willReturn(new Identity(Fixture::policy()));
                 $app->instance(HttpIdentity::class, $identity);

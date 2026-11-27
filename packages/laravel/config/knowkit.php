@@ -3,11 +3,9 @@
 declare(strict_types=1);
 
 return [
-    // Canonical host-profile:1 JSON; credentials are references, never literal secrets.
-    'profile' => null,
-    'credentials' => [],
-    'http' => ['enabled' => false, 'registrar' => null],
+    'default' => 'default',
+    // Each instance: name => ['profile' => ?string, 'preset' => string, 'credentials' => array<string, string>, 'http' => ['enabled' => bool, 'registrar' => ?class-string], 'jobs' => ['enabled' => bool]]
+    'instances' => [],
     'migrations' => ['publish' => false],
     'commands' => ['enabled' => false],
-    'jobs' => ['enabled' => false],
 ];

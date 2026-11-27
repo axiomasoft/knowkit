@@ -24,7 +24,7 @@ final class JobsTest extends TestCase
     {
         $temporary = Qa::temporary();
         try {
-            $app = Fixture::app($temporary, ['jobs' => ['enabled' => true]]);
+            $app = Fixture::app($temporary, ['instances' => ['default' => ['jobs' => ['enabled' => true]]]]);
             $dispatcher = $this->createMock(Dispatcher::class);
             $dispatcher->expects(self::once())->method('dispatch')->with(self::callback(
                 static fn (RunJob $job): bool => get_object_vars($job) === ['jobRef' => Fixture::JOB],

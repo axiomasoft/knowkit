@@ -7,6 +7,7 @@ namespace KnowKit\Laravel\Jobs;
 use Illuminate\Contracts\Bus\Dispatcher;
 use KnowKit\Application\Access\AccessContext;
 use KnowKit\Domain\DomainFailure;
+use KnowKit\Domain\InstanceId;
 use KnowKit\Domain\Outcome;
 
 final readonly class Jobs
@@ -16,7 +17,13 @@ final readonly class Jobs
         private Dispatcher $dispatcher,
         private JobIdentity $identity,
         private JobHandler $handler,
+        private ?InstanceId $instanceId = null,
     ) {}
+
+    public function instanceId(): ?InstanceId
+    {
+        return $this->instanceId;
+    }
 
     public function dispatch(string $jobRef): void
     {
