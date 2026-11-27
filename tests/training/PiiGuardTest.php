@@ -25,6 +25,12 @@ final class PiiGuardTest extends TestCase
         $cases = [
             ['alice.ivanova@example.org', '[REDACTED_EMAIL]'],
             ['+7 (999) 123-45-67', '[REDACTED_PHONE]'],
+            ['+79991234567', '[REDACTED_PHONE]'],
+            ['89991234567', '[REDACTED_PHONE]'],
+            ['8 999 123 45 67', '[REDACTED_PHONE]'],
+            ['тел. 9991234567', '[REDACTED_PHONE]'],
+            ['+1 202 555 0143', '[REDACTED_PHONE]'],
+            ['паспорт 45 09 123456', '[REDACTED_PASSPORT]'],
             ['eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c', '[REDACTED_JWT]'],
             ['sk-live-abcdefghijklmnopqrstuvwxyz1234', '[REDACTED_API_KEY]'],
             ['паспорт серия 45 09 № 123456', '[REDACTED_PASSPORT]'],
@@ -36,6 +42,25 @@ final class PiiGuardTest extends TestCase
             $redacted = $redactor->redact('User data: ' . $input . ' end.');
             self::assertStringContainsString($expectedMarker, $redacted);
             self::assertStringNotContainsString($input, $redacted);
+            self::assertFalse($redactor->containsResidualPii($redacted));
+        }
+    }
+
+    public function testSupportTicketIdsAndLessonNumbersAreNotPassportsOrPhones(): void
+    {
+        $redactor = new StrictRegexPiiRedactor();
+        $samples = [
+            'заказ 123-456-7890',
+            'INC-123-456-78-90',
+            'ticket 100-200-30-40',
+            'урок 12 05 123456',
+            'баллы 12-34-56-78',
+        ];
+
+        foreach ($samples as $sample) {
+            $redacted = $redactor->redact('Запись: ' . $sample . ' конец.');
+            self::assertStringContainsString($sample, $redacted);
+            self::assertStringNotContainsString('REDACTED', $redacted);
             self::assertFalse($redactor->containsResidualPii($redacted));
         }
     }
@@ -128,6 +153,8 @@ final class PiiGuardTest extends TestCase
         );
 
         self::assertSame(0, $result['manifest']->includedCount);
+        self::assertSame([], $result['manifest']->snapshotRefs);
+        self::assertSame([], $result['manifest']->layerStackDigests);
         self::assertSame(['pii_redaction_failed' => 1], $result['manifest']->excludedCountsByReason);
         self::assertSame([
             ['traceId' => '01JTR000000000000000000099', 'reason' => 'pii_redaction_failed'],

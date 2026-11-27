@@ -58,12 +58,14 @@ final readonly class TrainingTraceRecord
      * @param list<array{role: string, content: string}> $messages
      * @param list<array{role: string, content: string}> $teacherMessages
      * @param list<array{role: string, content: string}> $studentMessages
+     * @param array<string, bool|int|string> $lockedInvariants
      */
     public function withRedactedText(
         array $messages,
         array $teacherMessages,
         array $studentMessages,
         ?string $targetResponse,
+        array $lockedInvariants,
     ): self {
         return new self(
             traceId: $this->traceId,
@@ -80,7 +82,7 @@ final readonly class TrainingTraceRecord
             teacherMessages: $teacherMessages,
             studentMessages: $studentMessages,
             targetResponse: $targetResponse,
-            lockedInvariants: $this->lockedInvariants,
+            lockedInvariants: $lockedInvariants,
             promptEnvelopeDigest: $this->promptEnvelopeDigest,
             disclosureMode: $this->disclosureMode,
             tombstones: $this->tombstones,

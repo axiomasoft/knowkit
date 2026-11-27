@@ -350,7 +350,7 @@ final class ContractSchemasTest extends Support
             }
         }
         $corpus = json_decode($this->harness()->read(ContractHarness::MANIFEST), true, 512, JSON_THROW_ON_ERROR);
-        self::assertSame('1.2.0', $corpus['corpusVersion']);
+        self::assertSame('1.3.0', $corpus['corpusVersion']);
         self::assertSame($corpus['corpusVersion'], $group['fixtureVersion']);
         $passed = array_map(static fn(string $test): array => ['id' => $test, 'status' => 'passed'],
             array_merge(...array_values($group['testCaseMap'])));

@@ -10,6 +10,7 @@ use KnowKit\Domain\{
     NodeRefs,
     Operation,
     Outcome,
+    ProfileId,
     ResourceRef,
 };
 use KnowKit\Domain\Layers\DisclosureMode;
@@ -25,6 +26,11 @@ final readonly class ExportAdmissionGate
         private DependencyStore $dependencyStore,
         private PiiRedactor $piiRedactor,
     ) {
+    }
+
+    public function redactorId(): ProfileId
+    {
+        return $this->piiRedactor->id();
     }
 
     public function admit(TrainingTraceRecord $trace): TrainingTraceRecord
@@ -120,12 +126,20 @@ final readonly class ExportAdmissionGate
         $redactedTeacher = $this->redactMessageList($trace->teacherMessages);
         $redactedStudent = $this->redactMessageList($trace->studentMessages);
         $redactedTarget = $trace->targetResponse !== null ? $this->redactText($trace->targetResponse) : null;
+        $redactedInvariants = [];
+        foreach ($trace->lockedInvariants as $key => $value) {
+            if ($this->piiRedactor->containsResidualPii($key)) {
+                throw new DomainFailure(Outcome::Denied, 'pii_redaction_failed');
+            }
+            $redactedInvariants[$key] = is_string($value) ? $this->redactText($value) : $value;
+        }
 
         return $trace->withRedactedText(
             $redactedMessages,
             $redactedTeacher,
             $redactedStudent,
             $redactedTarget,
+            $redactedInvariants,
         );
     }
 

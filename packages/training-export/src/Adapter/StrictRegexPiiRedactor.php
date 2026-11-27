@@ -26,11 +26,18 @@ final readonly class StrictRegexPiiRedactor implements PiiRedactor
         '/\b\d{3}-\d{3}-\d{3}[\s\-]\d{2}\b/' => '[REDACTED_SNILS]',
         // INN (with keyword prefix, 10 or 12 digits)
         '/(?<=\bИНН|\bINN)\s*[:#№]?\s*\d{10}(?:\d{2})?\b/ui' => ' [REDACTED_INN]',
-        // Russian passport (series + number, with or without keyword)
+        // Passport only with a label or a number sign. A bare "12 05 123456"
+        // is also a lesson or exercise id, so it must survive a tutor export.
         '/\b(?:паспорт|passport)\s*(?:серия|series)?\s*[:#№]?\s*\d{2}\s*\d{2}\s*(?:№|#)?\s*\d{6}\b/ui' => '[REDACTED_PASSPORT]',
-        '/\b\d{2}\s\d{2}\s\d{6}\b/' => '[REDACTED_PASSPORT]',
-        // Phone numbers (+7 / +1 / 8 / generic 10-11 digit phone patterns)
-        '/(?<![\w.])(?:\+?\d{1,3}[\s\-.]?)?\(?\d{3}\)?[\s\-.]\d{3}[\s\-.]?\d{2}[\s\-.]?\d{2}(?![\w.])/' => '[REDACTED_PHONE]',
+        '/\b(?:серия|series)\s*[:#№]?\s*\d{2}\s*\d{2}\s*(?:№|#)?\s*\d{6}\b/ui' => '[REDACTED_PASSPORT]',
+        '/\b\d{2}\s\d{2}\s*[№#]\s*\d{6}\b/u' => '[REDACTED_PASSPORT]',
+        // Phones need a cue. Dashed groups such as 123-456-7890 are ticket and
+        // order ids in a support transcript, not phones. Compact +7/8 numbers
+        // and a tel/phone label are the forms that were previously leaked.
+        '/(?<![\w.])\+(?:[\s\-().]*\d){10,15}(?![\w.])/' => '[REDACTED_PHONE]',
+        '/(?<![\w.\-])8(?:[\s\-().]*\d){10}(?![\w.])/' => '[REDACTED_PHONE]',
+        '/(?<![\w.])\(\d{3}\)[\s\-.]?\d{3}[\s\-.]?\d{2}[\s\-.]?\d{2}(?![\w.])/' => '[REDACTED_PHONE]',
+        '/\b(?:тел(?:ефон)?|phone|mobile|mob|моб)\.?\s*[:#]?\s*\+?(?:[\s\-().]*\d){10,15}\b/ui' => '[REDACTED_PHONE]',
     ];
 
     private const RESIDUAL_PATTERNS = [
@@ -42,8 +49,13 @@ final readonly class StrictRegexPiiRedactor implements PiiRedactor
         '/[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,}/u',
         '/\b\d{3}-\d{3}-\d{3}[\s\-]\d{2}\b/',
         '/\b(?:ИНН|INN)\s*[:#№]?\s*\d{10}(?:\d{2})?\b/ui',
-        '/\b\d{2}\s\d{2}\s\d{6}\b/',
-        '/(?<![\w.])(?:\+?\d{1,3}[\s\-.]?)?\(?\d{3}\)?[\s\-.]\d{3}[\s\-.]?\d{2}[\s\-.]?\d{2}(?![\w.])/',
+        '/\b(?:паспорт|passport)\s*(?:серия|series)?\s*[:#№]?\s*\d{2}\s*\d{2}\s*(?:№|#)?\s*\d{6}\b/ui',
+        '/\b(?:серия|series)\s*[:#№]?\s*\d{2}\s*\d{2}\s*(?:№|#)?\s*\d{6}\b/ui',
+        '/\b\d{2}\s\d{2}\s*[№#]\s*\d{6}\b/u',
+        '/(?<![\w.])\+(?:[\s\-().]*\d){10,15}(?![\w.])/',
+        '/(?<![\w.\-])8(?:[\s\-().]*\d){10}(?![\w.])/',
+        '/(?<![\w.])\(\d{3}\)[\s\-.]?\d{3}[\s\-.]?\d{2}[\s\-.]?\d{2}(?![\w.])/',
+        '/\b(?:тел(?:ефон)?|phone|mobile|mob|моб)\.?\s*[:#]?\s*\+?(?:[\s\-().]*\d){10,15}\b/ui',
     ];
 
     public function id(): ProfileId

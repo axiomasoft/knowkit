@@ -1,7 +1,7 @@
 {
   "schemaVersion": "fixture-manifest-1.0",
-  "corpusVersion": "1.2.0",
-  "versionRationale": "1.2.0 (P4.6, Q1=a): domain-event now supports the explicitly discriminated kind=navigation Usage payload for revision/unit disclosures. Existing 187 corpus cases, expected outcomes, IRs and vectors are unchanged; dedicated navigation protocol tests add negative coverage for the new closed payload and tenant binding. 1.1.0 (P1.4 correction round 2, intentional contract changes, not a snapshot rewrite): Selection gains the required nullable trusted runRef binding (run-bound positive, missing/empty negatives, same-run/other-run/dropped-run binding vectors); every DomainEvent type has a closed payload projected from its normative record, so domain-event.valid drops sourceVersionId and adds appliesTo (payloadDigest and the domain.event-payload vector change accordingly) and unknown/documentText/credentials payload members are rejected; citation-ref.generated and citation-ref.ocr get their own documentRevisionId because they cite different IRs than the unicode revision (evidence-set.valid digest changes) and EvidenceSet rejects one revision with two irDigests; Result.error.code keeps approved codes in original case (POLICY_CHANGED, RETRYABLE_LOCK_TIMEOUT, POINTER_CONFLICT, HOLD_TOO_LATE) and the epoch-drift binding vector now expects POLICY_CHANGED; new Job record schema with all five states. 1.0.0: initial P1.4 corpus; every wire schema has valid and invalid cases; audit regressions R07-A01..R28-A02 and the mandatory Unicode/page/bbox/version/legacy-hash cases. Expected codes/paths and golden digests are authored intentionally; any change requires a new corpusVersion and rationale.",
+  "corpusVersion": "1.3.0",
+  "versionRationale": "1.3.0: a training-export manifest with includedCount 0 may omit layerStackDigests and snapshotRefs, so an all-denied export does not publish the denied traces' snapshot identity. includedCount >= 1 still requires both arrays. Existing training-export.valid is unchanged. 1.2.0 (P4.6, Q1=a): domain-event now supports the explicitly discriminated kind=navigation Usage payload for revision/unit disclosures. Existing 187 corpus cases, expected outcomes, IRs and vectors are unchanged; dedicated navigation protocol tests add negative coverage for the new closed payload and tenant binding. 1.1.0 (P1.4 correction round 2, intentional contract changes, not a snapshot rewrite): Selection gains the required nullable trusted runRef binding (run-bound positive, missing/empty negatives, same-run/other-run/dropped-run binding vectors); every DomainEvent type has a closed payload projected from its normative record, so domain-event.valid drops sourceVersionId and adds appliesTo (payloadDigest and the domain.event-payload vector change accordingly) and unknown/documentText/credentials payload members are rejected; citation-ref.generated and citation-ref.ocr get their own documentRevisionId because they cite different IRs than the unicode revision (evidence-set.valid digest changes) and EvidenceSet rejects one revision with two irDigests; Result.error.code keeps approved codes in original case (POLICY_CHANGED, RETRYABLE_LOCK_TIMEOUT, POINTER_CONFLICT, HOLD_TOO_LATE) and the epoch-drift binding vector now expects POLICY_CHANGED; new Job record schema with all five states. 1.0.0: initial P1.4 corpus; every wire schema has valid and invalid cases; audit regressions R07-A01..R28-A02 and the mandatory Unicode/page/bbox/version/legacy-hash cases. Expected codes/paths and golden digests are authored intentionally; any change requires a new corpusVersion and rationale.",
   "requiredTags": [
     "r07-a01",
     "r07-a02",
@@ -3363,6 +3363,38 @@
       "rights": {
         "license": "LicenseRef-KnowKit-Private",
         "origin": "Project-authored synthetic contract fixture (W0.2); invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "w02-schemas"
+      ]
+    },
+    {
+      "id": "training-export.empty-included",
+      "path": "tests/fixtures/contracts/v1/valid/training-export.empty-included.json",
+      "sha256": "2ad7f2cfae5ed9d0b76fedd9625c81cc955f77fbe4d84970449ce8d8d27b6170",
+      "schemaId": "urn:knowkit:schema:training-export:1.0",
+      "expected": "valid",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture; invented IDs/digests, no third-party document text.",
+        "redistributionAllowed": false
+      },
+      "tags": [
+        "w02-schemas"
+      ]
+    },
+    {
+      "id": "training-export.included-without-provenance",
+      "path": "tests/fixtures/contracts/v1/invalid/training-export.included-without-provenance.json",
+      "sha256": "b7683e425033089b29826754f7f69759736095033fe0ed9733edd7ac8bbb4f8f",
+      "schemaId": "urn:knowkit:schema:training-export:1.0",
+      "expected": "invalid",
+      "expectedErrorCode": "min_items",
+      "expectedErrorPath": "/layerStackDigests",
+      "rights": {
+        "license": "LicenseRef-KnowKit-Private",
+        "origin": "Project-authored synthetic contract fixture; invented IDs/digests, no third-party document text.",
         "redistributionAllowed": false
       },
       "tags": [

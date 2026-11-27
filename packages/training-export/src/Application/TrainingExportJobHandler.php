@@ -31,6 +31,9 @@ final readonly class TrainingExportJobHandler
         private GroundedSftExporter $sftExporter = new GroundedSftExporter(),
         private GrpoTaskExporter $grpoExporter = new GrpoTaskExporter(),
     ) {
+        if ($piiRedactorId->value !== $admissionGate->redactorId()->value) {
+            throw new \InvalidArgumentException('piiRedactorId must be the id of the redactor that admits traces');
+        }
     }
 
     public static function jobType(): JobType
@@ -65,14 +68,13 @@ final readonly class TrainingExportJobHandler
         $snapshotRefs = [];
 
         foreach ($sortedTraces as $trace) {
-            foreach ($trace->snapshotRefs as $snap) {
-                $key = $snap->tenantId->value . ':' . $snap->kbId->value . ':' . $snap->snapshotId->value . ':' . $snap->manifestDigest->value;
-                $snapshotRefs[$key] ??= $snap;
-            }
-            $layerStackDigests[$trace->layerStackDigest->value] ??= $trace->layerStackDigest;
-
             try {
                 $admitted = $this->admissionGate->admit($trace);
+                foreach ($admitted->snapshotRefs as $snap) {
+                    $key = $snap->tenantId->value . ':' . $snap->kbId->value . ':' . $snap->snapshotId->value . ':' . $snap->manifestDigest->value;
+                    $snapshotRefs[$key] ??= $snap;
+                }
+                $layerStackDigests[$admitted->layerStackDigest->value] ??= $admitted->layerStackDigest;
                 $lines[] = match ($format) {
                     TrainingFormat::DistillPairsV1 => $this->distillExporter->exportJsonlLine($admitted),
                     TrainingFormat::GroundedSftV1 => $this->sftExporter->exportJsonlLine($admitted),

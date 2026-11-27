@@ -1,8 +1,8 @@
 {
   "schemaVersion": "check-group:1",
   "group": "training:export",
-  "fixtureVersion": "1.0.0",
-  "versionRationale": "Required contract cases for packages/training-export: fail-closed TrainingRightsPolicy, DerivedOnly verbatim guard, DependencyStore/Tombstone revocation, StrictRegexPiiRedactor + post-scan guard, audit-without-plaintext, deterministic JCS exporters, and integer-only DeterministicRewardSuite.",
+  "fixtureVersion": "1.1.0",
+  "versionRationale": "1.1.0: phone redaction requires a cue so support ticket ids survive, bare 2-2-6 lesson ids are not passports, compact +7/8 numbers are redacted, and an all-denied export manifest lists no snapshot from the denied trace. 1.0.0: fail-closed TrainingRightsPolicy, DerivedOnly verbatim guard, DependencyStore/Tombstone revocation, StrictRegexPiiRedactor + post-scan guard, audit-without-plaintext, deterministic JCS exporters, and integer-only DeterministicRewardSuite.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private",
     "origin": "Project-authored synthetic contract data; no provider or customer content.",
@@ -23,13 +23,16 @@
     ],
     "training-export:pii-guard": [
       "KnowKit\\Tests\\Training\\PiiGuardTest::testStrictRegexRedactsEmailPhoneJwtApiKeysPassportInnSnils",
+      "KnowKit\\Tests\\Training\\PiiGuardTest::testSupportTicketIdsAndLessonNumbersAreNotPassportsOrPhones",
       "KnowKit\\Tests\\Training\\PiiGuardTest::testResidualPiiPostScanGuardFailsClosed",
       "KnowKit\\Tests\\Training\\PiiGuardTest::testAuditSummaryContainsOnlyTraceIdsAndReasonCodesNeverPlaintext"
     ],
     "training-export:exporters-determinism": [
       "KnowKit\\Tests\\Training\\ExportersDeterminismTest::testContextDistillationExporterProducesCanonicalDistillPairs",
       "KnowKit\\Tests\\Training\\ExportersDeterminismTest::testGroundedSftExporterRequiresVerifiedOutcomeAndValidCitations",
-      "KnowKit\\Tests\\Training\\ExportersDeterminismTest::testGrpoTaskExporterAndJobHandlerProduceBitwiseIdenticalManifestAndShards"
+      "KnowKit\\Tests\\Training\\ExportersDeterminismTest::testGrpoTaskExporterAndJobHandlerProduceBitwiseIdenticalManifestAndShards",
+      "KnowKit\\Tests\\Training\\ExportersDeterminismTest::testDeniedTraceDoesNotPublishItsSnapshotOnTheManifest",
+      "KnowKit\\Tests\\Training\\ExportersDeterminismTest::testGrpoInvariantStringsAreRedactedBeforeSerialization"
     ],
     "training-export:reward-verifiers": [
       "KnowKit\\Tests\\Training\\RewardVerifiersTest::testGroundingRewardVerifierScoresValidInventedAndMissingAliases",
