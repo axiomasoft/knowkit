@@ -50,6 +50,8 @@ def _replace_span_text(ir: dict, block_id: str, new_text: str) -> None:
         r"\sum_{i=1}^{n} i^2",
         r"$$x_1 \le x_2$$",
         r"\left| x - y \right| > 0",
+        r"\left( a + b \right)",
+        r"\left[ x + 1 \right]",
     ],
 )
 def test_valid_latex_formulas_produce_canonical_latex(latex: str):
@@ -128,8 +130,12 @@ def test_retain_formula_retries_bbox_on_invalid_ast_and_recovers(oracle):
     res = retain_formula(ir, "equation", confidence=400, verify_ast=True, retry_render=retry_render)
     assert res is not None and res.valid is True
     assert calls == [("equation", 1, RETRY_BBOX_DPI)]
-    assert FormulaMetadata.from_ir(ir, "equation").confidence == 950
+    meta = FormulaMetadata.from_ir(ir, "equation")
+    assert meta.confidence == 950
+    assert meta.representation == r"E = m c^2"
+    Contracts(ROOT / "schemas").validate(ir, "document-ir")
     assert not any(d["code"] == "formula_ast_invalid" for d in ir["coverage"]["diagnostics"])
+    assert not any(d["code"] == "formula_transcription_uncertain" for d in ir["coverage"]["diagnostics"])
 
 
 def test_retain_formula_records_diagnostic_and_lowers_confidence_on_unrecoverable_ast(oracle):

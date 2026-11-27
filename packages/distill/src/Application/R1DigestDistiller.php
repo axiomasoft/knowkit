@@ -18,6 +18,8 @@ use KnowKit\Domain\{DocumentRevisionRef, DomainFailure, IrDocument, LocalId, Out
  */
 final readonly class R1DigestDistiller
 {
+    public const SMALL_DOCUMENT_FLOOR_BYTES = 4096;
+
     public function __construct(
         private PolicyChecks $policy,
         private ContractValidator $validator,
@@ -59,10 +61,15 @@ final readonly class R1DigestDistiller
         $maskedBlocks = [];
         /** @var array<string, list<TextLocator>> $blockLocators */
         $blockLocators = [];
+        $sourceProseBytes = 0;
         foreach ($extracted['blocks'] as $block) {
             $blockId = $block['blockId'];
             $blockLocators[$blockId] = $block['locators'];
-            $text = isset($atomByBlockId[$blockId]) ? $atomByBlockId[$blockId]['marker'] : $block['text'];
+            $isAtom = isset($atomByBlockId[$blockId]);
+            if (!$isAtom) {
+                $sourceProseBytes += strlen($block['text']);
+            }
+            $text = $isAtom ? $atomByBlockId[$blockId]['marker'] : $block['text'];
             $maskedBlocks[] = new JsonObject([
                 'blockId' => $blockId,
                 'kind' => $block['kind'],
@@ -108,10 +115,16 @@ final readonly class R1DigestDistiller
         self::assertExactMarkers($nonce, $indexedAtoms, implode("\n", $combinedTexts));
 
         $digestBlocks = [];
+        $nonAtomOutputBytes = 0;
         foreach ($rawBlocks as $rawBlock) {
             /** @var JsonObject $rawBlock */
             $blockId = (string) $rawBlock->get('blockId');
             $restored = self::restoreMarkers((string) $rawBlock->get('text'), $indexedAtoms);
+            $atomBytes = 0;
+            foreach ($restored['atoms'] as $atom) {
+                $atomBytes += strlen($atom->content);
+            }
+            $nonAtomOutputBytes += max(0, strlen($restored['text']) - $atomBytes);
             $digestBlocks[] = new DigestBlock(
                 blockId: new LocalId($blockId),
                 text: $restored['text'],
@@ -119,6 +132,12 @@ final readonly class R1DigestDistiller
                 supportingSpans: $blockLocators[$blockId] ?? [],
             );
         }
+
+        self::assertWithinRatioCeiling(
+            $nonAtomOutputBytes,
+            $sourceProseBytes,
+            $profile->r1MaxRatioBps,
+        );
 
         $artifact = new DigestArtifact(
             documentRevisionRef: $revisionRef,
@@ -189,5 +208,18 @@ final readonly class R1DigestDistiller
         }
 
         return ['text' => $text, 'atoms' => $usedAtoms];
+    }
+
+    public static function assertWithinRatioCeiling(
+        int $nonAtomOutputBytes,
+        int $sourceProseBytes,
+        int $maxRatioBps,
+    ): void {
+        if ($sourceProseBytes <= self::SMALL_DOCUMENT_FLOOR_BYTES) {
+            return;
+        }
+        if ($nonAtomOutputBytes * 10000 > $sourceProseBytes * $maxRatioBps) {
+            throw new DomainFailure(Outcome::Incompatible, 'limit_exceeded');
+        }
     }
 }

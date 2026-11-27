@@ -52,9 +52,13 @@ final readonly class R2PropositionDistiller
         $maskedBlocks = [];
         /** @var array<string, list<TextLocator>> $blockLocators */
         $blockLocators = [];
+        $sourceProseBytes = 0;
         foreach ($extracted['blocks'] as $block) {
             $blockId = $block['blockId'];
             $blockLocators[$blockId] = $block['locators'];
+            if (!isset($markerByBlockId[$blockId])) {
+                $sourceProseBytes += strlen($block['text']);
+            }
             $maskedBlocks[] = new JsonObject([
                 'blockId' => $blockId,
                 'kind' => $block['kind'],
@@ -104,9 +108,15 @@ final readonly class R2PropositionDistiller
         R1DigestDistiller::assertExactMarkers($nonce, $indexedAtoms, implode("\n", $combinedStatements));
 
         $items = [];
+        $nonAtomOutputBytes = 0;
         foreach ($rawProps as $prop) {
             /** @var JsonObject $prop */
             $restored = R1DigestDistiller::restoreMarkers((string) $prop->get('statement'), $indexedAtoms);
+            $atomBytes = 0;
+            foreach ($restored['atoms'] as $atom) {
+                $atomBytes += strlen($atom->content);
+            }
+            $nonAtomOutputBytes += max(0, strlen($restored['text']) - $atomBytes);
             $locators = [];
             foreach ($prop->get('blockIds') as $blockId) {
                 if (!is_string($blockId) || !isset($blockLocators[$blockId])) {
@@ -123,6 +133,12 @@ final readonly class R2PropositionDistiller
                 supportingSpans: $locators,
             );
         }
+
+        R1DigestDistiller::assertWithinRatioCeiling(
+            $nonAtomOutputBytes,
+            $sourceProseBytes,
+            $profile->r2MaxRatioBps,
+        );
 
         $artifact = new PropositionSetArtifact(
             documentRevisionRef: $revisionRef,
