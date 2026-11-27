@@ -12,6 +12,10 @@ Repository: <https://github.com/axiomasoft/knowkit>.
 | `packages/http`, `packages/laravel` | HTTP transport and Laravel 12 integration |
 | `packages/chatom` | Direct Chatom integration with its pinned Laravel 13 host; PHP >=8.4 |
 | `packages/agentools-bridge` | Optional pinned AgenTools compatibility adapter; PHP >=8.4 |
+| `packages/context-compilers` | Prompt-cache compilation, citation aliases, and context codecs; PHP >=8.3 |
+| `packages/mcp-bridge` | Stateless MCP server, discovery client, and source connector; PHP >=8.3 |
+| `packages/distill` | Bounded distillation jobs with atom integrity and egress gating; PHP >=8.3 |
+| `packages/training-export` | Rights-gated, redacted dataset export and reward checks; PHP >=8.3 |
 | `python/knowkit-worker` | Python 3.12, Docling PDF/structure extraction and explicit English/Russian Tesseract OCR profiles |
 | `deploy`, `tools` | Local artifact assembly, sandbox runtime builds, qualification and evaluation commands |
 

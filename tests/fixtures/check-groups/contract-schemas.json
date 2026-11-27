@@ -1,8 +1,8 @@
 {
   "schemaVersion": "check-group:1",
   "group": "contract:schemas",
-  "fixtureVersion": "1.2.0",
-  "versionRationale": "1.2.0 (P4.6, owner Q1=a): usage.prepared_disclosure gains a closed kind=navigation variant for exact revision/unit Usage without a fabricated search Selection. The old chunk payload and all existing valid/invalid vectors remain unchanged; navigation-specific closed-payload, tenant binding, empty-unit, immutable SQL identity and replay negatives are exercised in tests/reading/navigation/ProtocolTest.php and the reading:navigation manifest. This updates only the changed domain-event schema digest. 1.1.0 (P1.4 correction round 2): 29 bundled schemas (new job record), 187-entry corpus, 67 hash, 21 locator and 14 binding vectors. New required cases: contract.selection-run-binding (Selection keeps the trusted runRef; other run, dropped run and run-on-direct-call are denied, direct call stays allowed), contract.event-payload-closed (one closed payload per event type; documentText, credentials and unknown members rejected with a correct payloadDigest), contract.evidence-revision-identity (one documentRevisionId never names two irDigests; the corpus fixtures were corrected), contract.error-code-case (POLICY_CHANGED, RETRYABLE_LOCK_TIMEOUT, POINTER_CONFLICT, HOLD_TOO_LATE keep their case) and contract.job-record (five job states, lease fields, decimal fence). Golden digests that changed (domain-event payload, evidence-set, binding vectors) changed because the contract changed, see the corpus versionRationale. 1.0.0: initial P1.4 version; golden digests cross-checked with the independent rfc8785 package and schema-stage outcomes with python-jsonschema 2020-12 (tests/contract/schemas/evidence/independent-verification.json). Any change to a schema, vector or expected outcome requires a new fixtureVersion with a substantive rationale, never a mechanical snapshot rewrite.",
+  "fixtureVersion": "1.3.0",
+  "versionRationale": "1.3.0: training-export allows an empty provenance list only when includedCount is 0, and rejects includedCount >= 1 without layerStackDigests or snapshotRefs. 1.2.0 (P4.6, owner Q1=a): usage.prepared_disclosure gains a closed kind=navigation variant for exact revision/unit Usage without a fabricated search Selection. The old chunk payload and all existing valid/invalid vectors remain unchanged; navigation-specific closed-payload, tenant binding, empty-unit, immutable SQL identity and replay negatives are exercised in tests/reading/navigation/ProtocolTest.php and the reading:navigation manifest. This updates only the changed domain-event schema digest. 1.1.0 (P1.4 correction round 2): 29 bundled schemas (new job record), 187-entry corpus, 67 hash, 21 locator and 14 binding vectors. New required cases: contract.selection-run-binding (Selection keeps the trusted runRef; other run, dropped run and run-on-direct-call are denied, direct call stays allowed), contract.event-payload-closed (one closed payload per event type; documentText, credentials and unknown members rejected with a correct payloadDigest), contract.evidence-revision-identity (one documentRevisionId never names two irDigests; the corpus fixtures were corrected), contract.error-code-case (POLICY_CHANGED, RETRYABLE_LOCK_TIMEOUT, POINTER_CONFLICT, HOLD_TOO_LATE keep their case) and contract.job-record (five job states, lease fields, decimal fence). Golden digests that changed (domain-event payload, evidence-set, binding vectors) changed because the contract changed, see the corpus versionRationale. 1.0.0: initial P1.4 version; golden digests cross-checked with the independent rfc8785 package and schema-stage outcomes with python-jsonschema 2020-12 (tests/contract/schemas/evidence/independent-verification.json). Any change to a schema, vector or expected outcome requires a new fixtureVersion with a substantive rationale, never a mechanical snapshot rewrite.",
   "rights": {
     "license": "LicenseRef-KnowKit-Private",
     "origin": "Project-authored synthetic contract corpus and schemas; invented IDs/digests, no third-party document text. Adapted donor patterns: @plan/artifacts/implementation/P1.4-reuse.json.",
@@ -167,12 +167,12 @@
   "fixtures": [
     {
       "path": "tests/fixtures/contracts/manifest.v1.json",
-      "sha256": "8e98abb5351b52e6664dd5b3f17ddae1652d52f8a544f750a3de5d5b105caf54",
+      "sha256": "051abb9e0cabfb0eb8a10bda7cf0dd283c905c00e666e591ed0be83dfb4f1145",
       "expected": {
-        "corpusVersion": "1.1.0",
-        "entries": 187,
-        "valid": 57,
-        "invalid": 130,
+        "corpusVersion": "1.3.0",
+        "entries": 201,
+        "valid": 64,
+        "invalid": 137,
         "requiredTags": 33
       }
     },
@@ -401,6 +401,13 @@
       "sha256": "2f067e559f8aea2f6f9e70e28e4b672425eef6e4495a431412809f412f88aeaa",
       "expected": {
         "schemaId": "urn:knowkit:schema:selection:1.0"
+      }
+    },
+    {
+      "path": "schemas/training-export.schema.json",
+      "sha256": "11644bf348a671a79d4c7068801503468496359722fb890505867cec7060a141",
+      "expected": {
+        "schemaId": "urn:knowkit:schema:training-export:1.0"
       }
     },
     {

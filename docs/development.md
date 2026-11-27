@@ -6,8 +6,9 @@ The mandatory library is `knowkit/core`, PHP >=8.3, namespace `KnowKit\`.
 Its `Domain`, `Application`, `Port`, `Registry` and singular `Adapter` layers live
 in `packages/core/src`. It requires only PHP and ext-pdo/json/mbstring;
 the PostgreSQL adapter additionally requires ext-pdo_pgsql. The root Composer
-project is development tooling. Optional answer, pgvector, HTTP, Laravel, Chatom
-and AgenTools bridge Composer projects are implemented under `packages/`, with
+project is development tooling. Optional answer, pgvector, HTTP, Laravel,
+context-compilers, mcp-bridge, distill, training-export, Chatom and AgenTools
+bridge Composer projects are implemented under `packages/`, with
 their own dependency graphs and lockfiles. Laravel targets version 12; the
 separate pinned Chatom host targets Laravel 13. Do not add their host dependencies
 to the root or core. Chatom and bridge lanes require PHP >=8.4.
@@ -107,14 +108,21 @@ and OpenSSF Scorecard are separate workflows. Actions are pinned to commit
 SHAs. Report vulnerabilities through GitHub private security advisories, as
 described in `SECURITY.md`.
 
-`--profile ci-core` selects all 29 portable Core/architecture groups. It excludes
+`--profile ci-core` selects all 36 portable Core/architecture groups. It excludes
 `delivery:readiness`, whose cross-version host and real worker qualifications need
 additional installations. The historical `tests/tooling/baseline/profile.json`
-continues to describe only the original bootstrap scope.
+continues to describe only the original bootstrap scope. Core CI runs that
+profile once per PHP version. It does not repeat the suite with `ext-zstd`
+loaded: the zstd readiness case proves the extension is absent and fails closed,
+and PHPUnit rejects a skip.
 
-`--profile ci-optional` selects 14 Answer, pgvector, HTTP, Laravel, adoption,
-evaluation and observability groups. Install the four corresponding package
-Composer projects first and set `TEST_VECTOR_PG_DSN` for the vector backend.
+`--profile ci-optional` selects 20 Answer, pgvector, HTTP, Laravel, adoption,
+evaluation, observability, context-compiler, MCP, distill and training-export
+groups. Install those package Composer projects first and set `TEST_VECTOR_PG_DSN`
+for the vector backend. Chatom and the installed AgenTools bridge are not in
+this profile. Their checkouts are outside this repository, so a missing sibling
+must not block the portable profile.
+
 Both profiles explicitly list all unselected groups and retain the common strict
 Composer, PHPStan, package DAG and configuration checks. CI reports are uploaded
 even when a selected group fails; child failure diagnostics retain a bounded tail

@@ -18,14 +18,14 @@
     "createdAt": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/utcInstant"},
     "layerStackDigests": {
       "type": "array",
-      "minItems": 1,
+      "minItems": 0,
       "maxItems": 256,
       "uniqueItems": true,
       "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
     },
     "snapshotRefs": {
       "type": "array",
-      "minItems": 1,
+      "minItems": 0,
       "maxItems": 256,
       "items": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/snapshotRef"}
     },
@@ -55,5 +55,19 @@
     "piiRedactorId": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/profileId"},
     "manifestDigest": {"$ref": "urn:knowkit:schema:common:1.0#/$defs/sha256"}
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"includedCount": {"minimum": 1}},
+        "required": ["includedCount"]
+      },
+      "then": {
+        "properties": {
+          "layerStackDigests": {"minItems": 1},
+          "snapshotRefs": {"minItems": 1}
+        }
+      }
+    }
+  ],
   "unevaluatedProperties": false
 }

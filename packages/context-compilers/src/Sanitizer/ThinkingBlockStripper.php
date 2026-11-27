@@ -7,7 +7,7 @@ namespace KnowKit\ContextCompilers\Sanitizer;
 final readonly class ThinkingBlockStripper
 {
     private const PART_TYPES = ['thinking', 'redacted_thinking', 'reasoning'];
-    private const TAG_PATTERN = '#<(think|thinking|reasoning)\b[^>]*>.*?</\1\s*>#isu';
+    private const TAG_PATTERN = '#<(?:(think|thinking|reasoning)\b[^>]*>|/(think|thinking|reasoning)\s*>)#i';
 
     /**
      * @param list<array<string, mixed>> $history
@@ -34,10 +34,9 @@ final readonly class ThinkingBlockStripper
 
     private function stripContent(mixed $content): mixed
     {
+        $openTags = [];
         if (is_string($content)) {
-            $clean = preg_replace(self::TAG_PATTERN, '', $content);
-
-            return is_string($clean) ? ltrim($clean) : $content;
+            return ltrim($this->stripTags($content, $openTags));
         }
         if (!is_array($content)) {
             return $content;
@@ -47,9 +46,44 @@ final readonly class ThinkingBlockStripper
             if (is_array($part) && in_array($part['type'] ?? null, self::PART_TYPES, true)) {
                 continue;
             }
+            if (is_array($part)) {
+                foreach (['text', 'content'] as $field) {
+                    if (isset($part[$field]) && is_string($part[$field])) {
+                        $part[$field] = $this->stripTags($part[$field], $openTags);
+                    }
+                }
+            }
             $parts[] = $part;
         }
 
         return $parts;
+    }
+
+    /** @param list<string> $openTags Open tags persist across text parts within the same turn. */
+    private function stripTags(string $content, array &$openTags): string
+    {
+        $visible = '';
+        $offset = 0;
+        while (true) {
+            $found = preg_match(self::TAG_PATTERN, $content, $match, PREG_OFFSET_CAPTURE, $offset);
+            if ($found === false) {
+                throw new \RuntimeException('Could not parse thinking tags');
+            }
+            if ($found === 0) {
+                return $openTags === [] ? $visible . substr($content, $offset) : $visible;
+            }
+            [$tag, $start] = $match[0];
+            if ($openTags === []) {
+                $visible .= substr($content, $offset, $start - $offset);
+            }
+            if ($match[1][0] !== '') {
+                $openTags[] = strtolower($match[1][0]);
+            } elseif ($openTags === []) {
+                $visible .= $tag;
+            } elseif (end($openTags) === strtolower($match[2][0])) {
+                array_pop($openTags);
+            }
+            $offset = $start + strlen($tag);
+        }
     }
 }

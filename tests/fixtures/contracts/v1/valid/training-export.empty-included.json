@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "training-export:1",
+  "exportId": "01JC0000000000000000000001",
+  "tenantId": "01JC0000000000000000000002",
+  "format": "sft-grounded-v1",
+  "createdAt": "2026-11-06T12:00:00Z",
+  "layerStackDigests": [],
+  "snapshotRefs": [],
+  "shards": [
+    {
+      "path": "shards/part-000.jsonl",
+      "recordCount": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "byteLength": 0
+    }
+  ],
+  "includedCount": 0,
+  "excludedCountsByReason": {
+    "training_rights_denied": 1
+  },
+  "piiRedactorId": "presidio-strict-v1",
+  "manifestDigest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+}

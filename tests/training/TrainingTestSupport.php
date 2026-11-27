@@ -196,6 +196,8 @@ final class TrainingTestSupport
         DisclosureMode $disclosureMode = DisclosureMode::VerbatimAllowed,
         string $provenanceKind = 'verbatim',
         array $tombstones = [],
+        ?Sha256 $layerStackDigest = null,
+        ?SnapshotRef $snapshotRef = null,
     ): TrainingTraceRecord {
         $scope = self::makeScope();
         $evidence = self::makeEvidenceSet($scope->tenantId, $provenanceKind);
@@ -210,8 +212,8 @@ final class TrainingTestSupport
         return new TrainingTraceRecord(
             traceId: $traceId ?? new Ulid('01JTR000000000000000000001'),
             scope: $scope,
-            layerStackDigest: new Sha256(str_repeat('3', 64)),
-            snapshotRefs: [$snapshot],
+            layerStackDigest: $layerStackDigest ?? new Sha256(str_repeat('3', 64)),
+            snapshotRefs: [$snapshotRef ?? $snapshot],
             sourceRefs: $sourceRefs ?? [self::makeSourceRef()],
             evidenceSet: $evidence,
             citationAliasMap: $aliasMap,

@@ -62,10 +62,18 @@ final readonly class McpSourceConnector implements SourceConnector
                 if (isset($page['capped']) && $page['capped'] === true) {
                     $capped = true;
                 }
-                $rawResources = is_array($page['resources'] ?? null) ? $page['resources'] : [];
+                if (!is_array($page['resources'] ?? null) || !array_is_list($page['resources'])) {
+                    $fullTree = false;
+                    $failures[] = 'inventory_incomplete';
+                    $rawResources = [];
+                } else {
+                    $rawResources = $page['resources'];
+                }
 
                 foreach ($rawResources as $resource) {
                     if (!is_array($resource)) {
+                        $fullTree = false;
+                        $failures[] = 'inventory_incomplete';
                         continue;
                     }
                     $originKey = (string) ($resource['originKey'] ?? ($resource['uri'] ?? ''));

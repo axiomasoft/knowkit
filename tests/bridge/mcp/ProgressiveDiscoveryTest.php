@@ -114,6 +114,53 @@ final class ProgressiveDiscoveryTest extends TestCase
         self::assertCount(2, $indexCalls);
     }
 
+    public function testUntrustedCatalogTtlCannotOutliveTheHostDefault(): void
+    {
+        $calls = 0;
+        $transport = (new ScriptedMcpTransport())
+            ->on('support_mcp', 'tools/index', static function () use (&$calls): array {
+                $calls++;
+
+                return [
+                    'cache' => ['ttlMs' => 999999999],
+                    'tools' => [[
+                        'name' => 'crm.lookup_order',
+                        'summary' => 'order',
+                        'schemaDigest' => str_repeat('ab', 32),
+                    ]],
+                ];
+            });
+
+        $layer = new McpToolCatalogLayer($transport, defaultTtlMs: 300000);
+        $layer->syncCatalog('support_mcp', nowMs: 0);
+        $layer->syncCatalog('support_mcp', nowMs: 299999);
+        self::assertSame(1, $calls);
+        $layer->syncCatalog('support_mcp', nowMs: 300000);
+        self::assertSame(2, $calls);
+    }
+
+    public function testDefaultClockRefreshesAnExpiredCatalogAndItsHydratedSchema(): void
+    {
+        $transport = new ScriptedMcpTransport();
+        foreach (['string', 'integer'] as $type) {
+            $schema = ['type' => $type];
+            $transport->enqueue('docs', 'tools/index', ['tools' => [[
+                'name' => 'lookup',
+                'schemaDigest' => hash('sha256', Jcs::canonicalize($schema)),
+                'ttlMs' => 999999999,
+            ]]]);
+            $transport->enqueue('docs', 'tools/schemas', ['schemas' => ['lookup' => $schema]]);
+        }
+        $layer = new McpToolCatalogLayer($transport, defaultTtlMs: 1000);
+        $layer->syncCatalog('docs', nowMs: 0);
+        $first = $layer->discoverRelevant('lookup', nowMs: 0)[0];
+        self::assertSame(['type' => 'string'], $first->inputSchema);
+        self::assertSame(1000, $first->ttlMs);
+        $second = $layer->discoverRelevant('lookup')[0];
+        self::assertNotSame($first->schemaDigest, $second->schemaDigest);
+        self::assertSame(['type' => 'integer'], $second->inputSchema);
+    }
+
     public function testMcpUntrustedOutputAlwaysTaggedUntrustedEvidence(): void
     {
         $transport = (new ScriptedMcpTransport())

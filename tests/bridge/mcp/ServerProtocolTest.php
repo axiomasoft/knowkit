@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace KnowKit\Tests\Bridge\Mcp;
 
+require_once dirname(__DIR__, 3) . '/packages/core/conformance/autoload.php';
+
+use KnowKit\Application\Access\ScopedAllowPolicy;
 use KnowKit\Bridge\Mcp\Server\AuthenticatedMcpContext;
 use KnowKit\Bridge\Mcp\Server\CanonicalToolRegistry;
 use KnowKit\Bridge\Mcp\Server\DirectivePromptHandler;
@@ -11,6 +14,7 @@ use KnowKit\Bridge\Mcp\Server\McpScopeAuthenticator;
 use KnowKit\Bridge\Mcp\Server\ResourceTemplateHandler;
 use KnowKit\Bridge\Mcp\Server\StatelessMcpServer;
 use KnowKit\ContextCompilers\Domain\CitationAliasMap;
+use KnowKit\Conformance\SchemaLoader;
 use KnowKit\Domain\ActorId;
 use KnowKit\Domain\Contract\Jcs;
 use KnowKit\Domain\Contract\JsonObject;
@@ -25,6 +29,8 @@ use KnowKit\Domain\Sha256;
 use KnowKit\Domain\TenantId;
 use KnowKit\Domain\Ulid;
 use KnowKit\Domain\UtcInstant;
+use KnowKit\Port\AccessPolicy;
+use KnowKit\Port\Clock;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
@@ -232,12 +238,33 @@ final class ServerProtocolTest extends TestCase
         );
 
         $backend = $this->createBackend();
+        $policy = $this->allowPolicy($mode);
 
         return new StatelessMcpServer(
             $auth,
-            CanonicalToolRegistry::withDefaultTools($backend),
-            new ResourceTemplateHandler($backend),
+            CanonicalToolRegistry::withDefaultTools($backend, $policy),
+            new ResourceTemplateHandler($backend, $policy),
             new DirectivePromptHandler([$directive]),
+        );
+    }
+
+    private function allowPolicy(DisclosureMode $mode): AccessPolicy
+    {
+        $clock = new class implements Clock {
+            public function now(): UtcInstant
+            {
+                return new UtcInstant('2026-11-27T12:00:00Z');
+            }
+        };
+
+        return new ScopedAllowPolicy(
+            InstanceId::fromString('support_faq'),
+            new TenantId(self::TENANT_ID),
+            new Ulid(self::KB_ID),
+            new Sha256(str_repeat('a', 64)),
+            $clock,
+            SchemaLoader::load(dirname(__DIR__, 3) . '/schemas'),
+            $mode,
         );
     }
 

@@ -66,7 +66,7 @@ final class CanonicalToolRegistry
             new SearchLayeredTool($backend, $accessPolicy),
             new DiscloseEvidenceTool($backend, $accessPolicy),
             new ReadUnitsTool($backend, $accessPolicy),
-            new VerifyGroundingTool($backend),
+            new VerifyGroundingTool($backend, $accessPolicy),
         ]);
     }
 

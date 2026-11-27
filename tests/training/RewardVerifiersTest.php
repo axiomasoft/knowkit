@@ -26,6 +26,7 @@ final class RewardVerifiersTest extends TestCase
         $verifier = new GroundingRewardVerifier();
 
         self::assertSame(1000, $verifier->evaluate($trace->citationAliasMap, 'Claim [#1].', ['#1']));
+        self::assertSame(-2000, $verifier->evaluate($trace->citationAliasMap, 'Numeric id.', ['180']));
         self::assertSame(-2000, $verifier->evaluate($trace->citationAliasMap, 'Hallucinated [#99].', ['#99']));
         self::assertSame(-1000, $verifier->evaluate($trace->citationAliasMap, 'No citations at all.', [], true));
         self::assertSame(0, $verifier->evaluate($trace->citationAliasMap, 'Optional.', [], false));

@@ -117,10 +117,41 @@ final class StrategiesTest extends TestCase
             ['role' => 'assistant', 'reasoning_content' => 'secret', 'thinking' => 'hidden', 'tool_calls' => [['id' => 'call_1']]],
         ], true);
         self::assertSame('visible', $stripped[0]['content']);
+        $unclosed = $stripper->strip([
+            ['role' => 'assistant', 'content' => "<thinking>answer key\nstill hidden"],
+            ['role' => 'assistant', 'content' => [
+                ['type' => 'text', 'text' => '<thinking>secret</thinking>shown'],
+            ]],
+            ['role' => 'user', 'content' => '<thinking>student pasted this</thinking>'],
+        ], true);
+        self::assertSame('', $unclosed[0]['content']);
+        $nested = $stripper->strip([
+            ['role' => 'assistant', 'content' => '<thinking>outer <thinking>inner</thinking> rest</thinking>end'],
+        ], true);
+        self::assertSame('end', $nested[0]['content']);
+        self::assertSame('shown', $unclosed[1]['content'][0]['text']);
+        self::assertStringContainsString('student pasted this', $unclosed[2]['content']);
         self::assertArrayNotHasKey('reasoning_content', $stripped[1]);
         self::assertArrayNotHasKey('thinking', $stripped[1]);
         self::assertArrayNotHasKey('content', $stripped[1]);
         self::assertSame([['id' => 'call_1']], $stripped[1]['tool_calls']);
+    }
+
+    public function testThinkingSpansTextPartsWithinOneAssistantTurn(): void
+    {
+        $stripper = new \KnowKit\ContextCompilers\Sanitizer\ThinkingBlockStripper();
+        $texts = ['shown<think>private', 'still private', '</think> final', '  indented'];
+        $parts = array_map(static fn (string $text): array => ['type' => 'text', 'text' => $text], $texts);
+        $result = $stripper->strip([['role' => 'assistant', 'content' => $parts]], true);
+        self::assertSame(['shown', '', ' final', '  indented'], array_column($result[0]['content'], 'text'));
+    }
+
+    public function testLongNestedThinkingPreservesOnlyTheAnswer(): void
+    {
+        $stripper = new \KnowKit\ContextCompilers\Sanitizer\ThinkingBlockStripper();
+        $text = '<thinking><think>' . str_repeat('x', 65536) . '</think></thinking>final';
+        $result = $stripper->strip([['role' => 'assistant', 'content' => $text]], true);
+        self::assertSame('final', $result[0]['content']);
     }
 
     public function testPrefixDriftDetectionAndTenTurnDriftFreeSession(): void

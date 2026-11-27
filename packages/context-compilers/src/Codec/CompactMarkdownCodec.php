@@ -76,6 +76,11 @@ final readonly class CompactMarkdownCodec implements ContextFormatCodec
                     $children = $item['children'] ?? null;
                     if (is_string($label)) {
                         $lines[] = $indent . '- ' . $label;
+                        $rest = $item;
+                        unset($rest['title'], $rest['id'], $rest['children']);
+                        if ($rest !== []) {
+                            $lines[] = $this->encodeNode($rest, $depth + 1);
+                        }
                         if (is_array($children) && $children !== []) {
                             $lines[] = $this->encodeNode($children, $depth + 1);
                         }

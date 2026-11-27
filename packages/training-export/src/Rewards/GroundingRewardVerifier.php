@@ -48,15 +48,17 @@ final readonly class GroundingRewardVerifier
     {
         $seen = [];
         foreach ($citations as $citation) {
-            $seen[$citation] = true;
+            // A numeric string key is stored as an int. Keep the original
+            // string as the value so strict resolve() does not receive an int.
+            $seen[$citation] = $citation;
         }
 
         if (preg_match_all('/\[(#\d+)\]/', $responseText, $matches) > 0) {
             foreach ($matches[1] as $alias) {
-                $seen[$alias] = true;
+                $seen[$alias] = $alias;
             }
         }
 
-        return array_keys($seen);
+        return array_values($seen);
     }
 }

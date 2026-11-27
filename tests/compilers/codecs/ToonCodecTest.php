@@ -101,6 +101,15 @@ final class ToonCodecTest extends TestCase
         ];
         $rendered = $md->encode($tree);
         self::assertSame("- Chapter 1\n  - Momentum", $rendered);
+        $skill = [[
+            'id' => 'support.refund',
+            'title' => 'Refund a ticket',
+            'steps' => ['verify identity', 'issue refund'],
+        ]];
+        self::assertSame(
+            "- Refund a ticket\n  - **steps**:\n    - verify identity\n    - issue refund",
+            $md->encode($skill),
+        );
         self::assertSame(['Chapter 1', '  - Momentum'], $md->decode("- Chapter 1\n-   - Momentum"));
 
         $this->expectException(ContractViolation::class);
@@ -127,5 +136,30 @@ final class ToonCodecTest extends TestCase
         $codec = new ToonCodec();
         $this->expectException(\InvalidArgumentException::class);
         $codec->decode("items[1]{a}:\n  \"unterminated");
+    }
+
+    public function testToonRejectsIntegersOutsideTheJsonSafeRange(): void
+    {
+        $codec = new ToonCodec();
+        foreach ([9007199254740991, -9007199254740991, 0, 17, -3, '9007199254740993'] as $cell) {
+            $rows = [['n' => $cell]];
+            self::assertSame($rows, $codec->decode($codec->encode($rows)));
+        }
+        foreach ([9007199254740992, -9007199254740992, PHP_INT_MAX, PHP_INT_MIN] as $unsafe) {
+            try {
+                $codec->encode([['n' => $unsafe]]);
+                self::fail('Expected unsafe integer rejection');
+            } catch (\InvalidArgumentException $error) {
+                self::assertStringContainsString('safe range', $error->getMessage());
+            }
+        }
+        foreach (['9007199254740992', '-9007199254740992', str_repeat('9', 40)] as $raw) {
+            try {
+                $codec->decode("items[1]{n}:\n  {$raw}");
+                self::fail('Expected unsafe integer rejection');
+            } catch (\InvalidArgumentException $error) {
+                self::assertStringContainsString('safe range', $error->getMessage());
+            }
+        }
     }
 }

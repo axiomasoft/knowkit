@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace KnowKit\ContextCompilers\Codec;
 
 use KnowKit\Domain\Contract\JsonObject;
+use KnowKit\Domain\Contract\StrictJson;
 
 final readonly class ToonCodec implements ContextFormatCodec
 {
@@ -122,7 +123,12 @@ final readonly class ToonCodec implements ContextFormatCodec
             return $value ? 'true' : 'false';
         }
         if (is_int($value)) {
-            return (string) $value;
+            $raw = (string) $value;
+            if (!self::isSafeInteger($raw)) {
+                throw new \InvalidArgumentException('ToonCodec integers must fit the JSON safe range');
+            }
+
+            return $raw;
         }
         if (is_float($value)) {
             throw new \InvalidArgumentException('Floats are not supported in integer-only ToonCodec');
@@ -240,6 +246,19 @@ final readonly class ToonCodec implements ContextFormatCodec
         return $records;
     }
 
+    private static function isSafeInteger(string $raw): bool
+    {
+        if (preg_match('/^-?(0|[1-9][0-9]*)$/', $raw) !== 1) {
+            return false;
+        }
+        $digits = str_starts_with($raw, '-') ? substr($raw, 1) : $raw;
+        if (strlen($digits) > 16) {
+            return false;
+        }
+
+        return strlen($digits) < 16 || strcmp($digits, (string) StrictJson::SAFE_INTEGER) <= 0;
+    }
+
     private function decodeCell(string $raw, bool $wasQuoted): string|int|bool|null
     {
         if ($wasQuoted) {
@@ -250,7 +269,8 @@ final readonly class ToonCodec implements ContextFormatCodec
             $raw === 'null' => null,
             $raw === 'true' => true,
             $raw === 'false' => false,
-            preg_match('/^-?(0|[1-9][0-9]*)$/', $raw) === 1 => (int) $raw,
+            self::isSafeInteger($raw) => (int) $raw,
+            preg_match('/^-?(0|[1-9][0-9]*)$/', $raw) === 1 => throw new \InvalidArgumentException('ToonCodec integers must fit the JSON safe range'),
             default => $raw,
         };
     }

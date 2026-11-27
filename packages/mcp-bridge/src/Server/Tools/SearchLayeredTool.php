@@ -6,7 +6,9 @@ namespace KnowKit\Bridge\Mcp\Server\Tools;
 use KnowKit\Bridge\Mcp\Server\AuthenticatedMcpContext;
 use KnowKit\Bridge\Mcp\Server\McpBackend;
 use KnowKit\Bridge\Mcp\Server\McpTool;
+use KnowKit\Domain\DomainFailure;
 use KnowKit\Domain\Operation;
+use KnowKit\Domain\Outcome;
 use KnowKit\Domain\ResourceRef;
 use KnowKit\Port\AccessPolicy;
 
@@ -61,12 +63,13 @@ final readonly class SearchLayeredTool implements McpTool
         $stackId = isset($arguments['stackId']) ? (string) $arguments['stackId'] : null;
         $topK = isset($arguments['topK']) ? (int) $arguments['topK'] : 10;
 
-        if ($this->accessPolicy !== null) {
-            $this->accessPolicy->authorizeQuery($context->scope);
-            $resource = new ResourceRef($context->scope->tenantId, 'knowledge_base', $context->scope->kbId);
-            $receipt = $this->accessPolicy->decide($context->scope, $resource, Operation::Retrieve);
-            $receipt->requireAuthorized($context->scope, Operation::Retrieve, $resource);
+        if ($this->accessPolicy === null) {
+            throw new DomainFailure(Outcome::Denied, 'policy_denied');
         }
+        $this->accessPolicy->authorizeQuery($context->scope);
+        $resource = new ResourceRef($context->scope->tenantId, 'knowledge_base', $context->scope->kbId);
+        $receipt = $this->accessPolicy->decide($context->scope, $resource, Operation::Retrieve);
+        $receipt->requireAuthorized($context->scope, Operation::Retrieve, $resource);
 
         $result = $this->backend->searchLayered($context, $query, $stackId, $topK);
 

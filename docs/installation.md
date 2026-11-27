@@ -66,6 +66,7 @@ Optional profiles have isolated dependency graphs and explicit host enablement:
 | Service without worker | Install `packages/http` and/or `packages/laravel` with their own lockfiles; supply authenticated host context; text remains usable without Python |
 | Full document worker | Frozen Python runtime, qualified PDF/OCR assets and notices; staged-file subprocess sandbox, explicit durable job loop |
 | Semantic/answer | Own Composer projects, exact provider/model/revision/space and qualified credentials; no silent lexical fallback on mismatch |
+| Compilers, MCP, distill, training export | Separate lockfiles in `packages/context-compilers`, `packages/mcp-bridge`, `packages/distill` and `packages/training-export`. They stay out of the core runtime graph. MCP scope comes only from the transport authenticator. Training export denies a trace that lacks `training_allowed` |
 | Agentools bridge | NOT_SELECTED/PENDING for standalone delivery; real installed P8.2/P8.3 checks own qualification |
 
 Laravel requires manual `KnowKitServiceProvider` registration. There is no
@@ -80,5 +81,5 @@ See [the independent walkthrough](../examples/acceptance/README.md),
 [operations](operations/runbook.md), [backup](operations/backup.md) and
 [purge](operations/purge.md). `qa all` remains strict across the full registry;
 it is not a prerequisite for standalone delivery. Neither bridge readiness nor
-completion of all 59 roadmap items is asserted here. Capacity qualification
+completion of every QA group is asserted here. Capacity qualification
 remains negative as recorded in [capacity](operations/capacity.md).

@@ -205,6 +205,10 @@ final readonly class SubspanProjector
     ): array {
         $spans = $chunk->spans;
         if (count($spans) === 1) {
+            if ($map->assembler->assemble([$spans[0]], null) !== $chunkText) {
+                throw new DomainFailure(Outcome::Incompatible, 'source_text_mismatch');
+            }
+
             return [[
                 'span' => $spans[0],
                 'localStart' => 0,

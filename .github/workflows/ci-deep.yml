@@ -30,8 +30,6 @@ jobs:
           extensions: pdo, pdo_pgsql, mbstring, dom, xml, xmlwriter, intl
           tools: composer:v2
           coverage: none
-      - run: composer install --no-interaction --no-progress --prefer-dist
-      - run: composer install --working-dir=packages/pgvector --no-interaction --no-progress --prefer-dist
       - name: 100k+ pgvector load & 1% selective isolation check
         run: |
           php -r '
@@ -42,16 +40,33 @@ jobs:
           $pdo->beginTransaction();
           $stmt = $pdo->prepare("INSERT INTO vec_100k VALUES (?, ?, ?)");
           for ($i = 0; $i < 100000; $i++) {
-              $vals = array_fill(0, 64, ($i % 100 === 0) ? "0.1" : "0.9");
+              // Interleave tenants on the same grid so that the 1% filter exercises iterative search.
+              // These two binary fractions remain distinct after conversion to half precision.
+              $vals = array_fill(0, 64, "0.1");
+              $vals[0] = (string) (($i % 256) / 512);
+              $vals[1] = (string) (intdiv($i, 256) / 512);
               $stmt->execute([$i, $i % 100, "[" . implode(",", $vals) . "]"]);
           }
           $pdo->commit();
+          $unique = $pdo->query("SELECT count(DISTINCT emb) FROM vec_100k")->fetchColumn();
+          if ((int) $unique !== 100000) {
+              fwrite(STDERR, "expected 100000 distinct halfvec inputs, got $unique\n");
+              exit(1);
+          }
           $pdo->exec("CREATE INDEX ON vec_100k USING hnsw (emb halfvec_l2_ops)");
           $pdo->exec("SET hnsw.iterative_scan = strict_order");
           $q = "[" . implode(",", array_fill(0, 64, "0.1")) . "]";
           $rows = $pdo->query("SELECT id, tenant FROM vec_100k WHERE tenant = 0 ORDER BY emb <-> '\''$q'\'' LIMIT 20")->fetchAll(PDO::FETCH_ASSOC);
-          assert(count($rows) === 20);
-          foreach ($rows as $r) { assert((int) $r["tenant"] === 0); }
+          if (count($rows) !== 20) {
+              fwrite(STDERR, "expected 20 rows, got " . count($rows) . "\n");
+              exit(1);
+          }
+          foreach ($rows as $r) {
+              if ((int) $r["tenant"] !== 0) {
+                  fwrite(STDERR, "tenant isolation failed for id " . $r["id"] . "\n");
+                  exit(1);
+              }
+          }
           echo "100k pgvector load OK\n";
           '
         env:

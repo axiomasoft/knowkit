@@ -68,16 +68,17 @@ final readonly class ReadUnitsTool implements McpTool
         /** @var list<string> $unitIds */
         $unitIds = array_values(array_map('strval', (array) $arguments['unitIds']));
 
-        if ($this->accessPolicy !== null) {
-            $resource = new ResourceRef($context->scope->tenantId, 'document_revision', new DocumentRevisionId($revisionId));
-            $receipt = $this->accessPolicy->decide(
-                $context->scope,
-                $resource,
-                Operation::Disclose,
-            );
-            $receipt->requireAuthorized($context->scope, Operation::Disclose, $resource);
-            $receipt->requireDirectRead();
+        if ($this->accessPolicy === null) {
+            throw new DomainFailure(Outcome::Denied, 'policy_denied');
         }
+        $resource = new ResourceRef($context->scope->tenantId, 'document_revision', new DocumentRevisionId($revisionId));
+        $receipt = $this->accessPolicy->decide(
+            $context->scope,
+            $resource,
+            Operation::Disclose,
+        );
+        $receipt->requireAuthorized($context->scope, Operation::Disclose, $resource);
+        $receipt->requireDirectRead();
 
         return $this->backend->readUnits($context, $revisionId, $unitIds);
     }

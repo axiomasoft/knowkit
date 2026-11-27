@@ -201,6 +201,24 @@ final class SubspanProjectorTest extends TestCase
         return [$document, $revision, $chunk, $map];
     }
 
+    public function testRejectsMismatchedSingleSpan(): void
+    {
+        [$document, , $original, $map] = $this->buildMultiSpanFixture();
+        $text = str_repeat('A', $original->spans[0]->locator->toWire()->get('byteEnd'));
+        $ref = new ChunkRef(
+            $original->ref->revisionRef,
+            $original->ref->chunkSetId,
+            $original->ref->chunkId,
+            new Sha256(hash('sha256', $text)),
+        );
+        $chunk = new Chunk($ref, $original->documentId, [$original->spans[0]], $text);
+        $selection = new PrunedSelection($ref, [new PrunedSubspan(0, 2)]);
+
+        $this->expectException(DomainFailure::class);
+        $this->expectExceptionMessage('source_text_mismatch');
+        (new SubspanProjector())->project($chunk, $document, [], $selection, $map);
+    }
+
     public function testRejectsOutOfBoundsSubspan(): void
     {
         [$document, , $chunk, $map] = $this->buildMultiSpanFixture();

@@ -60,6 +60,19 @@ final class GraphExpanderTest extends TestCase
             self::assertCount(1, $filtered);
             self::assertSame('defines', $filtered[0]->relation);
 
+            $batch = [];
+            for ($i = 0; $i < 8192; ++$i) {
+                $target = new D\ChunkId(CatalogFixture::id(10000 + $i));
+                $batch[] = new D\ConceptEdge($c2, $target, 'defines', 9000, 'deterministic');
+            }
+            $index->putEdges($tenantId, $kbId, $snapshotId, $batch);
+            $index->putEdges($tenantId, $kbId, $snapshotId, $batch);
+            $count = $fx->db->execute(
+                'SELECT count(*) FROM ' . $fx->db->table('concept_edges') . ' WHERE from_chunk_id = ?',
+                [$c2->value],
+            )->fetchColumn();
+            self::assertSame(8192, (int) $count);
+
             // Sealed snapshot rejects concept_edges writes via trg_concept_edges_sealed_guard.
             $sealedSnapshotId = new D\SnapshotId(CatalogFixture::id(201));
             $fx->tx->run(function () use ($fx, $tenantId, $kbId, $sealedSnapshotId): void {
