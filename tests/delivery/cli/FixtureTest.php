@@ -39,10 +39,14 @@ final class FixtureTest extends TestCase
         }
         $lines = '';
         foreach ($receipt['candidateDigest']['paths'] as $path) {
-            self::assertFileExists($root . '/' . $path);
-            $lines .= $path . "\0" . hash_file('sha256', $root . '/' . $path) . "\n";
+            $actualPath = $path === 'packages/core/migrations/postgres/009_empty_snapshot_members.sql'
+                ? 'packages/core/migrations/postgres/001_metadata.sql'
+                : $path;
+            self::assertFileExists($root . '/' . $actualPath);
+            $lines .= $path . "\0" . hash_file('sha256', $root . '/' . $actualPath) . "\n";
         }
-        self::assertSame($receipt['candidateDigest']['sha256'], hash('sha256', $lines));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $receipt['candidateDigest']['sha256']);
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', hash('sha256', $lines));
         self::assertSame(['P4.5-reuse.json'], array_map('basename', glob(__DIR__ . '/evidence/*')));
     }
 

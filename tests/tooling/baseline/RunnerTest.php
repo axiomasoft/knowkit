@@ -123,8 +123,10 @@ final class RunnerTest extends Support
     {
         $registry = $this->qa->registry();
         $core = $this->qa->select(['--profile', 'ci-core'], $registry);
-        self::assertSame(array_values(array_diff($registry['profiles']['core-php83']['selected'],
-            ['delivery:readiness'])), $core);
+        self::assertSame(array_values(array_merge(
+            array_diff($registry['profiles']['core-php83']['selected'], ['delivery:readiness']),
+            ['runtime:multi-instance', 'layers:dag', 'layers:mounts', 'security:disclosure-modes', 'artifacts:pyramid', 'retrieval:graph', 'retrieval:pruning']
+        )), $core);
         $optional = $this->qa->select(['--profile', 'ci-optional'], $registry);
         foreach (['answer:conformance', 'semantic:vector', 'delivery:http', 'delivery:laravel',
             'adoption:edufy', 'quality:retrieval', 'ops:observability'] as $group) {

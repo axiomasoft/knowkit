@@ -93,7 +93,8 @@ final class GraphTest extends TestCase
     public function testDeepInvalidAncestorAndLateDerivativeBeforePropagation(): void
     {
         Fixture::run(function($f) {
-            $last=$f->atomic(function() use($f) { $last=$f->register('source_version',3); for($i=500;$i<524;$i++) { $last=$f->derived($i,[$last->ref]); } return $last; });
+            $last=$f->atomic(fn()=>$f->register('source_version',3));
+            for($i=500;$i<524;$i++) { $last=$f->atomic(fn()=>$f->derived($i,[$last->ref])); }
             $f->atomic(fn()=>$f->catalog->db->execute("UPDATE source_version_state SET usability='corrected' WHERE tenant_id=? AND id=?",[Fixture::id(1),Fixture::id(3)]));
             $f->atomic(function() use($f,$last) {
                 self::assertSame(D\Decision::Deny,$f->decision($last->ref));

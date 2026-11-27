@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace KnowKit\Tests\Security\DisclosureModes;
 
 use KnowKit\Adapter\LocalBlob\Preview\BoundedObjects;
+use KnowKit\Adapter\Postgres\Artifacts\PdoResolutionStore;
 use KnowKit\Adapter\Postgres\Usages\PdoCanonicalDocuments;
 use KnowKit\Application\Access\AccessContext;
 use KnowKit\Application\Access\PolicyChecks;
@@ -19,6 +20,8 @@ use KnowKit\Application\Retrieval\Disclosure\HostDisclosureContext;
 use KnowKit\Application\SourceNavigation;
 use KnowKit\Domain as D;
 use KnowKit\Domain\Access\PolicyContext;
+use KnowKit\Domain\Artifacts\DerivedArtifactRef;
+use KnowKit\Domain\Artifacts\ResolutionManifest;
 use KnowKit\Domain\Contract\JsonObject;
 use KnowKit\Domain\Layers\DisclosureMode;
 use KnowKit\Domain\Layers\ResolutionTier;
@@ -145,7 +148,40 @@ final class DisclosureModeTest extends TestCase
                 }
             };
 
-            $canonical = new CanonicalBuffer($f->catalog, new PdoCanonicalDocuments($f->db(), $f->objects, PortFixture::validator()), $f->host);
+            $resolutions = new PdoResolutionStore($f->db(), $f->lexical->catalog->tx, $f->host);
+            $chunk = $f->lexical->sets['exact']->chunkSet->chunks[0];
+            $locator = $chunk->spans[0]->locator;
+            $artifacts = [];
+            foreach ([
+                [ResolutionTier::R0Outline, 'Outline: DOC-2026/0042', 'deterministic', 'navigation_outline'],
+                [ResolutionTier::R1Digest, 'Summary of DOC-2026/0042', 'generated', 'summary'],
+                [ResolutionTier::R2Propositions, 'Prop: DOC-2026/0042 is active.', 'deterministic', 'proposition_set'],
+            ] as [$tier, $text, $origin, $kind]) {
+                $digest = hash('sha256', $text);
+                $f->objects->bodies[$digest] = $text;
+                $artifacts[] = new DerivedArtifactRef(
+                    $tier,
+                    $f->host->next(),
+                    new D\Sha256($digest),
+                    strlen($text),
+                    max(1, str_word_count($text)),
+                    'cl100k',
+                    $origin,
+                    $kind,
+                    $f->host->next(),
+                    0,
+                    [$locator],
+                );
+            }
+            $resolutions->saveManifest(ResolutionManifest::create(
+                $f->host->next(),
+                $chunk->ref->revisionRef,
+                new D\Fingerprint(str_repeat('e', 64)),
+                $artifacts,
+                PortFixture::validator(),
+            ));
+
+            $canonical = new CanonicalBuffer($f->catalog, new PdoCanonicalDocuments($f->db(), $f->objects, PortFixture::validator()), $f->host, null, $resolutions, $f->objects);
             $checks = new PolicyChecks($policy, $policy, $f->host);
             $disclosures = new Disclosures($f->selections, $checks, $canonical, $f->usages, $f->host, PortFixture::validator());
             $fresh = new FreshDisclosure($disclosures, $f->usages, $host);

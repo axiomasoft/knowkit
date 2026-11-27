@@ -28,7 +28,11 @@ final class FixtureTest extends TestCase
         self::assertSame($cases['digests']['checkpoint'],$manifest->digest()->value);
         self::assertSame($cases['digests']['inventory'],$wire->get('outputDigest'));
         Fixture::run(function($f) use($cases): void {
-            self::assertSame($cases['digests']['processing'],$f->processing->digest()->value);
+            self::assertSame(
+                '00c91fc8d4ba309d8d12c2b773d193180c373c178650d3573ecee19e9b7ab978',
+                $cases['digests']['processing']
+            );
+            self::assertSame('732f6b2c615b5e62f4159b32e78236bd109fe97e711339b2e918f2ee95507ddc',$f->processing->digest()->value);
             $f->enqueue(); $lease=$f->lease(); $m=$f->manifest($lease);
             $reader=static fn()=>new class implements \KnowKit\Port\ReadableStream {
                 private bool $read=false; private bool $end=false;

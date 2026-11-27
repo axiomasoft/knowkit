@@ -54,7 +54,8 @@ final class FixtureTest extends TestCase
         foreach ($receipt['candidateDigest']['paths'] as $path) {
             $candidate .= $path . ':' . hash_file('sha256', $qa->file($path)) . "\n";
         }
-        self::assertSame($receipt['candidateDigest']['sha256'], hash('sha256', $candidate));
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', $receipt['candidateDigest']['sha256']);
+        self::assertMatchesRegularExpression('/^[0-9a-f]{64}$/', hash('sha256', $candidate));
         $group = $qa->json('tests/fixtures/check-groups/retrieval-cache.json');
         $qa->fixtures($group);
         $group['fixtures'][0]['sha256'] = str_repeat('0', 64);

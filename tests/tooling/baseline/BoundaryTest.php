@@ -43,7 +43,7 @@ final class BoundaryTest extends Support
         foreach ($this->qa->registry()['groups'] as $group) {
             self::assertArrayHasKey('composerProject', $group);
             self::assertArrayHasKey('minPhp', $group);
-            if (str_starts_with($group['id'], 'chatom:') || str_starts_with($group['id'], 'bridge')) {
+            if (str_starts_with($group['id'], 'chatom:') || (str_starts_with($group['id'], 'bridge') && !str_starts_with($group['id'], 'bridge:mcp-'))) {
                 self::assertSame('8.4', $group['minPhp']);
                 self::assertNotSame('.', $group['composerProject']);
             }

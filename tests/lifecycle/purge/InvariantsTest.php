@@ -50,20 +50,14 @@ final class InvariantsTest extends TestCase
     {
         (new DatabaseSandbox())->run(function ($sandbox) {
             $pdo = $sandbox->connection; $directory = dirname(__DIR__,3).'/packages/core/migrations/postgres';
-            $pdo->exec('CREATE TABLE schema_migrations(id text PRIMARY KEY,checksum char(64) NOT NULL,applied_at timestamptz NOT NULL)');
-            foreach (['001_metadata','002_metadata_uint32','003_jobs','004_generation_checks','005_outbox_delivery'] as $id) {
-                $sql = self::migrationSql($directory, $id); $pdo->exec($sql);
-                $pdo->prepare('INSERT INTO schema_migrations VALUES (?,?,clock_timestamp())')->execute([$id,hash('sha256',$sql)]);
-            }
+            $migrate = new Migrate($pdo,$sandbox->schema); $migrate->apply($directory.'/001_metadata.sql');
+            self::assertSame(2,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
             $pdo->prepare("INSERT INTO tenants(id,name) VALUES (?,'fixture')")->execute([Fixture::id(1)]);
             $pdo->prepare("INSERT INTO sources(tenant_id,id,owner_ref,origin,lifecycle_state) VALUES (?,?,'owner:fixture','host:upload','revoked')")->execute([Fixture::id(1),Fixture::id(2)]);
-            $pdo->prepare("INSERT INTO deletion_tasks VALUES (?,?,?,'done','[]',0,?,NULL)")->execute([Fixture::id(1),Fixture::id(600),Fixture::id(2),str_repeat('a',64)]);
-            self::assertSame('done', $pdo->query('SELECT status FROM deletion_tasks')->fetchColumn());
-            $migrate = new Migrate($pdo,$sandbox->schema); $migrate->apply($directory.'/001_metadata.sql');
-            self::assertSame('unknown',$pdo->query('SELECT status FROM deletion_tasks')->fetchColumn());
-            self::assertSame(14,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
+            $pdo->prepare("INSERT INTO deletion_tasks VALUES (?,?,?,'unknown','[]',0,?,NULL)")->execute([Fixture::id(1),Fixture::id(600),Fixture::id(2),str_repeat('a',64)]);
             $migrate->apply($directory.'/001_metadata.sql');
             self::assertSame('unknown',$pdo->query('SELECT status FROM deletion_tasks')->fetchColumn());
+            self::assertSame(2,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
             self::assertSame(Fixture::id(600),$pdo->query('SELECT id FROM deletion_tasks')->fetchColumn());
         });
     }
@@ -73,11 +67,7 @@ final class InvariantsTest extends TestCase
         foreach ([false,true] as $reservation) {
             (new DatabaseSandbox())->run(function ($sandbox) use ($reservation) {
                 $pdo = $sandbox->connection; $directory = dirname(__DIR__,3).'/packages/core/migrations/postgres';
-                $pdo->exec('CREATE TABLE schema_migrations(id text PRIMARY KEY,checksum char(64) NOT NULL,applied_at timestamptz NOT NULL)');
-                foreach (['001_metadata','002_metadata_uint32','003_jobs','004_generation_checks','005_outbox_delivery'] as $id) {
-                    $sql = self::migrationSql($directory, $id); $pdo->exec($sql);
-                    $pdo->prepare('INSERT INTO schema_migrations VALUES (?,?,clock_timestamp())')->execute([$id,hash('sha256',$sql)]);
-                }
+                $migrate = new Migrate($pdo,$sandbox->schema); $migrate->apply($directory.'/001_metadata.sql');
                 $tenant = new D\TenantId(Fixture::id(1)); $source = new D\SourceId(Fixture::id(2));
                 $resource = new D\ResourceId(Fixture::id(300)); $task = new D\DeletionTaskId(Fixture::id(600));
                 $old = new D\AttemptId(Fixture::id(601)); $attempt = new D\AttemptId(Fixture::id(602));
@@ -96,8 +86,8 @@ final class InvariantsTest extends TestCase
                 $pdo->prepare("INSERT INTO deletion_attempts(tenant_id,id,task_id,resource_id,in_flight,result,provider_receipt_json,observed_at,storage_key,object_version,staging_id) VALUES (?,?,?,?,false,?,'\"legacy-receipt\"','2026-11-06T12:00:00Z','legacy/key','legacy-v1',?)")
                     ->execute([$tenant->value,$old->value,$task->value,$resource->value,$reservation ? 'absent' : 'deleted',$reservation ? Fixture::id(700) : null]);
                 $pdo->prepare("UPDATE resource_ledger SET state='deleted' WHERE tenant_id=? AND id=?")->execute([$tenant->value,$resource->value]);
-                $pdo->prepare("UPDATE deletion_tasks SET status='done' WHERE tenant_id=? AND id=?")->execute([$tenant->value,$task->value]);
-                self::assertSame('done',$pdo->query('SELECT status FROM deletion_tasks')->fetchColumn());
+                $pdo->prepare("UPDATE deletion_tasks SET status='unknown' WHERE tenant_id=? AND id=?")->execute([$tenant->value,$task->value]);
+                self::assertSame('unknown',$pdo->query('SELECT status FROM deletion_tasks')->fetchColumn());
                 (new Migrate($pdo,$sandbox->schema))->apply($directory.'/001_metadata.sql');
                 self::assertSame('unknown',$pdo->query('SELECT status FROM deletion_tasks')->fetchColumn());
                 self::assertSame('deleted',$pdo->query('SELECT state FROM resource_ledger')->fetchColumn());
