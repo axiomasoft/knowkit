@@ -23,7 +23,7 @@ final class WhitespaceProjection
         while ($offset < $length && preg_match(self::RUN, $text, $match, 0, $offset) === 1) {
             $original = $match[0];
             $end = $offset + strlen($original);
-            if ($match[2] !== '') {
+            if (($match[2] ?? '') !== '') {
                 $start = strlen($projected);
                 $projected .= ' ';
                 $map .= pack('N4', $start, strlen($projected), $offset, $end);

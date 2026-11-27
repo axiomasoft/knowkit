@@ -51,14 +51,12 @@ final readonly class ResourceInventory
             }
             $ledger = [];
             $wanted = array_values(array_unique(array_map(static fn (array $pair): string => $pair[0], $ids)));
-            if ($wanted !== []) {
-                foreach ($this->db->execute(
-                    'SELECT id,state,digest,byte_length,object_version FROM ' . $this->db->table('resource_ledger') .
-                    ' WHERE tenant_id=? AND source_id=? AND id IN (SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))',
-                    [$tenant->value, $source->sourceId->value, json_encode($wanted, JSON_THROW_ON_ERROR)],
-                )->fetchAll(\PDO::FETCH_ASSOC) as $resource) {
-                    $ledger[$resource['id']] = $resource;
-                }
+            foreach ($this->db->execute(
+                'SELECT id,state,digest,byte_length,object_version FROM ' . $this->db->table('resource_ledger') .
+                ' WHERE tenant_id=? AND source_id=? AND id IN (SELECT value FROM jsonb_array_elements_text(CAST(? AS jsonb)))',
+                [$tenant->value, $source->sourceId->value, json_encode($wanted, JSON_THROW_ON_ERROR)],
+            )->fetchAll(\PDO::FETCH_ASSOC) as $resource) {
+                $ledger[$resource['id']] = $resource;
             }
             foreach ($ids as [$id, $kind]) {
                 $resource = $ledger[$id] ?? null;

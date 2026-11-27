@@ -32,9 +32,6 @@ final class OriginBoundary
             throw new DomainFailure(Outcome::Denied, 'unsafe_origin');
         }
         foreach ($resolvedAddresses as $ip) {
-            if (!is_string($ip)) {
-                throw new DomainFailure(Outcome::Denied, 'unsafe_origin');
-            }
             PublicAddress::require($ip);
         }
 

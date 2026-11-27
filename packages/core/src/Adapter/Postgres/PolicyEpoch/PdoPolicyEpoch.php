@@ -185,7 +185,7 @@ final readonly class PdoPolicyEpoch
             return [];
         }
         $bound = $params;
-        array_splice($bound, 1, 0, [json_encode(array_values($ids), JSON_THROW_ON_ERROR)]);
+        array_splice($bound, 1, 0, [json_encode($ids, JSON_THROW_ON_ERROR)]);
         $rows = [];
         foreach ($this->db->execute($sql, $bound)->fetchAll(\PDO::FETCH_ASSOC) as $row) {
             $rows[$row['id']] = $row;

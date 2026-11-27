@@ -65,9 +65,7 @@ final readonly class SandboxRuntime
         }
         try {
             $hash = hash_init('sha256');
-            if (hash_update_stream($hash, $handle) === false) {
-                return null;
-            }
+            hash_update_stream($hash, $handle);
 
             return hash_final($hash);
         } finally {

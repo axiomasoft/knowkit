@@ -52,7 +52,7 @@ final readonly class WorkerCgroup
     {
         if ($this->value('cgroup.events', 'populated') !== 0) {
             $written = @file_put_contents($this->path . '/cgroup.kill', '1');
-            if ($written !== 1 && $this->value('cgroup.events', 'populated') !== 0) {
+            if ($written !== 1 && $this->value('cgroup.events', 'populated') !== 0) { // @phpstan-ignore notIdentical.alwaysTrue
                 throw new DomainFailure(Outcome::Unavailable, 'sandbox_not_quiescent');
             }
         }
