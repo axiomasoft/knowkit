@@ -17,8 +17,12 @@ final readonly class Measurements
         public ?int $quotaUsed = null,
         public ?int $quotaLimit = null,
         public ?Sha256 $digestRef = null,
+        public ?int $cacheReadTokens = null,
+        public ?int $cacheWriteTokens = null,
+        public ?int $uncachedInputTokens = null,
+        public ?bool $prefixDriftDetected = null,
     ) {
-        foreach ([$durationMs, $count, $outboxLagSeconds, $orphanCount, $quotaUsed, $quotaLimit] as $value) {
+        foreach ([$durationMs, $count, $outboxLagSeconds, $orphanCount, $quotaUsed, $quotaLimit, $cacheReadTokens, $cacheWriteTokens, $uncachedInputTokens] as $value) {
             if ($value !== null && ($value < 0 || $value > StrictJson::SAFE_INTEGER)) {
                 throw new \InvalidArgumentException('Nonnegative safe integer measurement required');
             }

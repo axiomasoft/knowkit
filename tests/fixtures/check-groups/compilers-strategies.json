@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "check-group:1",
+  "group": "compilers:strategies",
+  "fixtureVersion": "1.0.0",
+  "versionRationale": "Five PromptCacheCompiler strategies, ARCH-UNTRUSTED boundary, ThinkingBlockStripper and CacheTelemetryNormalizer.",
+  "rights": {
+    "license": "LicenseRef-KnowKit-Private",
+    "origin": "Project-authored synthetic fixtures.",
+    "redistributionAllowed": false
+  },
+  "requiredCaseIds": [
+    "compilers-strategies:explicit-server-object",
+    "compilers-strategies:explicit-breakpoints",
+    "compilers-strategies:implicit-prefix",
+    "compilers-strategies:local-radix-salt",
+    "compilers-strategies:compact-no-cache",
+    "compilers-strategies:thinking-stripper",
+    "compilers-strategies:untrusted-boundary",
+    "compilers-strategies:telemetry"
+  ],
+  "testCaseMap": {
+    "compilers-strategies:explicit-server-object": [
+      "KnowKit\\Tests\\Compilers\\Strategies\\StrategiesTest::testExplicitServerObjectBreakEvenIsIntegerAndEmitsKey"
+    ],
+    "compilers-strategies:explicit-breakpoints": [
+      "KnowKit\\Tests\\Compilers\\Strategies\\StrategiesTest::testExplicitBreakpointsOrderAndLimit"
+    ],
+    "compilers-strategies:implicit-prefix": [
+      "KnowKit\\Tests\\Compilers\\Strategies\\StrategiesTest::testImplicitPrefixIsStableAndDriftFreeAcrossTurns",
+      "KnowKit\\Tests\\Compilers\\Strategies\\StrategiesTest::testDynamicValueAbovePrefixIsRejected"
+    ],
+    "compilers-strategies:local-radix-salt": [
+      "KnowKit\\Tests\\Compilers\\Strategies\\StrategiesTest::testLocalRadixCacheSalt"
+    ],
+    "compilers-strategies:compact-no-cache": [
+      "KnowKit\\Tests\\Compilers\\Strategies\\StrategiesTest::testCompactNoCacheRecommendsCompactionOverHalfWindow"
+    ],
+    "compilers-strategies:thinking-stripper": [
+      "KnowKit\\Tests\\Compilers\\Strategies\\StrategiesTest::testThinkingBlocksStrippedOnlyWhenProfileSaysSo"
+    ],
+    "compilers-strategies:untrusted-boundary": [
+      "KnowKit\\Tests\\Compilers\\Strategies\\UntrustedBoundaryTest::testTrustTiersLandInCorrectBlocksForEveryStrategy",
+      "KnowKit\\Tests\\Compilers\\Strategies\\UntrustedBoundaryTest::testUnpinnedTrustedDirectiveIsRejected"
+    ],
+    "compilers-strategies:telemetry": [
+      "KnowKit\\Tests\\Compilers\\Telemetry\\TelemetryTest::testNormalizesProviderShapes",
+      "KnowKit\\Tests\\Compilers\\Telemetry\\TelemetryTest::testDetectsPrefixDriftAndRejectsFloats"
+    ]
+  }
+}
