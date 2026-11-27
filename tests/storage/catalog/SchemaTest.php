@@ -24,13 +24,23 @@ final class SchemaTest extends TestCase
             self::assertGreaterThan(90,count($rows));
             foreach ($rows as $r) {
                 self::assertSame('r',$r['delete_action'],$r['definition']);
-                self::assertTrue(str_contains($r['definition'],'FOREIGN KEY (tenant_id') || $r['relname']==='tenants',$r['definition']);
+                $isCatalogMountCrossFk = $r['relname']==='catalog_mounts' && (
+                    str_starts_with($r['definition'],'FOREIGN KEY (catalog_tenant_id) REFERENCES tenants(id)') ||
+                    str_starts_with($r['definition'],'FOREIGN KEY (catalog_tenant_id, catalog_kb_id, snapshot_id) REFERENCES publication_snapshots(tenant_id, kb_id, id)')
+                );
+                self::assertTrue(str_contains($r['definition'],'FOREIGN KEY (tenant_id') || $r['relname']==='tenants' || $isCatalogMountCrossFk,$r['definition']);
                 if ($r['relname']==='tombstones') { self::assertStringNotContainsString('REFERENCES sources',$r['definition']); }
             }
             $indexes=$f->db->execute('SELECT indexname FROM pg_indexes WHERE schemaname=?',[$f->sandbox->schema])->fetchAll(\PDO::FETCH_COLUMN);
-            foreach (['lexical_scope','lexical_full_text','lexical_exact_tokens','jobs_available','jobs_expired','outbox_pending','resource_staging_identity'] as $index) { self::assertContains($index,$indexes); }
+            foreach (['lexical_scope','lexical_full_text','lexical_exact_tokens','jobs_available','jobs_expired','outbox_pending','resource_staging_identity','idx_catalog_mounts_tenant_state','idx_resolution_artifacts_rev_tier','idx_concept_edges_from','idx_concept_edges_to'] as $index) { self::assertContains($index,$indexes); }
             self::assertSame(['C','C'],$f->db->execute("SELECT c.collname FROM pg_type t JOIN pg_collation c ON c.oid=t.typcollation JOIN pg_namespace n ON n.oid=t.typnamespace WHERE n.nspname=? AND t.typname IN ('kk_ulid','kk_digest') ORDER BY t.typname",[$f->sandbox->schema])->fetchAll(\PDO::FETCH_COLUMN));
-            self::assertSame(14,$f->count('schema_migrations'));
+            $fns=$f->db->execute("SELECT p.proname, p.proconfig::text AS cfg FROM pg_proc p JOIN pg_namespace n ON n.oid=p.pronamespace WHERE n.nspname=? AND left(p.proname,3)='kk_'",[$f->sandbox->schema])->fetchAll(\PDO::FETCH_ASSOC);
+            self::assertNotEmpty($fns);
+            foreach ($fns as $fn) {
+                self::assertIsString($fn['cfg'],$fn['proname'].' missing search_path');
+                self::assertStringContainsString('search_path=pg_catalog, '.$f->sandbox->schema.', pg_temp',$fn['cfg'],$fn['proname']);
+            }
+            self::assertSame(2,$f->count('schema_migrations'));
         });
     }
     public function testMigrationReplayAndChecksumMismatch(): void
@@ -40,7 +50,7 @@ final class SchemaTest extends TestCase
             $migrator=new Migrate($pdo,$f->sandbox->schema);
             $baseline=CatalogFixture::root().'/packages/core/migrations/postgres/001_metadata.sql';
             $history=$pdo->query('SELECT * FROM schema_migrations ORDER BY id')->fetchAll(\PDO::FETCH_ASSOC);
-            self::assertCount(14,$history);
+            self::assertCount(2,$history);
             $migrator->apply($baseline);
             self::assertSame($history,$pdo->query('SELECT * FROM schema_migrations ORDER BY id')->fetchAll(\PDO::FETCH_ASSOC));
             foreach ($history as $row) {
@@ -64,43 +74,53 @@ final class SchemaTest extends TestCase
             $this->assertUint32Storage($pdo,$f->sandbox->schema);
         });
     }
-    public function testDeployedBaselineUpgradePreservesRowsHistoryAndImmutableGuards(): void
+    public function testCatalogMountGuardAndTenantIsolationAreEnforcedByDatabase(): void
     {
-        (new DatabaseSandbox())->run(function($sandbox) {
-            $pdo=$sandbox->connection;
-            $baseline=CatalogFixture::root().'/packages/core/migrations/postgres/001_metadata.sql';
-            $fixture=$this->uint32Fixture();
-            // Reproduce an installed 001 database without letting the current migrator upgrade it.
-            $baselineBytes=file_get_contents($baseline);
-            self::assertIsString($baselineBytes);
-            self::assertSame($fixture['baselineChecksum'],hash('sha256',$baselineBytes));
-            $pdo->beginTransaction();
-            $pdo->exec($baselineBytes);
-            $pdo->exec('CREATE TABLE schema_migrations(id text PRIMARY KEY,checksum char(64) NOT NULL,applied_at timestamptz NOT NULL)');
-            $pdo->prepare("INSERT INTO schema_migrations VALUES ('001_metadata',?,'2026-11-06T12:00:00Z')")->execute([$fixture['baselineChecksum']]);
-            $pdo->exec(CatalogFixture::seedSql());
-            $pdo->commit();
-            $pages=$pdo->query('SELECT * FROM pages ORDER BY tenant_id,id')->fetchAll(\PDO::FETCH_ASSOC);
-            $blocks=$pdo->query('SELECT * FROM blocks ORDER BY tenant_id,id')->fetchAll(\PDO::FETCH_ASSOC);
-            $history=$pdo->query('SELECT * FROM schema_migrations')->fetchAll(\PDO::FETCH_ASSOC);
-            $types=$pdo->query("SELECT data_type FROM information_schema.columns WHERE table_schema=current_schema() AND (table_name,column_name) IN (('pages','physical_no'),('blocks','reading_order'))")->fetchAll(\PDO::FETCH_COLUMN);
-            self::assertSame(['integer','integer'],$types);
-            $migrator=new Migrate($pdo,$sandbox->schema);
-            $pdo->exec("UPDATE schema_migrations SET checksum=repeat('0',64)");
-            try { $migrator->apply($baseline); self::fail('Upgrade bypassed baseline checksum'); }
-            catch (\RuntimeException $e) { self::assertSame('Migration checksum mismatch',$e->getMessage()); }
-            self::assertSame(1,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
-            self::assertSame('integer',$pdo->query("SELECT data_type FROM information_schema.columns WHERE table_schema=current_schema() AND table_name='pages' AND column_name='physical_no'")->fetchColumn());
-            $pdo->prepare('UPDATE schema_migrations SET checksum=?')->execute([$fixture['baselineChecksum']]);
-            $migrator->apply($baseline);
-            self::assertSame($pages,$pdo->query('SELECT * FROM pages ORDER BY tenant_id,id')->fetchAll(\PDO::FETCH_ASSOC));
-            self::assertSame($blocks,$pdo->query('SELECT * FROM blocks ORDER BY tenant_id,id')->fetchAll(\PDO::FETCH_ASSOC));
-            self::assertSame($history,$pdo->query("SELECT * FROM schema_migrations WHERE id='001_metadata'")->fetchAll(\PDO::FETCH_ASSOC));
-            self::assertSame(14,(int)$pdo->query('SELECT count(*) FROM schema_migrations')->fetchColumn());
-            $this->assertUint32Storage($pdo,$sandbox->schema);
-            foreach (['UPDATE pages SET physical_no=2','DELETE FROM pages','UPDATE blocks SET reading_order=1','DELETE FROM blocks'] as $sql) {
-                CatalogFixture::sqlReject($pdo,$sql,[],['23514']);
-            }
+        CatalogFixture::run(function($f) {
+            $p=$f->db->pdo;
+            $privateTenant=CatalogFixture::id(1);
+            $otherPrivateTenant=CatalogFixture::id(2);
+            $sharedTenant=CatalogFixture::id(3);
+            $p->prepare("INSERT INTO tenants(id,name,isolation_kind) VALUES (?,'private-1','private_tenant')")->execute([$privateTenant]);
+            $p->prepare("INSERT INTO tenants(id,name,isolation_kind) VALUES (?,'private-2','private_tenant')")->execute([$otherPrivateTenant]);
+            $p->prepare("INSERT INTO tenants(id,name,isolation_kind) VALUES (?,'shared-1','shared_catalog_readonly')")->execute([$sharedTenant]);
+            CatalogFixture::sqlReject($p,"UPDATE tenants SET isolation_kind='shared_catalog_readonly' WHERE id=?",[$privateTenant],['23514']);
+
+            $sharedKb=CatalogFixture::id(110);
+            $unsealedSnap=CatalogFixture::id(111);
+            $sealedSnap=CatalogFixture::id(112);
+            $privKb=CatalogFixture::id(120);
+            $privSnap=CatalogFixture::id(121);
+            $digest=str_repeat('a',64);
+            $grantDigest=str_repeat('b',64);
+
+            $p->prepare("INSERT INTO knowledge_bases(tenant_id,id,name,policy_ref,coverage_policy,default_profile) VALUES (?,?,'shared-kb','pol:1','{}','default')")->execute([$sharedTenant,$sharedKb]);
+            $p->prepare("INSERT INTO knowledge_bases(tenant_id,id,name,policy_ref,coverage_policy,default_profile) VALUES (?,?,'priv-kb','pol:1','{}','default')")->execute([$otherPrivateTenant,$privKb]);
+            $p->prepare("INSERT INTO publication_snapshots(tenant_id,id,kb_id,manifest_digest,created_at,sealed) VALUES (?,?,?,?,now(),false)")->execute([$sharedTenant,$unsealedSnap,$sharedKb,$digest]);
+            $p->prepare("INSERT INTO publication_snapshots(tenant_id,id,kb_id,manifest_digest,created_at,sealed) VALUES (?,?,?,?,now(),false)")->execute([$sharedTenant,$sealedSnap,$sharedKb,$digest]);
+            $p->prepare("INSERT INTO publication_snapshots(tenant_id,id,kb_id,manifest_digest,created_at,sealed) VALUES (?,?,?,?,now(),false)")->execute([$otherPrivateTenant,$privSnap,$privKb,$digest]);
+
+            $genShared=CatalogFixture::id(130);
+            $genPriv=CatalogFixture::id(131);
+            $p->prepare("INSERT INTO index_generations(tenant_id,id,kb_id,profile_id,state,manifest_digest,manifest_json) VALUES (?,?,?,'default','sealed',?,'{}')")->execute([$sharedTenant,$genShared,$sharedKb,$digest]);
+            $p->prepare("INSERT INTO index_generations(tenant_id,id,kb_id,profile_id,state,manifest_digest,manifest_json) VALUES (?,?,?,'default','sealed',?,'{}')")->execute([$otherPrivateTenant,$genPriv,$privKb,$digest]);
+            $p->prepare("INSERT INTO snapshot_generations(tenant_id,snapshot_id,kb_id,generation_id,profile_id) VALUES (?,?,?,?,'default')")->execute([$sharedTenant,$sealedSnap,$sharedKb,$genShared]);
+            $p->prepare("INSERT INTO snapshot_generations(tenant_id,snapshot_id,kb_id,generation_id,profile_id) VALUES (?,?,?,?,'default')")->execute([$otherPrivateTenant,$privSnap,$privKb,$genPriv]);
+            $p->prepare("UPDATE publication_snapshots SET sealed=true WHERE tenant_id=? AND id=?")->execute([$sharedTenant,$sealedSnap]);
+            $p->prepare("UPDATE publication_snapshots SET sealed=true WHERE tenant_id=? AND id=?")->execute([$otherPrivateTenant,$privSnap]);
+
+            $mountSql="INSERT INTO catalog_mounts(tenant_id,id,catalog_tenant_id,catalog_kb_id,snapshot_id,manifest_digest,mount_grant_digest,max_disclosure_mode,state,mounted_at) VALUES (?,?,?,?,?,?,?,'derived_only','active',now())";
+            // Mounting a private_tenant snapshot is rejected by kk_catalog_mount_guard.
+            CatalogFixture::sqlReject($p,$mountSql,[$privateTenant,CatalogFixture::id(201),$otherPrivateTenant,$privKb,$privSnap,$digest,$grantDigest],['23514']);
+            // Mounting an unsealed snapshot is rejected by kk_catalog_mount_guard.
+            CatalogFixture::sqlReject($p,$mountSql,[$privateTenant,CatalogFixture::id(202),$sharedTenant,$sharedKb,$unsealedSnap,$digest,$grantDigest],['23514']);
+            // Mounting a sealed shared_catalog_readonly snapshot succeeds and only allows active -> revoked.
+            $mountId=CatalogFixture::id(203);
+            $p->prepare($mountSql)->execute([$privateTenant,$mountId,$sharedTenant,$sharedKb,$sealedSnap,$digest,$grantDigest]);
+            $p->prepare("UPDATE catalog_mounts SET state='revoked',revoked_at=now() WHERE tenant_id=? AND id=?")->execute([$privateTenant,$mountId]);
+            CatalogFixture::sqlReject($p,"UPDATE catalog_mounts SET state='active',revoked_at=NULL WHERE tenant_id=? AND id=?",[$privateTenant,$mountId],['23514']);
+            CatalogFixture::sqlReject($p,"DELETE FROM catalog_mounts WHERE tenant_id=? AND id=?",[$privateTenant,$mountId],['23514']);
+            self::assertSame(1,$f->count('catalog_mounts'));
         });
     }
     private function uint32Fixture(): array
@@ -229,7 +249,7 @@ final class SchemaTest extends TestCase
             };
             self::assertSame([0,"001_metadata applied\n002_metadata_uint32 applied\n003_jobs applied\n",''],$run());
             self::assertSame([0,"001_metadata applied\n002_metadata_uint32 applied\n003_jobs applied\n",''],$run());
-            self::assertSame(14,(int)$p->query('SELECT count(*) FROM '.$schema.'.schema_migrations')->fetchColumn());
+            self::assertSame(2,(int)$p->query('SELECT count(*) FROM '.$schema.'.schema_migrations')->fetchColumn());
             $p->exec("UPDATE ".$schema.".schema_migrations SET checksum=repeat('0',64)");
             self::assertSame([1,'',"Migration failed; verify schema, connection and checksum\n"],$run());
         });

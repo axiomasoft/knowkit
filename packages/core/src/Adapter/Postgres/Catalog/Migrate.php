@@ -11,19 +11,7 @@ final readonly class Migrate
     /** Ordered core set; the baseline path remains the entry point for existing callers. */
     private const MIGRATIONS = [
         '001_metadata',
-        '002_metadata_uint32',
-        '003_jobs',
-        '004_generation_checks',
-        '005_outbox_delivery',
-        '006_deletion',
-        '007_reconciliation',
-        '008_selection_records',
-        '009_empty_snapshot_members',
-        '010_navigation_usages',
-        '011_recovery_shared_guard',
-        '012_immutable_locator_indexes',
-        '013_manifest_schema_ceiling',
-        '014_function_search_paths',
+        '002_layers_artifacts_graph',
     ];
 
     public function __construct(private PDO $pdo, private string $schema)

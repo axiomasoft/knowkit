@@ -30,7 +30,7 @@ composer qa -- --profile local-developed --manifest tests/tooling/baseline/profi
 docker compose -p knowkit-test down --volumes --remove-orphans
 ```
 
-The test database is PostgreSQL 16 by default. It uses tmpfs and loopback-only
+The test database is PostgreSQL 17 by default. It uses tmpfs and loopback-only
 port 55432 with trust authentication strictly for this disposable local database;
 no password is tracked. Do not use this Compose configuration for a deployed
 database. Each integration assertion creates a random `knowkit_qa_*` schema in
@@ -46,15 +46,13 @@ Override `TEST_PG_PORT` and the exported DSN together when the port is occupied.
 Override `TEST_NETWORK_SUBNET` with an unused private subnet when it overlaps a
 local network. Explicit IPAM also supports hosts whose default Docker address
 pool is exhausted. Use a distinct Compose project, port and subnet for concurrent
-runs. PostgreSQL 17 qualification uses
-`TEST_POSTGRES_IMAGE=postgres:17 docker compose -p knowkit-test up -d --wait postgres`
-on a fresh project. CI qualifies PHP8.3/8.4/8.5 against PostgreSQL16/17. To start
+runs. CI qualifies PHP 8.3/8.4/8.5 against PostgreSQL 17. To start
 the separate optional vector backend, run
 `docker compose -p knowkit-test --profile vector up -d --wait pgvector`.
-It listens on loopback port 55433 and uses `pgvector/pgvector:pg16`; the pgvector package and semantic tests provide extension and adapter qualification.
+It listens on loopback port 55433 and uses `pgvector/pgvector:pg17`; the pgvector package and semantic tests provide extension and adapter qualification.
 Override `TEST_VECTOR_PORT`, `TEST_VECTOR_IMAGE`, and the exported `TEST_VECTOR_PG_DSN` together. `TEST_PG_TMPFS` and `TEST_VECTOR_TMPFS` default to `/var/lib/postgresql/data`. PostgreSQL 18+ images store data under `/var/lib/postgresql`, so set `TEST_PG_TMPFS=/var/lib/postgresql` with the image tag. The default mount stays a tmpfs entry, not a volume.
 These image tags receive upstream maintenance updates; exact resolved revisions
-are reported with `docker image inspect postgres:16 pgvector/pgvector:pg16`.
+are reported with `docker image inspect postgres:17 pgvector/pgvector:pg17`.
 
 `tools/qa-groups.json` explicitly maps the entire roadmap to real commands,
 Composer projects, PHP floors and required-case manifests. The runner uses argv,
@@ -102,7 +100,7 @@ install only the projects needed for the selected lanes.
 
 Workflows live in `.github/workflows`. They verify the checkout; they do not
 publish releases. The verification workflow runs the core matrix on PHP 8.3,
-8.4 and 8.5 with PostgreSQL 16 and 17, the optional profile on PHP 8.3, 8.4
+8.4 and 8.5 with PostgreSQL 17, the optional profile on PHP 8.3, 8.4
 and 8.5, core coverage, a locked root `composer audit`, the offline license
 audit, and the Python protocol tests. CodeQL, dependency review, Dependabot
 and OpenSSF Scorecard are separate workflows. Actions are pinned to commit

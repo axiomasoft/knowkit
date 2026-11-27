@@ -5,7 +5,7 @@ networks:
         - subnet: ${TEST_NETWORK_SUBNET:-10.235.90.0/28}
 services:
   postgres:
-    image: ${TEST_POSTGRES_IMAGE:-postgres:16}
+    image: ${TEST_POSTGRES_IMAGE:-postgres:17}
     environment:
       POSTGRES_DB: knowkit_test
       POSTGRES_USER: knowkit_test
@@ -19,7 +19,7 @@ services:
       retries: 30
   pgvector:
     profiles: ["vector"]
-    image: ${TEST_VECTOR_IMAGE:-pgvector/pgvector:pg16}
+    image: ${TEST_VECTOR_IMAGE:-pgvector/pgvector:pg17}
     environment:
       POSTGRES_DB: knowkit_test
       POSTGRES_USER: knowkit_test
